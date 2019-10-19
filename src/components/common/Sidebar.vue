@@ -19,8 +19,8 @@
 </template>
 
 <script>
-    import bus from './bus';
-    import { mapState } from 'vuex'
+    import hanfuBus from '@/components/common/hanfu-bus';
+    import { mapState } from 'vuex';
     export default {
         data() {
             return {
@@ -31,10 +31,24 @@
                         index: 'index',
                         title: '系统首页',
                     },
-
-                     {
+                    {
                         icon: 'el-icon-setting',
-                        index: '3',
+                        index: 'test',
+                        title: 'sdfasd',
+                        subs: [
+                            {
+                                index: 'goods',
+                                title: '物品管理'
+                            },
+                            {
+                                index: 'store',
+                                title: '店铺管理'
+                            },
+                        ]
+                    },
+                    {
+                        icon: 'el-icon-setting',
+                        index: 'product',
                         title: '商品中心',
                         subs: [
                           // {
@@ -47,7 +61,7 @@
                             // },
                             {
                                 index: 'sysUser',
-                                title: '商品管理'
+                                title: '商品dd管理'
                             },
                             {
                                 index: 'sysRole',
@@ -138,14 +152,15 @@
             }
         },
         computed:mapState({
-            menuList:state=>state.menu.menuList,
+            siderbar:state=>state.menu.menuList,
             onRoutes(){
+                console.log(this.$route.path);
                 return this.$route.path.replace('/','');
             }
         }),
         created(){
             // 通过 Event Bus 进行组件间通信，来折叠侧边栏
-            bus.$on('collapse', msg => {
+            hanfuBus.$on('collapse', msg => {
                 this.collapse = msg;
             })
         }

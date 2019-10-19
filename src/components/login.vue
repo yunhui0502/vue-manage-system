@@ -3,7 +3,7 @@
         <div class="login">
             <el-form :model="formLogin">
                 <el-form-item>
-                    <h2 class="title">后台管理系统</h2>
+                    <h2 class="title">汉服商城后台管理系统</h2>
                 </el-form-item>
                 <el-form-item>
                     <el-input v-model="formLogin.loginName" placeholder="账号"></el-input>

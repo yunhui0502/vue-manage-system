@@ -108,8 +108,25 @@ const dynamicRouter = [
     meta: { title: '店铺管理' }
   },
   {
+    name: 'sdfasd',
+    path: '/test',
+    component: resolve => require(['@/components/test/index.vue'], resolve),
+    meta: { title: 'sdfasd' }
+  },
+  {
+    name: 'store',
+    path: '/stone',
+    component: resolve => require(['@/components/hf-store/index.vue'], resolve),
+  },
+  {
+    name: 'goods',
+    path: '/goods',
+    component: resolve => require(['@/components/goods'], resolve),
+  },
+  {
     name: 'SysUser',
     path: '/sysUser',
+
     component: resolve => require(['@/components/admin/SysUser.vue'], resolve),
     meta: { title: '商品管理' }
   },

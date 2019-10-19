@@ -17,6 +17,20 @@ const router = new VueRouter({
       }
     },
     {
+      path: '/store',
+      component: resolve => require(['@/components/hf-store/index.vue'], resolve),
+      meta: {
+        title: '店铺'
+      }
+    },
+    {
+      path: '/goods',
+      component: resolve => require(['@/components/goods'], resolve),
+      meta: {
+        title: '物品管理'
+      }
+    },
+    {
       path: '/tree',
       component: resolve => require(['@/components/mayi/tree.vue'], resolve),
       meta: {
@@ -27,6 +41,13 @@ const router = new VueRouter({
     //   path: '/dianPu',
     //   component: resolve => require(['../components/admin/dianPu.vue'], resolve)
     // },
+    {
+      path: '/test',
+      component: resolve => require(['../components/test/index.vue'], resolve),
+      meta: {
+        title: '蚂蚁种树'
+      }
+    },
 	{
 	  path: '/zanzhu',
 	  component: resolve => require(['../components/zanzhu.vue'], resolve)

@@ -25,7 +25,7 @@
 </template>
 
 <script>
-    import bus from './bus';
+    import hanfuBus from './hanfu-bus';
     export default {
         data() {
             return {
@@ -73,7 +73,7 @@
                     // name: route.matched[1].components.default.name
                     name: route.name
                 })
-                bus.$emit('tags', this.tagsList);
+                hanfuBus.$emit('tags', this.tagsList);
             },
             handleTags(command){
                 command === 'other' ? this.closeOther() : this.closeAll();

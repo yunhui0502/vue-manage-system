@@ -49,7 +49,7 @@
     </div>
 </template>
 <script>
-    import bus from './bus';
+    import hanfuBus from './hanfu-bus';
     export default {
         data() {
             return {
@@ -89,7 +89,7 @@
             // 侧边栏折叠
             collapseChage(){
                 this.collapse = !this.collapse;
-                bus.$emit('collapse', this.collapse);
+                hanfuBus.$emit('collapse', this.collapse);
             },
             // 全屏事件
             handleFullScreen(){
