@@ -37,7 +37,7 @@
         <!--新增按钮-->
         <el-button type="success" icon="el-icon-circle-plus-outline" @click="handleAdd" size="mini" round>新增</el-button>
         <el-button type="danger" icon="el-icon-delete" @click="deletegood" size="mini" round>删除</el-button>
-        <!-- <el-button type="success"  @click="addMu" size="mini" round>添加分类</el-button> -->
+        <el-button type="success"  @click="addMu" size="mini" round>添加分类</el-button>
         <template>
           <!--表格数据及操作-->
           <el-table :data="tableData" size="mini" highlight-current-row border class="el-tb-edit mgt20" ref="multipleTable"
@@ -57,7 +57,7 @@
             <el-table-column fixed="right" label="操作" width="260">
               <template slot-scope="scope">
                 <!-- <el-button type="primary" plain size="small" @click="addgui(scope.row)" style="margin-bottom: 10px;">查看规格</el-button> -->
-                <el-button type="primary" plain size="small" @click="biangui(scope.row)" style="margin-bottom: 10px;">编辑</el-button>
+                <el-button type="primary" plain size="small" @click="biangui(scope.row)" style="margin-bottom: 10px;">修改规格</el-button>
                  <el-button type="danger" plain size="small" @click="deletesingle(scope.row)">删除</el-button>
               </template>
             </el-table-column>
@@ -146,10 +146,10 @@
 
       <el-form :inline="true" :model="bianrow" label-width="80px" :rules="bianRules" ref="bianForm">
         <el-form-item label="商品名称" prop="productName">
-          <el-input v-model="bianrow.productName" auto-complete="off"></el-input>
+          <el-input v-model="bianrow.productName"    auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="商品描述" prop="productDesc">
-          <el-input v-model="bianrow.productDesc" auto-complete="off"></el-input>
+          <el-input v-model="bianrow.productDesc"  auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="商品分类">
           <el-select v-model="value4" placeholder="请选择" @change="changeQuentitySubject1(index)">
@@ -686,7 +686,7 @@
       },
       sou: function() {
 
-      
+
         // console.log( '类目id',this.leiMuId)
         var _this = this;
         _this.$ajax({

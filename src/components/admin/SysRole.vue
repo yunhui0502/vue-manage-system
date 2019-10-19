@@ -56,7 +56,7 @@
               <el-form-item label="仓库名称" prop="hfName">
                 <el-input v-model="addForm.hfName" auto-complete="off" style="width:400px;"></el-input>
               </el-form-item>
-              <el-form-item label="角色位置" prop="hfRegion">
+              <el-form-item label="仓库位置" prop="hfRegion">
                 <el-input v-model="addForm.hfRegion" auto-complete="off" style="width:400px;"></el-input>
               </el-form-item>
 

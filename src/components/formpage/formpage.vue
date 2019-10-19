@@ -7,18 +7,19 @@
         商品编辑:
       </div>
       <el-form-item label="商品名称" prop="productName">
-        <el-input v-model="bianrow.productName" auto-complete="off"></el-input>
+        <el-input v-model="bianrow.productName" auto-complete="off" :disabled="true"></el-input>
       </el-form-item>
       <el-form-item label="商品描述" prop="productDesc">
-        <el-input v-model="bianrow.productDesc" auto-complete="off"></el-input>
+        <el-input v-model="bianrow.productDesc" auto-complete="off" :disabled="true"></el-input>
       </el-form-item>
       <el-form-item label="商品分类">
-        <el-select v-model="value4" placeholder="请选择" @change="changeQuentitySubject1(index)">
+         <el-input v-model="value4" auto-complete="off" :disabled="true"></el-input>
+        <!-- <el-select v-model="value4" placeholder="请选择" @change="changeQuentitySubject1(index)">
           <el-option v-for="(item,index) in leiMu" :key="index" :label="hfName" :value="item.hfName">
           </el-option>
-        </el-select>
+        </el-select> -->
       </el-form-item>
-      <el-button type="primary" @click="bianjiSubmit" :loading="addLoading">提交</el-button>
+      <!-- <el-button type="primary" @click="bianjiSubmit" :loading="addLoading">提交</el-button> -->
     </el-form>
     <div style="background: #fff;margin-top: 20px;padding: 40px 0 20px 20px;">
       <el-form :inline="true" :model="guiform" label-width="80px" :rules="guigerulue" ref="guiform1">
@@ -39,7 +40,7 @@
         <el-form-item label="规格单位:" prop="specUnit" label-width="100px">
           <el-input auto-complete="off" v-model="guiform.specUnit"></el-input>
         </el-form-item>
-        <el-button type="primary" @click="add" :loading="editLoading">提交</el-button>
+        <el-button type="primary" @click="add" :loading="editLoading">添加</el-button>
       </el-form>
       <div style="font-size: 17px;margin-bottom: 30px;margin-top: 20px;">
         规格:

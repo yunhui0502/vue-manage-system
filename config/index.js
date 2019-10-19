@@ -11,8 +11,8 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        // target:'http://192.168.1.1:9095',//王博朋
-         target:'http://192.168.1.233:9095',//小方
+        target:'http://192.168.1.4:9095',//王博朋
+         // target:'http://192.168.1.233:9095',//小方
         // target: 'http://101ycy.com:10001',
         // target: 'http://47.105.72.216/product:2181',
         // target: 'http://localhost:8070',
@@ -24,7 +24,7 @@ module.exports = {
     },
 
     // Various Dev Server settings
-    host: '192.168.1.251', // can be overwritten by process.env.HOST
+    host: 'localhost', // can be overwritten by process.env.HOST
     port: 6002, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,

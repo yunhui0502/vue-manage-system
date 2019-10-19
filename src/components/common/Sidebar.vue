@@ -31,19 +31,7 @@
                         index: 'index',
                         title: '系统首页',
                     },
-                    {
-                        icon: 'el-icon-tickets',
-                        index: 'table',
-                        title: '订单中心',
-                        subs: [
 
-
-                             {
-                                index: 'treepage',
-                                title: '用户地址管理'
-                            }
-                        ]
-                    },
                      {
                         icon: 'el-icon-setting',
                         index: '3',
@@ -83,6 +71,19 @@
                             // }
 
 
+                        ]
+                    },
+                    {
+                        icon: 'el-icon-tickets',
+                        index: 'table',
+                        title: '订单中心',
+                        subs: [
+
+
+                             {
+                                index: 'treepage',
+                                title: '用户地址管理'
+                            }
                         ]
                     },
                     // {

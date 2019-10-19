@@ -39,14 +39,13 @@
               </el>
             </el-form-item>
           </el-form>
-
-          <el-dialog title="编辑" :visible.sync="editFormVisiblebian" :close-on-click-modal="false">
-            <el-form :inline="true" :model="bianrow" label-width="80px" :rules="bianRules" ref="bianForm">
+          <el-dialog title="添加" :visible.sync="addeditFormVisible" :close-on-click-modal="false">
+            <el-form :inline="true" :model="editRow" label-width="80px" :rules="bianRules" ref="bianForm">
               <el-form-item label="物品名称" prop="goodName">
-                <el-input v-model="bianrow.goodName" auto-complete="off"></el-input>
+                <el-input v-model="editRow.goodName" auto-complete="off"></el-input>
               </el-form-item>
               <el-form-item label="物品描述" prop="goodsDesc">
-                <el-input v-model="bianrow.goodsDesc" auto-complete="off"></el-input>
+                <el-input v-model="editRow.goodsDesc" auto-complete="off"></el-input>
               </el-form-item>
               <el-form-item label="物品分类">
                 <el-select v-model="value4" placeholder="请选择" @change="changeQuentitySubject1(index)">
@@ -55,10 +54,10 @@
                 </el-select>
               </el-form-item>
               <el-form-item label="库存数量" prop="goodsDesc">
-                <el-input v-model="bianrow.quantity" auto-complete="off"></el-input>
+                <el-input v-model="editRow.quantity" auto-complete="off"></el-input>
               </el-form-item>
               <el-form-item label="价格" prop="goodsDesc">
-                <el-input v-model="bianrow.sellPrice" auto-complete="off"></el-input>
+                <el-input v-model="editRow.sellPrice" auto-complete="off"></el-input>
               </el-form-item>
               <div style="display: flex;align-items: center;">
                 <div style="margin: 15px 0;margin-right: 15px;">物品规格:</div>
@@ -66,9 +65,38 @@
                   <el-checkbox v-for="city in cities" :label="city" :key="city">{{city.specValue}}</el-checkbox>
                 </el-checkbox-group>
               </div>
-
-
-
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="editFormVisiblebian=false">取消</el-button>
+              <el-button type="primary" @click="bianjiSubmit" :loading="addLoading">提交</el-button>
+            </div>
+          </el-dialog>
+          <el-dialog title="编辑" :visible.sync="editFormVisiblebian" :close-on-click-modal="false">
+            <el-form :inline="true" :model="editRow" label-width="80px" :rules="bianRules" ref="bianForm">
+              <el-form-item label="物品名称" prop="goodName">
+                <el-input v-model="editRow.goodName" auto-complete="off"></el-input>
+              </el-form-item>
+              <el-form-item label="物品描述" prop="goodsDesc">
+                <el-input v-model="editRow.goodsDesc" auto-complete="off"></el-input>
+              </el-form-item>
+              <el-form-item label="物品分类">
+                <el-select v-model="value4" placeholder="请选择" @change="changeQuentitySubject1(index)">
+                  <el-option v-for="(item,index) in leiMu" :key="index" :label="item.hfName" :value="item.hfName">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="库存数量" prop="goodsDesc">
+                <el-input v-model="editRow.quantity" auto-complete="off"></el-input>
+              </el-form-item>
+              <el-form-item label="价格" prop="goodsDesc">
+                <el-input v-model="editRow.sellPrice" auto-complete="off"></el-input>
+              </el-form-item>
+              <div style="display: flex;align-items: center;">
+                <div style="margin: 15px 0;margin-right: 15px;">物品规格:</div>
+                <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange"  label="">
+                  <el-checkbox v-for="city in cities" :label="city" :key="city">{{city.specValue}}</el-checkbox>
+                </el-checkbox-group>
+              </div>
             </el-form>
             <div slot="footer" class="dialog-footer">
               <el-button @click="editFormVisiblebian=false">取消</el-button>
@@ -142,7 +170,7 @@
   export default {
     data() {
       return {
-
+        addeditFormVisible:false,
         checkAll: false,
         checkedCities: ['上海', '北京'],
         cities: cityOptions,
@@ -285,9 +313,9 @@
           if (valid) {
             _this.$confirm("确认提交吗？", "提示", {}).then(() => {
               _this.addLoading = true;
-              let param = Object.assign({}, this.bianrow);
+              let param = Object.assign({}, this.editRow);
 
-              console.log('11', this.bianrow);
+              console.log('11', this.editRow);
               _this.$ajax({
                 method: "post",
                 url: "/api/goods/updategood",
@@ -406,36 +434,35 @@
       },
       //新增物品
       addGoods: function() {
-        this.$refs.infoForms.validate(valid => {
-          if (valid) {
-            this.$confirm("确认添加吗？", "提示", {}).then(() => {
-              this.addLoading = true;
-              let param = this.ruletable;
-              console.log(param);
-              this.$ajax({
-                method: "get",
-                url: "/api/product/addToStone",
-                params: param
-              }).then(res => {
-                console.log('新增物品', res);
-                this.addLoading = false;
-                this.getList();
-                this.$message({
-                  message: "提交成功",
-                  type: "success"
-                });
-                // this.$refs["addForm"].resetFields();
-                // this.addFormVisible = false;
-                // this.getResult(1);
-              }).catch(res=>{
+        this.addeditFormVisible=true;
+        // this.$refs.infoForms.validate(valid => {
+        //   if (valid) {
+        //     this.$confirm("确认添加吗？", "提示", {}).then(() => {
+        //       this.addLoading = true;
+        //       let param = this.ruletable;
+        //       console.log(param);
+        //       this.$ajax({
+        //         method: "get",
+        //         url: "/api/product/addToStone",
+        //         params: param
+        //       }).then(res => {
+        //         console.log('新增物品', res);
+        //         this.addLoading = false;
+        //         this.getList();
+        //         this.$message({
+        //           message: "提交成功",
+        //           type: "success"
+        //         });
+                
+        //       }).catch(res=>{
 
-                this.$message({
-                  message: "提交失败",
-                });
-              });
-            });
-          }
-        });
+        //         this.$message({
+        //           message: "提交失败",
+        //         });
+        //       });
+        //     });
+        //   }
+        // });
       },
       // 删除物品
 
