@@ -83,15 +83,18 @@
 
           <el-dialog title="编辑" :visible.sync="editFormVisible" :close-on-click-modal="false">
             <el-form :inline="true" :model="editRow" label-width="80px" :rules="bianRules" ref="bianForm">
+              <div style="font-size: 17px;margin-bottom: 30px;">基础信息</div>
               <el-form-item label="物品名称" prop="hfName">
                 <el-input v-model="editRow.hfName" auto-complete="off" disabled="true"></el-input>
               </el-form-item>
               <el-form-item label="物品描述" prop="hfDesc">
                 <div style="display: flex;align-items: center;">
                   <el-input v-model="editRow.hfDesc" auto-complete="off"></el-input>
-                  <div style="margin-left: 13px; border-radius: 2px; color: #fff; background-color: #00D1B2; justify-content: center; width: 23px;height: 23px; display: flex;align-items: center;">+</div>
+                  <div style="margin-left: 13px; border-radius: 2px; color: #fff; background-color: #00D1B2;
+                  justify-content: center;width: 60px;height: 30px;  display: flex;align-items: center;">提交</div>
                 </div>
               </el-form-item>
+                 <div style="width: 100%;height: 1px;border-bottom: 1px solid #E4E4E4;margin-top: 20px;"></div>
               <br>
               <!-- <el-form-item label="物品分类">
                 <el-select v-model="value4" placeholder="请选择" @change="changeQuentitySubject1(index)">
@@ -100,6 +103,7 @@
                 </el-select>
               </el-form-item> -->
               <br>
+               <div style="font-size: 17px;margin-bottom: 30px;">库存信息</div>
               <el-form-item label="库存数量" prop="quantity">
 
                 <div style="display: flex;align-items: center;">
@@ -117,24 +121,25 @@
                 </div>
 
               </el-form-item>
+               <div style="width: 100%;height: 1px;border-bottom: 1px solid #E4E4E4;margin-top: 20px;"></div>
               <br>
+<div style="font-size: 17px;margin-bottom: 30px;">价格信息</div>
               <el-form-item label="价格" prop="hfPrice">
                 <div style="display: flex;align-items: center;">
                   <el-input v-model="hfPrice" auto-complete="off"></el-input>
                   <div @click="setPrice" style="margin-left: 13px; border-radius: 2px; color: #fff; background-color: #00D1B2; justify-content: center; width: 23px;height: 23px; display: flex;align-items: center;">+</div>
                 </div>
               </el-form-item>
-              <el-form-item prop="goodsDesc" style="display: flex;align-items: center;">
 
-
-              </el-form-item>
-              <el-form-item label="物品规格:" prop="quantity">
+            <div style="width: 100%;height: 1px;border-bottom: 1px solid #E4E4E4;margin-bottom: 30px;margin-top: 20px;"></div>
+             <div style="font-size: 17px;margin-bottom: 30px;">规格信息</div>
+            <!--  <el-form-item label="物品规格:" prop="quantity">
 
                 <div style="display: flex;align-items: center;">
                   <el-input v-model="editRow.quantity" auto-complete="off"></el-input>
                   <div style="margin-left: 13px; border-radius: 2px; color: #fff; background-color: #00D1B2; justify-content: center; width: 23px;height: 23px; display: flex;align-items: center;">+</div>
                 </div>
-              </el-form-item>
+              </el-form-item> -->
 
               <!-- <div style="display: flex;align-items: center;">
                 <div style="margin: 15px 0;margin-right: 15px;">物品规格:</div>
@@ -144,9 +149,30 @@
               </div> -->
             </el-form>
             <div slot="footer" class="dialog-footer">
-              <el-button @click="editFormVisible=false">取消</el-button>
-              <el-button type="primary" @click="bianjiSubmit" :loading="addLoading">提交</el-button>
+              <el-button @click="editFormVisible=false">关闭</el-button>
+              <!-- <el-button type="primary" @click="bianjiSubmit" :loading="addLoading">提交</el-button> -->
             </div>
+            <el-table :data="guigelist" size="mini" highlight-current-row border class="el-tb-edit mgt20" ref="multipleTable"
+              style="margin-bottom: 40px;" tooltip-effect="dark" v-loading="listLoading" @selection-change="selectChange">
+              <el-table-column type="index" label="序号" header-align="center" align="center">
+              </el-table-column>
+              <el-table-column label="规格名称" align="center" prop="hfName">
+              </el-table-column>
+              <el-table-column prop="specType" label="规格类型" align="center">
+              </el-table-column>
+
+              <el-table-column prop="specValue" label="规格值" align="center">
+              </el-table-column>
+              <el-table-column prop="specUnit" label="规格单位" align="center">
+              </el-table-column>
+              <el-table-column fixed="right" label="操作" width="260">
+                <template slot-scope="scope">
+                  <!-- <el-button type="primary" plain size="small" @click="addgui(scope.row)" style="margin-bottom: 10px;">查看规格</el-button> -->
+                  <el-button type="primary" plain size="small" @click="biangui(scope.row)" style="margin-bottom: 10px;">编辑</el-button>
+                  <el-button type="danger" plain size="small" @click="deletegui(scope.row)">删除</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
           </el-dialog>
           <template>
             <!--表格数据及操作-->
@@ -161,8 +187,8 @@
               </el-table-column>
               <el-table-column prop="productCategoryName" label="物品类目" align="center">
               </el-table-column>
-              <el-table-column prop="quantity" label="库存数量" align="center">
-              </el-table-column>
+  <!--            <el-table-column prop="quantity" label="库存数量" align="center">
+              </el-table-column> -->
               <el-table-column prop="sellPrice" label="价格" align="center">
               </el-table-column>
               <!--   <el-table-column prop="specValue" label="规格" align="center">
@@ -196,7 +222,7 @@
     <!-- 上传图片 -->
     <el-dialog title="上传图片" :visible.sync="picOpen" :close-on-click-modal="false">
       <el-upload action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" :on-success="handleAvatarSuccess"
-        :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
+        :on-preview="handlePictureCardPreview" :on-remove="handleRemove" :auto-upload="false">
         <i class="el-icon-plus"></i>
       </el-upload>
       <el-dialog :visible.sync="dialogVisible">
@@ -215,6 +241,7 @@
   export default {
     data() {
       return {
+         guigelist: '',
         kuid:'',
         tableDataku:'',
         hfPrice:'',
@@ -317,6 +344,21 @@
     },
 
     methods: {
+      // 查看规格
+      checkguige: function(row) {
+
+        var _this = this;
+        _this.$ajax({
+          method: "get",
+          url: "/api/product/specifies",
+          params: {
+            productId: row.productId
+          }
+        }).then(res => {
+          _this.guigelist = res.data.data;
+          console.log('查询规格', res);
+        });
+      },
       addku: function() {
         // console.log(this.hfPrice)
         // this.$refs.bianinfoForms.validate(valid => {
@@ -333,7 +375,7 @@
           if(this.quantity==""){
             return;
           }
-          
+
           this.kuid = obj.id;
           let  goodsId =this.bianrow.productId;
           console.log(goodsId, this.kuid);
@@ -635,48 +677,67 @@
         this.editFormVisible = true;
         console.log(row);
         this.bianrow = row;
+        this.checkguige(row)
         // this.value4 = row.productCategoryName;
 
-        // var _this=this;
-        // this.$ajax({
-        //   method: "get",
-        //   url: "/api/product/specifies",
-        //   params: {
-        //     productId: this.bianrow.productId
-        //   }
-        // }).then(
-        //   function(resultData) {
-        //     console.log('查询规格', resultData);
-        //     _this.cities=resultData.data.data;
-        //      _this.checkedCities=resultData.data.data;
-        //     console.log(_this.cities);
-        //     // _this.leiMu = resultData.data.data;
-        //     // console.log(_this.leiMu);
-        //     // _this.tableData = resultData.data.data;
-        //     // _this.roletotal = resultData.data.count;
-        //     // _this.listLoading = false;
-        //   }
-        // );
+        var _this=this;
+        console.log(this.bianrow.productId)
+        this.$ajax({
+          method: "get",
+          url: "/api/goods/byGoodsId",
+          params: {
+            goodsId: this.bianrow.productId
+          }
+        }).then(
+          function(resultData) {
+            console.log('查询物品详情', resultData);
+            // _this.cities=resultData.data.data;
+            //  _this.checkedCities=resultData.data.data;
+            // console.log(_this.cities);
+            // _this.leiMu = resultData.data.data;
+            // console.log(_this.leiMu);
+            // _this.tableData = resultData.data.data;
+            // _this.roletotal = resultData.data.count;
+            // _this.listLoading = false;
+          }
+        );
       },
       handleAvatarSuccess: function(response, file, fileList) {
-        console.log(response, file, fileList, fileList[0].name, fileList[0].raw, fileList[0].url);
+        // console.log(response, file, fileList, fileList[0].name, fileList[0].raw, fileList[0].url);
+      console.log( fileList)
+        // var _this = this;
+        // _this.$ajax({
+        //   method: "post",
+        //   url: "/api/goods/addPicture",
+        //   params: {
+        //     pictureName: fileList[0].name,
+        //     goodsId: this.goodId,
+        //     username: 1,
+        //     pictureDesc: '111',
+        //     fileInfo: fileList[0].url
 
-        var _this = this;
-        _this.$ajax({
-          method: "post",
-          url: "/api/goods/addPicture",
-          params: {
-            pictureName: fileList[0].name,
-            goodsId: this.goodId,
-            username: 1,
-            pictureDesc: '111',
-            fileInfo: fileList[0].url
-
-          }
-        }).then(res => {
-          console.log('11', res);
+        //   }
+        // }).then(res => {
+        //   console.log('11', res);
+        // });
+        // this.$refs.upload.submit();
+        let fd = new FormData();
+        fd.append('goodsId', 1);
+        // fd.append('pictureName', "ddd");
+        // fd.append("prictureDesc", 'sss');
+        fd.append("username", 'ddd');
+        fd.append("userId", 1);
+        fd.append("requestId", "dsaaa");
+        fd.append("token", 'sss');
+        fd.append("timestamp", 'dd');
+        this.list=fileList;
+       fileList.forEach((item)=> {
+         console.log( item,item.name)
+          fd.append('fileInfo', item,item.name);
         });
-
+        axios.post('api/goods/addPicture', fd, { responseType: 'arraybuffer' }).then(res => {
+          console.log(res);
+        });
       },
       handleRemove(file, fileList) {
         console.log(file, fileList);
@@ -915,6 +976,7 @@
       // this.getresourceData();
 
       this.checkCang();
+
     }
   };
 </script>

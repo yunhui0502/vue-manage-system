@@ -41,8 +41,8 @@ export default {
       this.$refs.upload.submit();
       let fd = new FormData();
       fd.append('goodsId', 1);
-      fd.append('pictureName', "ddd");
-      fd.append("prictureDesc", 'sss');
+      // fd.append('pictureName', "ddd");
+      // fd.append("prictureDesc", 'sss');
       fd.append("username", 'ddd');
       fd.append("userId", 1);
       fd.append("requestId", "dsaaa");
