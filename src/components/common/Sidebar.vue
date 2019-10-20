@@ -61,7 +61,7 @@
                             // },
                             {
                                 index: 'sysUser',
-                                title: '商品dd管理'
+                                title: '商品管理'
                             },
                             {
                                 index: 'sysRole',

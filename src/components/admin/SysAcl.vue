@@ -29,77 +29,122 @@
         <div style=" width:98%;float:left;">
 
           <el-form :model="ruletable" ref="infoForms" :inline="true" :rules="addRules" style="margin-bottom: 20px;">
-            <el-form-item prop="positionName" label-width="200px" :show-overflow-tooltip="true">
+            <!-- <el-form-item prop="positionName" label-width="200px" :show-overflow-tooltip="true">
               <el style="display: flex;">
 
                 <el-form-item prop="productId" label-width="200px" label="输入商品编号添加店铺物品:">
                   <el-input auto-complete="off" v-model="ruletable.productId"></el-input>
-                </el-form-item>
-                <el-button style="margin-left: 10px;" @click="addGoods">添加</el-button>
-              </el>
-            </el-form-item>
+                </el-form-item> -->
+            <el-button style="margin-left: 10px;" @click="addGoods">添加物品</el-button>
+            <!--  </el>
+            </el-form-item> -->
           </el-form>
-          <el-dialog title="添加" :visible.sync="addeditFormVisible" :close-on-click-modal="false">
-            <el-form :inline="true" :model="editRow" label-width="80px" :rules="bianRules" ref="bianForm">
+          <el-dialog title="添加物品" :visible.sync="addeditFormVisible" :close-on-click-modal="false">
+            <el-form :inline="true" :model="addWu" label-width="80px" :rules="bianRules" ref="bianForm">
+
               <el-form-item label="物品名称" prop="goodName">
-                <el-input v-model="editRow.goodName" auto-complete="off"></el-input>
+                <el-input v-model="addWu.goodName" auto-complete="off"></el-input>
               </el-form-item>
               <el-form-item label="物品描述" prop="goodsDesc">
-                <el-input v-model="editRow.goodsDesc" auto-complete="off"></el-input>
+                <el-input v-model="addWu.goodsDesc" auto-complete="off"></el-input>
               </el-form-item>
-              <el-form-item label="物品分类">
+
+              <!--     <el-form-item label="物品分类">
                 <el-select v-model="value4" placeholder="请选择" @change="changeQuentitySubject1(index)">
                   <el-option v-for="(item,index) in leiMu" :key="index" :label="item.hfName" :value="item.hfName">
                   </el-option>
                 </el-select>
+              </el-form-item> -->
+              <!-- <el-form-item label="库存数量" prop="goodsDesc">
+                <el-input v-model="addWu.quantity" auto-complete="off"></el-input>
+              </el-form-item> -->
+              <!-- <el-form-item label="价格" prop="goodsDesc">
+                <el-input v-model="addWu.sellPrice" auto-complete="off"></el-input>
+              </el-form-item> -->
+              <el-form-item prop="positionName" label-width="200px" :show-overflow-tooltip="true">
+                <el style="display: flex;">
+                  <el-form-item prop="productId" label-width="200px" label="输入商品编号添加店铺物品:">
+                    <el-input auto-complete="off" v-model="addWu.productId"></el-input>
+                  </el-form-item>
+                </el>
               </el-form-item>
-              <el-form-item label="库存数量" prop="goodsDesc">
-                <el-input v-model="editRow.quantity" auto-complete="off"></el-input>
-              </el-form-item>
-              <el-form-item label="价格" prop="goodsDesc">
-                <el-input v-model="editRow.sellPrice" auto-complete="off"></el-input>
-              </el-form-item>
-              <div style="display: flex;align-items: center;">
+              <!-- <div style="display: flex;align-items: center;">
                 <div style="margin: 15px 0;margin-right: 15px;">物品规格:</div>
                 <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange"  label="">
                   <el-checkbox v-for="city in cities" :label="city" :key="city">{{city.specValue}}</el-checkbox>
                 </el-checkbox-group>
-              </div>
+              </div> -->
             </el-form>
             <div slot="footer" class="dialog-footer">
-              <el-button @click="editFormVisiblebian=false">取消</el-button>
-              <el-button type="primary" @click="bianjiSubmit" :loading="addLoading">提交</el-button>
+              <el-button @click="editFormVisible=false">取消</el-button>
+              <el-button type="primary" @click="addjiSubmit" :loading="addLoading">提交</el-button>
             </div>
           </el-dialog>
-          <el-dialog title="编辑" :visible.sync="editFormVisiblebian" :close-on-click-modal="false">
+
+          <el-dialog title="编辑" :visible.sync="editFormVisible" :close-on-click-modal="false">
             <el-form :inline="true" :model="editRow" label-width="80px" :rules="bianRules" ref="bianForm">
-              <el-form-item label="物品名称" prop="goodName">
-                <el-input v-model="editRow.goodName" auto-complete="off"></el-input>
+              <el-form-item label="物品名称" prop="hfName">
+                <el-input v-model="editRow.hfName" auto-complete="off" disabled="true"></el-input>
               </el-form-item>
-              <el-form-item label="物品描述" prop="goodsDesc">
-                <el-input v-model="editRow.goodsDesc" auto-complete="off"></el-input>
+              <el-form-item label="物品描述" prop="hfDesc">
+                <div style="display: flex;align-items: center;">
+                  <el-input v-model="editRow.hfDesc" auto-complete="off"></el-input>
+                  <div style="margin-left: 13px; border-radius: 2px; color: #fff; background-color: #00D1B2; justify-content: center; width: 23px;height: 23px; display: flex;align-items: center;">+</div>
+                </div>
               </el-form-item>
-              <el-form-item label="物品分类">
+              <br>
+              <!-- <el-form-item label="物品分类">
                 <el-select v-model="value4" placeholder="请选择" @change="changeQuentitySubject1(index)">
                   <el-option v-for="(item,index) in leiMu" :key="index" :label="item.hfName" :value="item.hfName">
                   </el-option>
                 </el-select>
+              </el-form-item> -->
+              <br>
+              <el-form-item label="库存数量" prop="quantity">
+
+                <div style="display: flex;align-items: center;">
+                  <el-input v-model="quantity" auto-complete="off" type="number"></el-input>
+                </div>
               </el-form-item>
-              <el-form-item label="库存数量" prop="goodsDesc">
-                <el-input v-model="editRow.quantity" auto-complete="off"></el-input>
+
+              <el-form-item label="仓库位置">
+                <div style="display: flex;align-items: center;">
+                <el-select v-model="value4" placeholder="请选择" @change="changeQuentitySubject1(index)">
+                  <el-option v-for="(item,index) in tableDataku" :key="index" :label="item.hfName" :value="item.hfName">
+                  </el-option>
+                </el-select>
+                  <div  @click="addku"  style="margin-left: 13px; border-radius: 2px; color: #fff; background-color: #00D1B2; justify-content: center; width: 23px;height: 23px; display: flex;align-items: center;">+</div>
+                </div>
+
               </el-form-item>
-              <el-form-item label="价格" prop="goodsDesc">
-                <el-input v-model="editRow.sellPrice" auto-complete="off"></el-input>
+              <br>
+              <el-form-item label="价格" prop="hfPrice">
+                <div style="display: flex;align-items: center;">
+                  <el-input v-model="hfPrice" auto-complete="off"></el-input>
+                  <div @click="setPrice" style="margin-left: 13px; border-radius: 2px; color: #fff; background-color: #00D1B2; justify-content: center; width: 23px;height: 23px; display: flex;align-items: center;">+</div>
+                </div>
               </el-form-item>
-              <div style="display: flex;align-items: center;">
+              <el-form-item prop="goodsDesc" style="display: flex;align-items: center;">
+
+
+              </el-form-item>
+              <el-form-item label="物品规格:" prop="quantity">
+
+                <div style="display: flex;align-items: center;">
+                  <el-input v-model="editRow.quantity" auto-complete="off"></el-input>
+                  <div style="margin-left: 13px; border-radius: 2px; color: #fff; background-color: #00D1B2; justify-content: center; width: 23px;height: 23px; display: flex;align-items: center;">+</div>
+                </div>
+              </el-form-item>
+
+              <!-- <div style="display: flex;align-items: center;">
                 <div style="margin: 15px 0;margin-right: 15px;">物品规格:</div>
-                <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange"  label="">
+                <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange" label="">
                   <el-checkbox v-for="city in cities" :label="city" :key="city">{{city.specValue}}</el-checkbox>
                 </el-checkbox-group>
-              </div>
+              </div> -->
             </el-form>
             <div slot="footer" class="dialog-footer">
-              <el-button @click="editFormVisiblebian=false">取消</el-button>
+              <el-button @click="editFormVisible=false">取消</el-button>
               <el-button type="primary" @click="bianjiSubmit" :loading="addLoading">提交</el-button>
             </div>
           </el-dialog>
@@ -110,9 +155,9 @@
 
               <el-table-column label="物品id" align="center" prop="id">
               </el-table-column>
-              <el-table-column prop="goodName" label="物品名称" align="center">
+              <el-table-column prop="hfName" label="物品名称" align="center">
               </el-table-column>
-              <el-table-column prop="goodsDesc" label="物品描述" align="center">
+              <el-table-column prop="hfDesc" label="物品描述" align="center">
               </el-table-column>
               <el-table-column prop="productCategoryName" label="物品类目" align="center">
               </el-table-column>
@@ -170,7 +215,19 @@
   export default {
     data() {
       return {
-        addeditFormVisible:false,
+        kuid:'',
+        tableDataku:'',
+        hfPrice:'',
+        quantity :'',
+        editFormVisible: false,
+        addWu: {
+          bossId: 1,
+          requestId: 1,
+          timestamp: 1,
+          token: 1,
+          userId: 1
+        },
+        addeditFormVisible: false,
         checkAll: false,
         checkedCities: ['上海', '北京'],
         cities: cityOptions,
@@ -260,6 +317,168 @@
     },
 
     methods: {
+      addku: function() {
+        // console.log(this.hfPrice)
+        // this.$refs.bianinfoForms.validate(valid => {
+        //   if (valid) {
+        // this.$confirm("确认添加吗？", "提示", {}).then(() => {
+          this.addLoading = true;
+          let obj = {};
+          obj = this.tableDataku.find((item) => { //这里的selectList就是上面遍历的数据源
+            //筛选出匹配数据
+            if (item.hfName == this.value4) {
+              return item
+            }
+          });
+          if(this.quantity==""){
+            return;
+          }
+          
+          this.kuid = obj.id;
+          let  goodsId =this.bianrow.productId;
+          console.log(goodsId, this.kuid);
+          this.$ajax({
+            method: "post",
+            url: "/api/goods/setGoodsQuantity",
+            params:{
+               wareHouseId :this.kuid,
+              quantity :this.quantity,
+              hfGoodsId  :goodsId,
+              requestId:1,
+              timestamp:1,
+              token:1,
+              userId:1
+            }
+          }).then(res => {
+            console.log('添加物品规格', res);
+
+            // this.editFormVisible1 = false;
+            this.$message({
+              message: "提交成功",
+              type: "success"
+            });
+            // this.$router.push({
+            //   path: 'sysResource'
+            // })
+          }).catch(res => {
+            this.$message({
+              message: "提交失败",
+
+            });
+
+          });
+        // });
+
+      },
+      // 查询仓库
+      checkCang: function(val) {
+        var _this = this;
+        this.listLoading = true;
+        this.$ajax({
+          method: "get",
+          url: "/api/wareHouse/listWareHouse",
+          params: {
+            bossId: 1,
+          }
+        }).then(
+          function(resultData) {
+
+            console.log('查询仓库', resultData);
+            // this.listLoading = false;
+            _this.tableDataku= resultData.data.data;
+            // _this.roletotal = resultData.data.count;
+            _this.listLoading = false;
+          },
+          function(resultData) {
+            // _this.tableData.message = "Local Reeuest Error!";
+            console.log(resultData);
+          }
+        );
+      },
+     setGoodsQuantity:function() {
+        // console.log(this.hfPrice)
+        // this.$refs.bianinfoForms.validate(valid => {
+        //   if (valid) {
+        // this.$confirm("确认添加吗？", "提示", {}).then(() => {
+          this.addLoading = true;
+
+          let  goodsId =this.bianrow.productId;
+          console.log(this.hfPrice,goodsId);
+          this.$ajax({
+            method: "post",
+            url: "/api/goods/setPrice",
+            params:{
+              quantity :this.hfPrice,
+              hfGoodsId  :goodsId,
+              requestId:1,
+              timestamp:1,
+              token:1,
+              userId:1
+            }
+          }).then(res => {
+            console.log('添加物品价格', res);
+
+            // this.editFormVisible1 = false;
+            this.$message({
+              message: "提交成功",
+              type: "success"
+            });
+            // this.$router.push({
+            //   path: 'sysResource'
+            // })
+          }).catch(res => {
+            this.$message({
+              message: "提交失败",
+
+            });
+
+          });
+        // });
+
+      },
+      setPrice:function() {
+        // console.log(this.hfPrice)
+        // this.$refs.bianinfoForms.validate(valid => {
+        //   if (valid) {
+        // this.$confirm("确认添加吗？", "提示", {}).then(() => {
+          this.addLoading = true;
+          if(this.hfPrice==''){
+            return;
+            }
+          let  goodsId =this.bianrow.productId;
+          console.log(this.hfPrice,goodsId);
+          this.$ajax({
+            method: "post",
+            url: "/api/goods/setPrice",
+            params:{
+              hfPrice:this.hfPrice,
+              hfGoodsId  :goodsId,
+              requestId:1,
+              timestamp:1,
+              token:1,
+              userId:1
+            }
+          }).then(res => {
+            console.log('添加物品价格', res);
+
+            // this.editFormVisible1 = false;
+            this.$message({
+              message: "提交成功",
+              type: "success"
+            });
+            // this.$router.push({
+            //   path: 'sysResource'
+            // })
+          }).catch(res => {
+            this.$message({
+              message: "提交失败",
+
+            });
+
+          });
+        // });
+
+      },
       handleCheckAllChange(val) {
         this.checkedCities = val ? cityOptions : [];
         this.isIndeterminate = false;
@@ -269,6 +488,44 @@
         let checkedCount = value.length;
         this.checkAll = checkedCount === this.cities.length;
         this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
+      },
+      // 添加物品
+      addjiSubmit: function() {
+        console.log(this.addWu)
+        // this.$refs.bianinfoForms.validate(valid => {
+        //   if (valid) {
+        this.$confirm("确认添加吗？", "提示", {}).then(() => {
+          this.addLoading = true;
+          let param = this.addWu;
+
+          console.log(param);
+          this.$ajax({
+            method: "post",
+            url: "/api/goods/create",
+            params: param
+          }).then(res => {
+            console.log('添加物品', res);
+            this.addLoading = false;
+            this.addeditFormVisible = false;
+            this.getList();
+            // this.editFormVisible1 = false;
+            this.$message({
+              message: "提交成功",
+              type: "success"
+            });
+            // this.$router.push({
+            //   path: 'sysResource'
+            // })
+          }).catch(res => {
+            this.$message({
+              message: "提交失败",
+
+            });
+
+          });
+        });
+        //   }
+        // });
       },
       bianSubmit: function() {
         console.log(this.editRow)
@@ -375,30 +632,31 @@
         );
       },
       bianji: function(row) {
+        this.editFormVisible = true;
         console.log(row);
         this.bianrow = row;
-        this.value4 = row.productCategoryName;
-        this.editFormVisiblebian = true;
-        var _this=this;
-        this.$ajax({
-          method: "get",
-          url: "/api/product/specifies",
-          params: {
-            productId: this.bianrow.productId
-          }
-        }).then(
-          function(resultData) {
-            console.log('查询规格', resultData);
-            _this.cities=resultData.data.data;
-             _this.checkedCities=resultData.data.data;
-            console.log(_this.cities);
-            // _this.leiMu = resultData.data.data;
-            // console.log(_this.leiMu);
-            // _this.tableData = resultData.data.data;
-            // _this.roletotal = resultData.data.count;
-            // _this.listLoading = false;
-          }
-        );
+        // this.value4 = row.productCategoryName;
+
+        // var _this=this;
+        // this.$ajax({
+        //   method: "get",
+        //   url: "/api/product/specifies",
+        //   params: {
+        //     productId: this.bianrow.productId
+        //   }
+        // }).then(
+        //   function(resultData) {
+        //     console.log('查询规格', resultData);
+        //     _this.cities=resultData.data.data;
+        //      _this.checkedCities=resultData.data.data;
+        //     console.log(_this.cities);
+        //     // _this.leiMu = resultData.data.data;
+        //     // console.log(_this.leiMu);
+        //     // _this.tableData = resultData.data.data;
+        //     // _this.roletotal = resultData.data.count;
+        //     // _this.listLoading = false;
+        //   }
+        // );
       },
       handleAvatarSuccess: function(response, file, fileList) {
         console.log(response, file, fileList, fileList[0].name, fileList[0].raw, fileList[0].url);
@@ -434,7 +692,7 @@
       },
       //新增物品
       addGoods: function() {
-        this.addeditFormVisible=true;
+        this.addeditFormVisible = true;
         // this.$refs.infoForms.validate(valid => {
         //   if (valid) {
         //     this.$confirm("确认添加吗？", "提示", {}).then(() => {
@@ -453,7 +711,7 @@
         //           message: "提交成功",
         //           type: "success"
         //         });
-                
+
         //       }).catch(res=>{
 
         //         this.$message({
@@ -650,12 +908,13 @@
       var list = decodeURIComponent(this.$route.query.row);
       this.editRow = JSON.parse(list);
       this.ruletable.stoneId = this.$route.query.id;
+      this.addWu.hfStoreId = this.$route.query.id;
       this.checkType();
       this.getList();
       // this.getmu();
       // this.getresourceData();
 
-
+      this.checkCang();
     }
   };
 </script>
