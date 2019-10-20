@@ -18,10 +18,7 @@
       </el-form>
     </div>
   </div>
-  <img  ref="selectlogoPictureImg" :src="updateFiles(38)"  />
-  <!-- <div :v-for="(item, index) in fileIds">
-    <img :src="fileIds" />
-  </div> --> 
+  <img  ref="selectlogoPictureImg" src="/api/goods/getFile?fileId=38"  />
 </div>
 </template>
 
@@ -56,22 +53,6 @@ export default {
       });
       axios.post('api/goods/addPicture', fd, { responseType: 'arraybuffer' }).then(res => {
         console.log(res);
-      });
-    },
-    updateFiles(fileId) {
-      axios.get('api/goods/getFile', {
-        params: {
-          'fileId': fileId
-        },
-        responseType: 'arraybuffer'
-      }).then(res => {
-        console.log(res);
-        return res.data
-      }).then(data => {
-        console.log(data);
-        data = 'data:image/png;base64,' + btoa(new Uint8Array(data.data).reduce((item, byte) => item + String.fromCharCode(byte), ''))
-        console.log(this);
-        this.$refs.selectlogoPictureImg.src = data;
       });
     }
   },
