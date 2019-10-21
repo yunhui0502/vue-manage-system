@@ -44,11 +44,19 @@
                                 index: 'store',
                                 title: '店铺管理'
                             },
+                            {
+                                index: 'product',
+                                title: '商品管理'
+                            },
+                            {
+                                index: 'warehouse',
+                                title: '仓库管理'
+                            },
                         ]
                     },
                     {
                         icon: 'el-icon-setting',
-                        index: 'product',
+                        index: 'productddd',
                         title: '商品中心',
                         subs: [
                           // {
@@ -59,22 +67,22 @@
                             //     index: 'organizationTree',
                             //     title: '机构管理'
                             // },
-                            {
-                                index: 'sysUser',
-                                title: '商品dd管理'
-                            },
-                            {
-                                index: 'sysRole',
-                                title: '仓库管理'
-                            },
+                            // {
+                            //     index: 'sysUser',
+                            //     title: '商品管理'
+                            // },
+                            // {
+                            //     index: 'sysRole',
+                            //     title: '仓库管理'
+                            // },
                             // {
                             //     index: 'sysAcl',
                             //     title: '角色资源授权'
                             // },
-                            {
-                                index: 'sysResource',
-                                title: '店铺管理'
-                            },
+                            // {
+                            //     index: 'sysResource',
+                            //     title: '店铺管理'
+                            // },
                             // {
                             //     index: 'sysMenu',
                             //     title: '菜单管理'

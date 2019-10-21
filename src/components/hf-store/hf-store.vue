@@ -1,13 +1,5 @@
 <template>
   <div class="table">
-    <!-- 页面表格begin -->
-    <div class="crumbs">
-      <!-- 页面标题begin -->
-      <el-breadcrumb separator="/">
-        <el-breadcrumb-item>
-          <i class="el-icon-tickets"></i> 角色资源管理</el-breadcrumb-item>
-      </el-breadcrumb>
-    </div>
     <!-- 页面标题end-->
     <div style="background: #f0f0f0;">
       <el-form style="background: #fff;padding: 20px;padding-top: 30px;" :inline="true" :model="editRow" label-width="80px"
@@ -21,7 +13,7 @@
         <el-form-item label="店铺状态 (输入0为营业状态/1未营业状态)" prop="hfStatus" label-width="300px">
           <el-input v-model="editRow.hfStatus" auto-complete="off"></el-input>
         </el-form-item>
-        <el-button type="primary" @click="bianSubmit" :loading="addLoading">提交</el-button>
+        <el-button type="primary" @click="bianSubmit" :loading="addLoading">新增店铺</el-button>
       </el-form>
 
       <!-- 页面内容区begin -->
@@ -210,10 +202,6 @@
             </el-table>
 
           </template>
-          <!--分页条total, sizes, prev, pager, next, jumper-->
-          <el-pagination @size-change="handleSizeChange" @current-change="getResult" :current-page="currentPage"
-            :page-size="pageSize" layout="total, prev, pager, next" :total="roletotal">
-          </el-pagination>
         </div>
 
       </div>
@@ -241,7 +229,10 @@
   export default {
     data() {
       return {
-         guigelist: '',
+        dialogVisible: true,
+        
+        dialogImageUrl: '',
+        guigelist: '',
         kuid:'',
         tableDataku:'',
         hfPrice:'',
@@ -344,6 +335,16 @@
     },
 
     methods: {
+      selectChange: function() {
+        console.log("dddddddddddddd");
+      },
+      editLoading: function() {
+        console.log("editLoading");
+        return true;
+      },
+      add:()=>{
+        
+      },
       // 查看规格
       checkguige: function(row) {
 
@@ -839,135 +840,18 @@
       indexMethod(index) {
         return index;
       },
-      //获取角色列表
-      getResult: function(val) {
-
-        var _this = this;
-        this.listLoading = true;
-        let param = Object.assign({}, {
-          currentPage: val,
-          pageSize: 10,
-          roleName: this.s_rolename,
-          roleCode: this.s_rolecode
-        });
-        this.$ajax({
-          method: "post",
-          url: "/api/sysrole-api/querySysRoleList",
-          data: param
-        }).then(
-          function(resultData) {
-
-            _this.tableData = resultData.data.data;
-            _this.roletotal = resultData.data.count;
-            _this.listLoading = false;
-          },
-          function(resultData) {
-            // _this.tableData.message = "Local Reeuest Error!";
-            //console.log(resultData);
-          }
-        );
-
-      },
       handleSizeChange(val) {
         this.pageSize = val;
-        this.getResult(1);
-
       },
-      getresourceData() {
-        var _this = this;
-        //this.listLoading = true;
-
-        let param = Object.assign({}, {});
-        this.$ajax({
-          method: "post",
-          url: "/api/sysResource_api/getSysResourceList",
-          data: param
-        }).then(
-          function(resultData) {
-            _this.treeData = resultData.data.data;
-            // console.log(JSON.stringify(_this.treeData));
-
-          },
-          function(resultData) {
-            // _this.tableData.message = "Local Reeuest Error!";
-            //console.log(resultData);
-          }
-        );
-      },
-      clickRow: function(row) {
-        var _this = this;
-        _this.roleuserSelect = [];
-        _this.curentroleid = row.id;
-        _this.curentrow = row;
-        let param = Object.assign({}, {
-          roleId: _this.curentroleid
-        });
-        this.$ajax({
-          method: "post",
-          url: "/api/sysAcl-api/getSysAclList",
-          data: param
-        }).then(
-          function(resultData) {
-            let list = [];
-
-            resultData.data.data.forEach(item => {
-              list.push(item.resoureId);
-            });
-            //alert(list);
-            console.log(JSON.stringify(list))
-            _this.$refs.tree.setCheckedKeys(list);
-
-          },
-          function(resultData) {
-            // _this.tableData.message = "Local Reeuest Error!";
-            //console.log(resultData);
-          }
-        );
-
-
-      },
-
-      saveRoleacl: function() {
-        var _this = this;
-        if (this.curentroleid == "") {
-          alert("请选择要添加的角色，单击选择行。");
-        }
-        var sellist = this.$refs.tree.getCheckedKeys();
-        //    var treeNodes = this.$refs.tree.getCheckedNodes(true);
-        //    for(var i = 0; i < treeNodes.length; i++) {
-        //    if(sellist.indexOf(treeNodes[i].parentId)<0){
-        //     sellist.push(treeNodes[i].parentId);
-        //    }
-        //    }
-        var roleid = this.curentroleid;
-        if (sellist.length > 0) {
-
-          this.listLoading = true;
-          let param = Object.assign({}, {
-            id: 0,
-            roleId: roleid,
-            resourceids: sellist
-          });
-          this.$ajax({
-            method: "post",
-            url: "/api/sysAcl-api/insertSysAcl",
-            data: param
-          }).then(
-            function(resultData) {
-              alert(resultData.data.message);
-              _this.clickRow(_this.curentrow);
-
-            }
-          );
-        }
-
-      }
-
     },
     mounted() {
       //获取列表
       var list = decodeURIComponent(this.$route.query.row);
-      this.editRow = JSON.parse(list);
+      if (list == undefined) {
+        this.editRow = {}  
+      } else {
+        this.editRow = JSON.parse(list);
+      }
       this.ruletable.stoneId = this.$route.query.id;
       this.addWu.hfStoreId = this.$route.query.id;
       this.checkType();
