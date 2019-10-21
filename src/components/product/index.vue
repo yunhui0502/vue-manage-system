@@ -5,7 +5,7 @@
   <div class="content-box" :class="{'content-collapse':collapse}">
     <productTable></productTable>
     <!-- <productv1></productv1> -->
-    <product></product>
+    <!-- <product></product> -->
     
   </div>
 </div>
