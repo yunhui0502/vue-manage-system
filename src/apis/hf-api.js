@@ -33,20 +33,14 @@ function bianProduct() {
 
 // 添加商品
 // http://192.168.1.233:9095/product/addproduct?hfName=衣服1&categoryId=1&brandId=1&productDesc=代步&bossId=1&lastModifier=swd
-  function addProduct(bossid,brandid,categoryid,hfname,lastModifier,productdesc ) {
-    let params = {
-      params: {
-        bossId: bossid,
-        brandId:brandid,
-        categoryId:categoryid,
-        hfName:hfname,
-        lastModifier:lastModifier,
-        productDesc:productdesc
+function addProduct(params) {
+  let fd = new FormData();
+  fd.append('bossId', 1);
+  fd.append('brandId', params.brandId);
+  fd.append('hfName', params.hfName);
+  return Axios.post("/api/product/addproduct", fd, { responseType: 'arraybuffer' });
+}
 
-      }
-    }
-    return Axios.post("/api/product/addproduct", params);
-  }
 // 按条件查询商品
 function search(id, cateId, name) {
 

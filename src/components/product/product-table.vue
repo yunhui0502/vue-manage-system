@@ -3,14 +3,13 @@
 
     <div class="handle-box " style="background: #fff;width: 94%;height: 70px;padding:30px 3%  10px 3%;">
       <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-        <el-form :inline="true" :model="filters">
+        <el-form :inline="true">
           <el-form-item style="margin-bottom:50px;" label="商品名称:">
             <el-input v-model="souhfName" auto-complete="off"></el-input>
           </el-form-item>
           <el-form-item style="margin-bottom:50px;margin-left: 5px;" label="商品分类：">
-            <!--<el-input v-model="filters.job"  placeholder="岗位" style="width:200px; heght:30px;" size="mini"></el-input>-->
             <el-select v-model="value1" placeholder="请选择" @change="checkMulist">
-              <el-option v-for="(item,index) in leiMu" :key="index" :label="item.hfName" :value="item.hfName">
+              <el-option v-for="(item, index) in leiMu" :key="index" :label="item.hfName" :value="item.hfName">
               </el-option>
             </el-select>
           </el-form-item>
@@ -18,20 +17,17 @@
         </el-form>
       </el-col>
     </div>
-    <!--新增按钮-->
     <div style="margin-top: 20px;margin-left: 20px;">
       <el-button type="success" icon="el-icon-circle-plus-outline" @click="handleAdd" size="mini" round>新增</el-button>
       <el-button type="danger" icon="el-icon-delete" @click="deletegood" size="mini" round>删除</el-button>
-      <!-- <el-button type="success" @click="addMu" size="mini" round>添加分类</el-button> -->
     </div>
 
 
 
-    <el-table :data="tableData" size="mini" highlight-current-row border class="el-tb-edit mgt20" ref="multipleTable"
-      tooltip-effect="dark" v-loading="listLoading" @selection-change="selectChange">
+    <el-table :data="tableData" size="mini" highlight-current-row border class="el-tb-edit mgt20" ref="multipleTable" tooltip-effect="dark" @selection-change="selectChange">
       <el-table-column type="selection" label="序号" width="50px" align="center">
       </el-table-column>
-      <el-table-column type="index" :index="indexMethod" label="序号" width="50px" align="center">
+      <el-table-column type="index" label="序号" width="50px" align="center">
       </el-table-column>
       <el-table-column prop="id" label="商品编号" align="center">
       </el-table-column>
@@ -53,7 +49,7 @@
     </el-table>
 
     <el-dialog title="新增" :visible.sync="addFormVisible" :close-on-click-modal="false">
-      <el-form :inline="true" :model="addForm" label-width="80px" :rules="addFormRules" ref="addForm">
+      <el-form :inline="true" :model="addForm" label-width="80px" ref="addForm">
 
         <el-form-item label="商品名称" prop="hfName">
           <el-input v-model="addForm.hfName" auto-complete="off"></el-input>
@@ -73,7 +69,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="addFormVisible = false">取消</el-button>
-        <el-button type="primary" @click="addSubmit" :loading="addLoading">提交</el-button>
+        <el-button type="primary" @click="addSubmit">提交</el-button>
       </div>
     </el-dialog>
   </div>
@@ -93,35 +89,22 @@
           lastModifier: '1', //最后修改者
           productDesc: '', //产品描述
         },
+        index: 0,
         addFormVisible: false,
         leiMu: '',
         value1: '',
         souhfName: '',
         tableData: [],
         leiMuId: '',
-        selectList: []
+        selectList: [],
+        addLoading: false
       }
     },
     methods: {
       // 编辑商品
       biangui: function(row) {
         var arr=JSON.stringify(row);
-        // this.$router.push('/formpage/'+encodeURIComponent(arr))
         this.$router.push({path: '/detail', query: {row: arr}})
-        // console.log(row.id);
-        // this.bianrow = row;
-        // console.log(this.bianrow )
-        // this.editFormVisible3 = true;
-        // let obj = {};
-        // obj = this.leiMu.find((item) => {
-
-        //   if (item.id== this.bianrow.categoryId) {
-        //     return item
-        //   }
-        // });
-        // console.log(obj)
-        // this.value4 = obj.hfName;
-
       },
       deletesingle: function(row) {
        this.$confirm("确认提交吗？", "提示", {}).then(() => {
@@ -174,18 +157,8 @@
               console.log(_this.addForm);
 
               let param = Object.assign({}, _this.addForm);
-              // api.addProduct(_this.addForm.bossId,_this.addForm.brandId,_this.addForm.categoryId,_this.addForm.hfName,
-              // _this.addForm.lastModifier,_this.addForm.productDesc).then(response => {
-              //   console.log('添加商品',response);
-              //     if (response.data.status === 200) {
-              //         _this.listProduct();
-              //     }
-              // });
-              this.$ajax({
-                method: "post",
-                url: "/api/product/addproduct",
-                params: param
-              }).then(res => {
+              api.addProduct(param)
+                .then(res => {console.log('ssss', res);
                 this.addLoading = false;
                 _this.listProduct();
                 this.$message({
@@ -195,11 +168,7 @@
                 this.addForm.hfName = '';
                 this.addForm.productDesc = '';
                 this.addFormVisible = false;
-                // this.$refs["addForm"].resetFields();
-
-                // this.getResult(1);
               });
-              // ===========
             });
           }
         });
