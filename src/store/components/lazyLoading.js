@@ -30,7 +30,14 @@ const dynamicRouter = [
       title: '系统首页'
     }
   },
-  
+  {
+    name: 'detail',
+    path: '/detail',
+    component: resolve => require(['@/components/product/detail.vue'], resolve),
+    meta: {
+      title: '系统首页'
+    }
+  },
   {
     name: 'hf-store',
     path: '/hf-store',

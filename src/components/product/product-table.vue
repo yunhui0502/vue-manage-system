@@ -1,26 +1,82 @@
 <template>
-  <el-table :data="tableData" size="mini" highlight-current-row border class="el-tb-edit mgt20" ref="multipleTable"
-    tooltip-effect="dark" v-loading="listLoading" @selection-change="selectChange">
-    <el-table-column type="selection" label="序号" width="50px" align="center">
-    </el-table-column>
-   <el-table-column type="index" :index="indexMethod" label="序号" width="50px" align="center">
-   </el-table-column>
-   <el-table-column prop="id" label="商品编号" align="center">
-   </el-table-column>
-    <el-table-column prop="productName" label="商品名称" align="center">
-    </el-table-column>
-    <el-table-column prop="productDesc" label="商品描述" align="center">
-    </el-table-column>
-    <el-table-column prop="productCategoryName" label="商品类目" align="center">
-    </el-table-column>
-    <el-table-column fixed="right" label="操作" width="260">
-      <template slot-scope="scope">
-        <!-- <el-button type="primary" plain size="small" @click="addgui(scope.row)" style="margin-bottom: 10px;">查看规格</el-button> -->
-        <el-button type="primary" plain size="small" @click="biangui(scope.row)" style="margin-bottom: 10px;">修改规格</el-button>
-         <el-button type="danger" plain size="small" @click="deletesingle(scope.row)">删除</el-button>
-      </template>
-    </el-table-column>
-  </el-table>
+  <div>
+
+    <div class="handle-box " style="background: #fff;width: 94%;height: 70px;padding:30px 3%  10px 3%;">
+      <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
+        <el-form :inline="true" :model="filters">
+          <el-form-item style="margin-bottom:50px;" label="商品名称:">
+            <el-input v-model="souhfName" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item style="margin-bottom:50px;margin-left: 5px;" label="商品分类：">
+            <!--<el-input v-model="filters.job"  placeholder="岗位" style="width:200px; heght:30px;" size="mini"></el-input>-->
+            <el-select v-model="value1" placeholder="请选择" @change="checkMulist">
+              <el-option v-for="(item,index) in leiMu" :key="index" :label="item.hfName" :value="item.hfName">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-button type="primary" @click="sou" :loading="addLoading">搜索</el-button>
+        </el-form>
+      </el-col>
+    </div>
+    <!--新增按钮-->
+    <div style="margin-top: 20px;margin-left: 20px;">
+      <el-button type="success" icon="el-icon-circle-plus-outline" @click="handleAdd" size="mini" round>新增</el-button>
+      <el-button type="danger" icon="el-icon-delete" @click="deletegood" size="mini" round>删除</el-button>
+      <!-- <el-button type="success" @click="addMu" size="mini" round>添加分类</el-button> -->
+    </div>
+
+
+
+    <el-table :data="tableData" size="mini" highlight-current-row border class="el-tb-edit mgt20" ref="multipleTable"
+      tooltip-effect="dark" v-loading="listLoading" @selection-change="selectChange">
+      <el-table-column type="selection" label="序号" width="50px" align="center">
+      </el-table-column>
+      <el-table-column type="index" :index="indexMethod" label="序号" width="50px" align="center">
+      </el-table-column>
+      <el-table-column prop="id" label="商品编号" align="center">
+      </el-table-column>
+      <el-table-column prop="productName" label="商品名称" align="center">
+      </el-table-column>
+      <el-table-column prop="productDesc" label="商品描述" align="center">
+      </el-table-column>
+      <!-- <el-table-column prop="productDesc" label="商品描述" align="center">
+    </el-table-column> -->
+      <el-table-column prop="productCategoryName" label="商品类目" align="center">
+      </el-table-column>
+      <el-table-column fixed="right" label="操作" width="260">
+        <template slot-scope="scope">
+          <!-- <el-button type="primary" plain size="small" @click="addgui(scope.row)" style="margin-bottom: 10px;">查看规格</el-button> -->
+          <el-button type="primary" plain size="small" @click="biangui(scope.row)" style="margin-bottom: 10px;">修改规格</el-button>
+          <el-button type="danger" plain size="small" @click="deletesingle(scope.row)">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+
+    <el-dialog title="新增" :visible.sync="addFormVisible" :close-on-click-modal="false">
+      <el-form :inline="true" :model="addForm" label-width="80px" :rules="addFormRules" ref="addForm">
+
+        <el-form-item label="商品名称" prop="hfName">
+          <el-input v-model="addForm.hfName" auto-complete="off"></el-input>
+        </el-form-item>
+        <br>
+        <el-form-item label="商品分类" prop="value">
+          <el-select v-model="addForm.value" placeholder="请选择" @change="changeQuentitySubject(index)">
+            <el-option v-for="(item,index) in leiMu" :key="index" :label="item.hfName" :value="item.hfName">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <br>
+        <el-form-item label="商品描述" prop="productDesc">
+          <el-input v-model="addForm.productDesc" auto-complete="off" type="textarea" style="width:550px;" resize="none"></el-input>
+        </el-form-item>
+        <br>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="addFormVisible = false">取消</el-button>
+        <el-button type="primary" @click="addSubmit" :loading="addLoading">提交</el-button>
+      </div>
+    </el-dialog>
+  </div>
 </template>
 
 <script>
@@ -29,13 +85,185 @@
     name: 'productTable',
     data() {
       return {
-         tableData: [],
+        addForm: {
+          bossId: '1', //商家id
+          brandId: '1', //品牌id
+          categoryId: '', //类目
+          hfName: '', //商品名称
+          lastModifier: '1', //最后修改者
+          productDesc: '', //产品描述
+        },
+        addFormVisible: false,
+        leiMu: '',
+        value1: '',
+        souhfName: '',
+        tableData: [],
+        leiMuId: '',
+        selectList: []
       }
     },
     methods: {
+      // 编辑商品
+      biangui: function(row) {
+        var arr=JSON.stringify(row);
+        // this.$router.push('/formpage/'+encodeURIComponent(arr))
+        this.$router.push({path: '/detail', query: {row: arr}})
+        // console.log(row.id);
+        // this.bianrow = row;
+        // console.log(this.bianrow )
+        // this.editFormVisible3 = true;
+        // let obj = {};
+        // obj = this.leiMu.find((item) => {
+
+        //   if (item.id== this.bianrow.categoryId) {
+        //     return item
+        //   }
+        // });
+        // console.log(obj)
+        // this.value4 = obj.hfName;
+
+      },
+      deletesingle: function(row) {
+       this.$confirm("确认提交吗？", "提示", {}).then(() => {
+         var _this = this;
+         api.singledeleteProduct(row.id).then(response => {
+           console.log(response);
+           if (response.data.status === 200) {
+             _this.listProduct();
+           }
+         });
+       });
+      },
+      selectChange: function(val) {
+        console.log(val)
+        this.selectList = val;
+      },
+      //删除商品
+      deletegood: function(row) {
+        let delarr = [];
+        const length = this.selectList.length;
+        for (let i = 0; i < length; i++) {
+
+          delarr.push(this.selectList[i].id)
+
+        }
+
+        console.log(delarr);
+        var _this = this;
+        this.$confirm("确认提交吗？", "提示", {}).then(() => {
+          api.deleteProduct(delarr.toString()).then(response => {
+            console.log(response);
+            if (response.data.status === 200) {
+              _this.listProduct();
+            }
+          });
+
+        })
+
+      },
+      // 添加商品
+      addSubmit: function() {
+        // console.log(this.value)
+        var _this = this;
+
+        this.$refs.addForm.validate(valid => {
+          if (valid) {
+            this.$confirm("确认提交吗？", "提示", {}).then(() => {
+              // this.addLoading = true;
+              // ============
+              console.log(_this.addForm);
+
+              let param = Object.assign({}, _this.addForm);
+              // api.addProduct(_this.addForm.bossId,_this.addForm.brandId,_this.addForm.categoryId,_this.addForm.hfName,
+              // _this.addForm.lastModifier,_this.addForm.productDesc).then(response => {
+              //   console.log('添加商品',response);
+              //     if (response.data.status === 200) {
+              //         _this.listProduct();
+              //     }
+              // });
+              this.$ajax({
+                method: "post",
+                url: "/api/product/addproduct",
+                params: param
+              }).then(res => {
+                this.addLoading = false;
+                _this.listProduct();
+                this.$message({
+                  message: "提交成功",
+                  type: "success"
+                });
+                this.addForm.hfName = '';
+                this.addForm.productDesc = '';
+                this.addFormVisible = false;
+                // this.$refs["addForm"].resetFields();
+
+                // this.getResult(1);
+              });
+              // ===========
+            });
+          }
+        });
+      },
+      changeQuentitySubject: function() {
+        let obj = {};
+        obj = this.leiMu.find((item) => { //这里的selectList就是上面遍历的数据源
+          //筛选出匹配数据
+          if (item.hfName == this.addForm.value) {
+            return item
+          }
+        });
+        this.addForm.categoryId = obj.id;
+
+
+      },
+      sou: function() {
+        var _this = this;
+        console.log(_this.souhfName)
+        api.search(1, _this.leiMuId, _this.souhfName).then(response => {
+          console.log(response);
+          if (response.data.status === 200) {
+            _this.tableData = response.data.data;;
+          }
+        });
+      },
+      // 查询类目
+      checkType: function(val) {
+        var _this = this;
+        api.category().then(response => {
+          console.log(response);
+          if (response.status == 200) {
+            if (response.data.status === 200) {
+
+              _this.leiMu = response.data.data;
+            }
+          }
+
+        });
+
+      },
+      // 通过类目查询商品列表
+      checkMulist: function() {
+        let obj = {};
+        obj = this.leiMu.find((item) => {
+          //这里的selectList就是上面遍历的数据源
+          //筛选出匹配数据
+          if (item.hfName == this.value1) {
+            return item
+          }
+        });
+
+        this.leiMuId = obj.id;
+        console.log(this.leiMuId)
+
+      },
+      //显示新增界面
+      handleAdd: function() {
+        this.addFormVisible = true;
+      },
       TellMeId(num) {
         console.log(num)
       },
+      // 获取商品列表
       listProduct() {
         api.getProductList(1).then(response => {
           console.log(response);
@@ -47,9 +275,10 @@
 
         });
       },
- 
+
       init() {
         this.listProduct();
+        this.checkType();
       }
     },
     mounted() {
