@@ -1,19 +1,29 @@
+
 <template>
-  <div class="table">
+  <div>
+    <v-head></v-head>
+    <v-sidebar></v-sidebar>
+    <div class="content-box" :class="{'content-collapse':collapse}">
+    <div>
     <!-- 页面标题end-->
     <div style="background: #f0f0f0;">
       <el-form style="background: #fff;padding: 20px;padding-top: 30px;" :inline="true" :model="editRow" label-width="80px"
         :rules="bianaddFormRules" ref="bianinfoForms">
         <el-form-item label="店铺名称" prop="hfName">
-          <el-input v-model="editRow.hfName" auto-complete="off"></el-input>
+          <el-input v-model="editRow.hfName" auto-complete="off" disabled="true"></el-input>
         </el-form-item>
-        <el-form-item label="店铺描述" prop="hfDesc" label-width="150px">
-          <el-input v-model="editRow.hfDesc" auto-complete="off"></el-input>
+        <br>
+        <el-form-item label="店铺描述" prop="hfDesc" >
+          <el-input v-model="editRow.hfDesc" auto-complete="off" type="textarea" resize="none"  style="width:550px;"></el-input>
         </el-form-item>
-        <el-form-item label="店铺状态 (输入0为营业状态/1未营业状态)" prop="hfStatus" label-width="300px">
-          <el-input v-model="editRow.hfStatus" auto-complete="off"></el-input>
+        <br>
+        <el-form-item label="店铺状态" prop="hfStatus">
+            <el-radio v-model="editRow.hfStatus" label="1">营业</el-radio>
+            <el-radio v-model="editRow.hfStatus" label="2">未营业</el-radio>
+          <!-- <el-input v-model="editRow.hfStatus" auto-complete="off"></el-input> -->
         </el-form-item>
-        <el-button type="primary" @click="bianSubmit" :loading="addLoading">新增店铺</el-button>
+        <br>
+        <el-button style="margin-left: 20px;" type="primary" @click="bianSubmit" :loading="addLoading">提交</el-button>
       </el-form>
 
       <!-- 页面内容区begin -->
@@ -79,10 +89,11 @@
               <el-form-item label="物品名称" prop="hfName">
                 <el-input v-model="editRow.hfName" auto-complete="off" disabled="true"></el-input>
               </el-form-item>
-              <el-form-item label="物品描述" prop="hfDesc">
+              <br>
+              <el-form-item label="物品描述" prop="goodsDesc">
                 <div style="display: flex;align-items: center;">
-                  <el-input v-model="editRow.hfDesc" auto-complete="off"></el-input>
-                  <div style="margin-left: 13px; border-radius: 2px; color: #fff; background-color: #00D1B2;
+                  <el-input v-model="editRow.goodsDesc" auto-complete="off"  type="textarea" resize="none" style="width: 400px;"></el-input>
+                  <div @click="bianjiSubmit"  style="margin-left: 13px; border-radius: 2px; color: #fff; background-color: #00D1B2;
                   justify-content: center;width: 60px;height: 30px;  display: flex;align-items: center;">提交</div>
                 </div>
               </el-form-item>
@@ -116,9 +127,9 @@
                <div style="width: 100%;height: 1px;border-bottom: 1px solid #E4E4E4;margin-top: 20px;"></div>
               <br>
 <div style="font-size: 17px;margin-bottom: 30px;">价格信息</div>
-              <el-form-item label="价格" prop="hfPrice">
+              <el-form-item label="售卖价格" prop="hfPrice" >
                 <div style="display: flex;align-items: center;">
-                  <el-input v-model="hfPrice" auto-complete="off"></el-input>
+                  <el-input v-model="hfPrice" auto-complete="off" placeholder="以分为单位"></el-input>
                   <div @click="setPrice" style="margin-left: 13px; border-radius: 2px; color: #fff; background-color: #00D1B2; justify-content: center; width: 23px;height: 23px; display: flex;align-items: center;">+</div>
                 </div>
               </el-form-item>
@@ -161,7 +172,7 @@
                 <template slot-scope="scope">
                   <!-- <el-button type="primary" plain size="small" @click="addgui(scope.row)" style="margin-bottom: 10px;">查看规格</el-button> -->
                   <el-button type="primary" plain size="small" @click="biangui(scope.row)" style="margin-bottom: 10px;">编辑</el-button>
-                  <el-button type="danger" plain size="small" @click="deletegui(scope.row)">删除</el-button>
+                  <el-button type="danger" plain size="small" @click="deletegui(scope.row)" >删除</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -186,15 +197,15 @@
               <!--   <el-table-column prop="specValue" label="规格" align="center">
             </el-table-column> -->
 
-              <el-table-column label="物品图片" align="center">
+              <!-- <el-table-column label="物品图片" align="center">
                 <template slot-scope="scope">
                   　　　　<img src="https://img2018.cnblogs.com/blog/1170749/201810/1170749-20181011114946113-918123992.png"
                     width="40" height="40" class="head_pic" />
                   　　</template>
-              </el-table-column>
+              </el-table-column> -->
               <el-table-column label="操作" align="center" width="270px">
                 <template slot-scope="scope">
-                  <el-button size="small" @click="deletegoods(scope.row)">删除</el-button>
+                  <el-button size="small" @click="deletegoods(scope.row)" type="danger">删除</el-button>
                   <el-button size="small" @click="bianji(scope.row)">编辑</el-button>
                   <el-button size="small" @click="upLoadPic(scope.row)">上传图片</el-button>
                 </template>
@@ -202,6 +213,10 @@
             </el-table>
 
           </template>
+          <!--分页条total, sizes, prev, pager, next, jumper-->
+          <el-pagination @size-change="handleSizeChange" @current-change="getResult" :current-page="currentPage"
+            :page-size="pageSize" layout="total, prev, pager, next" :total="roletotal">
+          </el-pagination>
         </div>
 
       </div>
@@ -222,17 +237,21 @@
       </div>
     </el-dialog>
   </div>
+  </div>
+    </div>
   <!-- 页面表格end -->
 </template>
 <script>
+  import vSidebar from '@/components/common/sidebar.vue';
+  import vHead from '@/components/common/header.vue';
+  // import goodsTable from './goods-table';
+  // import hfStoneTable from './hf-stone-table';
+  // import hfStone from './hf-store';
   const cityOptions = ['上海', '北京', '广州', '深圳'];
   export default {
     data() {
       return {
-        dialogVisible: true,
-        
-        dialogImageUrl: '',
-        guigelist: '',
+         guigelist: '',
         kuid:'',
         tableDataku:'',
         hfPrice:'',
@@ -333,18 +352,10 @@
 
       }
     },
-
+ components: {
+      vHead, vSidebar
+    },
     methods: {
-      selectChange: function() {
-        console.log("dddddddddddddd");
-      },
-      editLoading: function() {
-        console.log("editLoading");
-        return true;
-      },
-      add:()=>{
-        
-      },
       // 查看规格
       checkguige: function(row) {
 
@@ -365,7 +376,7 @@
         // this.$refs.bianinfoForms.validate(valid => {
         //   if (valid) {
         // this.$confirm("确认添加吗？", "提示", {}).then(() => {
-          this.addLoading = true;
+          // this.addLoading = true;
           let obj = {};
           obj = this.tableDataku.find((item) => { //这里的selectList就是上面遍历的数据源
             //筛选出匹配数据
@@ -378,14 +389,15 @@
           }
 
           this.kuid = obj.id;
-          let  goodsId =this.bianrow.productId;
-          console.log(goodsId, this.kuid);
+          let  goodsId =this.bianrow.id;
+          var _this=this;
+          console.log(goodsId, this.kuid,_this.quantity);
           this.$ajax({
             method: "post",
             url: "/api/goods/setGoodsQuantity",
             params:{
-               wareHouseId :this.kuid,
-              quantity :this.quantity,
+              wareHouseId :_this.kuid,
+              quantity :_this.quantity,
               hfGoodsId  :goodsId,
               requestId:1,
               timestamp:1,
@@ -396,7 +408,7 @@
             console.log('添加物品规格', res);
 
             // this.editFormVisible1 = false;
-            this.$message({
+            _this.$message({
               message: "提交成功",
               type: "success"
             });
@@ -404,7 +416,7 @@
             //   path: 'sysResource'
             // })
           }).catch(res => {
-            this.$message({
+            _this.$message({
               message: "提交失败",
 
             });
@@ -445,7 +457,7 @@
         // this.$confirm("确认添加吗？", "提示", {}).then(() => {
           this.addLoading = true;
 
-          let  goodsId =this.bianrow.productId;
+          let  goodsId =this.bianrow.id;
           console.log(this.hfPrice,goodsId);
           this.$ajax({
             method: "post",
@@ -488,7 +500,7 @@
           if(this.hfPrice==''){
             return;
             }
-          let  goodsId =this.bianrow.productId;
+          let  goodsId =this.bianrow.id;
           console.log(this.hfPrice,goodsId);
           this.$ajax({
             method: "post",
@@ -682,17 +694,19 @@
         // this.value4 = row.productCategoryName;
 
         var _this=this;
-        console.log(this.bianrow.productId)
+        console.log("物品id",this.bianrow.productId);
         this.$ajax({
           method: "get",
           url: "/api/goods/byGoodsId",
           params: {
-            goodsId: this.bianrow.productId
+            goodsId: _this.bianrow.id
           }
         }).then(
           function(resultData) {
             console.log('查询物品详情', resultData);
             // _this.cities=resultData.data.data;
+           _this.hfPrice= resultData.data.data.sellPrice;
+            _this.quantity= resultData.data.data.sellPrice;
             //  _this.checkedCities=resultData.data.data;
             // console.log(_this.cities);
             // _this.leiMu = resultData.data.data;
@@ -840,18 +854,135 @@
       indexMethod(index) {
         return index;
       },
+      //获取角色列表
+      getResult: function(val) {
+
+        var _this = this;
+        this.listLoading = true;
+        let param = Object.assign({}, {
+          currentPage: val,
+          pageSize: 10,
+          roleName: this.s_rolename,
+          roleCode: this.s_rolecode
+        });
+        this.$ajax({
+          method: "post",
+          url: "/api/sysrole-api/querySysRoleList",
+          data: param
+        }).then(
+          function(resultData) {
+
+            _this.tableData = resultData.data.data;
+            _this.roletotal = resultData.data.count;
+            _this.listLoading = false;
+          },
+          function(resultData) {
+            // _this.tableData.message = "Local Reeuest Error!";
+            //console.log(resultData);
+          }
+        );
+
+      },
       handleSizeChange(val) {
         this.pageSize = val;
+        this.getResult(1);
+
       },
+      getresourceData() {
+        var _this = this;
+        //this.listLoading = true;
+
+        let param = Object.assign({}, {});
+        this.$ajax({
+          method: "post",
+          url: "/api/sysResource_api/getSysResourceList",
+          data: param
+        }).then(
+          function(resultData) {
+            _this.treeData = resultData.data.data;
+            // console.log(JSON.stringify(_this.treeData));
+
+          },
+          function(resultData) {
+            // _this.tableData.message = "Local Reeuest Error!";
+            //console.log(resultData);
+          }
+        );
+      },
+      clickRow: function(row) {
+        var _this = this;
+        _this.roleuserSelect = [];
+        _this.curentroleid = row.id;
+        _this.curentrow = row;
+        let param = Object.assign({}, {
+          roleId: _this.curentroleid
+        });
+        this.$ajax({
+          method: "post",
+          url: "/api/sysAcl-api/getSysAclList",
+          data: param
+        }).then(
+          function(resultData) {
+            let list = [];
+
+            resultData.data.data.forEach(item => {
+              list.push(item.resoureId);
+            });
+            //alert(list);
+            console.log(JSON.stringify(list))
+            _this.$refs.tree.setCheckedKeys(list);
+
+          },
+          function(resultData) {
+            // _this.tableData.message = "Local Reeuest Error!";
+            //console.log(resultData);
+          }
+        );
+
+
+      },
+
+      saveRoleacl: function() {
+        var _this = this;
+        if (this.curentroleid == "") {
+          alert("请选择要添加的角色，单击选择行。");
+        }
+        var sellist = this.$refs.tree.getCheckedKeys();
+        //    var treeNodes = this.$refs.tree.getCheckedNodes(true);
+        //    for(var i = 0; i < treeNodes.length; i++) {
+        //    if(sellist.indexOf(treeNodes[i].parentId)<0){
+        //     sellist.push(treeNodes[i].parentId);
+        //    }
+        //    }
+        var roleid = this.curentroleid;
+        if (sellist.length > 0) {
+
+          this.listLoading = true;
+          let param = Object.assign({}, {
+            id: 0,
+            roleId: roleid,
+            resourceids: sellist
+          });
+          this.$ajax({
+            method: "post",
+            url: "/api/sysAcl-api/insertSysAcl",
+            data: param
+          }).then(
+            function(resultData) {
+              alert(resultData.data.message);
+              _this.clickRow(_this.curentrow);
+
+            }
+          );
+        }
+
+      }
+
     },
     mounted() {
       //获取列表
       var list = decodeURIComponent(this.$route.query.row);
-      if (list == undefined) {
-        this.editRow = {}  
-      } else {
-        this.editRow = JSON.parse(list);
-      }
+      this.editRow = JSON.parse(list);
       this.ruletable.stoneId = this.$route.query.id;
       this.addWu.hfStoreId = this.$route.query.id;
       this.checkType();

@@ -3,9 +3,11 @@
   <v-head></v-head>
   <v-sidebar></v-sidebar>
   <div class="content-box" :class="{'content-collapse':collapse}">
-    <div>dddccccccccccccccccccccccccccccccccccccccccccccccc</div>
-    <!-- <hf-stone></hf-stone> -->
-    <el-row :gutter="20">
+  <hfStoneTable></hfStoneTable>
+
+
+
+  <!-- <el-row :gutter="20">
         <el-col :span="6">
           <h3>店铺列表</h3>
           <div>当前选中的商铺 {{this.selectedStone}}</div>
@@ -15,7 +17,7 @@
           <h3>店铺内的物品列表</h3>
           <goodsTable v-bind:selected-stone="selectedStone"></goodsTable>
         </el-col>
-    </el-row>
+    </el-row> -->
   </div>
 </div>
 </template>
@@ -28,7 +30,7 @@ import hfStoneTable from './hf-stone-table';
 import hfStone from './hf-store';
 export default {
   name: 'store',
-  components: { 
+  components: {
     vHead, vSidebar, hfStone, goodsTable, hfStoneTable
   },
   data() {
@@ -44,3 +46,9 @@ export default {
   }
 }
 </script>
+<style>
+  *{
+    margin: 0;
+    padding: 0;
+    }
+</style>

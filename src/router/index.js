@@ -17,6 +17,14 @@ const router = new VueRouter({
       }
     },
     {
+      name: 'hf-store',
+      path: '/hf-store',
+      component: resolve => require(['@/components/hf-store/hf-store.vue'], resolve),
+      meta: {
+        title: '系统首页'
+      }
+    },
+    {
       path: '/store',
       component: resolve => require(['@/components/hf-store/index.vue'], resolve),
       meta: {
