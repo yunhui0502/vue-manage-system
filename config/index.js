@@ -11,7 +11,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target:'http://localhost:9095',//王博朋
+        target:'http://192.168.1.90:8082',//王博朋
         //  target:'http://192.168.1.233:9095',//小方
         // target: 'http://101ycy.com:10001',
         // target: 'http://47.105.72.216/product:2181',

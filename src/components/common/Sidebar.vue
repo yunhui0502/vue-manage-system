@@ -52,6 +52,10 @@
                                 index: 'warehouse',
                                 title: '仓库管理'
                             },
+                            {
+                                index: 'hf-user',
+                                title: '登陆中心'
+                            },
                         ]
                     },
                     {

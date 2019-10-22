@@ -1,25 +1,103 @@
 <template>
-<div class="wrapper">
-  <v-head></v-head>
-  <v-sidebar></v-sidebar>
-  <div class="content-box" :class="{'content-collapse':collapse}">
-    <div>实现用户管理功能, 比如用户信息修改</div>
+  <div>
+    <div class="login">
+      <div class="login2">系 统 登 陆</div>
+      <div>
+        <input type="text" placeholder="账号" />
+        <input type="text" placeholder="密码" />
+      </div>
+      <div class="btn" @click="login()">登录</div>
+    </div>
   </div>
-</div>
 </template>
 
+<style>
+  .btn {
+    width: 80%;
+    height: 30px;
+    background: #20A0FF;
+    margin: 0 auto;
+    margin: 0 auto;
+    text-align: center;
+    line-height: 30px;
+    color: #ffffff;
+    margin-top: 30px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+  .login {
+    width: 400px;
+    height: 250px;
+    border: 1px solid #cccccc;
+    margin: 0 auto;
+    margin-top: 230px;
+  }
+
+  .login2 {
+    margin-left: 150px;
+    margin-top: 30px;
+    font-weight: bold;
+  }
+
+  input {
+    width: 80%;
+    height: 30px;
+    margin: 0 auto;
+    display: block;
+    margin-top: 20px;
+    text-indent: 5px;
+  }
+</style>
+
 <script>
-import vSidebar from '@/components/common/sidebar.vue';
-import vHead from '@/components/common/header.vue';
+import axios from 'axios';
+import {
+  mapGetters
+} from 'vuex';
 export default {
-  name: 'store',
-  components: { 
-    vHead, vSidebar
+  name: 'testIndex',
+  methods: {
+    handleUpload(raw) {
+      this.files.push(raw.file);
+    },
+ handlePush() {
+      axios.post('/api/user/login', fd, { responseType: 'arraybuffer' }).then(res => {
+        console.log(res);
+      });
+    },
+    login() {
+      axios.get('/api/user/login', {
+        data: {
+        params:{
+          authType:"2",
+          authKey: "1",
+          passwd: "12313131312",
+          token: "1"
+        }
+        },
+
+      }).then(res => {
+        console.log(res);
+
+      }).then(data => {
+
+      });
+    }
+  },
+  computed: {
+    ...mapGetters(['taxno', 'username'])
   },
   data() {
     return {
-      collapse: false
+      files: [],
+      fileIds: []
     }
+  },
+  init() {
+    Vue.component('element-block', {
+      template: '<div>子组件</div>'
+    });
   }
 }
 </script>
