@@ -11,33 +11,25 @@ function getProductList(Id) {
 }
 // 获取类目
 function category() {
-  // let params ={params: {bossId:Id}}
   return Axios.get("/api/product/category");
 }
 // 编辑商品
-function bianProduct() {
-  let params ={params:{
-              brandId: 1,
-              categoryId: 1,
-              createTime: "2019-10-20T23:56:02",
-              id: 57,
-              isDeleted: 0,
-              lastModifier: "1",
-              modifyTime: "2019-10-22T08:44:38",
-              productCategoryName: "出行类",
-              productDesc: "1",
-              productName: "2"
-  }}
-  return Axios.post("/api/product/updateProductId", params);
+function bianProduct(params) {
+  let fd = new FormData();
+  fd.append('id', params.id);
+  fd.append('productDesc', params.productDesc);
+  return Axios.post("/api/product/updateProductId", fd, { responseType: 'arraybuffer' });
 }
 
 // 添加商品
-// http://192.168.1.233:9095/product/addproduct?hfName=衣服1&categoryId=1&brandId=1&productDesc=代步&bossId=1&lastModifier=swd
 function addProduct(params) {
   let fd = new FormData();
-  fd.append('bossId', 1);
+  fd.append('bossId', params.bossId);
   fd.append('brandId', params.brandId);
   fd.append('hfName', params.hfName);
+  fd.append('categoryId', params.categoryId);
+  fd.append('productDesc', params.productDesc);
+  // fd.append('hfName', params.hfName);
   return Axios.post("/api/product/addproduct", fd, { responseType: 'arraybuffer' });
 }
 
@@ -55,7 +47,6 @@ function search(id, cateId, name) {
 }
 // 删除商品
 function deleteProduct(id) {
-
   let params = {
     params: {
       productId:id
@@ -64,13 +55,21 @@ function deleteProduct(id) {
   return Axios.get("/api/product/deleteSelectProductId", params);
 }
 function singledeleteProduct(id) {
-
   let params = {
     params: {
       productId:id
     }
   }
   return Axios.get("/api/product/deleteProductId", params);
+}
+// 删除规格
+function deleteSpec(id) {
+  let params = {
+    params: {
+      productSpecId:id
+    }
+  }
+  return Axios.get("/api/product/deleteSpecifies", params);
 }
 // =====================店铺模块
 // 获取店铺列表
@@ -82,6 +81,82 @@ function getStoreList(Id) {
   }
   return Axios.get("/api/stone/byBossId", params);
 }
+// 新增店铺
+function addStore(params) {
+   let fd = new FormData();
+  fd.append('hfName', params.hfName);
+  fd.append('stoneDesc', params.stoneDesc);
+  fd.append('stoneStatus', params.stoneStatus);
+  fd.append('stoneManagerId', params.stoneManagerId);
+  fd.append('stoneManagerId', params.stoneManagerId);
+  // fd.append('hfName', params.hfName);
+  return Axios.post("/api/stone/addStone", fd, { responseType: 'arraybuffer' });;
+}
+// 修改店铺
+function updateStore(params) {
+  let fd = new FormData();
+  fd.append('bossId', params.bossId);
+  fd.append('stoneId', params.id);
+  fd.append('hfDesc', params.hfDesc);
+  fd.append('hfStatus', params.hfStatus);
+
+  // fd.append('hfName', params.hfName);
+  return Axios.post("/api/stone/updateStone", fd, { responseType: 'arraybuffer' });;
+}
+// 删除店铺
+function deleteStore(id) {
+  let params = {
+    params: {
+       stoneId:id
+    }
+  }
+  return Axios.get("/api/stone/deleteStone", params);
+}
+// =====================物品模块
+// 获取物品
+function getGood(id) {
+  let params = {
+    params: {
+      stoneId:id
+    }
+  }
+  return Axios.get("/api/product/byStoneId", params);
+}
+// 删除物品
+function deleteGood(id) {
+  let params = {
+    params: {
+      hfGoodsId:id
+    }
+  }
+  return Axios.get("/api/product/deleteGood", params);
+}
+
+// 编辑物品
+function updateGood(params) {
+  let fd = new FormData();
+  fd.append('goodsDesc', params.goodsDesc);
+  fd.append('id', params.id);
+  return Axios.post("/api/goods/updategood", fd, { responseType: 'arraybuffer' });;
+}
+// 上传图片
+// function loadPic(params) {
+//   let fd = new FormData();
+//   fd.append('goodsDesc', params.goodsDesc);
+//   fd.append('id', params.id);
+//   return Axios.post("/api/goods/updategood", fd, { responseType: 'arraybuffer' });;
+// }
+//=====================仓库模块
+//查询仓库
+function checkWarehouse(id) {
+  let params = {
+    params: {
+       bossId:id
+    }
+  }
+  return Axios.get("/api/wareHouse/listWareHouse", params);
+}
+
 
 export default {
   getProductList: getProductList,
@@ -91,5 +166,13 @@ export default {
   addProduct: addProduct,
   deleteProduct:deleteProduct,
   singledeleteProduct:singledeleteProduct,
-  bianProduct:bianProduct
+  bianProduct:bianProduct,
+  addStore:addStore,
+  deleteStore:deleteStore,
+  updateStore:updateStore,
+  updateGood:updateGood,
+  getGood:getGood,
+  checkWarehouse:checkWarehouse,
+  deleteSpec:deleteSpec,
+  deleteGood:deleteGood
 }
