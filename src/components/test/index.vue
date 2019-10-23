@@ -5,6 +5,19 @@
   </div>
   <div>
     <div>详情页</div>
+<el-dialog title="上传图片"  :visible.sync="picOpen" :close-on-click-modal="false">
+          <el-upload list-type="picture-card" ref="fileUpload"  action="" :on-preview="handlePictureCardPreview" :on-remove="handleRemove" :auto-upload="false">
+            <i class="el-icon-plus"></i>
+          </el-upload>
+          <el-dialog :visible.sync="dialogVisible">
+            <img width="100%" :src="dialogImageUrl" alt="">
+          </el-dialog>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="picOpen = false">取消</el-button>
+            <el-button type="primary" :loading="editLoading" @click="handleUpload">提交</el-button>
+          </div>
+        </el-dialog>
+      
     <div>
       <el-form>
         <el-form-item label="上传banner" prop="logo"> <span>支持扩展名：.png \ .jpg \ .jpeg；文件大小为：1920*676 px</span>
@@ -62,7 +75,8 @@ export default {
   data() {
     return {
       files: [],
-      fileIds: []
+      fileIds: [],
+      picOpen: true
     }
   },
   init() {
