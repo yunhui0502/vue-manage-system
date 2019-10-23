@@ -54,7 +54,7 @@
                             },
                             {
                                 index: 'hf-user',
-                                title: '登陆中心'
+                                title: '用户中心'
                             },
                         ]
                     },

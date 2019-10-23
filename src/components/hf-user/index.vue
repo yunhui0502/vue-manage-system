@@ -3,8 +3,8 @@
     <div class="login">
       <div class="login2">系 统 登 陆</div>
       <div>
-        <input type="text" placeholder="账号" />
-        <input type="text" placeholder="密码" />
+        <input type="text" placeholder="账号"/>
+        <input type="text" placeholder="密码"/>
       </div>
       <div class="btn" @click="login()">登录</div>
     </div>
@@ -47,6 +47,7 @@
     display: block;
     margin-top: 20px;
     text-indent: 5px;
+    /* border-radius:0.1px; */
   }
 </style>
 
@@ -69,12 +70,10 @@ export default {
     login() {
       axios.get('/api/user/login', {
         data: {
-        params:{
           authType:"2",
           authKey: "1",
           passwd: "12313131312",
           token: "1"
-        }
         },
 
       }).then(res => {
