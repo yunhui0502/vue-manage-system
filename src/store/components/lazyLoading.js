@@ -31,6 +31,14 @@ const dynamicRouter = [
     }
   },
   {
+    name: 'hf-user',
+    path: '/hf-user',
+    component: resolve => require(['@/components/hf-user/login.vue'], resolve),
+    meta: {
+      title: '用户登录'
+    }
+  },
+  {
     name: 'detail',
     path: '/detail',
     component: resolve => require(['@/components/product/detail.vue'], resolve),
