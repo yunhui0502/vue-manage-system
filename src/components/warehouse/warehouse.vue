@@ -1,18 +1,15 @@
 <template>
   <div class="table">
     <!-- 页面标题end-->
+    <div class="clearfix" style="margin-top: 40px; margin-left: 10px;margin-bottom: 20px;" >
+      <el-col :span="1" class="grid">
+        <el-button type="success" icon="el-icon-circle-plus-outline" @click="handleAdd" size="mini" round>新增仓库</el-button>
+      </el-col>
+    </div>
     <div class="container">
       <!-- 页面内容区begin -->
       <div id="app">
-
         <div style=" width:50%;float:left;">
-
-          <div class="clearfix">
-            <el-col :span="1" class="grid">
-              <el-button type="success" icon="el-icon-circle-plus-outline" @click="handleAdd" size="mini" round>新增仓库</el-button>
-            </el-col>
-          </div>
-
           <!--表格数据及操作-->
           <el-table :data="tableData" class="mgt20" border style="width: 100%" stripe ref="multipleTable"
             tooltip-effect="dark">
@@ -24,7 +21,8 @@
             </el-table-column>
             <el-table-column prop="hfRegion" label="仓库位置" align="center">
             </el-table-column>
-
+            <el-table-column prop="createTime" label="创建时间" align="center">
+            </el-table-column>
 
             <el-table-column label="操作" align="center">
               <template slot-scope="scope">
@@ -32,7 +30,7 @@
                  <el-button type="danger" icon="el-icon-delete" @click="delRole(scope.row)" size="mini">删除</el-button>
               </template>
             </el-table-column>
-            
+
           </el-table>
           <br>
           <br>
@@ -67,7 +65,7 @@
               <el-form-item label="仓库名称" prop="hfName">
                 <el-input v-model="editRow.hfName" auto-complete="off" style="width:400px;"></el-input>
               </el-form-item>
-              <el-form-item label="角色位置" prop="hfRegion">
+              <el-form-item label="仓库位置" prop="hfRegion">
                 <el-input v-model="editRow.hfRegion" auto-complete="off" style="width:400px;"></el-input>
               </el-form-item>
 
