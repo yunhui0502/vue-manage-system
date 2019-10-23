@@ -4,9 +4,6 @@
   <v-sidebar></v-sidebar>
   <div class="content-box" :class="{'content-collapse':collapse}">
     <productTable></productTable>
-    <!-- <productv1></productv1> -->
-    <!-- <product></product> -->
-    
   </div>
 </div>
 </template>
@@ -19,7 +16,7 @@ import productv1 from './productv1.vue';
 import productTable from './product-table';
 export default {
   name: 'store',
-  components: { 
+  components: {
     vHead, vSidebar, product, productv1, productTable
   },
   data() {
