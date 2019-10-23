@@ -34,12 +34,12 @@
                     {
                         icon: 'el-icon-setting',
                         index: 'test',
-                        title: 'sdfasd',
+                        title: '商品管理',
                         subs: [
-                            {
-                                index: 'goods',
-                                title: '物品管理'
-                            },
+                            // {
+                            //     index: 'goods',
+                            //     title: '物品管理'
+                            // },
                             {
                                 index: 'store',
                                 title: '店铺管理'
