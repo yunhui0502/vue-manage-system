@@ -2,6 +2,7 @@
   <div>
     <v-head></v-head>
     <v-sidebar></v-sidebar>
+
     <div class="content-box" :class="{'content-collapse':collapse}">
       <div>
         <!-- 页面标题end-->
@@ -105,7 +106,8 @@
                 <div slot="footer" class="dialog-footer">
                   <el-button @click="editFormVisible=false">关闭</el-button>
                 </div>
-                <el-table :data='guigelist' size="mini" highlight-current-row border class="el-tb-edit mgt20" ref="multipleTable"
+
+                <el-table :data='guigelist' size="mini" highlight-current-row border class="el-tb-edit mgt20" ref="multipleTable" stripe
                   style="margin-bottom: 40px;" tooltip-effect="dark" v-loading="listLoading">
                   <el-table-column type="index" label="序号" header-align="center" align="center">
                   </el-table-column>

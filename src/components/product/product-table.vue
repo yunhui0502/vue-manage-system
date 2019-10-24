@@ -16,8 +16,6 @@
           <el-button type="primary" @click="sou" :loading="addLoading">搜索</el-button>
             <el-button type="danger" style="border-radius:3px;float:right;margin-right: 4%;"  icon="el-icon-delete" @click="deletegood" size="mini" round>删除</el-button>
             <el-button  type="success" style="border-radius:3px;float:right;"    icon="el-icon-circle-plus-outline" @click="handleAdd" size="mini"  round>新增</el-button>
-
-
         </el-form>
       </el-col>
     </div>

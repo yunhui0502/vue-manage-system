@@ -13,7 +13,7 @@
         <div id="app">
           <div style=" width:100%;float:left;">
             <!--表格数据及操作-->
-            <el-table :data="tableData"  border style="width: 100%" stripe ref="multipleTable"
+            <el-table :data="tableData"  size="mini" border style="width: 100%" stripe ref="multipleTable"
               tooltip-effect="dark">
 
               <!--索引-->

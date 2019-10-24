@@ -6,36 +6,37 @@
     </div>
     <div style="margin-top: 10px;width: 100%;  padding-top:10px; background: #fff;   ">
       <!--表格数据及操作-->
-      <el-table  :data="tableData" style="margin-top: 10px;  " size="mini" highlight-current-row border class="el-tb-edit "
-        ref="multipleTable" tooltip-effect="dark" v-loading="listLoading" @selection-change="selectChange">
-        <el-table-column type="index" :index="indexMethod" label="序号" width="50px" align="center">
-        </el-table-column>
-        <el-table-column prop="hfName" label="店铺名称" align="center">
-        </el-table-column>
-        <el-table-column prop="hfDesc" label="店铺描述" align="center">
-        </el-table-column>
-        <el-table-column prop="createTime" label="创建时间" align="center">
-        </el-table-column>
-        <el-table-column prop="hfStatus" label="店铺状态" align="center">
-          <template slot-scope="scope">
-            <span v-if="scope.row.hfStatus =='1'">营业中</span>
-            <span v-if="scope.row.hfStatus == '2'">未营业</span>
-          </template>
-        </el-table-column>
-        <el-table-column fixed="right" label="操作" width="250" align="center">
-          <template slot-scope="scope">
-            <!-- <el-button type="primary" plain size="small" @click="handleRole(scope.row)">编辑</el-button>
+
+        <el-table :data="tableData" style="margin-top: 10px;  " size="mini" highlight-current-row border class="el-tb-edit "
+          ref="multipleTable" tooltip-effect="dark" v-loading="listLoading">
+          <el-table-column type="index" :index="indexMethod" label="序号" width="50px" align="center">
+          </el-table-column>
+          <el-table-column prop="hfName" label="店铺名称" align="center">
+          </el-table-column>
+          <el-table-column prop="hfDesc" label="店铺描述" align="center">
+          </el-table-column>
+          <el-table-column prop="createTime" label="创建时间" align="center">
+          </el-table-column>
+          <el-table-column prop="hfStatus" label="店铺状态" align="center">
+            <template slot-scope="scope">
+              <span v-if="scope.row.hfStatus =='1'">营业中</span>
+              <span v-if="scope.row.hfStatus == '2'">未营业</span>
+            </template>
+          </el-table-column>
+          <el-table-column fixed="right" label="操作" width="250" align="center">
+            <template slot-scope="scope">
+              <!-- <el-button type="primary" plain size="small" @click="handleRole(scope.row)">编辑</el-button>
             <el-button size="small" type="danger" @click="delecteDian(scope.row)">删除</el-button> -->
-            <el-button type="primary" icon="el-icon-edit" size="mini" @click="handleRole(scope.row)">编辑</el-button>
-             <el-button type="danger" icon="el-icon-delete" @click="delecteDian(scope.row)" size="mini">删除</el-button>
-          </template>
-        </el-table-column>
+              <el-button type="primary" icon="el-icon-edit" size="mini" @click="handleRole(scope.row)">编辑</el-button>
+              <el-button type="danger" icon="el-icon-delete" @click="delecteDian(scope.row)" size="mini">删除</el-button>
+            </template>
+          </el-table-column>
 
-      </el-table>
+        </el-table>
 
-          <el-pagination style="padding-top:30px; display: flex;justify-content: flex-end; width: 100%; background: #fff;height: 40px;float:right;" @size-change="3" @current-change="3" :current-page="2" :page-size="3" layout="total, prev, pager, next"
-            :total="tableData.length">
-          </el-pagination>
+      <el-pagination style="padding-top:30px; display: flex;justify-content: flex-end; width: 100%; background: #fff;height: 40px;float:right;"
+        @size-change="3" @current-change="3" :current-page="2" :page-size="3" layout="total, prev, pager, next" :total="tableData.length">
+      </el-pagination>
 
       <!--新增界面-->
       <el-dialog title="新增" :visible.sync="addFormVisible" :close-on-click-modal="false">
