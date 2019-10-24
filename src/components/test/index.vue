@@ -8,7 +8,9 @@
     <div>
       <el-form>
         <el-form-item label="上传banner" prop="logo"> <span>支持扩展名：.png \ .jpg \ .jpeg；文件大小为：1920*676 px</span>
-          <el-upload class="avatar-uploader" ref="upload" accept="image/png,image/jpg,image/jpeg" action="/as" multiple :show-file-list="true" :http-request="handleUpload" :auto-upload="false" :limit="20">
+          <el-upload class="avatar-uploader" ref="upload" accept="image/png,image/jpg,image/jpeg" 
+          action="/as" multiple :show-file-list="true" :http-request="handleUpload"
+          :auto-upload="false" :limit="20">
             <el-button size="small" type="primary">点击上传</el-button>
           </el-upload>
         </el-form-item>
@@ -36,6 +38,7 @@ export default {
   methods: {
     handleUpload(raw) {
       this.files.push(raw.file);
+      console.log(this.files)
     },
     async handlePush() {
       this.$refs.upload.submit();

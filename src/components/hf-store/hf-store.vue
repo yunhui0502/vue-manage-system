@@ -17,7 +17,7 @@
             </el-form-item>
             <br>
             <el-form-item label="店铺状态" prop="hfStatus">
-              <el-radio v-model="editRow.hfStatus"  label="1">营业</el-radio>
+              <el-radio v-model="editRow.hfStatus"  label="1">营业中</el-radio>
               <el-radio v-model="editRow.hfStatus" label="2">未营业</el-radio>
               <!-- <el-input v-model="editRow.hfStatus" auto-complete="off"></el-input> -->
             </el-form-item>
@@ -46,6 +46,7 @@
                       </el-form-item>
                     </el>
                   </el-form-item>
+
                 </el-form>
                 <div slot="footer" class="dialog-footer">
                   <el-button @click="editFormVisible=false">取消</el-button>
@@ -98,10 +99,8 @@
                       <div @click="setPrice" style="margin-left: 13px; border-radius: 2px; color: #fff; background-color: #00D1B2; justify-content: center; width: 23px;height: 23px; display: flex;align-items: center;">+</div>
                     </div>
                   </el-form-item>
-
                   <div style="width: 100%;height: 1px;border-bottom: 1px solid #E4E4E4;margin-bottom: 30px;margin-top: 20px;"></div>
                   <div style="font-size: 17px;margin-bottom: 30px;">规格信息</div>
-
                 </el-form>
                 <div slot="footer" class="dialog-footer">
                   <el-button @click="editFormVisible=false">关闭</el-button>
@@ -124,7 +123,7 @@
                 <!--表格数据及操作-->
                 <el-table :data='wupin' highlight-current-row border ref="multipleTable" style="margin-bottom: 40px;"
                   tooltip-effect="dark" v-loading="listLoading">
-                  <el-table-column label="物品id" align="center" prop="id">
+                  <el-table-column type="index" :index="indexMethod" label="序号" width="50px" align="center">
                   </el-table-column>
                   <el-table-column prop="goodName" label="物品名称" align="center">
                   </el-table-column>
@@ -132,6 +131,9 @@
                   </el-table-column>
                   <el-table-column prop="productCategoryName" label="物品类目" align="center">
                   </el-table-column>
+                  <el-table-column label="创建时间" prop="createTime" align="center">
+                  </el-table-column>
+
                   <el-table-column label="操作" align="center" width="270px">
                     <template slot-scope="scope">
                       <el-button size="small" @click="deletegoods(scope.row)" type="danger">删除</el-button>
@@ -153,7 +155,7 @@
         <!-- 页面内容区end-->
         <!-- 上传图片 -->
         <el-dialog title="上传图片" :visible.sync="picOpen" :close-on-click-modal="false">
-          <el-upload action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" :on-success="handleAvatarSuccess"
+          <el-upload action="/as" list-type="picture-card" :on-success="handleAvatarSuccess"
             :on-preview="handlePictureCardPreview" :on-remove="handleRemove" :auto-upload="true">
             <i class="el-icon-plus"></i>
           </el-upload>
@@ -222,7 +224,9 @@
           }]
 
         },
-        editRow: {},
+        editRow: {
+
+          },
         bianRules: {
           productName: [{
             required: true,
@@ -486,6 +490,10 @@
                 message: "修改成功",
                 type: "success"
               });
+
+              this.$router.push({
+                path: 'store'
+              })
             } else {
               this.$message({
                 message: "修改失败",
@@ -584,7 +592,7 @@
       handleAvatarSuccess: function(response, file, fileList) {
         console.log(fileList)
         let fd = new FormData();
-         
+
         fd.append('goodsId', 1);
         fd.append("username", 1);
         fd.append("userId", 1);
@@ -637,8 +645,12 @@
       getList: function(val) {
         var _this = this;
         api.getGood(this.$route.query.id).then(response => {
-          console.log(response)
+          console.log(response);
           _this.wupin = response.data.data;
+          for(var i=0;i<_this.wupin.length;i++){
+            _this.wupin[i].createTime=_this.wupin[i].createTime.split('T');
+            _this.wupin[i].createTime=_this.wupin[i].createTime[0]+'  '+_this.wupin[i].createTime[1]
+          }
           console.log('已选物品', response);
         });
 
@@ -778,7 +790,16 @@
       //获取列表
       var list = decodeURIComponent(this.$route.query.row);
       this.editRow = JSON.parse(list);
-      console.log(this.editRow)
+      console.log(this.editRow);
+      console.log(this.editRow.hfStatus);
+      if(this.editRow.hfStatus==1){
+        this.editRow.hfStatus="1"
+      }else{
+        this.editRow.hfStatus="2"
+      }
+     console.log( this.editRow.hfStatus)
+
+      // console.log(this.editRow.hfStatus)
       this.ruletable.stoneId = this.$route.query.id;
       this.addWu.hfStoreId = this.$route.query.id;
       this.checkType();

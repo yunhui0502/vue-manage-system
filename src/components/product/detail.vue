@@ -72,16 +72,8 @@
            </template>
          </el-table-column>
        </el-table>
-
-
-
-
-
      </div>
     </div>
-
-
-
   </div>
 </template>
 <style lang="scss">
@@ -302,9 +294,8 @@
       deletegui: function(row) {
         var _this = this;
         this.guiform.productId = this.bianrow.id;
-
         this.$confirm("确认删除吗？", "提示", {}).then(() => {
-          this.addLoading = true;
+          // this.addLoading = true;
           api.deleteSpec(row.id).then(response => {
               console.log(response)
               if (response.data.status === 200) {
@@ -320,7 +311,7 @@
                 });
 
               }
-          });      
+          });
         });
       },
       changeQuentitySubject1: function() {
@@ -356,13 +347,12 @@
             this.$confirm("确认提交吗？", "提示", {}).then(() => {
               this.addLoading = true;
               let param = Object.assign({}, this.guiform);
-              console.log(param);
+              console.log('1',param);
               this.$ajax({
                 method: "post",
                 url: "/api/product/addSpecify",
                 params: param
               }).then(res => {
-
                 this.addLoading = false;
                 console.log('添加规格', res);
                 this.checkguige();
@@ -386,17 +376,24 @@
         _this.$refs.bianForm.validate(valid => {
           if (valid) {
 
-              // _this.addLoading = true;
               let param = Object.assign({}, this.bianrow);
               console.log(this.bianrow);
+
               api.bianProduct(this.bianrow).then(response => {
-                console.log(response);
-                if (response.data.status === 200) {
-
+                if(response.status==200){
+                  this.$message({
+                    message: "修改成功",
+                    type: "success"
+                  });
+                   this.$router.push({path: '/product'});
+                }else{
+                  this.$message({
+                    message: "修改失败",
+                    type: "success"
+                  });
                 }
+
               });
-
-
           }
         });
       },

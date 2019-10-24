@@ -286,6 +286,18 @@
             // this.listLoading = false;
             _this.tableData = resultData.data.data;
             // _this.roletotal = resultData.data.count;
+            for(var i=0;i<_this.tableData.length;i++){
+                  let date = new Date(_this.tableData[i].createTime)
+                  let Str=date.getFullYear() + '-' +
+                  (date.getMonth() + 1) + '-' +
+                  date.getDate() + ' ' +
+                  date.getHours() + ':' +
+                  date.getMinutes() + ':' +
+                  date.getSeconds()
+                  _this.tableData[i].createTime= Str;
+                  // this.tableData[i].createTime=this.tableData[i].createTime.split('T');
+                  // this.tableData[i].createTime=this.tableData[i].createTime[0]+''+this.tableData[i].createTime[1];
+            }
             _this.listLoading = false;
           },
           function(resultData) {

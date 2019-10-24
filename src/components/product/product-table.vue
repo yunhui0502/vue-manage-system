@@ -35,7 +35,7 @@
       </el-table-column>
       <el-table-column prop="productDesc" label="商品描述" align="center">
       </el-table-column>
-      
+
       <!-- <el-table-column prop="productDesc" label="商品描述" align="center">
     </el-table-column> -->
       <el-table-column prop="productCategoryName" label="商品类目" align="center">
@@ -194,7 +194,11 @@
         api.search(1, _this.leiMuId, _this.souhfName).then(response => {
           console.log(response);
           if (response.data.status === 200) {
-            _this.tableData = response.data.data;;
+            _this.tableData = response.data.data;
+            for(var i=0;i<this.tableData.length;i++){
+              this.tableData[i].createTime=this.tableData[i].createTime.split('T');
+              this.tableData[i].createTime=this.tableData[i].createTime[0]+'  '+this.tableData[i].createTime[1]
+            }
           }
         });
       },
@@ -228,6 +232,9 @@
         console.log(this.leiMuId)
 
       },
+      conver : function (s) {
+      return s < 10 ? '0' + s : s;
+      },
       //显示新增界面
       handleAdd: function() {
         this.addFormVisible = true;
@@ -242,6 +249,22 @@
           if (response.status == 200) {
             if (response.data.status === 200) {
               this.tableData = response.data.data;
+              for(var i=0;i<this.tableData.length;i++){
+                    // let date = new Date(this.tableData[i].createTime)
+                    // let Str=date.getFullYear() + '-' +
+                    // (date.getMonth() + 1) + '-' +
+                    // date.getDate() + ' ' +
+                    // date.getHours() + ':' +
+                    // date.getMinutes() + ':' +
+                    // date.getSeconds()
+                    // this.tableData[i].createTime= Str;
+                    var date = new Date(this.tableData[i].createTime);
+                    // Calendar cal = Calendar.getInstance();
+                    var localeString = date.toLocaleString();
+                    // console.log(localeString);
+                    // this.tableData[i].createTime=this.tableData[i].createTime.split('T');
+                    // this.tableData[i].createTime=this.tableData[i].createTime[0]+''+this.tableData[i].createTime[1];
+              }
             }
           }
 
@@ -254,7 +277,28 @@
       }
     },
     mounted() {
-      this.init()
+      this.init();
+      var myDate = new Date();
+
+          //获取当前年
+         var year = myDate.getFullYear();
+
+         //获取当前月
+         var month = myDate.getMonth() + 1;
+
+          //获取当前日
+          var date = myDate.getDate();
+          var h = myDate.getHours(); //获取当前小时数(0-23)
+          var m = myDate.getMinutes(); //获取当前分钟数(0-59)
+          var s = myDate.getSeconds();
+
+         //获取当前时间
+
+         var now = year + '-' + this.conver(month) + "-" + this.conver(date) + " " + this.conver(h) + ':' + this.conver(m) + ":" + this.conver(s);
+        console.log(now)
+        let GMT = new Date(now);
+        console.log(GMT)
+
     }
   }
 </script>

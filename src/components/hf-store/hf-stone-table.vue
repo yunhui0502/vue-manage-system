@@ -14,8 +14,8 @@
       </el-table-column>
       <el-table-column prop="hfStatus" label="店铺状态" align="center">
         <template slot-scope="scope">
-          <span v-if="scope.row.hfStatus == 0">营业中</span>
-          <span v-else>未营业</span>
+          <span v-if="scope.row.hfStatus =='1'">营业中</span>
+          <span v-if="scope.row.hfStatus == '2'">未营业</span>
         </template>
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="250" align="center">
@@ -31,12 +31,9 @@
         <el-form-item label="店铺名称" prop="hfName">
           <el-input v-model="addForm.hfName" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="店铺描述" prop="stoneDesc" label-width="150px">
-          <el-input v-model="addForm.stoneDesc" auto-complete="off"></el-input>
+        <el-form-item label="店铺描述" prop="hfDesc" label-width="150px">
+          <el-input v-model="addForm.hfDesc" auto-complete="off"></el-input>
         </el-form-item>
-       <!-- <el-form-item label="店铺状态 (输入0为营业状态/1未营业状态)" prop="stoneStatus" label-width="300px">
-          <el-input v-model="addForm.stoneStatus" auto-complete="off"></el-input>
-        </el-form-item> -->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="addFormVisible = false">取消</el-button>
@@ -75,11 +72,11 @@
         //新增界面数据
         addForm: {
           hfName: '',
-          stoneDesc: '',
-          stoneStatus:1,
-          stoneStatus: '',
+          hfDesc: '',
+          stoneStatus:2,
           userId: 1,
-          stoneManagerId: 1
+          stoneManagerId: 1,
+          bossId:1
         },
         addFormVisible:false,
         listLoading: false,
@@ -92,7 +89,7 @@
       delecteDian: function(row) {
         this.$confirm("删除店铺？", "提示", {}).then(() => {
         var _this = this;
-        console.log(row.id)
+        console.log(row.id);
         api.deleteStore(row.id).then(response => {
             console.log(response)
             if (response.data.status === 200) {
@@ -165,6 +162,18 @@
           if (response.status == 200) {
             if (response.data.status === 200) {
               this.tableData = response.data.data;
+              for(var i=0;i<this.tableData.length;i++){
+                    let date = new Date(this.tableData[i].createTime)
+                    let Str=date.getFullYear() + '-' +
+                    (date.getMonth() + 1) + '-' +
+                    date.getDate() + ' ' +
+                    (date.getHours()+8)%24 + ':' +
+                    date.getMinutes() + ':' +
+                    date.getSeconds()
+                    this.tableData[i].createTime= Str;
+                    // this.tableData[i].createTime=this.tableData[i].createTime.split('T');
+                    // this.tableData[i].createTime=this.tableData[i].createTime[0]+''+this.tableData[i].createTime[1];
+              }
             }
           }
 
