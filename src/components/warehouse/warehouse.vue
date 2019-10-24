@@ -34,13 +34,14 @@
               </el-table-column>
 
             </el-table>
-            <br>
-            <br>
+          
             <!--分页条total, sizes, prev, pager, next, jumper-->
 
-            <el-pagination @size-change="3" @current-change="3" :current-page="2" :page-size="3" layout="total, prev, pager, next"
-              :total="tableData.length">
-            </el-pagination>
+            <div style="float:right;width:100%;background: #fff;">
+              <el-pagination style="padding-top:30px; background: #fff;height: 40px;float:right;" @size-change="3" @current-change="3" :current-page="2" :page-size="3" layout="total, prev, pager, next"
+                :total="tableData.length">
+              </el-pagination>
+            </div>
             <!--新增界面-->
             <el-dialog title="新增" :visible.sync="addFormVisible" :close-on-click-modal="false">
               <el-form :model="addForm" :rules="addFormRules" ref="addForm" label-width="166px">

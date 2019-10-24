@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div style="width: 100%;">
     <div style="height: 60px;display: flex;align-items: center;justify-content: flex-end;width: 100%;background: #fff;">
       <el-button style="margin-right: 4%;border-radius: 3px;" type="success" icon="el-icon-circle-plus-outline" @click="handleAdd"
         size="mini" round>新增店铺</el-button>
     </div>
-    <div style="margin-top: 10px;">
+    <div style="margin-top: 10px;width: 100%;">
       <!--表格数据及操作-->
       <el-table :data="tableData" style="margin-top: 10px;" size="mini" highlight-current-row border class="el-tb-edit "
         ref="multipleTable" tooltip-effect="dark" v-loading="listLoading" @selection-change="selectChange">
@@ -28,7 +28,13 @@
             <el-button size="small" type="danger" @click="delecteDian(scope.row)">删除</el-button>
           </template>
         </el-table-column>
+
       </el-table>
+
+          <el-pagination style="padding-top:30px; display: flex;justify-content: flex-end; width: 100%; background: #fff;height: 40px;float:right;" @size-change="3" @current-change="3" :current-page="2" :page-size="3" layout="total, prev, pager, next"
+            :total="tableData.length">
+          </el-pagination>
+
       <!--新增界面-->
       <el-dialog title="新增" :visible.sync="addFormVisible" :close-on-click-modal="false">
         <el-form :inline="true" :model="addForm" label-width="80px" :rules="addFormRules" ref="addForm">
@@ -45,6 +51,7 @@
         </div>
       </el-dialog>
     </div>
+
   </div>
 
 </template>

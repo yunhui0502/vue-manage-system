@@ -51,7 +51,14 @@
           <el-button type="danger" plain size="small" @click="deletesingle(scope.row)">删除</el-button>
         </template>
       </el-table-column>
+      
     </el-table>
+<div style="float:right;width:100%;background: #fff;">
+        <el-pagination style="padding-top:30px; background: #fff;height: 40px;float:right;" @size-change="3" @current-change="3" :current-page="2" :page-size="3" layout="total, prev, pager, next"
+          :total="tableData.length">
+        </el-pagination>
+      </div>
+
 
     <el-dialog title="新增" :visible.sync="addFormVisible" :close-on-click-modal="false">
       <el-form :inline="true" :model="addForm" label-width="80px" ref="addForm">
