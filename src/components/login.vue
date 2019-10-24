@@ -14,7 +14,7 @@
                 <el-form-item>
                     <el-button type="primary" @click="login">登陆</el-button>
                     <span v-show="this.errorInfo.isShowError" class='error'>
-                        {{this.errorInfo.text}}
+                    {{this.errorInfo.text}}
                     </span>
                 </el-form-item>
 
@@ -27,57 +27,10 @@
     </div>
 </template>
 
-<style lang="scss">
-$input_width:300px;
-
-.login_wrapper {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    .login {
-        width: 460px;
-        height: 296px;
-        margin-top: -150px;
-        border: 1px solid #eaeaea;
-        box-shadow: 0 0 25px #cac6c6;
-        .title {
-            text-align: center;
-            color: #505458;
-        }
-        .el-form-item__content {
-            width: $input_width;
-        }
-        .el-button {
-            width: $input_width;
-        }
-        .el-form {
-            margin: 30px 80px auto 80px;
-            .error {
-                display: block;
-                text-align: center;
-                color: red;
-            }
-        }
-    }
-}
-.recover{
-    position:absolute;
-    bottom:0px;
-    cursor:pointer;
-    color:#E6A23C;
-    // display: none;
-}
-.bei{
-    position:absolute;
-    bottom:20px;
-    cursor:pointer;
-    color:#505458;
-}
-</style>
-
 <script>
 import apis from '../apis/apis';
+// import axios from 'axios';
+//   import api from '@/apis/user-api.js';
 export default {
     name: 'login',
     data() {
@@ -190,3 +143,51 @@ export default {
     }
 }
 </script>
+<style lang="scss">
+$input_width:300px;
+
+.login_wrapper {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .login {
+        width: 460px;
+        height: 296px;
+        margin-top: -150px;
+        border: 1px solid #eaeaea;
+        box-shadow: 0 0 25px #cac6c6;
+        .title {
+            text-align: center;
+            color: #505458;
+        }
+        .el-form-item__content {
+            width: $input_width;
+        }
+        .el-button {
+            width: $input_width;
+        }
+        .el-form {
+            margin: 30px 80px auto 80px;
+            .error {
+                display: block;
+                text-align: center;
+                color: red;
+            }
+        }
+    }
+}
+.recover{
+    position:absolute;
+    bottom:0px;
+    cursor:pointer;
+    color:#E6A23C;
+    // display: none;
+}
+.bei{
+    position:absolute;
+    bottom:20px;
+    cursor:pointer;
+    color:#505458;
+}
+</style>

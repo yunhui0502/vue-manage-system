@@ -1,12 +1,13 @@
-<template>
+<!-- <template>
   <div>
     <div class="login">
       <div class="login2">系 统 登 陆</div>
       <div>
-        <input type="text" placeholder="账号"/>
-        <input type="text" placeholder="密码"/>
+        <input type="text" placeholder="账号" v-model="authType"/>
+        <input type="text" placeholder="密码" v-model="passwd"/>
       </div>
-      <div class="btn" @click="login()">登录</div>
+      <div class="btn" @click="Login()">登录</div>
+
     </div>
   </div>
 </template>
@@ -53,6 +54,7 @@
 
 <script>
 import axios from 'axios';
+import api from '@/apis/user-api.js';
 import {
   mapGetters
 } from 'vuex';
@@ -67,23 +69,12 @@ export default {
         console.log(res);
       });
     },
-    login() {
-      axios.get('/api/user/login', {
-        data: {
-          authType:"2",
-          authKey: "1",
-          passwd: "12313131312",
-          token: "1"
-        },
-
-      }).then(res => {
-        console.log(res);
-
-      }).then(data => {
-
-      });
-    }
-  },
+   Login() {
+       api.Login().then(res => {
+            console.log(res.data)
+         });
+       }
+   },
   computed: {
     ...mapGetters(['taxno', 'username'])
   },
@@ -94,9 +85,8 @@ export default {
     }
   },
   init() {
-    Vue.component('element-block', {
-      template: '<div>子组件</div>'
-    });
+
   }
 }
 </script>
+ -->

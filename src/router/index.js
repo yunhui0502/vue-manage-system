@@ -60,23 +60,39 @@ const router = new VueRouter({
     //     title: '用户管理'
     //   }
     // },
+
+	// {
+	//   path: '/hf-user/register',
+	//   component: resolve => require(['@/components/hf-user/register'], resolve),
+	//   meta: {
+	//     title: '用户注册'
+	//   }
+	// },
     {
       path: '/hf-user',
-      component: resolve => require(['@/components/hf-user/'], resolve),
+      component: resolve => require(['@/components/hf-user/login'], resolve),
       meta: {
         title: '用户登录'
       }
     },
-    {
-      path: '/hf-user/register',
-      component: resolve => require(['@/components/hf-user/register'], resolve),
-      meta: {
-        title: '用户注册'
-      }
-    },
+
+    // {
+    //   path: '/hf-user/register',
+    //   component: resolve => require(['@/components/hf-user/register'], resolve),
+    //   meta: {
+    //     title: '用户注册'
+    //   }
+    // },
     {
       path: '/warehouse',
       component: resolve => require(['@/components/warehouse'], resolve),
+      meta: {
+        title: '仓库中心'
+      }
+    },
+   {
+      path: '/list',
+      component: resolve => require(['@/components/list'], resolve),
       meta: {
         title: '仓库中心'
       }

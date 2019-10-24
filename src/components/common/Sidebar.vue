@@ -56,6 +56,10 @@
                                 index: 'hf-user',
                                 title: '用户中心'
                             },
+                            {
+                                index: 'list',
+                                title: '用户列表'
+                            },
                         ]
                     },
                     {
