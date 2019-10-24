@@ -1,16 +1,53 @@
 <template>
-  <div>
+  <div style="width: 100%;height: 100%;background:black;position: absolute;">
     <div class="login">
-      <div class="login2">系 统 登 陆</div>
+      <div class="login2" style="color: #ffffff;">系 统 登 陆</div>
       <div>
-        <input type="text" placeholder="账号" v-model="us.user_name" />
-        <input type="text" placeholder="密码" v-model="us.user_pwd" />
+        <input type="text" placeholder="账号" v-model="Login1.authType" />
+        <input type="text" placeholder="密码" v-model="Login1.passwd" />
       </div>
-      <div class="btn" @click="login()">登录</div>
+      <div class="btn" @click="Login()">用户登录</div>
+
     </div>
   </div>
 </template>
 
+
+
+<script>
+  import axios from 'axios';
+  import api from '@/apis/user-api.js';
+  import {
+    mapGetters
+  } from 'vuex';
+  export default {
+    name: 'testIndex',
+    data(){
+      return {
+        Login1: {
+          authType:"admin",
+          passwd: "123456"
+        }
+      }
+    },
+    methods: {
+      Login() {
+        console.log(this.Login1)
+        api.login(this.Login1).then(res => {
+        console.log(res);
+        this.$router.push("/")
+
+        });
+      }
+    },
+    computed: {
+      ...mapGetters(['taxno', 'username'])
+    },
+    init() {
+
+    }
+  }
+</script>
 <style>
   .btn {
     width: 80%;
@@ -28,7 +65,7 @@
 
   .login {
     width: 400px;
-    height: 250px;
+    height:250px;
     border: 1px solid #cccccc;
     margin: 0 auto;
     margin-top: 230px;
@@ -47,57 +84,6 @@
     display: block;
     margin-top: 20px;
     text-indent: 5px;
+    /* border-radius:0.1px; */
   }
 </style>
-
-<script>
-import axios from 'axios';
-import {
-  mapGetters
-} from 'vuex';
-export default {
-  name: 'testIndex',
-  methods: {
-    handleUpload(raw) {
-      this.files.push(raw.file);
-    },
- handlePush() {
-     
- 
-      axios.post('/api/user/login', fd, { responseType: 'arraybuffer' }).then(res => {
-        console.log(res);
-      });
-    },
-    login() {
-      axios.get('/api/user/login', {
-        data: {
-          authType:"2",
-          authKey: "1",
-          passwd: "12313131312",
-          token: "1"
-        },
-       
-      }).then(res => {
-        console.log(res);
-        
-      }).then(data => {
-       
-      });
-    }
-  },
-  computed: {
-    ...mapGetters(['taxno', 'username'])
-  },
-  data() {
-    return {
-      files: [],
-      fileIds: []
-    }
-  },
-  init() {
-    Vue.component('element-block', {
-      template: '<div>子组件</div>'
-    });
-  }
-}
-</script>

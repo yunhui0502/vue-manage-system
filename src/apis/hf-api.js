@@ -33,9 +33,9 @@ function addProduct(params) {
   return Axios.post("/api/product/addproduct", fd, { responseType: 'arraybuffer' });
 }
 
+
 // 按条件查询商品
 function search(id, cateId, name) {
-
   let params = {
     params: {
       bossId: id,
