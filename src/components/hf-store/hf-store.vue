@@ -126,7 +126,7 @@
               </el-dialog>
               <template>
                 <!--表格数据及操作-->
-                <el-table :data='wupin' highlight-current-row border ref="multipleTable" border style="margin-bottom: 40px;"
+                <el-table :data='wupin' size="mini" highlight-current-row border ref="multipleTable" border style="margin-bottom: 40px;"
                   tooltip-effect="dark" v-loading="listLoading">
                   <el-table-column type="index" :index="indexMethod" label="序号" width="50px" align="center">
                   </el-table-column>
