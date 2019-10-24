@@ -75,6 +75,13 @@ const router = new VueRouter({
         title: '用户登录'
       }
     },
+    {
+      path: '/hf-order',
+      component: resolve => require(['@/components/hf-order'], resolve),
+      meta: {
+        title: '订单中心'
+      }
+    },
 
     // {
     //   path: '/hf-user/register',

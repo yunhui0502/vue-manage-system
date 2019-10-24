@@ -80,6 +80,13 @@ const dynamicRouter = [{
       title: '系统首页'
     }
   }, {
+    name: 'hf-order',
+    path: '/hf-order',
+    component: resolve => require(['@/components/hf-order'], resolve),
+    meta: {
+      title: '订单中心'
+    }
+  }, {
     name: 'tablepage',
     path: '/tablepage',
     component: resolve => require(['@/components/tablepage/tablepage.vue'], resolve),

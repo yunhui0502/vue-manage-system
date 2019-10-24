@@ -57,8 +57,8 @@
                                 title: '用户中心'
                             },
                             {
-                                index: 'list',
-                                title: '用户列表'
+                                index: 'hf-order',
+                                title: '订单中心'
                             },
                         ]
                     },
