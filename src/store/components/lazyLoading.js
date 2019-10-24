@@ -71,7 +71,6 @@ const dynamicRouter = [{
     component: resolve => require(['@/components/hf-store/hf-store.vue'], resolve),
     meta: {
       title: '系统首页'
-
     }
   }, {
     name: 'messageboard',

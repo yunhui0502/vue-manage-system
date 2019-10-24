@@ -35,9 +35,12 @@
       </el-table-column>
       <el-table-column prop="productDesc" label="商品描述" align="center">
       </el-table-column>
+      
       <!-- <el-table-column prop="productDesc" label="商品描述" align="center">
     </el-table-column> -->
       <el-table-column prop="productCategoryName" label="商品类目" align="center">
+      </el-table-column>
+      <el-table-column prop="createTime" label="创建时间" align="center">
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="260">
         <template slot-scope="scope">
