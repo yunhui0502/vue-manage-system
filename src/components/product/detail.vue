@@ -68,7 +68,8 @@
            <template slot-scope="scope">
              <!-- <el-button type="primary" plain size="small" @click="addgui(scope.row)" style="margin-bottom: 10px;">查看规格</el-button> -->
              <!-- <el-button type="primary" plain size="small" @click="biangui(scope.row)" style="margin-bottom: 10px;">编辑</el-button> -->
-             <el-button type="danger" plain size="small" @click="deletegui(scope.row)">删除</el-button>
+             <!-- <el-button type="danger" plain size="small">删除</el-button> -->
+           <el-button type="danger" icon="el-icon-delete"  @click="deletegui(scope.row)" size="mini">删除</el-button>
            </template>
          </el-table-column>
        </el-table>

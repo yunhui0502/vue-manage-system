@@ -22,15 +22,18 @@
               <el-radio v-model="editRow.hfStatus" label="2">未营业</el-radio>
               <!-- <el-input v-model="editRow.hfStatus" auto-complete="off"></el-input> -->
             </el-form-item>
-            <br>
-            <el-button style="margin-left: 20px;" type="primary" @click="bianSubmit" :loading="addLoading">提交</el-button>
+            <!-- <br> -->
+            <!-- <el-button type="primary" icon="el-icon-edit" size="mini" @click="biangui(scope.row)">编辑</el-button> -->
+            <el-button style="margin-left: 20px;float:right;overflow: hidden;" type="primary" @click="bianSubmit" :loading="addLoading">提交</el-button>
           </el-form>
 
           <!-- 页面内容区begin -->
           <div id="app" style="padding: 20px;background: #fff; margin-top: 10px;">
-            <div style=" width:98%;float:left;">
-              <el-form :model="ruletable" ref="infoForms" :inline="true" :rules="addRules" style="margin-bottom: 20px;">
-                <el-button style="margin-left: 10px;" @click="addGoods">添加物品</el-button>
+            <div style=" width:98%;">
+              <el-form :model="ruletable" ref="infoForms" :inline="true" :rules="addRules" style="margin-bottom: 20px;overflow: hidden;">
+                <!-- <el-button style="margin-left: 10px;" ></el-button> -->
+                <!-- <el-button type="primary" icon="el-icon-edit" size="mini" @click="biangui(scope.row)">编辑</el-button> -->
+                  <el-button style="margin-left: 20px;float:right;" type="primary"@click="addGoods" :loading="addLoading">添加物品</el-button>
               </el-form>
               <el-dialog title="添加物品" :visible.sync="addeditFormVisible" :close-on-click-modal="false">
                 <el-form :inline="true" :model='addWu' label-width="80px" :rules="bianRules" ref="bianForm">
@@ -136,10 +139,12 @@
                   <el-table-column label="创建时间" prop="createTime" align="center">
                   </el-table-column>
 
-                  <el-table-column label="操作" align="center" width="270px">
+                  <el-table-column label="操作" align="center" width="290px">
                     <template slot-scope="scope">
-                      <el-button size="small" @click="deletegoods(scope.row)" type="danger">删除</el-button>
-                      <el-button size="small" @click="bianji(scope.row)">编辑</el-button>
+                      <el-button type="danger" icon="el-icon-delete" @click="deletegoods(scope.row)"  size="mini">删除</el-button>
+                      <!-- <el-button size="small" type="danger">删除</el-button> -->
+                      <!-- <el-button size="small" >编辑</el-button> -->
+                      <el-button type="primary" icon="el-icon-edit" size="mini"@click="bianji(scope.row)">编辑</el-button>
                       <el-button size="small" @click="upLoadPic(scope.row)">上传图片</el-button>
                     </template>
                   </el-table-column>
