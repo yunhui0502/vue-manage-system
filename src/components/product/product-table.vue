@@ -14,17 +14,19 @@
             </el-select>
           </el-form-item>
           <el-button type="primary" @click="sou" :loading="addLoading">搜索</el-button>
+            <el-button type="danger" style="border-radius:3px;float:right;margin-right: 4%;"  icon="el-icon-delete" @click="deletegood" size="mini" round>删除</el-button>
+            <el-button  type="success" style="border-radius:3px;float:right;"    icon="el-icon-circle-plus-outline" @click="handleAdd" size="mini"  round>新增</el-button>
+
+
         </el-form>
       </el-col>
     </div>
-    <div style="margin-top: 20px;margin-left: 20px;">
-      <el-button type="success" icon="el-icon-circle-plus-outline" @click="handleAdd" size="mini" round>新增</el-button>
-      <el-button type="danger" icon="el-icon-delete" @click="deletegood" size="mini" round>删除</el-button>
-    </div>
 
 
 
-    <el-table :data="tableData" size="mini" highlight-current-row border class="el-tb-edit mgt20" ref="multipleTable" tooltip-effect="dark" @selection-change="selectChange">
+
+    <el-table :data="tableData" size="mini" highlight-current-row border class="el-tb-edit "
+    ref="multipleTable" tooltip-effect="dark" @selection-change="selectChange">
       <el-table-column type="selection" label="序号" width="50px" align="center">
       </el-table-column>
       <el-table-column type="index" label="序号" width="50px" align="center">
@@ -250,17 +252,17 @@
             if (response.data.status === 200) {
               this.tableData = response.data.data;
               for(var i=0;i<this.tableData.length;i++){
-                    // let date = new Date(this.tableData[i].createTime)
-                    // let Str=date.getFullYear() + '-' +
-                    // (date.getMonth() + 1) + '-' +
-                    // date.getDate() + ' ' +
-                    // date.getHours() + ':' +
-                    // date.getMinutes() + ':' +
-                    // date.getSeconds()
-                    // this.tableData[i].createTime= Str;
-                    var date = new Date(this.tableData[i].createTime);
+                    let date = new Date(this.tableData[i].createTime)
+                    let Str=date.getFullYear() + '-' +
+                    (date.getMonth() + 1) + '-' +
+                    date.getDate() + ' ' +
+                    (date.getHours()+8)%24 + ':' +
+                    date.getMinutes() + ':' +
+                    date.getSeconds()
+                    this.tableData[i].createTime= Str;
+                    // var date = new Date(this.tableData[i].createTime);
                     // Calendar cal = Calendar.getInstance();
-                    var localeString = date.toLocaleString();
+                    // var localeString = date.toLocaleString();
                     // console.log(localeString);
                     // this.tableData[i].createTime=this.tableData[i].createTime.split('T');
                     // this.tableData[i].createTime=this.tableData[i].createTime[0]+''+this.tableData[i].createTime[1];

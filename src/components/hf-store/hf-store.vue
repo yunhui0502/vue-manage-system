@@ -17,7 +17,7 @@
             </el-form-item>
             <br>
             <el-form-item label="店铺状态" prop="hfStatus">
-              <el-radio v-model="editRow.hfStatus"  label="1">营业中</el-radio>
+              <el-radio v-model="editRow.hfStatus" label="1">营业中</el-radio>
               <el-radio v-model="editRow.hfStatus" label="2">未营业</el-radio>
               <!-- <el-input v-model="editRow.hfStatus" auto-complete="off"></el-input> -->
             </el-form-item>
@@ -29,7 +29,7 @@
           <div id="app" style="padding: 20px;background: #fff; margin-top: 10px;">
             <div style=" width:98%;float:left;">
               <el-form :model="ruletable" ref="infoForms" :inline="true" :rules="addRules" style="margin-bottom: 20px;">
-                <el-button style="margin-left: 10px;" @click="addGoods" >添加物品</el-button>
+                <el-button style="margin-left: 10px;" @click="addGoods">添加物品</el-button>
               </el-form>
               <el-dialog title="添加物品" :visible.sync="addeditFormVisible" :close-on-click-modal="false">
                 <el-form :inline="true" :model='addWu' label-width="80px" :rules="bianRules" ref="bianForm">
@@ -106,7 +106,7 @@
                   <el-button @click="editFormVisible=false">关闭</el-button>
                 </div>
                 <el-table :data='guigelist' size="mini" highlight-current-row border class="el-tb-edit mgt20" ref="multipleTable"
-                  style="margin-bottom: 40px;" tooltip-effect="dark" v-loading="listLoading" >
+                  style="margin-bottom: 40px;" tooltip-effect="dark" v-loading="listLoading">
                   <el-table-column type="index" label="序号" header-align="center" align="center">
                   </el-table-column>
                   <el-table-column label="规格名称" align="center" prop="hfName">
@@ -121,7 +121,7 @@
               </el-dialog>
               <template>
                 <!--表格数据及操作-->
-                <el-table :data='wupin' highlight-current-row border ref="multipleTable" style="margin-bottom: 40px;"
+                <el-table :data='wupin' highlight-current-row border ref="multipleTable" border style="margin-bottom: 40px;"
                   tooltip-effect="dark" v-loading="listLoading">
                   <el-table-column type="index" :index="indexMethod" label="序号" width="50px" align="center">
                   </el-table-column>
@@ -155,8 +155,8 @@
         <!-- 页面内容区end-->
         <!-- 上传图片 -->
         <el-dialog title="上传图片" :visible.sync="picOpen" :close-on-click-modal="false">
-          <el-upload action="/as" list-type="picture-card" :on-success="handleAvatarSuccess"
-            :on-preview="handlePictureCardPreview" :on-remove="handleRemove" :auto-upload="true">
+          <el-upload action="/as" list-type="picture-card" :on-success="handleAvatarSuccess" :on-preview="handlePictureCardPreview"
+            :on-remove="handleRemove" :auto-upload="true">
             <i class="el-icon-plus"></i>
           </el-upload>
           <el-dialog :visible.sync="dialogVisible">
@@ -179,12 +179,12 @@
   import api from '@/apis/hf-api.js';
   const cityOptions = ['上海', '北京', '广州', '深圳'];
   export default {
-    name:'hf-store',
+    name: 'hf-store',
     data() {
       return {
-        editLoading:false,
-        dialogImageUrl:'',
-        dialogVisible:false,
+        editLoading: false,
+        dialogImageUrl: '',
+        dialogVisible: false,
         tableDataku: [],
         bianrowwu: '',
         wupin: [],
@@ -226,7 +226,7 @@
         },
         editRow: {
 
-          },
+        },
         bianRules: {
           productName: [{
             required: true,
@@ -288,7 +288,7 @@
       vHead,
       vSidebar
     },
-    computed :{
+    computed: {
 
     },
     methods: {
@@ -318,10 +318,10 @@
         obj = this.tableDataku.find((item) => { //这里的selectList就是上面遍历的数据源
           //筛选出匹配数据
           if (item.hfName == this.value4) {
-            this.kuid=item.id
+            this.kuid = item.id
           }
         });
-        let goodsId =this.bianrowwu.id;
+        let goodsId = this.bianrowwu.id;
         var _this = this;
         console.log(goodsId, this.kuid, _this.quantity);
         this.$ajax({
@@ -585,7 +585,7 @@
 
             _this.sellPrice = resultData.data.data.sellPrice;
             _this.quantity = resultData.data.data.quantity;
-             _this.value4=resultData.data.data.warehouseName;
+            _this.value4 = resultData.data.data.warehouseName;
           }
         );
       },
@@ -596,7 +596,7 @@
         fd.append('goodsId', 1);
         fd.append("username", 1);
         fd.append("userId", 1);
-         console.log('打印',fd)
+        console.log('打印', fd)
         fd.append("requestId", "dsaaa");
         fd.append("token", 'sss');
         fd.append("timestamp", 'dd');
@@ -610,7 +610,7 @@
         Axios.post('/api/goods/addPicture', fd, {
           responseType: 'arraybuffer'
         }).then(res => {
-          console.log('上传图片',res);
+          console.log('上传图片', res);
         });
       },
       handleRemove(file, fileList) {
@@ -647,9 +647,19 @@
         api.getGood(this.$route.query.id).then(response => {
           console.log(response);
           _this.wupin = response.data.data;
-          for(var i=0;i<_this.wupin.length;i++){
-            _this.wupin[i].createTime=_this.wupin[i].createTime.split('T');
-            _this.wupin[i].createTime=_this.wupin[i].createTime[0]+'  '+_this.wupin[i].createTime[1]
+          for (var i = 0; i < _this.wupin.length; i++) {
+            // _this.wupin[i].createTime=_this.wupin[i].createTime.split('T');
+            // _this.wupin[i].createTime=_this.wupin[i].createTime[0]+'  '+_this.wupin[i].createTime[1];
+
+
+            let date = new Date(_this.wupin[i].createTime)
+            let Str = date.getFullYear() + '-' +
+              (date.getMonth() + 1) + '-' +
+              date.getDate() + ' ' +
+              (date.getHours() + 8) % 24 + ':' +
+              date.getMinutes() + ':' +
+              date.getSeconds()
+            _this.wupin[i].createTime = Str;
           }
           console.log('已选物品', response);
         });
@@ -792,12 +802,12 @@
       this.editRow = JSON.parse(list);
       console.log(this.editRow);
       console.log(this.editRow.hfStatus);
-      if(this.editRow.hfStatus==1){
-        this.editRow.hfStatus="1"
-      }else{
-        this.editRow.hfStatus="2"
+      if (this.editRow.hfStatus == 1) {
+        this.editRow.hfStatus = "1"
+      } else {
+        this.editRow.hfStatus = "2"
       }
-     console.log( this.editRow.hfStatus)
+      console.log(this.editRow.hfStatus)
 
       // console.log(this.editRow.hfStatus)
       this.ruletable.stoneId = this.$route.query.id;
