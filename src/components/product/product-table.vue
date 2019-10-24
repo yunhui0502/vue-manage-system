@@ -14,42 +14,53 @@
             </el-select>
           </el-form-item>
           <el-button type="primary" @click="sou" :loading="addLoading">搜索</el-button>
+            <el-button type="danger" style="border-radius:3px;float:right;margin-right: 4%;"  icon="el-icon-delete" @click="deletegood" size="mini" round>删除</el-button>
+            <el-button  type="success" style="border-radius:3px;float:right;"    icon="el-icon-circle-plus-outline" @click="handleAdd" size="mini"  round>新增</el-button>
         </el-form>
       </el-col>
     </div>
-    <div style="margin-top: 20px;margin-left: 20px;">
-      <el-button type="success" icon="el-icon-circle-plus-outline" @click="handleAdd" size="mini" round>新增</el-button>
-      <el-button type="danger" icon="el-icon-delete" @click="deletegood" size="mini" round>删除</el-button>
-    </div>
+
+
+  <div style="padding-top: 10px;background: #fff;margin-top: 10px;">
+    <el-table :data="tableData" size="mini" highlight-current-row border class="el-tb-edit "
+        ref="multipleTable" tooltip-effect="dark" @selection-change="selectChange">
+          <el-table-column type="selection" label="序号" width="50px" align="center">
+          </el-table-column>
+          <el-table-column type="index" label="序号" width="50px" align="center">
+          </el-table-column>
+          <el-table-column prop="id" label="商品编号" align="center">
+          </el-table-column>
+          <el-table-column prop="productName" label="商品名称" align="center">
+          </el-table-column>
+          <el-table-column prop="productDesc" label="商品描述" align="center">
+          </el-table-column>
+
+          <!-- <el-table-column prop="productDesc" label="商品描述" align="center">
+        </el-table-column> -->
+          <el-table-column prop="productCategoryName" label="商品类目" align="center">
+          </el-table-column>
+          <el-table-column prop="createTime" label="创建时间" align="center">
+          </el-table-column>
+          <el-table-column fixed="right" label="操作" width="260">
+            <template slot-scope="scope">
+              <!-- <el-button type="primary" plain size="small" @click="addgui(scope.row)" style="margin-bottom: 10px;">查看规格</el-button> -->
+            <!--  <el-button type="primary" plain size="small" @click="biangui(scope.row)" style="margin-bottom: 10px;">修改规格</el-button>
+              <el-button type="danger" plain size="small" @click="deletesingle(scope.row)">删除</el-button> -->
+              <el-button type="primary" icon="el-icon-edit" size="mini" @click="biangui(scope.row)">编辑</el-button>
+              <el-button type="danger" icon="el-icon-delete" @click="deletesingle(scope.row)" size="mini">删除</el-button>
+            </template>
+          </el-table-column>
+
+        </el-table>
+    <div style="float:right;width:100%;background: #fff;">
+            <el-pagination style="padding-top:30px; background: #fff;height: 40px;float:right;" @size-change="3" @current-change="3" :current-page="2" :page-size="3" layout="total, prev, pager, next"
+              :total="tableData.length">
+            </el-pagination>
+          </div>
+  </div>
 
 
 
-    <el-table :data="tableData" size="mini" highlight-current-row border class="el-tb-edit mgt20" ref="multipleTable" tooltip-effect="dark" @selection-change="selectChange">
-      <el-table-column type="selection" label="序号" width="50px" align="center">
-      </el-table-column>
-      <el-table-column type="index" label="序号" width="50px" align="center">
-      </el-table-column>
-      <el-table-column prop="id" label="商品编号" align="center">
-      </el-table-column>
-      <el-table-column prop="productName" label="商品名称" align="center">
-      </el-table-column>
-      <el-table-column prop="productDesc" label="商品描述" align="center">
-      </el-table-column>
-      
-      <!-- <el-table-column prop="productDesc" label="商品描述" align="center">
-    </el-table-column> -->
-      <el-table-column prop="productCategoryName" label="商品类目" align="center">
-      </el-table-column>
-      <el-table-column prop="createTime" label="创建时间" align="center">
-      </el-table-column>
-      <el-table-column fixed="right" label="操作" width="260">
-        <template slot-scope="scope">
-          <!-- <el-button type="primary" plain size="small" @click="addgui(scope.row)" style="margin-bottom: 10px;">查看规格</el-button> -->
-          <el-button type="primary" plain size="small" @click="biangui(scope.row)" style="margin-bottom: 10px;">修改规格</el-button>
-          <el-button type="danger" plain size="small" @click="deletesingle(scope.row)">删除</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
 
     <el-dialog title="新增" :visible.sync="addFormVisible" :close-on-click-modal="false">
       <el-form :inline="true" :model="addForm" label-width="80px" ref="addForm">
@@ -194,7 +205,11 @@
         api.search(1, _this.leiMuId, _this.souhfName).then(response => {
           console.log(response);
           if (response.data.status === 200) {
-            _this.tableData = response.data.data;;
+            _this.tableData = response.data.data;
+            for(var i=0;i<this.tableData.length;i++){
+              this.tableData[i].createTime=this.tableData[i].createTime.split('T');
+              this.tableData[i].createTime=this.tableData[i].createTime[0]+'  '+this.tableData[i].createTime[1]
+            }
           }
         });
       },
@@ -228,6 +243,9 @@
         console.log(this.leiMuId)
 
       },
+      conver : function (s) {
+      return s < 10 ? '0' + s : s;
+      },
       //显示新增界面
       handleAdd: function() {
         this.addFormVisible = true;
@@ -242,6 +260,22 @@
           if (response.status == 200) {
             if (response.data.status === 200) {
               this.tableData = response.data.data;
+              for(var i=0;i<this.tableData.length;i++){
+                    let date = new Date(this.tableData[i].createTime)
+                    let Str=date.getFullYear() + '-' +
+                    (date.getMonth() + 1) + '-' +
+                    date.getDate() + ' ' +
+                    (date.getHours()+8)%24 + ':' +
+                    date.getMinutes() + ':' +
+                    date.getSeconds()
+                    this.tableData[i].createTime= Str;
+                    // var date = new Date(this.tableData[i].createTime);
+                    // Calendar cal = Calendar.getInstance();
+                    // var localeString = date.toLocaleString();
+                    // console.log(localeString);
+                    // this.tableData[i].createTime=this.tableData[i].createTime.split('T');
+                    // this.tableData[i].createTime=this.tableData[i].createTime[0]+''+this.tableData[i].createTime[1];
+              }
             }
           }
 
@@ -254,7 +288,28 @@
       }
     },
     mounted() {
-      this.init()
+      this.init();
+      var myDate = new Date();
+
+          //获取当前年
+         var year = myDate.getFullYear();
+
+         //获取当前月
+         var month = myDate.getMonth() + 1;
+
+          //获取当前日
+          var date = myDate.getDate();
+          var h = myDate.getHours(); //获取当前小时数(0-23)
+          var m = myDate.getMinutes(); //获取当前分钟数(0-59)
+          var s = myDate.getSeconds();
+
+         //获取当前时间
+
+         var now = year + '-' + this.conver(month) + "-" + this.conver(date) + " " + this.conver(h) + ':' + this.conver(m) + ":" + this.conver(s);
+        console.log(now)
+        let GMT = new Date(now);
+        console.log(GMT)
+
     }
   }
 </script>

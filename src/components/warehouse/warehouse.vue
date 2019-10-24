@@ -1,126 +1,131 @@
 <template>
-  <div class="table">
-    <!-- 页面标题end-->
-    <div class="clearfix" style="margin-top: 40px; margin-left: 10px;margin-bottom: 20px;" >
-      <el-col :span="1" class="grid">
-        <el-button type="success" icon="el-icon-circle-plus-outline" @click="handleAdd" size="mini" round>新增仓库</el-button>
+  <div>
+    <div style="background: #fff;height: 80px; width: 100%;background: #fff;margin-bottom: 10px;
+    display: flex;align-items: center;justify-content: flex-end;" >
+      <el-col :span="1" class="grid " style="float: right;margin-right: 4%;">
+        <el-button type="success" style="border-radius:3px ;"  icon="el-icon-circle-plus-outline" @click="handleAdd" size="mini" round>新增仓库</el-button>
       </el-col>
     </div>
-    <div class="container">
-      <!-- 页面内容区begin -->
-      <div id="app">
-        <div style=" width:50%;float:left;">
-          <!--表格数据及操作-->
-          <el-table :data="tableData" class="mgt20" border style="width: 100%" stripe ref="multipleTable"
-            tooltip-effect="dark">
-
-            <!--索引-->
-            <el-table-column type="index" :index="indexMethod" label="序号" width="50px" align="center">
-            </el-table-column>
-            <el-table-column prop="hfName" label="仓库名称" sortable align="center">
-            </el-table-column>
-            <el-table-column prop="hfRegion" label="仓库位置" align="center">
-            </el-table-column>
-            <el-table-column prop="createTime" label="创建时间" align="center">
-            </el-table-column>
-
-            <el-table-column label="操作" align="center">
-              <template slot-scope="scope">
-                <el-button type="primary" icon="el-icon-edit" size="mini" @click="enditRole(scope.row)">编辑</el-button>
-                 <el-button type="danger" icon="el-icon-delete" @click="delRole(scope.row)" size="mini">删除</el-button>
-              </template>
-            </el-table-column>
-
-          </el-table>
-          <br>
-          <br>
-          <!--分页条total, sizes, prev, pager, next, jumper-->
-
-          <el-pagination @size-change="3" @current-change="3" :current-page="2" :page-size="3" layout="total, prev, pager, next"
-            :total="tableData.length">
-          </el-pagination>
-          <!--新增界面-->
-          <el-dialog title="新增" :visible.sync="addFormVisible" :close-on-click-modal="false">
-            <el-form :model="addForm" :rules="addFormRules" ref="addForm" label-width="166px">
-              <el-form-item label="仓库名称" prop="hfName">
-                <el-input v-model="addForm.hfName" auto-complete="off" style="width:400px;"></el-input>
-              </el-form-item>
-              <el-form-item label="仓库位置" prop="hfRegion">
-                <el-input v-model="addForm.hfRegion" auto-complete="off" style="width:400px;"></el-input>
-              </el-form-item>
-
-
-              </el-form-item>
-
-            </el-form>
-
-            <div slot="footer" class="dialog-footer">
-              <el-button @click="addFormVisible = false">取消</el-button>
-              <el-button type="primary" @click="addSubmit" :loading="addLoading">提交</el-button>
-            </div>
-          </el-dialog>
-          <!--编辑界面-->
-          <el-dialog title="编辑" :visible.sync="addFormVisible1" :close-on-click-modal="false">
-            <el-form :model="editRow" :rules="addFormRules" ref="addForm" label-width="166px">
-              <el-form-item label="仓库名称" prop="hfName">
-                <el-input v-model="editRow.hfName" auto-complete="off" style="width:400px;"></el-input>
-              </el-form-item>
-              <el-form-item label="仓库位置" prop="hfRegion">
-                <el-input v-model="editRow.hfRegion" auto-complete="off" style="width:400px;"></el-input>
-              </el-form-item>
-
-
-              </el-form-item>
-
-            </el-form>
-
-            <div slot="footer" class="dialog-footer">
-              <el-button @click="addFormVisible = false">取消</el-button>
-              <el-button type="primary" @click="editSubmit" :loading="addLoading">提交</el-button>
-            </div>
-          </el-dialog>
-        </div>
-        <div style=" width:45%;float:right;">
-
-          <!--新增界面-->
-          <el-dialog title="新增用户" :visible.sync="addRoleUserVisible" :close-on-click-modal="false">
-            <el-row>
-              <el-col :span="200" class="grid">
-                <el-input v-model="s_username" label="用户名称" placeholder="请输入内容" style="width:200px; heght:30px;" size="mini"></el-input>
-              </el-col>
-              <el-col :span="1" class="grid">
-                <el-button type="success" @click="addRoleUser(1)" icon="el-icon-search" size="mini">搜索</el-button>
-              </el-col>
-            </el-row>
-            <br>
-            <el-table :data="userData" @selection-change="userSelectionChange" border style="width: 100%" stripe ref="multipleTable"
+    <div>
+      <!-- 页面标题end-->
+      <div  style="background: #fff;padding-top: 10px;">
+        <!-- 页面内容区begin -->
+        <div id="app">
+          <div style=" width:100%;float:left;">
+            <!--表格数据及操作-->
+            <el-table :data="tableData"  size="mini" border style="width: 100%" stripe ref="multipleTable"
               tooltip-effect="dark">
-              <!--勾选框-->
-              <el-table-column type="selection" width="55">
-              </el-table-column>
+
               <!--索引-->
-              <el-table-column type="index" :index="indexMethod">
+              <el-table-column type="index" :index="indexMethod" label="序号" width="50px" align="center">
               </el-table-column>
-              <el-table-column prop="userName" label="用户名称" width="180">
+              <el-table-column prop="hfName" label="仓库名称" sortable align="center">
               </el-table-column>
-              <el-table-column prop="id" label="用户编号">
+              <el-table-column prop="hfRegion" label="仓库位置" align="center">
+              </el-table-column>
+              <el-table-column prop="createTime" label="创建时间" align="center">
+              </el-table-column>
+
+              <el-table-column label="操作" align="center">
+                <template slot-scope="scope">
+                  <el-button type="primary" icon="el-icon-edit" size="mini" @click="enditRole(scope.row)">编辑</el-button>
+                   <el-button type="danger" icon="el-icon-delete" @click="delRole(scope.row)" size="mini">删除</el-button>
+                </template>
               </el-table-column>
 
             </el-table>
-            <el-pagination @current-change="addRoleUser" :current-page="usercurrentPage" :page-size="pageSize" layout="total, prev, pager, next"
-              :total="usercount">
-            </el-pagination>
-            <br>
-            <div slot="footer" class="dialog-footer">
-              <el-button type="primary" @click="saveUserRole" :loading="addLoading">保存</el-button>
-              <el-button @click="addRoleUserVisible= false">关闭</el-button>
+
+            <!--分页条total, sizes, prev, pager, next, jumper-->
+
+            <div style="float:right;width:100%;background: #fff;">
+              <el-pagination style="padding-top:30px; background: #fff;height: 40px;float:right;" @size-change="3" @current-change="3" :current-page="2" :page-size="3" layout="total, prev, pager, next"
+                :total="tableData.length">
+              </el-pagination>
             </div>
-          </el-dialog>
+            <!--新增界面-->
+            <el-dialog title="新增" :visible.sync="addFormVisible" :close-on-click-modal="false">
+              <el-form :model="addForm" :rules="addFormRules" ref="addForm" label-width="166px">
+                <el-form-item label="仓库名称" prop="hfName">
+                  <el-input v-model="addForm.hfName" auto-complete="off" style="width:400px;"></el-input>
+                </el-form-item>
+                <el-form-item label="仓库位置" prop="hfRegion">
+                  <el-input v-model="addForm.hfRegion" auto-complete="off" style="width:400px;"></el-input>
+                </el-form-item>
+
+
+                </el-form-item>
+
+              </el-form>
+
+              <div slot="footer" class="dialog-footer">
+                <el-button @click="addFormVisible = false">取消</el-button>
+                <el-button type="primary" @click="addSubmit" :loading="addLoading">提交</el-button>
+              </div>
+            </el-dialog>
+            <!--编辑界面-->
+            <el-dialog title="编辑" :visible.sync="addFormVisible1" :close-on-click-modal="false">
+              <el-form :model="editRow" :rules="addFormRules" ref="addForm" label-width="166px">
+                <el-form-item label="仓库名称" prop="hfName">
+                  <el-input v-model="editRow.hfName" auto-complete="off" style="width:400px;"></el-input>
+                </el-form-item>
+                <el-form-item label="仓库位置" prop="hfRegion">
+                  <el-input v-model="editRow.hfRegion" auto-complete="off" style="width:400px;"></el-input>
+                </el-form-item>
+
+
+                </el-form-item>
+
+              </el-form>
+
+              <div slot="footer" class="dialog-footer">
+                <el-button @click="addFormVisible = false">取消</el-button>
+                <el-button type="primary" @click="editSubmit" :loading="addLoading">提交</el-button>
+              </div>
+            </el-dialog>
+          </div>
+          <div style=" width:45%;float:right;">
+
+            <!--新增界面-->
+            <el-dialog title="新增用户" :visible.sync="addRoleUserVisible" :close-on-click-modal="false">
+              <el-row>
+                <el-col :span="200" class="grid">
+                  <el-input v-model="s_username" label="用户名称" placeholder="请输入内容" style="width:200px; heght:30px;" size="mini"></el-input>
+                </el-col>
+                <el-col :span="1" class="grid">
+                  <el-button type="success" @click="addRoleUser(1)" icon="el-icon-search" size="mini">搜索</el-button>
+                </el-col>
+              </el-row>
+              <br>
+              <el-table :data="userData" @selection-change="userSelectionChange" border style="width: 100%" stripe ref="multipleTable"
+                tooltip-effect="dark">
+                <!--勾选框-->
+                <el-table-column type="selection" width="55">
+                </el-table-column>
+                <!--索引-->
+                <el-table-column type="index" :index="indexMethod">
+                </el-table-column>
+                <el-table-column prop="userName" label="用户名称" width="180">
+                </el-table-column>
+                <el-table-column prop="id" label="用户编号">
+                </el-table-column>
+
+              </el-table>
+              <el-pagination @current-change="addRoleUser" :current-page="usercurrentPage" :page-size="pageSize" layout="total, prev, pager, next"
+                :total="usercount">
+              </el-pagination>
+              <br>
+              <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="saveUserRole" :loading="addLoading">保存</el-button>
+                <el-button @click="addRoleUserVisible= false">关闭</el-button>
+              </div>
+            </el-dialog>
+          </div>
         </div>
       </div>
+      <!-- 页面内容区end-->
     </div>
-    <!-- 页面内容区end-->
   </div>
+
   <!-- 页面表格end -->
 </template>
 <script>
@@ -286,6 +291,18 @@
             // this.listLoading = false;
             _this.tableData = resultData.data.data;
             // _this.roletotal = resultData.data.count;
+            for(var i=0;i<_this.tableData.length;i++){
+                  let date = new Date(_this.tableData[i].createTime)
+                  let Str=date.getFullYear() + '-' +
+                  (date.getMonth() + 1) + '-' +
+                  date.getDate() + ' ' +
+                   (date.getHours()+8)%24 + ':' +
+                  date.getMinutes() + ':' +
+                  date.getSeconds()
+                  _this.tableData[i].createTime= Str;
+                  // this.tableData[i].createTime=this.tableData[i].createTime.split('T');
+                  // this.tableData[i].createTime=this.tableData[i].createTime[0]+''+this.tableData[i].createTime[1];
+            }
             _this.listLoading = false;
           },
           function(resultData) {
@@ -572,7 +589,10 @@
     height: 178px;
     display: block;
   }
-
+*{
+  margin: 0;
+  padding: 0;
+}
   /* #app {
         font-family: Helvetica, sans-serif;
         text-align: center;

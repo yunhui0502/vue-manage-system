@@ -81,14 +81,16 @@ function getStoreList(Id) {
   }
   return Axios.get("/api/stone/byBossId", params);
 }
+
 // 新增店铺
 function addStore(params) {
    let fd = new FormData();
   fd.append('hfName', params.hfName);
-  fd.append('stoneDesc', params.stoneDesc);
-  fd.append('stoneStatus', params.stoneStatus);
+  fd.append('hfDesc', params.hfDesc);
+  fd.append('hfStatus', params.stoneStatus);
   fd.append('stoneManagerId', params.stoneManagerId);
   fd.append('stoneManagerId', params.stoneManagerId);
+   fd.append('bossId', params.bossId);
   // fd.append('hfName', params.hfName);
   return Axios.post("/api/stone/addStone", fd, { responseType: 'arraybuffer' });;
 }
@@ -129,7 +131,7 @@ function deleteGood(id) {
       hfGoodsId:id
     }
   }
-  return Axios.get("/api/product/deleteGood", params);
+  return Axios.get("/api/stone/deleteGood", params);
 }
 
 // 编辑物品
@@ -139,6 +141,19 @@ function updateGood(params) {
   fd.append('id', params.id);
   return Axios.post("/api/goods/updategood", fd, { responseType: 'arraybuffer' });;
 }
+
+// 添加规格
+function addSpec(params) {
+  let fd = new FormData();
+  fd.append('categorySpecId', params.categorySpecId);
+  fd.append('hfName', params.hfName);
+  fd.append('specType', params.specType);
+  fd.append('specUnit', params.specUnit);
+  fd.append('specValue', params.specValue);
+  return Axios.post("/api/product/addSpecify", fd, { responseType: 'arraybuffer' });;
+}
+
+
 // 上传图片
 // function loadPic(params) {
 //   let fd = new FormData();
@@ -174,5 +189,6 @@ export default {
   getGood:getGood,
   checkWarehouse:checkWarehouse,
   deleteSpec:deleteSpec,
-  deleteGood:deleteGood
+  deleteGood:deleteGood,
+  addSpec:addSpec
 }

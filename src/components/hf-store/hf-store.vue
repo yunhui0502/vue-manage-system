@@ -2,6 +2,7 @@
   <div>
     <v-head></v-head>
     <v-sidebar></v-sidebar>
+
     <div class="content-box" :class="{'content-collapse':collapse}">
       <div>
         <!-- 页面标题end-->
@@ -17,19 +18,22 @@
             </el-form-item>
             <br>
             <el-form-item label="店铺状态" prop="hfStatus">
-              <el-radio v-model="editRow.hfStatus"  label="1">营业</el-radio>
+              <el-radio v-model="editRow.hfStatus" label="1">营业中</el-radio>
               <el-radio v-model="editRow.hfStatus" label="2">未营业</el-radio>
               <!-- <el-input v-model="editRow.hfStatus" auto-complete="off"></el-input> -->
             </el-form-item>
-            <br>
-            <el-button style="margin-left: 20px;" type="primary" @click="bianSubmit" :loading="addLoading">提交</el-button>
+            <!-- <br> -->
+            <!-- <el-button type="primary" icon="el-icon-edit" size="mini" @click="biangui(scope.row)">编辑</el-button> -->
+            <el-button style="margin-left: 20px;float:right;overflow: hidden;" type="primary" @click="bianSubmit" :loading="addLoading">提交</el-button>
           </el-form>
 
           <!-- 页面内容区begin -->
           <div id="app" style="padding: 20px;background: #fff; margin-top: 10px;">
-            <div style=" width:98%;float:left;">
-              <el-form :model="ruletable" ref="infoForms" :inline="true" :rules="addRules" style="margin-bottom: 20px;">
-                <el-button style="margin-left: 10px;" @click="addGoods" >添加物品</el-button>
+            <div style=" width:98%;">
+              <el-form :model="ruletable" ref="infoForms" :inline="true" :rules="addRules" style="margin-bottom: 20px;overflow: hidden;">
+                <!-- <el-button style="margin-left: 10px;" ></el-button> -->
+                <!-- <el-button type="primary" icon="el-icon-edit" size="mini" @click="biangui(scope.row)">编辑</el-button> -->
+                  <el-button style="margin-left: 20px;float:right;" type="primary"@click="addGoods" :loading="addLoading">添加物品</el-button>
               </el-form>
               <el-dialog title="添加物品" :visible.sync="addeditFormVisible" :close-on-click-modal="false">
                 <el-form :inline="true" :model='addWu' label-width="80px" :rules="bianRules" ref="bianForm">
@@ -46,6 +50,7 @@
                       </el-form-item>
                     </el>
                   </el-form-item>
+
                 </el-form>
                 <div slot="footer" class="dialog-footer">
                   <el-button @click="editFormVisible=false">取消</el-button>
@@ -98,16 +103,15 @@
                       <div @click="setPrice" style="margin-left: 13px; border-radius: 2px; color: #fff; background-color: #00D1B2; justify-content: center; width: 23px;height: 23px; display: flex;align-items: center;">+</div>
                     </div>
                   </el-form-item>
-
                   <div style="width: 100%;height: 1px;border-bottom: 1px solid #E4E4E4;margin-bottom: 30px;margin-top: 20px;"></div>
                   <div style="font-size: 17px;margin-bottom: 30px;">规格信息</div>
-
                 </el-form>
                 <div slot="footer" class="dialog-footer">
                   <el-button @click="editFormVisible=false">关闭</el-button>
                 </div>
-                <el-table :data='guigelist' size="mini" highlight-current-row border class="el-tb-edit mgt20" ref="multipleTable"
-                  style="margin-bottom: 40px;" tooltip-effect="dark" v-loading="listLoading" >
+
+                <el-table :data='guigelist' size="mini" highlight-current-row border class="el-tb-edit mgt20" ref="multipleTable" stripe
+                  style="margin-bottom: 40px;" tooltip-effect="dark" v-loading="listLoading">
                   <el-table-column type="index" label="序号" header-align="center" align="center">
                   </el-table-column>
                   <el-table-column label="规格名称" align="center" prop="hfName">
@@ -122,9 +126,9 @@
               </el-dialog>
               <template>
                 <!--表格数据及操作-->
-                <el-table :data='wupin' highlight-current-row border ref="multipleTable" style="margin-bottom: 40px;"
+                <el-table :data='wupin' size="mini" highlight-current-row border ref="multipleTable" border style="margin-bottom: 40px;"
                   tooltip-effect="dark" v-loading="listLoading">
-                  <el-table-column label="物品id" align="center" prop="id">
+                  <el-table-column type="index" :index="indexMethod" label="序号" width="50px" align="center">
                   </el-table-column>
                   <el-table-column prop="goodName" label="物品名称" align="center">
                   </el-table-column>
@@ -132,10 +136,15 @@
                   </el-table-column>
                   <el-table-column prop="productCategoryName" label="物品类目" align="center">
                   </el-table-column>
-                  <el-table-column label="操作" align="center" width="270px">
+                  <el-table-column label="创建时间" prop="createTime" align="center">
+                  </el-table-column>
+
+                  <el-table-column label="操作" align="center" width="290px">
                     <template slot-scope="scope">
-                      <el-button size="small" @click="deletegoods(scope.row)" type="danger">删除</el-button>
-                      <el-button size="small" @click="bianji(scope.row)">编辑</el-button>
+                      <el-button type="danger" icon="el-icon-delete" @click="deletegoods(scope.row)"  size="mini">删除</el-button>
+                      <!-- <el-button size="small" type="danger">删除</el-button> -->
+                      <!-- <el-button size="small" >编辑</el-button> -->
+                      <el-button type="primary" icon="el-icon-edit" size="mini"@click="bianji(scope.row)">编辑</el-button>
                       <el-button size="small" @click="upLoadPic(scope.row)">上传图片</el-button>
                     </template>
                   </el-table-column>
@@ -176,12 +185,12 @@
   import api from '@/apis/hf-api.js';
   const cityOptions = ['上海', '北京', '广州', '深圳'];
   export default {
-    name:'hf-store',
+    name: 'hf-store',
     data() {
       return {
-        editLoading:false,
-        dialogImageUrl:'',
-        dialogVisible:false,
+        editLoading: false,
+        dialogImageUrl: '',
+        dialogVisible: false,
         tableDataku: [],
         bianrowwu: '',
         wupin: [],
@@ -221,7 +230,9 @@
           }]
 
         },
-        editRow: {},
+        editRow: {
+
+        },
         bianRules: {
           productName: [{
             required: true,
@@ -283,7 +294,7 @@
       vHead,
       vSidebar
     },
-    computed :{
+    computed: {
 
     },
     methods: {
@@ -316,10 +327,10 @@
         obj = this.tableDataku.find((item) => { //这里的selectList就是上面遍历的数据源
           //筛选出匹配数据
           if (item.hfName == this.value4) {
-            this.kuid=item.id
+            this.kuid = item.id
           }
         });
-        let goodsId =this.bianrowwu.id;
+        let goodsId = this.bianrowwu.id;
         var _this = this;
         console.log(goodsId, this.kuid, _this.quantity);
         this.$ajax({
@@ -488,6 +499,10 @@
                 message: "修改成功",
                 type: "success"
               });
+
+              this.$router.push({
+                path: 'store'
+              })
             } else {
               this.$message({
                 message: "修改失败",
@@ -579,18 +594,18 @@
 
             _this.sellPrice = resultData.data.data.sellPrice;
             _this.quantity = resultData.data.data.quantity;
-             _this.value4=resultData.data.data.warehouseName;
+            _this.value4 = resultData.data.data.warehouseName;
           }
         );
       },
       handleAvatarSuccess: function(response, file, fileList) {
         console.log(fileList)
         let fd = new FormData();
-         
+
         fd.append('goodsId', 1);
         fd.append("username", 1);
         fd.append("userId", 1);
-         console.log('打印',fd)
+        console.log('打印', fd)
         fd.append("requestId", "dsaaa");
         fd.append("token", 'sss');
         fd.append("timestamp", 'dd');
@@ -604,7 +619,7 @@
         Axios.post('/api/goods/addPicture', fd, {
           responseType: 'arraybuffer'
         }).then(res => {
-          console.log('上传图片',res);
+          console.log('上传图片', res);
         });
       },
       handleRemove(file, fileList) {
@@ -639,8 +654,22 @@
       getList: function(val) {
         var _this = this;
         api.getGood(this.$route.query.id).then(response => {
-          console.log(response)
+          console.log(response);
           _this.wupin = response.data.data;
+          for (var i = 0; i < _this.wupin.length; i++) {
+            // _this.wupin[i].createTime=_this.wupin[i].createTime.split('T');
+            // _this.wupin[i].createTime=_this.wupin[i].createTime[0]+'  '+_this.wupin[i].createTime[1];
+
+
+            let date = new Date(_this.wupin[i].createTime)
+            let Str = date.getFullYear() + '-' +
+              (date.getMonth() + 1) + '-' +
+              date.getDate() + ' ' +
+              (date.getHours() + 8) % 24 + ':' +
+              date.getMinutes() + ':' +
+              date.getSeconds()
+            _this.wupin[i].createTime = Str;
+          }
           console.log('已选物品', response);
         });
 
@@ -780,7 +809,16 @@
       //获取列表
       var list = decodeURIComponent(this.$route.query.row);
       this.editRow = JSON.parse(list);
-      console.log(this.editRow)
+      console.log(this.editRow);
+      console.log(this.editRow.hfStatus);
+      if (this.editRow.hfStatus == 1) {
+        this.editRow.hfStatus = "1"
+      } else {
+        this.editRow.hfStatus = "2"
+      }
+      console.log(this.editRow.hfStatus)
+
+      // console.log(this.editRow.hfStatus)
       this.ruletable.stoneId = this.$route.query.id;
       this.addWu.hfStoreId = this.$route.query.id;
       this.checkType();
