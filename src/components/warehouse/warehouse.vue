@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div style="background: #fff;height: 60px; margin-bottom: 10px;width: 100%;background: #fff;
+    <div style="background: #fff;height: 80px; width: 100%;background: #fff;margin-bottom: 10px;
     display: flex;align-items: center;justify-content: flex-end;" >
       <el-col :span="1" class="grid " style="float: right;margin-right: 4%;">
         <el-button type="success" style="border-radius:3px ;"  icon="el-icon-circle-plus-outline" @click="handleAdd" size="mini" round>新增仓库</el-button>
@@ -8,12 +8,12 @@
     </div>
     <div>
       <!-- 页面标题end-->
-      <div  style="background: #fff;padding-bottom: 10px;">
+      <div  style="background: #fff;padding-top: 10px;">
         <!-- 页面内容区begin -->
         <div id="app">
           <div style=" width:100%;float:left;">
             <!--表格数据及操作-->
-            <el-table :data="tableData" class="mgt20" border style="width: 100%" stripe ref="multipleTable"
+            <el-table :data="tableData"  border style="width: 100%" stripe ref="multipleTable"
               tooltip-effect="dark">
 
               <!--索引-->
@@ -34,7 +34,7 @@
               </el-table-column>
 
             </el-table>
-          
+
             <!--分页条total, sizes, prev, pager, next, jumper-->
 
             <div style="float:right;width:100%;background: #fff;">
@@ -589,7 +589,10 @@
     height: 178px;
     display: block;
   }
-
+*{
+  margin: 0;
+  padding: 0;
+}
   /* #app {
         font-family: Helvetica, sans-serif;
         text-align: center;

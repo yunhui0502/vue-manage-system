@@ -23,41 +23,45 @@
     </div>
 
 
-
-
+  <div style="padding-top: 10px;background: #fff;margin-top: 10px;">
     <el-table :data="tableData" size="mini" highlight-current-row border class="el-tb-edit "
-    ref="multipleTable" tooltip-effect="dark" @selection-change="selectChange">
-      <el-table-column type="selection" label="序号" width="50px" align="center">
-      </el-table-column>
-      <el-table-column type="index" label="序号" width="50px" align="center">
-      </el-table-column>
-      <el-table-column prop="id" label="商品编号" align="center">
-      </el-table-column>
-      <el-table-column prop="productName" label="商品名称" align="center">
-      </el-table-column>
-      <el-table-column prop="productDesc" label="商品描述" align="center">
-      </el-table-column>
+        ref="multipleTable" tooltip-effect="dark" @selection-change="selectChange">
+          <el-table-column type="selection" label="序号" width="50px" align="center">
+          </el-table-column>
+          <el-table-column type="index" label="序号" width="50px" align="center">
+          </el-table-column>
+          <el-table-column prop="id" label="商品编号" align="center">
+          </el-table-column>
+          <el-table-column prop="productName" label="商品名称" align="center">
+          </el-table-column>
+          <el-table-column prop="productDesc" label="商品描述" align="center">
+          </el-table-column>
 
-      <!-- <el-table-column prop="productDesc" label="商品描述" align="center">
-    </el-table-column> -->
-      <el-table-column prop="productCategoryName" label="商品类目" align="center">
-      </el-table-column>
-      <el-table-column prop="createTime" label="创建时间" align="center">
-      </el-table-column>
-      <el-table-column fixed="right" label="操作" width="260">
-        <template slot-scope="scope">
-          <!-- <el-button type="primary" plain size="small" @click="addgui(scope.row)" style="margin-bottom: 10px;">查看规格</el-button> -->
-          <el-button type="primary" plain size="small" @click="biangui(scope.row)" style="margin-bottom: 10px;">修改规格</el-button>
-          <el-button type="danger" plain size="small" @click="deletesingle(scope.row)">删除</el-button>
-        </template>
-      </el-table-column>
-      
-    </el-table>
-<div style="float:right;width:100%;background: #fff;">
-        <el-pagination style="padding-top:30px; background: #fff;height: 40px;float:right;" @size-change="3" @current-change="3" :current-page="2" :page-size="3" layout="total, prev, pager, next"
-          :total="tableData.length">
-        </el-pagination>
-      </div>
+          <!-- <el-table-column prop="productDesc" label="商品描述" align="center">
+        </el-table-column> -->
+          <el-table-column prop="productCategoryName" label="商品类目" align="center">
+          </el-table-column>
+          <el-table-column prop="createTime" label="创建时间" align="center">
+          </el-table-column>
+          <el-table-column fixed="right" label="操作" width="260">
+            <template slot-scope="scope">
+              <!-- <el-button type="primary" plain size="small" @click="addgui(scope.row)" style="margin-bottom: 10px;">查看规格</el-button> -->
+            <!--  <el-button type="primary" plain size="small" @click="biangui(scope.row)" style="margin-bottom: 10px;">修改规格</el-button>
+              <el-button type="danger" plain size="small" @click="deletesingle(scope.row)">删除</el-button> -->
+              <el-button type="primary" icon="el-icon-edit" size="mini" @click="biangui(scope.row)">编辑</el-button>
+              <el-button type="danger" icon="el-icon-delete" @click="deletesingle(scope.row)" size="mini">删除</el-button>
+            </template>
+          </el-table-column>
+
+        </el-table>
+    <div style="float:right;width:100%;background: #fff;">
+            <el-pagination style="padding-top:30px; background: #fff;height: 40px;float:right;" @size-change="3" @current-change="3" :current-page="2" :page-size="3" layout="total, prev, pager, next"
+              :total="tableData.length">
+            </el-pagination>
+          </div>
+  </div>
+
+
 
 
     <el-dialog title="新增" :visible.sync="addFormVisible" :close-on-click-modal="false">

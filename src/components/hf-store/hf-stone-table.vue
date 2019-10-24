@@ -1,12 +1,12 @@
 <template>
   <div style="width: 100%;">
-    <div style="height: 60px;display: flex;align-items: center;justify-content: flex-end;width: 100%;background: #fff;">
+    <div style="overflow: hidden; height: 80px;display: flex;align-items: center;justify-content: flex-end;width: 100%;background: #fff;">
       <el-button style="margin-right: 4%;border-radius: 3px;" type="success" icon="el-icon-circle-plus-outline" @click="handleAdd"
         size="mini" round>新增店铺</el-button>
     </div>
-    <div style="margin-top: 10px;width: 100%;">
+    <div style="margin-top: 10px;width: 100%;  padding-top:10px; background: #fff;   ">
       <!--表格数据及操作-->
-      <el-table :data="tableData" style="margin-top: 10px;" size="mini" highlight-current-row border class="el-tb-edit "
+      <el-table  :data="tableData" style="margin-top: 10px;  " size="mini" highlight-current-row border class="el-tb-edit "
         ref="multipleTable" tooltip-effect="dark" v-loading="listLoading" @selection-change="selectChange">
         <el-table-column type="index" :index="indexMethod" label="序号" width="50px" align="center">
         </el-table-column>
@@ -24,8 +24,10 @@
         </el-table-column>
         <el-table-column fixed="right" label="操作" width="250" align="center">
           <template slot-scope="scope">
-            <el-button type="primary" plain size="small" @click="handleRole(scope.row)">编辑</el-button>
-            <el-button size="small" type="danger" @click="delecteDian(scope.row)">删除</el-button>
+            <!-- <el-button type="primary" plain size="small" @click="handleRole(scope.row)">编辑</el-button>
+            <el-button size="small" type="danger" @click="delecteDian(scope.row)">删除</el-button> -->
+            <el-button type="primary" icon="el-icon-edit" size="mini" @click="handleRole(scope.row)">编辑</el-button>
+             <el-button type="danger" icon="el-icon-delete" @click="delecteDian(scope.row)" size="mini">删除</el-button>
           </template>
         </el-table-column>
 
