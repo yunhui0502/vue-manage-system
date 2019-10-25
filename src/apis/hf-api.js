@@ -3,6 +3,7 @@ import Axios from "axios";
 // 获取商品列表
 
 // 添加商品
+
 // http://192.168.1.233:9095/product/addproduct?hfName=衣服1&categoryId=1&brandId=1&productDesc=代步&bossId=1&lastModifier=swd
 function addProduct(params) {
   let fd = new FormData();
