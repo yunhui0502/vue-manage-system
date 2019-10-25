@@ -9,13 +9,13 @@ const router = new VueRouter({
       path: '/',
       redirect: '/index'
     },
-    {
-      path: '/login',
-      component: resolve => require(['@/components/login.vue'], resolve),
-      meta: {
-        title: '登陆'
-      }
-    },
+    // {
+    //   path: '/login',
+    //   component: resolve => require(['@/components/login.vue'], resolve),
+    //   meta: {
+    //     title: '登陆'
+    //   }
+    // },
     {
       name: 'detail',
       path: '/detail',
@@ -53,16 +53,16 @@ const router = new VueRouter({
         title: '商品中心'
       }
     },
+    // {
+    //   path: '/hf-user',
+    //   component: resolve => require(['@/components/hf-user'], resolve),
+    //   meta: {
+    //     title: '用户管理'
+    //   }
+    // },
     {
       path: '/hf-user',
-      component: resolve => require(['@/components/hf-user'], resolve),
-      meta: {
-        title: '用户管理'
-      }
-    },
-    {
-      path: '/hf-user/login',
-      component: resolve => require(['@/components/hf-user/login'], resolve),
+      component: resolve => require(['@/components/hf-user/'], resolve),
       meta: {
         title: '用户登录'
       }

@@ -161,9 +161,8 @@
         </div>
         <!-- 页面内容区end-->
         <!-- 上传图片 -->
-        <el-dialog title="上传图片" :visible.sync="picOpen" :close-on-click-modal="false">
-          <el-upload action="/as" list-type="picture-card" :on-success="handleAvatarSuccess" :on-preview="handlePictureCardPreview"
-            :on-remove="handleRemove" :auto-upload="true">
+        <el-dialog title="上传图片"  :visible.sync="picOpen" :close-on-click-modal="false">
+          <el-upload list-type="picture-card" ref="fileUpload"  action="" :on-preview="handlePictureCardPreview" :on-remove="handleRemove" :auto-upload="false">
             <i class="el-icon-plus"></i>
           </el-upload>
           <el-dialog :visible.sync="dialogVisible">
@@ -171,7 +170,7 @@
           </el-dialog>
           <div slot="footer" class="dialog-footer">
             <el-button @click="picOpen = false">取消</el-button>
-            <el-button type="primary" :loading="editLoading">提交</el-button>
+            <el-button type="primary" :loading="editLoading" @click="uploadFiles">提交</el-button>
           </div>
         </el-dialog>
       </div>
@@ -299,6 +298,9 @@
 
     },
     methods: {
+      uploadFiles: function() {
+        console.log(this.$refs.fileUpload.fileList);
+      },
       //新增物品
       //新增物品
       addGoods: function() {
