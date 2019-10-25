@@ -52,7 +52,7 @@
          规格:
        </div>
        <el-table :data="guigelist" size="mini" highlight-current-row border class="el-tb-edit mgt20" ref="multipleTable"
-         style="margin-bottom: 40px;" tooltip-effect="dark" v-loading="listLoading" @selection-change="selectChange">
+         style="margin-bottom: 40px;" tooltip-effect="dark" v-loading="listLoading" >
          <el-table-column type="index" label="序号" header-align="center" align="center">
          </el-table-column>
          <el-table-column label="规格名称" align="center" prop="hfName">
@@ -67,21 +67,14 @@
          <el-table-column fixed="right" label="操作" width="260">
            <template slot-scope="scope">
              <!-- <el-button type="primary" plain size="small" @click="addgui(scope.row)" style="margin-bottom: 10px;">查看规格</el-button> -->
-             <el-button type="primary" plain size="small" @click="biangui(scope.row)" style="margin-bottom: 10px;">编辑</el-button>
-             <el-button type="danger" plain size="small" @click="deletegui(scope.row)">删除</el-button>
+             <!-- <el-button type="primary" plain size="small" @click="biangui(scope.row)" style="margin-bottom: 10px;">编辑</el-button> -->
+             <!-- <el-button type="danger" plain size="small">删除</el-button> -->
+           <el-button type="danger" icon="el-icon-delete"  @click="deletegui(scope.row)" size="mini">删除</el-button>
            </template>
          </el-table-column>
        </el-table>
-
-
-
-
-
      </div>
     </div>
-
-
-
   </div>
 </template>
 <style lang="scss">
@@ -97,7 +90,7 @@
       return {
         collapse:false,
         value4: '',
-        bianrow: '',
+        bianrow: {},
         leimu: {
           category: '',
           parentCategoryId: "-1",
@@ -106,7 +99,7 @@
         mu: false,
         leiMuId: '',
         value1: '',
-        guigelist: '',
+        guigelist: [],
         leiId: '',
         leiMu: '',
         editFormVisible3: false,
@@ -302,31 +295,25 @@
       deletegui: function(row) {
         var _this = this;
         this.guiform.productId = this.bianrow.id;
-
-
         this.$confirm("确认删除吗？", "提示", {}).then(() => {
-          this.addLoading = true;
+          // this.addLoading = true;
+          api.deleteSpec(row.id).then(response => {
+              console.log(response)
+              if (response.data.status === 200) {
+                this.checkguige();
+                  this.$message({
+                    message: "删除成功",
+                    type: "success"
+                  });
+              }else{
+                this.$message({
+                  message: "删除失败",
+                  type: "success"
+                });
 
-          this.$ajax({
-            method: "get",
-            url: "/api/product/deleteSpecifies",
-            params: {
-              productSpecId: row.id
-            }
-          }).then(res => {
-            this.addLoading = false;
-            console.log('添加规格', res);
-            this.checkguige();
-            this.$message({
-              message: "提交成功",
-              type: "success"
-            });
-
-
+              }
           });
         });
-
-
       },
       changeQuentitySubject1: function() {
         let obj = {};
@@ -336,7 +323,6 @@
             return item
           }
         });
-
         this.bianrow.categoryId = obj.id;
         console.log(this.bianrow.categoryId);
 
@@ -362,13 +348,12 @@
             this.$confirm("确认提交吗？", "提示", {}).then(() => {
               this.addLoading = true;
               let param = Object.assign({}, this.guiform);
-              console.log(param);
+              console.log('1',param);
               this.$ajax({
                 method: "post",
                 url: "/api/product/addSpecify",
                 params: param
               }).then(res => {
-
                 this.addLoading = false;
                 console.log('添加规格', res);
                 this.checkguige();
@@ -392,38 +377,24 @@
         _this.$refs.bianForm.validate(valid => {
           if (valid) {
 
-              // _this.addLoading = true;
-              // let param = Object.assign({}, this.bianrow);
-              api.bianProduct().then(response => {
-                console.log(response);
-                if (response.data.status === 200) {
-                  // _this.listProduct();
+              let param = Object.assign({}, this.bianrow);
+              console.log(this.bianrow);
+
+              api.bianProduct(this.bianrow).then(response => {
+                if(response.status==200){
+                  this.$message({
+                    message: "修改成功",
+                    type: "success"
+                  });
+                   this.$router.push({path: '/product'});
+                }else{
+                  this.$message({
+                    message: "修改失败",
+                    type: "success"
+                  });
                 }
+
               });
-              // console.log(param);
-              // _this.$ajax({
-              //   method: "post",
-              //   url: "/api/product/updateProductId",
-              //   params: param
-              // }).then(res => {
-              //   // _this.editFormVisible3 = false;
-              //   _this.addLoading = false;
-
-              //   _this.$message({
-              //     message: "提交成功",
-              //     type: "success"
-              //   });
-              //   this.$router.push({
-              //     path: '/product'
-              //   })
-              // }).catch(res => {
-              //   _this.addLoading = false;
-              //   _this.$message({
-              //     message: "提交失败",
-
-              //   });
-              // });
-
           }
         });
       },

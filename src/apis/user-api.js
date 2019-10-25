@@ -51,6 +51,8 @@ function register(regi_ster){
 
 export default {
   login:login,
-  register:register ,
+ register:register,
   update:update,
+
+
 }
