@@ -9,8 +9,8 @@
         <div style="background: #f0f0f0;">
           <el-form style="background: #fff;padding: 20px;padding-top: 30px;" :inline='true' :model="editRow"
             label-width="80px" :rules="bianaddFormRules" ref="bianinfoForms">
-            <el-form-item label="店铺名称" prop="hfName">
-              <el-input v-model="editRow.hfName" auto-complete="off" :disabled='true'></el-input>
+            <el-form-item label="店铺名称" prop="hfName" >
+              <el-input v-model="editRow.hfName" auto-complete="off" :disabled='true' ></el-input>
             </el-form-item>
             <br>
             <el-form-item label="店铺描述" prop="hfDesc">
@@ -126,9 +126,9 @@
               </el-dialog>
               <template>
                 <!--表格数据及操作-->
-                <el-table :data='wupin' size="mini" highlight-current-row border ref="multipleTable" border style="margin-bottom: 40px;"
+                <el-table :data='wupin' size="mini" highlight-current-row border ref="multipleTable" border style="margin-bottom: 40px;font-size: 15px;"
                   tooltip-effect="dark" v-loading="listLoading">
-                  <el-table-column type="index" :index="indexMethod" label="序号" width="50px" align="center">
+                  <el-table-column type="index" :index="indexMethod" label="序号" width="59px" align="center">
                   </el-table-column>
                   <el-table-column prop="goodName" label="物品名称" align="center">
                   </el-table-column>

@@ -7,9 +7,9 @@
     <div style="margin-top: 10px;width: 100%;  padding-top:10px; background: #fff;   ">
       <!--表格数据及操作-->
 
-        <el-table :data="tableData" style="margin-top: 10px;  " size="mini" highlight-current-row border class="el-tb-edit "
-          ref="multipleTable" tooltip-effect="dark" v-loading="listLoading">
-          <el-table-column type="index" :index="indexMethod" label="序号" width="50px" align="center">
+        <el-table :data="tableData" size="mini"  style="font-size: 15px" tooltip-effect="dark" highlight-current-row border class="el-tb-edit ">
+          <el-table-column type="index"
+          :index="indexMethod" label="序号" width="59px" align="center">
           </el-table-column>
           <el-table-column prop="hfName" label="店铺名称" align="center">
           </el-table-column>

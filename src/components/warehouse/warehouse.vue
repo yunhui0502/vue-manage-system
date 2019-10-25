@@ -13,11 +13,11 @@
         <div id="app">
           <div style=" width:100%;float:left;">
             <!--表格数据及操作-->
-            <el-table :data="tableData"  size="mini" border style="width: 100%" stripe ref="multipleTable"
+            <el-table :data="tableData"  size="mini" border style="width: 100%;font-size: 15px;" stripe ref="multipleTable"
               tooltip-effect="dark">
 
               <!--索引-->
-              <el-table-column type="index" :index="indexMethod" label="序号" width="50px" align="center">
+              <el-table-column type="index" :index="indexMethod" label="序号" width="59px" align="center">
               </el-table-column>
               <el-table-column prop="hfName" label="仓库名称" sortable align="center">
               </el-table-column>
@@ -64,12 +64,13 @@
             </el-dialog>
             <!--编辑界面-->
             <el-dialog title="编辑" :visible.sync="addFormVisible1" :close-on-click-modal="false">
-              <el-form :model="editRow" :rules="addFormRules" ref="addForm" label-width="166px">
+              <el-form :model="editRow" :rules="bianFormRules" ref="editForm" label-width="166px">
+                
                 <el-form-item label="仓库名称" prop="hfName">
                   <el-input v-model="editRow.hfName" auto-complete="off" style="width:400px;"></el-input>
                 </el-form-item>
-                <el-form-item label="仓库位置" prop="hfRegion">
-                  <el-input v-model="editRow.hfRegion" auto-complete="off" style="width:400px;"></el-input>
+                <el-form-item label="仓库位置" >
+                  <el-input v-model="editRow.hfRegion" auto-complete="off" disabled="true" style="width:400px;"></el-input>
                 </el-form-item>
 
 
@@ -83,43 +84,7 @@
               </div>
             </el-dialog>
           </div>
-          <div style=" width:45%;float:right;">
 
-            <!--新增界面-->
-            <el-dialog title="新增用户" :visible.sync="addRoleUserVisible" :close-on-click-modal="false">
-              <el-row>
-                <el-col :span="200" class="grid">
-                  <el-input v-model="s_username" label="用户名称" placeholder="请输入内容" style="width:200px; heght:30px;" size="mini"></el-input>
-                </el-col>
-                <el-col :span="1" class="grid">
-                  <el-button type="success" @click="addRoleUser(1)" icon="el-icon-search" size="mini">搜索</el-button>
-                </el-col>
-              </el-row>
-              <br>
-              <el-table :data="userData" @selection-change="userSelectionChange" border style="width: 100%" stripe ref="multipleTable"
-                tooltip-effect="dark">
-                <!--勾选框-->
-                <el-table-column type="selection" width="55">
-                </el-table-column>
-                <!--索引-->
-                <el-table-column type="index" :index="indexMethod">
-                </el-table-column>
-                <el-table-column prop="userName" label="用户名称" width="180">
-                </el-table-column>
-                <el-table-column prop="id" label="用户编号">
-                </el-table-column>
-
-              </el-table>
-              <el-pagination @current-change="addRoleUser" :current-page="usercurrentPage" :page-size="pageSize" layout="total, prev, pager, next"
-                :total="usercount">
-              </el-pagination>
-              <br>
-              <div slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="saveUserRole" :loading="addLoading">保存</el-button>
-                <el-button @click="addRoleUserVisible= false">关闭</el-button>
-              </div>
-            </el-dialog>
-          </div>
         </div>
       </div>
       <!-- 页面内容区end-->
@@ -162,12 +127,20 @@
         s_rolename: "",
         s_rolecode: "",
         s_username: "",
+        bianFormRules:{
+          hfName: [{
+            required: true,
+            message: "请输入仓库名称",
+            trigger: "blur"
+          }],
+
+        },
         //     s_roleType:"",
         //输入框验证
         addFormRules: {
           hfName: [{
             required: true,
-            message: "请输入角色名称",
+            message: "请输入仓库名称",
             trigger: "blur"
           }],
           hfRegion: [{
@@ -218,7 +191,7 @@
       },
       //编辑
       editSubmit: function() {
-        this.$refs.addForm.validate(valid => {
+        this.$refs.editForm.validate(valid => {
           if (valid) {
             this.$confirm("确认提交吗？", "提示", {}).then(() => {
               this.addLoading = true;
@@ -237,7 +210,7 @@
                   message: "提交成功",
                   type: "success"
                 });
-                this.$refs["editRow"].resetFields();
+                this.$refs["editForm"].resetFields();
 
 
               });
@@ -478,7 +451,6 @@
       deleteRoleUser: function() {
         let param = new URLSearchParams();
         param.append("id", row.id);
-
         this.$ajax({
           method: "post",
           url: "/api/sysrole-api/deleteSysRoleUserByid",
