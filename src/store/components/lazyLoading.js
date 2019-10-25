@@ -21,11 +21,35 @@ function getComponetByPath(path) {
  * 路由定义
  * path跟配置里的资源标示对应,同时跟url地址对应
  */
+
 const dynamicRouter = [
   {
     name: 'index',
     path: '/index',
     component: resolve => require(['@/components/index.vue'], resolve),
+    meta: {
+      title: '系统首页'
+    }
+  },
+  {
+  
+    path: '/hf-order-table',
+    component: resolve => require(['@/components/hf-order/hf-order-table.vue'], resolve),
+    meta: {
+      title: '系统首页'
+    }
+  },
+  {
+   
+    path: '/hf-order',
+    component: resolve => require(['@/components/hf-order/hf-order.vue'], resolve),
+    meta: {
+      title: '系统首页'
+    }
+  },
+  {
+    path: '/order',
+    component: resolve => require(['@/components/hf-order/index.vue'], resolve),
     meta: {
       title: '系统首页'
     }

@@ -4,18 +4,34 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter);
 const router = new VueRouter({
-  routes: [
-    {
+  routes: [{
       path: '/',
       redirect: '/index'
     },
-    // {
-    //   path: '/login',
-    //   component: resolve => require(['@/components/login.vue'], resolve),
-    //   meta: {
-    //     title: '登陆'
-    //   }
-    // },
+    {
+      name: 'hf-order-table',
+      path: '/hf-order-table',
+      component: resolve => require(['@/components/hf-order/hf-order-table.vue'], resolve),
+      meta: {
+        title: '系统首页'
+      }
+    },
+    {
+      name: 'hf-order',
+      path: '/hf-order',
+      component: resolve => require(['@/components/hf-order/hf-order.vue'], resolve),
+      meta: {
+        title: '系统首页'
+      }
+    },
+    {
+      name: 'order',
+      path: '/order',
+      component: resolve => require(['@/components/hf-order/index.vue'], resolve),
+      meta: {
+        title: '系统首页'
+      }
+    },
     {
       name: 'detail',
       path: '/detail',
@@ -99,10 +115,10 @@ const router = new VueRouter({
         title: '蚂蚁种树'
       }
     },
-	{
-	  path: '/zanzhu',
-	  component: resolve => require(['../components/zanzhu.vue'], resolve)
-	},
+    {
+      path: '/zanzhu',
+      component: resolve => require(['../components/zanzhu.vue'], resolve)
+    },
     {
       path: '/bottom',
       component: resolve => require(['../components/flex/bottom.vue'], resolve)
@@ -129,8 +145,7 @@ router.beforeEach((to, from, next) => {
   console.log('跳转到:', to.fullPath);
   if (to.path == '/tree') {
     next();
-  }
-  else {
+  } else {
     // var token = sessionStorage.getItem('token');
     //如果没登录,都导向登录页
     // console.log('token',token);
@@ -143,7 +158,7 @@ router.beforeEach((to, from, next) => {
     //   }
     // }
     // else {
-      next();
+    next();
     // }
   }
 
