@@ -52,10 +52,14 @@
                                 index: 'warehouse',
                                 title: '仓库管理'
                             },
-                            // {
-                            //     index: 'hf-user',
-                            //     title: '用户中心'
-                            // },
+                            {
+                                index: 'hf-user',
+                                title: '用户中心'
+                            },
+                            {
+                                index: 'hf-order',
+                                title: '订单中心'
+                            },
                         ]
                     },
                     {
