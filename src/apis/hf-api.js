@@ -16,12 +16,15 @@ function category() {
 // 编辑商品
 function bianProduct(params) {
   let fd = new FormData();
-  fd.append('id', params.id);
+  fd.append('id', params.id); 
   fd.append('productDesc', params.productDesc);
   return Axios.post("/api/product/updateProductId", fd, { responseType: 'arraybuffer' });
 }
 
 // 添加商品
+
+
+// http://192.168.1.233:9095/product/addproduct?hfName=衣服1&categoryId=1&brandId=1&productDesc=代步&bossId=1&lastModifier=swd
 function addProduct(params) {
   let fd = new FormData();
   fd.append('bossId', params.bossId);
