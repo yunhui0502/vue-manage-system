@@ -2,19 +2,27 @@
   <div>
 
     <div class="handle-box " style="background: #fff;width: 94%;height: 70px;padding:30px 3%  10px 3%;">
-      <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
+      <el-col :span="24" class="toolbar" style="padding-bottom: 0px;font-size: 15px;">
         <el-form :inline="true">
-          <el-form-item style="margin-bottom:50px;" label="商品名称:">
+          <el-form-item style="margin-bottom:50px;" label="">
+           <div style="font-size: 15px;">商品名称:</div>
+          </el-form-item>
+
+          <el-form-item style="margin-bottom:50px;" label="">
             <el-input v-model="souhfName" auto-complete="off"></el-input>
           </el-form-item>
-          <el-form-item style="margin-bottom:50px;margin-left: 5px;" label="商品分类：">
+          <el-form-item style="margin-bottom:50px;margin-left: 5px;" label="">
+
+            <el-form-item style="margin-bottom:50px;" label="">
+             <div style="font-size: 15px;">商品分类：</div>
+            </el-form-item>
             <el-select v-model="value1" placeholder="请选择" @change="checkMulist">
               <el-option v-for="(item, index) in leiMu" :key="index" :label="item.hfName" :value="item.hfName">
               </el-option>
             </el-select>
           </el-form-item>
           <el-button type="primary" @click="sou" :loading="addLoading">搜索</el-button>
-            <el-button type="danger" style="border-radius:3px;float:right;margin-right: 4%;"  icon="el-icon-delete" @click="deletegood" size="mini" round>删除</el-button>
+            <el-button type="danger" style="border-radius:3px;float:right;margin-right: 4%;font-size: 15px;"  icon="el-icon-delete" @click="deletegood" size="mini" round>删除</el-button>
             <el-button  type="success" style="border-radius:3px;float:right;"    icon="el-icon-circle-plus-outline" @click="handleAdd" size="mini"  round>新增</el-button>
         </el-form>
       </el-col>
@@ -22,11 +30,11 @@
 
 
   <div style="padding-top: 10px;background: #fff;margin-top: 10px;">
-    <el-table :data="tableData" size="mini" highlight-current-row border class="el-tb-edit "
-        ref="multipleTable" tooltip-effect="dark" @selection-change="selectChange">
-          <el-table-column type="selection" label="序号" width="50px" align="center">
+    <el-table :data="tableData" size="mini" highlight-current-row border class="el-tb-edit " style="font-size: 15px"
+        ref="multipleTable" tooltip-effect="dark" >
+          <el-table-column type="selection" label="序号" width="59px" align="center">
           </el-table-column>
-          <el-table-column type="index" label="序号" width="50px" align="center">
+          <el-table-column type="index" label="序号" width="70px" align="center">
           </el-table-column>
           <el-table-column prop="id" label="商品编号" align="center">
           </el-table-column>
@@ -41,7 +49,7 @@
           </el-table-column>
           <el-table-column prop="createTime" label="创建时间" align="center">
           </el-table-column>
-          <el-table-column fixed="right" label="操作" width="260">
+          <el-table-column fixed="right" label="操作" width="260" align="center">
             <template slot-scope="scope">
               <!-- <el-button type="primary" plain size="small" @click="addgui(scope.row)" style="margin-bottom: 10px;">查看规格</el-button> -->
             <!--  <el-button type="primary" plain size="small" @click="biangui(scope.row)" style="margin-bottom: 10px;">修改规格</el-button>

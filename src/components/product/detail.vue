@@ -9,15 +9,26 @@
        <div style="font-size: 17px;margin-bottom: 30px;">
          商品编辑:
        </div>
-       <el-form-item label="商品名称" prop="productName">
+
+       <el-form-item style="margin-bottom:50px;" label="">
+        <div style="font-size: 15px;">商品名称:</div>
+       </el-form-item>
+       <el-form-item label="" prop="productName">
          <el-input v-model="bianrow.productName" auto-complete="off" :disabled="true"></el-input>
        </el-form-item>
        <br>
-       <el-form-item label="商品描述" prop="productDesc">
+       <el-form-item style="margin-bottom:50px;" label="">
+        <div style="font-size: 15px;">商品描述:</div>
+       </el-form-item>
+       <el-form-item label="" prop="productDesc">
          <el-input v-model="bianrow.productDesc" auto-complete="off" style="width: 500px;"         type="textarea"  resize="none"></el-input>
        </el-form-item>
        <br>
-       <el-form-item label="商品分类">
+
+       <el-form-item style="margin-bottom:50px;" label="">
+        <div style="font-size: 15px;">商品分类:</div>
+       </el-form-item>
+       <el-form-item label="">
           <el-input v-model="value4" auto-complete="off" :disabled="true"></el-input>
          <!-- <el-select v-model="value4" placeholder="请选择" @change="changeQuentitySubject1(index)">
            <el-option v-for="(item,index) in leiMu" :key="index" :label="hfName" :value="item.hfName">
@@ -33,17 +44,36 @@
            添加规格:
          </div>
 
-
-         <el-form-item label="规格名称:" prop="hfName" label-width="100px">
+          <el-form-item label=""  label-width="100px">
+              <div style="font-size: 15px;">
+                规格名称:
+              </div>
+          </el-form-item>
+         <el-form-item label="" prop="hfName" label-width="100px">
            <el-input v-model="guiform.hfName" auto-complete="off" placeholder="颜色"></el-input>
          </el-form-item>
-         <el-form-item label="规格类型:" prop="specType" label-width="100px">
+         <el-form-item label="" label-width="100px">
+             <div style="font-size: 15px;">
+              规格类型:
+             </div>
+         </el-form-item>
+         <el-form-item label="" prop="specType" label-width="100px">
            <el-input auto-complete="off" v-model="guiform.specType" placeholder="xl"></el-input>
          </el-form-item>
-         <el-form-item label="规格值:" prop="specValue" label-width="100px">
+         <el-form-item label=""  label-width="100px">
+             <div style="font-size: 15px;">
+              规格值:
+             </div>
+         </el-form-item>
+         <el-form-item label="" prop="specValue" label-width="100px">
            <el-input auto-complete="off" v-model="guiform.specValue" placeholder="xl"></el-input>
          </el-form-item>
-         <el-form-item label="规格单位:" prop="specUnit" label-width="100px">
+         <el-form-item label="" label-width="100px">
+             <div style="font-size: 15px;">
+              规格单位:
+             </div>
+         </el-form-item>
+         <el-form-item label="" prop="specUnit" label-width="100px">
            <el-input auto-complete="off" v-model="guiform.specUnit" placeholder="xl"></el-input>
          </el-form-item>
          <el-button type="primary" @click="add" :loading="editLoading">添加</el-button>
@@ -52,8 +82,8 @@
          规格:
        </div>
        <el-table :data="guigelist" size="mini" highlight-current-row border class="el-tb-edit mgt20" ref="multipleTable"
-         style="margin-bottom: 40px;" tooltip-effect="dark" v-loading="listLoading" >
-         <el-table-column type="index" label="序号" header-align="center" align="center">
+         style="margin-bottom: 40px;font-size: 15px;" tooltip-effect="dark" v-loading="listLoading" >
+         <el-table-column type="index" label="序号" header-align="center" align="center" width="59px">
          </el-table-column>
          <el-table-column label="规格名称" align="center" prop="hfName">
          </el-table-column>

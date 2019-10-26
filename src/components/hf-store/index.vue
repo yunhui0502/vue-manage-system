@@ -4,20 +4,6 @@
   <v-sidebar></v-sidebar>
   <div class="content-box" :class="{'content-collapse':collapse}">
   <hfStoneTable></hfStoneTable>
-
-
-
-  <!-- <el-row :gutter="20">
-        <el-col :span="6">
-          <h3>店铺列表</h3>
-          <div>当前选中的商铺 {{this.selectedStone}}</div>
-          <hfStoneTable v-bind:selected-stone="selectedStone" v-on:selectedStoneHandler="selectedStoneHandler($event)"></hfStoneTable>
-        </el-col>
-        <el-col :span="18">
-          <h3>店铺内的物品列表</h3>
-          <goodsTable v-bind:selected-stone="selectedStone"></goodsTable>
-        </el-col>
-    </el-row> -->
   </div>
 </div>
 </template>

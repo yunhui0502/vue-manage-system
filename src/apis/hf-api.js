@@ -1,5 +1,5 @@
 import Axios from "axios";
-// =====================商品模块
+// ========================================================================商品模块
 // 获取商品列表
 function getProductList(Id) {
   let params = {
@@ -71,7 +71,7 @@ function deleteSpec(id) {
   }
   return Axios.get("/api/product/deleteSpecifies", params);
 }
-// =====================店铺模块
+// ============================================================================================店铺模块
 // 获取店铺列表
 function getStoreList(Id) {
   let params = {
@@ -114,7 +114,7 @@ function deleteStore(id) {
   }
   return Axios.get("/api/stone/deleteStone", params);
 }
-// =====================物品模块
+// ================================================================================================物品模块
 // 获取物品
 function getGood(id) {
   let params = {
@@ -161,7 +161,7 @@ function addSpec(params) {
 //   fd.append('id', params.id);
 //   return Axios.post("/api/goods/updategood", fd, { responseType: 'arraybuffer' });;
 // }
-//=====================仓库模块
+//===================================================================================================仓库模块
 //查询仓库
 function checkWarehouse(id) {
   let params = {
@@ -171,7 +171,16 @@ function checkWarehouse(id) {
   }
   return Axios.get("/api/wareHouse/listWareHouse", params);
 }
-
+// ======================================================================订单模块
+// 查看订单列表
+function checkOrderList(id) {
+  let params = {
+    params: {
+       id:id
+    }
+  }
+  return Axios.get("/api/order/query", params);
+}
 
 export default {
   getProductList: getProductList,
@@ -190,5 +199,6 @@ export default {
   checkWarehouse:checkWarehouse,
   deleteSpec:deleteSpec,
   deleteGood:deleteGood,
-  addSpec:addSpec
+  addSpec:addSpec,
+  checkOrderList:checkOrderList
 }

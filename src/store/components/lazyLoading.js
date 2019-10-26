@@ -22,49 +22,55 @@ function getComponetByPath(path) {
  * 路由定义
  * path跟配置里的资源标示对应,同时跟url地址对应
  */
-const dynamicRouter = [{
-      name: 'index',
-      path: '/index',
-      component: resolve => require(['@/components/index.vue'], resolve),
-      meta: {
-        title: '系统首页'
-      }
-    },
-    {
-      path: '/hf-user/register',
-      component: resolve => require(['@/components/hf-user/register'], resolve),
-      meta: {
-        title: '用户注册'
-      }
-    },
-    {
-      name: 'hf-user',
-      path: '/hf-user/login',
-      component: resolve => require(['@/components/hf-user/login.vue'], resolve),
-      meta: {
-        title: '用户登录'
-      }
-    },
-    {
-      name: 'list',
-      path: '/list/list',
-      component: resolve => require(['@/components/list/list.vue'], resolve),
-      meta: {
-        title: '用户列表'
-      }
-    },
 
-
-    {
-      name: 'detail',
-      path: '/detail',
-      component: resolve => require(['@/components/product/detail.vue'], resolve),
-      meta: {
-        title: '系统首页'
-      }
+const dynamicRouter = [
+  {
+    name: 'index',
+    path: '/index',
+    component: resolve => require(['@/components/index.vue'], resolve),
+    meta: {
+      title: '系统首页'
     }
-  ,
-
+  },
+  {
+  
+    path: '/hf-order-table',
+    component: resolve => require(['@/components/hf-order/hf-order-table.vue'], resolve),
+    meta: {
+      title: '系统首页'
+    }
+  },
+  {
+   
+    path: '/hf-order',
+    component: resolve => require(['@/components/hf-order/hf-order.vue'], resolve),
+    meta: {
+      title: '系统首页'
+    }
+  },
+  {
+    path: '/order',
+    component: resolve => require(['@/components/hf-order/index.vue'], resolve),
+    meta: {
+      title: '系统首页'
+    }
+  },
+  {
+    name: 'hf-user',
+    path: '/hf-user',
+    component: resolve => require(['@/components/hf-user/login.vue'], resolve),
+    meta: {
+      title: '用户登录'
+    }
+  },
+  {
+    name: 'detail',
+    path: '/detail',
+    component: resolve => require(['@/components/product/detail.vue'], resolve),
+    meta: {
+      title: '系统首页'
+    },
+  },
   {
     name: 'hf-store',
     path: '/hf-store',
