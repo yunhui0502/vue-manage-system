@@ -12,8 +12,8 @@ module.exports = {
     proxyTable: {
       '/api': {
         // target:'http://192.168.1.77:9097',//王鹏博
-         target:'http://192.168.1.233:9095',//小方
-        // target:'http://localhost:9095',//小方
+        // target:'http://192.168.1.233:9095',//小方
+        target:'http://localhost:9095',//小方
         changeOrigin: true,
         pathRewrite: {
           '^/api': '/'
@@ -26,6 +26,15 @@ module.exports = {
         changeOrigin: true,
         pathRewrite: {
           '^/user': '/'
+        }
+      },
+      '/order': {
+        // target:'http://192.168.1.90:8082',//王博朋
+        // target: 'http://192.168.1.233:8082',//小方
+        target:'http://localhost:9097',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/order': '/'
         }
       }
     },

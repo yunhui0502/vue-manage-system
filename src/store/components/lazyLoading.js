@@ -43,7 +43,7 @@ const dynamicRouter = [
   {
    
     path: '/hf-order',
-    component: resolve => require(['@/components/hf-order/hf-order.vue'], resolve),
+    component: resolve => require(['@/components/hf-order'], resolve),
     meta: {
       title: '系统首页'
     }
@@ -58,7 +58,7 @@ const dynamicRouter = [
   {
     name: 'hf-user',
     path: '/hf-user',
-    component: resolve => require(['@/components/hf-user/login.vue'], resolve),
+    component: resolve => require(['@/components/hf-user'], resolve),
     meta: {
       title: '用户登录'
     }

@@ -24,16 +24,21 @@ function update(params){
 }
 
 //登录
-function login(Logins){
-  let params={
-    params:{
-      authType:Logins.authType,
-      authKey:Logins.passwd,
-      passwd:"admin",
-      token:"1"
-    }
+function login(login) {
+  let params = {
+    token: ""
+  };
+  if (login.loginType == '用户名') {
+    params['authKey'] = login.loginName;
+    params['passwd'] = login.password;
+    params['authType'] = '1';
+  } else { 
+    params['authType'] = '2';
+    params['passwd'] = "";
+    params['authKey'] = login.loginName;
   }
-  return Axios.get("/api/user/login",params)
+  console.log(params, login);
+  return Axios.get("/user/user/login", { params: params });
 }
 //注册
 

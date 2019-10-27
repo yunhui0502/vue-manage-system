@@ -9,30 +9,6 @@ const router = new VueRouter({
       redirect: '/index'
     },
     {
-      name: 'hf-order-table',
-      path: '/hf-order-table',
-      component: resolve => require(['@/components/hf-order/hf-order-table.vue'], resolve),
-      meta: {
-        title: '系统首页'
-      }
-    },
-    {
-      name: 'hf-order',
-      path: '/hf-order',
-      component: resolve => require(['@/components/hf-order/hf-order.vue'], resolve),
-      meta: {
-        title: '系统首页'
-      }
-    },
-    {
-      name: 'order',
-      path: '/order',
-      component: resolve => require(['@/components/hf-order/index.vue'], resolve),
-      meta: {
-        title: '系统首页'
-      }
-    },
-    {
       name: 'detail',
       path: '/detail',
       component: resolve => require(['@/components/product/detail.vue'], resolve),
@@ -69,23 +45,23 @@ const router = new VueRouter({
         title: '商品中心'
       }
     },
-    // {
-    //   path: '/hf-user',
-    //   component: resolve => require(['@/components/hf-user'], resolve),
-    //   meta: {
-    //     title: '用户管理'
-    //   }
-    // },
-
-	// {
-	//   path: '/hf-user/register',
-	//   component: resolve => require(['@/components/hf-user/register'], resolve),
-	//   meta: {
-	//     title: '用户注册'
-	//   }
-	// },
     {
       path: '/hf-user',
+      component: resolve => require(['@/components/hf-user'], resolve),
+      meta: {
+        title: '用户管理'
+      }
+    },
+
+	{
+	  path: '/hf-user/register',
+	  component: resolve => require(['@/components/hf-user/register'], resolve),
+	  meta: {
+	    title: '用户注册'
+	  }
+	},
+    {
+      path: '/hf-user/login',
       component: resolve => require(['@/components/hf-user/login'], resolve),
       meta: {
         title: '用户登录'
@@ -98,14 +74,6 @@ const router = new VueRouter({
         title: '订单中心'
       }
     },
-
-    // {
-    //   path: '/hf-user/register',
-    //   component: resolve => require(['@/components/hf-user/register'], resolve),
-    //   meta: {
-    //     title: '用户注册'
-    //   }
-    // },
     {
       path: '/warehouse',
       component: resolve => require(['@/components/warehouse'], resolve),
@@ -114,37 +82,11 @@ const router = new VueRouter({
       }
     },
    {
-      path: '/list',
-      component: resolve => require(['@/components/list'], resolve),
-      meta: {
-        title: '仓库中心'
-      }
-    },
-    {
-      path: '/tree',
-      component: resolve => require(['@/components/mayi/tree.vue'], resolve),
-      meta: {
-        title: '蚂蚁种树'
-      }
-    },
-    // {
-    //   path: '/dianPu',
-    //   component: resolve => require(['../components/admin/dianPu.vue'], resolve)
-    // },
-    {
       path: '/test',
       component: resolve => require(['../components/test/index.vue'], resolve),
       meta: {
         title: '蚂蚁种树'
       }
-    },
-    {
-      path: '/zanzhu',
-      component: resolve => require(['../components/zanzhu.vue'], resolve)
-    },
-    {
-      path: '/bottom',
-      component: resolve => require(['../components/flex/bottom.vue'], resolve)
     },
     {
       path: '/404',

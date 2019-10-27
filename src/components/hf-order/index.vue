@@ -3,7 +3,7 @@
   <v-head></v-head>
   <v-sidebar></v-sidebar>
   <div class="content-box" :class="{'content-collapse':collapse}">
-  <hfOrderTable></hfOrderTable>
+    <hfOrder></hfOrder>
   </div>
 </div>
 </template>
@@ -11,13 +11,14 @@
 <script>
 import vSidebar from '@/components/common/sidebar.vue';
 import vHead from '@/components/common/header.vue';
-import hfOrder from './hf-order';
-import hfOrderTable from './hf-order-table';
+import hfOrder from './hf-order'
 
 export default {
   name: 'store',
   components: {
-    vHead, vSidebar, hfOrder, hfOrderTable
+    vHead,
+    vSidebar,
+    hfOrder
   },
   data() {
     return {
@@ -26,15 +27,16 @@ export default {
     }
   },
   methods: {
-     selectedStoneHandler(res){
-       this.selectedStone = res;
-}
+    selectedStoneHandler(res) {
+      this.selectedStone = res;
+    }
   }
 }
 </script>
+
 <style>
-  *{
-    margin: 0;
-    padding: 0;
-    }
+* {
+  margin: 0;
+  padding: 0;
+}
 </style>

@@ -1,92 +1,32 @@
-<!-- <template>
-  <div>
-    <div class="login">
-      <div class="login2">系 统 登 陆</div>
-      <div>
-        <input type="text" placeholder="账号" v-model="authType"/>
-        <input type="text" placeholder="密码" v-model="passwd"/>
-      </div>
-      <div class="btn" @click="Login()">登录</div>
-
-    </div>
+<template>
+<div class="wrapper">
+  <v-head></v-head>
+  <v-sidebar></v-sidebar>
+  <div class="content-box" :class="{'content-collapse':collapse}">
+    <hfUser></hfUser>
   </div>
+</div>
 </template>
 
-<style>
-  .btn {
-    width: 80%;
-    height: 30px;
-    background: #20A0FF;
-    margin: 0 auto;
-    margin: 0 auto;
-    text-align: center;
-    line-height: 30px;
-    color: #ffffff;
-    margin-top: 30px;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-
-  .login {
-    width: 400px;
-    height: 250px;
-    border: 1px solid #cccccc;
-    margin: 0 auto;
-    margin-top: 230px;
-  }
-
-  .login2 {
-    margin-left: 150px;
-    margin-top: 30px;
-    font-weight: bold;
-  }
-
-  input {
-    width: 80%;
-    height: 30px;
-    margin: 0 auto;
-    display: block;
-    margin-top: 20px;
-    text-indent: 5px;
-    /* border-radius:0.1px; */
-  }
-</style>
-
 <script>
-import axios from 'axios';
-import api from '@/apis/user-api.js';
-import {
-  mapGetters
-} from 'vuex';
+import vSidebar from '@/components/common/sidebar.vue';
+import vHead from '@/components/common/header.vue';
+import hfUser from './hf-user';
 export default {
-  name: 'testIndex',
-  methods: {
-    handleUpload(raw) {
-      this.files.push(raw.file);
-    },
- handlePush() {
-      axios.post('/api/user/login', fd, { responseType: 'arraybuffer' }).then(res => {
-        console.log(res);
-      });
-    },
-   Login() {
-       api.Login().then(res => {
-            console.log(res.data)
-         });
-       }
-   },
-  computed: {
-    ...mapGetters(['taxno', 'username'])
+  name: 'store',
+  components: {
+    vHead, vSidebar, hfUser
   },
   data() {
     return {
-      files: [],
-      fileIds: []
+      collapse: false,
+      selectedStone: 1
     }
   },
-  init() {
-
+  methods: {
+     selectedStoneHandler(res){
+       this.selectedStone = res;
+}
   }
 }
 </script>
- -->
