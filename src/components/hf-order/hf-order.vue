@@ -10,64 +10,64 @@
         </span>
       </el-dialog>
     </template>
-    <el-table stripe :data="scope.tableData">
-      <el-table-column label="订单编号" align="center">
+    <el-table stripe :data="scope.tableData"  height="700"   style="width: 100%;font-size: 15px;"  size="mini"     :row-class-name="tableRowClassName">
+      <el-table-column label="订单编号" align="center"  width="150"  fixed>
         <template slot-scope="scope">
           <span>{{ scope.row.id}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="订单类型" align="center">
+      <el-table-column label="订单类型" align="center"  width="150">
         <template slot-scope="scope">
           <span>{{ scope.row.orderType}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="支付金额" align="center">
+      <el-table-column label="支付金额" align="center"  width="150">
         <template slot-scope="scope">
           <span>{{ scope.row.amount}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="支付状态" align="center">
+      <el-table-column label="支付状态" align="center"  width="150">
         <template slot-scope="scope">
           <span>{{ scope.row.payStatus}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="支付方式" align="center">
+      <el-table-column label="支付方式" align="center" width="150">
         <template slot-scope="scope">
           <span>{{ scope.row.payMethodType}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="商品单价" align="center">
+      <el-table-column label="商品单价" align="center" width="150">
         <template slot-scope="scope">
           <span>{{ scope.row.purchasePrice}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="购买数量" align="center">
+      <el-table-column label="购买数量" align="center" width="150">
         <template slot-scope="scope">
           <span>{{ scope.row.purchaseQuantity}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="商品名称" align="center">
+      <el-table-column label="商品名称" align="center" width="150">
         <template slot-scope="scope">
           <span>{{ scope.row.hfName}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="订单描述" align="center">
+      <el-table-column label="订单描述" align="center" width="150">
         <template slot-scope="scope">
           <span>{{ scope.row.hfDesc}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="收获地址" align="center">
+      <el-table-column label="收获地址" align="center"  width="150">
         <template slot-scope="scope">
           <span>{{ scope.row.address}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="物流单号" align="center">
+      <el-table-column label="物流单号" align="center"  width="150">
         <template slot-scope="scope">
           <span>{{ scope.row.logisticsOrdersId}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="物流公司" align="center">
+      <el-table-column label="物流公司" align="center"  width="150">
         <template slot-scope="scope">
           <span>{{ scope.row.logisticsCompany}}</span>
         </template>
@@ -78,30 +78,30 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="订单创建人" align="center">
+      <el-table-column label="订单创建人" align="center"  width="150">
         <template slot-scope="scope">
           <span>{{ scope.row.realName}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="创建时间" align="center">
+      <el-table-column label="创建时间" align="center"  width="150">
         <template slot-scope="scope">
           <span>{{ scope.row.createTime}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="修改时间" align="center">
+      <el-table-column label="修改时间" align="center"  width="150">
         <template slot-scope="scope">
           <span>{{ scope.row.modifyTime}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="订单状态" align="center">
+      <el-table-column label="订单状态" align="center"  width="150">
         <template slot-scope="scope">
           <span>{{ scope.row.orderDetailStatus}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center">
+      <el-table-column align="center" label="操作"  width="150"    fixed="right">
         <template slot-scope="scope">
-          <el-button @click="TellMeId(scope.row)">查看订单详情</el-button>
+          <el-button @click="TellMeId(scope.row)"  size="small" type="text">查看订单详情</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -110,48 +110,48 @@
         width="50%" :loading.sync="loading" close-on-click-modal ref="selectedItem">
         <div class="demo-drawer__content">
           <el-form :model="form">
-            <el-form-item label="订单编号" :label-width="formLabelWidth" align="center">
-              <el-input v-model="form.id" autocomplete="off" disabled="true"></el-input>
+            <el-form-item label="订单编号" label-width="70px">
+              <el-input v-model="form.id" autocomplete="off" disabled="true" style="width:200px;"></el-input>
             </el-form-item>
-            <el-form-item label="订单类型" :label-width="formLabelWidth">
-              <el-input v-model="form.orderType" autocomplete="off" disabled="true"></el-input>
+            <el-form-item label="订单类型" >
+              <el-input v-model="form.orderType" autocomplete="off" disabled="true" style="width: 200px;"></el-input>
             </el-form-item>
-            <el-form-item label="支付金额" :label-width="formLabelWidth">
-              <el-input v-model="form.amount" autocomplete="off" disabled="true"></el-input>
+            <el-form-item label="支付金额" >
+              <el-input v-model="form.amount" autocomplete="off" disabled="true" style="width: 200px;"></el-input>
             </el-form-item>
-            <el-form-item label="支付状态" :label-width="formLabelWidth">
-              <el-input v-model="form.payStatus" autocomplete="off" disabled="true"></el-input>
+            <el-form-item label="支付状态" >
+              <el-input v-model="form.payStatus" autocomplete="off" disabled="true" style="width: 200px;"></el-input>
             </el-form-item>
             <el-form-item label="商品名称" :label-width="formLabelWidth">
-              <el-input v-model="form.hfName" autocomplete="off" disabled="true"></el-input>
+              <el-input v-model="form.hfName" autocomplete="off" disabled="true" style="width: 200px;"></el-input>
             </el-form-item>
             <el-form-item label="订单描述" :label-width="formLabelWidth">
-              <el-input v-model="form.hfDesc" autocomplete="off" disabled="true"></el-input>
+              <el-input v-model="form.hfDesc" autocomplete="off" disabled="true" style="width: 200px;"></el-input>
             </el-form-item>
             <el-form-item label="收获地址" :label-width="formLabelWidth">
-              <el-input v-model="form.address" autocomplete="off" disabled="true"></el-input>
+              <el-input v-model="form.address" autocomplete="off" disabled="true" style="width: 200px;"></el-input>
             </el-form-item>
-            <el-form-item label="物流单号" :label-width="formLabelWidth">
-              <el-input v-model="form.logisticsOrdersId" autocomplete="off" disabled="true"></el-input>
+            <!-- <el-form-item label="物流单号" :label-width="formLabelWidth">
+              <el-input v-model="form.logisticsOrdersId" autocomplete="off" disabled="true" style="width: 400px;"></el-input>
             </el-form-item>
             <el-form-item label="物流公司" :label-width="formLabelWidth">
-              <el-input v-model="form.logisticsCompany" autocomplete="off" disabled="true"></el-input>
+              <el-input v-model="form.logisticsCompany" autocomplete="off" disabled="true" style="width: 200px;"></el-input>
             </el-form-item>
             <el-form-item label="物流订单名称" :label-width="formLabelWidth">
-              <el-input v-model="form.logisticsOrderName" autocomplete="off" disabled="true"></el-input>
+              <el-input v-model="form.logisticsOrderName" autocomplete="off" disabled="true" style="width: 200px;"></el-input>
             </el-form-item>
             <el-form-item label="订单创建人" :label-width="formLabelWidth">
-              <el-input v-model="form.realName" autocomplete="off" disabled="true"></el-input>
+              <el-input v-model="form.realName" autocomplete="off" disabled="true" style="width: 200px;"></el-input>
             </el-form-item>
             <el-form-item label="订单状态" :label-width="formLabelWidth">
-              <el-input v-model="form.orderDetailStatus" autocomplete="off" disabled="true"></el-input>
+              <el-input v-model="form.orderDetailStatus" autocomplete="off" disabled="true" style="width: 200px;"></el-input>
             </el-form-item>
             <el-form-item label="创建时间" :label-width="formLabelWidth">
-              <el-input v-model="form.createTime" autocomplete="off" disabled="true"></el-input>
+              <el-input v-model="form.createTime" autocomplete="off" disabled="true" style="width: 200px;"></el-input>
             </el-form-item>
             <el-form-item label="支付方式" :label-width="formLabelWidth">
-              <el-input v-model="form.payMethodType" autocomplete="off" disabled="true"></el-input>
-            </el-form-item>
+              <el-input v-model="form.payMethodType" autocomplete="off" disabled="true" style="width: 200px;"></el-input>
+            </el-form-item> -->
 
 
           </el-form>
@@ -238,4 +238,11 @@
 </script>
 
 <style>
+   .el-table .warning-row {
+      background: oldlace;
+    }
+
+    .el-table .success-row {
+      background: #f0f9eb;
+    }
 </style>
