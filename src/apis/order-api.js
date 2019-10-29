@@ -39,10 +39,12 @@ function create() {
 function createorder(id) {
   let params = {
     params: {
-      id:id
+      orderId: id,
+      bossId: 1,
+      Amount: 1
     }
   }
-  return Axios.get("/order/payment/pay", params);
+  return Axios.get("/ordersubmit/payment/pay", params);
 }
 
 export default {
