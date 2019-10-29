@@ -1,5 +1,6 @@
 <template>
 <div>
+
   <el-row>
     <el-col :span="16" class="p50">
       <h3>基本信息管理</h3>
@@ -9,11 +10,8 @@
             <el-input v-model="form.nickName"></el-input>
           </el-col>
         </el-form-item>
-        <el-form-item label="用户名">
-          <el-col :span="8">
-            <el-input v-model="form.username"></el-input>
-          </el-col>
         </el-form-item>
+
         <el-form-item label="姓名">
           <el-col :span="10">
             <el-input v-model="form.realName"></el-input>
@@ -31,7 +29,7 @@
         </el-form-item>
         <el-form-item label="出生日期">
           <el-col :span="16">
-            <el-date-picker type="date" placeholder="选择日期" v-model="form.birthDay" style="width: 100%;"></el-date-picker>
+            <el-date-picker type="date" placeholder="选择日期" v-model="form.birthDay"  style="width: 100%;"></el-date-picker>
           </el-col>
         </el-form-item>
         <el-form-item label="性别">
@@ -41,7 +39,7 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="现居地址">
-          <el-col :span="4">
+          <el-col :span="4"  >
             <el-input v-model="form.address1"></el-input>
           </el-col>
           <el-col :span="6">
@@ -52,7 +50,7 @@
           </el-col>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="onSubmit">更新信息</el-button>
+          <el-button type="primary" @click="onSubmit()">更新信息</el-button>
           <el-button>取消更新</el-button>
         </el-form-item>
       </el-form>
@@ -70,7 +68,7 @@
   </el-row>
   <h3>收货地址管理</h3>
   <el-table :data="tableData">
-    <el-table-column label="品牌id"></el-table-column>
+    <el-table-column label="品牌id">身陷囹圄</el-table-column>
   </el-table>
 </div>
 </template>
@@ -82,18 +80,24 @@
 </style>
 
 <script>
+import api from '@/apis/user-api.js';
 export default {
   data() {
     return {
       form: {
         nickName: '',
+        username:"",
         region: '',
         date1: '',
         date2: '',
         delivery: false,
         type: [],
         resource: '',
-        desc: ''
+        desc: '',
+        phone:"",
+        email:"",
+        birthDay:'',
+        sex:"男"
       },
       collapse: false,
       tableData: []
@@ -101,8 +105,10 @@ export default {
   },
   methods: {
     onSubmit() {
-      console.log('submit!');
-    }
+       api.update(this.form).then(resp => {
+       console.log(resp)
+      });
+    },
   }
 }
 </script>
