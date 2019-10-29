@@ -20,7 +20,7 @@ module.exports = {
         }
       },
       '/user': {
-        // target:'http://192.168.1.90:8082',//王博朋
+        target:'http://192.168.1.77:8082',//王博朋
         // target: 'http://192.168.1.233:8082',//小方
         // target:'http://localhost:8082',
         changeOrigin: true,

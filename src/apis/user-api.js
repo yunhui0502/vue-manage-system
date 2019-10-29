@@ -8,21 +8,18 @@ function update(params){
      fd.append("birthDay",params.birthDay);
      fd.append("email",params.email);
      fd.append("fileInfo",params.fileInfo);
-
      fd.append("nickName",params.nickName);
      fd.append("realName",params.realName);
-
      fd.append("region",params.region);
      fd.append("requestId",params.requestId);
      fd.append("sex",params.sex);
-
      fd.append("timestamp",params.timestamp);
      fd.append("token",params.token);
      fd.append("userId",params.userId);
      fd.append("username",params.username);
      return Axios.post("/api/user/update",fd,{reponseType:'arraybuffer'});
 }
-
+ 
 //登录
 function login(login) {
   let params = {
@@ -32,7 +29,7 @@ function login(login) {
     params['authKey'] = login.loginName;
     params['passwd'] = login.password;
     params['authType'] = '1';
-  } else { 
+  } else {
     params['authType'] = '2';
     params['passwd'] = "";
     params['authKey'] = login.loginName;
@@ -56,7 +53,7 @@ function register(regi_ster){
 
 export default {
   login:login,
- register:register,
+  register:register,
   update:update,
 
 
