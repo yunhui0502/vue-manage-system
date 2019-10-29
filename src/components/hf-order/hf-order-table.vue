@@ -61,7 +61,7 @@
         <el-table-column prop="createTime" label="创建时间" align="center" sortable>
         </el-table-column>
 
-        <el-table-column prop="purchaseQuantity" label="商品单价" align="center" sortable>
+        <el-table-column prop="purchasePrice" label="商品单价" align="center" sortable>
         </el-table-column>
         <el-table-column prop="orderDetailStatus" label="订单状态" align="center" sortable>
         </el-table-column>

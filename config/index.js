@@ -25,16 +25,16 @@ module.exports = {
         // target:'http://localhost:8082',
         changeOrigin: true,
         pathRewrite: {
-          '^/user': '/'
+          '^/order': '/'
         }
       },
-      '/order': {
-        target:'http://192.168.1.77:9097',//王博朋
+      '/ordersubmit': {
+        target:'http://192.168.1.77:9096',//王博朋
         // target: 'http://192.168.1.233:9097',//小方
         // target:'http://localhost:9097',
         changeOrigin: true,
         pathRewrite: {
-          '^/order': '/'
+          '^/ordersubmit': '/'
         }
       }
     },
