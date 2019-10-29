@@ -87,7 +87,7 @@ function getStoreList(Id) {
 
 // 新增店铺
 function addStore(params) {
-   let fd = new FormData();
+  let fd = new FormData();
   fd.append('hfName', params.hfName);
   fd.append('hfDesc', params.hfDesc);
   fd.append('hfStatus', params.stoneStatus);

@@ -37,8 +37,8 @@ export default {
   data() {
     return {
       formLogin: { //表单对象
-        loginName: 'admin',
-        password: 'admin',
+        loginName: '123456789',
+        password: '123',
         loginType: '用户名'
       },
       errorInfo: {
@@ -59,12 +59,10 @@ export default {
   },
   methods: {
     login() {
-
       //调用后端登陆接口
       userApi.login(this.formLogin)
         .then((response) => {
           console.log('success:', response);
-          
           if (response && response.data) {
             if (response.data.status == 200) {
               let data = response.data.data;
