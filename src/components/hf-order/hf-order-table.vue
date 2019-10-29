@@ -282,7 +282,7 @@
       },
       // 获取商品列表
       listProduct() {
-        api.checkOrderList(59).then(response => {
+        api.checkOrderList(1).then(response => {
           console.log(response);
           if (response.status == 200) {
             if (response.data.status === 200) {
