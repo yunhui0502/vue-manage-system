@@ -35,6 +35,21 @@ function create() {
   }
   return Axios.get("/order/order/creat", params);
 }
+// 获取订单状态
+function getstatus() {
+
+  return Axios.get("/order/order/status");
+}
+// 修改订单状态
+function updateSytatus(params) {
+   let fd = new FormData();
+  fd.append('orderId', params.orderId);
+  fd.append('id', params.id);
+
+  // fd.append('hfName', params.hfName);
+  return Axios.post("/order/order/updatestatus", fd, { responseType: 'arraybuffer' });;
+}
+
 // 创建订单
 function createorder(id) {
   let params = {
@@ -50,5 +65,7 @@ function createorder(id) {
 export default {
   checkOrderList: checkOrderList,
   createorder:createorder,
-  create:create
+  create:create,
+  getstatus:getstatus,
+  updateSytatus:updateSytatus
 };

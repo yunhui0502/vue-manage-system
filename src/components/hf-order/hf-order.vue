@@ -1,7 +1,7 @@
 <template>
   <div>
-    <el-button type="primary" style="margin: 20px;" @click="createorde">创建订单</el-button>
-    <template>
+    <!-- <el-button type="primary" style="margin: 20px;" @click="createorde">创建订单</el-button> -->
+<!--    <template>
       <el-dialog title="创建订单" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
         <span>这是一段信息</span>
         <span slot="footer" class="dialog-footer">
@@ -9,9 +9,9 @@
           <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
         </span>
       </el-dialog>
-    </template>
-    <el-table stripe :data="scope.tableData" height="700" style="width: 100%;font-size: 15px;" size="mini"
-      :row-class-name="tableRowClassName">
+    </template> -->
+    <el-table stripe :data="scope.tableData" :height="tableHeight" style="width: 100%;font-size: 15px;" size="mini"
+     >
       <el-table-column label="订单编号" align="center" width="150" fixed>
         <template slot-scope="scope">
           <span>{{ scope.row.id}}</span>
@@ -30,6 +30,11 @@
       <el-table-column label="支付状态" align="center" width="150">
         <template slot-scope="scope">
           <span>{{ scope.row.payStatus}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="订单状态" align="center" width="150">
+        <template slot-scope="scope">
+          <span>{{ scope.row.orderDetailStatus}}</span>
         </template>
       </el-table-column>
       <el-table-column label="支付方式" align="center" width="150">
@@ -63,7 +68,7 @@
           <span>{{ scope.row.address}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="物流单号" align="center" width="150">
+      <el-table-column label="物流单号" align="center"  width="400">
         <template slot-scope="scope">
           <span>{{ scope.row.logisticsOrdersId}}</span>
         </template>
@@ -84,21 +89,17 @@
           <span>{{ scope.row.realName}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="创建时间" align="center" width="150">
+      <el-table-column label="创建时间" align="center" width="170">
         <template slot-scope="scope">
           <span>{{ scope.row.createTime}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="修改时间" align="center" width="150">
+      <el-table-column label="修改时间" align="center" width="170">
         <template slot-scope="scope">
           <span>{{ scope.row.modifyTime}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="订单状态" align="center" width="150">
-        <template slot-scope="scope">
-          <span>{{ scope.row.orderDetailStatus}}</span>
-        </template>
-      </el-table-column>
+
 
       <el-table-column align="center" label="操作" width="150" fixed="right">
         <template slot-scope="scope">
@@ -112,18 +113,18 @@
         <div class="demo-drawer__content">
           <el-form :model="form" style="margin-top: 30px;margin-left: 20px;">
             <el-form-item label="订单编号" label-width="70px">
-              <el-input v-model="form.id" autocomplete="off" disabled="true" style="width:200px;"></el-input>
+              <el-input v-model="form.id" autocomplete="off" :disabled="true" style="width:200px;"></el-input>
             </el-form-item>
           <!--  <el-form-item label="订单类型">
               <el-input v-model="form.orderType" autocomplete="off" disabled="true" style="width: 200px;"></el-input>
             </el-form-item> -->
             <el-form-item label="商品名称" label-width="70px">
-              <el-input v-model="form.hfName" autocomplete="off" disabled="true" style="width: 200px;"></el-input>
+              <el-input v-model="form.hfName" autocomplete="off" :disabled="true" style="width: 200px;"></el-input>
             </el-form-item>
             <el-form-item label="订单状态" label-width="70px" >
               <!-- <el-input v-model="form.orderDetailStatus" autocomplete="off" disabled="true" style="width: 200px;"></el-input> -->
-            <el-select v-model="form.orderDetailStatus" placeholder="订单状态" >
-              <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+            <el-select v-model="form.orderDetailStatus" placeholder="订单状态" @change="checkMulist">
+              <el-option v-for="item in status" :key="item.hfName" :label="item.hfName" :value="item.hfName">
               </el-option>
             </el-select>
             </el-form-item>
@@ -165,7 +166,7 @@
           </el-form>
           <div class="demo-drawer__footer"  style="margin-left: 20px;">
             <el-button @click="drawer = false">取 消</el-button>
-            <el-button type="primary" @click="$refs.drawer.closeDrawer()" :loading="loading">{{ loading ? '提交中 ...' : '确 定' }}</el-button>
+            <el-button type="primary" @click="updateStatus()" > 确定</el-button>
           </div>
         </div>
       </elDrawer>
@@ -184,6 +185,9 @@
     },
     data() {
       return {
+          tableHeight: window.innerHeight -70,
+        leiMuId:'',
+        status:{},
         options: [{
           value: '选项1',
           label: '黄金糕'
@@ -222,6 +226,48 @@
       }
     },
     methods: {
+      // 修改订单状态
+      // updateSytatus
+      updateStatus :function(){
+
+        let param={
+          id:this.leiMuId,
+          orderId:this.form.orderDetailId
+        }
+        api.updateSytatus(param).then(resp => {
+         console.log('11111111111121',resp)
+            // this.status=resp.data.data;
+            this.drawer = false;
+            this.$message({
+              message: "提交成功",
+              type: "success"
+            });
+            this.listOrder();
+        });
+      },
+      // 通过类目查询商品列表
+      checkMulist: function() {
+        let obj = {};
+        obj = this.status.find((item) => {
+          //这里的selectList就是上面遍历的数据源
+          //筛选出匹配数据
+          if (item.hfName == this.form.orderDetailStatus) {
+            return item
+          }
+        });
+
+        this.leiMuId = obj.id;
+
+        console.log(this.leiMuId);
+
+      },
+      // 创建订单
+     getAllStatus() {
+        api.getstatus().then(resp => {
+         console.log('1111111',resp)
+            this.status=resp.data.data;
+        });
+      },
       // 创建订单
       createorde() {
         api.create().then(resp => {
@@ -251,6 +297,32 @@
             console.log(resp.data);
             if (resp.data.status == 200) {
               this.scope.tableData = resp.data.data;
+              for(var i=0;i<this.scope.tableData.length;i++){
+                    let date = new Date(this.scope.tableData[i].createTime)
+                    let Str=date.getFullYear() + '-' +
+                    (date.getMonth() + 1) + '-' +
+                    date.getDate() + ' ' +
+                    (date.getHours()+8)%24 + ':' +
+                    date.getMinutes() + ':' +
+                    date.getSeconds()
+                    this.scope.tableData[i].createTime= Str;
+
+
+                    let date1 = new Date(this.scope.tableData[i].modifyTime)
+                    let Str1=date1.getFullYear() + '-' +
+                    (date1.getMonth() + 1) + '-' +
+                    date1.getDate() + ' ' +
+                    (date1.getHours()+8)%24 + ':' +
+                    date1.getMinutes() + ':' +
+                    date1.getSeconds()
+                    this.scope.tableData[i].modifyTime= Str1;
+                    // var date = new Date(this.tableData[i].createTime);
+                    // Calendar cal = Calendar.getInstance();
+                    // var localeString = date.toLocaleString();
+                    // console.log(localeString);
+                    // this.tableData[i].createTime=this.tableData[i].createTime.split('T');
+                    // this.tableData[i].createTime=this.tableData[i].createTime[0]+''+this.tableData[i].createTime[1];
+              }
             }
           }
         });
@@ -258,6 +330,7 @@
     },
     mounted() {
       this.listOrder();
+      this.getAllStatus();
     }
   }
 </script>
@@ -270,4 +343,5 @@
   .el-table .success-row {
     background: #f0f9eb;
   }
+  
 </style>
