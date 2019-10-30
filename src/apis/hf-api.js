@@ -16,7 +16,7 @@ function category() {
 // 编辑商品
 function bianProduct(params) {
   let fd = new FormData();
-  fd.append('id', params.id); 
+  fd.append('id', params.id);
   fd.append('productDesc', params.productDesc);
   return Axios.post("/api/product/updateProductId", fd, { responseType: 'arraybuffer' });
 }
@@ -179,10 +179,10 @@ function checkWarehouse(id) {
 function checkOrderList(id) {
   let params = {
     params: {
-       id:id
+       userId:id
     }
   }
-  return Axios.get("/api/order/query", params);
+  return Axios.get("/api", params);
 }
 
 export default {

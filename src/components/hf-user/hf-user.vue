@@ -12,7 +12,7 @@
         </el-form-item>
         </el-form-item>
 
-        <el-form-item label="名字"  >
+        <el-form-item label="姓名">
           <el-col :span="10">
             <el-input v-model="form.realName"></el-input>
           </el-col>
@@ -31,7 +31,9 @@
         </el-form-item>
         <el-form-item label="出生日期" style="width:720px;">
           <el-col :span="16">
+
           <el-date-picker type="date" placeholder="选择日期" v-model="form.birthDay" style="width: 100%;"></el-date-picker>
+
           </el-col>
         </el-form-item>
         <el-form-item label="性别">
@@ -45,12 +47,14 @@
             <el-input v-model="form.address" title="市"></el-input>
           </el-col>
           <el-col :span="6" style="margin-left: 20px;">
+
             <el-input v-model="form.address1"></el-input>
           </el-col>
           <el-col :span="8" style="margin-left: 20px;">
             <el-input v-model="form.address2"></el-input>
           </el-col>
         </el-form-item>
+
 
      <!--   <el-form>
           <el-form-item label="更换头像" style="margin-left:15px;">
@@ -323,7 +327,6 @@ export default {
         // resource: '',
         // desc: '',
         // phone:"1",/
-
       },
         collapse: false,
         // tableData: []
@@ -382,6 +385,7 @@ export default {
                      console.log(response)
                    })
                  }
+
   }
 }
 </script>

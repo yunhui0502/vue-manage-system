@@ -1,146 +1,273 @@
 <template>
-<div>
-  <el-button type="text" @click="dialogVisible = true">创建订单</el-button>
-  <template>
-    <el-dialog title="创建订单" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
-      <span>这是一段信息</span>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-      </span>
-    </el-dialog>
-  </template>
-  <el-table stripe :data="scope.tableData">
-    <el-table-column label="订单编号">
-      <template slot-scope="scope">
-        <span>{{ scope.row.id}}</span>
-      </template>
-    </el-table-column>
-    <el-table-column label="订单类型">
-      <template slot-scope="scope">
-        <span>{{ scope.row.orderType}}</span>
-      </template>
-    </el-table-column>
-    <el-table-column label="支付金额">
-      <template slot-scope="scope">
-        <span>{{ scope.row.amount}}</span>
-      </template>
-    </el-table-column>
-    <el-table-column label="支付状态">
-      <template slot-scope="scope">
-        <span>{{ scope.row.payStatus}}</span>
-      </template>
-    </el-table-column>
-    <el-table-column label="支付方式">
-      <template slot-scope="scope">
-        <span>{{ scope.row.payType}}</span>
-      </template>
-    </el-table-column>
+  <div>
+    <el-button type="primary" style="margin: 20px;" @click="createorde">创建订单</el-button>
+    <template>
+      <el-dialog title="创建订单" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
+        <span>这是一段信息</span>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        </span>
+      </el-dialog>
+    </template>
+    <el-table stripe :data="scope.tableData" height="700" style="width: 100%;font-size: 15px;" size="mini"
+      :row-class-name="tableRowClassName">
+      <el-table-column label="订单编号" align="center" width="150" fixed>
+        <template slot-scope="scope">
+          <span>{{ scope.row.id}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="订单类型" align="center" width="150">
+        <template slot-scope="scope">
+          <span>{{ scope.row.orderType}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="支付金额" align="center" width="150">
+        <template slot-scope="scope">
+          <span>{{ scope.row.amount}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="支付状态" align="center" width="150">
+        <template slot-scope="scope">
+          <span>{{ scope.row.payStatus}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="支付方式" align="center" width="150">
+        <template slot-scope="scope">
+          <span>{{ scope.row.payMethodType}}</span>
+        </template>
+      </el-table-column>
 
-    <el-table-column label="订单创建人">
-      <template slot-scope="scope">
-        <span>{{ scope.row.username}}</span>
-      </template>
-    </el-table-column>
-    <el-table-column label="创建时间">
-      <template slot-scope="scope">
-        <span>{{ scope.row.createTime}}</span>
-      </template>
-    </el-table-column>
-    <el-table-column label="修改时间">
-      <template slot-scope="scope">
-        <span>{{ scope.row.modifyTime}}</span>
-      </template>
-    </el-table-column>
-    <el-table-column>
-      <template slot-scope="scope">
-        <el-button @click="TellMeId(scope.row.id)">查看订单详情</el-button>
-      </template>
-    </el-table-column>
-  </el-table>
-  <template>
-    <elDrawer title="订单详情" :v-if="drawer" :before-close="handleClose" :visible.sync="drawer" custom-class="demo-drawer" width="50%" :loading.sync="loading" close-on-click-modal ref="selectedItem">
-      <div class="demo-drawer__content">
-        <el-form :model="form">
-          <el-form-item label="活动名称" :label-width="formLabelWidth">
-            <el-input v-model="form.name" autocomplete="off"></el-input>
-          </el-form-item>
-          <el-form-item label="活动区域" :label-width="formLabelWidth">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+      <el-table-column label="商品单价" align="center" width="150">
+        <template slot-scope="scope">
+          <span>{{ scope.row.purchasePrice}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="购买数量" align="center" width="150">
+        <template slot-scope="scope">
+          <span>{{ scope.row.purchaseQuantity}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="商品名称" align="center" width="150">
+        <template slot-scope="scope">
+          <span>{{ scope.row.hfName}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="订单描述" align="center" width="150">
+        <template slot-scope="scope">
+          <span>{{ scope.row.hfDesc}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="收获地址" align="center" width="150">
+        <template slot-scope="scope">
+          <span>{{ scope.row.address}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="物流单号" align="center" width="150">
+        <template slot-scope="scope">
+          <span>{{ scope.row.logisticsOrdersId}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="物流公司" align="center" width="150">
+        <template slot-scope="scope">
+          <span>{{ scope.row.logisticsCompany}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="物流订单名称" align="center" width="120px">
+        <template slot-scope="scope">
+          <span>{{ scope.row.logisticsOrderName}}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="订单创建人" align="center" width="150">
+        <template slot-scope="scope">
+          <span>{{ scope.row.realName}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="创建时间" align="center" width="150">
+        <template slot-scope="scope">
+          <span>{{ scope.row.createTime}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="修改时间" align="center" width="150">
+        <template slot-scope="scope">
+          <span>{{ scope.row.modifyTime}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="订单状态" align="center" width="150">
+        <template slot-scope="scope">
+          <span>{{ scope.row.orderDetailStatus}}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column align="center" label="操作" width="150" fixed="right">
+        <template slot-scope="scope">
+          <el-button @click="TellMeId(scope.row)" size="small" type="text">修改订单状态</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <template>
+      <elDrawer title="订单详情" :v-if="drawer" :before-close="handleClose" :visible.sync="drawer" custom-class="demo-drawer"
+         :loading.sync="loading" close-on-click-modal ref="selectedItem">
+        <div class="demo-drawer__content">
+          <el-form :model="form" style="margin-top: 30px;margin-left: 20px;">
+            <el-form-item label="订单编号" label-width="70px">
+              <el-input v-model="form.id" autocomplete="off" disabled="true" style="width:200px;"></el-input>
+            </el-form-item>
+          <!--  <el-form-item label="订单类型">
+              <el-input v-model="form.orderType" autocomplete="off" disabled="true" style="width: 200px;"></el-input>
+            </el-form-item> -->
+            <el-form-item label="商品名称" label-width="70px">
+              <el-input v-model="form.hfName" autocomplete="off" disabled="true" style="width: 200px;"></el-input>
+            </el-form-item>
+            <el-form-item label="订单状态" label-width="70px" >
+              <!-- <el-input v-model="form.orderDetailStatus" autocomplete="off" disabled="true" style="width: 200px;"></el-input> -->
+            <el-select v-model="form.orderDetailStatus" placeholder="订单状态" >
+              <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+              </el-option>
             </el-select>
-          </el-form-item>
-        </el-form>
-        <div class="demo-drawer__footer">
-          <el-button @click="drawer = false">取 消</el-button>
-          <el-button type="primary" @click="$refs.drawer.closeDrawer()" :loading="loading">{{ loading ? '提交中 ...' : '确 定' }}</el-button>
-        </div>
-      </div>
-    </elDrawer>
-  </template>
+            </el-form-item>
 
-</div>
+            <!-- <el-form-item label="支付金额">
+              <el-input v-model="form.amount" autocomplete="off" disabled="true" style="width: 200px;"></el-input>
+            </el-form-item>
+            <el-form-item label="支付状态">
+              <el-input v-model="form.payStatus" autocomplete="off" disabled="true" style="width: 200px;"></el-input>
+            </el-form-item>-->
+
+            <!--<el-form-item label="订单描述" :label-width="formLabelWidth">
+              <el-input v-model="form.hfDesc" autocomplete="off" disabled="true" style="width: 200px;"></el-input>
+            </el-form-item>
+            <el-form-item label="收获地址" :label-width="formLabelWidth">
+              <el-input v-model="form.address" autocomplete="off" disabled="true" style="width: 200px;"></el-input>
+            </el-form-item>
+            <el-form-item label="物流单号" :label-width="formLabelWidth">
+              <el-input v-model="form.logisticsOrdersId" autocomplete="off" disabled="true" style="width: 400px;"></el-input>
+            </el-form-item>
+            <el-form-item label="物流公司" :label-width="formLabelWidth">
+              <el-input v-model="form.logisticsCompany" autocomplete="off" disabled="true" style="width: 200px;"></el-input>
+            </el-form-item>
+            <el-form-item label="物流订单名称" :label-width="formLabelWidth">
+              <el-input v-model="form.logisticsOrderName" autocomplete="off" disabled="true" style="width: 200px;"></el-input>
+            </el-form-item>
+            <el-form-item label="订单创建人" :label-width="formLabelWidth">
+              <el-input v-model="form.realName" autocomplete="off" disabled="true" style="width: 200px;"></el-input>
+            </el-form-item>
+
+            <el-form-item label="创建时间" :label-width="formLabelWidth">
+              <el-input v-model="form.createTime" autocomplete="off" disabled="true" style="width: 200px;"></el-input>
+            </el-form-item>
+            <el-form-item label="支付方式" :label-width="formLabelWidth">
+              <el-input v-model="form.payMethodType" autocomplete="off" disabled="true" style="width: 200px;"></el-input>
+            </el-form-item> -->
+
+
+          </el-form>
+          <div class="demo-drawer__footer"  style="margin-left: 20px;">
+            <el-button @click="drawer = false">取 消</el-button>
+            <el-button type="primary" @click="$refs.drawer.closeDrawer()" :loading="loading">{{ loading ? '提交中 ...' : '确 定' }}</el-button>
+          </div>
+        </div>
+      </elDrawer>
+    </template>
+
+  </div>
 </template>
 
 <script>
-import api from '@/apis/order-api.js';
-import elDrawer from '@/components/drawer';
-export default {
-  name: "hf-order",
-  components: {
-    elDrawer
-  },
-  data() {
-    return {
-      drawer: false,
-      loading: false,
-      dialogVisible: false,
-      form: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: ''
-      },
-      formLabelWidth: '80px',
-      scope: {
-        tableData: [],
+  import api from '@/apis/order-api.js';
+  import elDrawer from '@/components/drawer';
+  export default {
+    name: "hf-order",
+    components: {
+      elDrawer
+    },
+    data() {
+      return {
+        options: [{
+          value: '选项1',
+          label: '黄金糕'
+        }, {
+          value: '选项2',
+          label: '双皮奶'
+        }, {
+          value: '选项3',
+          label: '蚵仔煎'
+        }, {
+          value: '选项4',
+          label: '龙须面'
+        }, {
+          value: '选项5',
+          label: '北京烤鸭'
+        }],
+        value: '',
+        drawer: false,
+        loading: false,
+        dialogVisible: false,
+        form: {
+          name: '',
+          region: '',
+          date1: '',
+          date2: '',
+          delivery: false,
+          type: [],
+          resource: '',
+          desc: ''
+        },
+        formLabelWidth: '80px',
+        scope: {
+          tableData: [],
 
-      }
-    }
-  },
-  methods: {
-    handleClose(done) {
-      this.$confirm('确认关闭？')
-        .then(_ => {
-          done();
-        })
-        .catch(_ => {});
-    },
-    TellMeId(num) {
-      console.log(num)
-      this.drawer = true;
-    },
-    listOrder() {
-      api.checkOrderList(1).then(resp => {
-        if (resp.status == 200) {
-          console.log(resp.data);
-          if (resp.data.status == 200) {
-            this.scope.tableData = resp.data.data;
-          }
         }
-      });
+      }
+    },
+    methods: {
+      // 创建订单
+      createorde() {
+        api.create().then(resp => {
+          let orderId = resp.data.data[0].ordersId;
+          api.createorder(orderId).then(resp => {
+            console.log(resp)
+
+          });
+
+        });
+      },
+      handleClose(done) {
+        this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+      },
+      TellMeId(num) {
+        console.log(num)
+        this.drawer = true;
+        this.form = num;
+      },
+      listOrder() {
+        api.checkOrderList(1).then(resp => {
+          if (resp.status == 200) {
+            console.log(resp.data);
+            if (resp.data.status == 200) {
+              this.scope.tableData = resp.data.data;
+            }
+          }
+        });
+      }
+    },
+    mounted() {
+      this.listOrder();
     }
-  },
-  mounted() {
-    this.listOrder();
   }
-}
 </script>
 
 <style>
+  .el-table .warning-row {
+    background: oldlace;
+  }
+
+  .el-table .success-row {
+    background: #f0f9eb;
+  }
 </style>

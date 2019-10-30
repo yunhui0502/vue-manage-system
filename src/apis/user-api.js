@@ -7,12 +7,11 @@ function update(params){
      fd.append("address","天津");
      fd.append("birthDay",params.birthDay);
      fd.append("email",params.email);
-     // fd.append("fileInfo",params.fileInfo);
+     fd.append("fileInfo",params.fileInfo);
      fd.append("nickName",params.nickName);
      fd.append("realName",params.realName);
      fd.append("region",params.region);
      fd.append("requestId",params.requestId);
-
      fd.append("sex",params.sex);
      fd.append("timestamp",params.timestamp);
      fd.append("token",params.token);
