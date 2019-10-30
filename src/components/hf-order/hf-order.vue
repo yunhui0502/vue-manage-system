@@ -1,7 +1,7 @@
 <template>
   <div>
-    <el-button type="primary" style="margin: 20px;" @click="createorde">创建订单</el-button>
-    <template>
+    <!-- <el-button type="primary" style="margin: 20px;" @click="createorde">创建订单</el-button> -->
+<!--    <template>
       <el-dialog title="创建订单" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
         <span>这是一段信息</span>
         <span slot="footer" class="dialog-footer">
@@ -9,8 +9,8 @@
           <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
         </span>
       </el-dialog>
-    </template>
-    <el-table stripe :data="scope.tableData" height="700" style="width: 100%;font-size: 15px;" size="mini"
+    </template> -->
+    <el-table stripe :data="scope.tableData" :height="tableHeight" style="width: 100%;font-size: 15px;" size="mini"
      >
       <el-table-column label="订单编号" align="center" width="150" fixed>
         <template slot-scope="scope">
@@ -185,6 +185,7 @@
     },
     data() {
       return {
+          tableHeight: window.innerHeight -70,
         leiMuId:'',
         status:{},
         options: [{
@@ -342,4 +343,5 @@
   .el-table .success-row {
     background: #f0f9eb;
   }
+  
 </style>
