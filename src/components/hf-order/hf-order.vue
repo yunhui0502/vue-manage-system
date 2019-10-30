@@ -231,12 +231,17 @@
 
         let param={
           id:this.leiMuId,
-          orderId:this.form.ordersId
+          orderId:this.form.orderDetailId
         }
         api.updateSytatus(param).then(resp => {
          console.log('11111111111121',resp)
             // this.status=resp.data.data;
             this.drawer = false;
+            this.$message({
+              message: "提交成功",
+              type: "success"
+            });
+            this.listOrder();
         });
       },
       // 通过类目查询商品列表
