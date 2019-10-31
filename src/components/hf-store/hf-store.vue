@@ -162,7 +162,7 @@
         <!-- 页面内容区end-->
         <!-- 上传图片 -->
         <el-dialog title="上传图片" :visible.sync="picOpen" :close-on-click-modal="false">
-          <!-- <uploadFiles :goods='selectedGoods'></uploadFiles>       -->
+          <uploadFiles :goods='selectedGoods'></uploadFiles>      
         </el-dialog>
       </div>
     </div>
