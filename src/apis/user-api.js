@@ -19,7 +19,26 @@ function update(params){
      fd.append("username",params.username);
      return Axios.post("/api/user/update",fd,{reponseType:'arraybuffer'});
 }
- 
+//收货地址
+ function address(address_action){
+     let params={
+       params:{
+            contact:address_action.contact,
+            hfAddressDetail:address_action.hfAddressDetail,
+            hfCity:address_action.hfCity,
+            hfConty:address_action.hfConty,
+            hfProvince:address_action.hfProvince,
+            hfDesc:address_action.hfDesc,
+            id:address_action.id,
+            isFaultAddress:address_action.isFaultAddress,
+            phoneNumber:address_action.phoneNumber,
+            userId:address_action.userId
+       }
+     }
+     return Axios.get("/api/address/addAddress",params)
+ }
+
+
 //登录
 function login(login) {
   let params = {
@@ -55,6 +74,7 @@ export default {
   login:login,
   register:register,
   update:update,
+  address:address,
 
 
 }

@@ -14,11 +14,11 @@
                     </el-tooltip>
                 </div>
                 <!-- 用户头像 -->
-                <div class="user-avator"><img src="/api/goods/getFile?fileId=38"></div>
+                <div class="user-avator"><img src="/api/goods/getFile?fileId=48"></div>
                 <!-- 用户名下拉菜单 -->
                 <el-dropdown class="user-name" trigger="click" @command="handleCommand">
                     <span class="el-dropdown-link">
-                        {{username}} <i class="el-icon-caret-bottom"></i>
+                        {{'adminDavin'}} <i class="el-icon-caret-bottom"></i>
                     </span>
                     <el-dropdown-menu slot="dropdown">
                         <a href="https://github.com/adminDavin" target="_blank">

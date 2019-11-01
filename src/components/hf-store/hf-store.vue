@@ -161,17 +161,8 @@
         </div>
         <!-- 页面内容区end-->
         <!-- 上传图片 -->
-        <el-dialog title="上传图片"  :visible.sync="picOpen" :close-on-click-modal="false">
-          <el-upload list-type="picture-card" ref="fileUpload"  action="" :on-preview="handlePictureCardPreview" :on-remove="handleRemove" :auto-upload="false">
-            <i class="el-icon-plus"></i>
-          </el-upload>
-          <el-dialog :visible.sync="dialogVisible">
-            <img width="100%" :src="dialogImageUrl" alt="">
-          </el-dialog>
-          <div slot="footer" class="dialog-footer">
-            <el-button @click="picOpen = false">取消</el-button>
-            <el-button type="primary" :loading="editLoading" @click="uploadFiles">提交</el-button>
-          </div>
+        <el-dialog title="上传图片" :visible.sync="picOpen" :close-on-click-modal="false">
+          <uploadFiles :goods='selectedGoods'></uploadFiles>      
         </el-dialog>
       </div>
     </div>
@@ -183,15 +174,18 @@
   import vSidebar from '@/components/common/sidebar.vue';
   import vHead from '@/components/common/header.vue';
   import api from '@/apis/hf-api.js';
+  import uploadFiles from './upload-files';
   const cityOptions = ['上海', '北京', '广州', '深圳'];
   export default {
     name: 'hf-store',
     data() {
       return {
+        selectedGoods: {},
         editLoading: false,
         dialogImageUrl: '',
         dialogVisible: false,
         tableDataku: [],
+        goodsFiles: [],
         bianrowwu: '',
         wupin: [],
         collapse: false,
@@ -292,15 +286,14 @@
     },
     components: {
       vHead,
-      vSidebar
+      vSidebar,
+      uploadFiles
     },
     computed: {
 
     },
     methods: {
-      uploadFiles: function() {
-        console.log(this.$refs.fileUpload.fileList);
-      },
+    
       //新增物品
       //新增物品
       addGoods: function() {
@@ -633,6 +626,7 @@
       upLoadPic: function(row) {
         this.goodId = row.id;
         this.picOpen = true;
+        this.selectedGoods = row;
       },
       // 删除物品
       deletegoods: function(row) {
