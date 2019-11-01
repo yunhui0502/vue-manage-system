@@ -11,7 +11,7 @@
       <el-form-item>
         <el-input type="password" v-model="formLogin.password" placeholder="密码"></el-input>
       </el-form-item>
-      
+
       <el-form-item label="登录方式">
         <el-radio-group v-model="formLogin.loginType">
           <el-radio label="用户名"></el-radio>
@@ -37,8 +37,8 @@ export default {
   data() {
     return {
       formLogin: { //表单对象
-        loginName: 'admin',
-        password: 'admin',
+        loginName: '123456789',
+        password: '123',
         loginType: '用户名'
       },
       errorInfo: {
@@ -59,12 +59,12 @@ export default {
   },
   methods: {
     login() {
-
+      console.log(this.formLogin)
       //调用后端登陆接口
       userApi.login(this.formLogin)
         .then((response) => {
+          // console.log(this.formLogin)
           console.log('success:', response);
-          
           if (response && response.data) {
             if (response.data.status == 200) {
               let data = response.data.data;
@@ -77,7 +77,7 @@ export default {
           } else {
             alert("登录异常");
           }
-          
+
         })
         .catch((err) => {
           console.log('error:', err);
