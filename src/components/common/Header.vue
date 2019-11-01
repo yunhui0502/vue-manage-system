@@ -14,7 +14,7 @@
                     </el-tooltip>
                 </div>
                 <!-- 用户头像 -->
-                <div class="user-avator"><img src="/api/goods/getFile?fileId=48"></div>
+                <div class="user-avator"><img src="/api/goods/getFile?fileId=3"></div>
                 <!-- 用户名下拉菜单 -->
                 <el-dropdown class="user-name" trigger="click" @command="handleCommand">
                     <span class="el-dropdown-link">
@@ -26,7 +26,7 @@
                         </a>
                         <a href="https://github.com/adminDavin/hanfu-admin-vue" target="_blank">
                             <el-dropdown-item>项目仓库</el-dropdown-item>
-                        </a> 
+                        </a>
                         <el-dropdown-item divided  command="loginout">退出登录</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
@@ -52,7 +52,7 @@
                 return username ? username : this.name;
             },
             getlev(){
-        
+
                 let levList = this.$common.getSessionStorage('lev',true);
                 let lev='';
                 if(levList){
@@ -60,7 +60,7 @@
                         lev+=levList[i].roleName;
                     }
                 }
-               
+
                 return lev ? lev : this.lev;
             }
         },
