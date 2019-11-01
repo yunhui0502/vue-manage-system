@@ -138,11 +138,11 @@
                   </el-table-column>
                   <el-table-column label="创建时间" prop="createTime" align="center">
                   </el-table-column>
-                  <el-table-column label="物品图片" prop="createTime" align="center">
+               <!--   <el-table-column label="物品图片" prop="createTime" align="center">
                     <template slot-scope="scope">
                      <img :src="scope.row.img" alt="" style="width: 100px;height: 100px;">
                     </template>
-                  </el-table-column>
+                  </el-table-column> -->
 
                   <el-table-column label="操作" align="center" width="290px">
                     <template slot-scope="scope">
@@ -171,7 +171,7 @@
 
           <template slot-scope="scope">
             <uploadFiles :goods='selectedGoods'></uploadFiles>
-           <img   v-for="item in pics" :src="item.img" alt="" style="width: 100px;height: 100px;margin-right: 10px;">
+           <img   v-for="item in pics" :src="item.img" alt="" style="width: 100px;height: 100px;margin-right: 10px;" >
           </template>
 
         </el-dialog>
@@ -690,7 +690,7 @@
           for (var i = 0; i < _this.wupin.length; i++) {
             // _this.wupin[i].createTime=_this.wupin[i].createTime.split('T');
             // _this.wupin[i].createTime=_this.wupin[i].createTime[0]+'  '+_this.wupin[i].createTime[1];
-             _this.wupin[i].img='/api/goods/getFileByGoods?goodsId='+_this.wupin[i].id;
+             // _this.wupin[i].img='/api/goods/getFileByGoods?goodsId='+_this.wupin[i].id;
 
             let date = new Date(_this.wupin[i].createTime)
             let Str = date.getFullYear() + '-' +
