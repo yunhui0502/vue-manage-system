@@ -320,9 +320,12 @@ export default {
 
       },
         collapse: false,
+
          rows:{
            id:1
          },
+
+
         address:{
           contact:"王博鹏",
           phoneNumber:"13837774547",
@@ -332,10 +335,10 @@ export default {
           trees:"上地七街",
           hfAddressDetail:"上地七街九头鸟"
         },
-       lists:{
-                 token:1,
-                 userId:1
-        },
+         lists:{
+         token:1,
+         userId:1
+         },
         arr:[],
         arr1:[],
 
@@ -349,12 +352,13 @@ export default {
      console.log(res.data.data)
 
 
-     // this.arr1=res.data.data[0]
-     // console.log(res.data.data[0])
      })
+
 
   },
   methods: {
+
+
     onSubmit() {
        api.update(this.form).then(response => {
           console.log(response.data)
@@ -402,15 +406,16 @@ export default {
 
 
 
-                 // this.$message({
-                 //  message: '删除成功',
-                 //  type: 'success',
-                 //  });
-                 //删除
-                 deleteRow(index) {
+
+                deleteRow(index) {
                  console.log(index)
-                 api.remove(this.rows).then(res=>{
-                 console.log(this.rows)
+                 api.remove(index.row.id).then(res=>{
+                   
+                  this.$message({
+                   message: '删除成功',
+                   type: 'success',
+                   });
+
                  })
                 }
                 ,
