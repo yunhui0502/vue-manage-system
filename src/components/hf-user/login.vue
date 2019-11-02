@@ -59,7 +59,6 @@ export default {
   },
   methods: {
     login() {
-      console.log(this.formLogin)
       //调用后端登陆接口
       userApi.login(this.formLogin)
         .then((response) => {

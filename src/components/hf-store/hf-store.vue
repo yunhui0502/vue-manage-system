@@ -138,6 +138,11 @@
                   </el-table-column>
                   <el-table-column label="创建时间" prop="createTime" align="center">
                   </el-table-column>
+               <!--   <el-table-column label="物品图片" prop="createTime" align="center">
+                    <template slot-scope="scope">
+                     <img :src="scope.row.img" alt="" style="width: 100px;height: 100px;">
+                    </template>
+                  </el-table-column> -->
 
                   <el-table-column label="操作" align="center" width="290px">
                     <template slot-scope="scope">
@@ -161,17 +166,14 @@
         </div>
         <!-- 页面内容区end-->
         <!-- 上传图片 -->
-        <el-dialog title="上传图片"  :visible.sync="picOpen" :close-on-click-modal="false">
-          <el-upload list-type="picture-card" ref="fileUpload"  action="" :on-preview="handlePictureCardPreview" :on-remove="handleRemove" :auto-upload="false">
-            <i class="el-icon-plus"></i>
-          </el-upload>
-          <el-dialog :visible.sync="dialogVisible">
-            <img width="100%" :src="dialogImageUrl" alt="">
-          </el-dialog>
-          <div slot="footer" class="dialog-footer">
-            <el-button @click="picOpen = false">取消</el-button>
-            <el-button type="primary" :loading="editLoading" @click="uploadFiles">提交</el-button>
-          </div>
+        <el-dialog title="上传图片" :visible.sync="picOpen" :close-on-click-modal="false">
+
+
+          <template slot-scope="scope">
+            <uploadFiles :goods='selectedGoods'></uploadFiles>
+           <img   v-for="item in pics" :src="item.img" alt="" style="width: 100px;height: 100px;margin-right: 10px;" >
+          </template>
+
         </el-dialog>
       </div>
     </div>
@@ -183,15 +185,19 @@
   import vSidebar from '@/components/common/sidebar.vue';
   import vHead from '@/components/common/header.vue';
   import api from '@/apis/hf-api.js';
+  import uploadFiles from './upload-files';
   const cityOptions = ['上海', '北京', '广州', '深圳'];
   export default {
     name: 'hf-store',
     data() {
       return {
+        pics:[],
+        selectedGoods: {},
         editLoading: false,
         dialogImageUrl: '',
         dialogVisible: false,
         tableDataku: [],
+        goodsFiles: [],
         bianrowwu: '',
         wupin: [],
         collapse: false,
@@ -292,15 +298,14 @@
     },
     components: {
       vHead,
-      vSidebar
+      vSidebar,
+      uploadFiles
     },
     computed: {
 
     },
     methods: {
-      uploadFiles: function() {
-        console.log(this.$refs.fileUpload.fileList);
-      },
+
       //新增物品
       //新增物品
       addGoods: function() {
@@ -633,6 +638,32 @@
       upLoadPic: function(row) {
         this.goodId = row.id;
         this.picOpen = true;
+        this.selectedGoods = row;
+        console.log( this.selectedGoods)
+        var main=this;
+        console.log(this.goodId )
+        this.$ajax({
+          method: "get",
+          url: "/api/goods/pictures",
+          params: {
+            goodsId:main.goodId
+          }
+        }).then(
+          function(resultData) {
+          main.pics=resultData.data.data;
+            console.log('fwefwe',resultData);
+            for(var i=0;i<main.pics.length;i++){
+              main.pics[i].img='/api/goods/getFile?fileId='+ main.pics[i].fileId;
+              console.log(  main.pics[i].img)
+            }
+          },
+          function(resultData) {
+            // _this.tableData.message = "Local Reeuest Error!";
+            //console.log(resultData);
+            // for()
+          }
+        );
+
       },
       // 删除物品
       deletegoods: function(row) {
@@ -659,7 +690,7 @@
           for (var i = 0; i < _this.wupin.length; i++) {
             // _this.wupin[i].createTime=_this.wupin[i].createTime.split('T');
             // _this.wupin[i].createTime=_this.wupin[i].createTime[0]+'  '+_this.wupin[i].createTime[1];
-
+             // _this.wupin[i].img='/api/goods/getFileByGoods?goodsId='+_this.wupin[i].id;
 
             let date = new Date(_this.wupin[i].createTime)
             let Str = date.getFullYear() + '-' +

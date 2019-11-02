@@ -12,7 +12,6 @@ function update(params){
      fd.append("realName",params.realName);
      fd.append("region",params.region);
      fd.append("requestId",params.requestId);
-
      fd.append("sex",params.sex);
      fd.append("timestamp",params.timestamp);
      fd.append("token",params.token);
@@ -21,7 +20,6 @@ function update(params){
      return Axios.post("/user/user/update",fd,{reponseType:'arraybuffer'});
 }
 //收货地址
-
  function address(address_action){
      let params={
        params:{
