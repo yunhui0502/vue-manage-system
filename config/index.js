@@ -25,7 +25,7 @@ module.exports = {
         target:'http://localhost:8082',
         changeOrigin: true,
         pathRewrite: {
-          '^/ordersubmit': '/'
+          '^/user': '/'
         }
       },
       
