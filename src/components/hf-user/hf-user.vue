@@ -54,7 +54,7 @@
 
 
 
- <!-- <el-dialog title="上传图片"  :visible.sync="picOpen" :close-on-click-modal="false">
+<!-- <el-dialog title="上传图片"  :visible.sync="picOpen" :close-on-click-modal="false">
           <el-upload list-type="picture-card" ref="fileUpload"  action="" :on-preview="handlePictureCardPreview" :on-remove="handleRemove" :auto-upload="false">
             <i class="el-icon-plus"></i>
           </el-upload>
@@ -65,29 +65,33 @@
             <el-button @click="picOpen = false">取消</el-button>
             <el-button type="primary" :loading="editLoading" @click="uploadFiles">提交</el-button>
           </div>
-        </el-dialog>
- -->
+        </el-dialog> -->
 
 
-          <el-upload
+<!--
+         <el-upload
             action="https://jsonplaceholder.typicode.com/posts/"
             list-type="picture-card"
             :on-preview="handlePictureCardPreview"
             :on-success="handleAvatarSuccess"
             :on-remove="handleRemove" style="margin-left:80px;">
-            <i class="el-icon-plus"></i>
+            <i class="el-icon-plus">上传头像</i>
           </el-upload>
 
           <el-dialog :visible.sync="dialogVisible">
             <img width="100%" :src="dialogImageUrl" alt="">
           </el-dialog>
+ -->
 
 
 
 
         <el-form-item style="margin-top: 20px;">
           <el-button type="primary" :plain="true" @click="onSubmit()">更新信息</el-button>
-          <el-button>取消更新</el-button>
+          <el-button>取消更新</el-button><br>
+          <el-button type="primary" style="margin-top: 20px;" @click="upload()">头像上传</el-button>
+
+
         </el-form-item>
         <el-button type="primary" style="margin-left: 80px;" @click="dialogVisible = true">添加收货地址</el-button>
 
@@ -196,28 +200,28 @@
           width="120" align="center">
         </el-table-column>
         <el-table-column
-          prop="hfConty"
+          prop="hfProvince"
           label="城市"
           width="120" align="center">
         </el-table-column>
         <el-table-column
-          prop="hfDesc"
+          prop="hfConty"
           label="国家"
           width="120" align="center">
         </el-table-column>
         <el-table-column
-          prop="hfCity"
+          prop="trees"
           label="备注"
           width="300" align="center">
         </el-table-column>
         <el-table-column
-          prop="hfCity"
+          prop="hfProvince"
           label="省"
           width="120" align="center">
         </el-table-column>
 
         <el-table-column
-          prop="hfDesc"
+          prop="phoneNumber"
           label="手机号"
           width="120" align="center">
         </el-table-column>
@@ -238,6 +242,41 @@
       </el-table>
 
 
+
+  <el-dialog
+    title=" "
+    :visible.sync="dialogVisible1"
+    width="60%" align="left"
+     >
+
+         <el-upload
+            action="https://jsonplaceholder.typicode.com/posts/"
+            list-type="picture-card"
+            :on-preview="handlePictureCardPreview"
+            :on-success="handleAvatarSuccess"
+            :on-remove="handleRemove">
+            <i class="el-icon-plus"></i>
+          </el-upload>
+
+          <el-dialog :visible.sync="dialogVisible">
+            <img width="100%" :src="dialogImageUrl" alt="">
+          </el-dialog>
+
+
+
+    <span slot="footer" class="dialog-footer">
+    <el-button @click="dialogVisible1 = false">取 消</el-button>
+    <el-button type="primary" @click="uploads()">添加</el-button>
+    </span>
+
+
+
+
+    </el-dialog>
+
+
+
+
 </div>
 
 
@@ -248,8 +287,6 @@
 .p50 {
   padding-top: 50px;
 }
-
-
   .avatar-uploader .el-upload {
     border: 1px dashed #d9d9d9;
     border-radius: 6px;
@@ -283,6 +320,7 @@ import api from '@/apis/user-api.js';
 export default {
   data() {
     return {
+         dialogVisible1:false,
          dialogVisible:false,
          tableData: [{
                   date: '1',
@@ -309,11 +347,14 @@ export default {
         phone:"12313132132",
         birthDay:"2019-10-15",
 
+
         list:[],
         dialogImageUrl:"",
         id:1,
+         dialogVisible2:false,
+         dialogVisible: false,
 
-        dialogVisible: false,
+        dialogVisible1:false,
          address1:1,
          address2:2,
         list:[],
@@ -334,6 +375,7 @@ export default {
           phoneNumber:"13837774547",
           hfConty:"中国",
           hfCity:"北京",
+          id:1,
           hfProvince:"河北",
           trees:"上地七街",
           hfAddressDetail:"上地七街九头鸟"
@@ -349,19 +391,25 @@ export default {
   },
 
   created(){
-     api.list(this.lists).then(res=>{
-     this.arr=res.data.data
-
-     console.log(res.data.data)
-
-
-     })
-
-
+    this.admin()
   },
   methods: {
 
+    admin(){
+     api.list(this.lists).then(res=>{
+      console.log(res.data)
+      this.arr=res.data.data
+     })
+   },
 
+
+   upload(){
+   this.dialogVisible1=true;
+   },
+    
+    uploads(){
+      this.dialogVisible1=false;
+    },
     onSubmit() {
        api.update(this.form).then(response => {
           console.log(response.data)
@@ -408,33 +456,77 @@ export default {
           },
 
 
+          data:()=>({
 
 
-                deleteRow(index) {
-                 console.log(index)
-                 api.remove(index.row.id).then(res=>{
-                   
-                  this.$message({
-                   message: '删除成功',
-                   type: 'success',
-                   });
+          }),
+              handleClose(done) {
 
-                 })
-                }
-                ,
+               },
 
+          //删除
+          deleteRow(index,scope) {
+
+           console.log(index)
+           api.remove(index.row.id).then(res=>{
+           let _this=this;
+           console.log(res)
+           if(res.data.status==200){
+            this.$message({
+            message: '删除成功',
+            type: 'success',
+            });
+            this.admin()
+
+           }else{
+              this.$message({
+
+              message: '删除失败',
+
+              type: 'success',
+              });
+
+                     }
+                   })
+                     }
+                     ,
 
                 message(){
                  this.dialogAddgsVisible = true;
                  },
                  add(){
-                   this.dialogVisible = false
-                   api.address(this.address).then(response=>{
-                   console.log(response)
+                     api.address(this.address).then(res=>{
+                     if(res.data.status==200){
+                       this.arr.push({
+                       contact:this.address.contact,
 
-                   })
+                       phoneNumber:this.address.phoneNumber,
+                       hfConty:this.address.hfConty,
+
+                       hfCity:this.address.hfCity,
+                       id:this.address.id,
+
+                       hfProvince:this.address.hfProvince,
+                       trees:this.address.trees,
+                       hfAddressDetail:this.address.hfAddressDetail,
+                       })
+                       this.$message({
+                        message: '用户添加成功',
+                        type: 'success',
+                        });
+                       this.dialogVisible=false
+                     }else{
+                       this.$message({
+                        message: '用户添加失败',
+                        type: 'success',
+                        });
+                     }
+
+                     })
+
                  },
 
   }
 }
+
 </script>

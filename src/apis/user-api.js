@@ -70,9 +70,6 @@ function register(regi_ster){
     return Axios.get("/api/user/register",params)
 }
         //删除
-
-
-
         function remove(remove){
           let params={
             params:{
