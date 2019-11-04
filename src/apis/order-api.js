@@ -61,8 +61,18 @@ function createorder(id) {
   }
   return Axios.get("/ordersubmit/payment/pay", params);
 }
+//查看订单详情
+function orderDetail(id) {
+  let params = {
+    params: {
+      id: 192,
 
+    }
+  }
+  return Axios.get("/order/order/queryDetail", params);
+}
 export default {
+  orderDetail:orderDetail,
   checkOrderList: checkOrderList,
   createorder:createorder,
   create:create,

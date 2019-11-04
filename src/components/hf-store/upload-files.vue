@@ -2,12 +2,13 @@
 <el-form :model="form">
   <el-form-item prop="files">
     <el-upload v-model="form.files" ref="upload"
-     class="upload-poster" :limit='4' 
-     accept=".jpg,.jpeg,.png,.gif,.bmp,.JPG,.JPEG,.GIF,.BMP" 
+     class="upload-poster" :limit='4'
+     accept=".jpg,.jpeg,.png,.gif,.bmp,.JPG,.JPEG,.GIF,.BMP"
      action='' list-type="picture-card" :show-file-list="true"  :on-remove="onRemove" :on-change="imgPreview" :auto-upload="false">
       <i class="el-icon-plus"></i>
       <el-dialog :visible.sync="dialogVisible">
         <img width="100%" :src="picUrl" alt="">
+        
       </el-dialog>
     </el-upload>
   </el-form-item>
@@ -32,6 +33,8 @@ export default {
       console.log(this);
     },
     uploadFile(file) {
+      console.log(this.form);
+      console.log('上传图片1',file);
       let fd = new FormData();
       fd.append('goodsId', this.goods.id);
       fd.append("username", "dd");

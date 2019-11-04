@@ -32,18 +32,18 @@ module.exports = {
         }
       },
       '/ordersubmit': {
-        //target:'http://192.168.1.77:9096',//王博朋
+        target:'http://192.168.1.101:9096',//王博朋
         // target: 'http://192.168.1.233:9097',//小方
-         target:'http://localhost:9097',
+         // target:'http://localhost:9097',
         changeOrigin: true,
         pathRewrite: {
           '^/ordersubmit': '/'
         }
       },
       '/order': {
-        //target:'http://192.168.1.77:9096',//王博朋
+        target:'http://192.168.1.101:9097',//王博朋
         // target: 'http://192.168.1.233:9097',//小方
-         target:'http://localhost:9097',
+         // target:'http://localhost:9097',
         changeOrigin: true,
         pathRewrite: {
           '^/order': '/'
