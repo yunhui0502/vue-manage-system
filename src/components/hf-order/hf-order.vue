@@ -103,7 +103,7 @@
 
       <el-table-column align="center" label="操作" width="150" fixed="right">
         <template slot-scope="scope">
-          <el-button @click="TellMeId(scope.row)" size="small" type="text">修改订单状态</el-button>
+          <el-button @click="TellMeId(scope.row)" size="small" type="text">订单详情</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -164,6 +164,98 @@
 
 
           </el-form>
+
+          <el-table stripe :data="goodsData" :height="tableHeight" style="width: 100%;font-size: 15px;" size="mini"
+           >
+
+            </el-table-column>
+            <el-table-column label="订单类型" align="center" width="150">
+              <template slot-scope="scope">
+                <span>{{ goodsData.orderType}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="支付金额" align="center" width="150">
+              <template slot-scope="scope">
+                <span>{{ goodsData.amount}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="支付状态" align="center" width="150">
+              <template slot-scope="scope">
+                <span>{{ scope.row.payStatus}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="订单状态" align="center" width="150">
+              <template slot-scope="scope">
+                <span>{{ goodsData.orderDetailStatus}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="支付方式" align="center" width="150">
+              <template slot-scope="scope">
+                <span>{{ goodsData.payMethodType}}</span>
+              </template>
+            </el-table-column>
+
+            <el-table-column label="商品单价" align="center" width="150">
+              <template slot-scope="scope">
+                <span>{{ goodsData.purchasePrice}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="购买数量" align="center" width="150">
+              <template slot-scope="scope">
+                <span>{{ goodsData.purchaseQuantity}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="商品名称" align="center" width="150">
+              <template slot-scope="scope">
+                <span>{{ goodsData.hfName}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="订单描述" align="center" width="150">
+              <template slot-scope="scope">
+                <span>{{ goodsData.hfDesc}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="收获地址" align="center" width="150">
+              <template slot-scope="scope">
+                <span>{{ goodsData.address}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="物流单号" align="center"  width="400">
+              <template slot-scope="scope">
+                <span>{{ goodsData.logisticsOrdersId}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="物流公司" align="center" width="150">
+              <template slot-scope="scope">
+                <span>{{ goodsData.logisticsCompany}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="物流订单名称" align="center" width="120px">
+              <template slot-scope="scope">
+                <span>{{ goodsData.logisticsOrderName}}</span>
+              </template>
+            </el-table-column>
+
+            <el-table-column label="订单创建人" align="center" width="150">
+              <template slot-scope="scope">
+                <span>{{ goodsData.realName}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="创建时间" align="center" width="170">
+              <template slot-scope="scope">
+                <span>{{ goodsData.createTime}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="修改时间" align="center" width="170">
+              <template slot-scope="scope">
+                <span>{{ goodsData.modifyTime}}</span>
+              </template>
+            </el-table-column>
+
+          </el-table>
+
+
+
           <div class="demo-drawer__footer"  style="margin-left: 20px;">
             <el-button @click="drawer = false">取 消</el-button>
             <el-button type="primary" @click="updateStatus()" > 确定</el-button>
@@ -185,25 +277,11 @@
     },
     data() {
       return {
-          tableHeight: window.innerHeight -70,
+        goodsData:[],
+        tableHeight: window.innerHeight -70,
         leiMuId:'',
         status:{},
-        options: [{
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
-        }],
+        options: [],
         value: '',
         drawer: false,
         loading: false,
@@ -229,7 +307,6 @@
       // 修改订单状态
       // updateSytatus
       updateStatus :function(){
-
         let param={
           id:this.leiMuId,
           orderId:this.form.orderDetailId
@@ -290,6 +367,10 @@
         console.log(num)
         this.drawer = true;
         this.form = num;
+        api.orderDetail(this.form.orderDetailId).then(resp => {
+         console.log('订单详情',resp)
+          this.goodsData= resp.data.data;
+        });
       },
       listOrder() {
         api.checkOrderList(1).then(resp => {
