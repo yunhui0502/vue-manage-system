@@ -17,7 +17,7 @@ function update(params){
      fd.append("token",params.token);
      fd.append("userId",params.userId);
      fd.append("username",params.username);
-     return Axios.post("/api/user/update",fd,{reponseType:'arraybuffer'});
+     return Axios.post("/user/user/update",fd,{reponseType:'arraybuffer'});
 }
 //收货地址
  function address(address_action){
@@ -35,7 +35,7 @@ function update(params){
             userId:address_action.userId
        }
      }
-     return Axios.get("/api/address/addAddress",params)
+     return Axios.get("/api/user/address/addAddress",params)
  }
 
 
@@ -69,12 +69,36 @@ function register(regi_ster){
     }
     return Axios.get("/api/user/register",params)
 }
+        //删除
+        function remove(remove){
+          let params={
+            params:{
+                id:remove
+            }
+          }
+          return Axios.get("/user/user/address/deleteAddress",params)
+        }
+      //用户地址列表
+
+       function list(list){
+         let params={
+           params:{
+              token:list.token,
+              userId:list.userId
+           }
+         }
+         return Axios.get("/user/user/address/queryAddress",params)
+
+       }
+
+
 
 export default {
   login:login,
   register:register,
   update:update,
   address:address,
-
+  remove:remove,
+  list:list
 
 }
