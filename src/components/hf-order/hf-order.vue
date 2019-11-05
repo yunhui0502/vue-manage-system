@@ -108,11 +108,11 @@
       </el-table-column>
     </el-table>
     <template>
-      <elDrawer title="订单详情" :v-if="drawer" :before-close="handleClose" :visible.sync="drawer" custom-class="demo-drawer"
+      <elDrawer title="订单详情" :v-if="drawer" width="50%" :before-close="handleClose" :visible.sync="drawer" custom-class="demo-drawer"
          :loading.sync="loading" close-on-click-modal ref="selectedItem">
-        <div class="demo-drawer__content">
-          <el-form :model="form" style="margin-top: 30px;margin-left: 20px;">
-            <el-form-item label="订单编号" label-width="70px">
+        <div >
+          <el-form :model="form" style="margin-top: 30px;margin-left: 20px;" height="500px" >
+            <el-form-item label="订单编号" label-width="70px" >
               <el-input v-model="form.id" autocomplete="off" :disabled="true" style="width:200px;"></el-input>
             </el-form-item>
           <!--  <el-form-item label="订单类型">
@@ -168,15 +168,19 @@
           <el-table stripe :data="goodsData" :height="tableHeight" style="width: 100%;font-size: 15px;" size="mini"
            >
 
-            </el-table-column>
+              <el-table-column label="订单编号" align="center" width="150" fixed>
+                <template slot-scope="scope">
+                  <span>{{ scope.row.id}}</span>
+                </template>
+              </el-table-column>
             <el-table-column label="订单类型" align="center" width="150">
               <template slot-scope="scope">
-                <span>{{ goodsData.orderType}}</span>
+                <span>{{ scope.row.orderType}}</span>
               </template>
             </el-table-column>
             <el-table-column label="支付金额" align="center" width="150">
               <template slot-scope="scope">
-                <span>{{ goodsData.amount}}</span>
+                <span>{{ scope.row.amount}}</span>
               </template>
             </el-table-column>
             <el-table-column label="支付状态" align="center" width="150">
@@ -186,69 +190,69 @@
             </el-table-column>
             <el-table-column label="订单状态" align="center" width="150">
               <template slot-scope="scope">
-                <span>{{ goodsData.orderDetailStatus}}</span>
+                <span>{{ scope.row.orderDetailStatus}}</span>
               </template>
             </el-table-column>
             <el-table-column label="支付方式" align="center" width="150">
               <template slot-scope="scope">
-                <span>{{ goodsData.payMethodType}}</span>
+                <span>{{scope.row.payMethodType}}</span>
               </template>
             </el-table-column>
 
             <el-table-column label="商品单价" align="center" width="150">
               <template slot-scope="scope">
-                <span>{{ goodsData.purchasePrice}}</span>
+                <span>{{ scope.row.purchasePrice}}</span>
               </template>
             </el-table-column>
             <el-table-column label="购买数量" align="center" width="150">
-              <template slot-scope="scope">
-                <span>{{ goodsData.purchaseQuantity}}</span>
+             <template slot-scope="scope">
+                <span>{{ scope.row.purchaseQuantity}}</span>
               </template>
             </el-table-column>
             <el-table-column label="商品名称" align="center" width="150">
               <template slot-scope="scope">
-                <span>{{ goodsData.hfName}}</span>
+                <span>{{ scope.row.hfName}}</span>
               </template>
             </el-table-column>
             <el-table-column label="订单描述" align="center" width="150">
               <template slot-scope="scope">
-                <span>{{ goodsData.hfDesc}}</span>
+                <span>{{ scope.row.hfDesc}}</span>
               </template>
             </el-table-column>
             <el-table-column label="收获地址" align="center" width="150">
               <template slot-scope="scope">
-                <span>{{ goodsData.address}}</span>
+                <span>{{ scope.row.address}}</span>
               </template>
             </el-table-column>
             <el-table-column label="物流单号" align="center"  width="400">
               <template slot-scope="scope">
-                <span>{{ goodsData.logisticsOrdersId}}</span>
+                <span>{{ scope.row.logisticsOrdersId}}</span>
               </template>
             </el-table-column>
             <el-table-column label="物流公司" align="center" width="150">
               <template slot-scope="scope">
-                <span>{{ goodsData.logisticsCompany}}</span>
+                <span>{{ scope.row.logisticsCompany}}</span>
               </template>
             </el-table-column>
             <el-table-column label="物流订单名称" align="center" width="120px">
               <template slot-scope="scope">
-                <span>{{ goodsData.logisticsOrderName}}</span>
+                <span>{{ scope.row.logisticsOrderName}}</span>
               </template>
             </el-table-column>
 
             <el-table-column label="订单创建人" align="center" width="150">
               <template slot-scope="scope">
-                <span>{{ goodsData.realName}}</span>
+                <span>{{ scope.row.realName}}</span>
               </template>
             </el-table-column>
             <el-table-column label="创建时间" align="center" width="170">
               <template slot-scope="scope">
-                <span>{{ goodsData.createTime}}</span>
+                <span>{{ scope.row.createTime}}</span>
               </template>
             </el-table-column>
             <el-table-column label="修改时间" align="center" width="170">
               <template slot-scope="scope">
-                <span>{{ goodsData.modifyTime}}</span>
+                <span>{{ scope.row.modifyTime}}</span>
               </template>
             </el-table-column>
 
@@ -278,7 +282,7 @@
     data() {
       return {
         goodsData:[],
-        tableHeight: window.innerHeight -70,
+        tableHeight: window.innerHeight-70,
         leiMuId:'',
         status:{},
         options: [],

@@ -178,8 +178,6 @@
         <!-- 页面内容区end-->
         <!-- 上传图片 -->
         <el-dialog title="上传图片" :visible.sync="picOpen" :close-on-click-modal="false">
-
-
           <template slot-scope="scope">
             <uploadFiles :goods='selectedGoods'></uploadFiles>
             <div style="display: flex;align-items: center;width: 100%;flex-wrap: wrap;">
