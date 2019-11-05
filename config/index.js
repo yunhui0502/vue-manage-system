@@ -11,39 +11,28 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        // target:'http://192.168.1.77:9097',//王鹏博
-        target:'http://192.168.1.103:9095',//小方
-        // target:'http://localhost:9095',//小方
-        //target:'http://192.168.1.233:9095',//小方
-         // target:'http://localhost:9095',//小方
-
+        // target:'http://192.168.1.101:8082',//王鹏博
+        // target:'http://192.168.1.233:9095',//小方
+        target:'http://localhost:9095',//小方
         changeOrigin: true,
         pathRewrite: {
           '^/api': '/'
         }
       },
       '/user': {
-        //target:'http://192.168.1.77:8082',//王博朋
+        // target:'http://192.168.1.101:8082',//王博朋
         // target: 'http://192.168.1.233:8082',//小方
-         target:'http://localhost:8082',
+        target:'http://localhost:8082',
         changeOrigin: true,
         pathRewrite: {
-          '^/order': '/'
+          '^/user': '/'
         }
       },
-      '/ordersubmit': {
-        target:'http://192.168.1.101:9096',//王博朋
-        // target: 'http://192.168.1.233:9097',//小方
-         // target:'http://localhost:9097',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/ordersubmit': '/'
-        }
-      },
+      
       '/order': {
-        target:'http://192.168.1.101:9097',//王博朋
-        // target: 'http://192.168.1.233:9097',//小方
-         // target:'http://localhost:9097',
+        // target:'http://192.168.1.101:8082',//王博朋
+        // target: 'http://192.168.1.233:8082',//小方
+        target:'http://localhost:9097',
         changeOrigin: true,
         pathRewrite: {
           '^/order': '/'
