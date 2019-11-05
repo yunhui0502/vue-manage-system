@@ -168,7 +168,6 @@
           <el-table stripe :data="goodsData" :height="tableHeight" style="width: 100%;font-size: 15px;" size="mini"
            >
 
-            </el-table-column>
             <el-table-column label="订单类型" align="center" width="150">
               <template slot-scope="scope">
                 <span>{{ goodsData.orderType}}</span>
