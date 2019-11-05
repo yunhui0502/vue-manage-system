@@ -179,7 +179,7 @@
         <!-- 上传图片 -->
         <el-dialog title="上传图片" :visible.sync="picOpen" :close-on-click-modal="false">
           <template slot-scope="scope">
-            <uploadFiles :goods='selectedGoods'></uploadFiles>
+            <uploadFiles :goods='selectedGoods' goodsFiles='goodsFiles'></uploadFiles>
             <div style="display: flex;align-items: center;width: 100%;flex-wrap: wrap;">
               <div style="width:110px;position: relative;height: 110px;margin-right: 10px;margin-bottom: 10px;border-radius: 7px;" v-for="(item,index) in pics" class="zhe">
                 <div style="border-radius: 7px; background: rgba(0,0,0,0.5);width: 100%;height: 100%;top:0;right: 0;position: absolute;z-index: 100;" class="zhe1"
@@ -381,6 +381,7 @@
              for (var i = 0; i < main.pics.length; i++) {
                main.pics[i].img = '/api/goods/getFile?fileId=' + main.pics[i].fileId;
                console.log(main.pics[i].img)
+               
              }
            },
            function(resultData) {
