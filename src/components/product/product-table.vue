@@ -21,13 +21,83 @@
               </el-option>
             </el-select>
           </el-form-item>
+
           <el-button type="primary" @click="sou" :loading="addLoading">搜索</el-button>
             <el-button type="danger" style="border-radius:3px;float:right;margin-right: 4%;font-size: 15px;"  icon="el-icon-delete" @click="deletegood" size="mini" round>删除</el-button>
             <el-button  type="success" style="border-radius:3px;float:right;"    icon="el-icon-circle-plus-outline" @click="handleAdd" size="mini"  round>新增</el-button>
+          <el-button type="success"  style="border-radius:3px;float:right;"  @click="addMu" size="mini" round>添加分类</el-button>
         </el-form>
       </el-col>
     </div>
+ <!--添加类目-->
+  <el-dialog title="添加类目" :visible.sync="mu" :close-on-click-modal="false">
+    <el-form :model="leimu" ref="leimuForm" :inline="true">
+      <el-form-item label="" prop="category" >
+        <div style="display: flex;align-items: center;" >
+          <div style="width: 167px;font-weight: bold;">添加一级分类:</div>
+          <el-input v-model="leimu.category" auto-complete="off" placeholder="输入一级分类名称"></el-input>
 
+           <el-button type="primary" @click="addleimu" style="margin-left: 10px;">提交</el-button>
+        </div>
+
+      </el-form-item>
+    </el-form>
+    <el-form :model="leimu"  ref="leimuForm1" :inline="true">
+
+      <el-form-item label="" prop="category" >
+
+        <div style="display: flex;align-items: center;">
+           <div style="width: 140px;font-weight: bold;">添加二级分类:</div>
+          <el-input v-model="leimu1.category" auto-complete="off" placeholder="输入二级分类名称"></el-input>
+           <!-- <el-button type="primary" @click="addleimu" style="margin-left: 10px;">提交</el-button> -->
+        </div>
+
+      </el-form-item>
+      <el-form-item label="选择对应的一级分类:" prop="category" >
+        <el-select v-model="values1" placeholder="请选择" @change="checkMulist1">
+          <el-option v-for="(item, index) in leiMu" :key="index" :label="item.hfName" :value="item.hfName">
+          </el-option>
+        </el-select>
+          <el-button type="primary" @click="addleimu1" style="margin-left: 10px;">提交</el-button>
+      </el-form-item>
+    </el-form>
+    <el-form :model="leimu" label-width="80px" ref="leimuForm2" :inline="true">
+      <el-form-item label="" prop="category" label-width="100">
+        <div style="display: flex;align-items: center;">
+           <div style="width: 140px;font-weight: bold;">添加三级分类:</div>
+          <el-input v-model="leimu1.category" auto-complete="off" placeholder="输入二级分类名称"></el-input>
+           <!-- <el-button type="primary" @click="addleimu" style="margin-left: 10px;">提交</el-button> -->
+        </div>
+
+      </el-form-item>
+      <el-form-item label="选择对应的二级分类:" prop="category" label-width="100">
+       <!-- <el-select v-model="values1" placeholder="请选择" @change="checkMulist">
+          <el-option v-for="(item, index) in leiMu" :key="index" :label="item.hfName" :value="item.hfName">
+          </el-option>
+        </el-select> -->
+        <div class="block">
+          <span class="demonstration">默认 click 触发子菜单</span>
+          <el-cascader
+            v-model="value"
+            :options="options"
+            @change="handleChange"></el-cascader>
+        </div>
+      <!--  <div class="block">
+          <span class="demonstration">hover 触发子菜单</span>
+          <el-cascader
+            v-model="value"
+            :options="options"
+            :props="{ expandTrigger: 'hover' }"
+            @change="handleChange"></el-cascader>
+        </div> -->
+        <el-button type="primary" @click="addleimu" style="margin-left: 10px;">提交</el-button>
+      </el-form-item>
+    </el-form>
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="orgFormVisible = false">取消</el-button>
+
+    </div>
+  </el-dialog>
 
   <div style="padding-top: 10px;background: #fff;margin-top: 10px;">
     <el-table :data="tableData" size="mini" highlight-current-row border class="el-tb-edit " style="font-size: 15px"
@@ -61,7 +131,8 @@
 
         </el-table>
     <div style="float:right;width:100%;background: #fff;">
-            <el-pagination style="padding-top:30px; background: #fff;height: 40px;float:right;" @size-change="3" @current-change="3" :current-page="2" :page-size="3" layout="total, prev, pager, next"
+            <el-pagination style="padding-top:30px; background: #fff;height: 40px;float:right;" @size-change="3" @current-change="3"
+            :current-page="2" :page-size="3" layout="total, prev, pager, next"
               :total="tableData.length">
             </el-pagination>
           </div>
@@ -103,6 +174,22 @@
     name: 'productTable',
     data() {
       return {
+
+        leiMuId1:'',
+        values1:'',
+        leiMuId: '',
+           leiMu: '',
+        leimu: {
+          category: '',
+          parentCategoryId: "-1",
+          levelId: '0'
+        },
+        leimu1: {
+          category: '',
+          parentCategoryId: "-1",
+          levelId: '1'
+        },
+         mu: false,
         addForm: {
           bossId: '1', //商家id
           brandId: '1', //品牌id
@@ -123,6 +210,10 @@
       }
     },
     methods: {
+      addMu: function (row) {
+
+        this.mu = true;
+      },
       // 编辑商品
       biangui: function(row) {
         var arr=JSON.stringify(row);
@@ -166,6 +257,69 @@
         })
 
       },
+      // 添加类目
+      addleimu: function () {
+        var _this = this;
+        _this.$refs.leimuForm.validate(valid => {
+          if (valid) {
+            _this.$confirm("确认提交吗？", "提示", {}).then(() => {
+              _this.addLoading = true;
+              let param = Object.assign({}, _this.leimu);
+              console.log(param);
+              _this.$ajax({
+                method: "post",
+                url: "/api/product/addCategory",
+                params: param
+              }).then(res => {
+                _this.mu = false;
+                _this.addLoading = false;
+                console.log('添加类目', res)
+                _this.$message({
+                  message: "提交成功",
+                  type: "success"
+                });
+
+                _this.$refs["leimuForm"].resetFields();
+
+                // this.getResult(1);
+              });
+            });
+          }
+        });
+
+      },
+      // 添加类目二级
+      addleimu1: function () {
+        console.log(13232)
+        var _this = this;
+        _this.$refs.leimuForm1.validate(valid => {
+          if (valid) {
+            _this.$confirm("确认提交吗？", "提示", {}).then(() => {
+              _this.addLoading = true;
+              let param = Object.assign({}, _this.leimu1);
+              console.log(param);
+              _this.$ajax({
+                method: "post",
+                url: "/api/product/addCategory",
+                params: param
+              }).then(res => {
+                _this.mu = false;
+                _this.addLoading = false;
+                console.log('添加类目', res)
+                _this.$message({
+                  message: "提交成功",
+                  type: "success"
+                });
+
+                _this.$refs["leimuForm"].resetFields();
+
+                // this.getResult(1);
+              });
+            });
+          }
+        });
+
+      },
       // 添加商品
       addSubmit: function() {
         // console.log(this.value)
@@ -179,8 +333,7 @@
               console.log(_this.addForm);
 
               let param = Object.assign({}, _this.addForm);
-              api.addProduct(param)
-                .then(res => {console.log('ssss', res);
+              api.addProduct(param).then(res => {console.log('ssss', res);
                 this.addLoading = false;
                 _this.listProduct();
                 this.$message({
@@ -246,9 +399,29 @@
             return item
           }
         });
-
-        this.leiMuId = obj.id;
+        // leimu1: {
+        //   values1: '',
+        //   parentCategoryId: "-1",
+        //   levelId: '1'
+        // },
+        this.leimu1.parentCategoryId = obj.id;
         console.log(this.leiMuId)
+
+      },
+      //选择一级分类
+      checkMulist1: function() {
+        this.leiMuId1
+        let obj = {};
+        obj = this.leiMu.find((item) => {
+          //这里的selectList就是上面遍历的数据源
+          //筛选出匹配数据
+          if (item.hfName == this.values1) {
+            return item
+          }
+        });
+
+        this.leimu1.parentCategoryId = obj.id;
+        // console.log(this.leiMuId1)
 
       },
       conver : function (s) {

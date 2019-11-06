@@ -31,8 +31,10 @@
       <el-button type="success" @click="addMu" size="mini" round>添加分类</el-button>
       <template>
         <!--表格数据及操作-->
-        <el-table :data="tableData" size="mini" highlight-current-row border class="el-tb-edit mgt20" ref="multipleTable" tooltip-effect="dark" v-loading="listLoading" @selection-change="selectChange">
-          <el-table-column type="selection" label="序号" width="50px" align="center">
+        <el-table :data="tableData" size="mini" highlight-current-row border class="el-tb-edit mgt20" ref="multipleTable" tooltip-effect="dark"  v-loading="listLoading"
+        @selection-change="selectChange"
+         >
+          <el-table-column type="selection" label="序号" width="50px" align="center" >
           </el-table-column>
           <el-table-column type="index" :index="indexMethod" label="序号" width="50px" align="center">
           </el-table-column>
@@ -184,11 +186,15 @@
     <el-form :model="leimu" label-width="80px" ref="leimuForm" :inline="true">
       <el-form-item label="类目名称" prop="category">
         <el-input v-model="leimu.category" auto-complete="off"></el-input>
+        <el-button type="primary" @click="addleimu">提交</el-button>
       </el-form-item>
     </el-form>
+    
+    
+    
     <div slot="footer" class="dialog-footer">
       <el-button @click="orgFormVisible = false">取消</el-button>
-      <el-button type="primary" @click="addleimu">提交</el-button>
+      
     </div>
   </el-dialog>
   <!--岗位界面-->
@@ -281,10 +287,11 @@ export default {
       },
       mu: false,
       leiMuId: '',
+         leiMu: '',
       value1: '',
       guigelist: '',
       leiId: '',
-      leiMu: '',
+
       editFormVisible3: false,
       editFormVisible2: false,
       editFormVisible1: false,
@@ -1105,6 +1112,7 @@ export default {
 
     //批量选中
     selectChange: function (val) {
+      console.log(111111)
       console.log(val)
       this.selectList = val;
     },
