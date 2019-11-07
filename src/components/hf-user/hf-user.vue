@@ -320,6 +320,7 @@ import api from '@/apis/user-api.js';
 export default {
   data() {
     return {
+		dialogImageUrl:'',
          dialogVisible1:false,
          dialogVisible:false,
          tableData: [{

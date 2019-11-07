@@ -13,6 +13,15 @@ function getProductList(Id) {
 function category() {
   return Axios.get("/api/product/category");
 }
+// 获取二级类目
+function categoryTwo(id) {
+  let params = {
+    params: {
+      parentCategoryId: id
+    }
+  }
+  return Axios.get("/api/product/category", params);
+}
 // 编辑商品
 function bianProduct(params) {
   let fd = new FormData();
@@ -203,5 +212,6 @@ export default {
   deleteSpec:deleteSpec,
   deleteGood:deleteGood,
   addSpec:addSpec,
-  checkOrderList:checkOrderList
+  checkOrderList:checkOrderList,
+  categoryTwo:categoryTwo
 }
