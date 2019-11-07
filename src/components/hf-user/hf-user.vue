@@ -359,6 +359,7 @@ import api from '@/apis/user-api.js';
 export default {
   data() {
     return {
+		dialogImageUrl:'',
          selectedGoods: {},
           liss:{},
          phoneNumber:"",
