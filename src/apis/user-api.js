@@ -33,7 +33,7 @@ function update(params){
           fd.append("isFaultAddress",params.isFaultAddress);
           fd.append("phoneNumber",params.phoneNumber);
           fd.append("userId",params.userId);
-          return Axios.post("/user/address/updateAddress",fd,{reponseType:'arraybuffer'});
+          return Axios.post("api/user/address/updateAddress",fd,{reponseType:'arraybuffer'});
      }
    //查询收货地址详情
    function addressDetail(detail){

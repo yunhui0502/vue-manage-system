@@ -3,7 +3,7 @@
 
   <el-row>
     <el-col :span="16" class="p50">
-      <h3 style="margin-left:40px;margin-top: -20px;">基本信息管理</h3>
+      <h3 style="margin-left:40px;margin-top: 20px;">基本信息管理</h3>
       <el-form ref="form" :model="form" label-width="80px">
         <el-form-item label="昵称" style="margin-top: 20px;">
           <el-col :span="10">
@@ -22,9 +22,9 @@
             <el-input v-model="form.username"></el-input>
           </el-col>
         </el-form-item>
-       <el-form-item label="注册电话" style="width:1780px;">
+       <el-form-item label="注册电话"  style="width:1780px;">
           <el-col :span="6">
-            <el-input v-model="form.phone"></el-input>
+            <el-input v-model="form.phone" maxlength="11"></el-input>
           </el-col>
         </el-form-item>
 
@@ -137,7 +137,7 @@
 
        <el-form-item label="电话号码" style="width:1780px;">
           <el-col :span="6">
-            <el-input v-model="address.phoneNumber"></el-input>
+            <el-input v-model="address.phoneNumber" maxlength="11"></el-input>
           </el-col>
         </el-form-item>
 
@@ -209,7 +209,7 @@
           width="120" align="center">
         </el-table-column>
         <el-table-column
-          prop="trees"
+          prop="hfDesc"
           label="备注"
           width="300" align="center">
         </el-table-column>
@@ -300,7 +300,7 @@
 
            <el-form-item label="电话号码" style="width:1780px;">
               <el-col :span="6">
-                <el-input v-model="address1.phoneNumber"></el-input>
+                <el-input v-model="address1.phoneNumber" maxlength="11"></el-input>
               </el-col>
             </el-form-item>
 
@@ -340,7 +340,7 @@
 
         <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible4 = false">取 消</el-button>
-        <el-button type="primary" @click="many()">添加</el-button>
+        <el-button type="primary" @click="many()">确定</el-button>
         </span>
         </el-dialog>
 
@@ -421,12 +421,14 @@ export default {
            phoneNumber:""
          },
         address:{
-          contact:"王博鹏",
+          contact:"王博",
           phoneNumber:"13837774547",
           hfConty:"中国",
           hfCity:"北京",
+          hfDesc:"111",
           hfProvince:"河北",
           trees:"上地七街",
+          userId:1,
           hfAddressDetail:"上地七街九头鸟"
         },
         address1:{
@@ -434,7 +436,7 @@ export default {
           phoneNumber:"13837774547",
           hfConty:"中国",
           hfCity:"北京",
-          id:155,
+          id:160,
           userId:1,
           isFaultAddress:0,
           hfProvince:"河北",
@@ -471,7 +473,7 @@ export default {
    //搜索
     search(){
         api.Search(this.Search).then(response=>{
-          console.log()
+          console.log(response)
           this.arr=response.data.data
           // return this.liss.filter(value=>value.phoneNumber.indexOf(this.phoneNumber)!==-1)
         })
@@ -481,9 +483,11 @@ export default {
    this.dialogVisible1=true;
    },
     //编辑
-    bianji(){
+    bianji(row){
+     console.log(row.row.id)
      this.dialogVisible4=true
-     this.address1=Object.assign({},row)
+     this.address1.id=row.row.id
+     // this.address1=Object.assign({},row)
     },
     //详情
      Detail(){
@@ -497,7 +501,7 @@ export default {
       console.log(res.data)
        let studenteList=this.address1;
        console.log(studenteList)
-      if(res.data.status==200){
+       if(res.data.status==200){
        this.arr.push({
          contact:this.address1.contact,
          phoneNumber:this.address1.phoneNumber,
@@ -514,7 +518,7 @@ export default {
         });
        this.admin()
        this.dialogVisible4=false
-      }
+       }
 
       })
     },
@@ -553,11 +557,11 @@ export default {
 //           Axios.post("/user/user/update",fd,{
 //           reponseType:"arraybuffer"
 //
-//           }).then(res=>{
+//            }).then(res=>{
 //
 //           console.log("上传图片",res)
 //           })
-//
+
          },
           handleRemove(file, fileList) {
           console.log(file, fileList);
@@ -578,7 +582,6 @@ export default {
 
           //删除
           deleteRow(index,scope) {
-
            console.log(index)
            api.remove(index.row.id).then(res=>{
            let _this=this;
@@ -617,7 +620,7 @@ export default {
 
                        hfCity:this.address.hfCity,
                        id:this.address.id,
-
+                        userId:this.address.userId,
                        hfProvince:this.address.hfProvince,
                        trees:this.address.trees,
                        hfAddressDetail:this.address.hfAddressDetail,
@@ -669,7 +672,7 @@ export default {
     width: 178px;
     height: 178px;
     display: block;
-  }
+          }
 
 
 </style>
