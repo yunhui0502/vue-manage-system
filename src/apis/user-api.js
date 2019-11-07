@@ -19,6 +19,48 @@ function update(params){
      fd.append("username",params.username);
      return Axios.post("/user/user/update",fd,{reponseType:'arraybuffer'});
 }
+
+    //更新用户地址
+     function updateAddress(params){
+          let fd=new FormData();
+          fd.append("contact",params.contact);
+          fd.append("hfAddressDetail",params.hfAddressDetail);
+          fd.append("hfCity",params.hfCity);
+          fd.append("hfConty",params.hfConty);
+          fd.append("hfDesc",params.hfDesc);
+          fd.append("hfProvince",params.hfProvince);
+          fd.append("id",params.id);
+          fd.append("isFaultAddress",params.isFaultAddress);
+          fd.append("phoneNumber",params.phoneNumber);
+          fd.append("userId",params.userId);
+          return Axios.post("/user/address/updateAddress",fd,{reponseType:'arraybuffer'});
+     }
+   //查询收货地址详情
+   function addressDetail(detail){
+     let params={
+         params:{
+         id:detail.id
+       }
+     }
+     return Axios.get("api/user/address/addressDetail",params)
+ }
+ //搜索
+ function Search(search){
+     let params={
+         params:{
+        phoneNumber:search.phoneNumber
+       }
+     }
+     return Axios.get("api/user/address/searchAddress",params)
+ }
+
+//上传
+function File(params){
+     let fd=new FormData();
+     fd.append("fileInfo",params.fileInfo);
+     return Axios.post("/user/user/update",fd,{reponseType:'arraybuffer'});
+}
+
 //收货地址
  function address(address_action){
      let params={
@@ -37,6 +79,8 @@ function update(params){
      }
      return Axios.get("/api/user/address/addAddress",params)
  }
+
+//
 
 
 //登录
@@ -99,6 +143,9 @@ export default {
   update:update,
   address:address,
   remove:remove,
-  list:list
-
+  list:list,
+  File:File ,
+  updateAddress:updateAddress,
+  addressDetail:addressDetail,
+  Search:Search
 }

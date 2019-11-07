@@ -12,6 +12,7 @@ import router from './router'
 import 'babel-polyfill'
 import util from './common/util'
 import Vuex from 'vuex'
+import Axios from 'axios'
 import store from './store'
 // import CKEditor from '@ckeditor/ckeditor5-vue';
 window.moment=require('moment')
