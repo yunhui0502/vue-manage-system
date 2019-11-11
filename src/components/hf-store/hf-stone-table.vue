@@ -1,38 +1,98 @@
 <template>
-  <div style="width: 100%;">
-    <div style="overflow: hidden; height: 80px;display: flex;align-items: center;justify-content: flex-end;width: 100%;background: #fff;">
-      <el-button style="margin-right: 4%;border-radius: 3px;" type="success" icon="el-icon-circle-plus-outline" @click="handleAdd"
-        size="mini" round>新增店铺</el-button>
+  <div style="width: 100%;border-radius:4px;">
+
+    <div style="overflow: hidden;width: 100%;background: #fff;">
+      <div style="height: 42px;line-height: 42px;border-bottom: 1px solid #E5E5E5;">
+        <el style='margin-left: 22px;color: #666666;font-size: 16px;'>
+          商户管理
+        </el>
+      </div>
     </div>
-    <div style="margin-top: 10px;width: 100%;  padding-top:10px; background: #fff;   ">
+    <div style="background: #fff;  padding: 37px 34px 0 34px; ">
       <!--表格数据及操作-->
+      <!-- <img  alt=""> -->
 
-        <el-table :data="tableData" size="mini"  style="font-size: 15px" tooltip-effect="dark" highlight-current-row border class="el-tb-edit ">
-          <el-table-column type="index"
-          :index="indexMethod" label="序号" width="59px" align="center">
-          </el-table-column>
-          <el-table-column prop="hfName" label="店铺名称" align="center">
-          </el-table-column>
-          <el-table-column prop="hfDesc" label="店铺描述" align="center">
-          </el-table-column>
-          <el-table-column prop="createTime" label="创建时间" align="center">
-          </el-table-column>
-          <el-table-column prop="hfStatus" label="店铺状态" align="center">
-            <template slot-scope="scope">
-              <span v-if="scope.row.hfStatus =='1'">营业中</span>
-              <span v-if="scope.row.hfStatus == '2'">未营业</span>
-            </template>
-          </el-table-column>
-          <el-table-column fixed="right" label="操作" width="250" align="center">
-            <template slot-scope="scope">
-              <!-- <el-button type="primary" plain size="small" @click="handleRole(scope.row)">编辑</el-button>
+       <!-- <img src="../../../static/img.jpg" > -->
+      <div style="margin-top: 27px;display: flex;justify-content: flex-end;">
+        <el-button style="font-size: 14px; margin-right:15px;border-radius: 3px;background: #A6A3FB;color:#fff;border: none;height: 36px; width: 118px;"
+          type="success" icon="el-icon-circle-plus-outline" @click="handleAdd" size="mini" round>新增店铺</el-button>
+        <el-button style="margin-right: 49px; border:1px solid #FF318A; font-size: 14px; border-radius: 3px;background: #fff;color:#FF318A;height: 36px; width: 118px;"
+          type="success" icon="el-icon-circle-plus-outline" @click="handleAdd" size="mini" round>删除</el-button>
+        <el class="el-icon-search" style="border:1px solid #EBEDF0;height: 36px;display: flex;align-items: center;padding-left:9px ;width: 200px;">
+          <input type="text" class="el-icon-search" placeholder="搜索" style="outline:none;border:none;margin-left:5px;width: 90%;"></el>
+      </div>
+      <div style="display: flex;margin-top: 37px;flex-wrap: wrap;">
+        <div style="border-radius: 10px;display: flex;border:1px solid #FF318A;width:19%;margin-right: 27px;margin-bottom: 22px;padding: 35px 38px 33px 13px;">
+          <img src="./weixin2.jpg" width="130px" height="130px" />
+          <div style="margin-left: 16px;">
+            <div style="font-size: 20px;font-size: 20px;color: #666;">商铺名称</div>
+            <div style="font-size: 14px;color: #666666;margin-top: 14px;">注册时间：2019.10.28</div>
+            <div style="color:#A3A0FB;margin-top: 13px;">了解详情  >></div>
+          </div>
+        </div>
+        <div style="border-radius: 10px;display: flex;border:1px solid #E5E5E5;width:19%;margin-right: 27px;margin-bottom: 22px;padding: 35px 38px 33px 13px;">
+          <img src="./weixin2.jpg" width="130px" height="130px" />
+          <div style="margin-left: 16px;">
+            <div style="font-size: 20px;font-size: 20px;color: #666;">商铺名称</div>
+            <div style="font-size: 14px;color: #666666;margin-top: 14px;">注册时间：2019.10.28</div>
+            <div style="color:#A3A0FB;margin-top: 13px;">了解详情  >></div>
+          </div>
+        </div>
+        <div style="border-radius: 10px;display: flex;border:1px solid #E5E5E5;width:19%;margin-right: 27px;margin-bottom: 22px;padding: 35px 38px 33px 13px;">
+          <img src="./weixin2.jpg" width="130px" height="130px" />
+          <div style="margin-left: 16px;">
+            <div style="font-size: 20px;font-size: 20px;color: #666;">商铺名称</div>
+            <div style="font-size: 14px;color: #666666;margin-top: 14px;">注册时间：2019.10.28</div>
+            <div style="color:#A3A0FB;margin-top: 13px;">了解详情  >></div>
+          </div>
+        </div>
+        <div style="border-radius: 10px;display: flex;border:1px solid #E5E5E5;width:19%;margin-right: 27px;margin-bottom: 22px;padding: 35px 38px 33px 13px;">
+          <img src="./weixin2.jpg" width="130px" height="130px" />
+          <div style="margin-left: 16px;">
+            <div style="font-size: 20px;font-size: 20px;color: #666;">商铺名称</div>
+            <div style="font-size: 14px;color: #666666;margin-top: 14px;">注册时间：2019.10.28</div>
+            <div style="color:#A3A0FB;margin-top: 13px;">了解详情  >></div>
+          </div>
+        </div>
+        <div style="display: flex;border-radius: 10px;
+        border:1px solid #E5E5E5;width:19%;margin-right: 27px;margin-bottom: 22px;padding: 35px 38px 33px 13px;">
+          <img src="./weixin2.jpg" width="130px" height="130px" />
+          <div style="margin-left: 16px;">
+            <div style="font-size: 20px;font-size: 20px;color: #666;">商铺名称</div>
+            <div style="font-size: 14px;color: #666666;margin-top: 14px;">注册时间：2019.10.28</div>
+            <div style="color:#A3A0FB;margin-top: 13px;">了解详情  >></div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <el-table :data="tableData" size="mini" style="font-size: 15px" tooltip-effect="dark" highlight-current-row
+        border class="el-tb-edit ">
+        <el-table-column type="index" :index="indexMethod" label="序号" width="59px" align="center">
+        </el-table-column>
+        <el-table-column prop="hfName" label="店铺名称" align="center">
+        </el-table-column>
+        <el-table-column prop="hfDesc" label="店铺描述" align="center">
+        </el-table-column>
+        <el-table-column prop="createTime" label="创建时间" align="center">
+        </el-table-column>
+        <el-table-column prop="hfStatus" label="店铺状态" align="center">
+          <template slot-scope="scope">
+            <span v-if="scope.row.hfStatus =='1'">营业中</span>
+            <span v-if="scope.row.hfStatus == '2'">未营业</span>
+          </template>
+        </el-table-column>
+        <el-table-column fixed="right" label="操作" width="250" align="center">
+          <template slot-scope="scope">
+            <!-- <el-button type="primary" plain size="small" @click="handleRole(scope.row)">编辑</el-button>
             <el-button size="small" type="danger" @click="delecteDian(scope.row)">删除</el-button> -->
-              <el-button type="primary" icon="el-icon-edit" size="mini" @click="handleRole(scope.row)">编辑</el-button>
-              <el-button type="danger" icon="el-icon-delete" @click="delecteDian(scope.row)" size="mini">删除</el-button>
-            </template>
-          </el-table-column>
+            <el-button type="primary" icon="el-icon-edit" size="mini" @click="handleRole(scope.row)">编辑</el-button>
+            <el-button type="danger" icon="el-icon-delete" @click="delecteDian(scope.row)" size="mini">删除</el-button>
+          </template>
+        </el-table-column>
 
-        </el-table>
+      </el-table>
 
       <el-pagination style="padding-top:30px; display: flex;justify-content: flex-end; width: 100%; background: #fff;height: 40px;float:right;"
         @size-change="3" @current-change="3" :current-page="2" :page-size="3" layout="total, prev, pager, next" :total="tableData.length">
