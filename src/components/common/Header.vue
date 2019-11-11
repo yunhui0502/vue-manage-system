@@ -8,26 +8,49 @@
         <div class="header-right">
             <div class="header-user-con">
                 <!-- 全屏显示 -->
-                <div class="btn-fullscreen" @click="handleFullScreen">
+              <!--  <div class="btn-fullscreen" @click="handleFullScreen">
                     <el-tooltip effect="dark" :content="fullscreen?`取消全屏`:`全屏`" placement="bottom">
                         <i class="el-icon-rank"></i>
                     </el-tooltip>
-                </div>
+                </div> -->
                 <!-- 用户头像 -->
-                <div class="user-avator"><img src="/api/goods/getFile?fileId=3"></div>
+                <!-- <div class="user-avator"><img src="/api/goods/getFile?fileId=3"></div> -->
                 <!-- 用户名下拉菜单 -->
+                <!-- <i class="el-icon-edit"><span style="font-size:22px;margin-left:10px;">dasds</span></i> -->
+                        <i class="el-icon-search" style="margin-right: 10px;color: #CCCCCC;cursor: pointer;"></i>
+                     
+                     
+                        <el-dropdown trigger="click"></el-dropdown>
+                         <div style="cursor: pointer;">
+                           <img src="../img/8.png">
+                         </div>
+                         
+                         
+                         
                 <el-dropdown class="user-name" trigger="click" @command="handleCommand">
-                    <span class="el-dropdown-link">
-                        {{'adminDavin'}} <i class="el-icon-caret-bottom"></i>
+                    <span class="el-dropdown-link" style="float: left;margin-top:10px;">
+                        {{'用户昵称'}} <i class="el-icon-caret-bottom"></i>
                     </span>
-                    <el-dropdown-menu slot="dropdown">
-                     <!--   <a href="https://github.com/adminDavin" target="_blank">
-                            <el-dropdown-item>关于作者</el-dropdown-item>
+
+
+                    <div class="user-avator" style="float: left;cursor: pointer;"><img src="../img/6.jpg"></div>
+
+
+                    <el-dropdown-menu slot="dropdown"   style="margin-left:-100px;">
+                       <a href="https://github.com/adminDavin" target="_blank">
+                            <el-dropdown-item>用户昵称</el-dropdown-item>
+                            <el-dropdown-item>13837774547</el-dropdown-item>
                         </a>
                         <a href="https://github.com/adminDavin/hanfu-admin-vue" target="_blank">
-                            <el-dropdown-item>项目仓库</el-dropdown-item>
-                        </a> -->
-                        <el-dropdown-item divided  command="loginout">退出登录</el-dropdown-item>
+                            <el-dropdown-item divided >账号设置</el-dropdown-item>
+                        </a>
+                        <a href="https://github.com/adminDavin/hanfu-admin-vue" target="_blank">
+                            <el-dropdown-item >反馈</el-dropdown-item>
+                        </a>
+                        <a href="https://github.com/adminDavin/hanfu-admin-vue" target="_blank">
+                            <el-dropdown-item >官网</el-dropdown-item>
+                        </a>
+                        <el-dropdown-item command="loginout">切换账号</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
             </div>

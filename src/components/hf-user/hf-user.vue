@@ -572,10 +572,7 @@ export default {
           },
 
 
-          data:()=>({
 
-
-          }),
               handleClose(done) {
 
                },
@@ -595,29 +592,26 @@ export default {
 
            }else{
               this.$message({
-
               message: '删除失败',
-
               type: 'success',
               });
 
-                     }
+                   }
                    })
-                     }
-                     ,
+                   }
+                   ,
 
                 message(){
                  this.dialogAddgsVisible = true;
                  },
-                 add(){
+
+                     add(){
                      api.address(this.address).then(res=>{
                      if(res.data.status==200){
                        this.arr.push({
                        contact:this.address.contact,
-
                        phoneNumber:this.address.phoneNumber,
                        hfConty:this.address.hfConty,
-
                        hfCity:this.address.hfCity,
                        id:this.address.id,
                         userId:this.address.userId,
