@@ -18,8 +18,10 @@
           <el-radio label="手机号"></el-radio>
         </el-radio-group>
       </el-form-item>
+      
       <el-form-item>
         <el-button type="primary" @click="login">登 录</el-button>
+        <div style="text-align: center;">还没有注册?<a href="/hf-user/register" style="color: #0000FF;">去注册</a></div>
         <span v-show="this.errorInfo.isShowError" class='error'>
           {{this.errorInfo.text}}
         </span>

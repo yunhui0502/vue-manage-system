@@ -57,7 +57,7 @@
     display: block;
     margin-top: 20px;
     text-indent: 5px;
-    color: #CCCCCC;
+    color:black;
   }
 </style>
 

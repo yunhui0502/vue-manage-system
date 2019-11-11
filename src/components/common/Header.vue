@@ -21,12 +21,12 @@
                         {{'adminDavin'}} <i class="el-icon-caret-bottom"></i>
                     </span>
                     <el-dropdown-menu slot="dropdown">
-                        <a href="https://github.com/adminDavin" target="_blank">
+                     <!--   <a href="https://github.com/adminDavin" target="_blank">
                             <el-dropdown-item>关于作者</el-dropdown-item>
                         </a>
                         <a href="https://github.com/adminDavin/hanfu-admin-vue" target="_blank">
                             <el-dropdown-item>项目仓库</el-dropdown-item>
-                        </a>
+                        </a> -->
                         <el-dropdown-item divided  command="loginout">退出登录</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
@@ -69,7 +69,7 @@
             handleCommand(command) {
                 if(command == 'loginout'){
                     this.$common.removeSessionStorage('token');
-                    this.$router.push('/login');
+                    this.$router.push('/hf-user/login');
                 }
             },
             // 侧边栏折叠
