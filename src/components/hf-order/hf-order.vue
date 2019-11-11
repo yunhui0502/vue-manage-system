@@ -165,9 +165,7 @@
 
           </el-form>
 
-          <el-table stripe :data="goodsData" :height="tableHeight" style="width: 100%;font-size: 15px;" size="mini"
-           >
-
+          <el-table stripe :data="goodsData" :height="tableHeight" style="width: 100%;font-size: 15px;" size="mini">
               <el-table-column label="订单编号" align="center" width="150" fixed>
                 <template slot-scope="scope">
                   <span>{{ scope.row.id}}</span>

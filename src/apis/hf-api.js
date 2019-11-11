@@ -115,7 +115,7 @@ function updateStore(params) {
   fd.append('hfStatus', params.hfStatus);
 
   // fd.append('hfName', params.hfName);
-  return Axios.post("/api/stone/updateStone", fd, { responseType: 'arraybuffer' });;
+  return Axios.post("/api/stone/updateStone", fd, { responseType: 'arraybuffer' });
 }
 // 删除店铺
 function deleteStore(id) {
