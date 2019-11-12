@@ -57,6 +57,7 @@ function update(params){
 //上传
 function File(params){
      let fd=new FormData();
+     
      fd.append("fileInfo",params.fileInfo);
      return Axios.post("/user/user/update",fd,{reponseType:'arraybuffer'});
 }
