@@ -77,6 +77,37 @@
 
   </div>
 
+          <el-table stripe :data="goodsData" :height="tableHeight" style="width: 100%;font-size: 15px;" size="mini">
+              <el-table-column label="订单编号" align="center" width="150" fixed>
+                <template slot-scope="scope">
+                  <span>{{ scope.row.id}}</span>
+                </template>
+              </el-table-column>
+            <el-table-column label="订单类型" align="center" width="150">
+              <template slot-scope="scope">
+                <span>{{ scope.row.orderType}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="支付金额" align="center" width="150">
+              <template slot-scope="scope">
+                <span>{{ scope.row.amount}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="支付状态" align="center" width="150">
+              <template slot-scope="scope">
+                <span>{{ scope.row.payStatus}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="订单状态" align="center" width="150">
+              <template slot-scope="scope">
+                <span>{{ scope.row.orderDetailStatus}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="支付方式" align="center" width="150">
+              <template slot-scope="scope">
+                <span>{{scope.row.payMethodType}}</span>
+              </template>
+            </el-table-column>
 
 
  </div><br><br><br><br>

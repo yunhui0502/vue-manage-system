@@ -1,10 +1,10 @@
 <template>
-  <div>
-    <v-head></v-head>
-    <v-sidebar></v-sidebar>
+  <div >
 
-    <div class="content-box" :class="{'content-collapse':collapse}">
+
+    <div class="content-box" :class="{'content-collapse':collapse}" >
       <div>
+        
         <!-- 页面标题end-->
         <div style="background: #f0f0f0;">
           <el-form style="background: #fff;padding: 20px;padding-top: 30px;" :inline='true' :model="editRow"
@@ -381,7 +381,7 @@
              for (var i = 0; i < main.pics.length; i++) {
                main.pics[i].img = '/api/goods/getFile?fileId=' + main.pics[i].fileId;
                console.log(main.pics[i].img)
-               
+
              }
            },
            function(resultData) {

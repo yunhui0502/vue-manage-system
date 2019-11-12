@@ -1,9 +1,11 @@
 <template>
-<div class="wrapper">
+<div class="wrapper" >
   <v-head></v-head>
   <v-sidebar></v-sidebar>
-  <div class="content-box" :class="{'content-collapse':collapse}">
+  <div class="content-box" :class="{'content-collapse':collapse}" style="background:#F0F1F6 ;padding-top: 37px;padding-left: 26px;padding-right: 26px;">
   <hfStoneTable></hfStoneTable>
+  
+
   </div>
 </div>
 </template>
