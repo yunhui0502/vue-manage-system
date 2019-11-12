@@ -1,7 +1,7 @@
 <template>
 <div class="sidebar">
   <el-menu class="sidebar-el-menu" :default-active="onRoutes" :collapse="collapse" background-color="#324157" text-color="#bfcbd9" active-text-color="#20a0ff" unique-opened router>
-    
+
     <el-submenu index="1">
       <template slot="title">
         <i class="el-icon-document"></i>
@@ -12,15 +12,21 @@
         <el-menu-item index="store">商铺管理</el-menu-item>
         <el-menu-item index="warehouse">仓库管理</el-menu-item>
       </el-menu-item-group>
+
     </el-submenu>
     <el-menu-item index="hf-user">
       <i class="el-icon-menu"></i>
       <span slot="title">用户中心</span>
     </el-menu-item>
+
+
     <el-menu-item index="hf-order">
       <i class="el-icon-tickets"></i>
       <span slot="title">订单中心</span>
     </el-menu-item>
+
+
+
     <el-menu-item index="hf-user">
       <i class="el-icon-tickets"></i>
       <span slot="title">商家管理</span>
@@ -48,10 +54,7 @@ export default {
           index: 'test',
           title: '商品管理',
           subs: [
-            // {
-            //     index: 'goods',
-            //     title: '物品管理'
-            // },
+      
             {
               index: 'store',
               title: '店铺管理'

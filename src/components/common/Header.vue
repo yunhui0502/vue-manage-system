@@ -17,16 +17,53 @@
                 <!-- <div class="user-avator"><img src="/api/goods/getFile?fileId=3"></div> -->
                 <!-- 用户名下拉菜单 -->
                 <!-- <i class="el-icon-edit"><span style="font-size:22px;margin-left:10px;">dasds</span></i> -->
-                        <i class="el-icon-search" style="margin-right: 10px;color: #CCCCCC;cursor: pointer;"></i>
-                     
-                     
-                        <el-dropdown trigger="click"></el-dropdown>
+                        <i class="el-icon-search" style="margin-right: 10px;color: #CCCCCC;cursor: pointer;margin-top:6px;"></i>
+
+
+                        <el-dropdown trigger="click" @command="handleCommand">
                          <div style="cursor: pointer;">
                            <img src="../img/8.png">
                          </div>
-                         
-                         
-                         
+                        <el-dropdown-menu slot="dropdown" style="width:300px;">
+                           <el-dropdown-item>
+                           <img style="width: 40px;height: 40px;float: left;" src="../img/6.jpg">
+                           <div style="float:left;margin-top:-5px;margin-left: 10px;">用户的名字</div><br>
+                           <div style="float: left;margin-left: 10px;margin-top: -20px;">请输入你要添加的内容</div>
+                           <div style="float: right;margin-top: -40px;">明晚14:20</div>
+                           </el-dropdown-item>
+                           <br>
+                           <el-dropdown-item divided>
+                           <img style="width: 40px;height: 40px;float: left;" src="../img/6.jpg">
+                           <div style="float:left;margin-top:-5px;margin-left: 10px;">用户的名字</div><br>
+                           <div style="float: left;margin-left: 10px;margin-top: -20px;">请输入你要添加的内容</div>
+                           <div style="float: right;margin-top: -40px;">明晚14:20</div>
+                           </el-dropdown-item>
+                           <br>
+                           <el-dropdown-item divided>
+                           <img style="width: 40px;height: 40px;float: left;" src="../img/6.jpg">
+                           <div style="float:left;margin-top:-5px;margin-left: 10px;">用户的名字</div><br>
+                           <div style="float: left;margin-left: 10px;margin-top: -20px;">请输入你要添加的内容</div>
+                           <div style="float: right;margin-top: -40px;">明晚14:20</div>
+                           </el-dropdown-item>
+                           <br>
+                           <el-dropdown-item divided>
+                           <img style="width: 40px;height: 40px;float: left;" src="../img/6.jpg">
+                           <div style="float:left;margin-top:-5px;margin-left: 10px;">用户的名字</div><br>
+                           <div style="float: left;margin-left: 10px;margin-top: -20px;">请输入你要添加的内容</div>
+                           <div style="float: right;margin-top: -40px;">明晚14:20</div>
+                           </el-dropdown-item>
+                           <br>
+                           <el-dropdown-item divided>
+                           <img style="width: 40px;height: 40px;float: left;" src="../img/6.jpg">
+                           <div style="float:left;margin-top:-5px;margin-left: 10px;">用户的名字</div><br>
+                           <div style="float: left;margin-left: 10px;margin-top: -20px;">请输入你要添加的内容</div>
+                           <div style="float: right;margin-top: -40px;">明晚14:20</div>
+                           </el-dropdown-item>
+                           </el-dropdown-menu>
+
+                         </el-dropdown>
+
+
                 <el-dropdown class="user-name" trigger="click" @command="handleCommand">
                     <span class="el-dropdown-link" style="float: left;margin-top:10px;">
                         {{'用户昵称'}} <i class="el-icon-caret-bottom"></i>
@@ -65,7 +102,7 @@
                 collapse: false,
                 fullscreen: false,
                 name: 'merciqiao',
-                lev:'青铜级',
+
                 message: 2
             }
         },
@@ -92,7 +129,7 @@
             handleCommand(command) {
                 if(command == 'loginout'){
                     this.$common.removeSessionStorage('token');
-                    this.$router.push('/hf-user/login');
+                    this.$router.push('/hf-user/Login1');
                 }
             },
             // 侧边栏折叠
