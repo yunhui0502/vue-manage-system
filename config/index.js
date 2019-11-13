@@ -11,7 +11,6 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-
         // target:'http://192.168.1.103:9095',//小方
         target:'http://localhost:9095',//小方
         changeOrigin: true,

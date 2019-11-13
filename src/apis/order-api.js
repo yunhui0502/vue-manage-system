@@ -9,6 +9,16 @@ function checkOrderList(id) {
   return Axios.get("/order/order/query", params);
 }
 
+//查询订单
+function query(id){
+  let params = {
+    params: {
+       id:id
+    }
+  }
+  return Axios.get("/order/order/query", params);
+}
+
 // 创建订单
 function create() {
   let params = {
@@ -77,5 +87,6 @@ export default {
   createorder:createorder,
   create:create,
   getstatus:getstatus,
-  updateSytatus:updateSytatus
+  updateSytatus:updateSytatus,
+  query:query
 };
