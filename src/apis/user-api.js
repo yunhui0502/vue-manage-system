@@ -1,6 +1,23 @@
 import Axios from "axios";
 
 
+
+//获取订单详情
+
+
+ //订单查询
+//  function querys(id) {
+//    let params = {
+//      params: {
+//         id:id
+//      }
+//    }
+//    return Axios.get("/order/order/query", params);
+//  }
+// 
+
+
+
 //用户更新
 function update(params){
      let fd=new FormData();
@@ -57,7 +74,7 @@ function update(params){
 //上传
 function File(params){
      let fd=new FormData();
-     
+
      fd.append("fileInfo",params.fileInfo);
      return Axios.post("/user/user/update",fd,{reponseType:'arraybuffer'});
 }
@@ -148,5 +165,6 @@ export default {
   File:File ,
   updateAddress:updateAddress,
   addressDetail:addressDetail,
-  Search:Search
+  Search:Search,
+  // querys:querys
 }
