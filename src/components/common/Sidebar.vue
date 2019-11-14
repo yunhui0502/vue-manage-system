@@ -14,16 +14,30 @@
       </el-menu-item-group>
 
     </el-submenu>
+
     <el-menu-item index="hf-user">
       <i class="el-icon-menu"></i>
       <span slot="title">用户中心</span>
     </el-menu-item>
 
+   <el-submenu index="2">
+     <template slot="title">
+       <i class="el-icon-document"></i>
+       <span>订单中心</span>
+     </template>
+     <el-menu-item-group>
+       <el-menu-item index="hf-quick">全部订单</el-menu-item>
+       <el-menu-item index="hf-business">自营订单</el-menu-item>
+       <el-menu-item index="hf-rights">退款维权</el-menu-item>
+       <el-menu-item index="hf-pair">快速打单</el-menu-item>
+       <el-menu-item index="hf-assess">评价管理</el-menu-item>
+     </el-menu-item-group>
+ </el-submenu>
 
-    <el-menu-item index="hf-order">
+ <!--   <el-menu-item index="hf-order">
       <i class="el-icon-tickets"></i>
       <span slot="title">订单中心</span>
-    </el-menu-item>
+    </el-menu-item> -->
 
 
 
@@ -54,7 +68,7 @@ export default {
           index: 'test',
           title: '商品管理',
           subs: [
-      
+
             {
               index: 'store',
               title: '店铺管理'
@@ -75,6 +89,25 @@ export default {
               index: 'hf-order',
               title: '订单中心'
             },
+            {
+              index: 'hf-quick',
+              title: '全部订单'
+            },{
+              index: 'hf-business',
+              title: '自营订单'
+            },
+            {
+              index: 'hf-rights',
+              title: '退款维权'
+            }
+            ,{
+              index: 'hf-assess',
+              title: '评价管理'
+            },
+            ,{
+              index: 'hf-pair',
+              title: '快速打单'
+            }
           ]
         },
         {

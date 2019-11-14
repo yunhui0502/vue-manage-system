@@ -33,7 +33,7 @@ const dynamicRouter = [
     }
   },
   {
-  
+
     path: '/hf-order-table',
     component: resolve => require(['@/components/hf-order/hf-order-table.vue'], resolve),
     meta: {
@@ -41,7 +41,7 @@ const dynamicRouter = [
     }
   },
   {
-   
+
     path: '/hf-order',
     component: resolve => require(['@/components/hf-order'], resolve),
     meta: {
@@ -85,14 +85,48 @@ const dynamicRouter = [
     meta: {
       title: '系统首页'
     }
-  }, {
+  },
+  {
     name: 'hf-order',
     path: '/hf-order',
     component: resolve => require(['@/components/hf-order'], resolve),
     meta: {
       title: '订单中心'
     }
-  }, {
+  },
+  {
+    name: 'hf-quick',
+    path: '/hf-quick/hf-quick',
+    component: resolve => require(['@/components/hf-quick/hf-quick'], resolve),
+    meta: {
+      title: '全部订单'
+    }
+  },
+ {
+    name: 'hf-pair',
+    path: '/hf-pair/hf-pair',
+    component: resolve => require(['@/components/hf-pair/hf-pair'], resolve),
+    meta: {
+      title: '快速打单'
+    }
+  },
+ {
+    name: 'hf-rights',
+    path: '/hf-rights/hf-rights',
+    component: resolve => require(['@/components/hf-rights/hf-rights'], resolve),
+    meta: {
+      title: '退款维权'
+    }
+  },
+  {
+    name: 'hf-assess',
+    path: '/hf-assess/hf-assess',
+    component: resolve => require(['@/components/hf-assess/hf-assess.vue'], resolve),
+    meta: {
+      title: '评价管理'
+    }
+  },
+  {
     name: 'tablepage',
     path: '/tablepage',
     component: resolve => require(['@/components/tablepage/tablepage.vue'], resolve),
@@ -172,25 +206,31 @@ const dynamicRouter = [
     name: 'goods',
     path: '/goods',
     component: resolve => require(['@/components/goods'], resolve),
-  }, 
+  },
   {
     name: 'warehouse',
     path: '/warehouse',
     component: resolve => require(['@/components/warehouse'], resolve),
-  }, 
+  },
   {
     name: 'product',
     path: '/product',
     component: resolve => require(['@/components/product'], resolve),
-  }, {
+  },
+  {
+    name: 'hf-quick',
+    path: 'hf-quick/hf-quick',
+    component: resolve => require(['@/components/hf-quick/hf-quick.vue'], resolve),
+  },
+  {
     name: 'SysUser',
     path: '/sysUser',
-
     component: resolve => require(['@/components/admin/SysUser.vue'], resolve),
     meta: {
       title: '商品管理'
     }
-  }, {
+  },
+  {
     name: 'SysAcl',
     path: '/sysAcl',
     component: resolve => require(['@/components/admin/SysAcl.vue'], resolve),
@@ -218,7 +258,8 @@ const dynamicRouter = [
     meta: {
       title: '仓库管理'
     }
-  }, {
+  },
+  {
     name: 'sysRoleMap',
     path: '/sysRoleMap',
     component: resolve => require(['@/components/admin/SysRoleMap.vue'], resolve),
