@@ -9,15 +9,17 @@
       </template>
       <el-menu-item-group>
         <el-menu-item index="product">商品管理</el-menu-item>
-        <el-menu-item index="store">商铺管理</el-menu-item>
-        <el-menu-item index="warehouse">仓库管理</el-menu-item>
       </el-menu-item-group>
 
     </el-submenu>
 
     <el-menu-item index="hf-user">
       <i class="el-icon-menu"></i>
-      <span slot="title">用户中心</span>
+      <span slot="title">商铺管理</span>
+    </el-menu-item>
+    <el-menu-item index="warehouse">
+      <i class="el-icon-menu"></i>
+      <span slot="title">仓库管理</span>
     </el-menu-item>
 
    <el-submenu index="2">
@@ -42,6 +44,11 @@
 
 
     <el-menu-item index="hf-user">
+      <i class="el-icon-menu"></i>
+      <span slot="title">用户中心</span>
+    </el-menu-item>
+    
+    <el-menu-item index="hf-boss">
       <i class="el-icon-tickets"></i>
       <span slot="title">商家管理</span>
     </el-menu-item>

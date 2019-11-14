@@ -7,7 +7,6 @@ const router = new VueRouter({
   routes: [{
       path: '/',
       redirect: '/hf-user/Login1'
-      //  path: '/index',
     },
     {
       name: 'detail',
