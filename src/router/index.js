@@ -39,6 +39,41 @@ const router = new VueRouter({
       }
     },
     {
+      path: '/hf-quick',
+      component: resolve => require(['@/components/hf-quick'], resolve),
+      meta: {
+        title: '订单中心'
+      }
+    },
+   {
+      path: '/hf-business',
+      component: resolve => require(['@/components/hf-business'], resolve),
+      meta: {
+        title: '自营订单'
+      }
+    },
+    {
+       path: '/hf-assess',
+       component: resolve => require(['@/components/hf-assess'], resolve),
+       meta: {
+         title: '评价管理'
+       }
+     },
+     {
+        path: '/hf-pair',
+        component: resolve => require(['@/components/hf-pair'], resolve),
+        meta: {
+          title: '快速打单'
+        }
+      },
+      {
+         path: '/hf-rights',
+         component: resolve => require(['@/components/hf-rights'], resolve),
+         meta: {
+           title: '退款维权'
+         }
+       },
+    {
       path: '/product',
       component: resolve => require(['@/components/product'], resolve),
       meta: {
@@ -67,13 +102,13 @@ const router = new VueRouter({
         title: '用户登录'
       }
     },
-    {
-      path: '/hf-order',
-      component: resolve => require(['@/components/hf-order'], resolve),
-      meta: {
-        title: '订单中心'
-      }
-    },
+    // {
+    //   path: '/hf-order',
+    //   component: resolve => require(['@/components/hf-order/hf-quick'], resolve),
+    //   meta: {
+    //     title: '订单中心'
+    //   }
+    // },
     {
       path: '/warehouse',
       component: resolve => require(['@/components/warehouse'], resolve),
