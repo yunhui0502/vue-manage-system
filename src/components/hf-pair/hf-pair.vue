@@ -13,7 +13,7 @@
   <div style="margin-top:10px;margin-left:50px;">套餐类型: 包年</div>
   <div style="margin-top:10px;margin-left:50px;">授权店铺: 店铺名称</div>
   <div class="footer">
-  <div class="btn">去使用</div>
+  <div class="btn" @click="goods()">去使用</div>
   <div style="float: right; margin-top: -30px;margin-right: 20px;">剩366天过期<a href="http://yyk.39.net/tianjin/" style="color: #A3A0FB;">立即预定</a></div>
   </div>
   </div>
@@ -108,15 +108,15 @@
   </div>
 
     <div style="width: 100%;height: 60px;margin-top:60px;">
- 
-    <el-pagination
+
+   <!-- <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page.sync="currentPage3"
       :page-size="100" style="float: right;margin-right:70px;"
       layout="prev, pager, next, jumper"
       :total="1000">
-    </el-pagination>
+    </el-pagination> -->
 
 
     </div>
@@ -127,8 +127,30 @@
 
 </template>
 <script>
+  import api from '@/apis/order-api.js';
+  import Axios from "axios";
+   export default {
+   data:()=>{
+    return{
+     currentPage3:"",
 
+    }
+   },
+   methods:{
+     goods(){
 
+     api.print(this.print).then(res=>{
+       console.log(res)
+     })
+     },
+       handleSizeChange(val) {
+        console.log(`每页 ${val} 条`);
+      },
+      handleCurrentChange(val) {
+        console.log(`当前页: ${val}`);
+      }
+   }
+   }
 </script>
 <style scoped="scoped">
   .btn{
@@ -142,13 +164,17 @@
     line-height:40px;
     margin-left:50px;
   }
+  
+  
+  
+  
   .footer{
     width: 100%;
     height:60px;
     border-top: 1px solid #cccccc;
     border-bottom: 1px solid #cccccc;
     margin-top:60px;
-    /* background: #cccccc; */
+  
 
   }
   img{
