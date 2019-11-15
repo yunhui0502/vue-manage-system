@@ -68,6 +68,20 @@ const router = new VueRouter({
         }
       },
       {
+         path: '/hf-message',
+         component: resolve => require(['@/components/hf-message'], resolve),
+         meta: {
+           title: '消息'
+         }
+       },
+      {
+         path: '/hf-vip',
+         component: resolve => require(['@/components/hf-vip'], resolve),
+         meta: {
+           title: '会员管理'
+         }
+       },
+      {
          path: '/hf-rights',
          component: resolve => require(['@/components/hf-rights'], resolve),
          meta: {

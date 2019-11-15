@@ -8,21 +8,21 @@
    <div style="font-size: 20px;float: left;margin-top:30px; color: #666666">订单搜索</div>
    <el-input
      placeholder="请输入订单号"
-     v-model="searchVal" style="width: 200px;margin-top:23px;margin-left: 30px;" @keyup.enter.native="onEnterSearch()">
+     v-model="screen.orderId" style="width: 200px;margin-top:23px;margin-left: 30px;" @keyup.enter.native="onEnterSearch()">
    </el-input><br>
 <div style="font-size: 20px;float: left;margin-top:30px;color: #666666">下单时间</div>
   <div class="block">
     <el-date-picker
 
       type="date"
-      placeholder="开始日期" style="width: 200px;margin-top:23px;margin-left: 30px;">
+      placeholder="开始日期" style="width: 200px;margin-top:23px;margin-left: 30px;" v-model="screen.creatTime">
     </el-date-picker >
 
       <span style="margin-left: 10px;">至</span>
       <el-date-picker
 
         type="date"
-        placeholder="结束日期" style="width: 200px;margin-top:23px;margin-left:10px;">
+        placeholder="结束日期" style="width: 200px;margin-top:23px;margin-left:10px;" v-model="screen.creatTime">
       </el-date-picker >
          <br/>
         <div style="font-size: 20px;float: left;margin-top:30px;color: #666666">商品名称</div>
@@ -32,35 +32,35 @@
         </el-input>
         <br/>
         <div style="font-size: 20px;float: left;margin-top:30px;color: #666666;margin-left: 320px;margin-top: -35px;">付款方式</div>
-       <!-- <el-input
-          placeholder="请输入名称"
 
-          v-model="input1" style="width: 200px;margin-top:-42px;margin-left:420px;display: block;">
-        </el-input> -->
              <el-select v-model="value" placeholder="请选择"  style="width: 200px;margin-top:-42px;margin-left:420px;display: block;">
                <el-option
                  v-for="item in options"
                  :key="item.value"
                  :label="item.label"
-                 :value="item.value" >
+                 :value="item.value"
+                 v-model="screen.payMethodType"
+                 >
                </el-option>
              </el-select>
 
    <br/>
    <!-- style="width: 200px;margin-top:23px;margin-left: 30px;" -->
         <div style="font-size: 20px;float: left;margin-top:30px;color: #666666">订单状态</div>
-       <el-select v-model="value" placeholder="请选择"  style="width: 200px;margin-top:23px;margin-left: 30px;">
+       <el-select v-model="value1" placeholder="请选择"  style="width: 200px;margin-top:23px;margin-left: 30px;">
          <el-option
            v-for="item in options1"
            :key="item.value"
            :label="item.label"
-           :value="item.value">
+           :value="item.value"
+           v-model="screen.orderDetailStatus"
+           >
          </el-option>
        </el-select>
         <br/>
         <div style="font-size: 20px;float: left;margin-top:30px;color: #666666;margin-left: 320px;margin-top: -35px;">订单来源</div>
 
-             <el-select v-model="value" placeholder="请选择"  style="width: 200px;margin-top:-42px;margin-left:420px;display: block;">
+             <el-select v-model="value2" placeholder="请选择"  style="width: 200px;margin-top:-42px;margin-left:420px;display: block;">
                <el-option
                  v-for="item in options2"
                  :key="item.value"
@@ -69,7 +69,7 @@
                </el-option>
              </el-select>
 
-            <div style="width: 150px;height: 40px;background: #A3A0FB;text-align: center;line-height:40px;margin-top: 30px;color: #ffffff;border-radius: 5px;cursor: pointer;margin-left: 110px;">筛选</div>
+            <div style="width: 150px;height: 40px;background: #A3A0FB;text-align: center;line-height:40px;margin-top: 30px;color: #ffffff;border-radius: 5px;cursor: pointer;margin-left: 110px;" @click="screens()">筛选</div>
              <div style="width: 150px;height: 40px;background: #ffffff;text-align: center;line-height:40px;margin-top: -40px;color:#A3A0FB;border-radius: 5px;cursor: pointer;margin-left:300px;border: 1px solid #A3A0FB;">导出</div>
               <div style="margin-top: -30px;"><a href="" style="color: #A3A0FB;margin-left:500px;">查看筛选条件</a></div>
 
@@ -140,7 +140,7 @@
                    </el-button>
                    <el-button
                      plain
-                     @click="open12" style="margin-left:-4px;">
+                     @click="open12()" style="margin-left:-4px;">
                      二次伸退
                    </el-button>
                </div>
@@ -197,7 +197,7 @@
                        <template slot-scope="scope"  >
 
                          <el-button
-                           @click.native.prevent="detail(scope.$index, tableData)"
+                           @click="detail()"
                            type="text" id="yincang"
                            size="small" style="color: #A3A0FB;  ">
                            订单详情
@@ -207,16 +207,17 @@
                    </el-table>
                      <div class="block" style="float: right;margin-right:35px;">
 
-                        <el-pagination
+                        <el-pagination style="bottom: 0;"
                           @size-change="handleSizeChange"
                           @current-change="handleCurrentChange"
                           :page-size="100"
                           layout="prev, pager, next, jumper"
-                          :total="1000">
+                          :total="1000"
+                          fixed>
                         </el-pagination>
                       </div>
                </div>
-     
+
  </div>
 
 
@@ -321,15 +322,15 @@
                   label: '黄金糕'
                 },],
                 options1: [{
-                value: '选项1',
+                value1: '选项1',
                 label: '雪糕'
                 },],
                 options2: [{
-                value: '选项1',
+                value2: '选项1',
                 label: '冰淇淋'
                 },],
                 value: '',
-        pickerOptions: {
+          pickerOptions: {
           disabledDate(time) {
             return time.getTime() > Date.now();
           },
@@ -356,15 +357,49 @@
         },
         value1: '',
         value2: '',
+
         searchVal:"",
-        query:""
+        query:"",
+        screen:{
+        creatTime:"1",
+        hfName:"1",
+        orderDetailStatus:"1",
+        orderId:"1",
+        payMethodType:"0",
+        add:{
+        amount:1,
+        createTime:"1",
+        distribution:"1",
+        googsId:"1",
+        hfDesc:"1",
+        hfRemark :"1",
+        hfTax:"1",
+        id:"1",
+        logisticsCompany :"1",
+        logisticsOrderName:"1",
+        logisticsOrdersId:"1",
+        orderDetailStatus:"1",
+        orderType:"1",
+        ordersId :"1",
+        payMethodName:"1",
+        payStatus :"1",
+        purchasePrice :"1",
+        purchaseQuantity :"1",
+        respId :"1",
+        userAddressId:"1",
+        userId:"1"
+        }
+        }
       };
     },methods:{
             //搜索订单编号
+            created(){
+            this.add()
+            },
            onEnterSearch(e,searchVal){
            api.query(this.search).then(res=>{
            console.log(res.data)
-           if(res.data.status==20){
+           if(res.data.status==200){
              console.log("搜索成功")
            }else{
              console.log("搜索失败")
@@ -373,17 +408,26 @@
            })
            }
           ,
+          screens(){
+             api.queryorder(this.screen).then(res=>{
+               console.log(res)
+             })
+           }
+          ,
           //查看订单详情
           detail(){
             api.orderDetail(this.detail).then(res=>{
-            console.log(res.data)
+            console.log(res)
             })
           },
-          //查看订单状态
+          //修改订单
+           open12(){
+             api.update(this.add).then(res=>{
+              console.log(res)
+             })
 
-
-
-
+           }
+               ,
 
           send(){
 
@@ -399,9 +443,17 @@
               console.log(`当前页: ${val}`);
               this.currpage=val
               },
-
+              //全部
               open1(){
-
+               api.query(this.search).then(res=>{
+               console.log(res.data)
+               if(res.data.status==200){
+                 console.log("搜索成功")
+               }else{
+                 console.log("搜索失败")
+               }
+               console.log("search:"+ this.searchVal);
+               })
               },
               open2(){
 
@@ -433,9 +485,7 @@
                open11(){
 
               },
-               open12(){
 
-              },
     }
   };
 </script>

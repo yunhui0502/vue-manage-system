@@ -95,6 +95,22 @@ const dynamicRouter = [
     }
   },
   {
+    name: 'hf-message',
+    path: '/hf-message',
+    component: resolve => require(['@/components/hf-message'], resolve),
+    meta: {
+      title: '消息'
+    }
+  },
+  {
+    name: 'hf-vip',
+    path: '/hf-vip',
+    component: resolve => require(['@/components/hf-vip'], resolve),
+    meta: {
+      title: '会员管理'
+    }
+  },
+  {
     name: 'hf-quick',
     path: '/hf-quick/hf-quick',
     component: resolve => require(['@/components/hf-quick/hf-quick'], resolve),

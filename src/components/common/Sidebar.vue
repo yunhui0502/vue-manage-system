@@ -34,17 +34,39 @@
      </el-menu-item-group>
  </el-submenu>
 
- <!--   <el-menu-item index="hf-order">
-      <i class="el-icon-tickets"></i>
-      <span slot="title">订单中心</span>
-    </el-menu-item> -->
-
-
-
     <el-menu-item index="hf-user">
       <i class="el-icon-tickets"></i>
       <span slot="title">商家管理</span>
     </el-menu-item>
+
+   
+    <el-menu-item index="hf-vip">
+      <i class="el-icon-location"></i>
+      <span slot="title">会员管理</span>
+    </el-menu-item>
+
+    <el-menu-item index="hf-message">
+      <i class="el-icon-goods"></i>
+      <span slot="title">消息</span>
+    </el-menu-item>
+    <el-menu-item index="hf-message">
+      <i class="el-icon-location"></i>
+      <span slot="title">资产</span>
+    </el-menu-item>
+    <el-menu-item index="hf-message">
+      <i class="el-icon-location"></i>
+      <span slot="title">优惠券</span>
+    </el-menu-item>
+    <el-menu-item index="hf-message">
+      <i class="el-icon-location"></i>
+      <span slot="title">设置</span>
+    </el-menu-item>
+   <el-menu-item index="hf-vip">
+     <i class="el-icon-location"></i>
+     <span slot="title">类目管理</span>
+   </el-menu-item>
+
+
   </el-menu>
 </div>
 </template>
@@ -107,6 +129,14 @@ export default {
             ,{
               index: 'hf-pair',
               title: '快速打单'
+            },
+            {
+              index: 'hf-vip',
+              title: '快速打单'
+            },
+            {
+              index: 'hf-message',
+              title: '消息'
             }
           ]
         },
