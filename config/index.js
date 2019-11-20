@@ -27,7 +27,6 @@ module.exports = {
           '^/user': '/'
         }
       },
-
       '/order': {
         //  target:'http://192.168.1.101:9097',//王博朋
         target:'http://localhost:9097',

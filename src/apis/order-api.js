@@ -10,10 +10,10 @@ function checkOrderList(id) {
 }
 
 //查询订单
-function query(id){
+function query(){
   let params = {
     params: {
-       id:id
+       // id:id
     }
   }
   return Axios.get("/order/order/query", params);
@@ -23,24 +23,32 @@ function query(id){
 function create() {
   let params = {
     params: {
-       userId: 1,
-       userAddressId: 1,
-       googsId : 3,
-       logisticsOrderName: 1,
-       respId: 3,
-       logisticsOrdersId: 1,
-       logisticsCompany: 1,
-       hfDesc: 1,
-       orderDetailStatus: 1,
-       hfTax: 1,
-       purchasePrice: 1,
-       purchaseQuantity: 1,
-       distribution: 1,
-       payStatusorderType: 1,
-       amount: 1,
-       hfMemo: 1,
-       hfRemark: 1,
-       payMethodName: 1
+      amount:111,
+      // createTime:123,
+      username:"王博鹏",
+      distribution:123,
+      googsId:123,
+      hfDesc :123,
+      hfMemo :123,
+      hfRemark :123,
+      hfTax :123,
+      id :123,
+      logisticsCompany :123,
+      logisticsOrderName :123,
+      logisticsOrdersId :123,
+      orderDetailId :123,
+      orderDetailStatus:123,
+      orderType :123,
+      ordersId :123,
+      payMethodName :123,
+      payMethodType :123,
+      payStatus :123,
+      purchasePrice :123,
+      purchaseQuantity :123,
+      respId :123,
+      userAddressId :123,
+      userId :1
+
     }
   }
   return Axios.get("/order/order/creat", params);
@@ -50,13 +58,14 @@ function getstatus() {
 
   return Axios.get("/order/order/status");
 }
+
 // 修改订单状态
-function updateSytatus(params) {
+function updatestatus(params) {
    let fd = new FormData();
   fd.append('orderId', params.orderId);
   fd.append('id', params.id);
   // fd.append('hfName', params.hfName);
-  return Axios.post("/order/order/updatestatus", fd, { responseType: 'arraybuffer' });;
+  return Axios.post("/order/order/updatestatus",fd);;
 }
 
 // 创建订单
@@ -68,16 +77,18 @@ function createorder(id) {
       Amount: 1
     }
   }
-  return Axios.get("/ordersubmit/payment/pay", params);
+  return Axios.get("/ordersubmit/payment/pay",params);
 }
 //修改订单
    function update(params){
      let fd = new FormData();
       fd.append('amount',params.amount)
-      fd.append('createTime',params.createTime )
+      // fd.append('createTime',params.createTime )
+      fd.append('username',params.username)
       fd.append('distribution',params.distribution)
       fd.append('googsId',params.googsId)
       fd.append('hfDesc ',params.hfDesc)
+      fd.append('hfMemo ',params.hfMemo)
       fd.append('hfRemark',params.hfRemark)
       fd.append('hfTax',params.hfTax)
       fd.append('id',params.id)
@@ -86,16 +97,17 @@ function createorder(id) {
       fd.append('logisticsOrdersId',params.logisticsOrdersId)
       fd.append('orderDetailId ',params.orderDetailId)
       fd.append('orderDetailStatus',params.orderDetailStatus)
-      fd.append('orderType ',params.orderType )
+      fd.append('orderType ',params.orderType)
       fd.append('ordersId',params.ordersId)
-      fd.append('payMethodName ',params.payMethodName )
+      fd.append('payMethodName ',params.payMethodName)
+      fd.append('payMethodType ',params.payMethodType)
       fd.append('payStatus ',params.payStatus)
-      fd.append('purchasePrice  ',params.purchasePrice  )
-      fd.append('purchaseQuantity  ',params.purchaseQuantity  )
-      fd.append('respId ',params.respId )
-      fd.append('userAddressId ',params.userAddressId )
-      fd.append('userId ',params.userId )
-     return Axios.get("/order/order/update",fd, { responseType: 'arraybuffer' });
+      fd.append('purchasePrice  ',params.purchasePrice )
+      fd.append('purchaseQuantity  ',params.purchaseQuantity )
+      fd.append('respId ',params.respId)
+      fd.append('userAddressId ',params.userAddressId)
+      fd.append('userId ',params.userId)
+     return Axios.post("/order/order/update",fd);
    }
 
 
@@ -104,7 +116,7 @@ function createorder(id) {
 function orderDetail(id) {
   let params = {
     params: {
-      id: 192,
+      id:1,
 
     }
   }
@@ -115,10 +127,10 @@ function orderDetail(id) {
   function queryorder(){
     let params = {
       params: {
-       creatTime:"1",
+       // creatTime:"1",
        hfName:"1",
        orderDetailStatus:"1",
-       orderId:"1",
+       orderId:1,
        payMethodType:"0"
       }
     }
@@ -135,13 +147,14 @@ function print(id){
 }
 
 
+
 export default {
   orderDetail:orderDetail,
   checkOrderList: checkOrderList,
   createorder:createorder,
   create:create,
   getstatus:getstatus,
-  updateSytatus:updateSytatus,
+  updatestatus:updatestatus,
   query:query,
   queryorder:queryorder,
   print:print,
