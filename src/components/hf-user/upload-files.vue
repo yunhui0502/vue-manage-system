@@ -58,7 +58,6 @@ export default {
         this.$message.error('请选择图片文件');
       }
     },
-
   }
 }
 </script>
