@@ -373,7 +373,7 @@ export default {
         address: '上海市普陀区金沙江路 1518 弄',
         zip: 15688108250,
         zips: "河北"
-                }],
+        }],
        fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}],
       form: {
         address:"1",
@@ -390,8 +390,6 @@ export default {
         userId:"1",
         phone:"12313132132",
         birthDay:"2019-10-15",
-
-
         list:[],
         dialogImageUrl:"",
         id:1,
