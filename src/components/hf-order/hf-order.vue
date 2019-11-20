@@ -106,7 +106,7 @@
                 <span>{{scope.row.payMethodType}}</span>
               </template>
             </el-table-column>
-
+</el-table>
 
  </div><br><br><br><br>
 
