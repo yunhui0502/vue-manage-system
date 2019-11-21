@@ -108,6 +108,14 @@ const router = new VueRouter({
 	  meta: {
 	    title: '用户注册'
 	  }
+    },
+  
+	{
+	  path: '/hf-boss',
+	  component: resolve => require(['@/components/hf-business'], resolve),
+	  meta: {
+	    title: '店铺管里'
+	  }
 	},
     {
       path: '/hf-user/Login1',
