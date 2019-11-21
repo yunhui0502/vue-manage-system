@@ -13,7 +13,7 @@
 
     </el-submenu>
 
-    <el-menu-item index="hf-user">
+    <el-menu-item index="stone">
       <i class="el-icon-menu"></i>
       <span slot="title">商铺管理</span>
     </el-menu-item>
