@@ -14,6 +14,7 @@ import util from './common/util'
 import Vuex from 'vuex'
 import Axios from 'axios'
 import store from './store'
+// import  ExportExcel from './ExportExcel'
 // import CKEditor from '@ckeditor/ckeditor5-vue';
 window.moment=require('moment')
 
@@ -37,7 +38,6 @@ new Vue({
   el: '#app',
   router,
   store,
-  components: { App },
+  components: {App},
   template: '<App/>'
 })
-

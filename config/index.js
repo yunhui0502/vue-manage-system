@@ -27,7 +27,6 @@ module.exports = {
           '^/user': '/'
         }
       },
-
       '/order': {
         //  target:'http://192.168.1.101:9097',//王博朋
         target:'http://localhost:9097',
@@ -40,7 +39,7 @@ module.exports = {
     },
 
     // Various Dev Server settings
-    host: 'localhost', // can be overwritten by process.env.HOST
+    host: '172.31.22.54', // can be overwritten by process.env.HOST
     port: 3000, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,
