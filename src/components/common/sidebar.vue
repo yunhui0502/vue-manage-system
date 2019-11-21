@@ -13,7 +13,7 @@
 
     </el-submenu>
 
-    <el-menu-item index="stone">
+    <el-menu-item index="store">
       <i class="el-icon-menu"></i>
       <span slot="title">商铺管理</span>
     </el-menu-item>
