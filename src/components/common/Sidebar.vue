@@ -1,5 +1,5 @@
 <template>
-<div class="sidebar">
+<div class="sidebar" style="background: red;">
   <el-menu class="sidebar-el-menu" :default-active="onRoutes" :collapse="collapse" background-color="#324157" text-color="#bfcbd9" active-text-color="#20a0ff" unique-opened router>
 
     <el-submenu index="1">
@@ -33,6 +33,7 @@
        <el-menu-item index="hf-rights">退款维权</el-menu-item>
        <el-menu-item index="hf-pair">快速打单</el-menu-item>
        <el-menu-item index="hf-assess">评价管理</el-menu-item>
+       <el-menu-item index="hf-detail">订单详情</el-menu-item>
      </el-menu-item-group>
  </el-submenu>
 
@@ -40,13 +41,13 @@
       <i class="el-icon-menu"></i>
       <span slot="title">用户中心</span>
     </el-menu-item>
-    
+
     <el-menu-item index="hf-boss">
       <i class="el-icon-tickets"></i>
       <span slot="title">商家管理</span>
     </el-menu-item>
 
-   
+
     <el-menu-item index="hf-vip">
       <i class="el-icon-location"></i>
       <span slot="title">会员管理</span>
@@ -144,7 +145,12 @@ export default {
             {
               index: 'hf-message',
               title: '消息'
-            }
+            },
+            ,
+            {
+              index: 'hf-detail',
+              title: '订单详情'
+             }
           ]
         },
         {
@@ -282,6 +288,7 @@ export default {
 
 .sidebar-el-menu:not(.el-menu--collapse) {
   width: 250px;
+
 }
 
 .sidebar>ul {

@@ -505,7 +505,7 @@
                             </el-pagination>
                           </div>
                      </el-tab-pane>
-                     <el-tab-pane label="代发货" name="three">
+                     <el-tab-pane label="待发货" name="three">
  <el-table
                          :data="arr.slice((currpage-1)*pagesize,currpage*pagesize)"
                          :current-page="currpage"
@@ -561,10 +561,10 @@
                                订单详情
                              </el-button>
                              <el-button
-                               @click="detail()"
+                                @click.native.prevent="deleteRow(scope.$index, arr)"
                                type="text" id="yincang"
                                size="small" style="color:hotpink;  ">
-                               发货
+                               删除
                              </el-button>
                            </template>
                          </el-table-column>

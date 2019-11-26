@@ -1,5 +1,5 @@
 <template>
-    <div class="header">
+    <div class="header" style="background:#A6A3FB;">
         <!-- 折叠按钮 -->
         <div class="collapse-btn" @click="collapseChage">
             <i class="el-icon-menu"></i>

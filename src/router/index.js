@@ -87,6 +87,13 @@ const router = new VueRouter({
            title: '退款维权'
          }
        },
+       {
+          path: '/hf-detail',
+          component: resolve => require(['@/components/hf-detail'], resolve),
+          meta: {
+            title: '订单详情'
+          }
+        },
     {
       path: '/product',
       component: resolve => require(['@/components/product'], resolve),
@@ -109,12 +116,12 @@ const router = new VueRouter({
 	    title: '用户注册'
 	  }
     },
-  
+
 	{
 	  path: '/hf-boss',
 	  component: resolve => require(['@/components/hf-business'], resolve),
 	  meta: {
-	    title: '店铺管里'
+	    title: '店铺管理'
 	  }
 	},
     {

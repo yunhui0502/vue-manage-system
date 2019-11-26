@@ -1,7 +1,7 @@
 <template>
  <div class="div">
  <div class="header">
-  <div style="margin-left:40px;line-height:60px;color: #666666;" @click="ding()">订单查询</div>
+  <div style="margin-left:40px;line-height:60px;color: #666666;" >订单查询</div>
  </div>
 
  <div class="demo-input-suffix" style="margin-left: 300px;">
@@ -62,11 +62,12 @@
                  :value="item.value">
                </el-option>
              </el-select>
-            <div style="width: 150px;height: 40px;background: #A3A0FB;text-align: center;line-height:40px;margin-top: 30px;color: #ffffff;border-radius: 5px;margin-left: 110px;cursor: pointer;" @click="shaixuan()">筛选</div>
+            <div class="dis" @click="shaixuan()">筛选</div>
              <div style="width: 150px;height: 40px;background: #ffffff;text-align: center;line-height:40px;margin-top: -40px;color:#A3A0FB;border-radius: 5px;cursor: pointer;margin-left:300px;border: 1px solid #A3A0FB;">导出</div>
               <div style="margin-top: -30px;"><a href="" style="color: #A3A0FB;margin-left:500px;">查看筛选条件</a></div>
                 <div style="margin-top: -33px;"><el-button type="primary" @click="chuangjian()">创建订单</el-button></div>
                 <!-- <div style="margin-left:650px;margin-top: -35px;"><el-button type="primary" @click="xiugai()">修改订单</el-button></div> -->
+
   </div>
 
 
@@ -505,8 +506,8 @@
                             </el-pagination>
                           </div>
                      </el-tab-pane>
-                     <el-tab-pane label="代发货" name="three">
- <el-table
+                     <el-tab-pane label="待发货" name="three">
+                          <el-table
                          :data="arr.slice((currpage-1)*pagesize,currpage*pagesize)"
                          :current-page="currpage"
                          :page-size="pagesize"
@@ -1005,52 +1006,52 @@
         :visible.sync="dialogVisible2"
         width="70%"
         :before-close="handleClose">
-        支付金额 : <el-input placeholder="请输入内容" style="width: 20%;" v-model="Adds.amount"></el-input><br><br>
+        支付金额 : <el-input placeholder="请输入内容" style="width: 20%;" v-model="Add_ss.amount"></el-input><br><br>
         创建时间 :
         <el-date-picker
-          v-model="Adds.createTime"
+          v-model="Add_ss.createTime"
           type="date"
           placeholder="选择日期" >
         </el-date-picker><br><br>
-        配送方式 : <el-input placeholder="请输入内容" style="width: 20%;" v-model="Adds.distribution"></el-input><br><br>
-        物品Id : <el-input placeholder="请输入内容" style="width: 20%;" v-model="Adds.googsId"></el-input><br><br>
+        配送方式 : <el-input placeholder="请输入内容" style="width: 20%;" v-model="Add_ss.distribution"></el-input><br><br>
+        物品Id : <el-input placeholder="请输入内容" style="width: 20%;" v-model="Add_ss.googsId"></el-input><br><br>
         订单描述 :<br /> <el-input
         type="textarea"
         :rows="3" style="width:25%; "
         placeholder="请输入内容"
-        v-model="Adds.hfDesc">
+        v-model="Add_ss.hfDesc">
         </el-input><br><br>
         支付附言 :<br /> <el-input
         type="textarea"
         :rows="3" style="width:25%;"
         placeholder="请输入内容"
-        v-model="Adds.hfMemo">
+        v-model="Add_ss.hfMemo">
         </el-input><br><br>
         备注:<br /> <el-input
         type="textarea"
         :rows="3" style="width:25%; "
         placeholder="请输入内容"
-        v-model="Adds.hfRemark">
+        v-model="Add_ss.hfRemark">
         </el-input><br><br>
-        税金: <el-input placeholder="请输入内容" style="width: 20%;" v-model="Adds.hfTax"></el-input><br><br>
-        订单详情Id: <el-input placeholder="请输入内容" style="width: 20%;" v-model="Adds.id" ></el-input><br><br>
-        物流公司: <el-input placeholder="请输入内容" style="width: 20%;" v-model="Adds.logisticsCompany"></el-input><br><br>
-        物流名称: <el-input placeholder="请输入内容" style="width: 20%;" v-model="Adds.logisticsOrderName"></el-input><br><br>
-        物流订单号: <el-input placeholder="请输入内容" style="width: 20%;" v-model="Adds.logisticsOrdersId "></el-input><br><br>
-        订单详情Id: <el-input placeholder="请输入内容" style="width: 20%;" v-model="Adds.orderDetailId "></el-input><br><br>
-        订单详情状况: <el-input placeholder="请输入内容" style="width: 20%;"v-model="Adds.orderDetailStatus "></el-input><br><br>
+        税金: <el-input placeholder="请输入内容" style="width: 20%;" v-model="Add_ss.hfTax"></el-input><br><br>
+        订单详情Id: <el-input placeholder="请输入内容" style="width: 20%;" v-model="Add_ss.id" ></el-input><br><br>
+        物流公司: <el-input placeholder="请输入内容" style="width: 20%;" v-model="Add_ss.logisticsCompany"></el-input><br><br>
+        物流名称: <el-input placeholder="请输入内容" style="width: 20%;" v-model="Add_ss.logisticsOrderName"></el-input><br><br>
+        物流订单号: <el-input placeholder="请输入内容" style="width: 20%;" v-model="Add_ss.logisticsOrdersId "></el-input><br><br>
+        订单详情Id: <el-input placeholder="请输入内容" style="width: 20%;" v-model="Add_ss.orderDetailId "></el-input><br><br>
+        订单详情状况: <el-input placeholder="请输入内容" style="width: 20%;"v-model="Add_ss.orderDetailStatus "></el-input><br><br>
 
-        订单类型: <el-input placeholder="请输入内容" style="width: 20%;" v-model="Adds.orderType"></el-input><br><br>
-        订单id: <el-input placeholder="请输入内容" style="width: 20%;" v-model="Adds.ordersId"></el-input><br><br>
-        支付方式名称: <el-input placeholder="请输入内容" style="width: 20%;" v-model="Adds.payMethodName"></el-input><br><br>
-        支付方式类型: <el-input placeholder="请输入内容" style="width: 20%;" v-model="Adds.payMethodType"></el-input><br><br>
+        订单类型: <el-input placeholder="请输入内容" style="width: 20%;" v-model="Add_ss.orderType"></el-input><br><br>
+        订单id: <el-input placeholder="请输入内容" style="width: 20%;" v-model="Add_ss.ordersId"></el-input><br><br>
+        支付方式名称: <el-input placeholder="请输入内容" style="width: 20%;" v-model="Add_ss.payMethodName"></el-input><br><br>
+        支付方式类型: <el-input placeholder="请输入内容" style="width: 20%;" v-model="Add_ss.payMethodType"></el-input><br><br>
 
-        支付状态: <el-input placeholder="请输入内容" style="width: 20%;" v-model="Adds.payStatus"></el-input><br><br>
-        购买价格: <el-input placeholder="请输入内容" style="width: 20%;" v-model="Adds.purchasePrice"></el-input><br><br>
-        购买数量: <el-input placeholder="请输入内容" style="width: 20%;" v-model="Adds.purchaseQuantity"></el-input><br><br>
-        仓库id: <el-input placeholder="请输入内容" style="width: 20%;" v-model="Adds.respId"></el-input><br><br>
-        用户地址id: <el-input placeholder="请输入内容" style="width: 20%;" v-model="Adds.userAddressId"></el-input><br><br>
-        用户id: <el-input placeholder="请输入内容" style="width: 20%;" v-model="Adds.userId"></el-input><br><br>
+        支付状态: <el-input placeholder="请输入内容" style="width: 20%;" v-model="Add_ss.payStatus"></el-input><br><br>
+        购买价格: <el-input placeholder="请输入内容" style="width: 20%;" v-model="Add_ss.purchasePrice"></el-input><br><br>
+        购买数量: <el-input placeholder="请输入内容" style="width: 20%;" v-model="Add_ss.purchaseQuantity"></el-input><br><br>
+        仓库id: <el-input placeholder="请输入内容" style="width: 20%;" v-model="Add_ss.respId"></el-input><br><br>
+        用户地址id: <el-input placeholder="请输入内容" style="width: 20%;" v-model="Add_ss.userAddressId"></el-input><br><br>
+        用户id: <el-input placeholder="请输入内容" style="width: 20%;" v-model="Add_ss.userId"></el-input><br><br>
 
         <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible2 = false">取 消</el-button>
@@ -1062,47 +1063,7 @@
 
 
 
-        <el-dialog
-        title="订单详情"
-        :visible.sync="dialogVisible"
-        width="70%"
-        :before-close="handleClose">
-        <div style="width: 100%;height: 100%;">
-        <div style="width: 100%;height: 40px;border-bottom: 1px solid #CCCCCC;">
-          全部订单  >  订单详情
-        </div>
-        <div style="margin-top:50px;margin-left: 50px;">订单号:{{Detail.id}}</div>
-        <div style="color:#A3A0FB;font-size:30px;margin-left: 60px;margin-top: 70px;">已支付</div>
-        <el-progress :text-inside="true" :stroke-width="30" :percentage="50" status="exception" style="margin-top: 20px;"></el-progress>
-
-        <div>
-        <img src="../img/6.jpg" style="width:10%;height:120px;margin-top: 70px;">
-        </div>
-        <div style="margin-left: 200px;margin-top: -70px;">太平鸟男装 双色连帽卫衣男士...<span style="margin-left: 100px;">￥377.00 × 1</span></div>
-        <div>
-        <img src="../img/6.jpg" style="width:10%;height:120px;margin-top: 90px;">
-        </div>
-        <div style="margin-left: 200px;margin-top: -70px;">太平鸟男装 双色连帽卫衣男士...<span style="margin-left: 100px;">￥377.00 × 1</span></div>
-        </div>
-        <div style="margin-top: 100px;font-size: 20px;font-weight: bold;margin-left: 30px;">收货信息</div>
-        <div style="margin-left: 30px;margin-top:20px;">姓名:1111</div>
-        <div style="margin-left: 30px;margin-top:20px;">联系电话:15615656151</div>
-        <div style="margin-left: 30px;margin-top:20px;">收货地址:天津市西青区智慧山南塔308</div>
-
-         <div style="margin-top: 100px;font-size: 20px;font-weight: bold;margin-left: 30px;">支付方式及送货时间</div>
-         <div style="margin-left: 30px;margin-top:20px;">支付方式:在线支付</div>
-         <div style="margin-left: 30px;margin-top:20px;">送货时间:不限送货时间</div>
-         <div style="margin-left: 30px;margin-top:20px;">送达时间:预计五天内送达</div>
-
-
-
-        <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-        </span>
-        </el-dialog>
-
-
+     
 
  </div>
 
@@ -1132,6 +1093,36 @@
         },
 
            Adds:{
+           amount:111,
+           // createTime:123,
+           username:"",
+           distribution:123,
+           googsId:123,
+           hfDesc :123,
+           hfMemo :123,
+           hfRemark :123,
+           hfTax :123,
+           id :123,
+           logisticsCompany :123,
+           logisticsOrderName :123,
+           logisticsOrdersId :123,
+           orderDetailId :123,
+           orderDetailStatus:123,
+           orderType :123,
+           ordersId :123,
+           payMethodName :123,
+           payMethodType :123,
+           payStatus :123,
+           purchasePrice :123,
+           purchaseQuantity :123,
+           respId :123,
+           userAddressId :123,
+           userId :1
+        },
+        ID:{
+          id:1
+        },
+        Add_ss:{
            amount:111,
            // createTime:123,
            username:"",
@@ -1245,7 +1236,7 @@
     },
     created(){
     this.zhanshi()
-    // this.status()
+    this.status()
     // this.Add()
     // this.zhuangtai()
     },
@@ -1256,39 +1247,43 @@
                //
                // }
                // ,
+                ds(){
+                  console.log("sad")
+                },
             //搜索订单编号
             status(){
-              api.getstatus().then(res=>{
+              api.getstatus(this.ID).then(res=>{
                 this.statu_s=res.data.data
                 console.log(res)
-                 api.updatestatus(this.zhuangtaia,this.statu_s,this.Adds).then(res=>{
-                   console.log(res)
-                    if(res.data.status==200){
-                       this.arr.push({
-                        hfName:this.Adds.orderDetailStatus
-                       })
-                          this.$message({
-                           message: '状态修改成功',
-                           type: 'success',
-                           });
-
-                    }else{
-                      this.$message({
-                       message: '状态修改失败',
-                       type: 'success',
-                       });
-                    }
-                 })
+//                  api.updatestatus(this.zhuangtaia,this.statu_s,this.Adds).then(res=>{
+//                    console.log(res)
+//                     if(res.data.status==200){
+//                        this.arr.push({
+//                         hfName:this.Adds.orderDetailStatus
+//                        })
+//                           this.$message({
+//                            message: '状态修改成功',
+//                            type: 'success',
+//                            });
+//
+//                     }else{
+//                       this.$message({
+//                        message: '状态修改失败',
+//                        type: 'success',
+//                        });
+//                     }
+//                  })
 
               })
             }
-            ,
-           shaixuan:function(){
-             console.log("sadasda")
-//           api.queryorder().then(res=>{
-//           console.log(res)
-//           })
 
+            ,
+           shaixuan(){
+            console.log("sadasdad")
+//            api.queryorder().then(res=>{
+//            console.log(res)
+//           })
+//
            }
              ,
             //导出
@@ -1321,6 +1316,7 @@
                  this.$message({
                   message: '创建订单成功',
                   type: 'success',
+
                   });
                  this.dialogVisible1=false
 
@@ -1345,13 +1341,18 @@
              }
             ,
           //查看订单详情
-          detail(scope){
-            console.log(scope.id)
-            this.dialogVisible=true
-            api.orderDetail(scope.id).then(res=>{
-            console.log(res.data.data)
-            this.Detail=res.data.data[0]
-            })
+            detail(scope){
+
+               this.$router.push({
+               path: '/hf-detail',
+               })
+            // console.log(scope.id)
+            
+            // this.dialogVisible=true
+            // api.orderDetail(scope.id).then(res=>{
+            // console.log(res.data.data)
+            // this.Detail=res.data.data[0]
+            // })
 
 
           },
@@ -1359,34 +1360,30 @@
            xiugai(row){
              console.log(row.row.id)
               this.dialogVisible2=true
-              this.Adds.id=row.row.id
+              this.Add_ss.id=row.row.id
            },
            Add_s(){
-             api.update(this.Adds).then(res=>{
+             api.update(this.Add_ss).then(res=>{
               console.log(res.data)
               if(res.data.status==200){
                 this.arr.push({
-                  ordersId :this.Adds.ordersId,
-                  hfDesc :this.Adds.hfDesc,
-                  purchaseQuantity :this.Adds.purchaseQuantity,
-                  logisticsCompany :this.Adds.logisticsCompany,
-                  purchasePrice :this.Adds.purchasePrice,
-                  username :this.Adds.username,
-                  amount :this.Adds.amount,
-                  orderDetailStatus :this.Adds.orderDetailStatus,
+                  ordersId :this.Add_ss.ordersId,
+                  id:this.Add_ss.id,
+                  hfDesc :this.Add_ss.hfDesc,
+                  purchaseQuantity :this.Add_ss.purchaseQuantity,
+                  logisticsCompany :this.Add_ss.logisticsCompany,
+                  purchasePrice :this.Add_ss.purchasePrice,
+                  username :this.Add_ss.username,
+                  amount :this.Add_ss.amount,
+                  orderDetailStatus :this.Add_ss.orderDetailStatus,
                 })
                   this.$message({
                    message: '修改订单成功',
                    type: 'success',
                    });
+                   // this.zhanshi()
                    this.dialogVisible2=true
-                  }else{
-                this.$message({
-                 message: '修改订单失败',
-                 type: 'success',
-                 });
-                 this.dialogVisible2=false
-              }
+                  }
 
              })
 
@@ -1414,7 +1411,19 @@
     }
   };
 </script>
+
 <style scoped="scoped">
+  .dis{
+    width: 150px;
+    height: 40px;
+    background: #A3A0FB;
+    text-align: center;
+    line-height:40px;
+    margin-top: 30px;
+    color: #ffffff;
+    border-radius: 5px;
+    margin-left: 110px
+  }
   div{
     cursor: pointer;
   }
