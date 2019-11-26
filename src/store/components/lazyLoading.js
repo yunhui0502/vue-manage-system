@@ -103,6 +103,14 @@ const dynamicRouter = [
     }
   },
   {
+    name: 'hf-detail',
+    path: '/hf-detail',
+    component: resolve => require(['@/components/hf-detail'], resolve),
+    meta: {
+      title: '订单详情'
+    }
+  },
+  {
     name: 'hf-message',
     path: '/hf-message',
     component: resolve => require(['@/components/hf-message'], resolve),
