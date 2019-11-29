@@ -32,8 +32,7 @@
 
   </div>
  <div class="block" style="margin-top:30px;margin-left: 200px;">
- <div>关键词<el-input v-model="input" placeholder="请输入退款编号" style="width:20%;margin-left: 120px;"></el-input>  </div>
- <div style="margin-left: 500px;margin-top: -45px;">客户身份  <el-select v-model="value" placeholder="请选择" style="margin-left: 20px;">
+ <div>关键词<el-input v-model="input" placeholder="请输入退款编号" style="width:20%;margin-left: 120px;"></el-input>    <span style="margin-left: 10px;">客户身份</span>  <el-select v-model="value" placeholder="请选择" style="margin-left: 20px;">
 
     <el-option
       v-for="item in options"
@@ -41,16 +40,20 @@
       :label="item.label"
       :value="item.value">
     </el-option>
-  </el-select>  </div>
- <div style="margin-left:820px;margin-top: -45px;">性别 <el-select v-model="value" placeholder="请选择" style="margin-left: 20px;">
-    <el-option
-      v-for="item in options"
-      :key="item.value"
-      :label="item.label"
-      :value="item.value">
-    </el-option>
   </el-select>
+  <span style="margin-left: 10px;">性别</span>  <el-select v-model="value" placeholder="请选择" style="margin-left: 20px;">
+
+     <el-option
+       v-for="item in options"
+       :key="item.value"
+       :label="item.label"
+       :value="item.value">
+     </el-option>
+   </el-select>
   </div>
+
+
+
   <div style="margin-top: 20px;">购买次数<el-input v-model="input" placeholder="请输入内容" style="width: 15%;margin-left: 105px;"></el-input>
   <span style="margin-left: 10px;">至</span><el-input v-model="input" placeholder="请输入内容" style="width: 15%;margin-left:20px;"></el-input>
   <span style="margin-left: 10px;">单价</span><el-input v-model="input" placeholder="请输入内容" style="width: 15%;margin-left:20px;"></el-input>
@@ -80,41 +83,41 @@
               </el-table-column>
              <el-table-column
                label="序号" align='center'
-               width="150">
+               width="160">
                <template slot-scope="scope">{{ scope.row.id }}</template>
              </el-table-column>
              <el-table-column
                label="昵称" align='center'
-               width="150">
+               width="160">
                <template slot-scope="scope">{{ scope.row.name }}</template>
              </el-table-column>
               <el-table-column
                 label="性别" align='center'
-                width="150">
+                width="160">
                 <template slot-scope="scope">{{ scope.row.sex }}</template>
               </el-table-column>
 
               <el-table-column
                 prop="name" align='center'
                 label="所在地"
-                width="150">
+                width="160">
                  <template slot-scope="scope">{{ scope.row.address }}</template>
               </el-table-column>
               <el-table-column
-                prop="address"  width="180"
+                prop="address"  width="160"
                 label="等级" align='center'
                 show-overflow-tooltip>
                 <template slot-scope="scope">{{ scope.row.dengji }}</template>
               </el-table-column>
               <el-table-column
                 prop="address"
-                label="关注时间" align='center' width="200"
+                label="关注时间" align='center' width="160"
                 show-overflow-tooltip>
                 <template slot-scope="scope">{{ scope.row.timeout }}</template>
               </el-table-column>
               <el-table-column
                 prop="address"
-                label="成交" align='center' width="200"
+                label="成交" align='center' width="160"
                 show-overflow-tooltip>
                 <template slot-scope="scope">{{ scope.row.chengjiao }}</template>
               </el-table-column>
@@ -157,7 +160,7 @@
                      <el-radio :label="3">会员</el-radio>
                      <el-radio :label="6">非会员</el-radio>
                    </el-radio-group>
-                  <div style="float: right;margin-top: -35px;margin-right: 100px;">标签
+                  <div style="float: right;margin-top: -35px;margin-right:215px;">标签
                   <el-select v-model="value" placeholder="请选择" style="width:80%;margin-left: 15px;">
                       <el-option
                         v-for="item in options"

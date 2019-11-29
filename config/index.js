@@ -11,16 +11,16 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target:'http://192.168.1.104:9097',//王博朋
-        // target:'http://192.168.1.103:9095',//小方
+        // target:'http://192.168.1.104:9097',//王博朋
+        target:'http://192.168.1.104:9095',//小方
         changeOrigin: true,
         pathRewrite: {
           '^/api': '/'
         }
       },
       '/user': {
-        target:'http://192.168.1.104:9097',//王博朋
-        // target: 'http://192.168.1.103:9095',//小方
+        // target:'http://192.168.1.104:9097',//王博朋
+        target: 'http://192.168.1.104:9095',//小方
         // target:'http://localhost:8082',
         changeOrigin: true,
         pathRewrite: {
@@ -28,9 +28,9 @@ module.exports = {
         }
       },
       '/order': {
-         target:'http://192.168.1.104:9097',//王博朋
-        // target: 'http://192.168.1.103:9095',//小方
-        // target:'http://localhost:9097',
+         // target:'http://192.168.1.104:9097',//王博朋
+          target: 'http://192.168.1.104:9095',//小方
+         // target:'http://localhost:9097',
         changeOrigin: true,
         pathRewrite: {
           '^/order': '/'

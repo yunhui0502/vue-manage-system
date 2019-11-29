@@ -107,7 +107,7 @@ function createorder(id) {
       fd.append('respId ',params.respId)
       fd.append('userAddressId ',params.userAddressId)
       fd.append('userId ',params.userId)
-     return Axios.get("/order/order/update",fd);
+      return Axios.post("/order/order/update",fd);
    }
 
 

@@ -23,3 +23,13 @@
 .el-checkbox__inner {
   margin-left: 75px;
  }
+.el-upload--picture-card {
+    background-color: #fbfdff;
+    border: 1px dashed #c0ccda;
+    border-radius: 6px;
+    box-sizing: border-box;
+    width: 145px;
+    height:145px;
+    line-height: 145px;
+    vertical-align: top;
+}
