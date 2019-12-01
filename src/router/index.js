@@ -53,6 +53,13 @@ const router = new VueRouter({
       }
     },
     {
+       path: '/hf-zichan',
+       component: resolve => require(['@/components/hf-zichan'], resolve),
+       meta: {
+         title: '自营订单'
+       }
+     },
+    {
        path: '/hf-assess',
        component: resolve => require(['@/components/hf-assess'], resolve),
        meta: {
@@ -67,12 +74,49 @@ const router = new VueRouter({
         }
       },
       {
+         path: '/hf-category',
+         component: resolve => require(['@/components/hf-category'], resolve),
+         meta: {
+           title: '类目管理'
+         }
+       },
+      {
          path: '/hf-message',
          component: resolve => require(['@/components/hf-message'], resolve),
          meta: {
            title: '消息'
          }
        },
+        {
+         path: '/hf-set',
+         component: resolve => require(['@/components/hf-set'], resolve),
+         meta: {
+           title: '设置'
+         }
+       },
+
+       {
+          path: '/hf-coupon',
+          component: resolve => require(['@/components/hf-coupon'], resolve),
+          meta: {
+            title: '优惠券'
+          }
+        },
+
+        {
+           path: '/hf-tixian',
+           component: resolve => require(['@/components/hf-tixian'], resolve),
+           meta: {
+             title: '店铺提现'
+           }
+         },
+         {
+            path: '/hf-shangjia',
+            component: resolve => require(['@/components/hf-shangjia'], resolve),
+            meta: {
+              title: '商家提现'
+            }
+          },
       {
          path: '/hf-vip',
          component: resolve => require(['@/components/hf-vip'], resolve),

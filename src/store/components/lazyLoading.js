@@ -103,6 +103,22 @@ const dynamicRouter = [
     }
   },
   {
+    name: 'hf-tixian',
+    path: '/hf-tixian',
+    component: resolve => require(['@/components/hf-tixian'], resolve),
+    meta: {
+      title: '店铺提现'
+    }
+  },
+  {
+    name: 'hf-shangjia',
+    path: '/hf-shangjia',
+    component: resolve => require(['@/components/hf-shangjia'], resolve),
+    meta: {
+      title: '商家提现'
+    }
+  },
+  {
     name: 'hf-detail',
     path: '/hf-detail',
     component: resolve => require(['@/components/hf-detail'], resolve),
@@ -116,6 +132,14 @@ const dynamicRouter = [
     component: resolve => require(['@/components/hf-message'], resolve),
     meta: {
       title: '消息'
+    }
+  },
+  {
+    name: 'hf-set',
+    path: '/hf-set',
+    component: resolve => require(['@/components/hf-set'], resolve),
+    meta: {
+      title: '设置'
     }
   },
   {
@@ -150,6 +174,14 @@ const dynamicRouter = [
       title: '退款维权'
     }
   },
+  {
+     name: 'hf-zichan',
+     path: '/hf-zichan/hf-zichan',
+     component: resolve => require(['@/components/hf-zichan/hf-zichan'], resolve),
+     meta: {
+       title: '资产'
+     }
+   },
   {
     name: 'hf-assess',
     path: '/hf-assess/hf-assess',
@@ -248,6 +280,11 @@ const dynamicRouter = [
     name: 'product',
     path: '/product',
     component: resolve => require(['@/components/product'], resolve),
+  },
+  {
+    name: 'hf-category',
+    path: '/hf-category',
+    component: resolve => require(['@/components/hf-category'], resolve),
   },
   {
     name: 'hf-quick',
