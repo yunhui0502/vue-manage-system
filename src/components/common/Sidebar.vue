@@ -206,7 +206,11 @@ export default {
              {
                index: 'hf-category',
                title: '类目管理'
-              }
+              },           
+              {
+                index: 'hf-boss',
+                title: '商家管理'
+               }
           ]
         },
         {
