@@ -17,12 +17,12 @@
                 <!-- <div class="user-avator"><img src="/api/goods/getFile?fileId=3"></div> -->
                 <!-- 用户名下拉菜单 -->
                 <!-- <i class="el-icon-edit"><span style="font-size:22px;margin-left:10px;">dasds</span></i> -->
+
+
                         <i class="el-icon-search" style="margin-right: 10px;color: #CCCCCC;cursor: pointer;margin-top:6px;"></i>
-
-
                         <el-dropdown trigger="click" @command="handleCommand">
                          <div style="cursor: pointer;">
-                           <img src="../img/8.png">
+                         <img src="../img/8.png">
                          </div>
                         <el-dropdown-menu slot="dropdown" style="width:300px;">
                            <el-dropdown-item>

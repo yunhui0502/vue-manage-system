@@ -91,7 +91,7 @@ const dynamicRouter = [
     path: '/hf-boss',
     component: resolve => require(['@/components/hf-business'], resolve),
     meta: {
-      title: '订单中心'
+      title: '商家管理'
     }
   },
   {

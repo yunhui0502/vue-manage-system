@@ -165,7 +165,7 @@ const router = new VueRouter({
 	  path: '/hf-boss',
 	  component: resolve => require(['@/components/hf-business'], resolve),
 	  meta: {
-	    title: '店铺管理'
+	    title: '商家管理'
 	  }
 	},
     {
