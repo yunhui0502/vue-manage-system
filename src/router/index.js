@@ -56,7 +56,7 @@ const router = new VueRouter({
        path: '/hf-zichan',
        component: resolve => require(['@/components/hf-zichan'], resolve),
        meta: {
-         title: '自营订单'
+         title: '资产明细'
        }
      },
     {

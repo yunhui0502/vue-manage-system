@@ -1286,14 +1286,15 @@
               this.dialogVisible1=true
              }
             ,
-            
+
              deleteRow(index, rows) {
                     rows.splice(index, 1);
                   },
           //查看订单详情
           detail(scope){
+           
             console.log(scope.id)
-            this.dialogVisible=true
+            // this.dialogVisible=true
             api.orderDetail(scope.id).then(res=>{
             console.log(res.data.data)
             this.Detail=res.data.data[0]
@@ -1338,9 +1339,9 @@
 
            },
 
-             handleClose(done) {
-
-            },
+//              handleClose(done) {
+//
+//             },
 
               deleteRow(index, rows) {
               rows.splice(index, 1);
@@ -1353,7 +1354,14 @@
               handleCurrentChange(val) {
               console.log(`当前页: ${val}`);
               this.currpage=val
-              }
+              },
+               handleClose(done) {
+                      this.$confirm('确认关闭？')
+                        .then(_ => {
+                          done();
+                        })
+                        .catch(_ => {});
+                    }
 
 
 

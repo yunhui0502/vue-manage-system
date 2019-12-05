@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 95%;height: 90%;background:#ffffff;margin:  0 auto;">
+  <div style="width: 95%;height: 90%;background:#ffffff;margin:  0 auto;" class="div">
     <div style="width: 25%;height:100%;background:#ffffff;float: left;margin-top: 50px;">
 
       <img src="../img/6.jpg" style="width: 80px;height: 80px;border-radius: 50%;margin-left:20px;margin-top: 20px;">
@@ -80,7 +80,10 @@
 </script>
 
 <style>
-
+ 
+  .div{
+    width: 95%;height: 90%;background:red;margin:  0 auto;
+  }
   body{
     width: 100%;
     height: 100%;
