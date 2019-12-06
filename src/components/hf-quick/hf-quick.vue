@@ -50,13 +50,12 @@
            :key="item.hfName"
            :label="item.hfName"
            :value="item.hfName"
-
            >
          </el-option>
        </el-select>
         <br/>
        <div style="font-size: 20px;float: left;margin-top:30px;color: #666666;margin-left: 320px;margin-top: -35px;">订单来源</div>
-             <el-select v-model="value2" placeholder="请选择"  style="width: 200px;margin-top:-42px;margin-left:420px;display: block;">
+             <el-select v-model="search.id" placeholder="请选择"  style="width: 200px;margin-top:-42px;margin-left:420px;display: block;">
                <el-option
                  v-for="item in options2"
                  :key="item.value"
@@ -65,7 +64,7 @@
                </el-option>
              </el-select>
             <div class="dis" @click="shaixuan()">筛选</div>
-             <div style="width: 150px;height: 40px;background: #ffffff;text-align: center;line-height:40px;margin-top: -40px;color:#A3A0FB;border-radius: 5px;cursor: pointer;margin-left:300px;border: 1px solid #A3A0FB;">导出</div>
+             <div style="width: 150px;height: 40px;background: #ffffff;text-align: center;line-height:40px;margin-top: -40px;color:#A3A0FB;border-radius: 5px;cursor: pointer;margin-left:300px;border: 1px solid #A3A0FB;" @click="elxs()">导出</div>
               <div style="margin-top: -30px;color: #A3A0FB;margin-left:500px;" @click="reset()">
                 重置筛选条件
                </div>
@@ -86,6 +85,7 @@
                   <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
                      <el-tab-pane label="全部" name="first">
                        <el-table
+                          class="table"
                          :data="arr.slice((currpage-1)*pagesize,currpage*pagesize)"
                          :current-page="currpage"
                          :page-size="pagesize"
@@ -181,6 +181,7 @@
                      </el-tab-pane>
                      <el-tab-pane label="订金待付" name="second">
                      <el-table
+                          class="table"
                        :data="arr.slice((currpage-1)*pagesize,currpage*pagesize)"
                        :current-page="currpage"
                        :page-size="pagesize"
@@ -251,6 +252,7 @@
                      </el-tab-pane>
                      <el-tab-pane label="待接单" name="third">
                      <el-table
+                       class="table"
                        :data="arr.slice((currpage-1)*pagesize,currpage*pagesize)"
                        :current-page="currpage"
                        :page-size="pagesize"
@@ -321,6 +323,7 @@
                      </el-tab-pane>
                      <el-tab-pane label="已接单" name="fourth">
                       <el-table
+                        class="table"
                         :data="arr.slice((currpage-1)*pagesize,currpage*pagesize)"
                         :current-page="currpage"
                         :page-size="pagesize"
@@ -391,6 +394,7 @@
                      </el-tab-pane>
                      <el-tab-pane label="制作中" name="one">
                       <el-table
+                        class="table"
                          :data="arr.slice((currpage-1)*pagesize,currpage*pagesize)"
                          :current-page="currpage"
                          :page-size="pagesize"
@@ -461,6 +465,7 @@
                      </el-tab-pane>
                      <el-tab-pane label="尾款待付" name="two">
  <el-table
+                      class="table"
                          :data="arr.slice((currpage-1)*pagesize,currpage*pagesize)"
                          :current-page="currpage"
                          :page-size="pagesize"
@@ -531,6 +536,7 @@
                      </el-tab-pane>
                      <el-tab-pane label="待发货" name="three">
                           <el-table
+                            class="table"
                          :data="arr.slice((currpage-1)*pagesize,currpage*pagesize)"
                          :current-page="currpage"
                          :page-size="pagesize"
@@ -607,6 +613,7 @@
                      </el-tab-pane>
                      <el-tab-pane label="已发货" name="for">
  <el-table
+                             class="table"
                          :data="arr.slice((currpage-1)*pagesize,currpage*pagesize)"
                          :current-page="currpage"
                          :page-size="pagesize"
@@ -678,6 +685,7 @@
 
                      <el-tab-pane label="待评价" name="five">
  <el-table
+                            class="table"
                          :data="arr.slice((currpage-1)*pagesize,currpage*pagesize)"
                          :current-page="currpage"
                          :page-size="pagesize"
@@ -748,6 +756,7 @@
                      </el-tab-pane>
                      <el-tab-pane label="已完成" name="six">
  <el-table
+                            class="table"
                          :data="arr.slice((currpage-1)*pagesize,currpage*pagesize)"
                          :current-page="currpage"
                          :page-size="pagesize"
@@ -819,6 +828,7 @@
 
                      <el-tab-pane label="退款中" name="seven">
  <el-table
+                            class="table"
                          :data="arr.slice((currpage-1)*pagesize,currpage*pagesize)"
                          :current-page="currpage"
                          :page-size="pagesize"
@@ -889,6 +899,7 @@
                      </el-tab-pane>
                      <el-tab-pane label="二次伸退" name="eight">
  <el-table
+                          class="table"
                          :data="arr.slice((currpage-1)*pagesize,currpage*pagesize)"
                          :current-page="currpage"
                          :page-size="pagesize"
@@ -1094,6 +1105,9 @@
 
 </template>
 <script>
+
+  import FileSaver from "file-saver";
+  import XLSX from "xlsx";
   import api from '@/apis/order-api.js';
   import Axios from "axios";
   export default {
@@ -1113,11 +1127,13 @@
         add_s:[],
 
 
-        search:{
+
+          search:
+        {
           orderld:this.orderld,
-          // hfName:this.hfName,
-          // orderDetailStatus:this.orderDetailStatus,
-          // payMethodType:this.payMethodType
+          hfName:this.hfName,
+          orderDetailStatus:this.orderDetailStatus,
+          payMethodType:this.payMethodType
         },
 
 
@@ -1215,7 +1231,7 @@
                                    value: '选项5',
                                    label: '北京烤鸭'
                                  }],
-                                 value: '',
+
           pickerOptions: {
           disabledDate(time) {
             return time.getTime() > Date.now();
@@ -1310,16 +1326,35 @@
                 // this.zhanshi()
 
                 })
-//
-
-
                 },
-
+             //导出
+             elxs(){
+                 let time=new Date()
+                 let year =time.getFullYear();
+                 let month =time.getMonth()+1;
+                 let day =time.getDate();
+                 let name=year +""+month+""+day;
+                 var wb=XLSX.utils.table_to_book(document.querySelector(".table"))
+                 var wbout=XLSX.write(wb,{
+                   bookType:"xlsx",
+                   bookSST:true,
+                   type:"array"
+                 });
+                 try{
+                   FileSaver.saveAs(
+                    new Blob([wbout],{type:"application/octet-stream"}),
+                    name+".xlsx"
+                   )
+                 }catch(e){
+                  if(typeof console !=="undefined") console.log(e,wbout)
+                 }
+                 return wbout
+             },
             status(){
               api.getstatus().then(res=>{
                 this.statu_s=res.data.data
                 console.log(res)
-//                  api.updatestatus(this.zhuangtaia,this.statu_s,this.Adds).then(res=>{
+//                  api.updatestatus(this.zhuangtaia,this.statu_s,this.Adds ).then(res=>{
 //                    console.log(res)
 //                     if(res.data.status==200){
 //                        this.arr.push({
@@ -1345,6 +1380,7 @@
            reset(){
 
               this.search=""
+              this.options2=""
 
            }
              ,
