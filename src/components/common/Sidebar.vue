@@ -4,36 +4,37 @@
 
     <el-submenu index="1">
       <template slot="title">
-        <!-- <i class="el-icon-document"></i> -->
-        <i class="el-icon-loading
-        "></i>
+        <i class="el-icon-document"></i>
+
         <span>商品中心</span>
       </template>
       <el-menu-item-group>
-        <el-menu-item index="product"><i class="el-icon-loading
-"></i>商品管理</el-menu-item>
+        <el-menu-item index="product">
+          <i class="el-icon-loading"></i>
+        商品管理</el-menu-item>
+
       </el-menu-item-group>
 
     </el-submenu>
 
     <el-menu-item index="store">
-      <!-- <i class="el-icon-menu"></i> -->
+      <i class="el-icon-menu"></i>
       <span slot="title">
-        <i class="el-icon-loading
-        "></i>
+     <!--   <i class="el-icon-loading
+        "></i> -->
         商铺管理</span>
     </el-menu-item>
     <el-menu-item index="warehouse">
-      <!-- <i class="el-icon-menu"></i> --><i class="el-icon-loading
-"></i>
+      <i class="el-icon-menu"></i><!-- <i class="el-icon-loading
+"></i> -->
       <span slot="title">仓库管理</span>
     </el-menu-item>
 
    <el-submenu index="2">
      <template slot="title">
-       <!-- <i class="el-icon-document"></i>
-        --><i class="el-icon-loading
-"></i>
+       <i class="el-icon-document"></i>
+       <!-- <i class="el-icon-loading
+"></i> -->
        <span>订单中心</span>
      </template>
      <el-menu-item-group>
@@ -60,23 +61,24 @@
     </el-menu-item>
 
     <el-menu-item index="hf-boss">
-      <!-- <i class="el-icon-tickets"></i>
-       --><i class="el-icon-loading
-"></i>
+      <i class="el-icon-tickets"></i>
+    <!--  <i class="el-icon-loading
+"></i> -->
       <span slot="title">商家管理</span>
     </el-menu-item>
 
 
     <el-menu-item index="hf-vip">
-      <!-- <i class="el-icon-location"></i> --><i class="el-icon-loading
-"></i>
+      <i class="el-icon-location"></i>
+     <!-- <i class="el-icon-loading
+"></i> -->
       <span slot="title">会员管理</span>
     </el-menu-item>
 
     <el-menu-item index="hf-message">
-      <!-- <i class="el-icon-goods"></i> -->
-      <i class="el-icon-loading
-      "></i>
+      <i class="el-icon-message"></i>
+    <!--  <i class="el-icon-loading
+      "></i> -->
       <span slot="title">消息</span>
     </el-menu-item>
 
@@ -84,16 +86,25 @@
 
    <el-submenu index="3">
      <template slot="title" index="hf-tixian">
-       <!-- <i class="el-icon-document"></i> -->
-       <i class="el-icon-loading
-       "></i>
+       <i class="el-icon-document"></i>
+    <!--   <i class="el-icon-loading
+       "></i> -->
        <span slot="title">资产</span>
      </template>
      <el-menu-item-group>
-       <el-menu-item index="hf-tixian"><i class="el-icon-loading
+       <el-menu-item index="hf-zichan">
+                <i class="el-icon-loading
+       "></i>资产明细</el-menu-item>
+
+       <el-menu-item index="hf-tixian">
+         <i class="el-icon-loading
 "></i>店铺提现</el-menu-item>
-       <el-menu-item index="hf-shangjia"><i class="el-icon-loading
+
+       <el-menu-item index="hf-shangjia">
+         <i class="el-icon-loading
 "></i>商家提现</el-menu-item>
+
+
      </el-menu-item-group>
  </el-submenu>
 
@@ -102,21 +113,18 @@
 
 
     <el-menu-item index="hf-coupon">
-      <!-- <i class="el-icon-location"></i> -->
-      <i class="el-icon-loading
-      "></i>
+      <i class="el-icon-location"></i>
+
       <span slot="title">优惠券</span>
     </el-menu-item>
     <el-menu-item index="hf-set">
-      <!-- <i class="el-icon-location"></i> -->
-      <i class="el-icon-loading
-      "></i>
+      <i class="el-icon-message"></i>
+
       <span slot="title">设置</span>
     </el-menu-item>
    <el-menu-item index="hf-category">
-     <!-- <i class="el-icon-location"></i> -->
-     <i class="el-icon-loading
-     "></i>
+     <i class="el-icon-location"></i>
+
      <span slot="title">类目管理</span>
    </el-menu-item>
 
@@ -206,10 +214,14 @@ export default {
              {
                index: 'hf-category',
                title: '类目管理'
-              },           
+              },
               {
                 index: 'hf-boss',
                 title: '商家管理'
+               },
+              {
+                index: 'hf-zichan',
+                title: '资产明细'
                }
           ]
         },
@@ -333,7 +345,9 @@ export default {
 </script>
 
 <style scoped>
+
 .sidebar {
+
   display: block;
   position: absolute;
   left: 0;

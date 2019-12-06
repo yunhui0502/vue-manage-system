@@ -3,7 +3,7 @@
    <div class="header" style="border-bottom: 1px solid #CCCCCC;background:#ffffff;">
     <div style="margin-left: 30px;color: #666666;font-weight: bold;"> 全部订单 > 订单详情</div>
     <div style="margin-left: 60px;margin-top: 60px;">订单号：1521554132152</div>
-    <div style="color: #A6A3FB;font-size: 24px;margin-left:90px;">已支付</div>
+    <div style="color: #A6A3FB;font-size: 24px;margin-left:90px;">{{arr.orderDetailStatus}}</div>
     <div style="width:60%;height: 30px;margin-left: 80px;border-radius:15px;float: left;margin-top: 20px;">
      <div style="width:20%;height: 30px;background: #A6A3FB;float: left;border-radius:15px;text-align: center;"><span style="display: block;margin-top:-8px;color: #ffffff;">下单</span></div>
      <div style="width:20%;height: 30px;background: #A6A3FB;float: left;border-radius:15px;text-align: center;border-left:0px solid #cccccc;"><span style="display: block;margin-top:-8px;color: #ffffff;">付款</span></div>
@@ -49,14 +49,26 @@
 </template>
 
 <script>
+  import api from '@/apis/order-api.js';
+  import orderDetail from '../../apis/order-api.js'
   export default{
     data:()=>{
       return{
-
+        arr:[]
+          // id:this.$route.query.id
       }
     },methods:{
 
 
+    },
+    created(){
+
+      console.log(this.$route.query.id)
+      const ID = this.$route.query.id
+      api.orderDetail(ID).then((res)=>{
+        console.log(res.data.data[0])
+        this.arr=res.data.data[0]
+      })
     }
   }
 </script>

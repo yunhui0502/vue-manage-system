@@ -17,7 +17,7 @@
    </div>
 
    <div class="div2">
-    
+
     <div class="login">欢 迎 登 录</div>
     <div class="we">welcome back !</div>
     <div class="in">
@@ -27,7 +27,18 @@
    <div style="float: right; margin-top: -20px;"><a href="https://www.baidu.com">忘记密码?</a></div>
    <div class="denglu" style="cursor: pointer;" @click="login">登 录</div>
 
+<div class="buttonItem">
+        <input v-model="vercode" type="text" placeholder="输入验证码">
+        <div class="red sendCode" @click="sendMessage">{{btnText}}</div>
+    </div>
 
+
+
+       <!--   <div class="input-group" style="width: 300px;margin-top: 80px;height: 50px;background: green;">
+						<span class="register-msg-btn" v-show="show" v-on:click="getCode" >发送验证码</span>
+						<span class="register-msg-btn" v-show="!show">{{count}} s</span>
+
+				</div> -->
 
     </div>
    <div>
@@ -43,8 +54,16 @@ import userApi from '@/apis/user-api';
 
 export default {
   name: 'login',
+
   data() {
     return {
+
+                vercode:'',
+                btnDisabled:false,
+                btnText:'获取验证码'
+      ,
+
+
       formLogin: { //表单对象
         loginName: '123456789',
         password: '123',
@@ -69,6 +88,34 @@ export default {
     };
   },
   methods: {
+
+               sendMessage(){
+                if(this.btnDisabled){
+                    return;
+                }
+                this.getSecond(60);
+            },
+            //发送验证码
+            getSecond(wait){
+                let _this=this;
+                let _wait = wait;
+                if(wait == 0) {
+                    this.btnDisabled=false;
+                    this.btnText="获取验证码"
+                    wait = _wait;
+                } else {
+                    this.btnDisabled=true;
+                    this.btnText="验证码(" + wait + "s)"
+                    wait--;
+                    setTimeout(function() {
+                            _this.getSecond(wait);
+                        },
+                        1000);
+                }
+            }
+
+,
+
     login() {
       //调用后端登陆接口
       userApi.login(this.formLogin)
@@ -100,6 +147,28 @@ export default {
 </script>
 
 <style lang="scss">
+ .buttonItem{
+        margin:15px 10px;
+        background-color: #fff;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 10px;
+        border:1px solid #ddd;
+        input{
+            height: 45px;
+            font-size: 1rem;
+            padding-left:10px;
+            border:0;
+            outline: none;
+        }
+        .sendCode{
+            border: 0;
+            outline: none;
+            background-color: #fff;
+            cursor: pointer;
+        }
+    }
 
   .denglu{
     width: 100%;
@@ -110,7 +179,7 @@ export default {
     color: #ffffff;
     line-height: 50px;
   }
-  .ji{ 
+  .ji{
    width: 20px;
    height: 20px;
    margin-top: 30px;

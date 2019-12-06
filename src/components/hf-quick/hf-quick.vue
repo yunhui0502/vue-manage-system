@@ -8,7 +8,7 @@
    <div style="font-size: 20px;float: left;margin-top:30px; color: #666666" >订单搜索</div>
    <el-input
      placeholder="请输入订单号"
-     style="width: 200px;margin-top:23px;margin-left: 30px;">
+     style="width: 200px;margin-top:23px;margin-left: 30px;" v-model="search.orderId">
    </el-input><br>
 <div style="font-size: 20px;float: left;margin-top:30px;color: #666666">下单时间</div>
   <div class="block">
@@ -28,32 +28,34 @@
         <div style="font-size: 20px;float: left;margin-top:30px;color: #666666">商品名称</div>
         <el-input
          placeholder="请输入名称"
-         style="width: 200px;margin-top:23px;margin-left: 30px;">
+         style="width: 200px;margin-top:23px;margin-left: 30px;" v-model="search.hfName">
         </el-input>
         <br/>
         <div style="font-size: 20px;float: left;margin-top:30px;color: #666666;margin-left: 320px;margin-top: -35px;">付款方式</div>
-   <el-select  v-model="value1" placeholder="请选择"  style="width: 200px;margin-top:-42px;margin-left:420px;display: block;">
+   <el-select  v-model="search.payMethodType" placeholder="请选择"  style="width: 200px;margin-top:-42px;margin-left:420px;display: block;">
                <el-option
-                 v-for="item in options1"
+                 v-for="item in options"
                  :key="item.value"
                  :label="item.label"
-                 :value="item.value"
+                 :value="item.label"
+
                  >
                </el-option>
              </el-select>
    <br/>
         <div style="font-size: 20px;float: left;margin-top:30px;color: #666666">订单状态</div>
-       <el-select @change="status()" v-model="value" placeholder="请选择"  style="width: 200px;margin-top:23px;margin-left: 30px;">
+       <el-select @change="status()"  v-model="search.orderDetailStatus" placeholder="请选择"  style="width: 200px;margin-top:23px;margin-left: 30px;">
          <el-option
            v-for="item in statu_s"
            :key="item.hfName"
            :label="item.hfName"
            :value="item.hfName"
+
            >
          </el-option>
        </el-select>
         <br/>
-        <div style="font-size: 20px;float: left;margin-top:30px;color: #666666;margin-left: 320px;margin-top: -35px;">订单来源</div>
+       <div style="font-size: 20px;float: left;margin-top:30px;color: #666666;margin-left: 320px;margin-top: -35px;">订单来源</div>
              <el-select v-model="value2" placeholder="请选择"  style="width: 200px;margin-top:-42px;margin-left:420px;display: block;">
                <el-option
                  v-for="item in options2"
@@ -64,7 +66,10 @@
              </el-select>
             <div class="dis" @click="shaixuan()">筛选</div>
              <div style="width: 150px;height: 40px;background: #ffffff;text-align: center;line-height:40px;margin-top: -40px;color:#A3A0FB;border-radius: 5px;cursor: pointer;margin-left:300px;border: 1px solid #A3A0FB;">导出</div>
-              <div style="margin-top: -30px;"><a href="" style="color: #A3A0FB;margin-left:500px;">查看筛选条件</a></div>
+              <div style="margin-top: -30px;color: #A3A0FB;margin-left:500px;" @click="reset()">
+                重置筛选条件
+               </div>
+
                 <div style="margin-top: -33px;"><el-button type="primary" @click="chuangjian()">创建订单</el-button></div>
                 <!-- <div style="margin-left:650px;margin-top: -35px;"><el-button type="primary" @click="xiugai()">修改订单</el-button></div> -->
 
@@ -145,7 +150,7 @@
                        </el-table>
                          <div class="block" style="float: right;margin-right:35px;">
 
-                            <el-pagination style="bottom: 0;"
+                           <el-pagination style="bottom: 0;"
                               @size-change="handleSizeChange"
                               @current-change="handleCurrentChange"
                               :page-size="100"
@@ -153,7 +158,25 @@
                               :total="1000"
                               fixed>
                             </el-pagination>
+
+
+
+
                           </div>
+
+
+                     <!-- <div class="block" style="flo"> -->
+                    <!--  <el-pagination
+                        style="bottom: 0;"
+                          @size-change="handleSizeChange"
+                          @current-change="handleCurrentChange"
+                          :page-size="100"
+                          layout="prev, pager, next, jumper"
+                          :total="1000"
+                          fixed>
+                       </el-pagination>
+                      </div> -->
+
 
                      </el-tab-pane>
                      <el-tab-pane label="订金待付" name="second">
@@ -1063,7 +1086,7 @@
 
 
 
-     
+
 
  </div>
 
@@ -1088,33 +1111,40 @@
         currpage:1,
         Detail:{},
         add_s:[],
+
+
         search:{
-          id:"1"
+          orderld:this.orderld,
+          // hfName:this.hfName,
+          // orderDetailStatus:this.orderDetailStatus,
+          // payMethodType:this.payMethodType
         },
 
-           Adds:{
-           amount:111,
+
+
+           Adds:{  //弄在这里
+           amount:this.amount,
            // createTime:123,
-           username:"",
+           username:this.username,
            distribution:123,
            googsId:123,
-           hfDesc :123,
+           hfDesc :this.hfDesc,
            hfMemo :123,
            hfRemark :123,
            hfTax :123,
            id :123,
-           logisticsCompany :123,
+           logisticsCompany :this.logisticsCompany,
            logisticsOrderName :123,
            logisticsOrdersId :123,
            orderDetailId :123,
-           orderDetailStatus:123,
+           orderDetailStatus:this.orderDetailStatus,
            orderType :123,
-           ordersId :123,
+           ordersId :this.ordersId,
            payMethodName :123,
            payMethodType :123,
            payStatus :123,
-           purchasePrice :123,
-           purchaseQuantity :123,
+           purchasePrice :this.purchasePrice,
+           purchaseQuantity :this.purchaseQuantity,
            respId :123,
            userAddressId :123,
            userId :1
@@ -1132,14 +1162,14 @@
            hfMemo :123,
            hfRemark :123,
            hfTax :123,
-           id :123,
+           id :16,
            logisticsCompany :123,
            logisticsOrderName :123,
            logisticsOrdersId :123,
            orderDetailId :123,
            orderDetailStatus:123,
            orderType :123,
-           ordersId :123,
+           ordersId :"",
            payMethodName :123,
            payMethodType :123,
            payStatus :123,
@@ -1153,18 +1183,39 @@
 
                 ],
                  options: [{
-                  value: '选项',
-                  label: '黄金糕'
-                },],
-                options1: [{
-                value1: '选项1',
-                label: '雪糕'
-                },],
-                options2: [{
-                value2: '选项1',
-                label: '冰淇淋'
-                },],
-                value: '',
+                           value: '选项1',
+                           label: '黄金糕'
+                         }, {
+                           value: '选项2',
+                           label: '双皮奶'
+                         }, {
+                           value: '选项3',
+                           label: '蚵仔煎'
+                         }, {
+                           value: '选项4',
+                           label: '龙须面'
+                         }, {
+                           value: '选项5',
+                           label: '北京烤鸭'
+                         }],
+                         value: '',
+                         options2: [{
+                                   value: '选项1',
+                                   label: '黄金糕'
+                                 }, {
+                                   value: '选项2',
+                                   label: '双皮奶'
+                                 }, {
+                                   value: '选项3',
+                                   label: '蚵仔煎'
+                                 }, {
+                                   value: '选项4',
+                                   label: '龙须面'
+                                 }, {
+                                   value: '选项5',
+                                   label: '北京烤鸭'
+                                 }],
+                                 value: '',
           pickerOptions: {
           disabledDate(time) {
             return time.getTime() > Date.now();
@@ -1209,6 +1260,9 @@
             id:11,
             orderId:1
           },
+          // Search:{
+          //    ordersId:""
+          // },
         add:{
         amount:1,
         createTime:"1",
@@ -1247,12 +1301,22 @@
                //
                // }
                // ,
-                ds(){
-                  console.log("sad")
+                 //筛选搜索
+                shaixuan(){
+                console.log(this.search)
+                api.queryorder(this.search).then(res=>{
+                console.log(res.data.data)
+                this.arr=res.data.data
+                // this.zhanshi()
+
+                })
+//
+
+
                 },
-            //搜索订单编号
+
             status(){
-              api.getstatus(this.ID).then(res=>{
+              api.getstatus().then(res=>{
                 this.statu_s=res.data.data
                 console.log(res)
 //                  api.updatestatus(this.zhuangtaia,this.statu_s,this.Adds).then(res=>{
@@ -1278,16 +1342,16 @@
             }
 
             ,
-           shaixuan(){
-            console.log("sadasdad")
-//            api.queryorder().then(res=>{
-//            console.log(res)
-//           })
-//
+           reset(){
+
+              this.search=""
+
            }
              ,
             //导出
-
+               chakan(){
+                  console.log("asdas")
+               },
 
              //列表展示页
              zhanshi(){
@@ -1299,26 +1363,30 @@
              ,
              //确定创建订单
              Add(){
-              api.create(this.Adds).then(res=>{
-                // console.log(res.data.status==200)
+              api.creat(this.Adds).then(res=>{
+                console.log(this.Adds)
+                console.log(res.data.status==200)
                 if(res.data.status==200){
-                  sessionStorage.setItem("Adds",this.Adds)
+                  // sessionStorage.setItem("Adds",this.Adds)
                  this.arr.push({
-                   ordersId :this.Adds.ordersId,
-                   hfDesc:this.Adds.hfDesc,
-                   purchaseQuantity:this.Adds.purchaseQuantity,
-                   logisticsCompany:this.Adds.logisticsCompany,
-                   purchasePrice:this.Adds.purchasePrice,
-                   username:this.Adds.username,
-                   amount:this.Adds.amount,
-                   orderDetailStatus:this.Adds.orderDetailStatus
+                   ordersId :this.Adds.ordersId,//订单Id
+                   hfDesc:this.Adds.hfDesc,  //商品描述
+                   purchaseQuantity:this.Adds.purchaseQuantity,//购买数量
+                   logisticsCompany:this.Adds.logisticsCompany,//物流公司名字
+                   purchasePrice:this.Adds.purchasePrice,//购买价格
+                   username:this.Adds.username,  //用户名
+                   amount:this.Adds.amount,//支付金额
+                   orderDetailStatus:this.Adds.orderDetailStatus//订单详情状况
                  })
+                 // console.log(this.)
                  this.$message({
                   message: '创建订单成功',
                   type: 'success',
 
                   });
-                 this.dialogVisible1=false
+                  //这个是列表的接口 跟这个接口好像也有关系
+                   this.zhanshi()
+                  this.dialogVisible1=false
 
                 }else{
                   this.$message({
@@ -1342,12 +1410,15 @@
             ,
           //查看订单详情
             detail(scope){
-
+              console.log(scope)
+              const ID = scope.id
                this.$router.push({
                path: '/hf-detail',
+               query:{id:ID}
                })
+
             // console.log(scope.id)
-            
+
             // this.dialogVisible=true
             // api.orderDetail(scope.id).then(res=>{
             // console.log(res.data.data)
@@ -1360,7 +1431,8 @@
            xiugai(row){
              console.log(row.row.id)
               this.dialogVisible2=true
-              this.Add_ss.id=row.row.id
+              // this.Add_ss.id=row.row.id
+              this.Add_ss.ordersId=row.row.id
            },
            Add_s(){
              api.update(this.Add_ss).then(res=>{
@@ -1389,10 +1461,10 @@
 
            },
 
-             handleClose(done) {
-
-            },
-
+//              handleClose(done) {
+//
+//             },
+//
               deleteRow(index, rows) {
               rows.splice(index, 1);
             },
@@ -1404,8 +1476,14 @@
               handleCurrentChange(val) {
               console.log(`当前页: ${val}`);
               this.currpage=val
-              }
-
+              },
+               handleClose(done) {
+                      this.$confirm('确认关闭？')
+                        .then(_ => {
+                          done();
+                        })
+                        .catch(_ => {});
+                    }
 
 
     }
@@ -1413,6 +1491,19 @@
 </script>
 
 <style scoped="scoped">
+
+
+  @media screen add(min-width:50%){
+
+  }
+
+  .div{
+           width: 95%;
+           height: 45%;
+           background:#ffffff;
+           margin: 0 auto;
+           margin-top:60px;
+         }
   .dis{
     width: 150px;
     height: 40px;
@@ -1434,13 +1525,7 @@
   margin: 0 auto;
   bottom: 0;
 }
-.div{
-  width: 95%;
-  height: 45%;
-  background:#ffffff;
-  margin: 0 auto;
-  margin-top:60px;
-}
+
 .header{
   width: 100%;
   height:60px;

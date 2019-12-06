@@ -2,9 +2,9 @@
     <div class="header" style="background:#A6A3FB;">
         <!-- 折叠按钮 -->
         <div class="collapse-btn" @click="collapseChage">
-            <i class="el-icon-menu"></i>
+            <!-- <i class="el-icon-menu"></i> -->
         </div>
-        <div class="logo">后台管理系统</div>
+        <div class="logo" style="margin-left:50px;">后台管理系统</div>
         <div class="header-right">
             <div class="header-user-con">
                 <!-- 全屏显示 -->

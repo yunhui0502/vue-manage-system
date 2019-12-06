@@ -33,3 +33,9 @@
     line-height: 145px;
     vertical-align: top;
 }
+.el-pager li.active {
+    color: #00D1B2;
+    cursor: default;
+    background: #00d1b2;
+    color: #ffffff;
+}
