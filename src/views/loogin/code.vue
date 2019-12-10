@@ -15,31 +15,9 @@
             <h1 style="margin:0">欢 迎 登 陆</h1>
             <p style="margin:4px 0">Welcome back</p>
           </div>
-          <el-form ref="loginForm" :rules="loginRules" status-icon>
-            <el-form-item prop="mobile">
-              <el-input
-                v-model="loginForm.mobile"
-                placeholder="请输入手机号"
-                style="width:420px;margin-right:10px"
-              ></el-input>
-            </el-form-item>
-            <el-form-item prop="code">
-              <el-input
-                v-model="loginForm.code"
-                placeholder="请输入密码"
-                style="width:420px;margin-right:10px"
-              ></el-input>
-            </el-form-item>
-
-            <el-form-item>
-              <el-button type="primary" style="width:402px;">登 录</el-button>
-            </el-form-item>
-          </el-form>
 
         </div>
-        <div class="div-img">
-           <router-link to='/code'><img src="../../assets/images/ico.png" alt=""></router-link>
-          </div>
+
       </el-card>
     </div>
   </div>
@@ -47,34 +25,7 @@
 
 <script>
 export default {
-  data () {
-    // 定义一个校验函数
-    const checkMobile = (rule, value, callback) => {
-      if (!/^1[3-9]\d{9}$/.test(value)) {
-        return callback(new Error('手机号不合法'))
-      }
-      callback()
-    }
-    return {
-      squareUrl: '',
-      // 表单数据对象
-      loginForm: {
-        mobile: '13911111111',
-        code: '123456'
-      },
-      // 表单校验规则对象
-      loginRules: {
-        mobile: [
-          { required: true, message: '请输入手机号', trigger: 'blur' },
-          { validator: checkMobile, trigger: 'change' }
-        ],
-        code: [
-          { required: true, message: '请输入密码', trigger: 'blur' },
-          { len: 16, message: '验证码长度16位', trigger: 'blur' }
-        ]
-      }
-    }
-  }
+
 }
 </script>
 
@@ -142,18 +93,6 @@ export default {
     top: 0;
     bottom: 0;
     margin: auto;
-  }
-  .div-img {
-    width: 70px;
-    height: 70px;
-    margin-left: 30px;
-    position: absolute;
-      right: 25px;
-      bottom: 25px;
-    img {
-      width: 55px;
-      height: 55px;
-    }
   }
 }
 </style>
