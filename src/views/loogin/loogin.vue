@@ -32,7 +32,7 @@
             </el-form-item>
 
             <el-form-item>
-              <el-button type="primary" style="width:402px;">登 录</el-button>
+              <el-button type="info" style="width:402px;">登 录</el-button>
             </el-form-item>
           </el-form>
 
