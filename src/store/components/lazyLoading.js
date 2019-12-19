@@ -262,7 +262,9 @@ const dynamicRouter = [
     meta: {
       title: 'sdfasd'
     }
-  }, {
+  }, 
+	 
+	{
     name: 'store',
     path: '/stone',
     component: resolve => require(['@/components/hf-store/index.vue'], resolve),
