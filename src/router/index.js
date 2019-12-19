@@ -6,7 +6,7 @@ Vue.use(VueRouter);
 const router = new VueRouter({
   routes: [{
       path: '/',
-      redirect: '/hf-user/Login1'
+      redirect: '/hf-user/Login'
     },
     {
       name: 'detail',
@@ -169,8 +169,8 @@ const router = new VueRouter({
 	  }
 	},
     {
-      path: '/hf-user/Login1',
-      component: resolve => require(['@/components/hf-user/Login1'], resolve),
+      path: '/hf-user/Login',
+      component: resolve => require(['@/components/hf-user/Login'], resolve),
       meta: {
         title: '用户登录'
       }

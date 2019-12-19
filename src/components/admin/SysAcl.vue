@@ -49,18 +49,6 @@
                 <el-input v-model="addWu.goodsDesc" auto-complete="off"></el-input>
               </el-form-item>
 
-              <!--     <el-form-item label="物品分类">
-                <el-select v-model="value4" placeholder="请选择" @change="changeQuentitySubject1(index)">
-                  <el-option v-for="(item,index) in leiMu" :key="index" :label="item.hfName" :value="item.hfName">
-                  </el-option>
-                </el-select>
-              </el-form-item> -->
-              <!-- <el-form-item label="库存数量" prop="goodsDesc">
-                <el-input v-model="addWu.quantity" auto-complete="off"></el-input>
-              </el-form-item> -->
-              <!-- <el-form-item label="价格" prop="goodsDesc">
-                <el-input v-model="addWu.sellPrice" auto-complete="off"></el-input>
-              </el-form-item> -->
               <el-form-item prop="positionName" label-width="200px" :show-overflow-tooltip="true">
                 <el style="display: flex;">
                   <el-form-item prop="productId" label-width="200px" label="输入商品编号添加店铺物品:">
