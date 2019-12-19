@@ -446,7 +446,6 @@ export default {
       } = await this.$http.get('http://192.168.1.104:9095/product/category')
       this.leiMu = data
       this.leimu.levelId = data.length
-      console.log(this.leimu.levelId)
     },
     // 添加类目一级分类
     addleimu: function () {
