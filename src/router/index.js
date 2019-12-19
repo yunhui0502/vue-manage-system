@@ -6,7 +6,7 @@ Vue.use(VueRouter);
 const router = new VueRouter({
   routes: [{
       path: '/',
-      redirect: '/hf-user/Login1'
+      redirect: '/hf-user/Login'
     },
     {
       name: 'detail',
@@ -53,6 +53,13 @@ const router = new VueRouter({
       }
     },
     {
+       path: '/hf-zichan',
+       component: resolve => require(['@/components/hf-zichan'], resolve),
+       meta: {
+         title: '资产明细'
+       }
+     },
+    {
        path: '/hf-assess',
        component: resolve => require(['@/components/hf-assess'], resolve),
        meta: {
@@ -67,12 +74,49 @@ const router = new VueRouter({
         }
       },
       {
+         path: '/hf-category',
+         component: resolve => require(['@/components/hf-category'], resolve),
+         meta: {
+           title: '类目管理'
+         }
+       },
+      {
          path: '/hf-message',
          component: resolve => require(['@/components/hf-message'], resolve),
          meta: {
            title: '消息'
          }
        },
+        {
+         path: '/hf-set',
+         component: resolve => require(['@/components/hf-set'], resolve),
+         meta: {
+           title: '设置'
+         }
+       },
+
+       {
+          path: '/hf-coupon',
+          component: resolve => require(['@/components/hf-coupon'], resolve),
+          meta: {
+            title: '优惠券'
+          }
+        },
+
+        {
+           path: '/hf-tixian',
+           component: resolve => require(['@/components/hf-tixian'], resolve),
+           meta: {
+             title: '店铺提现'
+           }
+         },
+         {
+            path: '/hf-shangjia',
+            component: resolve => require(['@/components/hf-shangjia'], resolve),
+            meta: {
+              title: '商家提现'
+            }
+          },
       {
          path: '/hf-vip',
          component: resolve => require(['@/components/hf-vip'], resolve),
@@ -87,6 +131,13 @@ const router = new VueRouter({
            title: '退款维权'
          }
        },
+       {
+          path: '/hf-detail',
+          component: resolve => require(['@/components/hf-detail'], resolve),
+          meta: {
+            title: '订单详情'
+          }
+        },
     {
       path: '/product',
       component: resolve => require(['@/components/product'], resolve),
@@ -109,17 +160,17 @@ const router = new VueRouter({
 	    title: '用户注册'
 	  }
     },
-  
+
 	{
 	  path: '/hf-boss',
 	  component: resolve => require(['@/components/hf-business'], resolve),
 	  meta: {
-	    title: '店铺管里'
+	    title: '商家管理'
 	  }
 	},
     {
-      path: '/hf-user/Login1',
-      component: resolve => require(['@/components/hf-user/Login1'], resolve),
+      path: '/hf-user/Login',
+      component: resolve => require(['@/components/hf-user/Login'], resolve),
       meta: {
         title: '用户登录'
       }

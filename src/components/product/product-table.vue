@@ -1,47 +1,47 @@
 <template>
   <div style="padding-top: 47px;padding-right: 26px;padding-left: 26px;background:#F0F1F6 ;">
 
-    <div class="handle-box " style="background: #fff;overflow: hidden;">
+    <div class="handle-box " style="background: #fff;overflow: auto;">
       <el-col :span="24" class="toolbar" style="padding-bottom: 0px;font-size: 15px;">
         <el-form :inline="true">
           <div style="display: flex;align-items: center;border-bottom: 1px solid #E5E5E5;font-size: 16px;color: #666666;">
-            <div class="active1 shang" style="margin-left: 22px;text-align: center;">全部商品（500）</div>
-            <div class="shang " style="margin-left: 80px;margin-right: 81px;">出售中（500）</div>
-            <div class="shang">库存（500）</div>
+            <div class="active1 shang" style="margin-left: 22px;text-align: center;font-size:20px;">全部商品（500）</div>
+            <div class="shang " style="margin-left: 80px;margin-right: 81px;font-size:20px;">出售中（500）</div>
+            <div class="shang" style="font-size:20px;">库存（500）</div>
           </div>
           <div style="padding:25px 0 24px  44px;">
             <el-form-item style="margin-bottom:24px;" label="">
               <div style="font-size: 16px;"></div>
             </el-form-item>
             <el-form-item style="margin-bottom:24px;" label=" ">
-              <el style="color:#666666;font-size: 16px;margin-right: 15px;">商品标签</el>
+              <el style="color:#666666;font-size: 18px;margin-right: 15px;">商品标签</el>
               <input type="text" style="box-shadow:0px 2px 137px 1px rgba(107,107,107,0.11);
-              width:257px;height:35px;border-radius:6px;outline: none;border:1px solid #EBEDF0;border-top:0.8px solid #EBEDF0;
+              width:257px;height:45px;border-radius:6px;outline: none;border:1px solid #EBEDF0;border-top:0.8px solid #EBEDF0;
               border-bottom:1.5px solid #EBEDF0; padding-left: 14px;"
                 placeholder="请输入商品名称 ">
               <!-- <el-input v-model="souhfName" auto-complete="off" placeholder="请输入商品名称" id="ewdwe"></el-input> -->
             </el-form-item>
             <el-form-item style="margin-bottom:24px;" label=" ">
-              <el style="color:#666666;font-size: 16px;margin-right: 15px;">商品ID</el>
+              <el style="color:#666666;font-size:20px;margin-right: 15px;">商品ID</el>
               <input type="text" style="box-shadow:0px 2px 137px 1px rgba(107,107,107,0.11);
-              width:257px;height:35px;border-radius:6px;outline: none;border:1px solid #EBEDF0;border-top:0.8px solid #EBEDF0;
+              width:257px;height:45px;border-radius:6px;outline: none;border:1px solid #EBEDF0;border-top:0.8px solid #EBEDF0;
               border-bottom:1.5px solid #EBEDF0; padding-left: 14px;"
                 placeholder="请输入商品名称 ">
               <!-- <el-input v-model="souhfName" auto-complete="off" placeholder="请输入商品名称" id="ewdwe"></el-input> -->
             </el-form-item>
 
-            <el-form-item style="margin-bottom:24px;" label=" ">
-              <el style="color:#666666;font-size: 16px;margin-right: 15px;">商品分类:</el>
+          <!--  <el-form-item style="margin-bottom:24px;" label=" ">
+              <el style="color:#666666;font-size:18px;margin-right: 15px;">商品分类</el>
               <input type="text" style="box-shadow:0px 2px 137px 1px rgba(107,107,107,0.11);
-              width:257px;height:35px;border-radius:6px;outline: none;border:1px solid #EBEDF0;border-top:0.8px solid #EBEDF0;
+              width:257px;height:45px;border-radius:6px;outline: none;border:1px solid #EBEDF0;border-top:0.8px solid #EBEDF0;
               border-bottom:1.5px solid #EBEDF0; padding-left: 14px;"
                 placeholder="请输入商品名称 ">
-              <!-- <el-input v-model="souhfName" auto-complete="off" placeholder="请输入商品名称" id="ewdwe"></el-input> -->
+              <! <el-input v-model="souhfName" auto-complete="off" placeholder="请输入商品名称" id="ewdwe"></el-input> -->
             </el-form-item>
             <el-form-item style="margin-bottom:24px;" label=" ">
-              <el style="color:#666666;font-size: 16px;margin-right: 15px;">店铺分类:</el>
+              <el style="color:#666666;font-size:18px;margin-right: 15px;">店铺分类</el>
               <input type="text" style="box-shadow:0px 2px 137px 1px rgba(107,107,107,0.11);
-              width:257px;height:35px;border-radius:6px;outline: none;border:1px solid #EBEDF0;border-top:0.8px solid #EBEDF0;
+              width:257px;height:45px;border-radius:6px;outline: none;border:1px solid #EBEDF0;border-top:0.8px solid #EBEDF0;
               border-bottom:1.5px solid #EBEDF0; padding-left: 14px;"
                 placeholder="请输入商品名称 ">
               <!-- <el-input v-model="souhfName" auto-complete="off" placeholder="请输入商品名称" id="ewdwe"></el-input> -->
@@ -49,17 +49,20 @@
 
             <el-form-item style="margin-bottom:24px;margin-left: 5px;" label="">
               <el-form-item style="margin-bottom:50px;" label="">
-                <div style="font-size: 15px;">商品分类：</div>
+                <div style="font-size:18px;">商品分类</div>
               </el-form-item>
-              <el-select v-model="value1" placeholder="请选择" @change="checkMulist">
-                <el-option v-for="(item, index) in leiMu" :key="index" :label="item.hfName" :value="item.hfName">
+              <el-select v-model="value1" placeholder="请选择" @change="checkMulist" style="height: 45px;">
+                <el-option v-for="(item, index) in leiMu" :key="index" :label="item.hfName" :value="item.hfName" style="height: 45px;">
                 </el-option>
               </el-select>
               <!-- <el-cascader :options="leiMu" @active-item-change="handleItemChange" :props="props"></el-cascader> -->
             </el-form-item>
-
-            <el-button type="primary" @click="sou" :loading="addLoading" style="background: #A6A3FB;border: none;width: 118px;">查询</el-button>
-            <el-button type="primary" @click="sou" :loading="addLoading" style="border:1px solid #EBEDF0;color: #666666; background: #fff;width: 118px;">重置</el-button>
+             <br>
+             <div style="float: right;margin-right: 260px;">
+            <el-button type="primary" @click="sou" :loading="addLoading" style="background: #A6A3FB;border: none;width: 130px;height:48px;">查询</el-button>
+            <el-button type="primary" @click="sou" :loading="addLoading" style="border:1px solid #EBEDF0;color: #666666; background: #fff;width: 130px;height:48px;">重置</el-button><br>
+            <el-button style="visibility: hidden;"></el-button>
+             </div>
 
           </div>
 
@@ -133,42 +136,46 @@
     <div style="padding-top: 23px;background: #fff;margin-top: 18px;">
       <div style="margin-bottom:45px;">
         <el-button style="color: #fff;outline:none; border-radius:3px;float:right;margin-right: 40px;
-          background: #fff;border:1px solid #EBEDF0;width: 118px;height: 36px;font-size: 14px;color: #666;"
+          background: #fff;border:1px solid #EBEDF0;width:140px;height:45px;font-size:20px;color: #666;"
            size="mini" round>批量下架</el-button>
         <el-button style="color: #fff;outline:none; border-radius:3px;float:right;margin-right: 12px;
-  background: #fff;border:1px solid #EBEDF0;width: 118px;height: 36px;font-size: 14px;color: #666;"
+  background: #fff;border:1px solid #EBEDF0;width: 140px;height:45px;font-size: 20px;color: #666;"
            size="mini" round>批量上架</el-button>
         <el-button style="color: #fff;outline:none; border-radius:3px;float:right;
-          background: #fff;border: none;width: 118px;height: 36px;color: #666; font-size: 14px;border:1px solid #EBEDF0;"
+          background: #fff;border: none;width: 140px;height:45px;color: #666; font-size:20px;border:1px solid #EBEDF0;"
           @click="deletegood" size="mini" round>批量删除</el-button>
-        <el-button style="color: #fff;outline:none; border-radius:3px;float:right;
-          background: #fff;border:1px solid #EBEDF0;width: 118px;height: 36px;font-size: 14px;color: #666;"
+        <el-button style="color: #fff;outline:none; border-radius:5px;float:right;
+          background: #fff;border:1px solid #EBEDF0;width: 140px;height: 45px;font-size:20px;color: #666;"
           @click="addMu" size="mini" round>批量分类</el-button>
-        <el-button style="color: #fff;outline:none; border-radius:3px;float:right;background: #A6A3FB;
-          border: none;width: 118px;height: 36px;font-size: 14px;"
+        <el-button style="color: #fff;outline:none; border-radius:5px;float:right;background: #A6A3FB;
+          border: none;width: 140px;height:45px;font-size: 20px;"
           @click="handleAdd" size="mini" round>+ 添加商品</el-button>
       </div>
 
+        <br>
+         <div style="margin-left: 20px;"><el-checkbox v-model="checked"></el-checkbox>  已选4件商品  <span style="margin-left: 20px;color: #FF318A;font-weight: bold;"></span></div><br>
 
-
-      <el-table :data="tableData" :header-cell-style="{background:'#F5F6FA',color:'#666666'}"  size="mini" highlight-current-row border class="el-tb-edit " style="font-size: 16px;"
+      <el-table :data="tableData.slice((currpage-1)*pagesize,currpage*pagesize)" :current-page="currpage"
+                       :page-size="pagesize"
+                       :total="tableData.length" :header-cell-style="{background:'#F5F6FA',color:'#666666'}"  size="mini" highlight-current-row border class="el-tb-edit " style="font-size: 16px;"
         ref="multipleTable" tooltip-effect="dark" >
-        
+
         <el-table-column type="selection" label="序号" width="59px" align="center">
+
         </el-table-column>
-        <el-table-column type="index" label="序号" width="70px" align="center">
-        </el-table-column>
+        <!-- <el-table-column type="index" label="序号" width="70px" align="center">
+        </el-table-column> -->
         <el-table-column prop="id" label="商品编号" align="center">
         </el-table-column>
-        <el-table-column prop="productName" label="商品名称" align="center">
-        </el-table-column>
+       <!-- <el-table-column prop="productName" label="商品名称" align="center">
+        </el-table-column> -->
         <el-table-column prop="productDesc" label="商品描述" align="center">
         </el-table-column>
 
         <!-- <el-table-column prop="productDesc" label="商品描述" align="center">
         </el-table-column> -->
-        <el-table-column prop="productCategoryName" label="商品类目" align="center">
-        </el-table-column>
+      <!--  <el-table-column prop="productCategoryName" label="商品类目" align="center">
+        </el-table-column> -->
         <el-table-column prop="createTime" label="创建时间" align="center">
         </el-table-column>
         <el-table-column fixed="right" label="操作" width="260" align="center">
@@ -176,9 +183,9 @@
             <!-- <el-button type="primary" plain size="small" @click="addgui(scope.row)" style="margin-bottom: 10px;">查看规格</el-button> -->
             <!--  <el-button type="primary" plain size="small" @click="biangui(scope.row)" style="margin-bottom: 10px;">修改规格</el-button>
               <el-button type="danger" plain size="small" @click="deletesingle(scope.row)">删除</el-button> -->
-            <el @click="biangui(scope.row)" style="color:#A6A3FB">编辑</el>
-            <el  style="margin-left: 16px;margin-right: 16px;color:#FFCE26;">上架</el>
-            <el style="color:#FF318A" @click="deletesingle(scope.row)">删除</el>
+            <el @click="biangui(scope.row)" style="color:#A6A3FB;font-family:ms sans serif;cursor: pointer;">编辑</el>
+            <el  style="margin-left: 16px;margin-right: 16px;color:#FFCE26;cursor: pointer;">上架</el>
+            <el style="color:#FF318A;cursor: pointer;" @click="deletesingle(scope.row)">删除</el>
 
             <!-- <el-button type="primary" icon="el-icon-edit" size="mini" ></el-button> -->
 
@@ -186,12 +193,18 @@
         </el-table-column>
 
       </el-table>
+
+
+
       <div style="background: #fff;height: 100px;margin-top:46px ;" id="fen">
-       <el-pagination style="float:right;background: #fff;"
-         background
-         layout="prev, pager, next"
-         :total="1000">
-       </el-pagination>
+    <el-pagination style="bottom: 0;float: right;margin-right: 50px;"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :page-size="100"
+      layout="prev, pager, next, jumper"
+      :total="1000"
+      fixed>
+    </el-pagination>
       </div>
     </div>
 
@@ -231,6 +244,9 @@
     name: 'productTable',
     data() {
       return {
+        checked:true,
+        pagesize:12,
+        currpage:1,
         options2: [{
           label: '江苏',
           cities: []
@@ -280,11 +296,11 @@
         },
         index: 0,
         addFormVisible: false,
-        leiMu: '',
+        leiMu:'',
         value1: '',
         souhfName: '',
         tableData: [],
-        leiMuId: '',
+        leiMuId:'',
         selectList: [],
         addLoading: false
       }
@@ -306,7 +322,16 @@
       },
 
 
+  handleSizeChange(val) {
+              console.log(`每页 ${val} 条`);
+              this.pagesize=val
 
+              },
+              handleCurrentChange(val) {
+              console.log(`当前页: ${val}`);
+              this.currpage=val
+              }
+,
 
       addMu: function(row) {
 

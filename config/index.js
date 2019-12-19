@@ -11,25 +11,26 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        // target:'http://192.168.1.103:9095',//小方
-        target:'http://localhost:9095',//小方
+        target:'http://192.168.1.104:9097',//王博朋
+        // target:'http://192.168.1.104:9095',//小方
         changeOrigin: true,
         pathRewrite: {
           '^/api': '/'
         }
       },
       '/user': {
-        // target:'http://192.168.1.101:8082',//王博朋
-        // target: 'http://192.168.1.233:8082',//小方
-        target:'http://localhost:8082',
+        target:'http://192.168.1.104:9097',//王博朋
+        // target: 'http://192.168.1.104:9095',//小方
+        // target:'http://localhost:8082',
         changeOrigin: true,
         pathRewrite: {
           '^/user': '/'
         }
       },
       '/order': {
-        //  target:'http://192.168.1.101:9097',//王博朋
-        target:'http://localhost:9097',
+         target:'http://192.168.1.104:9097',//王博朋
+          // target: 'http://192.168.1.104:9095',//小方
+         // target:'http://localhost:9097',
         changeOrigin: true,
         pathRewrite: {
           '^/order': '/'
@@ -39,7 +40,7 @@ module.exports = {
     },
 
     // Various Dev Server settings
-    host: '172.31.22.54', // can be overwritten by process.env.HOST
+    host: 'localhost', // can be overwritten by process.env.HOST
     port: 3000, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,

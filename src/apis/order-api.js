@@ -19,43 +19,52 @@ function query(){
   return Axios.get("/order/order/query", params);
 }
 
-// 创建订单
-function create() {
+// 创建订单  这个是创建订单
+function creat(add) {//这里参数不需要
+console.log(add)
+const ADD =add
   let params = {
     params: {
-      amount:111,
+      amount:add.amount,//支付金额
+      PurchasePrice:add.purchasePrice ,//购买价格
+      PurchaseQuantity :add.purchaseQuantity,//购买数量   少了
+      username:add.Addusername,//用户名
+      logisticsCompany :add.logisticsCompany,//物流公司名字
+      orderDetailStatus:add.orderDetailStatus,//订单详情状况
+      hfDesc :add.hfDesc, //商品描述
+      ordersId :add.ordersId, //订单Id
       // createTime:123,
-      username:"王博鹏",
       distribution:123,
       googsId:123,
-      hfDesc :123,
       hfMemo :123,
       hfRemark :123,
       hfTax :123,
       id :123,
-      logisticsCompany :123,
+
       logisticsOrderName :123,
       logisticsOrdersId :123,
       orderDetailId :123,
-      orderDetailStatus:123,
+
       orderType :123,
-      ordersId :123,
+
       payMethodName :123,
       payMethodType :123,
       payStatus :123,
-      purchasePrice :123,
-      purchaseQuantity :123,
+
       respId :123,
       userAddressId :123,
       userId :1
 
-    }
+    },
   }
-  return Axios.get("/order/order/creat", params);
+  console.log(params)
+
+  return Axios.get("/order/order/creat", params,{timeout:1000});
+
+
 }
 // 获取订单状态
 function getstatus() {
-
   return Axios.get("/order/order/status");
 }
 
@@ -107,7 +116,7 @@ function createorder(id) {
       fd.append('respId ',params.respId)
       fd.append('userAddressId ',params.userAddressId)
       fd.append('userId ',params.userId)
-     return Axios.post("/order/order/update",fd);
+      return Axios.post("/order/order/update",fd);
    }
 
 
@@ -116,7 +125,7 @@ function createorder(id) {
 function orderDetail(id) {
   let params = {
     params: {
-      id:1,
+      id:id,
 
     }
   }
@@ -124,17 +133,17 @@ function orderDetail(id) {
 }
 //根据条件查询订单
 
-  function queryorder(){
+  function queryorder(add){
     let params = {
       params: {
-       // creatTime:"1",
-       hfName:"1",
-       orderDetailStatus:"1",
-       orderId:1,
-       payMethodType:"0"
+       // hfName:add.hfName,
+       // orderDetailStatus:add.orderDetailStatus,
+       orderId:add.orderId,
+       // payMethodType:add.payMethodType
       }
     }
-    return Axios.get("/order/order/queryorder", params);
+    console.log(params)
+    return Axios.get("/order/order/queryOrder", params);
   }
 //快速打单
 function print(id){
@@ -152,7 +161,7 @@ export default {
   orderDetail:orderDetail,
   checkOrderList: checkOrderList,
   createorder:createorder,
-  create:create,
+  creat:creat,
   getstatus:getstatus,
   updatestatus:updatestatus,
   query:query,

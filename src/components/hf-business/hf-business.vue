@@ -505,7 +505,7 @@
                             </el-pagination>
                           </div>
                      </el-tab-pane>
-                     <el-tab-pane label="代发货" name="three">
+                     <el-tab-pane label="待发货" name="three">
  <el-table
                          :data="arr.slice((currpage-1)*pagesize,currpage*pagesize)"
                          :current-page="currpage"
@@ -561,10 +561,10 @@
                                订单详情
                              </el-button>
                              <el-button
-                               @click="detail()"
+                                @click.native.prevent="deleteRow(scope.$index, arr)"
                                type="text" id="yincang"
                                size="small" style="color:hotpink;  ">
-                               发货
+                               删除
                              </el-button>
                            </template>
                          </el-table-column>
@@ -1286,14 +1286,15 @@
               this.dialogVisible1=true
              }
             ,
-            
+
              deleteRow(index, rows) {
                     rows.splice(index, 1);
                   },
           //查看订单详情
           detail(scope){
+           
             console.log(scope.id)
-            this.dialogVisible=true
+            // this.dialogVisible=true
             api.orderDetail(scope.id).then(res=>{
             console.log(res.data.data)
             this.Detail=res.data.data[0]
@@ -1338,9 +1339,9 @@
 
            },
 
-             handleClose(done) {
-
-            },
+//              handleClose(done) {
+//
+//             },
 
               deleteRow(index, rows) {
               rows.splice(index, 1);
@@ -1353,7 +1354,14 @@
               handleCurrentChange(val) {
               console.log(`当前页: ${val}`);
               this.currpage=val
-              }
+              },
+               handleClose(done) {
+                      this.$confirm('确认关闭？')
+                        .then(_ => {
+                          done();
+                        })
+                        .catch(_ => {});
+                    }
 
 
 

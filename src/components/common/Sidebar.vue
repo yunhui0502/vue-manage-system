@@ -1,75 +1,130 @@
 <template>
-<div class="sidebar">
+<div class="sidebar" style="background: red;">
   <el-menu class="sidebar-el-menu" :default-active="onRoutes" :collapse="collapse" background-color="#324157" text-color="#bfcbd9" active-text-color="#20a0ff" unique-opened router>
 
     <el-submenu index="1">
       <template slot="title">
         <i class="el-icon-document"></i>
+
         <span>商品中心</span>
       </template>
       <el-menu-item-group>
-        <el-menu-item index="product">商品管理</el-menu-item>
+        <el-menu-item index="product">
+          <i class="el-icon-loading"></i>
+        商品管理</el-menu-item>
+
       </el-menu-item-group>
 
     </el-submenu>
 
     <el-menu-item index="store">
       <i class="el-icon-menu"></i>
-      <span slot="title">商铺管理</span>
+      <span slot="title">
+     <!--   <i class="el-icon-loading
+        "></i> -->
+        商铺管理</span>
     </el-menu-item>
     <el-menu-item index="warehouse">
-      <i class="el-icon-menu"></i>
+      <i class="el-icon-menu"></i><!-- <i class="el-icon-loading
+"></i> -->
       <span slot="title">仓库管理</span>
     </el-menu-item>
 
    <el-submenu index="2">
      <template slot="title">
        <i class="el-icon-document"></i>
+       <!-- <i class="el-icon-loading
+"></i> -->
        <span>订单中心</span>
      </template>
      <el-menu-item-group>
-       <el-menu-item index="hf-quick">全部订单</el-menu-item>
-       <el-menu-item index="hf-business">自营订单</el-menu-item>
-       <el-menu-item index="hf-rights">退款维权</el-menu-item>
-       <el-menu-item index="hf-pair">快速打单</el-menu-item>
-       <el-menu-item index="hf-assess">评价管理</el-menu-item>
+       <el-menu-item index="hf-quick"><i class="el-icon-loading
+"></i>全部订单</el-menu-item>
+       <el-menu-item index="hf-business"><i class="el-icon-loading
+"></i>自营订单</el-menu-item>
+       <el-menu-item index="hf-rights"><i class="el-icon-loading
+"></i>退款维权</el-menu-item>
+       <el-menu-item index="hf-pair"><i class="el-icon-loading
+"></i>快速打单</el-menu-item>
+       <el-menu-item index="hf-assess"><i class="el-icon-loading
+"></i>评价管理</el-menu-item>
+       <el-menu-item index="hf-detail"><i class="el-icon-loading
+"></i>订单详情</el-menu-item>
      </el-menu-item-group>
  </el-submenu>
 
     <el-menu-item index="hf-user">
-      <i class="el-icon-menu"></i>
+      <!-- <i class="el-icon-menu"></i> -->
+      <i class="el-icon-loading
+      "></i>
       <span slot="title">用户中心</span>
     </el-menu-item>
-    
+
     <el-menu-item index="hf-boss">
       <i class="el-icon-tickets"></i>
+    <!--  <i class="el-icon-loading
+"></i> -->
       <span slot="title">商家管理</span>
     </el-menu-item>
 
-   
+
     <el-menu-item index="hf-vip">
       <i class="el-icon-location"></i>
+     <!-- <i class="el-icon-loading
+"></i> -->
       <span slot="title">会员管理</span>
     </el-menu-item>
 
     <el-menu-item index="hf-message">
-      <i class="el-icon-goods"></i>
+      <i class="el-icon-message"></i>
+    <!--  <i class="el-icon-loading
+      "></i> -->
       <span slot="title">消息</span>
     </el-menu-item>
-    <el-menu-item index="hf-message">
+
+
+
+   <el-submenu index="3">
+     <template slot="title" index="hf-tixian">
+       <i class="el-icon-document"></i>
+    <!--   <i class="el-icon-loading
+       "></i> -->
+       <span slot="title">资产</span>
+     </template>
+     <el-menu-item-group>
+       <el-menu-item index="hf-zichan">
+                <i class="el-icon-loading
+       "></i>资产明细</el-menu-item>
+
+       <el-menu-item index="hf-tixian">
+         <i class="el-icon-loading
+"></i>店铺提现</el-menu-item>
+
+       <el-menu-item index="hf-shangjia">
+         <i class="el-icon-loading
+"></i>商家提现</el-menu-item>
+
+
+     </el-menu-item-group>
+ </el-submenu>
+
+
+
+
+
+    <el-menu-item index="hf-coupon">
       <i class="el-icon-location"></i>
-      <span slot="title">资产</span>
-    </el-menu-item>
-    <el-menu-item index="hf-message">
-      <i class="el-icon-location"></i>
+
       <span slot="title">优惠券</span>
     </el-menu-item>
-    <el-menu-item index="hf-message">
-      <i class="el-icon-location"></i>
+    <el-menu-item index="hf-set">
+      <i class="el-icon-message"></i>
+
       <span slot="title">设置</span>
     </el-menu-item>
-   <el-menu-item index="hf-vip">
+   <el-menu-item index="hf-category">
      <i class="el-icon-location"></i>
+
      <span slot="title">类目管理</span>
    </el-menu-item>
 
@@ -144,7 +199,30 @@ export default {
             {
               index: 'hf-message',
               title: '消息'
-            }
+            },
+            ,
+            {
+              index: 'hf-detail',
+              title: '订单详情'
+             }
+            ,
+            {
+              index: 'hf-coupon',
+              title: '优惠券'
+             },
+
+             {
+               index: 'hf-category',
+               title: '类目管理'
+              },
+              {
+                index: 'hf-boss',
+                title: '商家管理'
+               },
+              {
+                index: 'hf-zichan',
+                title: '资产明细'
+               }
           ]
         },
         {
@@ -267,7 +345,9 @@ export default {
 </script>
 
 <style scoped>
+
 .sidebar {
+
   display: block;
   position: absolute;
   left: 0;
@@ -282,6 +362,7 @@ export default {
 
 .sidebar-el-menu:not(.el-menu--collapse) {
   width: 250px;
+
 }
 
 .sidebar>ul {

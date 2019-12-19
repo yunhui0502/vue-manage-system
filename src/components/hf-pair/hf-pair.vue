@@ -15,7 +15,7 @@
     <div style="margin-top: 60px;margin-left: 20px;">有效日期:2018.10.28-2018.10.28</div>
     <div style="margin-top: 15px;margin-left: 20px;">套餐类型:包年</div>
     <div style="margin-top: 15px;margin-left: 20px;">授权店铺:店铺名称</div>
-    <div style="width: 30%;height: 40px;background: #A3A0FB;text-align: center;border-radius: 20px;line-height: 40px;margin-top: 20px;color: #ffffff;margin-left: 30px;">去使用</div>
+    <div style="width: 30%;height: 40px;background: #A3A0FB;text-align: center;border-radius: 20px;line-height: 40px;margin-top: 20px;color: #ffffff;margin-left: 30px;" @click="goods()">去使用</div>
   </div>
 
 <div style="width:23% ;float: left;margin: 0 auto;border: 1px solid #cccccc;margin-left: 20px;margin-top: 80px;padding-bottom: 20px;">
@@ -30,7 +30,7 @@
     <div style="margin-top: 60px;margin-left: 20px;">有效日期:2018.10.28-2018.10.28</div>
     <div style="margin-top: 15px;margin-left: 20px;">套餐类型:包年</div>
     <div style="margin-top: 15px;margin-left: 20px;">授权店铺:店铺名称</div>
-    <div style="width: 30%;height: 40px;background: #A3A0FB;text-align: center;border-radius: 20px;line-height: 40px;margin-top: 20px;color: #ffffff;margin-left: 30px;">去使用</div>
+    <div style="width: 30%;height: 40px;background: #A3A0FB;text-align: center;border-radius: 20px;line-height: 40px;margin-top: 20px;color: #ffffff;margin-left: 30px;" @click="goods()">去使用</div>
   </div>
   <div style="width:23% ;float: left;margin: 0 auto;border: 1px solid #cccccc;margin-left: 20px;margin-top: 80px;padding-bottom: 20px;">
   <div style="display: flex;">
@@ -44,7 +44,7 @@
       <div style="margin-top: 60px;margin-left: 20px;">有效日期:2018.10.28-2018.10.28</div>
       <div style="margin-top: 15px;margin-left: 20px;">套餐类型:包年</div>
       <div style="margin-top: 15px;margin-left: 20px;">授权店铺:店铺名称</div>
-      <div style="width: 30%;height: 40px;background: #A3A0FB;text-align: center;border-radius: 20px;line-height: 40px;margin-top: 20px;color: #ffffff;margin-left: 30px;">去使用</div>
+      <div style="width: 30%;height: 40px;background: #A3A0FB;text-align: center;border-radius: 20px;line-height: 40px;margin-top: 20px;color: #ffffff;margin-left: 30px;" @click="goods()">去使用</div>
     </div>
   <div style="width:23% ;float: left;margin: 0 auto;border: 1px solid #cccccc;margin-left: 20px;margin-top: 80px;padding-bottom: 20px;">
   <div style="display: flex;">
@@ -58,7 +58,7 @@
       <div style="margin-top: 60px;margin-left: 20px;">有效日期:2018.10.28-2018.10.28</div>
       <div style="margin-top: 15px;margin-left: 20px;">套餐类型:包年</div>
       <div style="margin-top: 15px;margin-left: 20px;">授权店铺:店铺名称</div>
-      <div style="width: 30%;height: 40px;background: #A3A0FB;text-align: center;border-radius: 20px;line-height: 40px;margin-top: 20px;color: #ffffff;margin-left: 30px;">去使用</div>
+      <div style="width: 30%;height: 40px;background: #A3A0FB;text-align: center;border-radius: 20px;line-height: 40px;margin-top: 20px;color: #ffffff;margin-left: 30px;" @click="goods()">去使用</div>
     </div>
   <div style="width:23% ;float: left;margin: 0 auto;border: 1px solid #cccccc;margin-left: 20px;margin-top: 80px;padding-bottom: 20px;">
   <div style="display: flex;">
@@ -72,7 +72,7 @@
       <div style="margin-top: 60px;margin-left: 20px;">有效日期:2018.10.28-2018.10.28</div>
       <div style="margin-top: 15px;margin-left: 20px;">套餐类型:包年</div>
       <div style="margin-top: 15px;margin-left: 20px;">授权店铺:店铺名称</div>
-      <div style="width: 30%;height: 40px;background: #A3A0FB;text-align: center;border-radius: 20px;line-height: 40px;margin-top: 20px;color: #ffffff;margin-left: 30px;">去使用</div>
+      <div style="width: 30%;height: 40px;background: #A3A0FB;text-align: center;border-radius: 20px;line-height: 40px;margin-top: 20px;color: #ffffff;margin-left: 30px;" @click="goods()">去使用</div>
     </div>
     <div style="width:23% ;float: left;margin: 0 auto;border: 1px solid #cccccc;margin-left: 20px;margin-top: 80px;padding-bottom: 20px;">
     <div style="display: flex;">
@@ -82,11 +82,11 @@
         <div style="margin-top:20px;color: #cccccc;">介绍介绍介绍介绍介绍<br>介绍介绍介绍介绍介绍</div>
         </div>
       </div>
-    
+
         <div style="margin-top: 60px;margin-left: 20px;">有效日期:2018.10.28-2018.10.28</div>
         <div style="margin-top: 15px;margin-left: 20px;">套餐类型:包年</div>
         <div style="margin-top: 15px;margin-left: 20px;">授权店铺:店铺名称</div>
-        <div style="width: 30%;height: 40px;background: #A3A0FB;text-align: center;border-radius: 20px;line-height: 40px;margin-top: 20px;color: #ffffff;margin-left: 30px;">去使用</div>
+        <div style="width: 30%;height: 40px;background: #A3A0FB;text-align: center;border-radius: 20px;line-height: 40px;margin-top: 20px;color: #ffffff;margin-left: 30px;" @click="goods()">去使用</div>
       </div>
       <div style="width:23% ;float: left;margin: 0 auto;border: 1px solid #cccccc;margin-left: 20px;margin-top: 80px;padding-bottom: 20px;">
       <div style="display: flex;">
@@ -96,11 +96,11 @@
           <div style="margin-top:20px;color: #cccccc;">介绍介绍介绍介绍介绍<br>介绍介绍介绍介绍介绍</div>
           </div>
         </div>
-      
+
           <div style="margin-top: 60px;margin-left: 20px;">有效日期:2018.10.28-2018.10.28</div>
           <div style="margin-top: 15px;margin-left: 20px;">套餐类型:包年</div>
           <div style="margin-top: 15px;margin-left: 20px;">授权店铺:店铺名称</div>
-          <div style="width: 30%;height: 40px;background: #A3A0FB;text-align: center;border-radius: 20px;line-height: 40px;margin-top: 20px;color: #ffffff;margin-left: 30px;">去使用</div>
+          <div style="width: 30%;height: 40px;background: #A3A0FB;text-align: center;border-radius: 20px;line-height: 40px;margin-top: 20px;color: #ffffff;margin-left: 30px;" @click="goods()">去使用</div>
         </div>
         <div style="width:23% ;float: left;margin: 0 auto;border: 1px solid #cccccc;margin-left: 20px;margin-top: 80px;padding-bottom: 20px;">
         <div style="display: flex;">
@@ -110,11 +110,11 @@
             <div style="margin-top:20px;color: #cccccc;">介绍介绍介绍介绍介绍<br>介绍介绍介绍介绍介绍</div>
             </div>
           </div>
-        
+
             <div style="margin-top: 60px;margin-left: 20px;">有效日期:2018.10.28-2018.10.28</div>
             <div style="margin-top: 15px;margin-left: 20px;">套餐类型:包年</div>
             <div style="margin-top: 15px;margin-left: 20px;">授权店铺:店铺名称</div>
-            <div style="width: 30%;height: 40px;background: #A3A0FB;text-align: center;border-radius: 20px;line-height: 40px;margin-top: 20px;color: #ffffff;margin-left: 30px;">去使用</div>
+            <div style="width: 30%;height: 40px;background: #A3A0FB;text-align: center;border-radius: 20px;line-height: 40px;margin-top: 20px;color: #ffffff;margin-left: 30px;" @click="goods()">去使用</div>
           </div>
 
 
@@ -135,8 +135,7 @@
    export default {
    data:()=>{
     return{
-     // currentPage3:"",
-
+        
     }
    },
    methods:{
@@ -156,6 +155,9 @@
    }
 </script>
 <style scoped="scoped">
+  div{
+    cursor: pointer;
+  }
  .rights{
    width: 90%;
    height: 90%;
