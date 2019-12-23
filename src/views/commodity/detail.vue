@@ -38,89 +38,124 @@
         </el-form-item>
         <el-form-item label>
           <el-input v-model="bianrow.productDesc" auto-complete="off" prop="categoryId"></el-input>
-          <!-- <el-select v-model="value4" placeholder="请选择" @change="changeQuentitySubject1(index)">
-           <el-option v-for="(item,index) in leiMu" :key="index" :label="hfName" :value="item.hfName">
-           </el-option>
-          </el-select>-->
+        </el-form-item>
+        <br />
+        <el-form-item style="margin-bottom:50px;" label>
+          <div style="font-size: 15px;">商品ID:</div>
+        </el-form-item>
+        <el-form-item label>
+          <el-input disabled v-model="bianrow.id" auto-complete="off" prop="id"></el-input>
         </el-form-item>
         <br />
         <el-button type="primary" @click="bianjiSubmit" :loading="addLoading">提交</el-button>
       </el-form>
-      <div style="background: #fff;margin-top: 20px;padding: 40px 0 20px 20px;">
-        <el-form
-          :inline="true"
-          :model="guiform"
-          label-width="80px"
-          :rules="guigerulue"
-          ref="guiform1"
-        >
-          <div style="font-size: 17px;margin-bottom: 30px;">添加规格:</div>
-
-          <el-form-item label label-width="100px">
-            <div style="font-size: 15px;">规格名称:</div>
-          </el-form-item>
-          <el-form-item label prop="hfName" label-width="100px">
-            <el-input v-model="guiform.hfName" auto-complete="off" placeholder="颜色"></el-input>
-          </el-form-item>
-          <el-form-item label label-width="100px">
-            <div style="font-size: 15px;">规格类型:</div>
-          </el-form-item>
-          <el-form-item label prop="specType" label-width="100px">
-            <el-input auto-complete="off" v-model="guiform.specType" placeholder="xl"></el-input>
-          </el-form-item>
-          <el-form-item label label-width="100px">
-            <div style="font-size: 15px;">规格值:</div>
-          </el-form-item>
-          <el-form-item label prop="specValue" label-width="100px">
-            <el-input auto-complete="off" v-model="guiform.specValue" placeholder="xl"></el-input>
-          </el-form-item>
-          <el-form-item label label-width="100px">
-            <div style="font-size: 15px;">规格单位:</div>
-          </el-form-item>
-          <el-form-item label prop="specUnit" label-width="100px">
-            <el-input auto-complete="off" v-model="guiform.specUnit" placeholder="xl"></el-input>
-          </el-form-item>
-          <el-button type="primary" @click="add" :loading="editLoading">添加</el-button>
-        </el-form>
-        <div style="font-size: 17px;margin-bottom: 30px;margin-top: 20px;">规格:</div>
-        <el-table
-          :data="guigelist"
-          size="mini"
-          highlight-current-row
-          border
-          class="el-tb-edit mgt20"
-          ref="multipleTable"
-          style="margin-bottom: 40px;font-size: 15px;"
-          tooltip-effect="dark"
-          v-loading="listLoading"
-        >
-          <el-table-column
-            type="index"
-            label="序号"
-            header-align="center"
-            align="center"
-            width="59px"
-          ></el-table-column>
-          <el-table-column label="规格名称" align="center" prop="hfName"></el-table-column>
-          <el-table-column prop="specType" label="规格类型" align="center"></el-table-column>
-
-          <el-table-column prop="specValue" label="规格值" align="center"></el-table-column>
-          <el-table-column prop="specUnit" label="规格单位" align="center"></el-table-column>
-          <el-table-column fixed="right" label="操作" width="260">
-            <template slot-scope="scope">
-              <!-- <el-button type="primary" plain size="small" @click="addgui(scope.row)" style="margin-bottom: 10px;">查看规格</el-button> -->
-              <!-- <el-button type="primary" plain size="small" @click="biangui(scope.row)" style="margin-bottom: 10px;">编辑</el-button> -->
-              <!-- <el-button type="danger" plain size="small">删除</el-button> -->
-              <el-button
-                type="danger"
-                icon="el-icon-delete"
-                @click="deletegui(scope.row)"
-                size="mini"
-              >删除</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
+<!-- --------------------------------------------------------------------------------------------------------------------------------------- -->
+          <el-card class="box-card">
+      <div slot="header" class="clearfix">
+        <span>型号单价</span>
       </div>
+      <!-- 商品型号 -->
+      <span style="position: relative;top: 20px;left:220px">商品型号</span>
+      <div class="kaipi">
+        <el-button class="sc-delete" type="text">删除型号</el-button>
+        <div>
+          <el-input
+            v-model="input"
+            style="width:304px;height: 32px; margin: 24px 0"
+            placeholder="请输入内容"
+          ></el-input>
+          <!-- 单选按钮 -->
+          <el-checkbox v-model="checked">添加规格图片</el-checkbox>
+        </div>
+        <!-- 标签 -->
+        <el-tag
+          :key="tag"
+          v-for="tag in specificationForm.specValue"
+          closable
+          :disable-transitions="false"
+          @close="handleClose(tag)"
+        >{{tag}}</el-tag>
+        <!-- 图片上传图片 -->
+        <el-upload
+          action="http://192.168.1.104:9095/goods/addPicture"
+          list-type="picture-card"
+          :on-preview="handlePictureCardPreview"
+          name="fileInfo"
+          file="file"
+          :data="{...specificationForm }"
+          :on-remove="handleRemove"
+        >
+          <i class="el-icon-plus"></i>
+        </el-upload>
+        <el-dialog :visible.sync="dialogVisible">
+          <img width="100%" :src="dialogImageUrl" alt />
+        </el-dialog>
+        <el-input v-model="AddColor" style="width:194px; height:32px;" placeholder="请输入内容"></el-input>
+        <el-button   @click="submit" style="margin:8px">添加商品规格</el-button>
+        <el-input v-model="specificationForm1.productSpecId"  placeholder="添加商品id"></el-input>
+      </div>
+      <el-button  @click="postspecification" class="add-button">添加</el-button>
+
+      <span style="position: relative;top: 57px;left:-830px">商品价格/库存</span>
+      <el-table :data="tableData">
+        <el-table-column label="颜色" width="101">
+          <template slot-scope="scope">
+            <span style="margin-left: 10px">{{ scope.row.date }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="尺寸" width="101">
+          <template slot-scope="scope">
+            <span style="margin-left: 10px">{{ scope.row.name }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="价格" width="101">
+          <template slot-scope="scope">
+            <span style="margin-left: 10px">{{ scope.row.date }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="库存" width="101">
+          <template slot-scope="scope">
+            <span style="margin-left: 10px">{{ scope.row.name }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="划线价" width="101">
+          <template slot-scope="scope">
+            <span style="margin-left: 10px">{{ scope.row.name }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="图片" width="101">
+          <template slot-scope="scope">
+            <span style="margin-left: 10px">{{ scope.row.date }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button type="text" size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+            <el-button
+              type="text"
+              style="color:red"
+              plain
+              size="mini"
+              @click="handleDelete(scope.$index, scope.row)"
+            >删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <!-- ------------------------------------------------------------------------------------------ -->
+      <el-form :model="ruleForm2" ref="ruleForm" label-width="110px" class="reduceForm">
+        <el-form-item label="库存减扣方式" prop="region">
+          <el-select v-model="ruleForm2.region" placeholder="拍下减库存"></el-select>
+        </el-form-item>
+
+        <el-form-item style="width:21%" label="库存" prop="name">
+          <el-input label="请输入库存数量" v-model="ruleForm2.name"></el-input>
+        </el-form-item>
+
+        <el-form-item style="width:21%" label="商品详情" prop="name">
+        </el-form-item>
+      </el-form>
+      <el-button class="add-button">添加</el-button>
+    </el-card>
     </div>
   </div>
 </template>
@@ -132,9 +167,17 @@ export default {
   name: 'searchinput',
   data () {
     return {
+      // 添加颜色
+      AddColor: '',
+      input: '', // 复制来的
       collapse: false,
       value4: '',
-      bianrow: {},
+      bianrow: {
+        hfName: '',
+        productDesc: '',
+        categoryId: '',
+        id: ''
+      },
       leimu: {
         category: '',
         parentCategoryId: '-1',
@@ -156,6 +199,42 @@ export default {
         specUnit: '',
         specValue: '',
         categorySpecId: 1
+      },
+      // 添加图片
+      specificationForm: {
+        bossId: '1',
+        goodsId: '2', // 物品ID
+        productSpecId: '', // 商品规格ID
+        requestId: '123123123', // 发起请求的随机数, 用来判断请求是否重复
+        timestamp: '12231231', // 当前时间
+        token: '11238',
+        userId: '12' // 用户id
+        // specValue: ['1.1'] // 标签 颜色 // 规格
+      },
+
+      // 添加规格
+      specificationForm1: {
+        productId: '3',
+        bossId: '3',
+        goodsDesc: '1111', // 物品描述
+        goodName: '3', // 物品名称
+        hfStoreId: '3', // 商铺id
+        requestId: '123123123', // 发起请求的随机数, 用来判断请求是否重复
+        timestamp: '12231231', // 当前时间
+        token: '11238',
+        userId: '12', // 用户id
+        username: '1'// 商家名称
+        // specValue: ['1.1'] // 标签 颜色 // 规格
+      },
+      ruleForm2: {
+        name: '',
+        region: '',
+        date1: '',
+        date2: '',
+        delivery: false,
+        type: [],
+        resource: '',
+        desc: ''
       },
       dialogImageUrl: '',
       dialogVisible: false,
@@ -350,15 +429,47 @@ export default {
     }
   },
   methods: {
-    // 商品 编辑 提交按钮
-    bianjiSubmit: function () {
-      this.$http.get('http://192.168.1.104:9095/goods/addSpecify', { params: this.specificationForm1 })
+    // 添加规格
+    async postspecification () {
+      this.time()
+      this.specificationForm.requestId = Date.now()
+      this.$http.post('http://192.168.1.104:9095/goods/addSpecify', { params: this.specificationForm1 })
         .then(res => {
           console.log(res)
         })
         .catch(err => {
           console.log(err)
         })
+    },
+    // 添加颜色事件
+    submit (e) {
+      // console.log(this.AddColor)
+      this.specValue = e.target.value
+      this.AddColor = ''
+    },
+    // 点击图片列表中已上传的图片时的钩子
+    handlePictureCardPreview (file) {
+      console.log(1111111)
+      this.dialogImageUrl = file.url
+      this.dialogVisible = true
+    },
+    // 图片列表移除图片时的钩子
+    handleRemove (file, fileList) {
+      console.log(file, fileList)
+    },
+    // 商品 编辑 提交按钮
+    bianjiSubmit: function () {
+      let params = this.bianrow
+      console.log(params)
+      this.$http.post('http://192.168.1.104:9095/goods/updategood', params, {
+        transformRequest: [function (data) {
+          var str = ''
+          for (var key in data) {
+            str += encodeURIComponent(key) + '=' + encodeURIComponent(data[key]) + '&'
+          }
+          return str
+        }]
+      })
     },
 
     deletegui: function (row) {
@@ -470,3 +581,66 @@ export default {
   }
 }
 </script>
+
+<style scoped lang="less">
+  .kaipi {
+  width: 676px;
+  height: 100%;
+  margin-left: 300px;
+  border: 1px solid rgba(46, 45, 45, 0.09);
+  padding-left: 30px;
+  .el-tag {
+    margin-bottom: 10px;
+  }
+  .el-checkbox {
+    margin-left: 8px;
+  }
+}
+// s码部分
+.model {
+  width: 676px;
+  height: 170px;
+  margin-left: 300px;
+  border: 1px solid rgba(46, 45, 45, 0.09);
+  padding-left: 30px;
+  .el-checkbox {
+    margin-left: 8px;
+  }
+}
+// 所以按钮文字颜色
+.el-button {
+  font-size: 12px;
+  font-family: SourceHanSansCN;
+  font-weight: 400;
+  color: rgba(163, 160, 251, 1);
+}
+// 删除型号文字颜色
+.sc-delete {
+  font-size: 12px;
+  font-family: SourceHanSansCN;
+  font-weight: 400;
+  color: rgba(255, 49, 138, 1);
+  float: right;
+  padding: 8px;
+}
+// 添加按钮样式
+.add-button {
+  width: 708px;
+  height: 39px;
+  margin-left: 300px;
+  margin-top: 10px;
+  margin-bottom: 26px;
+}
+
+// 表单部分
+.el-table {
+  width: 710px;
+  height: 100%;
+  margin-left: 300px;
+  border: 1px solid rgba(46, 45, 45, 0.09);
+}
+.reduceForm {
+  margin-top: 45px;
+  margin-left: 300px;
+}
+</style>

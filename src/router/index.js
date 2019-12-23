@@ -18,6 +18,8 @@ import Header from '../views/header'
 import Mingx from '../views/property/mingx.vue'
 import Tixian from '../views/property/tixian.vue'
 import Verification from '../views/verification'
+import Regiment from '../views/activity/regiment.vue'
+import Seckill from '../views/activity/seckill.vue'
 
 Vue.use(VueRouter)
 
@@ -48,7 +50,9 @@ const routes = [
       { path: '/', name: 'header', component: Header },
       { path: '/detail', name: 'detail', component: Detail },
       { path: '/product', name: 'product', component: Product },
-      { path: '/verification', name: 'verification', component: Verification }
+      { path: '/verification', name: 'verification', component: Verification },
+      { path: '/regiment', name: 'regiment', component: Regiment },
+      { path: '/seckill', name: 'seckill', component: Seckill }
     ]
   },
   { path: '*', name: '404', component: NotFound }

@@ -52,7 +52,7 @@
 <!-- ---------------------------------------------------------------------------------------------------------------------------------------------------- -->
     <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <span>大卡片名称</span>
+        <span>型号单价</span>
       </div>
       <!-- 商品型号 -->
       <span style="position: relative;top: 20px;left:220px">商品型号</span>
@@ -97,29 +97,6 @@
       </div>
       <el-button  @click="postspecification" class="add-button">添加</el-button>
 
-      <!-- <div class="model">
-        <el-button class="sc-delete" type="text">删除型号</el-button>
-        <div>
-          <el-input v-model="AddSize" style="width:304px;height: 32px; margin: 24px 0" placeholder="请输入内容"></el-input>
-        </div>
-        <div> -->
-          <!-- 标签 -->
-          <!-- <el-tag
-            :key="tag"
-            v-for="tag in modelTags"
-            closable
-            :disable-transitions="false"
-            @close="handleClose(tag)"
-          >{{tag}}</el-tag> -->
-          <!-- 单选按钮 -->
-          <!-- <el-checkbox v-model="checked2">添加规格图片</el-checkbox>
-        </div>
-        <el-input style="width:194px; height:32px;" placeholder="请输入型号"></el-input>
-        <el-button style="margin:8px">添加规格项目</el-button>
-      </div>
-      <el-button class="add-button">添加</el-button> -->
-
-      <!-- 表单部分 商品价格/库存 -->
       <span style="position: relative;top: 57px;left:-830px">商品价格/库存</span>
       <el-table :data="tableData">
         <el-table-column label="颜色" width="101">
@@ -176,17 +153,6 @@
         </el-form-item>
 
         <el-form-item style="width:21%" label="商品详情" prop="name">
-          <!-- <el-upload
-            action="https://jsonplaceholder.typicode.com/posts/"
-            list-type="picture-card"
-            :on-preview="handlePictureCardPreview"
-            :on-remove="handleRemove"
-          >
-            <i class="el-icon-plus"></i>
-          </el-upload>
-          <el-dialog :visible.sync="dialogVisible">
-            <img width="100%" :src="dialogImageUrl" alt />
-          </el-dialog> -->
         </el-form-item>
       </el-form>
       <el-button class="add-button">添加</el-button>
