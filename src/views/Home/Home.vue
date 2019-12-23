@@ -54,7 +54,7 @@
             <i class="iconfont icon-huiyuan"></i>
             <span slot="title">会员设置</span>
           </el-menu-item>
-          <el-menu-item index="7">
+          <el-menu-item index="/verification">
             <i class="iconfont icon-huiyuan"></i>
             <span slot="title">核销管理</span>
           </el-menu-item>

@@ -352,27 +352,13 @@ export default {
   methods: {
     // 商品 编辑 提交按钮
     bianjiSubmit: function () {
-      var _this = this
-      _this.$refs.bianForm.validate(async valid => {
-        if (valid) {
-          await this.$http
-            .get('http://192.168.1.104:9095/product/byBossId')
-            .then(res => {
-              if (res.status === 200) {
-                this.$message({
-                  message: '修改成功',
-                  type: 'success'
-                })
-                this.$router.push({ path: '/product' })
-              } else {
-                this.$message({
-                  message: '修改失败',
-                  type: 'success'
-                })
-              }
-            })
-        }
-      })
+      this.$http.get('http://192.168.1.104:9095/goods/addSpecify', { params: this.specificationForm1 })
+        .then(res => {
+          console.log(res)
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
 
     deletegui: function (row) {

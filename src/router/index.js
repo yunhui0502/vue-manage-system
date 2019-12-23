@@ -17,6 +17,7 @@ import Set from '../views/set'
 import Header from '../views/header'
 import Mingx from '../views/property/mingx.vue'
 import Tixian from '../views/property/tixian.vue'
+import Verification from '../views/verification'
 
 Vue.use(VueRouter)
 
@@ -46,7 +47,8 @@ const routes = [
       { path: '/tixian', name: 'tixian', component: Tixian },
       { path: '/', name: 'header', component: Header },
       { path: '/detail', name: 'detail', component: Detail },
-      { path: '/product', name: 'product', component: Product }
+      { path: '/product', name: 'product', component: Product },
+      { path: '/verification', name: 'verification', component: Verification }
     ]
   },
   { path: '*', name: '404', component: NotFound }
