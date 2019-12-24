@@ -33,15 +33,21 @@
             </template>
             <el-menu-item-group>
               <el-menu-item index="/orderform">全部订单</el-menu-item>
-              <el-menu-item index="1-2">退款维权</el-menu-item>
-              <el-menu-item index="1-3">快速打单</el-menu-item>
-              <el-menu-item index="1-4">评价管理</el-menu-item>
+              <el-menu-item index="/refund">退款维权</el-menu-item>
+              <el-menu-item index="/pair">快速打单</el-menu-item>
+              <el-menu-item index="/assess">评价管理</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-          <el-menu-item index="5">
-            <i class="iconfont icon-huodong" style="font-size: 27px;"></i>
-            <span slot="title">活动</span>
-          </el-menu-item>
+          <el-submenu >
+            <template slot="title">
+              <i class="iconfont icon-weibiaoti-"></i>
+              <span>活动</span>
+            </template>
+            <el-menu-item-group>
+              <el-menu-item index="/seckill">活动秒杀</el-menu-item>
+              <el-menu-item index="/regiment">拼团抢购</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
           <el-menu-item index="6">
             <i class="iconfont icon-fenleiguanli"></i>
             <span slot="title">类目管理</span>
@@ -50,11 +56,15 @@
             <i class="el-icon-user-solid"></i>
             <span slot="title">用户管理</span>
           </el-menu-item>
-          <el-menu-item index="7">
+          <el-menu-item index="/member">
             <i class="iconfont icon-huiyuan"></i>
             <span slot="title">会员设置</span>
           </el-menu-item>
-          <el-menu-item index="8">
+          <el-menu-item index="/verification">
+            <i class="iconfont icon-huiyuan"></i>
+            <span slot="title">核销管理</span>
+          </el-menu-item>
+          <el-menu-item index="/xinxione">
             <i class="iconfont icon-xiaoxi"></i>
             <span slot="title">消息</span>
           </el-menu-item>
@@ -75,7 +85,7 @@
             <i class="iconfont icon-weibiaoti2fuzhi02"></i>
             <span slot="title">优惠卷</span>
           </el-menu-item>
-          <el-menu-item index="11">
+          <el-menu-item index="/set">
             <i class="iconfont icon-set"></i>
             <span slot="title">设置</span>
           </el-menu-item>
@@ -87,7 +97,7 @@
         <!-- 下拉菜单组件 -->
         <el-dropdown class="my-dropdown" >
           <span class="el-dropdown-link">
-            <img class="avatar" :src="photo" alt />
+            <img class="avatar" src="photo" alt />
             <span class="name">用户昵称</span>
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
@@ -98,7 +108,7 @@
           </el-dropdown-menu>
         </el-dropdown>
       </el-header>
-      <el-main>
+      <el-main style="background:#F0F1F6">
         <router-view></router-view>
       </el-main>
     </el-container>
@@ -123,7 +133,6 @@ export default {
   }
 }
 </script>
-
 <style scoped lang='less'>
 .my-container {
   width: 100%;
