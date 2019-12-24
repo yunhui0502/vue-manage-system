@@ -1,3 +1,4 @@
+
 <template>
   <el-container class="my-container">
     <el-aside width="200px">
@@ -38,10 +39,16 @@
               <el-menu-item index="1-4">评价管理</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-          <el-menu-item index="5">
-            <i class="iconfont icon-huodong" style="font-size: 18px;"></i>
-            <span slot="title">活动</span>
-          </el-menu-item>
+          <el-submenu index="/regiment">
+            <template slot="title">
+              <i class="iconfont icon-huodong" style="font-size: 18px;"></i>
+              <span>活动</span>
+            </template>
+            <el-menu-item-group>
+              <el-menu-item index="/seckill">秒杀商城</el-menu-item>
+              <el-menu-item index="/regiment">拼团商城</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
           <el-menu-item index="/category">
             <i class="iconfont icon-fenleiguanli"></i>
             <span slot="title">类目管理</span>
@@ -86,13 +93,13 @@
     <el-container>
       <el-header>
         <el-container class="header-right">
-        <el-container class="header-user-con">
-        <span>
-                <i
-                  class="el-icon-search"
-                  style="margin-right: 10px;color: #CCCCCC;cursor: pointer;margin-top:6px;"
-                ></i>
-              </span>
+          <el-container class="header-user-con">
+            <span>
+              <i
+                class="el-icon-search"
+                style="margin-right: 10px;color: #CCCCCC;cursor: pointer;margin-top:6px;"
+              ></i>
+            </span>
             <el-dropdown trigger="click">
               <span style="cursor: pointer;">
                 <img src="../img/8.png" />
@@ -140,7 +147,7 @@
               </el-dropdown-menu>
             </el-dropdown>
 
-            <el-dropdown class="user-name" trigger="click" >
+            <el-dropdown class="user-name" trigger="click">
               <span class="el-dropdown-link" style="float: left;margin-top:10px;">
                 用户昵称
                 <i class="el-icon-caret-bottom"></i>
@@ -166,7 +173,7 @@
                 <el-dropdown-item command="loginout">切换账号</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
-        </el-container>
+          </el-container>
         </el-container>
       </el-header>
       <el-main>
@@ -194,7 +201,6 @@ export default {
   }
 }
 </script>
-
 <style scoped lang='less'>
 .my-container {
   width: 100%;
