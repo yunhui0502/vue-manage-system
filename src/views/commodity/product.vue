@@ -13,11 +13,11 @@
           label-width="280px"
           class="demo-ruleForm"
         >
-          <el-form-item label="商品标题" prop="productDesc">
-            <el-input style="width:100%" v-model="ruleForm.productDesc"></el-input>
+          <el-form-item label="商品标题" prop="goodsDesc ">
+            <el-input style="width:100%" v-model="ruleForm.goodsDesc "></el-input>
           </el-form-item>
-          <el-form-item style="width:100%" label="商品名称" prop="hfName">
-            <el-input style="width:40%" v-model="ruleForm.hfName"></el-input>
+          <el-form-item style="width:100%" label="商品名称" prop="goodName">
+            <el-input style="width:40%" v-model="ruleForm.goodName"></el-input>
             <span style="margin: 22px">核销员</span>
             <el-input v-model="verifier" style="width:40%"></el-input>
           </el-form-item>
@@ -49,7 +49,7 @@
         </el-form>
       </el-container>
     </el-card>
-<!-- ---------------------------------------------------------------------------------------------------------------------------------------------------- -->
+    <!-- ---------------------------------------------------------------------------------------------------------------------------------------------------- -->
     <el-card class="box-card">
       <div slot="header" class="clearfix">
         <span>型号单价</span>
@@ -92,10 +92,10 @@
           <img width="100%" :src="dialogImageUrl" alt />
         </el-dialog>
         <el-input v-model="AddColor" style="width:194px; height:32px;" placeholder="请输入内容"></el-input>
-        <el-button   @click="submit" style="margin:8px">添加商品规格</el-button>
-        <el-input v-model="specificationForm1.productSpecId"  placeholder="添加商品id"></el-input>
+        <el-button @click="submit" style="margin:8px">添加商品规格</el-button>
+        <el-input v-model="specificationForm1.productSpecId" placeholder="添加商品id"></el-input>
       </div>
-      <el-button  @click="postspecification" class="add-button">添加</el-button>
+      <el-button @click="postspecification" class="add-button">添加</el-button>
 
       <span style="position: relative;top: 57px;left:-830px">商品价格/库存</span>
       <el-table :data="tableData">
@@ -152,8 +152,7 @@
           <el-input label="请输入库存数量" v-model="ruleForm2.name"></el-input>
         </el-form-item>
 
-        <el-form-item style="width:21%" label="商品详情" prop="name">
-        </el-form-item>
+        <el-form-item style="width:21%" label="商品详情" prop="name"></el-form-item>
       </el-form>
       <el-button class="add-button">添加</el-button>
     </el-card>
@@ -195,11 +194,12 @@
         </div>
       </el-form>
     </el-card>
-
   </div>
 </template>
 
 <script>
+import api from '@/api/commodity_api.js'
+// import { log } from 'util'
 export default {
   data () {
     return {
@@ -229,13 +229,13 @@ export default {
       leiMu: {},
       // 表单绑定的添加商品
       ruleForm: {
+        lastModifier: '',
         inventory: '', // 库存
-        bossId: '1', // 商家id
-        brandId: '', // 品牌id
-        categoryId: '', // 类目
+        bossId: '1', // 商家id 0
+        brandId: '', // 品牌id 0
+        categoryId: '', // 类目 0
         id: '1', // 商品id
-        hfName: '', // 商品名称
-        lastModifier: '1', // 商家昵称
+        hfName: '', // 商品名称 0
         productDesc: '', // 产品描述 ''
         requestId: '111111111111', // 发起请求的随机数, 用来判断请求是否重复
         timestamp: '', // 当前时间
@@ -264,7 +264,7 @@ export default {
         timestamp: '12231231', // 当前时间
         token: '11238',
         userId: '12', // 用户id
-        username: '1'// 商家名称
+        username: '1' // 商家名称
         // specValue: ['1.1'] // 标签 颜色 // 规格
       },
       ruleForm2: {
@@ -278,9 +278,7 @@ export default {
         desc: ''
       },
       // 表单数据
-      tableData: [
-
-      ],
+      tableData: [],
       // 顶部表单验证
       rules: {
         hfName: [
@@ -297,10 +295,14 @@ export default {
   methods: {
     // 获取商品列表
     async getcoommo () {
-      const {
-        data: { data }
-      } = await this.$http.get('http://192.168.1.104:9095/goods/categoryId', { params: { bossId: 1 } })
-      this.tableData = data
+      api
+        .getProductList(1)
+        .then(res => {
+          this.tableData = res.data.data
+        })
+        .catch(function (err) {
+          console.log(err)
+        })
     },
     // 添加图片
 
@@ -308,24 +310,15 @@ export default {
     async postspecification () {
       this.time()
       this.specificationForm.requestId = Date.now()
-      this.$http.post('http://192.168.1.104:9095/goods/addSpecify', { params: this.specificationForm1 })
+      let param = Object.assign({}, this.specificationForm1)
+      api
+        .addSpec(param)
         .then(res => {
           console.log(res)
         })
         .catch(err => {
           console.log(err)
         })
-      // console.log(this.dialogImageUrl)
-      // if (this.radio === 1) {
-      //   await this.$http.post('http://192.168.1.104:9095/goods/addPicture', { fileInfo: this.dialogImageUrl, ...this.specificationForm })
-      //     .then(res => {
-      //       console.log(res)
-      //     })
-      //     .catch(err => {
-      //       console.log(err)
-      //     })
-      // }
-      // await this.$http.post('http://192.168.1.104:9095/goods/addSpecify', { params: { ...this.specificationForm } })
     },
     // 添加颜色事件
     submit (e) {
@@ -349,49 +342,75 @@ export default {
 
     // 标签点击按钮
     handleClose (tag) {
-      this.specificationForm.specValue.splice(this.specificationForm.specValue.indexOf(tag), 1)
+      this.specificationForm.specValue.splice(
+        this.specificationForm.specValue.indexOf(tag),
+        1
+      )
     },
     // 获取类目
     async getcategory () {
-      const {
-        data: { data }
-      } = await this.$http.get('http://192.168.1.104:9095/product/category')
-      this.leiMu = data
+      api
+        .category()
+        .then(res => {
+          console.log(res)
+          this.leiMu = res.data.data
+          this.leimu.levelId = res.data.length
+        })
+        .catch(function (err) {
+          console.log(err)
+        })
+      // const {
+      //   data: { data }
+      // } = await this.$http.get('http://192.168.1.104:9095/product/category')
+      // this.leiMu = data
       // this.leimu.levelId = data.length
     },
 
     // 添加商品
-    async postcoommo () {
-      await this.$http.post('http://192.168.1.104:9095/product/addproduct', {
-        params: this.ruleForm
-      })
-      console.log('======')
-      this.ruleForm.bossId = ''
-      this.ruleForm.brandId = ''
-      this.ruleForm.hfName = ''
-      this.ruleForm.id = parseInt(this.ruleForm.id) + 1
-      this.ruleForm.lastModifier = ''
-      this.ruleForm.productDesc = ''
-      this.ruleForm.requestId = ''
-    },
-    // 新建商品按钮
-    submitForm: function () {
-      this.time()
+    async submitForm () {
       this.$refs.ruleForm.validate(valid => {
         console.log(valid)
         if (valid) {
           this.$confirm('确认提交吗？', '提示', {}).then(() => {
-            this.postcoommo()
-            this.addLoading = false
-            this.$message({
-              message: '提交成功',
-              type: 'success'
+            console.log(this.ruleForm)
+            // 拷贝
+            let param = this.ruleForm
+            api.addProduct(param).then(res => {
+              this.$router.push({ name: 'commodity' })
             })
-            this.addFormVisible = false
           })
         }
       })
+      // await this.$http.post('http://192.168.1.104:9095/product/addproduct', {
+      //   params: this.ruleForm
+      // })
+      // console.log('======')
+      // this.ruleForm.bossId = ''
+      // this.ruleForm.brandId = ''
+      // this.ruleForm.hfName = ''
+      // this.ruleForm.id = parseInt(this.ruleForm.id) + 1
+      // this.ruleForm.lastModifier = ''
+      // this.ruleForm.productDesc = ''
+      // this.ruleForm.requestId = ''
     },
+    // 新建商品按钮
+    // submitForm: function () {
+    //   this.time()
+    //   this.$refs.ruleForm.validate(valid => {
+    //     console.log(valid)
+    //     if (valid) {
+    //       this.$confirm('确认提交吗？', '提示', {}).then(() => {
+    //         this.postcoommo()
+    //         this.addLoading = false
+    //         this.$message({
+    //           message: '提交成功',
+    //           type: 'success'
+    //         })
+    //         this.addFormVisible = false
+    //       })
+    //     }
+    //   })
+    // },
     conver: function (s) {
       return s < 10 ? '0' + s : s
     },

@@ -274,7 +274,7 @@ export default {
     addGcommodity () {
       let params = this.groupform
       console.log(params)
-      this.$http.post('http://192.168.1.175:9911/group/insert', params, {
+      this.$http.post('/foo/group/insert', params, {
         transformRequest: [function (data) {
           var str = ''
           for (var key in data) {
@@ -293,7 +293,7 @@ export default {
       // console.log(selection)
     },
     async tiang () {
-      await this.$http.post('http://192.168.1.175:9911/group/insert', {
+      await this.$http.post('/foo/group/insert', {
         ...this.tian
       })
     },
@@ -366,4 +366,5 @@ export default {
   // text-align: right;
   margin: 20px 30px 0 440px;
 }
+
 </style>

@@ -34,9 +34,9 @@
             </template>
             <el-menu-item-group>
               <el-menu-item index="/orderform">全部订单</el-menu-item>
-              <el-menu-item index="1-2">退款维权</el-menu-item>
-              <el-menu-item index="1-3">快速打单</el-menu-item>
-              <el-menu-item index="1-4">评价管理</el-menu-item>
+              <el-menu-item index="/refund">退款维权</el-menu-item>
+              <el-menu-item index="/pair">快速打单</el-menu-item>
+              <el-menu-item index="/assess">评价管理</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="/regiment">
@@ -65,7 +65,7 @@
             <i class="iconfont icon-huiyuan"></i>
             <span slot="title">核销管理</span>
           </el-menu-item>
-          <el-menu-item index="8">
+          <el-menu-item index="/xinxione">
             <i class="iconfont icon-xiaoxi"></i>
             <span slot="title">消息</span>
           </el-menu-item>

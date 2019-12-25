@@ -267,7 +267,7 @@ export default {
     },
     async tianjia () {
       const data = await this.$http.get(
-        'http://192.168.1.125:9901/cancel/updateCancelUser'
+        'http://192.168.1.125:9901/updateCancelUser'
       )
 
       console.log(data.data)

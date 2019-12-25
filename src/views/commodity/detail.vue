@@ -510,7 +510,7 @@ export default {
       _this
         .$ajax({
           method: 'get',
-          url: '/api/product/specifies',
+          url: 'http://192.168.1.104:9095/product/specifies',
           params: {
             productId: this.bianrow.id
           }

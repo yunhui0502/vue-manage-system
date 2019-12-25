@@ -35,14 +35,14 @@ module.exports = {
     // 配置多个代理
     proxy: {
       '/api': {
-        target: 'http://192.168.1.104:9095/', // 本地模拟数据服务器
+        target: 'http://192.168.1.104:9095', // 本地模拟数据服务器
         changeOrigin: true,
         pathRewrite: {
           '^/api': '' // 去掉接口地址中的api字符串
         }
       },
       '/foo': {
-        target: 'http://localhost:8080', // 本地模拟数据服务器
+        target: 'http://192.168.1.104:9097', // 本地模拟数据服务器
         changeOrigin: true,
         pathRewrite: {
           '^/foo': '' // 去掉接口地址中的foo字符串

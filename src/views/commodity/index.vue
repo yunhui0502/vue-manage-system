@@ -199,12 +199,13 @@
           round
         >批量分类</el-button>
         <router-link to="/product">
-        <el-button
-          style="color: #fff;outline:none; border-radius:5px;float:right;background: #A6A3FB;
+          <el-button
+            style="color: #fff;outline:none; border-radius:5px;float:right;background: #A6A3FB;
           border: none;width: 140px;height:45px;font-size: 20px;"
-          size="mini"
-          round
-        >+ 添加商品</el-button></router-link>
+            size="mini"
+            round
+          >+ 添加商品</el-button>
+        </router-link>
       </div>
 
       <br />
@@ -317,8 +318,7 @@
 </template>
 
 <script>
-import api from '@/api/hf-api.js'
-// import { log } from 'util'
+import api from '@/api/commodity_api.js'
 
 export default {
   name: 'Commodity',
@@ -404,76 +404,141 @@ export default {
   methods: {
     // 获取商品列表
     async getcoommo () {
-      const {
-        data: { data }
-      } = await this.$http.get('http://192.168.1.104:9095/product/byBossId', { params: { bossId: 1 } })
-      this.tableData = data
-    },
-    // 添加商品
-    async postcoommo () {
-      await this.$http.post('http://192.168.1.104:9095/product/addproduct', {
-        params: this.addForm
+      api.getProductList(1).then((res) => {
+        this.tableData = res.data.data
       })
-      this.addForm.bossId = ''
-      this.addForm.brandId = ''
-      this.addForm.hfName = ''
-      this.addForm.id = parseInt(this.addForm.id) + 1
-      this.addForm.lastModifier = ''
-      this.addForm.productDesc = ''
-      this.addForm.requestId = ''
+        .catch(function (err) {
+          console.log(err)
+        })
     },
     // 添加商品
-    addSubmit: function () {
-      this.$refs.addForm.validate(valid => {
+    // async postcoommo () {
+    //   this.$refs.addForm.validate(valid => {
+    //     console.log(valid)
+    //     if (valid) {
+    //       this.$confirm('确认提交吗？', '提示', {}).then(() => {
+    //         console.log(this.addForm)
+    //         // 拷贝
+    //         let param = Object.assign({}, this.addForm)
+    //         api.addProduct(param).then(res => {
+    //           console.log('ssss', res)
+    //           this.addLoading = false
+    //           this.listProduct()
+    //           this.$message({
+    //             message: '提交成功',
+    //             type: 'success'
+    //           })
+    //           this.addForm.bossId = ''
+    //           this.addForm.brandId = ''
+    //           this.addForm.hfName = ''
+    //           this.addForm.id = parseInt(this.addForm.id) + 1
+    //           this.addForm.lastModifier = ''
+    //           this.addForm.productDesc = ''
+    //           this.addForm.requestId = ''
+    //         })
+    //       })
+    //     }
+    //   })
+    // },
+    // 获取类目
+    async getcategory () {
+      api.category().then((res) => {
+        console.log(res)
+        this.leiMu = res.data.data
+        this.leimu.levelId = res.data.length
+      })
+        .catch(function (err) {
+          console.log(err)
+        })
+    },
+    // 添加类目
+    addleimu: function () {
+      var _this = this
+      _this.$refs.leimuForm.validate(valid => {
         if (valid) {
-          this.$confirm('确认提交吗？', '提示', {}).then(() => {
-            this.time()
-            // this.postcoommo()
-            this.addLoading = false
-            this.$message({
-              message: '提交成功',
-              type: 'success'
+          _this.$confirm('确认提交吗？', '提示', {}).then(() => {
+            _this.addLoading = true
+            let param = Object.assign({}, _this.leimu)
+            console.log(param)
+            _this.$ajax({
+              method: 'post',
+              url: '/api/product/addCategory',
+              params: param
+            }).then(res => {
+              _this.mu = false
+              _this.addLoading = false
+              console.log('添加类目', res)
+              _this.$message({
+                message: '提交成功',
+                type: 'success'
+              })
+
+              _this.$refs['leimuForm'].resetFields()
+
+              // this.getResult(1);
             })
-            this.addFormVisible = false
           })
         }
       })
     },
-    // 获取类目
-    async getcategory () {
-      const {
-        data: { data }
-      } = await this.$http.get('http://192.168.1.104:9095/product/category')
-      this.leiMu = data
-      this.leimu.levelId = data.length
-    },
-    // 添加类目一级分类
-    addleimu: function () {
-      var params = {
-        requestId: this.addForm.requestId,
-        timestamp: this.addForm.timestamp
-      }
-      this.$refs.leimuForm.validate(valid => {
+    // 添加类目二级
+    addleimu1: function () {
+      console.log(13232)
+      var _this = this
+      _this.$refs.leimuForm1.validate(valid => {
         if (valid) {
-          this.$confirm('确认提交吗？', '提示', {}).then(async () => {
-            await this.$http.post(
-              'http://192.168.1.104:9095/product/category',
-              { params: params, ...this.leimu }
-            ).then(function (res) {
-              console.log(res)
-            })
-              .catch(function (err) {
-                console.log(err)
+          _this.$confirm('确认提交吗？', '提示', {}).then(() => {
+            _this.addLoading = true
+            let param = Object.assign({}, _this.leimu1)
+            console.log(param)
+            _this.$ajax({
+              method: 'post',
+              url: '/api/product/addCategory',
+              params: param
+            }).then(res => {
+              _this.mu = false
+              _this.addLoading = false
+              console.log('添加类目', res)
+              _this.$message({
+                message: '提交成功',
+                type: 'success'
               })
-            this.addLoading = false
-            this.$message({
-              message: '提交成功',
-              type: 'success'
+
+              _this.$refs['leimuForm'].resetFields()
+
+              // this.getResult(1);
             })
+          })
+        }
+      })
+    },
+    // 添加类目三级
+    addleimu2: function () {
+      console.log(13232)
+      var _this = this
+      _this.$refs.leimuForm1.validate(valid => {
+        if (valid) {
+          _this.$confirm('确认提交吗？', '提示', {}).then(() => {
+            _this.addLoading = true
+            let param = Object.assign({}, _this.leimu3)
+            console.log(param)
+            _this.$ajax({
+              method: 'post',
+              url: '/api/product/addCategory',
+              params: param
+            }).then(res => {
+              _this.mu = false
+              _this.addLoading = false
+              console.log('添加类目', res)
+              _this.$message({
+                message: '提交成功',
+                type: 'success'
+              })
 
-            this.$refs['leimuForm'].resetFields()
+              _this.$refs['leimuForm'].resetFields()
 
-            // this.getResult(1);
+              // this.getResult(1);
+            })
           })
         }
       })
@@ -482,10 +547,7 @@ export default {
     deletesingle: function (index, row) {
       console.log(row)
       this.$confirm('确认提交吗？', '提示', {}).then(async () => {
-        await this.$http.get(
-          'http://192.168.1.104:9095/product/deleteProductId',
-          { params: { productId: row.id } }
-        ).then((res) => {
+        api.deleteGood(row.id).then((res) => {
           console.log(res)
           this.tableData.splice(index, 1)
         })
@@ -567,77 +629,7 @@ export default {
         })
       })
     },
-    // 添加类目二级
-    addleimu1: function () {
-      var _this = this
-      _this.$refs.leimuForm1.validate(valid => {
-        if (valid) {
-          _this.$confirm('确认提交吗？', '提示', {}).then(() => {
-            _this.addLoading = true
-            // let param = Object.assign({}, _this.leimu1)
-            // _this
-            // .$ajax({
-            //   method: 'post',
-            //   url: '/api/product/addCategory',
-            //   params: param
-            // })
-            // .then(res => {
-            //   _this.mu = false
-            //   _this.addLoading = false
-            //   _this.$message({
-            //     message: '提交成功',
-            //     type: 'success'
-            //   })
 
-            //   _this.$refs['leimuForm'].resetFields()
-
-            //   // this.getResult(1);
-            // })
-          })
-        }
-      })
-    },
-    // 添加类目三级
-    addleimu2: function () {
-      var _this = this
-      _this.$refs.leimuForm1.validate(valid => {
-        if (valid) {
-          _this.$confirm('确认提交吗？', '提示', {}).then(() => {
-            _this.addLoading = true
-            // let param = Object.assign({}, _this.leimu3)
-            // _this
-            //   .$ajax({
-            //     method: 'post',
-            //     url: '/api/product/addCategory',
-            //     params: param
-            //   })
-            //   .then(res => {
-            //     _this.mu = false
-            //     _this.addLoading = false
-            //     _this.$message({
-            //       message: '提交成功',
-            //       type: 'success'
-            //     })
-
-            //     _this.$refs['leimuForm'].resetFields()
-
-            //     // this.getResult(1);
-            //   })
-          })
-        }
-      })
-    },
-    changeQuentitySubject: function () {
-      let obj = {}
-      // obj = this.leiMu.find(item => {
-      //   // 这里的selectList就是上面遍历的数据源
-      //   // 筛选出匹配数据
-      //   if (item.hfName === this.addForm.value) {
-      //     return item
-      //   }
-      // })
-      this.addForm.categoryId = obj.id
-    },
     sou: function () {
       // api.search(1, _this.leiMuId, _this.souhfName).then(response => {
       //   console.log(response)
@@ -667,36 +659,17 @@ export default {
         }
       })
     },
-    // 通过类目查询商品列表
-    checkMulist: function () {
+    changeQuentitySubject: function () {
       let obj = {}
-      // obj = this.leiMu.find(item => {
-      //   // 这里的selectList就是上面遍历的数据源
-      //   // 筛选出匹配数据
-      //   if (item.hfName === this.value1) {
-      //     return item
-      //   }
-      // })
-      // leimu1: {
-      //   values1: '',
-      //   parentCategoryId: "-1",
-      //   levelId: '1'
-      // },
-      this.leimu1.parentCategoryId = obj.id
-    },
-    // 选择一级分类
-    checkMulist1: function () {
-      let obj = {}
-      obj = this.leiMu.find(item => {
-        // 这里的selectList就是上面遍历的数据源
+      obj = this.leiMu.find((item) => { // 这里的selectList就是上面遍历的数据源
         // 筛选出匹配数据
-        if (item.hfName === this.values1) {
+        if (item.hfName === this.addForm.value) {
           return item
         }
       })
-
-      this.leimu1.parentCategoryId = obj.id
+      this.addForm.categoryId = obj.id
     },
+
     // 选择一级分类
     checkMulist2: function () {
       let obj = {}
@@ -719,58 +692,59 @@ export default {
         // }
       })
     },
+    // 通过类目查询商品列表
+    checkMulist: function () {
+      let obj = {}
+      obj = this.leiMu.find((item) => {
+        // 这里的selectList就是上面遍历的数据源
+        // 筛选出匹配数据
+        if (item.hfName === this.value1) {
+          return item
+        }
+      })
+      // leimu1: {
+      //   values1: '',
+      //   parentCategoryId: "-1",
+      //   levelId: '1'
+      // },
+      this.leimu1.parentCategoryId = obj.id
+      console.log(this.leiMuId)
+    },
+    // 选择一级分类
+    checkMulist1: function () {
+      let obj = {}
+      obj = this.leiMu.find((item) => {
+        // 这里的selectList就是上面遍历的数据源
+        // 筛选出匹配数据
+        if (item.hfName === this.values1) {
+          return item
+        }
+      })
+
+      this.leimu1.parentCategoryId = obj.id
+      // console.log(this.leiMuId1)
+    },
     // 选择二级分类
     checkMulist3: function () {
       let obj = {}
-      obj = this.lenmdata2.find(item => {
+      obj = this.lenmdata2.find((item) => {
         // 这里的selectList就是上面遍历的数据源
         // 筛选出匹配数据
+        console.log(this.values3)
         if (item.hfName === this.values3) {
           return item
         }
       })
 
       this.leimu3.parentCategoryId = obj.id
+      console.log(this.leimu3.parentCategoryId)
     },
     conver: function (s) {
       return s < 10 ? '0' + s : s
-    },
-    // 获取商品列表
-    listProduct () {
-      api.getProductList(1).then(response => {
-        if (response.status === 200) {
-          if (response.data.status === 200) {
-            this.tableData = response.data.data
-            for (var i = 0; i < this.tableData.length; i++) {
-              let date = new Date(this.tableData[i].createTime)
-              let Str =
-                date.getFullYear() +
-                '-' +
-                (date.getMonth() + 1) +
-                '-' +
-                date.getDate() +
-                ' ' +
-                ((date.getHours() + 8) % 24) +
-                ':' +
-                date.getMinutes() +
-                ':' +
-                date.getSeconds()
-              this.tableData[i].createTime = Str
-              // var date = new Date(this.tableData[i].createTime);
-              // Calendar cal = Calendar.getInstance();
-              // var localeString = date.toLocaleString();
-              // console.log(localeString);
-              // this.tableData[i].createTime=this.tableData[i].createTime.split('T');
-              // this.tableData[i].createTime=this.tableData[i].createTime[0]+''+this.tableData[i].createTime[1];
-            }
-          }
-        }
-      })
     }
 
   },
   mounted () {
-    console.log('-----------------')
   }
 }
 </script>

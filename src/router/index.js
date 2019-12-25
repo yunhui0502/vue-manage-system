@@ -5,7 +5,7 @@ import NotFound from '../views/404/index.vue'
 import Home from '../views/Home/Home.vue'
 import Loogin from '../views/loogin/loogin.vue'
 import Code from '../views/loogin/code.vue'
-import Orderform from '../views/orderform'
+import Orderform from '../views/orderform/quick.vue'
 import Commodity from '../views/commodity'
 import Product from '../views/commodity/product.vue'
 import Detail from '../views/commodity/detail.vue'
@@ -20,6 +20,15 @@ import Tixian from '../views/property/tixian.vue'
 import Verification from '../views/verification'
 import Regiment from '../views/activity/regiment.vue'
 import Seckill from '../views/activity/seckill.vue'
+import Refund from '../views/orderform/refund.vue'
+import Pair from '../views/orderform/pair.vue'
+import Assess from '../views/orderform/assess.vue'
+import Message from '../views/message/index.vue'
+import Xinxione from '../views/information/xinxione.vue'
+import Xinxitwo from '../views/information/xinxitwo.vue'
+import Xinxithere from '../views/information/xinxithere.vue'
+import Xinxifour from '../views/information/xinxifour.vue'
+import Member from '../views/member'
 
 Vue.use(VueRouter)
 
@@ -52,7 +61,17 @@ const routes = [
       { path: '/product', name: 'product', component: Product },
       { path: '/verification', name: 'verification', component: Verification },
       { path: '/regiment', name: 'regiment', component: Regiment },
-      { path: '/seckill', name: 'seckill', component: Seckill }
+      { path: '/seckill', name: 'seckill', component: Seckill },
+      { path: '/refund', name: 'refund', component: Refund },
+      { path: '/pair', name: 'refund', component: Pair },
+      { path: '/assess', name: 'assess', component: Assess },
+      { path: '/detail', name: 'detail', component: Detail },
+      { path: '/message', name: 'message', component: Message },
+      { path: '/xinxione', name: 'xinxione', component: Xinxione },
+      { path: '/xinxitwo', name: 'xinxitwo', component: Xinxitwo },
+      { path: '/xinxithere', name: 'xinxithere', component: Xinxithere },
+      { path: '/xinxifour', name: 'xinxifour', component: Xinxifour },
+      { path: '/member', name: 'member', component: Member }
     ]
   },
   { path: '*', name: '404', component: NotFound }

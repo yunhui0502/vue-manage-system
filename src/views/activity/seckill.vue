@@ -331,7 +331,7 @@ export default {
         this.sangchu.push(this.multipleTable[i].id)
       }
       console.log({ params: this.sangchu })
-      this.$http.get('http://192.168.1.175:9910/kill/deleteMulti', {
+      this.$http.get('/sec/kill/deleteMulti', {
         params: {
           id: this.sangchu
         },
@@ -381,4 +381,5 @@ export default {
   // text-align: right;
   margin: 20px 30px 0 440px;
 }
+
 </style>
