@@ -57,7 +57,7 @@
             <i class="el-icon-user-solid"></i>
             <span slot="title">用户管理</span>
           </el-menu-item>
-          <el-menu-item index="7">
+          <el-menu-item index="/member">
             <i class="iconfont icon-huiyuan"></i>
             <span slot="title">会员设置</span>
           </el-menu-item>

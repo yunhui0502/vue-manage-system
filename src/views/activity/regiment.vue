@@ -5,7 +5,7 @@
       <div slot="header" class="clearfix">
         <span>拼团商品</span>
       </div>
-      <el-form ref="form" :model="groupform" label-width="80px">
+      <el-form style="margin-left: 168px;" ref="form" :model="groupform" label-width="80px">
         <el-form-item label="添加商品">
           <el-input
             style="width:300px"
@@ -117,7 +117,7 @@
           <el-button @click="toggleSelection()">取消选择</el-button>
         </el-col>
         <el-col :span="12" class="row-bg">
-          <el-button @click="shanchu">批量删除</el-button>
+          <el-button @click="shanch">批量删除</el-button>
           <el-button>批量下架</el-button>
         </el-col>
       </el-row>
@@ -161,12 +161,14 @@
 </template>
 
 <script>
+import qs from 'qs'
 export default {
   name: 'aa',
   components: {},
   props: {},
   data () {
     return {
+      shanchu: '',
       value2: '',
       value3: '',
       selection: [],
@@ -274,7 +276,7 @@ export default {
     addGcommodity () {
       let params = this.groupform
       console.log(params)
-      this.$http.post('/foo/group/insert', params, {
+      this.$http.post('http://192.168.1.104:9097/group/insert', params, {
         transformRequest: [function (data) {
           var str = ''
           for (var key in data) {
@@ -293,7 +295,7 @@ export default {
       // console.log(selection)
     },
     async tiang () {
-      await this.$http.post('/foo/group/insert', {
+      await this.$http.post('http://192.168.1.104:9097/group/insert', {
         ...this.tian
       })
     },
@@ -319,18 +321,23 @@ export default {
     // 添加
     async tianjian () {
       for (var i = 0; i < this.multipleTable.length; i++) {
-        this.groupform.goodsId = this.multipleTable[i].goodsId
+        this.groupform.goodsId.push(this.multipleTable[i].goodsId)
         console.log(this.groupform.goodsId)
         this.dialogTableVisible = false
       }
     },
     // 删除
-    async shanchu () {
-      const data = await this.$http.get(
-        'http://192.168.1.175:9911/group/deleteMulti?groupId=3&groupId=5'
-      )
-      console.log(data.data.data)
-      this.shan = data.data.data
+    async shanch () {
+      for (let i = 0; i < this.multipleTable.length; i++) {
+        this.sangchu.push(this.multipleTable[i].id)
+      }
+      this.$http.get('http://192.168.1.175:9911/group/deleteMulti/kill/deleteMulti', {
+        params: {
+          id: this.sangchu
+        },
+        paramsSerializer: params => {
+          return qs.stringify(params, { indices: false })
+        } })
     },
     // 搜索
     async shousuo () {
@@ -366,5 +373,4 @@ export default {
   // text-align: right;
   margin: 20px 30px 0 440px;
 }
-
 </style>

@@ -5,7 +5,7 @@
       <div slot="header" class="clearfix">
         <span>秒杀商品</span>
       </div>
-     <el-form ref="form" :model="groupform" label-width="80px">
+     <el-form style="margin-left: 168px;" ref="form" :model="groupform" label-width="80px">
         <el-form-item label="添加商品">
           <el-input
             style="width:300px"
@@ -62,7 +62,7 @@
           </div>
         </el-dialog>
         <!-- ---------------------------------------------------- -->
-        <el-form-item label="秒杀时间">
+        <el-form-item  label="秒杀时间">
           <el-date-picker
             v-model="groupform.startTime"
             type="datetime"
@@ -81,27 +81,10 @@
           <el-col :span="7">
             <el-input style="width:300px" v-model="groupform.price" placeholder="请输入金额"></el-input>
           </el-col>
-          <el-col class="line" style="text-align:center" :span="3">限制时间</el-col>
-          <el-col :span="11">
-            <el-select v-model="value" placeholder="请选择">
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-col>
         </el-form-item>
         <el-form-item label="商品数量">
           <el-col :span="7">
             <el-input style="width:300px" v-model="groupform.repertory" placeholder="请输入商品数量"></el-input>
-          </el-col>
-          <el-col class="line" style="text-align:center" :span="3">拼团人数</el-col>
-          <el-col :span="11">
-            <el-select v-model="groupform.number" placeholder="请选择">
-              <el-option v-for="item in numbers" :key="item" :label="item" :value="item"></el-option>
-            </el-select>
           </el-col>
         </el-form-item>
         <el-form-item>
@@ -180,7 +163,7 @@ export default {
       },
       groupform: {
         goodsId: '', // 商品id
-        number: '', // 成团人数
+        // number: '', // 成团人数
         price: '', // 团购价格
         repertory: '', // 库存
         startTime: '', // 团购开始时间
@@ -331,7 +314,7 @@ export default {
         this.sangchu.push(this.multipleTable[i].id)
       }
       console.log({ params: this.sangchu })
-      this.$http.get('/sec/kill/deleteMulti', {
+      this.$http.get('http://192.168.1.175:9910/kill/deleteMulti', {
         params: {
           id: this.sangchu
         },
