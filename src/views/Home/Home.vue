@@ -76,7 +76,7 @@
             </template>
             <el-menu-item-group>
               <el-menu-item index="/mingx">交易明细</el-menu-item>
-              <el-menu-item index="/tixian">商家提现</el-menu-item>
+              <!-- <el-menu-item index="/tixian">商家提现</el-menu-item> -->
             </el-menu-item-group>
           </el-submenu>
           <el-menu-item index="/coupon">

@@ -94,7 +94,7 @@
                     ></el-table-column>
                     <el-table-column prop="zip" label="评价时间" width="200" align="center"></el-table-column>
                     <el-table-column prop="zip" label="买家" width="200" align="center"></el-table-column>
-                    <el-table-column fixed="right" label="操作" width="300" align="center">
+                    <el-table-column  label="操作" width="300" align="center">
                         <template slot-scope="scope">
                             <el-button
                                 @click.native.prevent="detail(scope.$index, tableData)"

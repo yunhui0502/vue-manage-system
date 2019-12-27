@@ -9,6 +9,9 @@ function getProductList (Id) {
   }
   return Axios.get('/api/product/byBossId', params)
 }
+function verifier () {
+  return Axios.get('http://192.168.1.125:9901/cancel/selectCancel')
+}
 // 获取类目
 function category () {
   return Axios.get('/api/product/category')
@@ -218,5 +221,6 @@ export default {
   deleteGood: deleteGood,
   addSpec: addSpec,
   checkOrderList: checkOrderList,
-  categoryTwo: categoryTwo
+  categoryTwo: categoryTwo,
+  verifier: verifier
 }

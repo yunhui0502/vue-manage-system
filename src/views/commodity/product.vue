@@ -16,10 +16,8 @@
           <el-form-item label="商品标题" prop="goodsDesc ">
             <el-input style="width:100%" v-model="ruleForm.goodsDesc "></el-input>
           </el-form-item>
-          <el-form-item style="width:100%" label="商品名称" prop="goodName">
+          <el-form-item style="width:100%" label="商品编号" prop="goodName">
             <el-input style="width:40%" v-model="ruleForm.goodName"></el-input>
-            <span style="margin: 22px">核销员</span>
-            <el-input v-model="verifier" style="width:40%"></el-input>
           </el-form-item>
           <el-form-item style="width:100%" label="总库存数" prop="inventory">
             <el-input style="width:40%" v-model="ruleForm.inventory"></el-input>
@@ -27,6 +25,29 @@
             <span style="margin: 10px">商品属性</span>
             <el-input style="width:40%" v-model="ruleForm.brandId"></el-input>
           </el-form-item>
+          <el-form-item label="提货方式" prop="goodsDesc ">
+            <el-radio @change="change" style="margin-left: 50px;" v-model="radiol" label="3">快递</el-radio>
+            <el-radio @change="change" v-model="radiol" label="4">自取</el-radio>
+          </el-form-item>
+          <el-form-item v-if="radiol == 4" label="核销员" prop="region">
+            <el-select v-model="ruleForm.verifier" placeholder="请输入核销员姓名">
+              <el-option
+                v-for="(item, index) in verifier"
+                :key="index"
+                :label="item.realName"
+                :value="item.realName"
+                style="height: 45px;"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+          <!-- <el-form-item label="快递运费" prop="region"> -->
+            <el-form-item v-if="radiol == 3" label="运费模板" prop="region">
+              <el-select v-model="ruleForm.region" placeholder="请选择运费模板">
+                <el-option label="区域一" value="shanghai"></el-option>
+                <el-option label="区域二" value="beijing"></el-option>
+              </el-select>
+            </el-form-item>
+          <!-- </el-form-item> -->
           <el-form-item label="商品类目" prop="categoryId">
             <el-select style="width:33.3%" v-model="ruleForm.categoryId" placeholder="上衣">
               <el-option
@@ -159,20 +180,6 @@
 
     <el-card class="the-card">
       <div slot="header" class="clearfix">
-        <span>运费设置</span>
-      </div>
-      <el-form>
-        <el-form-item label="运费模板" prop="region">
-          <el-select v-model="ruleForm.region" placeholder="拍下减库存">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
-          </el-select>
-        </el-form-item>
-      </el-form>
-    </el-card>
-
-    <el-card class="the-card">
-      <div slot="header" class="clearfix">
         <span>其他信息</span>
       </div>
       <el-form>
@@ -209,12 +216,13 @@ export default {
       // 添加颜色
       AddColor: '',
       // 核销员绑定的值
-      verifier: '',
+      verifier: {},
       // 图片上传控件里的
       dialogImageUrl: '',
       dialogVisible: false,
       // 其他信息
-      radio: 1,
+      radio: 1, // 单选按钮
+      radiol: '3', // 单选按钮运费部分
       // 多选择框 添加规格图片
       checked: true,
       checked2: true,
@@ -240,7 +248,8 @@ export default {
         requestId: '111111111111', // 发起请求的随机数, 用来判断请求是否重复
         timestamp: '', // 当前时间
         token: '11238',
-        userId: '12' // 用户id
+        userId: '12', // 用户id
+        verifier: '' // 核销员
       },
       // 添加图片
       specificationForm: {
@@ -291,8 +300,23 @@ export default {
   created () {
     this.getcategory()
     this.getcoommo()
+    this.verifier1()
   },
   methods: {
+    change (label) {
+      console.log(label)
+    },
+    // 获取核销员
+    async verifier1 () {
+      api
+        .verifier(1)
+        .then(res => {
+          this.verifier = res.data.data.list
+        })
+        .catch(function (err) {
+          console.log(err)
+        })
+    },
     // 获取商品列表
     async getcoommo () {
       api
@@ -352,7 +376,6 @@ export default {
       api
         .category()
         .then(res => {
-          console.log(res)
           this.leiMu = res.data.data
           this.leimu.levelId = res.data.length
         })
@@ -543,5 +566,8 @@ export default {
   .div-botton {
     margin: 4px;
   }
+}
+.active {
+
 }
 </style>

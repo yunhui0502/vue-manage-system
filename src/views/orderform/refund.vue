@@ -112,7 +112,7 @@
                 style="width: 100%;"
                 max-height="100%"
               >
-                <el-table-column fixed prop="ordersId" label="订单号" width="200" align="center"></el-table-column>
+                <el-table-column prop="ordersId" label="订单号" width="200" align="center"></el-table-column>
                 <el-table-column prop="hfDesc" label="商品描述" width="200" align="center"></el-table-column>
                 <el-table-column prop="purchasePrice" label="单价/数量" width="200" align="center"></el-table-column>
                 <el-table-column prop="userName" label="买家/收货人" width="200" align="center"></el-table-column>
@@ -125,7 +125,7 @@
                   align="center"
                   style="color:orangered;"
                 ></el-table-column>
-                <el-table-column fixed="right" label="操作" width="300" align="center">
+                <el-table-column label="操作" width="300" align="center">
                   <template slot-scope="scope">
                     <el-button
                       @click="detail(scope.row)"
@@ -155,7 +155,7 @@
                 style="width: 100%;"
                 max-height="100%"
               >
-                <el-table-column fixed prop="ordersId" label="订单号" width="200" align="center"></el-table-column>
+                <el-table-column prop="ordersId" label="订单号" width="200" align="center"></el-table-column>
                 <el-table-column prop="hfDesc" label="商品描述" width="200" align="center"></el-table-column>
                 <el-table-column prop="purchasePrice" label="单价/数量" width="200" align="center"></el-table-column>
                 <el-table-column prop="userName" label="买家/收货人" width="200" align="center"></el-table-column>
@@ -168,7 +168,7 @@
                   align="center"
                   style="color:orangered;"
                 ></el-table-column>
-                <el-table-column fixed="right" label="操作" width="300" align="center">
+                <el-table-column  label="操作" width="300" align="center">
                   <template slot-scope="scope">
                     <el-button
                       @click="detail(scope.row)"
@@ -188,7 +188,6 @@
                   :page-size="100"
                   layout="prev, pager, next, jumper"
                   :total="1000"
-                  fixed
                 ></el-pagination>
               </div>
             </el-tab-pane>
@@ -201,7 +200,7 @@
                 style="width: 100%;"
                 max-height="100%"
               >
-                <el-table-column fixed prop="ordersId" label="订单号" width="200" align="center"></el-table-column>
+                <el-table-column  prop="ordersId" label="订单号" width="200" align="center"></el-table-column>
                 <el-table-column prop="hfDesc" label="商品描述" width="200" align="center"></el-table-column>
                 <el-table-column prop="purchasePrice" label="单价/数量" width="200" align="center"></el-table-column>
                 <el-table-column prop="userName" label="买家/收货人" width="200" align="center"></el-table-column>
@@ -214,7 +213,7 @@
                   align="center"
                   style="color:orangered;"
                 ></el-table-column>
-                <el-table-column fixed="right" label="操作" width="300" align="center">
+                <el-table-column  label="操作" width="300" align="center">
                   <template slot-scope>
                     <el-button
                       @click="detail()"
@@ -234,7 +233,6 @@
                   :page-size="100"
                   layout="prev, pager, next, jumper"
                   :total="1000"
-                  fixed
                 ></el-pagination>
               </div>
             </el-tab-pane>
@@ -247,7 +245,7 @@
                 style="width: 100%;"
                 max-height="100%"
               >
-                <el-table-column fixed prop="ordersId" label="订单号" width="200" align="center"></el-table-column>
+                <el-table-column prop="ordersId" label="订单号" width="200" align="center"></el-table-column>
                 <el-table-column prop="hfDesc" label="商品描述" width="200" align="center"></el-table-column>
                 <el-table-column prop="purchasePrice" label="单价/数量" width="200" align="center"></el-table-column>
                 <el-table-column prop="userName" label="买家/收货人" width="200" align="center"></el-table-column>
@@ -260,7 +258,7 @@
                   align="center"
                   style="color:orangered;"
                 ></el-table-column>
-                <el-table-column fixed="right" label="操作" width="300" align="center">
+                <el-table-column  label="操作" width="300" align="center">
                   <template slot-scope="scope">
                     <el-button
                       @click="detail(scope.row)"
@@ -285,7 +283,6 @@
                 :page-size="100"
                 layout="prev, pager, next, jumper"
                 :total="1000"
-                fixed
               ></el-pagination>
             </div>
           </el-tabs>
