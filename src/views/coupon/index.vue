@@ -13,8 +13,8 @@
 
   </el-select>
 
-         <div style="width:140px;height: 40px;background: #A6A3FB; text-align: center;line-height:40px;color: #ffffff;margin-left: 1000px;margin-top: -40px;">查询</div>
-         <div style="width:140px;height: 40px;background: #ffffff; text-align: center;line-height:40px;color: #000000;margin-left: 1200px;margin-top: -40px;">重置</div>
+         <div class="an" style="">查询</div>
+         <div class="an1" style="">重置</div>
 
   </div>
 
@@ -27,92 +27,92 @@
       <div style="width:140px;height:50px;background: red;float: right;text-align: center;line-height: 50px;margin-right:50px;color: #ffffff;margin-top: 25px;background: #A6A3FB;" @click="dialogVisible = true">新建优惠券</div><br>
   <div style="width: 100%;height:20%; ;margin-top: 100px;">
     <div style="width:16.6%;height:100%;;float: left;">
-      <img src="../img/15.png" style="width: 85%;height:140px;margin-left:30px;">
+      <img class="imgtong" src="../img/15.png" style="">
       <div style="float: right;margin-right:40px; margin-top: 30px; ">
         <span style="color: #A6A3FB;"> 上架 </span > &nbsp;<span style="color: #FFCE26;"> 修改 </span> &nbsp;<span style="color: #FF318A;"> 删除 </span></div>
     </div>
           <div style="width:16.6%;height:100%;float: left;">
-   <img src="../img/15.png" style="width: 85%;height:140px;margin-left:30px;">
+   <img class="imgtong" src="../img/15.png" style="">
    <div style="float: right;margin-right: 40px; margin-top: 30px; ">
               <span style="color: #A6A3FB;"> 上架 </span > &nbsp;<span style="color: #FFCE26;"> 修改 </span> &nbsp;<span style="color: #FF318A;"> 删除 </span></div>
           </div>
           <div style="width:16.6%;height:100%;float: left;">
-      <img src="../img/15.png" style="width: 85%;height:140px;margin-left:30px;">
+      <img class="imgtong" src="../img/15.png" style="">
       <div style="float: right;margin-right: 40px; margin-top: 30px; ">
               <span style="color: #A6A3FB;"> 上架 </span > &nbsp;<span style="color: #FFCE26;"> 修改 </span> &nbsp;<span style="color: #FF318A;"> 删除 </span></div>
           </div>
           <div style="width:16.6%;height:100%;float: left;">
-            <img src="../img/15.png" style="width: 85%;height:140px;margin-left:30px;">
+            <img class="imgtong" src="../img/15.png" style="">
             <div style="float: right;margin-right: 40px; margin-top: 30px; ">
               <span style="color: #A6A3FB;"> 上架 </span > &nbsp;<span style="color: #FFCE26;"> 修改 </span> &nbsp;<span style="color: #FF318A;"> 删除 </span></div>
           </div>
           <div style="width:16.6%;height:100%;float: left;">
-         <img src="../img/15.png" style="width:85%;height:140px;margin-left:30px;">
+         <img class="imgtong" src="../img/15.png" style="">
             <div style="float: right;margin-right: 40px; margin-top: 30px; ">
               <span style="color: #A6A3FB;"> 上架 </span > &nbsp;<span style="color: #FFCE26;"> 修改 </span> &nbsp;<span style="color: #FF318A;"> 删除 </span></div>
           </div>
           <div style="width:16.6%;height:100%;float: left;">
-            <img src="../img/15.png" style="width: 85%;height:140px;margin-left:30px;">
+            <img class="imgtong" src="../img/15.png" style="">
             <div style="float: right;margin-right: 40px; margin-top: 30px; ">
               <span style="color: #A6A3FB;"> 上架 </span > &nbsp;<span style="color: #FFCE26;"> 修改 </span> &nbsp;<span style="color: #FF318A;"> 删除 </span></div>
           </div>
          <div style="width:16.6%;height:100%;float: left;">
-           <img src="../img/15.png" style="width: 85%;height:140px;margin-left:30px;">
+           <img class="imgtong" src="../img/15.png" style=";">
            <div style="float: right;margin-right: 40px; margin-top: 30px; ">
              <span style="color: #A6A3FB;"> 上架 </span > &nbsp;<span style="color: #FFCE26;"> 修改 </span> &nbsp;<span style="color: #FF318A;"> 删除 </span></div>
          </div>
          <div style="width:16.6%;height:100%;float: left;">
-           <img src="../img/15.png" style="width: 85%;height:140px;margin-left:30px;">
+           <img class="imgtong" src="../img/15.png" style="">
            <div style="float: right;margin-right: 40px; margin-top: 30px; ">
              <span style="color: #A6A3FB;"> 上架 </span > &nbsp;<span style="color: #FFCE26;"> 修改 </span> &nbsp;<span style="color: #FF318A;"> 删除 </span></div>
          </div>
          <div style="width:16.6%;height:100%;float: left;">
-           <img src="../img/15.png" style="width: 85%;height:140px;margin-left:30px;">
+           <img class="imgtong" src="../img/15.png" style="">
            <div style="float: right;margin-right: 40px; margin-top: 30px; ">
              <span style="color: #A6A3FB;"> 上架 </span > &nbsp;<span style="color: #FFCE26;"> 修改 </span> &nbsp;<span style="color: #FF318A;"> 删除 </span></div>
          </div>
          <div style="width:16.6%;height:100%;float: left;">
-           <img src="../img/15.png" style="width: 85%;height:140px;margin-left:30px;">
+           <img class="imgtong" src="../img/15.png" style="">
            <div style="float: right;margin-right: 40px; margin-top: 30px; ">
              <span style="color: #A6A3FB;"> 上架 </span > &nbsp;<span style="color: #FFCE26;"> 修改 </span> &nbsp;<span style="color: #FF318A;"> 删除 </span></div>
          </div>
          <div style="width:16.6%;height:100%;float: left;">
-           <img src="../img/15.png" style="width: 85%;height:140px;margin-left:30px;">
+           <img class="imgtong" src="../img/15.png" style="">
            <div style="float: right;margin-right: 40px; margin-top: 30px; ">
              <span style="color: #A6A3FB;"> 上架 </span > &nbsp;<span style="color: #FFCE26;"> 修改 </span> &nbsp;<span style="color: #FF318A;"> 删除 </span></div>
          </div>
          <div style="width:16.6%;height:100%;float: left;">
-           <img src="../img/15.png" style="width: 85%;height:140px;margin-left:30px;">
+           <img class="imgtong" src="../img/15.png" style="">
            <div style="float: right;margin-right: 40px; margin-top: 30px; ">
              <span style="color: #A6A3FB;"> 上架 </span > &nbsp;<span style="color: #FFCE26;"> 修改 </span> &nbsp;<span style="color: #FF318A;"> 删除 </span></div>
          </div>
          <div style="width:16.6%;height:100%;float: left;">
-           <img src="../img/15.png" style="width: 85%;height:140px;margin-left:30px;">
+           <img class="imgtong" src="../img/15.png" style="">
            <div style="float: right;margin-right: 40px; margin-top: 30px; ">
              <span style="color: #A6A3FB;"> 上架 </span > &nbsp;<span style="color: #FFCE26;"> 修改 </span> &nbsp;<span style="color: #FF318A;"> 删除 </span></div>
          </div>
          <div style="width:16.6%;height:100%;float: left;">
-           <img src="../img/15.png" style="width: 85%;height:140px;margin-left:30px;">
+           <img class="imgtong" src="../img/15.png" style="">
            <div style="float: right;margin-right: 40px; margin-top: 30px; ">
              <span style="color: #A6A3FB;"> 上架 </span > &nbsp;<span style="color: #FFCE26;"> 修改 </span> &nbsp;<span style="color: #FF318A;"> 删除 </span></div>
          </div>
          <div style="width:16.6%;height:100%;float: left;">
-           <img src="../img/15.png" style="width: 85%;height:140px;margin-left:30px;">
+           <img  class="imgtong" src="../img/15.png" style="">
            <div style="float: right;margin-right: 40px; margin-top: 30px; ">
              <span style="color: #A6A3FB;"> 上架 </span > &nbsp;<span style="color: #FFCE26;"> 修改 </span> &nbsp;<span style="color: #FF318A;"> 删除 </span></div>
          </div>
          <div style="width:16.6%;height:100%;float: left;">
-           <img src="../img/15.png" style="width: 85%;height:140px;margin-left:30px;">
+           <img class="imgtong" src="../img/15.png" style="">
            <div style="float: right;margin-right: 40px; margin-top: 30px; ">
              <span style="color: #A6A3FB;"> 上架 </span > &nbsp;<span style="color: #FFCE26;"> 修改 </span> &nbsp;<span style="color: #FF318A;"> 删除 </span></div>
          </div>
          <div style="width:16.6%;height:100%;float: left;">
-           <img src="../img/15.png" style="width: 85%;height:140px;margin-left:30px;">
+           <img class="imgtong" src="../img/15.png" style="">
            <div style="float: right;margin-right: 40px; margin-top: 30px; ">
              <span style="color: #A6A3FB;"> 上架 </span > &nbsp;<span style="color: #FFCE26;"> 修改 </span> &nbsp;<span style="color: #FF318A;"> 删除 </span></div>
          </div>
          <div style="width:16.6%;height:100%;float: left;">
-           <img src="../img/15.png" style="width: 85%;height:140px;margin-left:30px;">
+           <img class="imgtong" src="../img/15.png" style="">
            <div style="float: right;margin-right: 40px; margin-top: 30px; ">
              <span style="color: #A6A3FB;"> 上架 </span > &nbsp;<span style="color: #FFCE26;"> 修改 </span> &nbsp;<span style="color: #FF318A;"> 删除 </span></div>
          </div>
@@ -159,9 +159,10 @@
 
   </div>
 <el-pagination
+class="pagina"
   background
   layout="prev, pager, next"
-  :total="1000" style="margin-top: -300px;float: right;">
+  :total="1000" style="float: right;">
 </el-pagination>
   </div>
 </template>
@@ -208,5 +209,14 @@ export default {
   }
   div{
     cursor: pointer;
+  }
+  .imgtong {
+    width: 85%;height:140px;margin-left:30px;
+  }
+  .an {
+    width:140px;height: 40px;background: #A6A3FB; text-align: center;line-height:40px;color: #ffffff;margin-left: 1000px;margin-top: -40px;
+  }
+  .an1 {
+    width:140px;height: 40px;background: #ffffff; text-align: center;line-height:40px;color: #000000;margin-left: 1200px;margin-top: -40px;
   }
 </style>

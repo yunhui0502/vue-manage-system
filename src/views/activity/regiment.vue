@@ -81,7 +81,7 @@
           <el-col :span="7">
             <el-input style="width:300px" v-model="groupform.price" placeholder="请输入金额"></el-input>
           </el-col>
-          <el-col class="line" style="text-align:center" :span="3">限制时间</el-col>
+          <el-col class="line" style="text-align:center" :span="5">限制时间</el-col>
           <el-col :span="11">
             <el-select v-model="value" placeholder="请选择">
               <el-option
@@ -97,7 +97,7 @@
           <el-col :span="7">
             <el-input style="width:300px" v-model="groupform.repertory" placeholder="请输入商品数量"></el-input>
           </el-col>
-          <el-col class="line" style="text-align:center" :span="3">拼团人数</el-col>
+          <el-col class="line" style="text-align:center" :span="5">拼团人数</el-col>
           <el-col :span="11">
             <el-select v-model="groupform.number" placeholder="请选择">
               <el-option v-for="item in numbers" :key="item" :label="item" :value="item"></el-option>

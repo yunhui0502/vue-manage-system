@@ -327,12 +327,12 @@ ul li {
     font-weight: bold;
 }
 .hb-1-contents {
-    width: 180px;
+    width: 100%;
     margin: 35px 139px 39px 44px;
 }
 .hb-1-contents .hb-1-content li{
     font-size: 14px;
-    width: 180px;
+    width: 100%;
     margin-bottom:5px;
 }
 .hb-1-contents .hb-1-content li:hover {
@@ -344,18 +344,18 @@ ul li {
 }
 /*  左区块2区 */
 .hb-2-2 {
-    width: 417px;
-    height: 251px;
+    width: 100%;
+    height: 260px;
     background: #fff;
     margin-top: 16px;
 }
 .hb-2-contents {
-    width: 318px;
+    width: 100%;
     margin: 49px 55px 58px 44px;
 }
 .hb-2-contents .hb-2-content li {
     font-size: 14px;
-    width: 318px;
+    width: 100%;
     margin-bottom:14px;
 }
 .hb-2-contents .hb-2-content li:hover {
@@ -456,8 +456,8 @@ ul li {
 }
 .header-first-pay {
     width: 100%;
-    height: 70px;
-    margin-top: 31px;
+    height: 100%;
+    margin-top: 20px;
     display: flex;
 }
 .pay-one {
@@ -574,7 +574,7 @@ ul li {
 }
 .header-third-title span {
     display: block;
-    width: 70px;
+    width: 100%;
     line-height:43px;
     font-size: 14px;
     color: #333333;
