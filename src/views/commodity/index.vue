@@ -7,19 +7,16 @@
           <div
             style="display: flex;align-items: center;border-bottom: 1px solid #E5E5E5;font-size: 16px;color: #666666;"
           >
-            <div
-              class="active1 shang"
-              style="margin-left: 22px;text-align: center;font-size:20px;"
-            >全部商品（500）</div>
-            <div class="shang" style="margin-left: 80px;margin-right: 81px;font-size:20px;">出售中（500）</div>
-            <div class="shang" style="font-size:20px;">库存（500）</div>
+            <div class="active1 shang" style="margin-left: 22px;text-align: center;;">全部商品（500）</div>
+            <div class="shang" style="margin-left: 80px;margin-right: 81px;">出售中（500）</div>
+            <div class="shang" style>库存（500）</div>
           </div>
           <div style="padding:25px 0 24px  44px;">
             <el-form-item style="margin-bottom:24px;" label>
               <div style="font-size: 16px;"></div>
             </el-form-item>
             <el-form-item style="margin-bottom:24px;" label=" ">
-              <el style="color:#666666;font-size: 18px;margin-right: 15px;">商品标签</el>
+              <el style="color:#666666; 18px;margin-right: 15px;">商品标签</el>
               <input
                 type="text"
                 style="box-shadow:0px 2px 137px 1px rgba(107,107,107,0.11);
@@ -30,7 +27,7 @@
               <!-- <el-input v-model="souhfName" auto-complete="off" placeholder="请输入商品名称" id="ewdwe"></el-input> -->
             </el-form-item>
             <el-form-item style="margin-bottom:24px;" label=" ">
-              <el style="color:#666666;font-size:20px;margin-right: 15px;">商品ID</el>
+              <el style="color:#666666;margin-right: 15px;">商品ID</el>
               <input
                 type="text"
                 style="box-shadow:0px 2px 137px 1px rgba(107,107,107,0.11);
@@ -49,7 +46,7 @@
                 placeholder="请输入商品名称 ">
             <! <el-input v-model="souhfName" auto-complete="off" placeholder="请输入商品名称" id="ewdwe"></el-input>-->
             <el-form-item style="margin-bottom:24px;" label=" ">
-              <el style="color:#666666;font-size:18px;margin-right: 15px;">店铺分类</el>
+              <el style="color:#666666;margin-right: 15px;">店铺分类</el>
               <input
                 type="text"
                 style="box-shadow:0px 2px 137px 1px rgba(107,107,107,0.11);
@@ -62,7 +59,7 @@
 
             <el-form-item style="margin-bottom:24px;margin-left: 5px;" label>
               <el-form-item style="margin-bottom:50px;" label>
-                <div style="font-size:18px;">商品分类</div>
+                <div style>商品分类</div>
               </el-form-item>
               <el-select
                 v-model="value1"
@@ -85,13 +82,15 @@
                 type="primary"
                 @click="sou"
                 :loading="addLoading"
-                style="background: #A6A3FB;border: none;width: 130px;height:48px;"
+                class="chaxun"
+                style="background: #A6A3FB;border: none;"
               >查询</el-button>
               <el-button
+              class="chaxun"
                 type="primary"
                 @click="sou"
                 :loading="addLoading"
-                style="border:1px solid #EBEDF0;color: #666666; background: #fff;width: 130px;height:48px;"
+                style="border:1px solid #EBEDF0;color: #666666; background: #fff;"
               >重置</el-button>
               <br />
               <el-button style="visibility: hidden;"></el-button>
@@ -173,35 +172,40 @@
     <div style="padding-top: 23px;background: #fff;margin-top: 18px;">
       <div style="margin-bottom:45px;">
         <el-button
+          class="butttj"
           style="color: #fff;outline:none; border-radius:3px;float:right;margin-right: 40px;
-          background: #fff;border:1px solid #EBEDF0;width:140px;height:45px;font-size:20px;color: #666;"
+          background: #fff;border:1px solid #EBEDF0;color: #666;"
           size="mini"
           round
         >批量下架</el-button>
         <el-button
+          class="butttj"
           style="color: #fff;outline:none; border-radius:3px;float:right;margin-right: 12px;
-         background: #fff;border:1px solid #EBEDF0;width: 140px;height:45px;font-size: 20px;color: #666;"
+         background: #fff;border:1px solid #EBEDF0;;color: #666;"
           size="mini"
           round
         >批量上架</el-button>
         <el-button
+          class="butttj"
           style="color: #fff;outline:none; border-radius:3px;float:right;
-          background: #fff;border: none;width: 140px;height:45px;color: #666; font-size:20px;border:1px solid #EBEDF0;"
+          background: #fff;border: none;color: #666;border:1px solid #EBEDF0;"
           @click="deletegood"
           size="mini"
           round
         >批量删除</el-button>
         <el-button
+          class="butttj"
           style="color: #fff;outline:none; border-radius:5px;float:right;
-          background: #fff;border:1px solid #EBEDF0;width: 140px;height: 45px;font-size:20px;color: #666;"
+          background: #fff;border:1px solid #EBEDF0;color: #666;"
           @click="addMu"
           size="mini"
           round
         >批量分类</el-button>
         <router-link to="/product">
           <el-button
+            class="butttj"
             style="color: #fff;outline:none; border-radius:5px;float:right;background: #A6A3FB;
-          border: none;width: 140px;height:45px;font-size: 20px;"
+          border: none;"
             size="mini"
             round
           >+ 添加商品</el-button>
@@ -404,9 +408,11 @@ export default {
   methods: {
     // 获取商品列表
     async getcoommo () {
-      api.getProductList(1).then((res) => {
-        this.tableData = res.data.data
-      })
+      api
+        .getProductList(1)
+        .then(res => {
+          this.tableData = res.data.data
+        })
         .catch(function (err) {
           console.log(err)
         })
@@ -442,11 +448,13 @@ export default {
     // },
     // 获取类目
     async getcategory () {
-      api.category().then((res) => {
-        console.log(res)
-        this.leiMu = res.data.data
-        this.leimu.levelId = res.data.length
-      })
+      api
+        .category()
+        .then(res => {
+          console.log(res)
+          this.leiMu = res.data.data
+          this.leimu.levelId = res.data.length
+        })
         .catch(function (err) {
           console.log(err)
         })
@@ -460,23 +468,25 @@ export default {
             _this.addLoading = true
             let param = Object.assign({}, _this.leimu)
             console.log(param)
-            _this.$ajax({
-              method: 'post',
-              url: '/api/product/addCategory',
-              params: param
-            }).then(res => {
-              _this.mu = false
-              _this.addLoading = false
-              console.log('添加类目', res)
-              _this.$message({
-                message: '提交成功',
-                type: 'success'
+            _this
+              .$ajax({
+                method: 'post',
+                url: '/api/product/addCategory',
+                params: param
               })
+              .then(res => {
+                _this.mu = false
+                _this.addLoading = false
+                console.log('添加类目', res)
+                _this.$message({
+                  message: '提交成功',
+                  type: 'success'
+                })
 
-              _this.$refs['leimuForm'].resetFields()
+                _this.$refs['leimuForm'].resetFields()
 
-              // this.getResult(1);
-            })
+                // this.getResult(1);
+              })
           })
         }
       })
@@ -491,23 +501,25 @@ export default {
             _this.addLoading = true
             let param = Object.assign({}, _this.leimu1)
             console.log(param)
-            _this.$ajax({
-              method: 'post',
-              url: '/api/product/addCategory',
-              params: param
-            }).then(res => {
-              _this.mu = false
-              _this.addLoading = false
-              console.log('添加类目', res)
-              _this.$message({
-                message: '提交成功',
-                type: 'success'
+            _this
+              .$ajax({
+                method: 'post',
+                url: '/api/product/addCategory',
+                params: param
               })
+              .then(res => {
+                _this.mu = false
+                _this.addLoading = false
+                console.log('添加类目', res)
+                _this.$message({
+                  message: '提交成功',
+                  type: 'success'
+                })
 
-              _this.$refs['leimuForm'].resetFields()
+                _this.$refs['leimuForm'].resetFields()
 
-              // this.getResult(1);
-            })
+                // this.getResult(1);
+              })
           })
         }
       })
@@ -522,23 +534,25 @@ export default {
             _this.addLoading = true
             let param = Object.assign({}, _this.leimu3)
             console.log(param)
-            _this.$ajax({
-              method: 'post',
-              url: '/api/product/addCategory',
-              params: param
-            }).then(res => {
-              _this.mu = false
-              _this.addLoading = false
-              console.log('添加类目', res)
-              _this.$message({
-                message: '提交成功',
-                type: 'success'
+            _this
+              .$ajax({
+                method: 'post',
+                url: '/api/product/addCategory',
+                params: param
               })
+              .then(res => {
+                _this.mu = false
+                _this.addLoading = false
+                console.log('添加类目', res)
+                _this.$message({
+                  message: '提交成功',
+                  type: 'success'
+                })
 
-              _this.$refs['leimuForm'].resetFields()
+                _this.$refs['leimuForm'].resetFields()
 
-              // this.getResult(1);
-            })
+                // this.getResult(1);
+              })
           })
         }
       })
@@ -547,11 +561,13 @@ export default {
     deletesingle: function (index, row) {
       console.log(row)
       this.$confirm('确认提交吗？', '提示', {}).then(async () => {
-        api.deleteGood(row.id).then((res) => {
-          console.log(res)
-          this.tableData.splice(index, 1)
-        })
-          .catch((err) => {
+        api
+          .deleteGood(row.id)
+          .then(res => {
+            console.log(res)
+            this.tableData.splice(index, 1)
+          })
+          .catch(err => {
             console.log(err)
           })
       })
@@ -661,7 +677,8 @@ export default {
     },
     changeQuentitySubject: function () {
       let obj = {}
-      obj = this.leiMu.find((item) => { // 这里的selectList就是上面遍历的数据源
+      obj = this.leiMu.find(item => {
+        // 这里的selectList就是上面遍历的数据源
         // 筛选出匹配数据
         if (item.hfName === this.addForm.value) {
           return item
@@ -695,7 +712,7 @@ export default {
     // 通过类目查询商品列表
     checkMulist: function () {
       let obj = {}
-      obj = this.leiMu.find((item) => {
+      obj = this.leiMu.find(item => {
         // 这里的selectList就是上面遍历的数据源
         // 筛选出匹配数据
         if (item.hfName === this.value1) {
@@ -713,7 +730,7 @@ export default {
     // 选择一级分类
     checkMulist1: function () {
       let obj = {}
-      obj = this.leiMu.find((item) => {
+      obj = this.leiMu.find(item => {
         // 这里的selectList就是上面遍历的数据源
         // 筛选出匹配数据
         if (item.hfName === this.values1) {
@@ -727,7 +744,7 @@ export default {
     // 选择二级分类
     checkMulist3: function () {
       let obj = {}
-      obj = this.lenmdata2.find((item) => {
+      obj = this.lenmdata2.find(item => {
         // 这里的selectList就是上面遍历的数据源
         // 筛选出匹配数据
         console.log(this.values3)
@@ -742,10 +759,8 @@ export default {
     conver: function (s) {
       return s < 10 ? '0' + s : s
     }
-
   },
-  mounted () {
-  }
+  mounted () {}
 }
 </script>
 
@@ -763,6 +778,15 @@ export default {
   padding: 14px 2px;
 }
 
+.el {
+  font-size: 20px;
+  color: #666666;
+}
+
+div {
+  font-size: 16px;
+}
+
 /* #ewdwe:focus-within{
           outline:1px solid #A3A0FB;
       } */
@@ -777,5 +801,14 @@ input::-moz-input-placeholder {
 input::-ms-input-placeholder {
   color: #d5d5d5;
   font-size: 12px;
+}
+.butttj {
+  width: 140px;
+  height: 45px;
+  font-size: 20px;
+}
+.chaxun {
+  width: 130px;
+  height: 48px;
 }
 </style>

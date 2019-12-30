@@ -5,10 +5,12 @@
         <span style="margin-left: 40px;">商家地址库</span>
       </div>
       <div
-        style="float:right;width: 150px;height: 50px ;text-align: center;line-height: 50px;border-radius:10px;margin-top: 30px;color: #000000;border: 1px solid #cccccc;"
+        class="butt"
+        style="text-align: center;line-height: 50px;border-radius:10px;margin-top: 30px;color: #000000;border: 1px solid #cccccc;"
       >批量管理</div>
       <div
-        style="float:right;width: 150px;height: 50px;background:#A6A3FB;text-align: center;line-height: 50px;border-radius:10px;margin-top: 30px;margin-right: 20px;color: #ffffff;"
+       class="butt"
+        style="background:#A6A3FB;text-align: center;line-height: 50px;border-radius:10px;margin-top: 30px;margin-right: 20px;color: #ffffff;"
       >新建标签</div>
 
       <el-table :data="tableData" border style="width: 100%">
@@ -25,15 +27,15 @@
           </template>
         </el-table-column>
       </el-table>
-        <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page.sync="currentPage3"
-          :page-size="100"
-          layout="prev, pager, next, jumper"
-          :total="1000"
-          style="float: right;margin-right:200px;margin-top: 20px;"
-        ></el-pagination>
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page.sync="currentPage3"
+        :page-size="100"
+        layout="prev, pager, next, jumper"
+        :total="1000"
+        style="float: right;margin-right:200px;margin-top: 20px;"
+      ></el-pagination>
     </div>
 
     <div style="width: 100%;height: 600px;background: #ffffff;">
@@ -80,7 +82,6 @@
           style="float: left;margin-top:50px;font-size: 16px;margin-left: -90px;"
         >资金结算至店铺余额，结算时扣除0.0%交易手续费（微信收取）。（仅支持境内使用，支付宝内无法使用微信支付）</div>
       </div>
-
     </div>
   </div>
 </template>
@@ -159,5 +160,10 @@ body {
   width: 100%;
   height: 100%;
   background: #cccccc;
+}
+.butt {
+  float: right;
+  width: 150px;
+  height: 80px;
 }
 </style>
