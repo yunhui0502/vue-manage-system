@@ -14,7 +14,7 @@
       end-placeholder="结束日期">
     </el-date-picker>
 
-    <div style="float: right;width: 140px;height: 50px;border:1px solid #cccccc;text-align: center;line-height: 50px;color: #ffffff;border-radius: 5px;color:black;margin-right:100px;">重置</div>
+    <div class="" style="float: right;width: 140px;height: 50px;border:1px solid #cccccc;text-align: center;line-height: 50px;color: #ffffff;border-radius: 5px;color:black;margin-right:100px;">重置</div>
     <div style="float: right;width: 140px;height: 50px;background:#A6A3FB;text-align: center;line-height: 50px;color: #ffffff;border-radius: 5px;margin-right:100px;">查询</div>
 
    </div>

@@ -87,10 +87,7 @@
             ></el-option>
           </el-select>
           <div class="dis" @click="shaixuan()">筛选</div>
-          <div
-            style="width: 118px;height:36px;background: #ffffff;text-align: center;line-height:36px;margin-top: -36px;color:#A3A0FB;border-radius: 5px;cursor: pointer;margin-left:262px;border: 1px solid #A3A0FB;"
-            @click="elxs()"
-          >导出</div>
+          <div class="disdaoc" @click="elxs()">导出</div>
           <div style="margin-top: -30px;color: #A3A0FB;margin-left:420px;" @click="reset()">重置筛选条件</div>
         </div>
       </div>
@@ -146,20 +143,20 @@
                   </template>
                 </el-table-column>
               </el-table>
-                       <div
-              class="block"
-              style="float: right;margin-right:35px;margin-top:29px;
+              <div
+                class="block"
+                style="float: right;margin-right:35px;margin-top:29px;
                                               margin-bottom:29px"
-            >
-              <el-pagination
-                style="bottom: 0;"
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :page-size="100"
-                layout="prev, pager, next, jumper"
-                :total="1000"
-              ></el-pagination>
-            </div>
+              >
+                <el-pagination
+                  style="bottom: 0;"
+                  @size-change="handleSizeChange"
+                  @current-change="handleCurrentChange"
+                  :page-size="100"
+                  layout="prev, pager, next, jumper"
+                  :total="1000"
+                ></el-pagination>
+              </div>
             </el-tab-pane>
             <el-tab-pane label="订金待付" name="second">
               <el-table
@@ -1053,65 +1050,49 @@ export default {
     // },
     // --------------------------------------------------------------------------------------
     async zhuangtai () {
-      const data = await this.$http.get(
-        '/qui/order/query'
-      )
+      const data = await this.$http.get('/qui/order/query')
       console.log(data.data.data)
       this.cerit = data.data.data
     },
     // 待发货
     async status () {
-      const data = await this.$http.get(
-        '/qui/order/queryOrder'
-      )
+      const data = await this.$http.get('/qui/order/queryOrder')
       console.log(data.data.data)
       this.sta = data.data.data
     },
     // 定金待付
     async money () {
-      const data = await this.$http.get(
-        '/qui/order/queryOrder'
-      )
+      const data = await this.$http.get('/qui/order/queryOrder')
       console.log(data.data.data)
       this.mon = data.data.data
     },
     // 已发货
     async shipped () {
-      const data = await this.$http.get(
-        '/qui/order/queryOrder'
-      )
+      const data = await this.$http.get('/qui/order/queryOrder')
       console.log(data.data.data)
       this.ship = data.data.data
     },
     // 待评价
     async evaluate () {
-      const data = await this.$http.get(
-        '/qui/order/queryOrder'
-      )
+      const data = await this.$http.get('/qui/order/queryOrder')
       console.log(data.data.data)
       this.eva = data.data.data
     },
     // 已完成
     async done () {
-      const data = await this.$http.get(
-        '/qui/order/queryOrder'
-      )
+      const data = await this.$http.get('/qui/order/queryOrder')
       console.log(data.data.data)
       this.don = data.data.data
     },
     // 退款中
     async refund () {
-      const data = await this.$http.get(
-        '/qui/order/queryOrder'
-      )
+      const data = await this.$http.get('/qui/order/queryOrder')
       console.log(data.data.data)
       this.ref = data.data.data
     },
     // 二次申退
     async second () {
-      const data = await this.$http.get(
-        '/qui/order/queryOrder'
-      )
+      const data = await this.$http.get('/qui/order/queryOrder')
       console.log(data.data.data)
       this.sec = data.data.data
     },
@@ -1214,6 +1195,19 @@ export default {
   color: #ffffff;
   border-radius: 5px;
   margin-left: 104px;
+}
+.disdaoc {
+  width: 118px;
+  height: 36px;
+  background: #ffffff;
+  text-align: center;
+  line-height: 36px;
+  margin-top: -36px;
+  color: #a3a0fb;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 262px;
+  border: 1px solid #a3a0fb;
 }
 
 div {

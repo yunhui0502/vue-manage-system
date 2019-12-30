@@ -1,5 +1,5 @@
 <template>
-<!-- 退款维权 -->
+  <!-- 退款维权 -->
   <div style="width:100%;height:100%">
     <div class="div" style="  height: 410px;">
       <div class="header">
@@ -88,10 +88,7 @@
             ></el-option>
           </el-select>
           <div class="dis" @click="shaixuan()">筛选</div>
-          <div
-            style="width: 118px;height: 36px;background: #ffffff;text-align: center;line-height:36px;margin-top: -36px;color:#A3A0FB;border-radius: 5px;cursor: pointer;margin-left:262px;border: 1px solid #A3A0FB;"
-            @click="elxs()"
-          >导出</div>
+          <div class="disdaoc" @click="elxs()">导出</div>
           <div style="margin-top: -30px;color: #A3A0FB;margin-left:420px;" @click="reset()">重置筛选条件</div>
           <!-- <div style="margin-left:650px;margin-top: -35px;"><el-button type="primary" @click="xiugai()">修改订单</el-button></div> -->
         </div>
@@ -168,7 +165,7 @@
                   align="center"
                   style="color:orangered;"
                 ></el-table-column>
-                <el-table-column  label="操作" width="300" align="center">
+                <el-table-column label="操作" width="300" align="center">
                   <template slot-scope="scope">
                     <el-button
                       @click="detail(scope.row)"
@@ -200,7 +197,7 @@
                 style="width: 100%;"
                 max-height="100%"
               >
-                <el-table-column  prop="ordersId" label="订单号" width="200" align="center"></el-table-column>
+                <el-table-column prop="ordersId" label="订单号" width="200" align="center"></el-table-column>
                 <el-table-column prop="hfDesc" label="商品描述" width="200" align="center"></el-table-column>
                 <el-table-column prop="purchasePrice" label="单价/数量" width="200" align="center"></el-table-column>
                 <el-table-column prop="userName" label="买家/收货人" width="200" align="center"></el-table-column>
@@ -213,7 +210,7 @@
                   align="center"
                   style="color:orangered;"
                 ></el-table-column>
-                <el-table-column  label="操作" width="300" align="center">
+                <el-table-column label="操作" width="300" align="center">
                   <template slot-scope>
                     <el-button
                       @click="detail()"
@@ -258,7 +255,7 @@
                   align="center"
                   style="color:orangered;"
                 ></el-table-column>
-                <el-table-column  label="操作" width="300" align="center">
+                <el-table-column label="操作" width="300" align="center">
                   <template slot-scope="scope">
                     <el-button
                       @click="detail(scope.row)"
@@ -700,22 +697,30 @@ export default {
   methods: {
     // 查询---------------------------------------------------------------------------------
     async zhuangtai () {
-      const data = await this.$http.get('http://192.168.1.104:9097/order/query')
+      const data = await this.$http.get(
+        'http://192.168.1.104:9097/order/query'
+      )
       console.log(data.data.data)
       this.cerit = data.data.data
     },
     async pending () {
-      const data = await this.$http.get('http://192.168.1.104:9097/order/query')
+      const data = await this.$http.get(
+        'http://192.168.1.104:9097/order/query'
+      )
       console.log(data.data.data)
       this.pen = data.data.data
     },
     async dispose () {
-      const data = await this.$http.get('http://192.168.1.104:9097/order/query')
+      const data = await this.$http.get(
+        'http://192.168.1.104:9097/order/query'
+      )
       console.log(data.data.data)
       this.dis = data.data.data
     },
     async service () {
-      const data = await this.$http.get('http://192.168.1.104:9097/order/query')
+      const data = await this.$http.get(
+        'http://192.168.1.104:9097/order/query'
+      )
       console.log(data.data.data)
       this.ser = data.data.data
     },
@@ -890,7 +895,19 @@ export default {
   border-radius: 5px;
   margin-left: 104px;
 }
-
+.disdaoc {
+  width: 118px;
+  height: 36px;
+  background: #ffffff;
+  text-align: center;
+  line-height: 36px;
+  margin-top: -36px;
+  color: #a3a0fb;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 262px;
+  border: 1px solid #a3a0fb;
+}
 div {
   cursor: pointer;
 }
