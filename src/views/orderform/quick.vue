@@ -1054,7 +1054,7 @@ export default {
     // --------------------------------------------------------------------------------------
     async zhuangtai () {
       const data = await this.$http.get(
-        'http://192.168.1.104:9097/order/query'
+        '/qui/order/query'
       )
       console.log(data.data.data)
       this.cerit = data.data.data
@@ -1062,7 +1062,7 @@ export default {
     // 待发货
     async status () {
       const data = await this.$http.get(
-        'http://192.168.1.104:9097/order/queryOrder'
+        '/qui/order/queryOrder'
       )
       console.log(data.data.data)
       this.sta = data.data.data
@@ -1070,7 +1070,7 @@ export default {
     // 定金待付
     async money () {
       const data = await this.$http.get(
-        'http://192.168.1.104:9097/order/queryOrder'
+        '/qui/order/queryOrder'
       )
       console.log(data.data.data)
       this.mon = data.data.data
@@ -1078,7 +1078,7 @@ export default {
     // 已发货
     async shipped () {
       const data = await this.$http.get(
-        'http://192.168.1.104:9097/order/queryOrder'
+        '/qui/order/queryOrder'
       )
       console.log(data.data.data)
       this.ship = data.data.data
@@ -1086,7 +1086,7 @@ export default {
     // 待评价
     async evaluate () {
       const data = await this.$http.get(
-        'http://192.168.1.104:9097/order/queryOrder'
+        '/qui/order/queryOrder'
       )
       console.log(data.data.data)
       this.eva = data.data.data
@@ -1094,7 +1094,7 @@ export default {
     // 已完成
     async done () {
       const data = await this.$http.get(
-        'http://192.168.1.104:9097/order/queryOrder'
+        '/qui/order/queryOrder'
       )
       console.log(data.data.data)
       this.don = data.data.data
@@ -1102,7 +1102,7 @@ export default {
     // 退款中
     async refund () {
       const data = await this.$http.get(
-        'http://192.168.1.104:9097/order/queryOrder'
+        '/qui/order/queryOrder'
       )
       console.log(data.data.data)
       this.ref = data.data.data
@@ -1110,7 +1110,7 @@ export default {
     // 二次申退
     async second () {
       const data = await this.$http.get(
-        'http://192.168.1.104:9097/order/queryOrder'
+        '/qui/order/queryOrder'
       )
       console.log(data.data.data)
       this.sec = data.data.data

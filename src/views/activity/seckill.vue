@@ -258,7 +258,7 @@ export default {
     addGcommodity () {
       let params = this.groupform
       console.log(params)
-      this.$http.post('http://192.168.1.175:9910/kill/insert', params, {
+      this.$http.post('/jietu/kill/insert', params, {
         transformRequest: [function (data) {
           var str = ''
           for (var key in data) {
@@ -277,7 +277,7 @@ export default {
       // console.log(selection)
     },
     async tiang () {
-      await this.$http.post('http://192.168.1.175:9911/group/insert', {
+      await this.$http.post('/jietu/group/insert', {
         ...this.tian
       })
     },
@@ -314,7 +314,7 @@ export default {
         this.sangchu.push(this.multipleTable[i].id)
       }
       console.log({ params: this.sangchu })
-      this.$http.get('http://192.168.1.175:9910/kill/deleteMulti', {
+      this.$http.get('/jietu/kill/deleteMulti', {
         params: {
           id: this.sangchu
         },
@@ -333,14 +333,14 @@ export default {
     // 搜索
     async shousuo () {
       const data = await this.$http.get(
-        `http://192.168.1.175:9910/kill/seek?goodsId=${this.form1.goodsId}`
+        `/jietu/kill/seek?goodsId=${this.form1.goodsId}`
       )
       console.log(data.data.data)
     },
     // 获取全都团购商品
     async pplp () {
       const data = await this.$http.get(
-        'http://192.168.1.175:9910/kill/select'
+        '/jietu/kill/select'
       )
       // console.log(data.data)
       this.ppl = data.data
