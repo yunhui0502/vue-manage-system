@@ -216,7 +216,7 @@ export default {
     },
     async print () {
       const data = await this.$http.get(
-        'http://192.168.1.104:9097/order/print?id=1'
+        '/qui/order/print?id=1'
       )
       console.log(data.data.data)
       this.pri = data.data.data

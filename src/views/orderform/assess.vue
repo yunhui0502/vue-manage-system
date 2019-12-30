@@ -200,12 +200,12 @@ export default {
     // ------------------------------------------------------------------
 
     async manage () {
-      const data = await this.$http.get('http://192.168.1.104:8082/order/print')
+      const data = await this.$http.get('/log/order/print')
       console.log(data.data.data)
       this.man = data.data.data
     },
     async send () {
-      const data = await this.$http.get('http://192.168.1.104:8082/order/query')
+      const data = await this.$http.get('/log/order/query')
       console.log(data.data.data)
       this.sen = data.data.data
     },

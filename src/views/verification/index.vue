@@ -199,7 +199,7 @@ export default {
     async save () {
       this.compile()
       await this.$http.get(
-        'http://192.168.1.125:9901/cancel/updateCancel', { params: this.seeform }
+        '/ver/cancel/updateCancel', { params: this.seeform }
       ).then(function (res) {
         // handle success
         // console.log(this.seeform)
@@ -213,7 +213,7 @@ export default {
     },
     async seek () {
       const data = await this.$http.get(
-        'http://192.168.1.125:9901/cancel/selectCancel'
+        '/ver/cancel/selectCancel'
       )
       // console.log(data.data.data)
       this.see = data.data.data
@@ -230,7 +230,7 @@ export default {
     },
     async record () {
       const data = await this.$http.get(
-        'http://192.168.1.125:9901/cancel/selectCancelId'
+        '/ver/cancel/selectCancelId'
       )
       console.log(data.data.data)
       this.rec = data.data.data
@@ -244,14 +244,14 @@ export default {
     // },
     async area () {
       const data = await this.$http.get(
-        'http://192.168.1.125:9901/cancel/selectRegion'
+        '/ver/cancel/selectRegion'
       )
       console.log(data.data.data)
       this.are = data.data.data
     },
     async time () {
       const data = await this.$http.get(
-        'http://192.168.1.125:9901/cancel/selectDate'
+        '/ver/cancel/selectDate'
       )
 
       console.log(data.data.data)
@@ -259,7 +259,7 @@ export default {
     },
     async ppl () {
       const data = await this.$http.get(
-        'http://192.168.1.125:9901/test/login'
+        '/ver/test/login'
       )
 
       console.log(data.data.data)
@@ -267,7 +267,7 @@ export default {
     },
     async tianjia () {
       const data = await this.$http.get(
-        'http://192.168.1.125:9901/updateCancelUser'
+        '/ver/updateCancelUser'
       )
 
       console.log(data.data)
@@ -275,7 +275,7 @@ export default {
     },
     async shanchu () {
       const data = await this.$http.get(
-        'http://192.168.1.125:9901/cancel/deleteCancel'
+        '/ver/cancel/deleteCancel'
       )
 
       console.log(data.data.data)

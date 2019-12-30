@@ -142,7 +142,7 @@
         <el-table-column prop="address" label="操作" show-overflow-tooltip>
           <el-button type="primary" size="mini">编辑</el-button>
           <el-button type="warning" size="mini">下架</el-button>
-          <el-button type="danger" size="mini">删除</el-button>
+          <!-- <el-button type="danger" size="mini">删除</el-button> -->
         </el-table-column>
       </el-table>
       <div class="block row-bg">
@@ -168,7 +168,7 @@ export default {
   props: {},
   data () {
     return {
-      shanchu: '',
+      shanchu: [],
       value2: '',
       value3: '',
       selection: [],
@@ -276,14 +276,20 @@ export default {
     addGcommodity () {
       let params = this.groupform
       console.log(params)
-      this.$http.post('http://192.168.1.104:9097/group/insert', params, {
-        transformRequest: [function (data) {
-          var str = ''
-          for (var key in data) {
-            str += encodeURIComponent(key) + '=' + encodeURIComponent(data[key]) + '&'
+      this.$http.post('/foo/group/insert', params, {
+        transformRequest: [
+          function (data) {
+            var str = ''
+            for (var key in data) {
+              str +=
+                encodeURIComponent(key) +
+                '=' +
+                encodeURIComponent(data[key]) +
+                '&'
+            }
+            return str
           }
-          return str
-        }]
+        ]
       })
     },
     handleSelectionChange (val) {
@@ -293,11 +299,6 @@ export default {
     },
     dianji (selection) {
       // console.log(selection)
-    },
-    async tiang () {
-      await this.$http.post('http://192.168.1.104:9097/group/insert', {
-        ...this.tian
-      })
     },
     toggleSelection (rows) {
       if (rows) {
@@ -329,28 +330,34 @@ export default {
     // 删除
     async shanch () {
       for (let i = 0; i < this.multipleTable.length; i++) {
-        this.sangchu.push(this.multipleTable[i].id)
+        this.shanchu.push(this.multipleTable[i].id)
       }
-      this.$http.get('http://192.168.1.175:9911/group/deleteMulti/kill/deleteMulti', {
-        params: {
-          id: this.sangchu
-        },
-        paramsSerializer: params => {
-          return qs.stringify(params, { indices: false })
-        } })
+      this.$http
+        .get('/foo/group/deleteMulti', {
+          params: {
+            id: this.shanchu
+          },
+          paramsSerializer: params => {
+            return qs.stringify(params, { indices: false })
+          }
+        })
+        .then(function (response) {
+          this.pplp()
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
     },
     // 搜索
     async shousuo () {
       const data = await this.$http.get(
-        `http://192.168.1.175:9911/group/selectId?goodsId=${this.form1.goodsId}`
+        `/foo/group/selectId?goodsId=${this.form1.goodsId}`
       )
       console.log(data.data.data)
     },
     // 获取全都团购商品
     async pplp () {
-      const data = await this.$http.get(
-        'http://192.168.1.175:9911/group/selete'
-      )
+      const data = await this.$http.get('/foo/group/selete')
       // console.log(data.data)
       this.ppl = data.data
     }

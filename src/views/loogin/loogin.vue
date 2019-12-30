@@ -97,7 +97,7 @@ export default {
         if (valid) {
           try {
             // eslint-disable-next-line no-unused-vars
-            await this.$http.get(`http://192.168.1.104:8082/user/login?authKey=${this.loginForm.authKey}&authType=${this.loginForm.authType}&passwd=${this.loginForm.passwd}`)
+            await this.$http.get(`/log/user/login?authKey=${this.loginForm.authKey}&authType=${this.loginForm.authType}&passwd=${this.loginForm.passwd}`)
             this.$router.push('/')
           } catch (e) {
             // 进行错误提示即可
@@ -115,7 +115,7 @@ export default {
           console.log(valid)
           try {
             // eslint-disable-next-line no-unused-vars
-            await this.$http.get('http://192.168.1.104:8082/user/code?phone=' + this.loginForm.phone)
+            await this.$http.get('/log/user/code?phone=' + this.loginForm.phone)
             // this.$router.push('/')
           } catch (e) {
             // 进行错误提示即可
