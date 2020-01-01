@@ -25,12 +25,12 @@
         <span style="margin-left: 10px;"></span>
         <el-input v-model="input" placeholder="请输入内容" style="width: 15%;margin-left:20px;"></el-input>
         <span style="margin-left: 10px;">至</span>
-        <el-input v-model="input" placeholder="请输入内容" style="width: 15%;margin-left:20px;"></el-input>
+        <el-input v-model="input2" placeholder="请输入内容" style="width: 15%;margin-left:20px;"></el-input>
       </div>
       <div class="block3">
         <div>
           关键词
-          <el-input v-model="input" placeholder="请输入退款编号" style="width:20%;margin-left: 120px;"></el-input>
+          <el-input v-model="input1" placeholder="请输入退款编号" style="width:20%;margin-left: 120px;"></el-input>
           <span style="margin-left: 10px;">客户身份</span>
           <el-select v-model="value" placeholder="请选择" style="margin-left: 20px;">
             <el-option
@@ -41,7 +41,7 @@
             ></el-option>
           </el-select>
           <span style="margin-left: 10px;">性别</span>
-          <el-select v-model="value" placeholder="请选择" style="margin-left: 20px;">
+          <el-select v-model="xingbie" placeholder="请选择" style="margin-left: 20px;">
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -53,13 +53,13 @@
 
         <div style="margin-top: 20px;">
           购买次数
-          <el-input class="input1" v-model="input" placeholder="请输入内容"></el-input>
+          <el-input class="input1" v-model="form.input" placeholder="请输入内容"></el-input>
           <span style="margin-left: 10px;">至</span>
-          <el-input class="input2" v-model="input" placeholder="请输入内容"></el-input>
+          <el-input class="input2" v-model="form.input1" placeholder="请输入内容"></el-input>
           <span style="margin-left: 10px;">单价</span>
-          <el-input class="input2" v-model="input" placeholder="请输入内容"></el-input>
+          <el-input class="input2" v-model="form.input2" placeholder="请输入内容"></el-input>
           <span style="margin-left: 10px;">至</span>
-          <el-input class="input2" v-model="input" placeholder="请输入内容"></el-input>
+          <el-input class="input2" v-model="form.input3" placeholder="请输入内容"></el-input>
         </div>
       </div>
 
@@ -167,7 +167,7 @@
           </el-radio-group>
           <div style="float: right;margin-top: -35px;margin-right:215px;">
             标签
-            <el-select v-model="value" placeholder="请选择" style="width:80%;margin-left: 15px;">
+            <el-select v-model="value2" placeholder="请选择" style="width:80%;margin-left: 15px;">
               <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -179,13 +179,13 @@
           <div style="margin-left:70px;">
             手机号
             <el-input
-              v-model="input"
+              v-model="form.input4"
               maxlength="11"
               placeholder="请输入手机号"
               style="width:25%;margin-left: 20px;"
             ></el-input>
           </div>
-          <div class="block" style="margin-left:350px;margin-top: -40px; ">
+          <div class="block" style="margin-left:350px;margin-top: -40px;">
             <span class="demonstration">生日</span>
             <el-date-picker
               v-model="value1"
@@ -198,7 +198,7 @@
           <div style="margin-left:70px;">
             姓名
             <el-input
-              v-model="input"
+              v-model="form.input5"
               maxlength="11"
               placeholder="请输入手机号"
               style="width:25%;margin-left:35px;"
@@ -206,7 +206,7 @@
           </div>
           <div class="block" style="margin-left:350px;margin-top: -40px; ">
             <span class="demonstration">地域</span>
-            <el-select v-model="value" placeholder="请选择" style="width:58%;margin-left: 15px;">
+            <el-select v-model="form.input6" placeholder="请选择" style="width:58%;margin-left: 15px;">
               <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -242,10 +242,22 @@
 export default {
   data () {
     return {
+      form: {
+        input: '',
+        input1: '',
+        input2: '',
+        input3: '',
+        input4: '',
+        input6: '',
+        input5: ''
+      },
       radio: 2,
       dialogVisible: false,
       input: '',
+      input1: '',
+      input2: '',
       value: '',
+      xingbie: '',
       options: [
         {
           value: '选项1',
