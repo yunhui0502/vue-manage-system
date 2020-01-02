@@ -1,7 +1,7 @@
 <template>
   <!-- 全部订单页面 -->
   <div style="width:100%;height:100%">
-    <div class="div" style="height: 410px;">
+    <div class="div" style="height: 100%;">
       <div class="header">
         <div style="margin-left:22px;line-height:42px;color: #666666;font-size:16px">订单查询</div>
       </div>
@@ -88,7 +88,7 @@
           </el-select>
           <div class="dis" @click="shaixuan()">筛选</div>
           <div class="disdaoc" @click="elxs()">导出</div>
-          <div style="margin-top: -30px;color: #A3A0FB;margin-left:420px;" @click="reset()">重置筛选条件</div>
+          <div class="screen" @click="reset()">重置筛选条件</div>
         </div>
       </div>
     </div>
@@ -1225,5 +1225,12 @@ div {
   height: 42px;
   background: #ffffff;
   border-bottom: 1px solid #e5e5e5;
+}
+
+// 筛选
+.screen {
+  margin-top: -30px;
+  color: #a3a0fb;
+  margin-left: 420px;
 }
 </style>
