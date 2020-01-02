@@ -16,7 +16,7 @@
           <el-form-item label="商品标题" prop="goodsDesc ">
             <el-input style="width:100%" v-model="ruleForm.goodsDesc "></el-input>
           </el-form-item>
-          <el-form-item style="width:100%" label="商品编号" prop="goodName">
+          <el-form-item style="width:100%" label="商品名称" prop="goodName">
             <el-input style="width:40%" v-model="ruleForm.goodName"></el-input>
           </el-form-item>
           <el-form-item style="width:100%" label="总库存数" prop="inventory">
@@ -235,17 +235,18 @@ export default {
         date1: ''
       },
       leiMu: {},
-      // 表单绑定的添加商品
+      // 表单绑定的添加商品?bossId=2&brandId=2&goodName=2&goodsDesc=2&hfStoreId=2&productId=2&requestId=2&timestamp=2&token=2&userId=2&username=2
+
       ruleForm: {
-        lastModifier: '',
-        inventory: '', // 库存
+        inventory: '', // 库存    productId username
         bossId: '1', // 商家id 0
-        brandId: '', // 品牌id 0
-        categoryId: '', // 类目 0
-        id: '1', // 商品id
-        hfName: '', // 商品名称 0
-        productDesc: '', // 产品描述 ''
-        requestId: '111111111111', // 发起请求的随机数, 用来判断请求是否重复
+        brandId: '1', // 品牌id 0
+        goodName: '', // 商品名称 0
+        hfStoreId: '1', // 商铺id
+        goodsDesc: '', // 产品描述
+        productId: '33', // 商品id
+        username: '1', // 商家名称
+        requestId: '111111111111', // 发起请求的随机数, 用来判断请求是否重复 0
         timestamp: '', // 当前时间
         token: '11238',
         userId: '12', // 用户id

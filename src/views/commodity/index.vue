@@ -16,17 +16,6 @@
               <div style="font-size: 16px;"></div>
             </el-form-item>
             <el-form-item style="margin-bottom:24px;" label=" ">
-              <el style="color:#666666; 18px;margin-right: 15px;">商品标签</el>
-              <input
-                type="text"
-                style="box-shadow:0px 2px 137px 1px rgba(107,107,107,0.11);
-              width:257px;height:45px;border-radius:6px;outline: none;border:1px solid #EBEDF0;border-top:0.8px solid #EBEDF0;
-              border-bottom:1.5px solid #EBEDF0; padding-left: 14px;"
-                placeholder="请输入商品名称 "
-              />
-              <!-- <el-input v-model="souhfName" auto-complete="off" placeholder="请输入商品名称" id="ewdwe"></el-input> -->
-            </el-form-item>
-            <el-form-item style="margin-bottom:24px;" label=" ">
               <el style="color:#666666;margin-right: 15px;">商品ID</el>
               <input
                 type="text"
@@ -45,17 +34,6 @@
               border-bottom:1.5px solid #EBEDF0; padding-left: 14px;"
                 placeholder="请输入商品名称 ">
             <! <el-input v-model="souhfName" auto-complete="off" placeholder="请输入商品名称" id="ewdwe"></el-input>-->
-            <el-form-item style="margin-bottom:24px;" label=" ">
-              <el style="color:#666666;margin-right: 15px;">店铺分类</el>
-              <input
-                type="text"
-                style="box-shadow:0px 2px 137px 1px rgba(107,107,107,0.11);
-              width:257px;height:45px;border-radius:6px;outline: none;border:1px solid #EBEDF0;border-top:0.8px solid #EBEDF0;
-              border-bottom:1.5px solid #EBEDF0; padding-left: 14px;"
-                placeholder="请输入商品名称 "
-              />
-              <!-- <el-input v-model="souhfName" auto-complete="off" placeholder="请输入商品名称" id="ewdwe"></el-input> -->
-            </el-form-item>
 
             <el-form-item style="margin-bottom:24px;margin-left: 5px;" label>
               <el-form-item style="margin-bottom:50px;" label>

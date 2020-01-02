@@ -10,7 +10,7 @@ function getProductList (Id) {
   return Axios.get('/api/product/byBossId', params)
 }
 function verifier () {
-  return Axios.get('http://192.168.1.125:9901/cancel/selectCancel')
+  return Axios.get('/ver/cancel/selectCancel')
 }
 // 获取类目
 function category () {
@@ -34,25 +34,21 @@ function bianProduct (params) {
 }
 
 // 添加商品
-
 // http://192.168.1.233:9095/product/addproduct?hfName=衣服1&categoryId=1&brandId=1&productDesc=代步&bossId=1&lastModifier=swd
 function addProduct (params) {
-  return Axios.post('/api/product/addproduct', params, { responseType: 'arraybuffer' })
-
-  // let fd = new FormData()
-  // fd.append('bossId', params.bossId)
-  // fd.append('brandId', params.brandId)
-  // fd.append('goodName', params.goodName)
-  // fd.append('hfStoreId', params.hfStoreId)
-  // fd.append('goodsDesc', params.goodsDesc)
-  // fd.append('productId', params.productId)
-  // fd.append('requestId', params.requestId)
-  // fd.append('timestamp', params.timestamp)
-  // fd.append('token', params.token)
-  // fd.append('userId', params.userId)
-  // fd.append('username', params.username)
-  // // fd.append('hfName', params.hfName);
-  // return Axios.post('/api/goods/create', params, { responseType: 'arraybuffer' })
+  let fd = new FormData()
+  fd.append('bossId', params.bossId)
+  fd.append('brandId', params.brandId)
+  fd.append('goodName ', params.goodName)
+  fd.append('goodsDesc ', params.goodsDesc)
+  fd.append('hfStoreId ', params.hfStoreId)
+  fd.append('productId ', params.productId)
+  fd.append('requestId ', params.requestId)
+  fd.append('timestamp ', params.timestamp)
+  fd.append('token ', params.token)
+  fd.append('userId', params.userId)
+  fd.append('username', params.username)
+  return Axios.post('/api/goods/create', params, { responseType: 'arraybuffer' })
 }
 
 // 按条件查询商品

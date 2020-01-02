@@ -29,6 +29,7 @@ import Xinxitwo from '../views/information/xinxitwo.vue'
 import Xinxithere from '../views/information/xinxithere.vue'
 import Xinxifour from '../views/information/xinxifour.vue'
 import Member from '../views/member'
+import Jurisdiction from '../views/jurisdiction'
 
 Vue.use(VueRouter)
 
@@ -71,7 +72,8 @@ const routes = [
       { path: '/xinxitwo', name: 'xinxitwo', component: Xinxitwo },
       { path: '/xinxithere', name: 'xinxithere', component: Xinxithere },
       { path: '/xinxifour', name: 'xinxifour', component: Xinxifour },
-      { path: '/member', name: 'member', component: Member }
+      { path: '/member', name: 'member', component: Member },
+      { path: '/jurisdiction', name: 'jurisdiction', component: Jurisdiction }
     ]
   },
   { path: '*', name: '404', component: NotFound }
