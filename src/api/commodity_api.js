@@ -1,13 +1,8 @@
 import Axios from 'axios'
 // ========================================================================商品模块
 // 获取商品列表
-function getProductList (Id) {
-  let params = {
-    params: {
-      bossId: Id
-    }
-  }
-  return Axios.get('/api/product/byBossId', params)
+function getProductList () {
+  return Axios.get('/api/goods/categoryId')
 }
 function verifier () {
   return Axios.get('/ver/cancel/selectCancel')
@@ -48,7 +43,7 @@ function addProduct (params) {
   fd.append('token ', params.token)
   fd.append('userId', params.userId)
   fd.append('username', params.username)
-  return Axios.post('/api/goods/create', params, { responseType: 'arraybuffer' })
+  return Axios.post('/api/goods/create', fd, { responseType: 'arraybuffer' })
 }
 
 // 按条件查询商品

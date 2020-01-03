@@ -44,26 +44,223 @@
     </el-card>
 
     <el-dialog :visible.sync="centerDialogVisible" width="48%" center>
-          <div>
-              <div></div>
-              <div></div>
-          </div>
+      <el-checkbox
+        :indeterminate="isIndeterminate"
+        v-model="checkAll"
+        @change="handleCheckAllChange"
+      >选择所有权限</el-checkbox>
+      <el-collapse accordion>
+        <el-collapse-item>
+          <template slot="title">
+            <el-checkbox v-model="checked">数据统计</el-checkbox>
+          </template>
+          <el-checkbox-group v-model="checkList">
+            <el-checkbox label="隐藏"></el-checkbox>
+            <el-checkbox label="保存图片"></el-checkbox>
+            <el-checkbox label="查看图片"></el-checkbox>
+            <el-checkbox label="修改"></el-checkbox>
+            <el-checkbox label="删除"></el-checkbox>
+          </el-checkbox-group>
+        </el-collapse-item>
+        <el-collapse-item>
+          <template slot="title">
+            <el-checkbox v-model="checked">权限管理</el-checkbox>
+          </template>
+          <el-checkbox-group v-model="checkList">
+            <el-checkbox label="隐藏"></el-checkbox>
+            <el-checkbox label="保存图片"></el-checkbox>
+            <el-checkbox label="查看图片"></el-checkbox>
+            <el-checkbox label="修改"></el-checkbox>
+            <el-checkbox label="删除"></el-checkbox>
+          </el-checkbox-group>
+        </el-collapse-item>
+        <el-collapse-item>
+          <template slot="title">
+            <el-checkbox v-model="checked">订单管理</el-checkbox>
+          </template>
+          <el-checkbox-group v-model="checkList">
+            <el-checkbox label="隐藏"></el-checkbox>
+            <el-checkbox label="查询添加"></el-checkbox>
+            <el-checkbox label="设置权限"></el-checkbox>
+            <el-checkbox label="编辑"></el-checkbox>
+            <el-checkbox label="删除"></el-checkbox>
+          </el-checkbox-group>
+        </el-collapse-item>
+        <el-collapse-item>
+          <template slot="title">
+            <el-checkbox v-model="checked">商品管理</el-checkbox>
+          </template>
+          <el-checkbox-group v-model="checkList">
+            <el-checkbox label="隐藏"></el-checkbox>
+            <el-checkbox label="查询"></el-checkbox>
+            <el-checkbox label="添加"></el-checkbox>
+            <el-checkbox label="编辑"></el-checkbox>
+            <el-checkbox label="上架"></el-checkbox>
+            <el-checkbox label="下架"></el-checkbox>
+            <el-checkbox label="删除"></el-checkbox>
+          </el-checkbox-group>
+        </el-collapse-item>
+        <el-collapse-item>
+          <template slot="title">
+            <el-checkbox v-model="checked">订单管理</el-checkbox>
+          </template>
+          <el-checkbox-group v-model="checkList">
+            <el-checkbox label="隐藏"></el-checkbox>
+            <el-checkbox label="编辑"></el-checkbox>
+            <el-checkbox label="查询"></el-checkbox>
+            <el-checkbox label="导出"></el-checkbox>
+            <el-checkbox label="查看"></el-checkbox>
+            <el-checkbox label="发货"></el-checkbox>
+            <el-checkbox label="退款"></el-checkbox>
+          </el-checkbox-group>
+        </el-collapse-item>
+
+        <el-collapse-item>
+          <template slot="title">
+            <el-checkbox v-model="checked">活动</el-checkbox>
+          </template>
+          <el-checkbox-group accordion v-model="checkList">
+            <el-checkbox v-model="checked">隐藏秒杀</el-checkbox>
+            <el-checkbox v-model="checked">隐藏拼团</el-checkbox>
+            <el-checkbox-group v-model="checkList">
+              <el-dropdown @command="handleCommand">
+                <span class="el-dropdown-link">
+                  {{dropDown}}
+                  <i class="el-icon-arrow-down el-icon--right"></i>
+                </span>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item command="秒杀">秒杀</el-dropdown-item>
+                  <el-dropdown-item command="拼团">拼团</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+              <el-checkbox label="修改"></el-checkbox>
+              <el-checkbox label="添加"></el-checkbox>
+              <el-checkbox label="编辑"></el-checkbox>
+              <el-checkbox label="下架"></el-checkbox>
+              <el-checkbox label="删除"></el-checkbox>
+            </el-checkbox-group>
+          </el-checkbox-group>
+        </el-collapse-item>
+
+        <el-collapse-item>
+          <template slot="title">
+            <el-checkbox v-model="checked">类目管理</el-checkbox>
+          </template>
+          <el-checkbox-group v-model="checkList">
+            <el-checkbox label="隐藏"></el-checkbox>
+            <el-checkbox label="查询"></el-checkbox>
+            <el-checkbox label="添加"></el-checkbox>
+            <el-checkbox label="编辑"></el-checkbox>
+            <el-checkbox label="删除"></el-checkbox>
+          </el-checkbox-group>
+        </el-collapse-item>
+        <el-collapse-item>
+          <template slot="title">
+            <el-checkbox v-model="checked">用户管理</el-checkbox>
+          </template>
+          <el-checkbox-group v-model="checkList">
+            <el-checkbox label="隐藏"></el-checkbox>
+            <el-checkbox label="数据"></el-checkbox>
+            <el-checkbox label="筛选"></el-checkbox>
+            <el-checkbox label="添加用户"></el-checkbox>
+            <el-checkbox label="编辑"></el-checkbox>
+            <el-checkbox label="添加标签"></el-checkbox>
+            <el-checkbox label="联系客户"></el-checkbox>
+            <el-checkbox label="余额"></el-checkbox>
+          </el-checkbox-group>
+        </el-collapse-item>
+        <el-collapse-item>
+          <template slot="title">
+            <el-checkbox v-model="checked">会员管理</el-checkbox>
+          </template>
+          <el-checkbox-group v-model="checkList">
+            <el-checkbox label="隐藏"></el-checkbox>
+            <el-checkbox label="编辑
+            "></el-checkbox>
+          </el-checkbox-group>
+        </el-collapse-item>
+        <el-collapse-item>
+          <template slot="title">
+            <el-checkbox v-model="checked">核销管理</el-checkbox>
+          </template>
+          <el-checkbox-group v-model="checkList">
+            <el-checkbox label="隐藏"></el-checkbox>
+            <el-checkbox label="查询"></el-checkbox>
+            <el-checkbox label="编辑"></el-checkbox>
+            <el-checkbox label="记录"></el-checkbox>
+            <el-checkbox label="清楚记录"></el-checkbox>
+            <el-checkbox label="删除"></el-checkbox>
+            <el-checkbox label="核销额"></el-checkbox>
+          </el-checkbox-group>
+        </el-collapse-item>
+        <el-collapse-item>
+          <template slot="title">
+            <el-checkbox v-model="checked">消息</el-checkbox>
+          </template>
+          <el-checkbox-group v-model="checkList">
+            <el-checkbox label="隐藏"></el-checkbox>
+            <el-checkbox label="查看"></el-checkbox>
+            <el-checkbox label="编辑"></el-checkbox>
+          </el-checkbox-group>
+        </el-collapse-item>
+        <el-collapse-item>
+          <template slot="title">
+            <el-checkbox v-model="checked">资产</el-checkbox>
+          </template>
+          <el-checkbox-group v-model="checkList">
+            <el-checkbox label="隐藏"></el-checkbox>
+            <el-checkbox label="明细"></el-checkbox>
+            <el-checkbox label="记录"></el-checkbox>
+            <el-checkbox label="提现"></el-checkbox>
+          </el-checkbox-group>
+        </el-collapse-item>
+        <el-collapse-item>
+          <template slot="title">
+            <el-checkbox v-model="checked">优惠券</el-checkbox>
+          </template>
+          <el-checkbox-group v-model="checkList">
+            <el-checkbox label="隐藏"></el-checkbox>
+            <el-checkbox label="查询"></el-checkbox>
+            <el-checkbox label="新建"></el-checkbox>
+            <el-checkbox label="上架"></el-checkbox>
+            <el-checkbox label="修改"></el-checkbox>
+            <el-checkbox label="删除"></el-checkbox>
+          </el-checkbox-group>
+        </el-collapse-item>
+        <el-collapse-item>
+          <template slot="title">
+            <el-checkbox v-model="checked">设置</el-checkbox>
+          </template>
+          <el-checkbox-group v-model="checkList">
+            <el-checkbox label="隐藏"></el-checkbox>
+            <el-checkbox label="新建"></el-checkbox>
+            <el-checkbox label="上架"></el-checkbox>
+            <el-checkbox label="修改"></el-checkbox>
+            <el-checkbox label="删除"></el-checkbox>
+            <el-checkbox label="设置支付方式"></el-checkbox>
+          </el-checkbox-group>
+        </el-collapse-item>
+      </el-collapse>
     </el-dialog>
   </div>
 </template>
 
 <script>
-const cityOptions = ['上海', '北京', '广州', '深圳']
 export default {
   data () {
     return {
+      // 下拉菜单
+      dropDown: '秒杀',
+      // 多选
+      checkList: [],
+      // 单多选
       checked: '',
       //  弹框里的多选
       checkAll: false, // 弹窗全选绑定
       checkedCities: ['上海', '北京'], //
-      cities: cityOptions,
+      // cities: cityOptions,
       isIndeterminate: true, // 是否全选
-      // 弹窗控制显示隐藏
+      // // 弹窗控制显示隐藏
       centerDialogVisible: false,
       input: '',
       // 表格数据
@@ -98,21 +295,24 @@ export default {
       rows.splice(index, 1)
     },
     // 全选
-    // handleCheckAllChange (val) {
-    //   this.checkedCities = val ? cityOptions : []
-    //   this.isIndeterminate = false
-    // },
-    // // 全选
-    // handleCheckedCitiesChange (value) {
-    //   let checkedCount = value.length
-    //   this.checkAll = checkedCount === this.cities.length
-    //   this.isIndeterminate =
-    //     checkedCount > 0 && checkedCount < this.cities.length
-    //   console.log(checkedCount > 0 && checkedCount < this.cities.length)
-    // },
+    handleCheckAllChange (val) {
+      this.checkedCities = val ? cityOptions : []
+      this.isIndeterminate = false
+    },
+    // 全选
+    handleCheckedCitiesChange (value) {
+      let checkedCount = value.length
+      this.checkAll = checkedCount === this.cities.length
+      this.isIndeterminate =
+        checkedCount > 0 && checkedCount < this.cities.length
+      console.log(checkedCount > 0 && checkedCount < this.cities.length)
+    },
     // 表格
     handleSelectionChange (val) {
       this.multipleSelection = val
+    },
+    handleCommand (command) {
+      this.dropDown = command
     }
   }
 }
