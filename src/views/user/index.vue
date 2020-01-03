@@ -21,7 +21,7 @@
       </div>
 
       <div class="block2">
-        <span class="demonstration" style="margin-left: 200px;">累计消费</span>
+        <span class="leijixiaof" style="">累计消费</span>
         <span style="margin-left: 10px;"></span>
         <el-input v-model="input" placeholder="请输入内容" style="width: 15%;margin-left:20px;"></el-input>
         <span style="margin-left: 10px;">至</span>
@@ -90,17 +90,17 @@
           @selection-change="handleSelectionChange"
         >
           <el-table-column type="selection" width="120" style="text-align: center;"></el-table-column>
-          <el-table-column label="序号" align="center" width="160">
+          <el-table-column label="序号" align="center">
             <template slot-scope="scope">{{ scope.row.id }}</template>
           </el-table-column>
-          <el-table-column label="昵称" align="center" width="160">
+          <el-table-column label="昵称" align="center" >
             <template slot-scope="scope">{{ scope.row.name }}</template>
           </el-table-column>
-          <el-table-column label="性别" align="center" width="160">
+          <el-table-column label="性别" align="center">
             <template slot-scope="scope">{{ scope.row.sex }}</template>
           </el-table-column>
 
-          <el-table-column prop="name" align="center" label="所在地" width="160">
+          <el-table-column prop="name" align="center" label="所在地">
             <template slot-scope="scope">{{ scope.row.address }}</template>
           </el-table-column>
           <el-table-column
@@ -116,21 +116,27 @@
             prop="address"
             label="关注时间"
             align="center"
-            width="160"
             show-overflow-tooltip
           >
             <template slot-scope="scope">{{ scope.row.timeout }}</template>
           </el-table-column>
           <el-table-column
             prop="address"
-            label="成交"
+            label="余额"
             align="center"
-            width="160"
             show-overflow-tooltip
           >
             <template slot-scope="scope">{{ scope.row.chengjiao }}</template>
           </el-table-column>
-          <el-table-column fixed="right" label="操作" align="center" width="300">
+          <el-table-column
+            prop="address"
+            label="成交"
+            align="center"
+            show-overflow-tooltip
+          >
+            <template slot-scope="scope">{{ scope.row.chengjiao }}</template>
+          </el-table-column>
+          <el-table-column fixed="right" label="操作" align="center">
             <template slot-scope="scope">
               <el-button
                 @click.native.prevent="deleteRow(scope.$index, tableData)"
@@ -239,6 +245,7 @@
 </template>
 
 <script>
+import api from '@/api/user-api.js'
 export default {
   data () {
     return {
@@ -314,82 +321,29 @@ export default {
       },
       value1: '',
       value2: '',
-      tableData: [
-        {
-          id: 1,
-          date: '2016-05-03',
-          name: '王小虎',
-          sex: '男',
-          address: '天津市西青区',
-          dengji: '铂金会员',
-          timeout: '2019-11-26    14:12',
-          chengjiao: '订单 0 单   金额 0 元'
-        },
-        {
-          id: 2,
-          date: '2016-05-02',
-          name: '王小虎',
-          sex: '男',
-          address: '天津市西青区',
-          dengji: '铂金会员',
-          timeout: '2019-11-26    14:12',
-          chengjiao: '订单 0 单 金额 0 元'
-        },
-        {
-          id: 3,
-          date: '2016-05-04',
-          name: '王小虎',
-          sex: '男',
-          address: '天津市西青区',
-          dengji: '铂金会员',
-          timeout: '2019-11-26    14:12',
-          chengjiao: '订单 0 单 金额 0 元'
-        },
-        {
-          id: 4,
-          date: '2016-05-01',
-          name: '王小虎',
-          sex: '男',
-          address: '天津市西青区',
-          dengji: '铂金会员',
-          timeout: '2019-11-26    14:12',
-          chengjiao: '订单 0 单 金额 0 元'
-        },
-        {
-          id: 5,
-          date: '2016-05-08',
-          name: '王小虎',
-          sex: '男',
-          address: '天津市西青区',
-          dengji: '铂金会员',
-          timeout: '2019-11-26    14:12',
-          chengjiao: '订单 0 单 金额 0 元'
-        },
-        {
-          id: 6,
-          date: '2016-05-06',
-          name: '王小虎',
-          sex: '男',
-          address: '天津市西青区',
-          dengji: '铂金会员',
-          timeout: '2019-11-26    14:12',
-          chengjiao: '订单 0 单 金额 0 元'
-        },
-        {
-          id: 7,
-          date: '2016-05-07',
-          name: '王小虎',
-          sex: '男',
-          address: '天津市西青区',
-          dengji: '铂金会员',
-          timeout: '2019-11-26   14:12',
-          chengjiao: '订单 0 单 金额 0 元'
-        }
-      ],
+      tableData: [],
       multipleSelection: []
     }
   },
+  created () {
+    this.getcategory()
+  },
   methods: {
+    // 获取用户列表
+    async getcategory () {
+      api
+        .categoryId()
+        .then(res => {
+          this.tableData = res.data.data
+          console.log(this.tableData)
+        })
+        .catch(function (err) {
+          console.log(err)
+        })
+    },
+    handleClose (e) {
+      console.log(e)
+    },
     handleSelectionChange (val) {
       this.multipleSelection = val
     },
@@ -427,5 +381,8 @@ div {
 .input2 {
   width: 15%;
   margin-left: 20px;
+}
+.leijixiaof {
+  margin-left: 200px;
 }
 </style>

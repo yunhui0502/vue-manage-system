@@ -16,7 +16,7 @@
               <div style="font-size: 16px;"></div>
             </el-form-item>
             <el-form-item style="margin-bottom:24px;" label=" ">
-              <el style="color:#666666;margin-right: 15px;">商品ID</el>
+              <div class="el" style="color:#666666;margin-right: 15px;">商品ID</div>
               <input
                 type="text"
                 style="box-shadow:0px 2px 137px 1px rgba(107,107,107,0.11);
@@ -215,17 +215,17 @@
 
         <el-table-column prop="id" label="商品编号" align="center"></el-table-column>
 
-        <el-table-column prop="productDesc" label="商品描述" align="center"></el-table-column>
+        <el-table-column prop="goodsDesc" label="商品描述" align="center"></el-table-column>
 
         <el-table-column prop="createTime" label="创建时间" align="center"></el-table-column>
         <el-table-column fixed="right" label="操作" width="260" align="center">
           <template slot-scope="scope">
-            <el
+            <div class="el"
               @click="biangui(scope.row)"
               style="color:#A6A3FB;font-family:ms sans serif;cursor: pointer;"
-            >编辑</el>
-            <el style="margin-left: 16px;margin-right: 16px;color:#FFCE26;cursor: pointer;">上架</el>
-            <el style="color:#FF318A;cursor: pointer;" @click="deletesingle(index,scope.row)">删除</el>
+            >编辑</div>
+            <div class="el" style="margin-left: 16px;margin-right: 16px;color:#FFCE26;cursor: pointer;">上架</div>
+            <div class="el" style="color:#FF318A;cursor: pointer;" @click="deletesingle(index,scope.row)">删除</div>
           </template>
         </el-table-column>
       </el-table>
@@ -293,7 +293,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="addFormVisible = false">取消</el-button>
-        <el-button type="primary" @click="addSubmit">提交</el-button>
+        <el-button type="primary">提交</el-button>
       </div>
     </el-dialog>
   </div>
@@ -303,7 +303,7 @@
 import api from '@/api/commodity_api.js'
 
 export default {
-  name: 'Commodity',
+  name: 'commodity',
   data () {
     return {
       checked: true,
@@ -387,7 +387,7 @@ export default {
     // 获取商品列表
     async getcoommo () {
       api
-        .getProductList(1)
+        .getProductList()
         .then(res => {
           this.tableData = res.data.data
         })
@@ -737,8 +737,7 @@ export default {
     conver: function (s) {
       return s < 10 ? '0' + s : s
     }
-  },
-  mounted () {}
+  }
 }
 </script>
 
