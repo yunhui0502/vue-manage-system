@@ -56,6 +56,7 @@ module.exports = {
         }
       },
       '/log': {
+        // target: 'http://192.168.1.196:8082', // 本地模拟数据服务器
         target: 'http://192.168.1.104:8082', // 本地模拟数据服务器
         changeOrigin: true,
         pathRewrite: {

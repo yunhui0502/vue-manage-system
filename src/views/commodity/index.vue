@@ -12,28 +12,18 @@
             <div class="shang" style>库存（500）</div>
           </div>
           <div style="padding:25px 0 24px  44px;">
-            <el-form-item style="margin-bottom:24px;" label>
-              <div style="font-size: 16px;"></div>
-            </el-form-item>
-            <el-form-item style="margin-bottom:24px;" label=" ">
-              <div class="el" style="color:#666666;margin-right: 15px;">商品ID</div>
-              <input
+            <el-form-item style="margin-bottom:24px;margin-left: 5px;" label>
+              <el-form-item style="margin-bottom:50px;" label>
+                <div style>商品ID</div>
+              </el-form-item>
+                    <input
                 type="text"
                 style="box-shadow:0px 2px 137px 1px rgba(107,107,107,0.11);
               width:257px;height:45px;border-radius:6px;outline: none;border:1px solid #EBEDF0;border-top:0.8px solid #EBEDF0;
               border-bottom:1.5px solid #EBEDF0; padding-left: 14px;"
                 placeholder="请输入商品名称 "
               />
-              <!-- <el-input v-model="souhfName" auto-complete="off" placeholder="请输入商品名称" id="ewdwe"></el-input> -->
             </el-form-item>
-
-            <!--  <el-form-item style="margin-bottom:24px;" label=" ">
-              <el style="color:#666666;font-size:18px;margin-right: 15px;">商品分类</el>
-              <input type="text" style="box-shadow:0px 2px 137px 1px rgba(107,107,107,0.11);
-              width:257px;height:45px;border-radius:6px;outline: none;border:1px solid #EBEDF0;border-top:0.8px solid #EBEDF0;
-              border-bottom:1.5px solid #EBEDF0; padding-left: 14px;"
-                placeholder="请输入商品名称 ">
-            <! <el-input v-model="souhfName" auto-complete="off" placeholder="请输入商品名称" id="ewdwe"></el-input>-->
 
             <el-form-item style="margin-bottom:24px;margin-left: 5px;" label>
               <el-form-item style="margin-bottom:50px;" label>
@@ -149,7 +139,7 @@
 
     <div style="padding-top: 23px;background: #fff;margin-top: 18px;">
       <div style="margin-bottom:45px;">
-        <el-button
+        <!-- <el-button
           class="butttj"
           style="color: #fff;outline:none; border-radius:3px;float:right;margin-right: 40px;
           background: #fff;border:1px solid #EBEDF0;color: #666;"
@@ -162,7 +152,7 @@
          background: #fff;border:1px solid #EBEDF0;;color: #666;"
           size="mini"
           round
-        >批量上架</el-button>
+        >批量上架</el-button> -->
         <el-button
           class="butttj"
           style="color: #fff;outline:none; border-radius:3px;float:right;
@@ -218,14 +208,14 @@
         <el-table-column prop="goodsDesc" label="商品描述" align="center"></el-table-column>
 
         <el-table-column prop="createTime" label="创建时间" align="center"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="260" align="center">
+        <el-table-column fixed="right" label="操作"  align="center">
           <template slot-scope="scope">
-            <div class="el"
+            <span class="el"
               @click="biangui(scope.row)"
               style="color:#A6A3FB;font-family:ms sans serif;cursor: pointer;"
-            >编辑</div>
-            <div class="el" style="margin-left: 16px;margin-right: 16px;color:#FFCE26;cursor: pointer;">上架</div>
-            <div class="el" style="color:#FF318A;cursor: pointer;" @click="deletesingle(index,scope.row)">删除</div>
+            >编辑</span>
+            <span class="el" style="margin-left: 16px;margin-right: 16px;color:#FFCE26;cursor: pointer;">上架</span>
+            <span class="el" style="color:#FF318A;cursor: pointer;" @click="deletesingle(index,scope.row)">删除</span>
           </template>
         </el-table-column>
       </el-table>
@@ -447,7 +437,7 @@ export default {
             let param = Object.assign({}, _this.leimu)
             console.log(param)
             _this
-              .$ajax({
+              .$http({
                 method: 'post',
                 url: '/api/product/addCategory',
                 params: param
@@ -480,7 +470,7 @@ export default {
             let param = Object.assign({}, _this.leimu1)
             console.log(param)
             _this
-              .$ajax({
+              .$http({
                 method: 'post',
                 url: '/api/product/addCategory',
                 params: param
@@ -513,7 +503,7 @@ export default {
             let param = Object.assign({}, _this.leimu3)
             console.log(param)
             _this
-              .$ajax({
+              .$http({
                 method: 'post',
                 url: '/api/product/addCategory',
                 params: param
@@ -732,7 +722,7 @@ export default {
       })
 
       this.leimu3.parentCategoryId = obj.id
-      console.log(this.leimu3.parentCategoryId)
+      // console.log(this.leimu3.parentCategoryId)
     },
     conver: function (s) {
       return s < 10 ? '0' + s : s

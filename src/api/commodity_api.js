@@ -156,13 +156,15 @@ function updateGood (params) {
 
 // 添加规格
 function addSpec (params) {
-  // let fd = new FormData()
-  // fd.append('categorySpecId', params.categorySpecId)
-  // fd.append('hfName', params.hfName)
-  // fd.append('specType', params.specType)
-  // fd.append('specUnit', params.specUnit)
-  // fd.append('specValue', params.specValue)
-  return Axios.post('/api/goods/addSpecify', params, { responseType: 'arraybuffer' })
+  let fd = new FormData()
+  fd.append('goodsId', params.goodsId)
+  fd.append('requestId', params.requestId)
+  fd.append('specValue', params.specValue)
+  fd.append('timestamp', params.timestamp)
+  fd.append('token', params.token)
+  fd.append('userId', params.userId)
+  fd.append('productSpecId', params.productSpecId)
+  return Axios.post('/api/goods/addSpecify', fd, { responseType: 'arraybuffer' })
 }
 
 // 上传图片
