@@ -63,7 +63,7 @@
         </div>
       </div>
 
-      <div style="width:22%;height: 60px;margin: 0 auto;margin-top: 30px;">
+      <!-- <div style="width:22%;height: 60px;margin: 0 auto;margin-top: 30px;">
         <div
           style="float: left;width:50%;height:60px;text-align: center;line-height: 60px;background: #A3A0FB;border-radius: 5px;color: #ffffff;haixuan"
           @click="shaixuan()"
@@ -71,16 +71,16 @@
         <div
           style="float: left;width: 50%;height:60px;text-align: center;line-height: 60px;color: #A3A0FB;"
         >重置筛选条件</div>
-      </div>
+      </div> -->
 
       <div style="width: 100%;height:100%;background:#ffffff;">
-        <div
+        <!-- <div
           style="width:8%;height:40px;text-align: center;line-height: 40px;background: #ffffff;color: #cccccc;border-radius: 5px;float:right;margin-right: 40px;margin-top: 50px;border: 1px solid #cccccc;"
         >批量管理</div>
         <div
           style="width:8%;height:40px;text-align: center;line-height: 40px;background: #A6A3FB;color: #ffffff;border-radius: 5px;float: right;margin-right: 20px;margin-top: 50px;"
           @click="dialogVisible=true"
-        >+ 添加会员</div>
+        >+ 添加会员</div> -->
 
         <el-table
           ref="multipleTable"
@@ -89,18 +89,18 @@
           style="width: 100%;text-align: center;"
           @selection-change="handleSelectionChange"
         >
-          <el-table-column type="selection" width="120" style="text-align: center;"></el-table-column>
-          <el-table-column label="序号" align="center">
+          <el-table-column  type="selection" width="120" style="text-align: center;"></el-table-column>
+          <el-table-column  label="序号" align="center">
             <template slot-scope="scope">{{ scope.row.id }}</template>
           </el-table-column>
-          <el-table-column label="昵称" align="center" >
-            <template slot-scope="scope">{{ scope.row.name }}</template>
+          <el-table-column  label="昵称" align="center" >
+            <!-- <template slot-scope="scope">{{ scope.row.name }}</template> -->
           </el-table-column>
-          <el-table-column label="性别" align="center">
-            <template slot-scope="scope">{{ scope.row.sex }}</template>
+          <el-table-column  label="性别" align="center">
+            <!-- <template slot-scope="scope">{{ scope.row.sex }}</template> -->
           </el-table-column>
 
-          <el-table-column prop="name" align="center" label="所在地">
+          <el-table-column  align="center" label="所在地">
             <template slot-scope="scope">{{ scope.row.address }}</template>
           </el-table-column>
           <el-table-column
@@ -136,25 +136,25 @@
           >
             <template slot-scope="scope">{{ scope.row.chengjiao }}</template>
           </el-table-column>
-          <el-table-column fixed="right" label="操作" align="center">
+          <el-table-column fixed="right" label="操作" width="260" align="center">
             <template slot-scope="scope">
               <el-button
                 @click.native.prevent="deleteRow(scope.$index, tableData)"
                 type="text"
                 size="small"
-                style="font-size: 18px;color: #A6A3FB;"
+                style="color: #A6A3FB;"
               >设置权益卡</el-button>
               <el-button
                 @click.native.prevent="deleteRow(scope.$index, tableData)"
                 type="text"
                 size="small "
-                style="font-size: 18px;color: #FFCE26;"
+                style="color: #FFCE26;"
               >添加标签</el-button>
               <el-button
                 @click.native.prevent="deleteRow(scope.$index, tableData)"
                 type="text"
                 size="small"
-                style="font-size: 18px;color: #FF318A;"
+                style="color: #FF318A;"
               >联系客户</el-button>
             </template>
           </el-table-column>
@@ -334,8 +334,8 @@ export default {
       api
         .categoryId()
         .then(res => {
-          this.tableData = res.data.data
-          console.log(this.tableData)
+          this.tableData = res.data.data.list
+          console.log('用户列表', this.tableData)
         })
         .catch(function (err) {
           console.log(err)
@@ -348,7 +348,7 @@ export default {
       this.multipleSelection = val
     },
     shaixuan () {
-      console.log('asdadsa')
+      // console.log('asdadsa')
     }
   }
 }
@@ -384,5 +384,11 @@ div {
 }
 .leijixiaof {
   margin-left: 200px;
+}
+.el-table{
+  margin-top:40px ;
+}
+.text {
+  font-size: 18px
 }
 </style>
