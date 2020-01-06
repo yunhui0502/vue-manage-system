@@ -79,7 +79,7 @@
       <!-- 商品型号 -->
       <span style="position: relative;top: 20px;left:220px">商品型号</span>
       <div class="kaipi">
-        <el-button class="sc-delete" type="text">删除型号</el-button>
+        <el-button class="sc-delete" @click="clickdelete" type="text">删除型号</el-button>
         <div>
           <el-input
             v-model="input"
@@ -119,7 +119,7 @@
       <!-- ==================================================================================================================================================== -->
       <el-button class="add-button">添加</el-button>
       <div class="kaipi">
-        <el-button class="sc-delete" type="text">删除型号</el-button>
+        <el-button class="sc-delete" @click="clickdelete2" type="text">删除型号</el-button>
         <div>
           <el-input
             v-model="measure"
@@ -380,6 +380,12 @@ export default {
     this.scope()
   },
   methods: {
+    clickdelete2 () {
+      this.specificationForm2.specValue = ''
+    },
+    clickdelete () {
+      this.ruleForm.specValue = ''
+    },
     onRemove (file) {},
     imgPreview (file) {
       let fileName = file.name
@@ -505,6 +511,10 @@ export default {
             let param = this.ruleForm
             api.addProduct(param).then(res => {
               this.$router.push({ name: 'commodity' })
+              this.$message({
+                message: '恭喜你，添加成功',
+                type: 'success'
+              })
             })
           })
         }
