@@ -7,7 +7,7 @@
           <div
             style="display: flex;align-items: center;border-bottom: 1px solid #E5E5E5;font-size: 16px;color: #666666;"
           >
-            <div class="active1 shang" style="margin-left: 22px;text-align: center;;">全部商品（500）</div>
+            <div class="active1 shang" style="margin-left: 22px;text-align: center;;">全部商品（{{queryGoods}}）</div>
             <div class="shang" style="margin-left: 80px;margin-right: 81px;">出售中（500）</div>
             <div class="shang" style>库存（500）</div>
           </div>
@@ -296,6 +296,8 @@ export default {
   name: 'commodity',
   data () {
     return {
+      // 商品数量
+      queryGoods: '0',
       checked: true,
       pagesize: 12,
       currpage: 1,
@@ -372,6 +374,7 @@ export default {
   created () {
     this.getcoommo()
     this.getcategory()
+    this.quGoods()
   },
   methods: {
     // 获取商品列表
@@ -380,6 +383,17 @@ export default {
         .getProductList()
         .then(res => {
           this.tableData = res.data.data
+        })
+        .catch(function (err) {
+          console.log(err)
+        })
+    },
+    // 获取商品总数
+    quGoods () {
+      api
+        .queryGoods()
+        .then(res => {
+          this.queryGoods = res.data.data
         })
         .catch(function (err) {
           console.log(err)

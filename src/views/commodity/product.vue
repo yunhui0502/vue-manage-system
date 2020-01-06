@@ -18,14 +18,14 @@
           </el-form-item>
           <!-- <el-form-item style="width:100%" label="商品编号" prop="goodName">
             <el-input style="width:40%" v-model="ruleForm.goodName"></el-input>
-          </el-form-item> -->
+          </el-form-item>-->
           <el-form-item style="width:100%" label="总库存数" prop="inventory">
             <el-input style="width:40%" v-model="ruleForm.inventory"></el-input>
             <span>件</span>
-            <span style="margin: 10px">商品属性</span>
-            <el-select v-model="member" placeholder="请选择商品属性">
-              <el-option label="会员" value="shanghai"></el-option>
-              <el-option label="非会员" value="beijing"></el-option>
+            <span style="margin: 6px;width:40%">商品属性</span>
+            <el-select style="width:30%" v-model="ruleForm.member" placeholder="请选择商品属性">
+              <el-option label="会员" value="1"></el-option>
+              <el-option label="非会员" value="0"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="提货方式" prop="goodsDesc ">
@@ -64,8 +64,8 @@
             <el-select style="width:33.3%" v-model="ruleForm.region" placeholder="卫衣"></el-select>
             <el-select style="width:33.3%" v-model="ruleForm.region" placeholder="乐事联名"></el-select>
           </el-form-item>
-          <el-form-item label="" prop="brandId">
-            <el-button style="width:25%; margin-left: 5px;" type="primary" @click="submitForm">+新建商品</el-button>
+          <el-form-item label prop="brandId">
+            <!-- <el-button style="width:25%; margin-left: 5px;" type="primary" @click="submitForm">+新建商品</el-button> -->
             <!-- <el-button style="width:25%" @click="resetForm('ruleForm')">批量添加</el-button> -->
           </el-form-item>
         </el-form>
@@ -92,27 +92,27 @@
         <!-- 标签 -->
         <el-tag
           :key="tag"
-          v-for="tag in specificationForm1.specValue"
+          v-for="tag in ruleForm.specValue"
           closable
           :disable-transitions="false"
           @close="handleClose(tag)"
         >{{tag}}</el-tag>
         <!-- 图片上传图片 -->
         <el-upload
-          action="http://192.168.1.104:9095/goods/addPicture"
+          ref="upload"
+          class="upload-poster"
+          accept=".jpg, .jpeg, .png, .gif, .bmp, .JPG, .JPEG, .GIF, .BMP"
+          action
           list-type="picture-card"
-          :on-preview="handlePictureCardPreview"
-          name="fileInfo"
-          file="file"
-          :on-error="success"
-          :data="{...specificationForm }"
-          :on-remove="handleRemove"
+          :on-remove="onRemove"
+          :on-change="imgPreview"
+          :auto-upload="false"
         >
           <i class="el-icon-plus"></i>
+          <el-dialog :visible.sync="dialogVisible">
+            <img width="100%" :src="ruleForm.fileInfo " alt />
+          </el-dialog>
         </el-upload>
-        <el-dialog :visible.sync="dialogVisible">
-          <img width="100%" :src="dialogImageUrl" alt />
-        </el-dialog>
         <el-input v-model="AddColor" style="width:194px; height:32px;" placeholder="请输入内容"></el-input>
         <el-button @click="submit" style="margin:8px">添加商品规格</el-button>
       </div>
@@ -195,11 +195,32 @@
           <el-select v-model="ruleForm2.region" placeholder="拍下减库存"></el-select>
         </el-form-item>-->
 
-        <el-form-item style="width:21%" label="库存" prop="name">
-          <el-input label="请输入库存数量" v-model="ruleForm2.name"></el-input>
+        <el-form-item style="width:21%" label="商品描述" prop="name">
+          <el-input
+            type="textarea"
+            :autosize="{ minRows: 2, maxRows: 6}"
+            placeholder="请输入商品描述"
+            v-model="ruleForm.goodsDesc"
+          ></el-input>
         </el-form-item>
 
-        <el-form-item style="width:21%" label="商品详情" prop="name"></el-form-item>
+        <el-form-item class="particulars" label="商品详情" prop="name">
+          <el-upload
+            ref="upload"
+            class="upload-poster"
+            accept=".jpg, .jpeg, .png, .gif, .bmp, .JPG, .JPEG, .GIF, .BMP"
+            action
+            list-type="picture-card"
+            :on-remove="onRemove"
+            :on-change="imgPreview"
+            :auto-upload="false"
+          >
+            <i class="el-icon-plus"></i>
+            <el-dialog :visible.sync="dialogVisible">
+              <img width="100%" :src="ruleForm.fileInfo " alt />
+            </el-dialog>
+          </el-upload>
+        </el-form-item>
       </el-form>
       <el-button class="add-button">添加</el-button>
     </el-card>
@@ -228,7 +249,7 @@
       </el-form>
     </el-card>
     <div class="button">
-      <el-button @click="postspecification" type="primary">保存</el-button>
+      <el-button @click="submitForm" type="primary">保存</el-button>
     </div>
   </div>
 </template>
@@ -239,8 +260,6 @@ import api from '@/api/commodity_api.js'
 export default {
   data () {
     return {
-      // 会员 选择 框绑定
-      member: '',
       input: '颜色', // 颜色框 绑定的值
       measure: '尺寸', // 尺寸
       // 添加规格
@@ -250,6 +269,7 @@ export default {
       // 核销员绑定的值
       verifier: {},
       // 图片上传控件里的
+      disabled: false,
       dialogImageUrl: '',
       dialogVisible: false,
       // 其他信息
@@ -279,11 +299,15 @@ export default {
         goodsDesc: '', // 产品描述
         productId: '33', // 商品id
         username: '1', // 商家名称
-        requestId: '111111111111', // 发起请求的随机数, 用来判断请求是否重复 0
+        requestId: '', // 发起请求的随机数, 用来判断请求是否重复 0
         timestamp: '', // 当前时间
         token: '11238',
         userId: '12', // 用户id
-        verifier: '' // 核销员
+        verifier: '', // 核销员
+        specValue: [], // 颜色和尺寸
+        member: '', // 是否为会员 0 非会员 1会员
+        cancelId: '2', // 核销员Id
+        fileInfo: [] // 图片路径
       },
       // 添加图片
       specificationForm: {
@@ -298,46 +322,34 @@ export default {
       },
       value: '',
       // 添加至
-      options: [{
-        value: '选项1',
-        label: '黄金糕'
-      }, {
-        value: '选项2',
-        label: '双皮奶'
-      }, {
-        value: '选项3',
-        label: '蚵仔煎'
-      }, {
-        value: '选项4',
-        label: '龙须面'
-      }, {
-        value: '选项5',
-        label: '北京烤鸭'
-      }],
+      options: [
+        {
+          value: '选项1',
+          label: '黄金糕'
+        },
+        {
+          value: '选项2',
+          label: '双皮奶'
+        },
+        {
+          value: '选项3',
+          label: '蚵仔煎'
+        },
+        {
+          value: '选项4',
+          label: '龙须面'
+        },
+        {
+          value: '选项5',
+          label: '北京烤鸭'
+        }
+      ],
       // 添加规格
       specificationForm1: {
-        productId: '',
-        goodsId: '',
-        productSpecId: '3',
-        hfStoreId: '3', // 商铺id
-        requestId: '', // 发起请求的随机数, 用来判断请求是否重复
-        timestamp: '12231231', // 当前时间
-        token: '11238',
-        userId: '12', // 用户id
-        username: '1', // 商家名称
         specValue: [] // 标签 颜色 // 规格
       },
       // 添加规格
       specificationForm2: {
-        productId: '',
-        goodsId: '',
-        productSpecId: '3',
-        hfStoreId: '3', // 商铺id
-        requestId: '123123123', // 发起请求的随机数, 用来判断请求是否重复
-        timestamp: '12231231', // 当前时间
-        token: '11238',
-        userId: '12', // 用户id
-        username: '1', // 商家名称
         specValue: [] // 标签 颜色 // 规格
       },
       ruleForm2: {
@@ -368,6 +380,19 @@ export default {
     this.scope()
   },
   methods: {
+    onRemove (file) {},
+    imgPreview (file) {
+      let fileName = file.name
+      let regex = /(.jpg|.jpeg|.gif|.png|.bmp)$/
+      if (regex.test(fileName.toLowerCase())) {
+        this.ruleForm.fileInfo.push(URL.createObjectURL(file.raw))
+        console.log(file.raw)
+        console.log(this.ruleForm.fileInfo)
+        // this.uploadFile(file)
+      } else {
+        this.$message.error('请选择图片文件')
+      }
+    },
     scope (scope) {
       console.log(scope)
     },
@@ -399,25 +424,11 @@ export default {
     },
     // 添加图片
 
-    // 添加规格
-    postspecification () {
-      this.specificationForm1.specValue.push(this.specificationForm2.specValue)
-      this.time()
-      this.specificationForm1.requestId = Date.now()
-      let param = Object.assign({}, this.specificationForm1)
-      api
-        .addSpec(param)
-        .then(res => {
-          console.log(res)
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
     // 添加颜色事件
     submit () {
       // console.log(this.AddColor)
-      this.specificationForm1.specValue.push(this.AddColor)
+      console.log(1223332)
+      this.ruleForm.specValue.push(this.AddColor)
       this.AddColor = ''
     },
     // 添加尺寸事件
@@ -428,23 +439,35 @@ export default {
     },
     // 图片列表移除图片时的钩子
     handleRemove (file, fileList) {
-      console.log(file, fileList)
+      // console.log(file, fileList)
     },
     success (err, file, fileList) {
       console.log(err)
     },
-    // 点击图片列表中已上传的图片时的钩子
+    // 图片上传前事件
+    handleBeforeUpload (file) {
+      console.log(22222)
+      this.file = file // 需要传给后台的file文件
+      const reader = new FileReader()
+      reader.readAsDataURL(file)
+      reader.onload = () => {
+        const _base64 = reader.result
+        this.imgUrl = _base64 // 将_base64赋值给图片的src，实现图片预览
+      }
+      return false // 阻止图片继续上传，使得form表单提交时统一上传
+    },
+    // // 点击图片列表中的放大
     handlePictureCardPreview (file) {
       console.log(1111111)
       this.dialogImageUrl = file.url
       this.dialogVisible = true
     },
-
+    // handleDownload (file) {
+    //   console.log(file)
+    // },
     // 标签点击按钮
     handleClose (tag) {
-      this.specificationForm1.specValue.splice(
-        this.specificationForm1.specValue.indexOf(tag)
-      )
+      this.ruleForm.specValue.splice(this.ruleForm.specValue.indexOf(tag))
     },
     // 标签点击按钮
     handleClose1 (tag) {
@@ -472,8 +495,8 @@ export default {
 
     // 添加商品
     async submitForm () {
+      this.ruleForm.specValue.push(this.specificationForm2.specValue)
       this.$refs.ruleForm.validate(valid => {
-        console.log(valid)
         if (valid) {
           this.$confirm('确认提交吗？', '提示', {}).then(() => {
             console.log(this.ruleForm)
@@ -481,24 +504,11 @@ export default {
             this.ruleForm.requestId = Date.now()
             let param = this.ruleForm
             api.addProduct(param).then(res => {
-              this.specificationForm1.goodsId = this.ruleForm.requestId
-              this.specificationForm2.goodsId = this.ruleForm.requestId
-              this.$router.push({ name: 'product' })
+              this.$router.push({ name: 'commodity' })
             })
           })
         }
       })
-      // await this.$http.post('http://192.168.1.104:9095/product/addproduct', {
-      //   params: this.ruleForm
-      // })
-      // console.log('======')
-      // this.ruleForm.bossId = ''
-      // this.ruleForm.brandId = ''
-      // this.ruleForm.hfName = ''
-      // this.ruleForm.id = parseInt(this.ruleForm.id) + 1
-      // this.ruleForm.lastModifier = ''
-      // this.ruleForm.productDesc = ''
-      // this.ruleForm.requestId = ''
     },
     conver: function (s) {
       return s < 10 ? '0' + s : s
@@ -639,7 +649,5 @@ export default {
 }
 .box-card {
   height: 100%;
-}
-.input {
 }
 </style>

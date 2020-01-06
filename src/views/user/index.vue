@@ -94,31 +94,31 @@
             <template slot-scope="scope">{{ scope.row.id }}</template>
           </el-table-column>
           <el-table-column  label="昵称" align="center" >
-            <!-- <template slot-scope="scope">{{ scope.row.name }}</template> -->
+            <template slot-scope="scope">{{ scope.row.realName }}</template>
           </el-table-column>
           <el-table-column  label="性别" align="center">
-            <!-- <template slot-scope="scope">{{ scope.row.sex }}</template> -->
+            <template slot-scope="scope">{{ scope.row.sex===1?'男':'女' }}</template>
           </el-table-column>
 
           <el-table-column  align="center" label="所在地">
-            <template slot-scope="scope">{{ scope.row.address }}</template>
+            <template slot-scope="scope">{{ scope.row.region }}</template>
           </el-table-column>
           <el-table-column
-            prop="address"
+            prop="userLevel"
             width="160"
             label="等级"
             align="center"
             show-overflow-tooltip
           >
-            <template slot-scope="scope">{{ scope.row.dengji }}</template>
+            <template slot-scope="scope">{{ scope.row.userLevel }}</template>
           </el-table-column>
           <el-table-column
-            prop="address"
+            prop="createDate"
             label="关注时间"
             align="center"
             show-overflow-tooltip
           >
-            <template slot-scope="scope">{{ scope.row.timeout }}</template>
+            <template slot-scope="scope">{{ scope.row.createDate }}</template>
           </el-table-column>
           <el-table-column
             prop="address"
@@ -128,14 +128,14 @@
           >
             <template slot-scope="scope">{{ scope.row.chengjiao }}</template>
           </el-table-column>
-          <el-table-column
+          <!-- <el-table-column
             prop="address"
             label="成交"
             align="center"
             show-overflow-tooltip
           >
             <template slot-scope="scope">{{ scope.row.chengjiao }}</template>
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column fixed="right" label="操作" width="260" align="center">
             <template slot-scope="scope">
               <el-button
@@ -334,8 +334,8 @@ export default {
       api
         .categoryId()
         .then(res => {
-          this.tableData = res.data.data.list
-          console.log('用户列表', this.tableData)
+          this.tableData = res.data.data
+          console.log('用户列表', res)
         })
         .catch(function (err) {
           console.log(err)

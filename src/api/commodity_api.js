@@ -3,6 +3,9 @@ import Axios from 'axios'
 // 获取商品列表
 function getProductList () {
   return Axios.get('/api/goods/categoryId')
+}// 获取商品总数
+function queryGoods () {
+  return Axios.get('http://192.168.1.104:9095/goods/queryGoods')
 }
 function verifier () {
   return Axios.get('/ver/cancel/selectCancel')
@@ -43,6 +46,10 @@ function addProduct (params) {
   fd.append('token ', params.token)
   fd.append('userId', params.userId)
   fd.append('username', params.username)
+  fd.append('specValue', params.specValue)
+  fd.append('member', params.member)
+  fd.append('fileInfo', params.fileInfo)
+  fd.append('cancelId', params.cancelId)
   return Axios.post('/api/goods/create', fd, { responseType: 'arraybuffer' })
 }
 
@@ -215,5 +222,6 @@ export default {
   addSpec: addSpec,
   checkOrderList: checkOrderList,
   categoryTwo: categoryTwo,
-  verifier: verifier
+  verifier: verifier,
+  queryGoods: queryGoods
 }
