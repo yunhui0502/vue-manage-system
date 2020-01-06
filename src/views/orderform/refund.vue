@@ -698,28 +698,28 @@ export default {
     // 查询---------------------------------------------------------------------------------
     async zhuangtai () {
       const data = await this.$http.get(
-        'http://192.168.1.104:9097/order/query'
+        'http://172.26.16.97:9097/order/query'
       )
       console.log(data.data.data)
       this.cerit = data.data.data
     },
     async pending () {
       const data = await this.$http.get(
-        'http://192.168.1.104:9097/order/query'
+        'http://172.26.16.97:9097/order/query'
       )
       console.log(data.data.data)
       this.pen = data.data.data
     },
     async dispose () {
       const data = await this.$http.get(
-        'http://192.168.1.104:9097/order/query'
+        'http://172.26.16.97:9097/order/query'
       )
       console.log(data.data.data)
       this.dis = data.data.data
     },
     async service () {
       const data = await this.$http.get(
-        'http://192.168.1.104:9097/order/query'
+        'http://172.26.16.97:9097/order/query'
       )
       console.log(data.data.data)
       this.ser = data.data.data

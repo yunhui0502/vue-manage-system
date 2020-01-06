@@ -10,7 +10,7 @@ function getProductList (Id) {
   return Axios.get('/api/product/byBossId', params)
 }
 function verifier () {
-  return Axios.get('http://192.168.1.125:9901/cancel/selectCancel')
+  return Axios.get('http://172.26.16.97:9901/cancel/selectCancel')
 }
 // 获取类目
 function category () {
@@ -35,7 +35,7 @@ function bianProduct (params) {
 
 // 添加商品
 
-// http://192.168.1.233:9095/product/addproduct?hfName=衣服1&categoryId=1&brandId=1&productDesc=代步&bossId=1&lastModifier=swd
+// http://172.26.16.97:9095/product/addproduct?hfName=衣服1&categoryId=1&brandId=1&productDesc=代步&bossId=1&lastModifier=swd
 function addProduct (params) {
   return Axios.post('/api/product/addproduct', params, { responseType: 'arraybuffer' })
 

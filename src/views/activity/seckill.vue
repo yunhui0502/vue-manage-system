@@ -321,7 +321,7 @@ export default {
         paramsSerializer: params => {
           return qs.stringify(params, { indices: false })
         } })
-      // this.$http.get('http://192.168.1.175:9910/kill/deleteMulti', { params: { id: this.sangchu } }).then(function (response) {
+      // this.$http.get('http://172.26.16.97:9910/kill/deleteMulti', { params: { id: this.sangchu } }).then(function (response) {
       //   // handle success
       //   console.log(response)
       // })

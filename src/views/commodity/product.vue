@@ -98,7 +98,7 @@
         >{{tag}}</el-tag>
         <!-- 图片上传图片 -->
         <el-upload
-          action="http://192.168.1.104:9095/goods/addPicture"
+          action="http://172.26.16.97:9095/goods/addPicture"
           list-type="picture-card"
           :on-preview="handlePictureCardPreview"
           name="fileInfo"
@@ -384,7 +384,7 @@ export default {
         })
       // const {
       //   data: { data }
-      // } = await this.$http.get('http://192.168.1.104:9095/product/category')
+      // } = await this.$http.get('http://172.26.16.97:9095/product/category')
       // this.leiMu = data
       // this.leimu.levelId = data.length
     },
@@ -404,7 +404,7 @@ export default {
           })
         }
       })
-      // await this.$http.post('http://192.168.1.104:9095/product/addproduct', {
+      // await this.$http.post('http://172.26.16.97:9095/product/addproduct', {
       //   params: this.ruleForm
       // })
       // console.log('======')

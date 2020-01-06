@@ -35,14 +35,14 @@
 //     // 配置多个代理
 //     proxy: {
 //       '/api': {
-//         target: 'http://192.168.1.175:9911', // 本地模拟数据服务器
+//         target: 'http://172.26.16.97:9911', // 本地模拟数据服务器
 //         changeOrigin: true,
 //         pathRewrite: {
 //           '^/api': '' // 去掉接口地址中的api字符串
 //         }
 //       },
 //       '/foo': {
-//         target: 'http://192.168.1.104:9097', // 本地模拟数据服务器
+//         target: 'http://172.26.16.97:9097', // 本地模拟数据服务器
 //         changeOrigin: true,
 //         pathRewrite: {
 //           '^/foo': '' // 去掉接口地址中的foo字符串

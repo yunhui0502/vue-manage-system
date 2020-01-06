@@ -11,7 +11,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target:'http://192.168.1.104:9097',//王博朋
+        target: 'http://localhost:9097', // 王博朋
         // target:'http://192.168.1.104:9095',//小方
         changeOrigin: true,
         pathRewrite: {
@@ -19,7 +19,7 @@ module.exports = {
         }
       },
       '/user': {
-        target:'http://192.168.1.104:9097',//王博朋
+        target: 'http://localhost:9097', // 王博朋
         // target: 'http://192.168.1.104:9095',//小方
         // target:'http://localhost:8082',
         changeOrigin: true,
@@ -28,9 +28,9 @@ module.exports = {
         }
       },
       '/order': {
-         target:'http://192.168.1.104:9097',//王博朋
-          // target: 'http://192.168.1.104:9095',//小方
-         // target:'http://localhost:9097',
+        target: 'http://172.26.16.97:9097', // 王博朋
+        // target: 'http://192.168.1.104:9095',//小方
+        // target:'http://localhost:9097',
         changeOrigin: true,
         pathRewrite: {
           '^/order': '/'
@@ -40,13 +40,12 @@ module.exports = {
     },
 
     // Various Dev Server settings
-    host: 'localhost', // can be overwritten by process.env.HOST
+    host: '172.26.16.97', // can be overwritten by process.env.HOST
     port: 3000, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
-
 
     /**
      * Source Maps
