@@ -23,6 +23,10 @@
             <i class="el-icon-document-copy"></i>
             <span slot="title">数据统计</span>
           </el-menu-item>
+           <el-menu-item index="/jurisdiction">
+            <i class="el-icon-document-copy"></i>
+            <span slot="title">权限管理</span>
+          </el-menu-item>
           <el-menu-item index="/commodity">
             <i class="iconfont icon-tongji"></i>
             <span slot="title">商品管理</span>
@@ -94,13 +98,14 @@
       <el-header>
         <el-container class="header-right">
           <el-container class="header-user-con">
-            <span>
+
+            <el-dropdown trigger="click">
+               <span>
               <i
                 class="el-icon-search"
-                style="margin-right: 10px;color: #CCCCCC;cursor: pointer;margin-top:6px;"
+                style="margin-right: 10px;color: #CCCCCC;cursor: pointer;font-size: 30px;"
               ></i>
             </span>
-            <el-dropdown trigger="click">
               <span style="cursor: pointer;">
                 <img src="../img/8.png" />
               </span>
@@ -148,7 +153,7 @@
             </el-dropdown>
 
             <el-dropdown class="user-name" trigger="click">
-              <span class="el-dropdown-link" style="float: left;margin-top:10px;">
+              <span class="el-dropdown-link" style="float: left;">
                 用户昵称
                 <i class="el-icon-caret-bottom"></i>
               </span>
@@ -263,6 +268,7 @@ export default {
     // display: flex;
     height: 70px;
     align-items: center;
+    line-height: 35px;
   }
 }
 .user-name {
@@ -270,7 +276,8 @@ export default {
 }
 .block {
   float: right;
-  margin-left: 20px;
+  margin-left: 10px;
+  margin-bottom: 9px;
 }
 .el-dropdown-link {
   cursor: pointer;

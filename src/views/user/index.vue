@@ -21,7 +21,7 @@
       </div>
 
       <div class="block2">
-        <span class="demonstration" style="margin-left: 200px;">累计消费</span>
+        <span class="leijixiaof" style="">累计消费</span>
         <span style="margin-left: 10px;"></span>
         <el-input v-model="input" placeholder="请输入内容" style="width: 15%;margin-left:20px;"></el-input>
         <span style="margin-left: 10px;">至</span>
@@ -63,7 +63,7 @@
         </div>
       </div>
 
-      <div style="width:22%;height: 60px;margin: 0 auto;margin-top: 30px;">
+      <!-- <div style="width:22%;height: 60px;margin: 0 auto;margin-top: 30px;">
         <div
           style="float: left;width:50%;height:60px;text-align: center;line-height: 60px;background: #A3A0FB;border-radius: 5px;color: #ffffff;haixuan"
           @click="shaixuan()"
@@ -71,16 +71,16 @@
         <div
           style="float: left;width: 50%;height:60px;text-align: center;line-height: 60px;color: #A3A0FB;"
         >重置筛选条件</div>
-      </div>
+      </div> -->
 
       <div style="width: 100%;height:100%;background:#ffffff;">
-        <div
+        <!-- <div
           style="width:8%;height:40px;text-align: center;line-height: 40px;background: #ffffff;color: #cccccc;border-radius: 5px;float:right;margin-right: 40px;margin-top: 50px;border: 1px solid #cccccc;"
         >批量管理</div>
         <div
           style="width:8%;height:40px;text-align: center;line-height: 40px;background: #A6A3FB;color: #ffffff;border-radius: 5px;float: right;margin-right: 20px;margin-top: 50px;"
           @click="dialogVisible=true"
-        >+ 添加会员</div>
+        >+ 添加会员</div> -->
 
         <el-table
           ref="multipleTable"
@@ -89,66 +89,72 @@
           style="width: 100%;text-align: center;"
           @selection-change="handleSelectionChange"
         >
-          <el-table-column type="selection" width="120" style="text-align: center;"></el-table-column>
-          <el-table-column label="序号" align="center" width="160">
+          <el-table-column  type="selection" width="120" style="text-align: center;"></el-table-column>
+          <el-table-column  label="序号" align="center">
             <template slot-scope="scope">{{ scope.row.id }}</template>
           </el-table-column>
-          <el-table-column label="昵称" align="center" width="160">
-            <template slot-scope="scope">{{ scope.row.name }}</template>
+          <el-table-column  label="昵称" align="center" >
+            <template slot-scope="scope">{{ scope.row.realName }}</template>
           </el-table-column>
-          <el-table-column label="性别" align="center" width="160">
-            <template slot-scope="scope">{{ scope.row.sex }}</template>
+          <el-table-column  label="性别" align="center">
+            <template slot-scope="scope">{{ scope.row.sex===1?'男':'女' }}</template>
           </el-table-column>
 
-          <el-table-column prop="name" align="center" label="所在地" width="160">
-            <template slot-scope="scope">{{ scope.row.address }}</template>
+          <el-table-column  align="center" label="所在地">
+            <template slot-scope="scope">{{ scope.row.region }}</template>
           </el-table-column>
           <el-table-column
-            prop="address"
+            prop="userLevel"
             width="160"
             label="等级"
             align="center"
             show-overflow-tooltip
           >
-            <template slot-scope="scope">{{ scope.row.dengji }}</template>
+            <template slot-scope="scope">{{ scope.row.userLevel }}</template>
           </el-table-column>
           <el-table-column
-            prop="address"
+            prop="createDate"
             label="关注时间"
             align="center"
-            width="160"
             show-overflow-tooltip
           >
-            <template slot-scope="scope">{{ scope.row.timeout }}</template>
+            <template slot-scope="scope">{{ scope.row.createDate }}</template>
           </el-table-column>
           <el-table-column
             prop="address"
-            label="成交"
+            label="余额"
             align="center"
-            width="160"
             show-overflow-tooltip
           >
             <template slot-scope="scope">{{ scope.row.chengjiao }}</template>
           </el-table-column>
-          <el-table-column fixed="right" label="操作" align="center" width="300">
+          <!-- <el-table-column
+            prop="address"
+            label="成交"
+            align="center"
+            show-overflow-tooltip
+          >
+            <template slot-scope="scope">{{ scope.row.chengjiao }}</template>
+          </el-table-column> -->
+          <el-table-column fixed="right" label="操作" width="260" align="center">
             <template slot-scope="scope">
               <el-button
                 @click.native.prevent="deleteRow(scope.$index, tableData)"
                 type="text"
                 size="small"
-                style="font-size: 18px;color: #A6A3FB;"
+                style="color: #A6A3FB;"
               >设置权益卡</el-button>
               <el-button
                 @click.native.prevent="deleteRow(scope.$index, tableData)"
                 type="text"
                 size="small "
-                style="font-size: 18px;color: #FFCE26;"
+                style="color: #FFCE26;"
               >添加标签</el-button>
               <el-button
                 @click.native.prevent="deleteRow(scope.$index, tableData)"
                 type="text"
                 size="small"
-                style="font-size: 18px;color: #FF318A;"
+                style="color: #FF318A;"
               >联系客户</el-button>
             </template>
           </el-table-column>
@@ -239,6 +245,7 @@
 </template>
 
 <script>
+import api from '@/api/user-api.js'
 export default {
   data () {
     return {
@@ -314,87 +321,34 @@ export default {
       },
       value1: '',
       value2: '',
-      tableData: [
-        {
-          id: 1,
-          date: '2016-05-03',
-          name: '王小虎',
-          sex: '男',
-          address: '天津市西青区',
-          dengji: '铂金会员',
-          timeout: '2019-11-26    14:12',
-          chengjiao: '订单 0 单   金额 0 元'
-        },
-        {
-          id: 2,
-          date: '2016-05-02',
-          name: '王小虎',
-          sex: '男',
-          address: '天津市西青区',
-          dengji: '铂金会员',
-          timeout: '2019-11-26    14:12',
-          chengjiao: '订单 0 单 金额 0 元'
-        },
-        {
-          id: 3,
-          date: '2016-05-04',
-          name: '王小虎',
-          sex: '男',
-          address: '天津市西青区',
-          dengji: '铂金会员',
-          timeout: '2019-11-26    14:12',
-          chengjiao: '订单 0 单 金额 0 元'
-        },
-        {
-          id: 4,
-          date: '2016-05-01',
-          name: '王小虎',
-          sex: '男',
-          address: '天津市西青区',
-          dengji: '铂金会员',
-          timeout: '2019-11-26    14:12',
-          chengjiao: '订单 0 单 金额 0 元'
-        },
-        {
-          id: 5,
-          date: '2016-05-08',
-          name: '王小虎',
-          sex: '男',
-          address: '天津市西青区',
-          dengji: '铂金会员',
-          timeout: '2019-11-26    14:12',
-          chengjiao: '订单 0 单 金额 0 元'
-        },
-        {
-          id: 6,
-          date: '2016-05-06',
-          name: '王小虎',
-          sex: '男',
-          address: '天津市西青区',
-          dengji: '铂金会员',
-          timeout: '2019-11-26    14:12',
-          chengjiao: '订单 0 单 金额 0 元'
-        },
-        {
-          id: 7,
-          date: '2016-05-07',
-          name: '王小虎',
-          sex: '男',
-          address: '天津市西青区',
-          dengji: '铂金会员',
-          timeout: '2019-11-26   14:12',
-          chengjiao: '订单 0 单 金额 0 元'
-        }
-      ],
+      tableData: [],
       multipleSelection: []
     }
   },
+  created () {
+    this.getcategory()
+  },
   methods: {
+    // 获取用户列表
+    async getcategory () {
+      api
+        .categoryId()
+        .then(res => {
+          this.tableData = res.data.data
+          console.log('用户列表', res)
+        })
+        .catch(function (err) {
+          console.log(err)
+        })
+    },
+    handleClose (e) {
+      console.log(e)
+    },
     handleSelectionChange (val) {
       this.multipleSelection = val
     },
     shaixuan () {
-      console.log('asdadsa')
+      // console.log('asdadsa')
     }
   }
 }
@@ -427,5 +381,14 @@ div {
 .input2 {
   width: 15%;
   margin-left: 20px;
+}
+.leijixiaof {
+  margin-left: 200px;
+}
+.el-table{
+  margin-top:40px ;
+}
+.text {
+  font-size: 18px
 }
 </style>

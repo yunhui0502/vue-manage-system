@@ -35,42 +35,43 @@ module.exports = {
     // 配置多个代理
     proxy: {
       '/api': {
-        target: 'http://172.26.81.247:9095/', // 本地模拟数据服务器
+        target: 'http://localhost:9095/', // 本地模拟数据服务器
         changeOrigin: true,
         pathRewrite: {
           '^/api': '' // 去掉接口地址中的api字符串
         }
       },
       '/foo': {
-        target: 'http://172.26.81.247:9911', // 本地模拟数据服务器
+        target: 'http://localhost:9911', // 本地模拟数据服务器
         changeOrigin: true,
         pathRewrite: {
           '^/foo': '' // 去掉接口地址中的foo字符串
         }
       },
       '/jietu': {
-        target: 'http://172.26.81.247:9910', // 本地模拟数据服务器
+        target: 'http://localhost:9910', // 本地模拟数据服务器
         changeOrigin: true,
         pathRewrite: {
           '^/jietu': '' // 去掉接口地址中的foo字符串
         }
       },
       '/log': {
-        target: 'http://172.26.81.247:8082', // 本地模拟数据服务器
+        // target: 'http://192.168.1.196:8082', // 本地模拟数据服务器
+        target: 'http://localhost:8082', // 本地模拟数据服务器
         changeOrigin: true,
         pathRewrite: {
           '^/log': '' // 去掉接口地址中的foo字符串
         }
       },
       '/qui': {
-        target: 'http://172.26.81.247:9097', // 本地模拟数据服务器
+        target: 'http://localhost:9097', // 本地模拟数据服务器
         changeOrigin: true,
         pathRewrite: {
           '^/qui': '' // 去掉接口地址中的foo字符串
         }
       },
       '/ver': {
-        target: 'http://172.26.81.247:9901', // 本地模拟数据服务器
+        target: 'http://localhost:9901', // 本地模拟数据服务器
         changeOrigin: true,
         pathRewrite: {
           '^/ver': '' // 去掉接口地址中的foo字符串

@@ -77,7 +77,7 @@
         >{{tag}}</el-tag>
         <!-- 图片上传图片 -->
         <el-upload
-          action="http://172.26.16.97:9095/goods/addPicture"
+          action="/api/goods/addPicture"
           list-type="picture-card"
           :on-preview="handlePictureCardPreview"
           name="fileInfo"
@@ -433,7 +433,7 @@ export default {
     async postspecification () {
       this.time()
       this.specificationForm.requestId = Date.now()
-      this.$http.post('http://172.26.16.97:9095/goods/addSpecify', { params: this.specificationForm1 })
+      this.$http.post('/api/goods/addSpecify', { params: this.specificationForm1 })
         .then(res => {
           console.log(res)
         })
@@ -461,7 +461,7 @@ export default {
     bianjiSubmit: function () {
       let params = this.bianrow
       console.log(params)
-      this.$http.post('http://172.26.16.97:9095/goods/updategood', params, {
+      this.$http.post('/api/goods/updategood', params, {
         transformRequest: [function (data) {
           var str = ''
           for (var key in data) {
@@ -510,7 +510,7 @@ export default {
       _this
         .$ajax({
           method: 'get',
-          url: 'http://172.26.16.97:9095/product/specifies',
+          url: '/api/product/specifies',
           params: {
             productId: this.bianrow.id
           }

@@ -7,54 +7,22 @@
           <div
             style="display: flex;align-items: center;border-bottom: 1px solid #E5E5E5;font-size: 16px;color: #666666;"
           >
-            <div class="active1 shang" style="margin-left: 22px;text-align: center;;">全部商品（500）</div>
+            <div class="active1 shang" style="margin-left: 22px;text-align: center;;">全部商品（{{queryGoods}}）</div>
             <div class="shang" style="margin-left: 80px;margin-right: 81px;">出售中（500）</div>
             <div class="shang" style>库存（500）</div>
           </div>
           <div style="padding:25px 0 24px  44px;">
-            <el-form-item style="margin-bottom:24px;" label>
-              <div style="font-size: 16px;"></div>
-            </el-form-item>
-            <el-form-item style="margin-bottom:24px;" label=" ">
-              <el style="color:#666666; 18px;margin-right: 15px;">商品标签</el>
-              <input
+            <el-form-item style="margin-bottom:24px;margin-left: 5px;" label>
+              <el-form-item style="margin-bottom:50px;" label>
+                <div style>商品ID</div>
+              </el-form-item>
+                    <input
                 type="text"
                 style="box-shadow:0px 2px 137px 1px rgba(107,107,107,0.11);
               width:257px;height:45px;border-radius:6px;outline: none;border:1px solid #EBEDF0;border-top:0.8px solid #EBEDF0;
               border-bottom:1.5px solid #EBEDF0; padding-left: 14px;"
                 placeholder="请输入商品名称 "
               />
-              <!-- <el-input v-model="souhfName" auto-complete="off" placeholder="请输入商品名称" id="ewdwe"></el-input> -->
-            </el-form-item>
-            <el-form-item style="margin-bottom:24px;" label=" ">
-              <el style="color:#666666;margin-right: 15px;">商品ID</el>
-              <input
-                type="text"
-                style="box-shadow:0px 2px 137px 1px rgba(107,107,107,0.11);
-              width:257px;height:45px;border-radius:6px;outline: none;border:1px solid #EBEDF0;border-top:0.8px solid #EBEDF0;
-              border-bottom:1.5px solid #EBEDF0; padding-left: 14px;"
-                placeholder="请输入商品名称 "
-              />
-              <!-- <el-input v-model="souhfName" auto-complete="off" placeholder="请输入商品名称" id="ewdwe"></el-input> -->
-            </el-form-item>
-
-            <!--  <el-form-item style="margin-bottom:24px;" label=" ">
-              <el style="color:#666666;font-size:18px;margin-right: 15px;">商品分类</el>
-              <input type="text" style="box-shadow:0px 2px 137px 1px rgba(107,107,107,0.11);
-              width:257px;height:45px;border-radius:6px;outline: none;border:1px solid #EBEDF0;border-top:0.8px solid #EBEDF0;
-              border-bottom:1.5px solid #EBEDF0; padding-left: 14px;"
-                placeholder="请输入商品名称 ">
-            <! <el-input v-model="souhfName" auto-complete="off" placeholder="请输入商品名称" id="ewdwe"></el-input>-->
-            <el-form-item style="margin-bottom:24px;" label=" ">
-              <el style="color:#666666;margin-right: 15px;">店铺分类</el>
-              <input
-                type="text"
-                style="box-shadow:0px 2px 137px 1px rgba(107,107,107,0.11);
-              width:257px;height:45px;border-radius:6px;outline: none;border:1px solid #EBEDF0;border-top:0.8px solid #EBEDF0;
-              border-bottom:1.5px solid #EBEDF0; padding-left: 14px;"
-                placeholder="请输入商品名称 "
-              />
-              <!-- <el-input v-model="souhfName" auto-complete="off" placeholder="请输入商品名称" id="ewdwe"></el-input> -->
             </el-form-item>
 
             <el-form-item style="margin-bottom:24px;margin-left: 5px;" label>
@@ -171,7 +139,7 @@
 
     <div style="padding-top: 23px;background: #fff;margin-top: 18px;">
       <div style="margin-bottom:45px;">
-        <el-button
+        <!-- <el-button
           class="butttj"
           style="color: #fff;outline:none; border-radius:3px;float:right;margin-right: 40px;
           background: #fff;border:1px solid #EBEDF0;color: #666;"
@@ -184,7 +152,7 @@
          background: #fff;border:1px solid #EBEDF0;;color: #666;"
           size="mini"
           round
-        >批量上架</el-button>
+        >批量上架</el-button> -->
         <el-button
           class="butttj"
           style="color: #fff;outline:none; border-radius:3px;float:right;
@@ -237,17 +205,17 @@
 
         <el-table-column prop="id" label="商品编号" align="center"></el-table-column>
 
-        <el-table-column prop="productDesc" label="商品描述" align="center"></el-table-column>
+        <el-table-column prop="goodsDesc" label="商品描述" align="center"></el-table-column>
 
         <el-table-column prop="createTime" label="创建时间" align="center"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="260" align="center">
+        <el-table-column fixed="right" label="操作"  align="center">
           <template slot-scope="scope">
-            <el
+            <span class="el"
               @click="biangui(scope.row)"
               style="color:#A6A3FB;font-family:ms sans serif;cursor: pointer;"
-            >编辑</el>
-            <el style="margin-left: 16px;margin-right: 16px;color:#FFCE26;cursor: pointer;">上架</el>
-            <el style="color:#FF318A;cursor: pointer;" @click="deletesingle(index,scope.row)">删除</el>
+            >编辑</span>
+            <span class="el" style="margin-left: 16px;margin-right: 16px;color:#FFCE26;cursor: pointer;">上架</span>
+            <span class="el" style="color:#FF318A;cursor: pointer;" @click="deletesingle(index,scope.row)">删除</span>
           </template>
         </el-table-column>
       </el-table>
@@ -315,7 +283,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="addFormVisible = false">取消</el-button>
-        <el-button type="primary" @click="addSubmit">提交</el-button>
+        <el-button type="primary">提交</el-button>
       </div>
     </el-dialog>
   </div>
@@ -325,9 +293,11 @@
 import api from '@/api/commodity_api.js'
 
 export default {
-  name: 'Commodity',
+  name: 'commodity',
   data () {
     return {
+      // 商品数量
+      queryGoods: '0',
       checked: true,
       pagesize: 12,
       currpage: 1,
@@ -404,14 +374,26 @@ export default {
   created () {
     this.getcoommo()
     this.getcategory()
+    this.quGoods()
   },
   methods: {
     // 获取商品列表
     async getcoommo () {
       api
-        .getProductList(1)
+        .getProductList()
         .then(res => {
           this.tableData = res.data.data
+        })
+        .catch(function (err) {
+          console.log(err)
+        })
+    },
+    // 获取商品总数
+    quGoods () {
+      api
+        .queryGoods()
+        .then(res => {
+          this.queryGoods = res.data.data
         })
         .catch(function (err) {
           console.log(err)
@@ -469,7 +451,7 @@ export default {
             let param = Object.assign({}, _this.leimu)
             console.log(param)
             _this
-              .$ajax({
+              .$http({
                 method: 'post',
                 url: '/api/product/addCategory',
                 params: param
@@ -502,7 +484,7 @@ export default {
             let param = Object.assign({}, _this.leimu1)
             console.log(param)
             _this
-              .$ajax({
+              .$http({
                 method: 'post',
                 url: '/api/product/addCategory',
                 params: param
@@ -535,7 +517,7 @@ export default {
             let param = Object.assign({}, _this.leimu3)
             console.log(param)
             _this
-              .$ajax({
+              .$http({
                 method: 'post',
                 url: '/api/product/addCategory',
                 params: param
@@ -754,13 +736,12 @@ export default {
       })
 
       this.leimu3.parentCategoryId = obj.id
-      console.log(this.leimu3.parentCategoryId)
+      // console.log(this.leimu3.parentCategoryId)
     },
     conver: function (s) {
       return s < 10 ? '0' + s : s
     }
-  },
-  mounted () {}
+  }
 }
 </script>
 

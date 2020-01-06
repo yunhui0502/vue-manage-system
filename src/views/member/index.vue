@@ -4,7 +4,7 @@
       <div slot="header" class="clearfix">
         <span>会员管理</span>
       </div>
-      <el-form :inline="true" :model="form" style="margin-bottom: 60px" label-width="80px">
+      <el-form :inline="true" :model="form" style="margin-bottom: 60px" label-width="98px">
         <el-form-item label="套餐设置" style="marginLeft:50px">
           <el-dropdown style="margin-left:20px" @command="handleCommand">
             <span class="el-dropdown-link">
@@ -19,43 +19,41 @@
           </el-dropdown>
           <br />
         </el-form-item>
-         <br />
-          <el-form-item style="margin-left:135px">
-            <el-input v-model="form.month"  placeholder="使用期限（月）"></el-input>
-          </el-form-item>
-          <el-form-item label="设置金额">
-            <el-input v-model="form.money1" placeholder="请输入购买需要的金额（元）"></el-input>
-          </el-form-item>
-
+        <br />
+        <el-form-item style="margin-left:135px">
+          <el-input v-model="form.month" placeholder="使用期限（月）"></el-input>
+        </el-form-item>
+        <el-form-item label="设置金额">
+          <el-input v-model="form.total" placeholder="请输入购买需要的金额（元）"></el-input>
+        </el-form-item>
       </el-form>
 
-      <el-form :inline="true" :model="form" label-width="80px">
+      <el-form :inline="true" :model="form" label-width="98px">
         <el-form-item label="充值活动" style="marginLeft:50px">
           <el-form-item>
-            <el-input v-model="form.money2" placeholder="请输入金额"></el-input>
+            <el-input v-model="form1.total" placeholder="请输入金额"></el-input>
           </el-form-item>
           <el-form-item label="送" label-width="40px">
-              <el-input v-model="form.tiem1" placeholder="请输入会员时间（月）"></el-input>
+              <el-input v-model="form1.month" placeholder="请输入会员时间（月）"></el-input>
           </el-form-item>
         </el-form-item>
         <br/>
-        <el-form-item label="" style="marginLeft:50px;margin-left:130px">
-            <el-input v-model="form.money3" placeholder="请输入金额"></el-input>
+        <!-- <el-form-item label="" style="marginLeft:50px;margin-left:130px">
+            <el-input v-model="form1.total" placeholder="请输入金额"></el-input>
           </el-form-item>
           <el-form-item label="送" label-width="40px">
               <el-input v-model="form.time2" placeholder="请输入会员时间（月）"></el-input>
-          </el-form-item>
-
+          </el-form-item> -->
       </el-form>
 
-      <el-form :model="form" label-width="80px">
-        <el-form-item label="    ">
+      <!-- <el-form :model="form" label-width="80px">
+        <el-form-item label>
           <el-link href="https://element.eleme.io" target="_blank" style="marginLeft:50px">新建</el-link>
         </el-form-item>
-      </el-form>
+      </el-form> -->
 
       <el-row style="marginLeft:600px">
-        <el-button type="primary" size="small">确认</el-button>
+        <el-button @click="setbuyMember" type="primary" size="small">确认</el-button>
         <el-button size="small">重置</el-button>
       </el-row>
     </el-card>
@@ -71,17 +69,45 @@ export default {
       membershipCard: '月卡',
       form: {
         month: '1', // 使用期限
-        money1: '', // 购买需要的金额
-        money2: '', // 购买需要的金额
-        money3: '', // 购买需要的金额
-        time1: '', // 会员时间1
-        time2: '' // 会员时间2
+        total: '' // 购买需要的金额
+      },
+      form1: {
+        month: '1', // 使用期限
+        total: '' // 购买需要的金额
       }
     }
   },
   methods: {
+    // this.$http
+    // .get('http://192.168.1.196:8082/member/setbuyMember', {
+    //   params: { month: this.form.month, total: this.form.total }
+    // })
+    setbuyMember () {
+      this.$http
+        .get('/log//member/setrechargeMember', {
+          params: { month: this.form1.month, total: this.form1.total }
+        })
+      this.$confirm('确定提交吗？, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$http
+          .get('/log/member/setbuyMember', {
+            params: { month: this.form.month, total: this.form.total }
+          })
+        this.$message({
+          type: 'success',
+          message: '提交成功!'
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
+    },
     handleCommand (command) {
-      // this.$message('click on item ' + command)
       console.log(this.month)
       this.membershipCard = command
       if (command === '月卡') {

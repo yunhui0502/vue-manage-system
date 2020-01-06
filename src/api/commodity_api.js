@@ -1,13 +1,11 @@
 import Axios from 'axios'
 // ========================================================================商品模块
 // 获取商品列表
-function getProductList (Id) {
-  let params = {
-    params: {
-      bossId: Id
-    }
-  }
-  return Axios.get('/api/product/byBossId', params)
+function getProductList () {
+  return Axios.get('/api/goods/categoryId')
+}// 获取商品总数
+function queryGoods () {
+  return Axios.get('http://192.168.1.104:9095/goods/queryGoods')
 }
 function verifier () {
   return Axios.get('http://172.26.16.97:9901/cancel/selectCancel')
@@ -34,25 +32,25 @@ function bianProduct (params) {
 }
 
 // 添加商品
-
-// http://172.26.16.97:9095/product/addproduct?hfName=衣服1&categoryId=1&brandId=1&productDesc=代步&bossId=1&lastModifier=swd
+// http://192.168.1.233:9095/product/addproduct?hfName=衣服1&categoryId=1&brandId=1&productDesc=代步&bossId=1&lastModifier=swd
 function addProduct (params) {
-  return Axios.post('/api/product/addproduct', params, { responseType: 'arraybuffer' })
-
-  // let fd = new FormData()
-  // fd.append('bossId', params.bossId)
-  // fd.append('brandId', params.brandId)
-  // fd.append('goodName', params.goodName)
-  // fd.append('hfStoreId', params.hfStoreId)
-  // fd.append('goodsDesc', params.goodsDesc)
-  // fd.append('productId', params.productId)
-  // fd.append('requestId', params.requestId)
-  // fd.append('timestamp', params.timestamp)
-  // fd.append('token', params.token)
-  // fd.append('userId', params.userId)
-  // fd.append('username', params.username)
-  // // fd.append('hfName', params.hfName);
-  // return Axios.post('/api/goods/create', params, { responseType: 'arraybuffer' })
+  let fd = new FormData()
+  fd.append('bossId', params.bossId)
+  fd.append('brandId', params.brandId)
+  fd.append('goodName ', params.goodName)
+  fd.append('goodsDesc ', params.goodsDesc)
+  fd.append('hfStoreId ', params.hfStoreId)
+  fd.append('productId ', params.productId)
+  fd.append('requestId ', params.requestId)
+  fd.append('timestamp ', params.timestamp)
+  fd.append('token ', params.token)
+  fd.append('userId', params.userId)
+  fd.append('username', params.username)
+  fd.append('specValue', params.specValue)
+  fd.append('member', params.member)
+  fd.append('fileInfo', params.fileInfo)
+  fd.append('cancelId', params.cancelId)
+  return Axios.post('/api/goods/create', fd, { responseType: 'arraybuffer' })
 }
 
 // 按条件查询商品
@@ -165,13 +163,15 @@ function updateGood (params) {
 
 // 添加规格
 function addSpec (params) {
-  // let fd = new FormData()
-  // fd.append('categorySpecId', params.categorySpecId)
-  // fd.append('hfName', params.hfName)
-  // fd.append('specType', params.specType)
-  // fd.append('specUnit', params.specUnit)
-  // fd.append('specValue', params.specValue)
-  return Axios.post('/api/goods/addSpecify', params, { responseType: 'arraybuffer' })
+  let fd = new FormData()
+  fd.append('goodsId', params.goodsId)
+  fd.append('requestId', params.requestId)
+  fd.append('specValue', params.specValue)
+  fd.append('timestamp', params.timestamp)
+  fd.append('token', params.token)
+  fd.append('userId', params.userId)
+  fd.append('productSpecId', params.productSpecId)
+  return Axios.post('/api/goods/addSpecify', fd, { responseType: 'arraybuffer' })
 }
 
 // 上传图片
@@ -222,5 +222,6 @@ export default {
   addSpec: addSpec,
   checkOrderList: checkOrderList,
   categoryTwo: categoryTwo,
-  verifier: verifier
+  verifier: verifier,
+  queryGoods: queryGoods
 }

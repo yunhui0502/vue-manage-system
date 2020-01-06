@@ -1,7 +1,7 @@
 <template>
   <!-- 退款维权 -->
   <div style="width:100%;height:100%">
-    <div class="div" style="  height: 410px;">
+    <div class="div" style="  height: 100%;">
       <div class="header">
         <div style="margin-left:22px;line-height:42px;color: #666666;font-size:16px">订单查询</div>
       </div>
@@ -89,7 +89,7 @@
           </el-select>
           <div class="dis" @click="shaixuan()">筛选</div>
           <div class="disdaoc" @click="elxs()">导出</div>
-          <div style="margin-top: -30px;color: #A3A0FB;margin-left:420px;" @click="reset()">重置筛选条件</div>
+          <div class="screen" @click="reset()">重置筛选条件</div>
           <!-- <div style="margin-left:650px;margin-top: -35px;"><el-button type="primary" @click="xiugai()">修改订单</el-button></div> -->
         </div>
       </div>
@@ -698,28 +698,28 @@ export default {
     // 查询---------------------------------------------------------------------------------
     async zhuangtai () {
       const data = await this.$http.get(
-        'http://172.26.16.97:9097/order/query'
+        '/qui/order/query'
       )
       console.log(data.data.data)
       this.cerit = data.data.data
     },
     async pending () {
       const data = await this.$http.get(
-        'http://172.26.16.97:9097/order/query'
+        '/qui/order/query'
       )
       console.log(data.data.data)
       this.pen = data.data.data
     },
     async dispose () {
       const data = await this.$http.get(
-        'http://172.26.16.97:9097/order/query'
+        '/qui/order/query'
       )
       console.log(data.data.data)
       this.dis = data.data.data
     },
     async service () {
       const data = await this.$http.get(
-        'http://172.26.16.97:9097/order/query'
+        '/qui/order/query'
       )
       console.log(data.data.data)
       this.ser = data.data.data
@@ -923,5 +923,10 @@ div {
   height: 42px;
   background: #ffffff;
   border-bottom: 1px solid #e5e5e5;
+}
+.screen {
+  margin-top: -30px;
+  color: #a3a0fb;
+  margin-left: 420px;
 }
 </style>
