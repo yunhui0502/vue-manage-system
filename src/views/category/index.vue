@@ -77,7 +77,7 @@
                   <el-radio v-model="radio" label="1">新建单个类目</el-radio>
                 </span>
                 <div style="margin-left: 100px;">
-                  新建类目名称
+                  类目名称
                   <el-input
                     v-model="form.category"
                     placeholder="请输入类目名称"
@@ -86,7 +86,7 @@
                 </div>
                 <br />
                 <div style="margin-left: 100px;">
-                  所属类目层级
+                  类目级别
                   <el-select v-model="form.levelId" placeholder="请选择" style="margin-left: 38px;">
                     <el-option
                       v-for="item in options"
@@ -106,6 +106,15 @@
                     </div>
                   </span>
                 </div>
+                <div style="margin-left: 100px;">
+                  所属类目
+                  <el-input
+                    v-model="form.parantCategory"
+                    placeholder="请输入类目名称"
+                    style="width:40%;margin-left:40px;"
+                  ></el-input>
+                </div>
+                <br />
               </el-tab-pane>
 
               <!-- <el-tab-pane label="新建多个类目" name="second">
@@ -186,7 +195,16 @@ export default {
       },
       activeName: 'first',
       value: '',
-      options: [
+      options: [{
+        label: '一级类目',
+        value: 1
+      }, {
+        label: '二级类目',
+        value: 2
+      }, {
+        label: '三级类目',
+        value: 3
+      }
       ],
       radio: '1',
       dialogVisible: false,
