@@ -44,8 +44,8 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" align="center" ></el-table-column>
-        <el-table-column prop="id" label="类目ID" align="center" >
-        <el-table-column prop="hfName" label="类目名称" align="center" >
+        <el-table-column prop="id" label="类目ID" align="center" ></el-table-column>
+        <el-table-column prop="hfName" label="类目名称" align="center" ></el-table-column>
         <el-table-column prop="parentCategoryId" label="所属类目ID" align="center" >
           <!-- <template slot-scope="scope">{{ scope.row.date }}</template> -->
         </el-table-column>
