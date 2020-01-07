@@ -2,10 +2,10 @@ import Axios from 'axios'
 // ========================================================================商品模块
 // 获取商品列表
 function getProductList () {
-  return Axios.get('/api/goods/categoryId')
+  return Axios.get('/api/goods/listGoods?stoneId=1')
 }// 获取商品总数
 function queryGoods () {
-  return Axios.get('http://192.168.1.104:9095/goods/queryGoods')
+  return Axios.get('/api/goods/queryGoods')
 }
 function verifier () {
   return Axios.get('/ver/cancel/selectCancel')
@@ -30,7 +30,18 @@ function bianProduct (params) {
   fd.append('productDesc', params.productDesc)
   return Axios.post('/api/product/addproduct', fd, { responseType: 'arraybuffer' })
 }
-
+// 编辑商品
+function updategoods (params) {
+  let fd = new FormData()
+  fd.append('goodsDesc', params.goodsDesc)
+  fd.append('productCategoryName', params.productCategoryName)
+  fd.append('categoryId', params.categoryId)
+  fd.append('id', params.id)
+  fd.append('timestamp', 111)
+  fd.append('token', 1213)
+  fd.append('userId', 123)
+  return Axios.post('/api/goods/updategood', fd, { responseType: 'arraybuffer' })
+}
 // 添加商品
 // http://192.168.1.233:9095/product/addproduct?hfName=衣服1&categoryId=1&brandId=1&productDesc=代步&bossId=1&lastModifier=swd
 function addProduct (params) {
@@ -150,7 +161,7 @@ function deleteGood (id) {
       hfGoodsId: id
     }
   }
-  return Axios.get('/api/product/deleteProductId', params)
+  return Axios.get('/api/stone/deleteGood', params)
 }
 
 // 编辑物品
@@ -223,5 +234,6 @@ export default {
   checkOrderList: checkOrderList,
   categoryTwo: categoryTwo,
   verifier: verifier,
-  queryGoods: queryGoods
+  queryGoods: queryGoods,
+  updategoods: updategoods
 }

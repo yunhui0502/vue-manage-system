@@ -14,7 +14,7 @@
         <el-date-picker
           v-model="value1"
           type="daterange"
-          style="margin-left: 100px;"
+          style="margin-left: 100px;margin-left: 45px;"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
         ></el-date-picker>
@@ -23,14 +23,14 @@
       <div class="block2">
         <span class="leijixiaof" style="">累计消费</span>
         <span style="margin-left: 10px;"></span>
-        <el-input v-model="input" placeholder="请输入内容" style="width: 15%;margin-left:20px;"></el-input>
+        <el-input v-model="input" placeholder="请输入内容" style="width: 15%;margin-left:40px;"></el-input>
         <span style="margin-left: 10px;">至</span>
         <el-input v-model="input2" placeholder="请输入内容" style="width: 15%;margin-left:20px;"></el-input>
       </div>
       <div class="block3">
         <div>
           关键词
-          <el-input v-model="input1" placeholder="请输入退款编号" style="width:20%;margin-left: 120px;"></el-input>
+          <el-input v-model="input1" placeholder="请输入退款编号" style="width:20%;margin-left: 60px;"></el-input>
           <span style="margin-left: 10px;">客户身份</span>
           <el-select v-model="value" placeholder="请选择" style="margin-left: 20px;">
             <el-option
@@ -53,7 +53,7 @@
 
         <div style="margin-top: 20px;">
           购买次数
-          <el-input class="input1" v-model="form.input" placeholder="请输入内容"></el-input>
+          <el-input style="margin-left: 45px;"  class="input1" v-model="form.input" placeholder="请输入内容"></el-input>
           <span style="margin-left: 10px;">至</span>
           <el-input class="input2" v-model="form.input1" placeholder="请输入内容"></el-input>
           <span style="margin-left: 10px;">单价</span>
