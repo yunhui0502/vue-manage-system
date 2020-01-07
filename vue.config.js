@@ -1,3 +1,8 @@
+const CompressionWebpackPlugin = require('compression-webpack-plugin')
+const productionGzipExtensions = ['js', 'css']
+const webpack = require('webpack')
+const path = require('path')
+
 module.exports = {
   // baseUrl从 Vue CLI 3.3 起已弃用，请使用publicPath
   // 默认情况下，Vue CLI 会假设你的应用是被部署在一个域名的根路径上，例如 https://www.my-app.com/。
@@ -20,7 +25,51 @@ module.exports = {
 
   // 如果你不需要生产环境的 source map，可以将其设置为 false 以加速生产环境构建。
   productionSourceMap: false,
-
+  configureWebpack: {
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, './src')
+      }
+    },
+    plugins: [
+      // Ignore all locale files of moment.js
+      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+      // 配置compression-webpack-plugin压缩
+      new CompressionWebpackPlugin({
+        algorithm: 'gzip',
+        test: new RegExp('\\.(' + productionGzipExtensions.join('|') + ')$'),
+        threshold: 10240,
+        minRatio: 0.8
+      }),
+      new webpack.optimize.LimitChunkCountPlugin({
+        maxChunks: 5,
+        minChunkSize: 100
+      })
+    ]
+  },
+  chainWebpack: config => {
+    config.optimization.splitChunks({
+      chunks: 'all', // async表示抽取异步模块，all表示对所有模块生效，initial表示对同步模块生效
+      cacheGroups: {
+        vendors: {
+          test: /[\\/]node_modules[\\/]/, // 指定是node_modules下的第三方包
+          name: 'chunk-vendors',
+          chunks: 'all',
+          priority: -10 // 抽取优先级
+        },
+        // 抽离自定义工具库
+        utilCommon: {
+          name: 'chunk-common',
+          minSize: 1024, // 将引用模块分离成新代码文件的最小体积
+          minChunks: 2, // 表示将引用模块如不同文件引用了多少次，才能分离生成新chunk
+          priority: -20
+        }
+      }
+    })
+    config.optimization.runtimeChunk({
+      name: entryPoint => `manifest.${entryPoint.name}`
+    })
+  },
   // 所有 webpack-dev-server 的选项都支持。
   devServer: {
     port: 3001, // 端口号
