@@ -214,7 +214,7 @@
               @click="biangui(scope.row)"
               style="color:#A6A3FB;font-family:ms sans serif;cursor: pointer;"
             >编辑</span>
-            <span class="el" style="margin-left: 16px;margin-right: 16px;color:#FFCE26;cursor: pointer;">上架</span>
+            <span class="el" @click="upFrame(scope.row)" style="margin-left: 16px;margin-right: 16px;color:#FFCE26;cursor: pointer;" >{{ scope.row.isDeleted==1?'上架':'下架'}}</span>
             <span class="el" style="color:#FF318A;cursor: pointer;" @click="deletesingle(index,scope.row)">删除</span>
           </template>
         </el-table-column>
@@ -291,7 +291,7 @@
 
 <script>
 import api from '@/api/commodity_api.js'
-
+import qs from 'qs'
 export default {
   name: 'commodity',
   data () {
@@ -377,7 +377,51 @@ export default {
     this.quGoods()
   },
   methods: {
-    // 获取商品列表
+    // 上下架
+    upFrame (row) {
+      console.log(row.frames)
+      console.log(1111111)
+      if (row.isDeleted === 1) {
+        this.$http.get('/api/goods/racking', {
+          params: {
+            frames: 0,
+            goodsId: row.id
+          },
+          paramsSerializer: params => {
+            return qs.stringify(params, { indices: false })
+          } }).then((res) => {
+          this.getcoommo()
+          this.$message({
+            showClose: true,
+            message: '恭喜你，下架成功',
+            type: 'success'
+          })
+        })
+          .catch((error) => {
+            this.$message(error + '下架失败')
+          })
+      } else {
+        this.$http.get('/api/goods/racking', {
+          params: {
+            frames: 1,
+            goodsId: row.id
+          },
+          paramsSerializer: params => {
+            return qs.stringify(params, { indices: false })
+          } }).then((res) => {
+          this.getcoommo()
+          this.$message({
+            showClose: true,
+            message: '恭喜你，上架成功',
+            type: 'success'
+          })
+        })
+          .catch((error) => {
+            this.$message(error + '上架失败')
+          })
+      }
+    },
+    // 获取物品列表
     async getcoommo () {
       api
         .getProductList()
@@ -388,7 +432,7 @@ export default {
           console.log(err)
         })
     },
-    // 获取商品总数
+    // 获取物品总数
     quGoods () {
       api
         .queryGoods()
@@ -441,6 +485,23 @@ export default {
           console.log(err)
         })
     },
+    // 删除单个商品
+    deletesingle: function (index, row) {
+      // console.log(row)
+      this.$confirm('确认提交吗？', '提示', {}).then(async () => {
+        api
+          .deleteGood(row.id)
+          .then(res => {
+            console.log(res)
+            this.tableData.splice(index, 1)
+            // this.quGoods()
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      })
+    },
+
     // 添加类目
     addleimu: function () {
       var _this = this
@@ -539,21 +600,7 @@ export default {
         }
       })
     },
-    // 删除单个商品
-    deletesingle: function (index, row) {
-      console.log(row)
-      this.$confirm('确认提交吗？', '提示', {}).then(async () => {
-        api
-          .deleteGood(row.id)
-          .then(res => {
-            console.log(res)
-            this.tableData.splice(index, 1)
-          })
-          .catch(err => {
-            console.log(err)
-          })
-      })
-    },
+
     // 当前时间
     time () {
       var myDate = new Date()

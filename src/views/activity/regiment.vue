@@ -140,13 +140,16 @@
         <el-table-column prop="startTime" label="结束时间" show-overflow-tooltip></el-table-column>
         <el-table-column prop="price" label="剩余数量" show-overflow-tooltip></el-table-column>
         <el-table-column prop="address" label="操作" show-overflow-tooltip>
-          <el-button type="primary" size="mini">编辑</el-button>
-          <el-button type="warning" size="mini">下架</el-button>
+          <template slot-scope="scope">
+            <el-button type="primary" size="mini">编辑</el-button>
+            <el-button @click="upFrame(scope.row)" type="warning" size="mini">{{ scope.row.isDeleted==1?'上架':'下架'}}</el-button>
+            <el-button @click="deletesingle(scope.row)" type="danger" size="mini">删除</el-button>
+          </template>
           <!-- <el-button type="danger" size="mini">删除</el-button> -->
         </el-table-column>
       </el-table>
       <div class="block row-bg">
-        <el-pagination
+        <!-- <el-pagination
           background
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
@@ -154,7 +157,7 @@
           :page-size="100"
           layout="prev, pager, next, jumper"
           :total="1000"
-        ></el-pagination>
+        ></el-pagination> -->
       </div>
     </el-card>
   </div>
@@ -272,6 +275,48 @@ export default {
     }
   },
   methods: {
+    // 上下架
+    upFrame (row) {
+      if (row.isDeleted === 1) {
+        this.$http.get('/foo/group/updateIsDeleted', {
+          params: {
+            isDeleted: 0,
+            id: row.id
+          },
+          paramsSerializer: params => {
+            return qs.stringify(params, { indices: false })
+          } }).then((res) => {
+          this.pplp()
+          this.$message({
+            showClose: true,
+            message: '恭喜你，下架成功',
+            type: 'success'
+          })
+        })
+          .catch((error) => {
+            this.$message(error + '下架失败')
+          })
+      } else {
+        this.$http.get('/foo/group/updateIsDeleted', {
+          params: {
+            isDeleted: 1,
+            id: row.id
+          },
+          paramsSerializer: params => {
+            return qs.stringify(params, { indices: false })
+          } }).then((res) => {
+          this.pplp()
+          this.$message({
+            showClose: true,
+            message: '恭喜你，上架成功',
+            type: 'success'
+          })
+        })
+          .catch((error) => {
+            this.$message(error + '上架失败')
+          })
+      }
+    },
     // 添加团购商品
     addGcommodity () {
       let params = this.groupform
@@ -327,7 +372,7 @@ export default {
         this.dialogTableVisible = false
       }
     },
-    // 删除
+    //  批量删除
     async shanch () {
       for (let i = 0; i < this.multipleTable.length; i++) {
         this.shanchu.push(this.multipleTable[i].id)
@@ -341,11 +386,34 @@ export default {
             return qs.stringify(params, { indices: false })
           }
         })
-        .then(function (response) {
+        .then((response) => {
           this.pplp()
         })
-        .catch(function (error) {
+        .catch((error) => {
           console.log(error)
+        })
+    },
+    // 单个删除
+    deletesingle (row) {
+      this.$http
+        .get('/foo/group/delete', {
+          params: {
+            id: row.id
+          },
+          paramsSerializer: params => {
+            return qs.stringify(params, { indices: false })
+          }
+        })
+        .then((response) => {
+          this.pplp()
+          this.$message({
+            showClose: true,
+            message: '恭喜你，删除成功',
+            type: 'success'
+          })
+        })
+        .catch(() => {
+          this.$message('删除失败')
         })
     },
     // 搜索
