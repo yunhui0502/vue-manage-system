@@ -5,7 +5,7 @@
       <div slot="header" class="clearfix">
         <span>秒杀商品</span>
       </div>
-     <el-form style="margin-left: 168px;" ref="form" :model="groupform" label-width="80px">
+      <el-form style="margin-left: 168px;" ref="form" :model="groupform" label-width="80px">
         <el-form-item label="添加商品">
           <el-input
             style="width:300px"
@@ -62,7 +62,7 @@
           </div>
         </el-dialog>
         <!-- ---------------------------------------------------- -->
-        <el-form-item  label="秒杀时间">
+        <el-form-item label="秒杀时间">
           <el-date-picker
             v-model="groupform.startTime"
             type="datetime"
@@ -117,19 +117,25 @@
           <template slot-scope="scope">{{ scope.row.id }}</template>
         </el-table-column>
         <el-table-column label="商品描述" width="120">
-          <template slot-scope="scope">{{ scope.row.goodsDesc }}</template>
+          <template slot-scope="scope">{{ scope.row.hfGoods.goodsDesc }}</template>
         </el-table-column>
-        <el-table-column prop="nstopTimeame" label="开始时间" width="120"></el-table-column>
-        <el-table-column prop="startTime" label="结束时间" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="startTime" label="开始时间"></el-table-column>
+        <el-table-column prop="stopTime" label="结束时间" show-overflow-tooltip></el-table-column>
         <el-table-column prop="price" label="剩余数量" show-overflow-tooltip></el-table-column>
         <el-table-column prop="address" label="操作" show-overflow-tooltip>
-          <el-button type="primary" size="mini">编辑</el-button>
-          <el-button type="warning" size="mini">下架</el-button>
-          <el-button type="danger" size="mini">删除</el-button>
+          <template slot-scope="scope">
+            <el-button @click="compile(scope.row)" type="primary" size="mini">编辑</el-button>
+            <el-button
+              @click="upFrame(scope.row)"
+              type="warning"
+              size="mini"
+            >{{ scope.row.isDeleted==1?'上架':'下架'}}</el-button>
+            <el-button @click="deletesingle(scope.row)" type="danger" size="mini">删除</el-button>
+          </template>
         </el-table-column>
       </el-table>
       <div class="block row-bg">
-        <el-pagination
+        <!-- <el-pagination
           background
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
@@ -137,13 +143,34 @@
           :page-size="100"
           layout="prev, pager, next, jumper"
           :total="1000"
-        ></el-pagination>
+        ></el-pagination>-->
       </div>
     </el-card>
+    <!-- _________________________________________________________________________________________________________________________________________________编辑 -->
+    <el-dialog title :visible.sync="dialogFormVisible">
+      <div class="block" style="margin-bottom: 10px;">
+        <span class="demonstration">秒杀时间</span>
+        <el-date-picker style=" margin-left: 14px;" v-model="formcompile.stopTime" type="datetime" :placeholder="formcompile.stopTime"></el-date-picker>
+        <el-date-picker v-model="formcompile.stopTime" type="datetime" :placeholder="formcompile.stopTime"></el-date-picker>
+      </div>
+      <el-form ref="form" :model="formcompile" label-width="80px">
+        <el-form-item label="商品金额">
+          <el-input v-model="formcompile.price"></el-input>
+        </el-form-item>
+        <el-form-item label="商品数量">
+          <el-input v-model="formcompile.repertory"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="confirm">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import api from '@/api/orderform_api.js'
 import qs from 'qs'
 export default {
   name: 'aa',
@@ -151,8 +178,17 @@ export default {
   props: {},
   data () {
     return {
+      formcompile: {
+        goodsId: '', // 商品id
+        id: '', // 秒杀表id
+        price: '', // 团购价格
+        repertory: '', // 库存
+        startTime: '', // 秒杀开始时间
+        stopTime: ''// 秒杀结束时间
+      },
+      dialogFormVisible: false,
+      value1: '',
       value2: '',
-      value3: '',
       selection: [],
       multipleTable: [], // 存放选中值的数组
       checked: '',
@@ -254,19 +290,129 @@ export default {
     }
   },
   methods: {
-    // 添加团购商品
+    // 提交
+    confirm () {
+      this.dialogFormVisible = false
+      api
+        .update(this.formcompile)
+        .then(res => {
+
+        })
+        .catch(function (err) {
+          console.log(err)
+        })
+    },
+    // 编辑按钮
+    compile (row) {
+      // console.log(row)
+      this.dialogFormVisible = true
+      this.formcompile.goodsId = row.goodsId
+      this.formcompile.id = row.id
+      this.formcompile.price = row.price
+      this.formcompile.repertory = row.repertory
+      this.formcompile.startTime = row.startTime
+      this.formcompile.stopTime = row.stopTime
+      // console.log(this.formcompile)
+    },
+    upFrame (row) {
+      if (row.isDeleted === 1) {
+        this.$http
+          .get('/jietu/kill/updateIsDeleted', {
+            params: {
+              isDeleted: 0,
+              seckillId: row.id
+            },
+            paramsSerializer: params => {
+              return qs.stringify(params, { indices: false })
+            }
+          })
+          .then(res => {
+            this.pplp()
+            this.$message({
+              showClose: true,
+              message: '恭喜你，下架成功',
+              type: 'success'
+            })
+          })
+          .catch(error => {
+            this.$message(error + '下架失败')
+          })
+      } else {
+        this.$http
+          .get('/jietu/kill/updateIsDeleted', {
+            params: {
+              isDeleted: 1,
+              seckillId: row.id
+            },
+            paramsSerializer: params => {
+              return qs.stringify(params, { indices: false })
+            }
+          })
+          .then(res => {
+            this.pplp()
+            this.$message({
+              showClose: true,
+              message: '恭喜你，上架成功',
+              type: 'success'
+            })
+          })
+          .catch(error => {
+            this.$message(error + '上架失败')
+          })
+      }
+    },
+    // 单个删除
+    deletesingle (row) {
+      console.log(row.id)
+      this.$http
+        .get('/jietu/kill/delete', {
+          params: {
+            id: row.id
+          },
+          paramsSerializer: params => {
+            return qs.stringify(params, { indices: false })
+          }
+        })
+        .then(response => {
+          this.pplp()
+          this.$message({
+            showClose: true,
+            message: '恭喜你，删除成功',
+            type: 'success'
+          })
+        })
+        .catch(() => {
+          this.$message('删除失败')
+        })
+    },
+    // 添加秒杀商品
     addGcommodity () {
       let params = this.groupform
       console.log(params)
-      this.$http.post('/jietu/kill/insert', params, {
-        transformRequest: [function (data) {
-          var str = ''
-          for (var key in data) {
-            str += encodeURIComponent(key) + '=' + encodeURIComponent(data[key]) + '&'
-          }
-          return str
-        }]
-      })
+      this.$http
+        .post('/jietu/kill/insert', params, {
+          transformRequest: [
+            function (data) {
+              var str = ''
+              for (var key in data) {
+                str +=
+                  encodeURIComponent(key) +
+                  '=' +
+                  encodeURIComponent(data[key]) +
+                  '&'
+              }
+              return str
+            }
+          ]
+        })
+        .then(response => {
+          this.pplp()
+          this.$message({
+            showClose: true,
+            message: '恭喜你，添加成功',
+            type: 'success'
+          })
+        })
     },
     handleSelectionChange (val) {
       // console.log(1112112312)
@@ -308,23 +454,21 @@ export default {
         this.dialogTableVisible = false
       }
     },
-    // 删除
+    // 批量删除
     async shanchu () {
       for (let i = 0; i < this.multipleTable.length; i++) {
         this.sangchu.push(this.multipleTable[i].id)
       }
       console.log({ params: this.sangchu })
-      this.$http.get('/jietu/kill/deleteMulti', {
-        params: {
-          id: this.sangchu
-        },
-        paramsSerializer: params => {
-          return qs.stringify(params, { indices: false })
-        } })
-      // this.$http.get('http://172.26.16.97:9910/kill/deleteMulti', { params: { id: this.sangchu } }).then(function (response) {
-      //   // handle success
-      //   console.log(response)
-      // })
+      this.$http
+        .get('/jietu/kill/deleteMulti', {
+          params: {
+            id: this.sangchu
+          },
+          paramsSerializer: params => {
+            return qs.stringify(params, { indices: false })
+          }
+        })
         .catch(function (error) {
           // handle error
           console.log(error)
@@ -339,9 +483,7 @@ export default {
     },
     // 获取全都团购商品
     async pplp () {
-      const data = await this.$http.get(
-        '/jietu/kill/select'
-      )
+      const data = await this.$http.get('/jietu/kill/select')
       // console.log(data.data)
       this.ppl = data.data
     }
@@ -364,5 +506,4 @@ export default {
   // text-align: right;
   margin: 20px 30px 0 440px;
 }
-
 </style>

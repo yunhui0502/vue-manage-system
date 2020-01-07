@@ -10,21 +10,21 @@
         :rules="bianRules"
         ref="bianForm"
       >
-        <div style="font-size: 17px;margin-bottom: 30px;">商品编辑:</div>
+        <div style="font-size: 17px;margin-bottom: 30px;">商品编辑</div>
 
         <el-form-item style="margin-bottom:50px;" label>
           <div style="font-size: 15px;">商品名称:</div>
         </el-form-item>
-        <el-form-item label prop="hfName">
-          <el-input v-model="bianrow.hfName" auto-complete="off"></el-input>
+        <el-form-item label prop="goodName">
+          <el-input v-model="bianrow.goodName" auto-complete="off"></el-input>
         </el-form-item>
         <br />
         <el-form-item style="margin-bottom:50px;" label>
           <div style="font-size: 15px;">商品描述:</div>
         </el-form-item>
-        <el-form-item label prop="productDesc">
+        <el-form-item label prop="goodsDesc">
           <el-input
-            v-model="bianrow.productDesc"
+            v-model="bianrow.goodsDesc"
             auto-complete="off"
             style="width: 500px;"
             type="textarea"
@@ -37,7 +37,11 @@
           <div style="font-size: 15px;">商品分类:</div>
         </el-form-item>
         <el-form-item label>
-          <el-input v-model="bianrow.productDesc" auto-complete="off" prop="categoryId"></el-input>
+          <el-input
+            v-model="bianrow.productCategoryName"
+            auto-complete="off"
+            prop="productCategoryName"
+          ></el-input>
         </el-form-item>
         <br />
         <el-form-item style="margin-bottom:50px;" label>
@@ -49,34 +53,34 @@
         <br />
         <el-button type="primary" @click="bianjiSubmit" :loading="addLoading">提交</el-button>
       </el-form>
-<!-- --------------------------------------------------------------------------------------------------------------------------------------- -->
-          <el-card class="box-card">
-      <div slot="header" class="clearfix">
-        <span>型号单价</span>
-      </div>
-      <!-- 商品型号 -->
-      <span style="position: relative;top: 20px;left:220px">商品型号</span>
-      <div class="kaipi">
-        <el-button class="sc-delete" type="text">删除型号</el-button>
-        <div>
-          <el-input
-            v-model="input"
-            style="width:304px;height: 32px; margin: 24px 0"
-            placeholder="请输入内容"
-          ></el-input>
-          <!-- 单选按钮 -->
-          <el-checkbox v-model="checked">添加规格图片</el-checkbox>
+      <!-- --------------------------------------------------------------------------------------------------------------------------------------- -->
+      <el-card class="box-card">
+        <div slot="header" class="clearfix">
+          <span>型号单价</span>
         </div>
-        <!-- 标签 -->
-        <el-tag
-          :key="tag"
-          v-for="tag in specificationForm.specValue"
-          closable
-          :disable-transitions="false"
-          @close="handleClose(tag)"
-        >{{tag}}</el-tag>
-        <!-- 图片上传图片 -->
-        <el-upload
+        <!-- 商品型号 -->
+        <span style="position: relative;top: 20px;left:220px">商品型号</span>
+        <div class="kaipi">
+          <el-button class="sc-delete" type="text">删除型号</el-button>
+          <div>
+            <el-input
+              v-model="input"
+              style="width:304px;height: 32px; margin: 24px 0"
+              placeholder="请输入内容"
+            ></el-input>
+            <!-- 单选按钮 -->
+            <el-checkbox v-model="checked">添加规格图片</el-checkbox>
+          </div>
+          <!-- 标签 -->
+          <el-tag
+            :key="tag"
+            v-for="tag in specificationForm.specValue"
+            closable
+            :disable-transitions="false"
+            @close="handleClose(tag)"
+          >{{tag}}</el-tag>
+          <!-- 图片上传图片 -->
+          <!-- <el-upload
           action="/api/goods/addPicture"
           list-type="picture-card"
           :on-preview="handlePictureCardPreview"
@@ -89,73 +93,87 @@
         </el-upload>
         <el-dialog :visible.sync="dialogVisible">
           <img width="100%" :src="dialogImageUrl" alt />
-        </el-dialog>
-        <el-input v-model="AddColor" style="width:194px; height:32px;" placeholder="请输入内容"></el-input>
-        <el-button   @click="submit" style="margin:8px">添加商品规格</el-button>
-        <el-input v-model="specificationForm1.productSpecId"  placeholder="添加商品id"></el-input>
-      </div>
-      <el-button  @click="postspecification" class="add-button">添加</el-button>
+          </el-dialog>-->
+          <el-upload
+            ref="upload"
+            class="upload-poster"
+            accept=".jpg, .jpeg, .png, .gif, .bmp, .JPG, .JPEG, .GIF, .BMP"
+            action
+            list-type="picture-card"
+            :on-remove="onRemove"
+            :on-change="imgPreview"
+            :auto-upload="false"
+          >
+            <i class="el-icon-plus"></i>
+            <el-dialog :visible.sync="dialogVisible">
+              <img width="100%" :src="fileInfo " alt />
+            </el-dialog>
+          </el-upload>
+          <el-input v-model="AddColor" style="width:194px; height:32px;" placeholder="请输入内容"></el-input>
+          <el-button @click="submit" style="margin:8px">添加商品规格</el-button>
+          <el-input v-model="specificationForm1.productSpecId" placeholder="添加商品id"></el-input>
+        </div>
+        <el-button @click="postspecification" class="add-button">添加</el-button>
 
-      <span style="position: relative;top: 57px;left:-830px">商品价格/库存</span>
-      <el-table :data="tableData">
-        <el-table-column label="颜色" width="101">
-          <template slot-scope="scope">
-            <span style="margin-left: 10px">{{ scope.row.date }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="尺寸" width="101">
-          <template slot-scope="scope">
-            <span style="margin-left: 10px">{{ scope.row.name }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="价格" width="101">
-          <template slot-scope="scope">
-            <span style="margin-left: 10px">{{ scope.row.date }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="库存" width="101">
-          <template slot-scope="scope">
-            <span style="margin-left: 10px">{{ scope.row.name }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="划线价" width="101">
-          <template slot-scope="scope">
-            <span style="margin-left: 10px">{{ scope.row.name }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="图片" width="101">
-          <template slot-scope="scope">
-            <span style="margin-left: 10px">{{ scope.row.date }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="操作">
-          <template slot-scope="scope">
-            <el-button type="text" size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-            <el-button
-              type="text"
-              style="color:red"
-              plain
-              size="mini"
-              @click="handleDelete(scope.$index, scope.row)"
-            >删除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <!-- ------------------------------------------------------------------------------------------ -->
-      <el-form :model="ruleForm2" ref="ruleForm" label-width="110px" class="reduceForm">
-        <el-form-item label="库存减扣方式" prop="region">
-          <el-select v-model="ruleForm2.region" placeholder="拍下减库存"></el-select>
-        </el-form-item>
+        <span style="position: relative;top: 57px;left:-830px">商品价格/库存</span>
+        <el-table :data="tableData">
+          <el-table-column label="颜色" width="101">
+            <template slot-scope="scope">
+              <span style="margin-left: 10px">{{ scope.row.date }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="尺寸" width="101">
+            <template slot-scope="scope">
+              <span style="margin-left: 10px">{{ scope.row.name }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="价格" width="101">
+            <template slot-scope="scope">
+              <span style="margin-left: 10px">{{ scope.row.date }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="库存" width="101">
+            <template slot-scope="scope">
+              <span style="margin-left: 10px">{{ scope.row.name }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="划线价" width="101">
+            <template slot-scope="scope">
+              <span style="margin-left: 10px">{{ scope.row.name }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="图片" width="101">
+            <template slot-scope="scope">
+              <span style="margin-left: 10px">{{ scope.row.date }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作">
+            <template slot-scope="scope">
+              <el-button type="text" size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+              <el-button
+                type="text"
+                style="color:red"
+                plain
+                size="mini"
+                @click="handleDelete(scope.$index, scope.row)"
+              >删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <!-- ------------------------------------------------------------------------------------------ -->
+        <el-form :model="ruleForm2" ref="ruleForm" label-width="110px" class="reduceForm">
+          <el-form-item label="库存减扣方式" prop="region">
+            <el-select v-model="ruleForm2.region" placeholder="拍下减库存"></el-select>
+          </el-form-item>
 
-        <el-form-item style="width:21%" label="库存" prop="name">
-          <el-input label="请输入库存数量" v-model="ruleForm2.name"></el-input>
-        </el-form-item>
+          <el-form-item style="width:21%" label="库存" prop="name">
+            <el-input label="请输入库存数量" v-model="ruleForm2.name"></el-input>
+          </el-form-item>
 
-        <el-form-item style="width:21%" label="商品详情" prop="name">
-        </el-form-item>
-      </el-form>
-      <el-button class="add-button">添加</el-button>
-    </el-card>
+          <el-form-item style="width:21%" label="商品详情" prop="name"></el-form-item>
+        </el-form>
+        <el-button class="add-button">添加</el-button>
+      </el-card>
     </div>
   </div>
 </template>
@@ -163,20 +181,27 @@
 // 设置输入框的宽度
 </style>
 <script>
+import api from '@/api/commodity_api.js'
 export default {
   name: 'searchinput',
   data () {
     return {
+      // 图片
+      fileInfo: '',
       // 添加颜色
       AddColor: '',
       input: '', // 复制来的
       collapse: false,
       value4: '',
       bianrow: {
-        hfName: '',
-        productDesc: '',
+        goodName: '',
+        goodsDesc: '', // 描述
+        productCategoryName: '', // 类目
         categoryId: '',
-        id: ''
+        id: '',
+        timestamp: '1223',
+        token: '123',
+        userId: '1'
       },
       leimu: {
         category: '',
@@ -223,7 +248,7 @@ export default {
         timestamp: '12231231', // 当前时间
         token: '11238',
         userId: '12', // 用户id
-        username: '1'// 商家名称
+        username: '1' // 商家名称
         // specValue: ['1.1'] // 标签 颜色 // 规格
       },
       ruleForm2: {
@@ -428,12 +453,20 @@ export default {
       file: ''
     }
   },
+  created () {
+    this.mounted()
+  },
   methods: {
+    // 获取图片
+    Acquire () {
+
+    },
     // 添加规格
     async postspecification () {
       this.time()
       this.specificationForm.requestId = Date.now()
-      this.$http.post('/api/goods/addSpecify', { params: this.specificationForm1 })
+      this.$http
+        .post('/api/goods/addSpecify', { params: this.specificationForm1 })
         .then(res => {
           console.log(res)
         })
@@ -459,17 +492,24 @@ export default {
     },
     // 商品 编辑 提交按钮
     bianjiSubmit: function () {
-      let params = this.bianrow
-      console.log(params)
-      this.$http.post('/api/goods/updategood', params, {
-        transformRequest: [function (data) {
-          var str = ''
-          for (var key in data) {
-            str += encodeURIComponent(key) + '=' + encodeURIComponent(data[key]) + '&'
-          }
-          return str
-        }]
-      })
+      api.updategoods(this.bianrow)
+      // let params = this.bianrow
+      // console.log(params)
+      // this.$http.post('/api/goods/updategood', params, {
+      //   transformRequest: [
+      //     function (data) {
+      //       var str = ''
+      //       for (var key in data) {
+      //         str +=
+      //           encodeURIComponent(key) +
+      //           '=' +
+      //           encodeURIComponent(data[key]) +
+      //           '&'
+      //       }
+      //       return str
+      //     }
+      //   ]
+      // })
     },
 
     deletegui: function (row) {
@@ -506,19 +546,19 @@ export default {
       console.log(this.bianrow.categoryId)
     },
     checkguige: function () {
-      var _this = this
-      _this
-        .$ajax({
-          method: 'get',
-          url: '/api/product/specifies',
-          params: {
-            productId: this.bianrow.id
-          }
-        })
-        .then(res => {
-          _this.guigelist = res.data.data
-          console.log('查询规格', res)
-        })
+      // var _this = this
+      // _this
+      //   .$ajax({
+      //     method: 'get',
+      //     url: '/api/product/specifies',
+      //     params: {
+      //       productId: this.bianrow.id
+      //     }
+      //   })
+      //   .then(res => {
+      //     _this.guigelist = res.data.data
+      //     console.log('查询规格', res)
+      //   })
     },
     add: function () {
       this.guiform.productId = this.bianrow.id
@@ -528,24 +568,24 @@ export default {
             this.addLoading = true
             let param = Object.assign({}, this.guiform)
             console.log('1', param)
-            this.$ajax({
-              method: 'post',
-              url: '/api/product/addSpecify',
-              params: param
-            }).then(res => {
-              this.addLoading = false
-              console.log('添加规格', res)
-              this.checkguige()
-              this.$message({
-                message: '提交成功',
-                type: 'success'
-              })
+            // this.$ajax({
+            //   method: 'post',
+            //   url: '/api/product/addSpecify',
+            //   params: param
+            // }).then(res => {
+            //   this.addLoading = false
+            //   console.log('添加规格', res)
+            //   this.checkguige()
+            //   this.$message({
+            //     message: '提交成功',
+            //     type: 'success'
+            //   })
 
-              this.addFormVisible1 = false
-              this.$refs['guiform1'].resetFields()
+            this.addFormVisible1 = false
+            this.$refs['guiform1'].resetFields()
 
-              // this.getResult(1);
-            })
+            // this.getResult(1);
+            // })
           })
         }
       })
@@ -575,7 +615,7 @@ export default {
     var list = decodeURIComponent(this.$route.query.row)
     this.bianrow = JSON.parse(list)
     // this.bianrow=this.$route.query.row;
-    console.log(this.bianrow)
+    console.log('编辑带过来的', this.bianrow)
     this.checkType()
     this.checkguige()
   }
@@ -583,7 +623,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-  .kaipi {
+.kaipi {
   width: 676px;
   height: 100%;
   margin-left: 300px;
