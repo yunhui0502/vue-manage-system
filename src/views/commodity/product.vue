@@ -494,7 +494,7 @@ export default {
         })
       // const {
       //   data: { data }
-      // } = await this.$http.get('http://192.168.1.104:9095/product/category')
+      // } = await this.$http.get('http://172.26.16.97:9095/product/category')
       // this.leiMu = data
       // this.leimu.levelId = data.length
     },

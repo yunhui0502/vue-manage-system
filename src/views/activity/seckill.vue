@@ -469,10 +469,6 @@ export default {
             return qs.stringify(params, { indices: false })
           }
         })
-        // this.$http.get('http://192.168.1.175:9910/kill/deleteMulti', { params: { id: this.sangchu } }).then(function (response) {
-        //   // handle success
-        //   console.log(response)
-        // })
         .catch(function (error) {
           // handle error
           console.log(error)

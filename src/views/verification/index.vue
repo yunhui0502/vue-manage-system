@@ -237,7 +237,7 @@ export default {
     },
     // async addition () {
     //   const data = await this.$http.get(
-    //     'http://192.168.1.125:9901/cancel/updateCancel'
+    //     'http://172.26.16.97:9901/cancel/updateCancel'
     //   )
     //   console.log(data.data.data)
     //   this.form = data.data.data

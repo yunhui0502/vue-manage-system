@@ -295,10 +295,10 @@ export default {
       rows.splice(index, 1)
     },
     // 全选
-    handleCheckAllChange (val) {
-      this.checkedCities = val ? cityOptions : []
-      this.isIndeterminate = false
-    },
+    // handleCheckAllChange (val) {
+    //   this.checkedCities = val ? cityOptions : []
+    //   this.isIndeterminate = false
+    // },
     // 全选
     handleCheckedCitiesChange (value) {
       let checkedCount = value.length

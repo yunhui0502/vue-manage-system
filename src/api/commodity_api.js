@@ -8,7 +8,7 @@ function queryGoods () {
   return Axios.get('/api/goods/queryGoods')
 }
 function verifier () {
-  return Axios.get('/ver/cancel/selectCancel')
+  return Axios.get('http://172.26.16.97:9901/cancel/selectCancel')
 }
 // 获取类目
 function category () {
