@@ -44,7 +44,9 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" align="center" ></el-table-column>
+        <el-table-column prop="id" label="类目ID" align="center" >
         <el-table-column prop="hfName" label="类目名称" align="center" >
+        <el-table-column prop="parentCategoryId" label="所属类目ID" align="center" >
           <!-- <template slot-scope="scope">{{ scope.row.date }}</template> -->
         </el-table-column>
         <!-- <el-table-column prop="name" label="所属层级" align="center"></el-table-column> -->
@@ -86,6 +88,15 @@
                 </div>
                 <br />
                 <div style="margin-left: 100px;">
+                  所属类目ID
+                  <el-input
+                    v-model="form.parantCategoryId"
+                    placeholder="请输入所属类目ID"
+                    style="width:40%;margin-left:40px;"
+                  ></el-input>
+                </div>
+                <br />
+                <div style="margin-left: 100px;">
                   类目级别
                   <el-select v-model="form.levelId" placeholder="请选择" style="margin-left: 38px;">
                     <el-option
@@ -106,15 +117,6 @@
                     </div>
                   </span>
                 </div>
-                <div style="margin-left: 100px;">
-                  所属类目
-                  <el-input
-                    v-model="form.parantCategory"
-                    placeholder="请输入类目名称"
-                    style="width:40%;margin-left:40px;"
-                  ></el-input>
-                </div>
-                <br />
               </el-tab-pane>
 
               <!-- <el-tab-pane label="新建多个类目" name="second">
@@ -247,11 +249,11 @@ export default {
         .get('/api/product/category')
         .then((res) => {
           this.tableData = res.data.data
+          this.dialogVisible = false
           console.log('类目', res)
         })
         .catch(function (error) {
-          // handle error
-          console.log(error)
+          alert(error)
         })
     },
     handleClick (row) {
