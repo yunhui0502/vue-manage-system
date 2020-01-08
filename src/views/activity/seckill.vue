@@ -54,7 +54,7 @@
               <template slot-scope="scope">{{ scope.row.id }}</template>
             </el-table-column>
             <el-table-column label="商品描述">
-              <template slot-scope="scope">{{ scope.row.goodsDesc }}</template>
+              <template slot-scope="scope">{{ scope.row.hfGoods.goodsDesc }}</template>
             </el-table-column>
           </el-table>
           <div style="margin-top:10px;text-align: right; ">
@@ -89,7 +89,7 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="addGcommodity">添加</el-button>
-          <el-button>重置</el-button>
+          <el-button  @click="reset">重置</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -129,7 +129,7 @@
               @click="upFrame(scope.row)"
               type="warning"
               size="mini"
-            >{{ scope.row.isDeleted==1?'上架':'下架'}}</el-button>
+            >{{ scope.row.isDeleted==1?'下架':'上架'}}</el-button>
             <el-button @click="deletesingle(scope.row)" type="danger" size="mini">删除</el-button>
           </template>
         </el-table-column>
@@ -150,8 +150,8 @@
     <el-dialog title :visible.sync="dialogFormVisible">
       <div class="block" style="margin-bottom: 10px;">
         <span class="demonstration">秒杀时间</span>
-        <el-date-picker style=" margin-left: 14px;" v-model="formcompile.stopTime" type="datetime" :placeholder="formcompile.stopTime"></el-date-picker>
-        <el-date-picker v-model="formcompile.stopTime" type="datetime" :placeholder="formcompile.stopTime"></el-date-picker>
+        <el-date-picker style=" margin-left: 14px;" v-model="formcompile.startTime" type="datetime" placeholder="开始时间"></el-date-picker>
+        <el-date-picker v-model="formcompile.stopTime" type="datetime" placeholder="结束时间"></el-date-picker>
       </div>
       <el-form ref="form" :model="formcompile" label-width="80px">
         <el-form-item label="商品金额">
@@ -178,6 +178,7 @@ export default {
   props: {},
   data () {
     return {
+      // 编辑绑定的值
       formcompile: {
         goodsId: '', // 商品id
         id: '', // 秒杀表id
@@ -290,13 +291,22 @@ export default {
     }
   },
   methods: {
+    reset () {
+      // eslint-disable-next-line no-unused-expressions
+      this.groupform.goodsId = '',
+      this.groupform.number = '',
+      this.groupform.price = '',
+      this.groupform.repertory = '',
+      this.groupform.startTime = '',
+      this.groupform.stopTime = ''
+    },
     // 提交
     confirm () {
       this.dialogFormVisible = false
       api
         .update(this.formcompile)
         .then(res => {
-
+          this.pplp()
         })
         .catch(function (err) {
           console.log(err)
@@ -304,14 +314,14 @@ export default {
     },
     // 编辑按钮
     compile (row) {
-      // console.log(row)
+      console.log(row)
       this.dialogFormVisible = true
       this.formcompile.goodsId = row.goodsId
       this.formcompile.id = row.id
       this.formcompile.price = row.price
       this.formcompile.repertory = row.repertory
-      this.formcompile.startTime = row.startTime
-      this.formcompile.stopTime = row.stopTime
+      // this.formcompile.startTime = row.startTime
+      // this.formcompile.stopTime = row.stopTime
       // console.log(this.formcompile)
     },
     upFrame (row) {
@@ -406,6 +416,7 @@ export default {
           ]
         })
         .then(response => {
+          this.reset()
           this.pplp()
           this.$message({
             showClose: true,
@@ -449,8 +460,8 @@ export default {
     // 添加
     async tianjian () {
       for (var i = 0; i < this.multipleTable.length; i++) {
-        this.groupform.goodsId = this.multipleTable[i].goodsId
-        console.log(this.groupform.goodsId)
+        this.groupform.goodsId = this.multipleTable[i].id
+        console.log(this.multipleTable[i])
         this.dialogTableVisible = false
       }
     },

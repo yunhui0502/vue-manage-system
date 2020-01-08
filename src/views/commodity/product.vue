@@ -52,17 +52,33 @@
           </el-form-item>
           <!-- </el-form-item> -->
           <el-form-item label="商品类目" prop="categoryId">
-            <el-select style="width:33.3%" v-model="ruleForm.categoryId" placeholder="上衣">
+            <el-select  @change="twocategshijan" style="width:33.3%" v-model="ruleForm.categoryId" placeholder="上衣">
               <el-option
-                v-for="(item, index) in leiMu"
-                :key="index"
+                v-for="item in leiMu"
+                :key="item.id"
                 :label="item.hfName"
-                :value="item.hfName"
+                :value="item.id"
                 style="height: 45px;"
               ></el-option>
             </el-select>
-            <el-select style="width:33.3%" v-model="ruleForm.region" placeholder="卫衣"></el-select>
-            <el-select style="width:33.3%" v-model="ruleForm.region" placeholder="乐事联名"></el-select>
+            <el-select  @change="threecategshijan" style="width:33.3%" v-model="ruleForm.region" placeholder="卫衣">
+                 <el-option
+                v-for="(item, index) in erjimulu"
+                :key="index"
+                :label="item.hfName"
+                :value="item.id"
+                style="height: 45px;"
+              ></el-option>
+            </el-select>
+            <el-select @change="threecateg" style="width:33.3%" v-model="ruleForm.freight" placeholder="乐事联名">
+                 <el-option
+                v-for="(item, index) in tiwoCatalogues"
+                :key="index"
+                :label="item.hfName"
+                :value="item.id"
+                style="height: 45px;"
+              ></el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label prop="brandId">
             <!-- <el-button style="width:25%; margin-left: 5px;" type="primary" @click="submitForm">+新建商品</el-button> -->
@@ -260,6 +276,8 @@ import api from '@/api/commodity_api.js'
 export default {
   data () {
     return {
+      tiwoCatalogues: [], // 三级目录
+      erjimulu: [], // 二级目录
       input: '颜色', // 颜色框 绑定的值
       measure: '尺寸', // 尺寸
       // 添加规格
@@ -355,6 +373,7 @@ export default {
       ruleForm2: {
         name: '',
         region: '',
+        region1: '',
         date1: '',
         date2: '',
         delivery: false,
@@ -492,13 +511,48 @@ export default {
         .catch(function (err) {
           console.log(err)
         })
-      // const {
-      //   data: { data }
-      // } = await this.$http.get('http://192.168.1.104:9095/product/category')
-      // this.leiMu = data
-      // this.leimu.levelId = data.length
     },
-
+    // 二级 下拉触发事件
+    twocategshijan (e) {
+      // console.log(e)
+      this.$http
+        .get('/cat/product/category?parentCategoryId=' + e)
+        .then(res => {
+          this.erjimulu = res.data.data
+          // console.log('类目', this.onecatalogues)
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error)
+        })
+    },
+    // 三级 下拉触发事件 threecateg
+    threecategshijan (e) {
+      // console.log(e)
+      this.$http
+        .get('/cat/product/category?parentCategoryId=' + e)
+        .then(res => {
+          this.tiwoCatalogues = res.data.data
+          // console.log('类目', this.onecatalogues)
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error)
+        })
+    },
+    threecateg (e) {
+      // console.log(e)
+      this.$http
+        .get('/cat/product/category?parentCategoryId=' + e)
+        .then(res => {
+          this.threecategs = res.data.data
+          // console.log('类目', this.onecatalogues)
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error)
+        })
+    },
     // 添加商品
     async submitForm () {
       this.ruleForm.specValue.push(this.specificationForm2.specValue)

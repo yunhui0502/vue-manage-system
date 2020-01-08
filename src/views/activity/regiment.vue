@@ -42,7 +42,7 @@
             >+添加商品</el-button>
           </el-row>
           <el-table
-            :data="ppl"
+            :data="tablelist"
             tooltip-effect="dark"
             style="width: 100%"
             :select-all="dianji(selection)"
@@ -54,7 +54,7 @@
               <template slot-scope="scope">{{ scope.row.id }}</template>
             </el-table-column>
             <el-table-column label="商品描述">
-              <template slot-scope="scope">{{ scope.row.hfGoods.goodsDesc }}</template>
+              <template slot-scope="scope">{{ scope.row.goodsDesc }}</template>
             </el-table-column>
           </el-table>
           <div style="margin-top:10px;text-align: right; ">
@@ -106,7 +106,7 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="addGcommodity">添加</el-button>
-          <el-button>重置</el-button>
+          <el-button  @click="reset">重置</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -130,19 +130,19 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column checked type="selection" width="55"></el-table-column>
-        <el-table-column label="商品ID" width="120">
+        <el-table-column label="商品ID">
           <template slot-scope="scope">{{ scope.row.id }}</template>
         </el-table-column>
-        <el-table-column label="商品描述" width="120">
+        <el-table-column label="商品描述">
           <template slot-scope="scope">{{ scope.row.hfGoods.goodsDesc }}</template>
         </el-table-column>
-        <el-table-column prop="nstopTimeame" label="开始时间" width="120"></el-table-column>
-        <el-table-column prop="startTime" label="结束时间" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="startTime" label="开始时间" ></el-table-column>
+        <el-table-column prop="stopTime" label="结束时间" show-overflow-tooltip></el-table-column>
         <el-table-column prop="price" label="剩余数量" show-overflow-tooltip></el-table-column>
         <el-table-column prop="address" label="操作" show-overflow-tooltip>
           <template slot-scope="scope">
-            <el-button type="primary" size="mini">编辑</el-button>
-            <el-button @click="upFrame(scope.row)" type="warning" size="mini">{{ scope.row.isDeleted==1?'上架':'下架'}}</el-button>
+            <el-button @click="compile(scope.row)" type="primary" size="mini">编辑</el-button>
+            <el-button @click="upFrame(scope.row)" type="warning" size="mini">{{ scope.row.isDeleted==1?'下架':'上架'}}</el-button>
             <el-button @click="deletesingle(scope.row)" type="danger" size="mini">删除</el-button>
           </template>
           <!-- <el-button type="danger" size="mini">删除</el-button> -->
@@ -160,10 +160,32 @@
         ></el-pagination> -->
       </div>
     </el-card>
+
+        <!-- _________________________________________________________________________________________________________________________________________________编辑 -->
+    <el-dialog title :visible.sync="dialogFormVisible">
+      <div class="block" style="margin-bottom: 10px;">
+        <el-date-picker style=" margin-left: 14px;" v-model="formcompile.startTime" value-format="yyyy-MM-dd HH:mm:ss"  type="datetime"  placeholder="开始时间"></el-date-picker>
+        <el-date-picker v-model="formcompile.stopTime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss"  placeholder="结束时间"></el-date-picker>
+      </div>
+      <el-form ref="form" :model="formcompile" label-width="80px">
+        <el-form-item label="商品金额">
+          <el-input v-model="formcompile.price"></el-input>
+        </el-form-item>
+        <el-form-item label="商品数量">
+          <el-input v-model="formcompile.repertory"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="confirm">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import api from '@/api/commodity_api.js'
+import apis from '@/api/orderform_api.js'
 import qs from 'qs'
 export default {
   name: 'aa',
@@ -171,6 +193,18 @@ export default {
   props: {},
   data () {
     return {
+      // 物品列表
+      tablelist: [],
+      // 编辑绑定的值
+      formcompile: {
+        goodsId: '', // 商品id
+        id: '', // 秒杀表id
+        price: '', // 团购价格
+        repertory: '', // 库存
+        startTime: '', // 秒杀开始时间
+        stopTime: ''// 秒杀结束时间
+      },
+      dialogFormVisible: false,
       shanchu: [],
       value2: '',
       value3: '',
@@ -274,7 +308,59 @@ export default {
       number: '1'
     }
   },
+  created () {
+    this.getcoommo()
+    this.pplp()
+  },
   methods: {
+    reset () {
+      // eslint-disable-next-line no-unused-expressions
+      this.groupform.goodsId = '',
+      this.groupform.number = '',
+      this.groupform.price = '',
+      this.groupform.repertory = '',
+      this.groupform.startTime = '',
+      this.groupform.stopTime = ''
+    },
+    // 获取物品列表
+    getcoommo () {
+      api
+        .getProductList()
+        .then(res => {
+          // console.log('商品列表', res)
+          this.tablelist = res.data.data
+          // console.log('商品列表1', this.tablelist)
+        })
+        .catch(function (err) {
+          console.log(err)
+        })
+    },
+    // 提交
+    confirm () {
+      this.dialogFormVisible = false
+      console.log(this.formcompile.startTime)
+      console.log(this.formcompile.stopTime)
+      apis
+        .groupupdate(this.formcompile)
+        .then(res => {
+          this.pplp()
+        })
+        .catch(function (err) {
+          console.log(err)
+        })
+    },
+    // 编辑按钮
+    compile (row) {
+      console.log(row)
+      this.dialogFormVisible = true
+      this.formcompile.goodsId = row.goodsId
+      this.formcompile.id = row.id
+      this.formcompile.price = row.price
+      this.formcompile.repertory = row.repertory
+      // this.formcompile.startTime = row.startTime
+      // this.formcompile.stopTime = row.stopTime
+      // console.log(this.formcompile)
+    },
     // 上下架
     upFrame (row) {
       if (row.isDeleted === 1) {
@@ -335,6 +421,14 @@ export default {
             return str
           }
         ]
+      }).then(response => {
+        this.reset()
+        this.pplp()
+        this.$message({
+          showClose: true,
+          message: '恭喜你，添加成功',
+          type: 'success'
+        })
       })
     },
     handleSelectionChange (val) {
@@ -367,7 +461,7 @@ export default {
     // 添加
     async tianjian () {
       for (var i = 0; i < this.multipleTable.length; i++) {
-        this.groupform.goodsId.push(this.multipleTable[i].goodsId)
+        this.groupform.goodsId = this.multipleTable[i].id
         console.log(this.groupform.goodsId)
         this.dialogTableVisible = false
       }
@@ -431,11 +525,7 @@ export default {
     }
   },
   computed: {},
-  watch: {},
-  created () {
-    this.pplp()
-    // this.shan()
-  }
+  watch: {}
 }
 </script>
 
