@@ -120,6 +120,13 @@ module.exports = {
         pathRewrite: {
           '^/ver': '' // 去掉接口地址中的foo字符串
         }
+      },
+      '/cat': {
+        target: 'http://localhost:9095', // 小方类目
+        changeOrigin: true,
+        pathRewrite: {
+          '^/cat': '' // 去掉接口地址中的foo字符串
+        }
       }
     }
   }

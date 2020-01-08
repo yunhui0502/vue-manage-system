@@ -12,7 +12,7 @@ function verifier () {
 }
 // 获取类目
 function category () {
-  return Axios.get('/api/product/category')
+  return Axios.get('cat/product/category')
 }
 // 获取二级类目
 function categoryTwo (id) {

@@ -7,16 +7,20 @@
           <div
             style="display: flex;align-items: center;border-bottom: 1px solid #E5E5E5;font-size: 16px;color: #666666;"
           >
-            <div class="active1 shang" style="margin-left: 22px;text-align: center;;">全部商品（{{queryGoods}}）</div>
-            <div class="shang" style="margin-left: 80px;margin-right: 81px;">出售中（500）</div>
-            <div class="shang" style>库存（500）</div>
+            <div
+            @click="qihuanquanbu"
+              class="active1 shang"
+              style="margin-left: 22px;text-align: center;;"
+            >全部商品（{{queryGoods}}）</div>
+            <div class="shang" @click="qihuanchus" style="margin-left: 80px;margin-right: 81px;">出售中（{{chushozhong}}）</div>
+            <div class="shang" @click="qihuankuch" >库存（{{kuc}}）</div>
           </div>
           <div style="padding:25px 0 24px  44px;">
             <el-form-item style="margin-bottom:24px;margin-left: 5px;" label>
               <el-form-item style="margin-bottom:50px;" label>
                 <div style>商品ID</div>
               </el-form-item>
-                    <input
+              <input
                 type="text"
                 style="box-shadow:0px 2px 137px 1px rgba(107,107,107,0.11);
               width:257px;height:45px;border-radius:6px;outline: none;border:1px solid #EBEDF0;border-top:0.8px solid #EBEDF0;
@@ -54,7 +58,7 @@
                 style="background: #A6A3FB;border: none;"
               >查询</el-button>
               <el-button
-              class="chaxun"
+                class="chaxun"
                 type="primary"
                 @click="sou"
                 :loading="addLoading"
@@ -152,7 +156,7 @@
          background: #fff;border:1px solid #EBEDF0;;color: #666;"
           size="mini"
           round
-        >批量上架</el-button> -->
+        >批量上架</el-button>-->
         <el-button
           class="butttj"
           style="color: #fff;outline:none; border-radius:3px;float:right;
@@ -208,14 +212,23 @@
         <el-table-column prop="goodsDesc" label="商品描述" align="center"></el-table-column>
 
         <el-table-column prop="createTime" label="创建时间" align="center"></el-table-column>
-        <el-table-column fixed="right" label="操作"  align="center">
+        <el-table-column fixed="right" label="操作" align="center">
           <template slot-scope="scope">
-            <span class="el"
+            <span
+              class="el"
               @click="biangui(scope.row)"
               style="color:#A6A3FB;font-family:ms sans serif;cursor: pointer;"
             >编辑</span>
-            <span class="el" @click="upFrame(scope.row)" style="margin-left: 16px;margin-right: 16px;color:#FFCE26;cursor: pointer;" >{{ scope.row.isDeleted==1?'上架':'下架'}}</span>
-            <span class="el" style="color:#FF318A;cursor: pointer;" @click="deletesingle(index,scope.row)">删除</span>
+            <span
+              class="el"
+              @click="upFrame(scope.row)"
+              style="margin-left: 16px;margin-right: 16px;color:#FFCE26;cursor: pointer;"
+            >{{ scope.row.isDeleted==1?'下架':'上架'}}</span>
+            <span
+              class="el"
+              style="color:#FF318A;cursor: pointer;"
+              @click="deletesingle(index,scope.row)"
+            >删除</span>
           </template>
         </el-table-column>
       </el-table>
@@ -296,6 +309,9 @@ export default {
   name: 'commodity',
   data () {
     return {
+      chushozhong: '0', // 出售中总数
+      kuc: '0', // 库存总数
+      qihuans: '',
       // 商品数量
       queryGoods: '0',
       checked: true,
@@ -375,48 +391,96 @@ export default {
     this.getcoommo()
     this.getcategory()
     this.quGoods()
+    this.quGoods1()
+    this.quGoods2()
   },
   methods: {
+    // 出售中
+    qihuanchus () {
+      // this.qihuans = '1'
+      this.$http
+        .get('/api/goods/selectFrames?frames=1')
+        .then(res => {
+          this.tableData = res.data.data
+          this.$message({
+            showClose: true,
+            message: '恭喜你,成功',
+            type: 'success'
+          })
+        })
+        .catch(error => {
+          console.log(error)
+          this.$message(error + '失败')
+        })
+    },
+    // 库存切换
+    qihuankuch () {
+      // this.qihuans = '1'
+      this.$http
+        .get('/api/goods/selectFrames?frames=0')
+        .then(res => {
+          this.tableData = res.data.data
+          this.$message({
+            showClose: true,
+            message: '恭喜你,成功',
+            type: 'success'
+          })
+        })
+        .catch(error => {
+          this.$message(error + '失败')
+        })
+    },
+    // 全部切换
+    qihuanquanbu () {
+      // this.qihuans = '1'
+      this.getcoommo()
+    },
     // 上下架
     upFrame (row) {
       console.log(row.frames)
       console.log(1111111)
       if (row.isDeleted === 1) {
-        this.$http.get('/api/goods/racking', {
-          params: {
-            frames: 0,
-            goodsId: row.id
-          },
-          paramsSerializer: params => {
-            return qs.stringify(params, { indices: false })
-          } }).then((res) => {
-          this.getcoommo()
-          this.$message({
-            showClose: true,
-            message: '恭喜你，下架成功',
-            type: 'success'
+        this.$http
+          .get('/api/goods/racking', {
+            params: {
+              frames: 0,
+              goodsId: row.id
+            },
+            paramsSerializer: params => {
+              return qs.stringify(params, { indices: false })
+            }
           })
-        })
-          .catch((error) => {
+          .then(res => {
+            this.getcoommo()
+            this.$message({
+              showClose: true,
+              message: '恭喜你，下架成功',
+              type: 'success'
+            })
+          })
+          .catch(error => {
             this.$message(error + '下架失败')
           })
       } else {
-        this.$http.get('/api/goods/racking', {
-          params: {
-            frames: 1,
-            goodsId: row.id
-          },
-          paramsSerializer: params => {
-            return qs.stringify(params, { indices: false })
-          } }).then((res) => {
-          this.getcoommo()
-          this.$message({
-            showClose: true,
-            message: '恭喜你，上架成功',
-            type: 'success'
+        this.$http
+          .get('/api/goods/racking', {
+            params: {
+              frames: 1,
+              goodsId: row.id
+            },
+            paramsSerializer: params => {
+              return qs.stringify(params, { indices: false })
+            }
           })
-        })
-          .catch((error) => {
+          .then(res => {
+            this.getcoommo()
+            this.$message({
+              showClose: true,
+              message: '恭喜你，上架成功',
+              type: 'success'
+            })
+          })
+          .catch(error => {
             this.$message(error + '上架失败')
           })
       }
@@ -441,6 +505,22 @@ export default {
         })
         .catch(function (err) {
           console.log(err)
+        })
+    },
+    // 获取物品库存总数
+    quGoods1 () {
+      this.$http
+        .get('/api/goods/selectQ?frames=0')
+        .then(res => {
+          this.kuc = res.data.data
+        })
+    },
+    // 获取出售中物品总数
+    quGoods2 () {
+      this.$http
+        .get('/api/goods/selectQ?frames=1')
+        .then(res => {
+          this.chushozhong = res.data.data
         })
     },
     // 添加商品
@@ -488,7 +568,7 @@ export default {
     // 删除单个商品
     deletesingle: function (index, row) {
       // console.log(row)
-      this.$confirm('确认提交吗？', '提示', {}).then(async () => {
+      this.$confirm('确认删除吗？', '提示', {}).then(async () => {
         api
           .deleteGood(row.id)
           .then(res => {
