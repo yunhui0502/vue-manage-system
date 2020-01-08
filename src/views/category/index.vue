@@ -156,7 +156,6 @@
                       </el-dialog>-->
                     </el-upload>
                   </div>
-
                   <span slot="footer" class="dialog-footer">
                     <div style="width: 300px;height: 80px ;margin: 0 auto;">
                       <el-button @click="dialogVisible = false" style="float: left;width:140px;">取 消</el-button>
@@ -437,10 +436,10 @@ export default {
         .then(res => {
           this.tableData = res.data.data
           // console.log('类目', this.onecatalogues)
+
         })
         .catch(function (error) {
-          // handle error
-          console.log(error)
+          alert(error)
         })
     },
     handleClick (row) {
