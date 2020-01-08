@@ -14,7 +14,7 @@ axios.defaults.transformResponse = [(data) => {
   }
 }]
 // 1. 基准地址
-axios.defaults.baseURL = 'http://192.168.1.125:9902/goods/'
+axios.defaults.baseURL = 'http://172.26.16.97:9902/goods/'
 // 2. 请求头 token
 // axios.defaults.headers.Authorization = `Bearer ${store.getUser().token}`
 

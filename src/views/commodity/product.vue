@@ -511,6 +511,14 @@ export default {
         .catch(function (err) {
           console.log(err)
         })
+<<<<<<< HEAD
+=======
+      // const {
+      //   data: { data }
+      // } = await this.$http.get('http://172.26.16.97:9095/product/category')
+      // this.leiMu = data
+      // this.leimu.levelId = data.length
+>>>>>>> dd759586e6566fbcab8b0549160dc5416a46b088
     },
     // 二级 下拉触发事件
     twocategshijan (e) {

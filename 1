@@ -1,0 +1,44 @@
+<s> [webpack.Progress] 0% compiling
+<s> [webpack.Progress] 10% building 0/0 modules 0 active 
+<s> [webpack.Progress] 10% building 0/1 modules 1 active multi /home/hanfu/project/hanfu-admin-vue/node_modules/_webpack-dev-server@3.10.1@webpack-dev-server/client/index.js?http://172.26.16.97:3004/sockjs-node /home/hanfu/project/hanfu-admin-vue/node_modules/_webpack@4.41.4@webpack/hot/dev-server.js /home/hanfu/project/hanfu-admin-vue/exec
+<s> [webpack.Progress] 10% building 1/1 modules 0 active 
+<s> [webpack.Progress] 10% building 1/1 modules 0 active 
+<s> [webpack.Progress] 10% building 1/2 modules 1 active multi /home/hanfu/project/hanfu-admin-vue/node_modules/_webpack-dev-server@3.10.1@webpack-dev-server/client/index.js?http://172.26.16.97:3001 /home/hanfu/project/hanfu-admin-vue/node_modules/_webpack@4.41.4@webpack/hot/dev-server.js /home/hanfu/project/hanfu-admin-vue/node_modules/_webpack-dev-server@3.10.1@webpack-dev-server/client/index.js?http://172.26.16.97:3004/sockjs-node /home/hanfu/project/hanfu-admin-vue/exec
+<s> [webpack.Progress] 10% building 2/2 modules 0 active 
+events.js:187
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: ENOSPC: System limit for number of file watchers reached, watch '/home/hanfu/project/hanfu-admin-vue/public'
+    at FSWatcher.start (internal/fs/watchers.js:165:26)
+    at Object.watch (fs.js:1329:11)
+    at createFsWatchInstance (/home/hanfu/project/hanfu-admin-vue/node_modules/_chokidar@2.1.8@chokidar/lib/nodefs-handler.js:38:15)
+    at setFsWatchListener (/home/hanfu/project/hanfu-admin-vue/node_modules/_chokidar@2.1.8@chokidar/lib/nodefs-handler.js:81:15)
+    at FSWatcher.NodeFsHandler._watchWithNodeFs (/home/hanfu/project/hanfu-admin-vue/node_modules/_chokidar@2.1.8@chokidar/lib/nodefs-handler.js:233:14)
+    at FSWatcher.NodeFsHandler._handleDir (/home/hanfu/project/hanfu-admin-vue/node_modules/_chokidar@2.1.8@chokidar/lib/nodefs-handler.js:429:19)
+    at FSWatcher.<anonymous> (/home/hanfu/project/hanfu-admin-vue/node_modules/_chokidar@2.1.8@chokidar/lib/nodefs-handler.js:477:19)
+    at FSWatcher.<anonymous> (/home/hanfu/project/hanfu-admin-vue/node_modules/_chokidar@2.1.8@chokidar/lib/nodefs-handler.js:482:16)
+    at FSReqCallback.oncomplete (fs.js:159:5)
+Emitted 'error' event on FSWatcher instance at:
+    at FSWatcher._handleError (/home/hanfu/project/hanfu-admin-vue/node_modules/_chokidar@2.1.8@chokidar/index.js:260:10)
+    at createFsWatchInstance (/home/hanfu/project/hanfu-admin-vue/node_modules/_chokidar@2.1.8@chokidar/lib/nodefs-handler.js:40:5)
+    at setFsWatchListener (/home/hanfu/project/hanfu-admin-vue/node_modules/_chokidar@2.1.8@chokidar/lib/nodefs-handler.js:81:15)
+    [... lines matching original stack trace ...]
+    at FSReqCallback.oncomplete (fs.js:159:5) {
+  errno: -28,
+  syscall: 'watch',
+  code: 'ENOSPC',
+  path: '/home/hanfu/project/hanfu-admin-vue/public',
+  filename: '/home/hanfu/project/hanfu-admin-vue/public'
+}
+[37;40mnpm[0m [0m[31;40mERR![0m [0m[35mcode[0m ELIFECYCLE
+[0m[37;40mnpm[0m [0m[31;40mERR![0m [0m[35merrno[0m 1
+[0m[37;40mnpm[0m [0m[31;40mERR![0m[35m[0m lanhupc@0.1.0 serve: `vue-cli-service serve --mode prod "exec"`
+[0m[37;40mnpm[0m [0m[31;40mERR![0m[35m[0m Exit status 1
+[0m[37;40mnpm[0m [0m[31;40mERR![0m[35m[0m 
+[0m[37;40mnpm[0m [0m[31;40mERR![0m[35m[0m Failed at the lanhupc@0.1.0 serve script.
+[0m[37;40mnpm[0m [0m[31;40mERR![0m[35m[0m This is probably not a problem with npm. There is likely additional logging output above.
+[0m
+[37;40mnpm[0m [0m[31;40mERR![0m[35m[0m A complete log of this run can be found in:
+[0m[37;40mnpm[0m [0m[31;40mERR![0m[35m[0m     /home/hanfu/.npm/_logs/2019-12-29T00_40_16_492Z-debug.log
+[0m
