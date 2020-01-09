@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 <template>
   <div>
     <el-card class="box-card">
@@ -295,10 +296,11 @@ export default {
       rows.splice(index, 1)
     },
     // 全选
-    // handleCheckAllChange (val) {
-    //   this.checkedCities = val ? cityOptions : []
-    //   this.isIndeterminate = false
-    // },
+    handleCheckAllChange (val) {
+      // eslint-disable-next-line no-undef
+      this.checkedCities = val ? cityOptions : []
+      this.isIndeterminate = false
+    },
     // 全选
     handleCheckedCitiesChange (value) {
       let checkedCount = value.length

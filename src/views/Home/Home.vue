@@ -23,9 +23,9 @@
             <i class="el-icon-document-copy"></i>
             <span slot="title">数据统计</span>
           </el-menu-item>
-           <el-menu-item index="/jurisdiction">
-            <i class="el-icon-document-copy"></i>
-            <span slot="title">权限管理</span>
+          <el-menu-item index="/category">
+            <i class="iconfont icon-fenleiguanli"></i>
+            <span slot="title">类目管理</span>
           </el-menu-item>
           <el-menu-item index="/commodity">
             <i class="iconfont icon-tongji"></i>
@@ -53,9 +53,9 @@
               <el-menu-item index="/regiment">拼团商城</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-          <el-menu-item index="/category">
-            <i class="iconfont icon-fenleiguanli"></i>
-            <span slot="title">类目管理</span>
+          <el-menu-item index="/jurisdiction">
+            <i class="el-icon-document-copy"></i>
+            <span slot="title">权限管理</span>
           </el-menu-item>
           <el-menu-item index="/user">
             <i class="el-icon-user-solid"></i>
@@ -98,14 +98,13 @@
       <el-header>
         <el-container class="header-right">
           <el-container class="header-user-con">
-
             <el-dropdown trigger="click">
-               <span>
-              <i
-                class="el-icon-search"
-                style="margin-right: 10px;color: #CCCCCC;cursor: pointer;font-size: 30px;"
-              ></i>
-            </span>
+              <span>
+                <i
+                  class="el-icon-search"
+                  style="margin-right: 10px;color: #CCCCCC;cursor: pointer;font-size: 30px;"
+                ></i>
+              </span>
               <span style="cursor: pointer;">
                 <img src="../img/8.png" />
               </span>

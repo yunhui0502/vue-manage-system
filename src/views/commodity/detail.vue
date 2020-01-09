@@ -33,16 +33,16 @@
         </el-form-item>
         <br />
 
-        <el-form-item style="margin-bottom:50px;" label>
+        <!-- <el-form-item style="margin-bottom:50px;" label>
           <div style="font-size: 15px;">商品分类:</div>
-        </el-form-item>
-        <el-form-item label>
+        </el-form-item> -->
+        <!-- <el-form-item label>
           <el-input
             v-model="bianrow.productCategoryName"
             auto-complete="off"
             prop="productCategoryName"
           ></el-input>
-        </el-form-item>
+        </el-form-item> -->
         <br />
         <el-form-item style="margin-bottom:50px;" label>
           <div style="font-size: 15px;">商品ID:</div>

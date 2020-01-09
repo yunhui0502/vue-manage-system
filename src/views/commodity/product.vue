@@ -14,16 +14,16 @@
           class="demo-ruleForm"
         >
           <el-form-item label="商品标题" prop="goodName">
-            <el-input style="width:100%" v-model="ruleForm.goodName"></el-input>
+            <el-input style="width:100%" v-model="ruleForm1.hfName "></el-input>
           </el-form-item>
           <!-- <el-form-item style="width:100%" label="商品编号" prop="goodName">
             <el-input style="width:40%" v-model="ruleForm.goodName"></el-input>
           </el-form-item>-->
-          <el-form-item style="width:100%" label="总库存数" prop="inventory">
-            <el-input style="width:40%" v-model="ruleForm.inventory"></el-input>
+          <el-form-item style="width:100%" label="商品属性" prop="inventory">
+            <!-- <el-input style="width:40%" v-model="ruleForm.inventory"></el-input>
             <span>件</span>
-            <span style="margin: 6px;width:40%">商品属性</span>
-            <el-select style="width:30%" v-model="ruleForm.member" placeholder="请选择商品属性">
+            <span style="margin: 6px;width:40%">商品属性</span>-->
+            <el-select style="width:30%" v-model="ruleForm1.member" placeholder="请选择商品属性">
               <el-option label="会员" value="1"></el-option>
               <el-option label="非会员" value="0"></el-option>
             </el-select>
@@ -33,7 +33,7 @@
             <el-radio @change="change" v-model="radiol" label="4">自取</el-radio>
           </el-form-item>
           <el-form-item v-if="radiol == 4" label="核销员" prop="region">
-            <el-select v-model="ruleForm.verifier" placeholder="请输入核销员姓名">
+            <el-select @change="pullverifier" v-model="ruleForm.verifier" placeholder="请输入核销员姓名">
               <el-option
                 v-for="(item, index) in verifier"
                 :key="index"
@@ -43,16 +43,32 @@
               ></el-option>
             </el-select>
           </el-form-item>
+          <el-form-item v-if="radiol == 3" label="核销员" prop="region">
+            <el-select @change="pullverifier" v-model="ruleForm.verifier" placeholder="请输入核销员姓名">
+              <el-option
+                v-for="item in verifier"
+                :key="item.id"
+                :label="item.realName"
+                :value="item.id"
+                style="height: 45px;"
+              ></el-option>
+            </el-select>
+          </el-form-item>
           <!-- <el-form-item label="快递运费" prop="region"> -->
           <el-form-item v-if="radiol == 3" label="运费模板" prop="region">
-            <el-select v-model="ruleForm.freight" placeholder="请选择运费模板">
+            <el-select v-model="ruleForm.yunfen" placeholder="请选择运费模板">
               <el-option label="区域一" value="shanghai"></el-option>
               <el-option label="区域二" value="beijing"></el-option>
             </el-select>
           </el-form-item>
           <!-- </el-form-item> -->
           <el-form-item label="商品类目" prop="categoryId">
-            <el-select  @change="twocategshijan" style="width:33.3%" v-model="ruleForm.categoryId" placeholder="上衣">
+            <el-select
+              @change="twocategshijan"
+              style="width:33.3%"
+              v-model="ruleForm.categoryId"
+              placeholder="请选择一级类目"
+            >
               <el-option
                 v-for="item in leiMu"
                 :key="item.id"
@@ -61,8 +77,13 @@
                 style="height: 45px;"
               ></el-option>
             </el-select>
-            <el-select  @change="threecategshijan" style="width:33.3%" v-model="ruleForm.region" placeholder="卫衣">
-                 <el-option
+            <el-select
+              @change="threecategshijan"
+              style="width:33.3%"
+              v-model="ruleForm.region"
+              placeholder="请选择二级类目"
+            >
+              <el-option
                 v-for="(item, index) in erjimulu"
                 :key="index"
                 :label="item.hfName"
@@ -70,8 +91,13 @@
                 style="height: 45px;"
               ></el-option>
             </el-select>
-            <el-select @change="threecateg" style="width:33.3%" v-model="ruleForm.freight" placeholder="乐事联名">
-                 <el-option
+            <el-select
+              @change="threecateg"
+              style="width:33.3%"
+              v-model="ruleForm.freight"
+              placeholder="请选择三级类目"
+            >
+              <el-option
                 v-for="(item, index) in tiwoCatalogues"
                 :key="index"
                 :label="item.hfName"
@@ -81,7 +107,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label prop="brandId">
-            <!-- <el-button style="width:25%; margin-left: 5px;" type="primary" @click="submitForm">+新建商品</el-button> -->
+            <el-button style="width:25%; margin-left: 5px;" type="primary" @click="NewGoods">+新建商品</el-button>
             <!-- <el-button style="width:25%" @click="resetForm('ruleForm')">批量添加</el-button> -->
           </el-form-item>
         </el-form>
@@ -130,10 +156,10 @@
           </el-dialog>
         </el-upload>
         <el-input v-model="AddColor" style="width:194px; height:32px;" placeholder="请输入内容"></el-input>
-        <el-button @click="submit" style="margin:8px">添加商品规格</el-button>
+        <el-button @click="submit"  style="margin:8px">添加商品规格</el-button>
       </div>
       <!-- ==================================================================================================================================================== -->
-      <el-button class="add-button">添加</el-button>
+      <!-- <el-button class="add-button">添加</el-button> -->
       <div class="kaipi">
         <el-button class="sc-delete" @click="clickdelete2" type="text">删除型号</el-button>
         <div>
@@ -163,48 +189,9 @@
             style="width:194px; height:32px;"
             placeholder="请输入内容"
           ></el-input>
-          <el-button @click="submit1" style="margin:8px">添加商品规格</el-button>
+          <el-button @click="submit1"  style="margin:8px">添加商品规格</el-button>
         </div>
       </div>
-      <!-- <span style="position: relative;top: 40px;left:82px">商品价格/库存</span>
-      <el-table :data="specificationForm2.specValue">
-        <el-table-column :label="input" width="156">
-          <template slot-scope="scope">
-            <span @click="scope(scope)" style="margin-left: 10px">{{scope}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="measure" width="156">
-          <template slot-scope="scope">
-            <span style="margin-left: 10px">{{ scope.row.name }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="价格" width="156">
-          <input  style="width:120px;height:30px;"/>
-        </el-table-column>
-        <el-table-column label="库存" width="156">
-          <input  style="width:120px;height:30px;"/>
-        </el-table-column>
-        <el-table-column label="划线价" width="156">
-          <input  style="width:120px;height:30px;"/>
-        </el-table-column>
-        <el-table-column label="图片" width="156">
-          <template slot-scope="scope">
-            <span style="margin-left: 10px">{{ scope.row.date }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="操作" width="156">
-          <template slot-scope="scope">
-            <el-button type="text" size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-            <el-button
-              type="text"
-              style="color:red"
-              plain
-              size="mini"
-              @click="handleDelete(scope.$index, scope.row)"
-            >删除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>-->
       <!-- ------------------------------------------------------------------------------------------ -->
       <el-form :model="ruleForm2" ref="ruleForm" label-width="140px" class="reduceForm">
         <!-- <el-form-item label="库存减扣方式" prop="region">
@@ -238,9 +225,49 @@
           </el-upload>
         </el-form-item>
       </el-form>
-      <el-button class="add-button">添加</el-button>
+      <!-- <el-button class="add-button">添加</el-button>
+      <span style="position: relative;top: 40px;left:82px">商品价格/库存</span>
+      <el-table :data=" ruleForm.specValue">
+        <el-table-column :label="input" width="156">
+          <template slot-scope="scope">
+            <span @click="scope(scope)" style="margin-left: 10px">{{tianjiayanse}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="measure" width="156">
+          <template slot-scope="scope">
+            <span style="margin-left: 10px">{{tianjiachicun}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="价格" width="156">
+          <input style="width:120px;height:30px;" />
+        </el-table-column>
+        <el-table-column label="库存" width="156">
+          <input style="width:120px;height:30px;" />
+        </el-table-column>
+        <el-table-column label="划线价" width="156">
+          <input style="width:120px;height:30px;" />
+        </el-table-column>
+        <el-table-column label="图片" width="156">
+          <template slot-scope="scope">
+            <span style="margin-left: 10px">{{ scope.row.date }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" width="156">
+          <template slot-scope="scope">
+            <el-button type="text" size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+            <el-button
+              type="text"
+              style="color:red"
+              plain
+              size="mini"
+              @click="handleDelete(scope.$index, scope.row)"
+            >删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-button class="add-button">提交价格</el-button> -->
     </el-card>
-
+    <!--
     <el-card class="the-card">
       <div slot="header" class="clearfix">
         <span>其他信息</span>
@@ -263,7 +290,7 @@
           <el-input style="width: 10%;" placeholder="6字之内"></el-input>
         </div>
       </el-form>
-    </el-card>
+    </el-card>-->
     <div class="button">
       <el-button @click="submitForm" type="primary">保存</el-button>
     </div>
@@ -276,6 +303,8 @@ import api from '@/api/commodity_api.js'
 export default {
   data () {
     return {
+      tianjiayanse: '', // 添加颜色
+      tianjiachicun: '', // 添加尺寸
       tiwoCatalogues: [], // 三级目录
       erjimulu: [], // 二级目录
       input: '颜色', // 颜色框 绑定的值
@@ -285,7 +314,7 @@ export default {
       // 添加颜色
       AddColor: '',
       // 核销员绑定的值
-      verifier: {},
+      verifier: [],
       // 图片上传控件里的
       disabled: false,
       dialogImageUrl: '',
@@ -305,10 +334,10 @@ export default {
         date1: ''
       },
       leiMu: {},
-      // 表单绑定的添加商品?bossId=2&brandId=2&goodName=2&goodsDesc=2&hfStoreId=2&productId=2&requestId=2&timestamp=2&token=2&userId=2&username=2
-
+      // 表单绑定的添加商品
       ruleForm: {
         freight: '',
+        yunfen: '',
         inventory: '', // 库存    productId username
         bossId: '1', // 商家id
         brandId: '1', // 品牌id
@@ -322,10 +351,26 @@ export default {
         token: '11238',
         userId: '12', // 用户id
         verifier: '', // 核销员
-        specValue: [], // 颜色和尺寸
+        specValue: ['hs', 'hs'], // 颜色和尺寸
         member: '', // 是否为会员 0 非会员 1会员
         cancelId: '2', // 核销员Id
         fileInfo: [] // 图片路径
+      },
+      // 添加商品
+      ruleForm1: {
+        bossId: '1', // 商家id
+        brandId: '2', // 品牌id
+        categoryId: '', // 商品所属的类目id
+        cancelId: '', // 核销Id
+        claim: '', // 是否自提
+        member: '', // 是否为会员商品
+        lastModifier: '1111', // 商家名称
+        productDesc: '123123123', // 商品描述
+        requestId: '123123123', // 请求id, 发起请求的随机数, 用来判断请求是否重
+        timestamp: '12231231', // 当前时间
+        token: '11238', // 登录成功后返回的token
+        userId: '12' // 用户id
+        // specValue: ['1.1'] // 标签 颜色 // 规格
       },
       // 添加图片
       specificationForm: {
@@ -397,8 +442,25 @@ export default {
     this.getcoommo()
     this.verifier1()
     this.scope()
+    this.change()
   },
   methods: {
+    // 添加商品 ruleForm1
+    NewGoods () {
+      this.$confirm('确认提交吗？', '提示', {}).then(() => {
+        console.log(this.ruleForm1)
+        // 拷贝
+        this.ruleForm1.requestId = Date.now()
+        let param = this.ruleForm1
+        api.tianjianwup(param).then(res => {
+          // this.$router.push({ name: 'commodity' })
+          this.$message({
+            message: '恭喜你，添加成功',
+            type: 'success'
+          })
+        })
+      })
+    },
     clickdelete2 () {
       this.specificationForm2.specValue = ''
     },
@@ -423,13 +485,17 @@ export default {
     },
     change (label) {
       console.log(label)
+      console.log(11111111)
+      this.ruleForm1.claim = this.radiol
     },
     // 获取核销员
     async verifier1 () {
       api
-        .verifier(1)
+        .verifier()
         .then(res => {
+          console.log(res)
           this.verifier = res.data.data.list
+          console.log(this.verifier)
         })
         .catch(function (err) {
           console.log(err)
@@ -452,14 +518,15 @@ export default {
     // 添加颜色事件
     submit () {
       // console.log(this.AddColor)
-      console.log(1223332)
       this.ruleForm.specValue.push(this.AddColor)
+      this.tianjiayanse = this.AddColor
       this.AddColor = ''
     },
     // 添加尺寸事件
     submit1 () {
       // console.log(this.AddColor)
       this.specificationForm2.specValue.push(this.AddSize)
+      this.tianjiachicun = this.AddSize
       this.AddSize = ''
     },
     // 图片列表移除图片时的钩子
@@ -511,18 +578,11 @@ export default {
         .catch(function (err) {
           console.log(err)
         })
-<<<<<<< HEAD
-=======
-      // const {
-      //   data: { data }
-      // } = await this.$http.get('http://172.26.16.97:9095/product/category')
-      // this.leiMu = data
-      // this.leimu.levelId = data.length
->>>>>>> dd759586e6566fbcab8b0549160dc5416a46b088
     },
     // 二级 下拉触发事件
     twocategshijan (e) {
       // console.log(e)
+      this.ruleForm1.categoryId = e
       this.$http
         .get('/cat/product/category?parentCategoryId=' + e)
         .then(res => {
@@ -536,6 +596,7 @@ export default {
     },
     // 三级 下拉触发事件 threecateg
     threecategshijan (e) {
+      this.ruleForm1.categoryId = e
       // console.log(e)
       this.$http
         .get('/cat/product/category?parentCategoryId=' + e)
@@ -549,6 +610,7 @@ export default {
         })
     },
     threecateg (e) {
+      this.ruleForm1.categoryId = e
       // console.log(e)
       this.$http
         .get('/cat/product/category?parentCategoryId=' + e)
@@ -561,7 +623,11 @@ export default {
           console.log(error)
         })
     },
-    // 添加商品
+    // 下拉 事件 核销员
+    pullverifier (e) {
+      this.ruleForm1.cancelId = e
+    },
+    // 添加物品
     async submitForm () {
       this.ruleForm.specValue.push(this.specificationForm2.specValue)
       this.$refs.ruleForm.validate(valid => {

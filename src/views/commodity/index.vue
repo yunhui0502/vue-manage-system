@@ -9,16 +9,17 @@
           >
             <div
             @click="qihuanquanbu"
-              class="active1 shang"
+            class="shang"
+              :class="qihuans=='0'?'active1':''"
               style="margin-left: 22px;text-align: center;;"
             >全部商品（{{queryGoods}}）</div>
-            <div class="shang" @click="qihuanchus" style="margin-left: 80px;margin-right: 81px;">出售中（{{chushozhong}}）</div>
-            <div class="shang" @click="qihuankuch" >库存（{{kuc}}）</div>
+            <div class="shang" @click="qihuanchus" :class="qihuans=='1'?'active1':''" style="margin-left: 80px;margin-right: 81px;">出售中（{{chushozhong}}）</div>
+            <div class="shang" @click="qihuankuch" :class="qihuans=='2'?'active1':''" >库存（{{kuc}}）</div>
           </div>
           <div style="padding:25px 0 24px  44px;">
             <el-form-item style="margin-bottom:24px;margin-left: 5px;" label>
               <el-form-item style="margin-bottom:50px;" label>
-                <div style>商品ID</div>
+                <div>商品ID</div>
               </el-form-item>
               <input
                 type="text"
@@ -311,7 +312,7 @@ export default {
     return {
       chushozhong: '0', // 出售中总数
       kuc: '0', // 库存总数
-      qihuans: '',
+      qihuans: '0',
       // 商品数量
       queryGoods: '0',
       checked: true,
@@ -397,16 +398,11 @@ export default {
   methods: {
     // 出售中
     qihuanchus () {
-      // this.qihuans = '1'
+      this.qihuans = '1'
       this.$http
         .get('/api/goods/selectFrames?frames=1')
         .then(res => {
           this.tableData = res.data.data
-          this.$message({
-            showClose: true,
-            message: '恭喜你,成功',
-            type: 'success'
-          })
         })
         .catch(error => {
           console.log(error)
@@ -415,16 +411,11 @@ export default {
     },
     // 库存切换
     qihuankuch () {
-      // this.qihuans = '1'
+      this.qihuans = '2'
       this.$http
         .get('/api/goods/selectFrames?frames=0')
         .then(res => {
           this.tableData = res.data.data
-          this.$message({
-            showClose: true,
-            message: '恭喜你,成功',
-            type: 'success'
-          })
         })
         .catch(error => {
           this.$message(error + '失败')
@@ -432,7 +423,7 @@ export default {
     },
     // 全部切换
     qihuanquanbu () {
-      // this.qihuans = '1'
+      this.qihuans = '0'
       this.getcoommo()
     },
     // 上下架
