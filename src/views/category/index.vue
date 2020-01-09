@@ -61,12 +61,12 @@
         ></el-table-column>
         <el-table-column fixed="right" label="操作" align="center">
           <template slot-scope="scope">
-            <el-button
+            <!-- <el-button
               @click="handleClick(scope.row)"
               type="text"
               size="small"
               style="font-size:18px;"
-            >编辑</el-button>
+            >编辑</el-button> -->
             <el-button  @click="deletesingle(index,scope.row)"  type="text" size="small" style="color: hotpink;font-size:18px;">删除</el-button>
           </template>
         </el-table-column>
@@ -371,6 +371,8 @@ export default {
           .typeAddCategory(this.form, this.category, this.fileInfo)
           .then(response => {
             this.$router.push({ name: 'category' })
+            this.dialogVisible = true
+            this.huoqsuoy()
             this.$message({
               showClose: true,
               message: '恭喜你，添加一级分类成功',
@@ -387,6 +389,8 @@ export default {
           .typeAddCategory(this.form1, this.category, this.fileInfo)
           .then(response => {
             this.$router.push({ name: 'category' })
+            this.dialogVisible = true
+            this.huoqsuoy()
             this.$message({
               showClose: true,
               message: '恭喜你，添加二级分类成功',
@@ -403,6 +407,8 @@ export default {
           .typeAddCategory(this.form2, this.category, this.fileInfo)
           .then(response => {
             this.$router.push({ name: 'category' })
+            this.dialogVisible = true
+            this.huoqsuoy()
             this.$message({
               showClose: true,
               message: '恭喜你，添加三级分类成功',
@@ -432,11 +438,10 @@ export default {
     // 获取所有类目
     huoqsuoy () {
       this.$http
-        .get('http://192.168.1.101:9095/product/findAllCategory')
+        .get('/cat/product/findAllCategory')
         .then(res => {
           this.tableData = res.data.data
           // console.log('类目', this.onecatalogues)
-
         })
         .catch(function (error) {
           alert(error)

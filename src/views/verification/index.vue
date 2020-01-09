@@ -3,28 +3,24 @@
     <!-- 搜索 -->
     <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <span>搜索</span>
+        <!-- <span>搜索</span> -->
       </div>
-      <div class="grid-content bg-purple" style="text-align:center">
+      <!-- <div class="grid-content bg-purple" style="text-align:center"> -->
         <!-- 时间 -->
-        <span class="demonstration" style="margin-right:20px">时间查询</span>
-        <el-date-picker
-          v-model="value1"
-          type="daterange"
-          range-separator="至"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-
-        ></el-date-picker>
+        <!-- <span class="demonstration" style="margin-right:20px">时间查询</span>
+        <span class="block" style="margin-bottom: 10px;">
+        <el-date-picker style=" margin-left: 14px;" v-model="formshijian.createData" value-format="yyyy-MM-dd HH:mm:ss"  type="datetime"  placeholder="开始时间"></el-date-picker>
+        <el-date-picker v-model="formshijian.createData1" type="datetime" value-format="yyyy-MM-dd HH:mm:ss"  placeholder="结束时间"></el-date-picker>
+      </span> -->
         <!-- 地区 -->
-        <span class="place">请选择地区</span>
-        <el-input v-model="input" placeholder="请输入内容" style="width:150px"></el-input>
-      </div>
+        <!-- <span class="place">请选择地区</span>
+        <el-input v-model="formshijian.site" placeholder="请输入内容" style="width:150px"></el-input>
+      </div> -->
       <!-- 按钮 -->
-      <el-row class="btn">
-        <el-button size="medium" style="background-color:#a6a3fb; color:#fff" @click="ppl" >查询</el-button>
-        <el-button size="medium" >重置</el-button>
-      </el-row>
+      <!-- <el-row class="btn">
+        <el-button size="medium" style="background-color:#a6a3fb; color:#fff" @click="ppl">查询</el-button>
+        <el-button size="medium">重置</el-button>
+      </el-row> -->
     </el-card>
 
     <!-- 内容 -->
@@ -35,7 +31,7 @@
           <el-button size="medium" @click="shanchu">批量删除</el-button>
         </el-row>
         <!-- 点击弹框添加 -->
-        <el-dialog title="添加核销员" :visible.sync="dialogFormVisible">
+        <!-- <el-dialog title="添加核销员" :visible.sync="dialogFormVisible">
           <el-form :model="form">
             <el-form-item label="核销员名称" :label-width="formLabelWidth">
               <el-input
@@ -62,39 +58,43 @@
               style="margin-left: 50px;background-color:#a6a3fb; color:#fff;border:0"
             >保 存</el-button>
           </div>
-        </el-dialog>
+        </el-dialog>-->
         <!-- /点击弹框添加 -->
       </div>
 
       <!-- 列表 -->
-      <el-checkbox v-model="checked">已选4人</el-checkbox>
+      <el-checkbox>已选4人</el-checkbox>
       <span style="color:#ff2e88; margin-left:20px">清空</span>
-      <el-table ref="multipleTable" :data="see" tooltip-effect="dark" style="width: 100%">
+      <el-table
+        @selection-change="handleSelectionChange"
+        ref="multipleTable"
+        :data="checked"
+        tooltip-effect="dark"
+        style="width: 100%"
+      >
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="realName" label="核销员" width="120"></el-table-column>
-        <el-table-column prop="money" label="核销额" width="120"></el-table-column>
-        <el-table-column prop="presentMoney" label="本次核销额" width="120"></el-table-column>
+        <el-table-column prop="realName" label="核销员"></el-table-column>
+        <el-table-column prop="money" label="核销额"></el-table-column>
+        <el-table-column prop="presentMoney" label="本次核销额"></el-table-column>
         <el-table-column prop="site" label="地址" show-overflow-tooltip></el-table-column>
         <el-table-column prop="createDate" label="创建时间" show-overflow-tooltip></el-table-column>
         <el-table-column prop="address" label="操作" show-overflow-tooltip>
-          <el-button type="text" style="color:#a6a3fb" @click="compile(see)" this.data >编辑</el-button>
-          <el-button type="text" style="color:#fad177" @click="open = true">记录</el-button>
-          <el-button type="text" style="color:#ff2e88">清除记录</el-button>
+          <template slot-scope="scope">
+            <!-- <el-button type="text" style="color:#a6a3fb" @click="compile(see)" this.data>编辑</el-button -->
+            <el-button type="text" style="color:#fad177" @click="record(scope.row.id)">记录</el-button>
+            <el-button type="text" style="color:#ff2e88" @click="deletes(scope.row.id)">清除记录</el-button>
+          </template>
         </el-table-column>
       </el-table>
       <!-- --------------------------------------------------------------- -->
-      <el-dialog title="编辑核销员" :visible.sync="dialogFormVisible">
-        <el-form :model="seeform" >
+      <!-- <el-dialog title="编辑核销员" :visible.sync="dialogFormVisible">
+        <el-form :model="seeform">
           <el-form-item label="核 销 物 品" :label-width="formLabelWidth">
             <el-select v-model="seeform" placeholder="请选择">
-            <el-option
-              v-for="(item,i) in options"
-              :key="i"
-              :label="item.label"
-            ></el-option>
-          </el-select>
+              <el-option v-for="(item,i) in options" :key="i" :label="item.label"></el-option>
+            </el-select>
           </el-form-item>
-          <el-form-item label="核销员名称" :label-width="formLabelWidth" >
+          <el-form-item label="核销员名称" :label-width="formLabelWidth">
             <el-input
               v-model="seeform.RealName"
               autocomplete="off"
@@ -119,49 +119,53 @@
             style="margin-left: 50px;background-color:#a6a3fb; color:#fff;border:0"
           >保 存</el-button>
         </div>
-      </el-dialog>
+      </el-dialog>-->
       <!-- --------------------------------------------------------------- -->
       <!-- 点击弹框添加 -->
-      <el-dialog title="核销记录" :visible.sync="open">
+      <el-dialog title="核销记录" :visible.sync="dialogTableVisible">
         <el-table :data="rec" style="width: 100%">
-          <el-table-column prop="purchasePrice" label="核销金额" width="180"></el-table-column>
-          <el-table-column prop="createDate" label="核销时间" width="180"></el-table-column>
-          <el-table-column prop="purchaseQuantity" label="核销金额" width="180"></el-table-column>
-          <el-table-column prop="createDate" label="核销时间" width="180"></el-table-column>
+          <el-table-column prop="amount" label="核销金额"></el-table-column>
+          <el-table-column prop="createDate" label="核销时间"></el-table-column>
         </el-table>
-        <div style="margin-top:10px;text-align: right; ">
-          <el-pagination background layout="prev, pager, next, jumper" :total="1000"></el-pagination>
-        </div>
       </el-dialog>
       <!-- /点击弹框添加 -->
       <div class="sum">合计：5000.00元</div>
       <!-- 分页 -->
-      <div style="margin-top:10px;text-align: right; ">
+      <!-- <div style="margin-top:10px;text-align: right; ">
         <el-pagination background layout="prev, pager, next" :total="1000"></el-pagination>
-      </div>
+      </div>-->
     </el-card>
   </div>
 </template>
 
 <script>
+import api from '@/api/verification_api.js'
+import qs from 'qs'
 export default {
   name: '',
   components: {},
   props: {},
   data () {
     return {
+      shanchus: [], // 批量删除id
+      multipleTable: [], // 存放选中值的数组
       rec: '',
       // 列表上的双绑定
-      checked: '',
-      value1: '',
+      checked: [],
+      formshijian: {
+        createData: '', // 开始时间
+        createData1: '', // 结束时间
+        site: ''
+      },
+      startTime: '', // 开始时间
+      endTime: '', // 结束时间
       input: '',
       dialogFormVisible: false,
+      dialogTableVisible: false,
       open: false,
       see: [],
       tian: [],
-      options: [
-
-      ],
+      options: [],
       seeform: {
         RealName: '',
         site: '',
@@ -187,106 +191,120 @@ export default {
   watch: {},
   created () {
     this.seek()
-    this.record()
-    // this.addition()
-    this.area()
-    this.ppl()
-    this.time()
-    this.tianjia()
-    this.shanchu()
   },
   methods: {
-    async save () {
-      this.compile()
-      await this.$http.get(
-        '/ver/cancel/updateCancel', { params: this.seeform }
-      ).then(function (res) {
-        // handle success
-        // console.log(this.seeform)
-
-        this.dialogFormVisible = false
-      })
-        .catch(function (err) {
+    // 核销员详情
+    async record (id) {
+      this.dialogTableVisible = true
+      const data = await this.$http.get(
+        '/ver/cancel/selectCancelRecord?cancelId=' + id
+      )
+      // console.log('核销员详情', data)
+      this.rec = data.data.data.list
+      // console.log('this.rec', this.rec)
+    },
+    // 删除
+    async deletes (id) {
+      await this.$http
+        .get('/ver/cancel/deleteCancel?id=' + id)
+        .then(res => {
+          console.log(res)
+          this.seek()
+          console.log('成功')
+          // console.log('类目', this.onecatalogues)
+        })
+        .catch(function (error) {
           // handle error
-          console.log(err)
+          console.log(error)
         })
     },
+    // 获取核销员
     async seek () {
-      const data = await this.$http.get(
-        '/ver/cancel/selectCancel'
-      )
-      // console.log(data.data.data)
-      this.see = data.data.data
+      await this.$http
+        .get('/ver/cancel/selectCancel')
+        .then(res => {
+          console.log(res)
+          this.checked = res.data.data.list
+          // console.log('类目', this.onecatalogues)
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error)
+        })
     },
-    compile (see) {
-      this.dialogFormVisible = true
-      // console.log(see)
-      // var index = '',
-      for (let i = 0; i <= see.length - 1; i++) {
-        console.log(i)
-        this.seeform.RealName = see[i].realName
-        this.seeform.site = see[i].site
+    // 批量删除
+    async shanchu () {
+      for (let i = 0; i < this.multipleTable.length; i++) {
+        this.shanchus.push(this.multipleTable[i].id)
       }
+      this.$http
+        .get('/ver/cancel/deleteCancel', {
+          params: {
+            id: this.shanchus
+          },
+          paramsSerializer: params => {
+            return qs.stringify(params, { indices: false })
+          }
+        })
+        .then(response => {
+          this.seek()
+          this.shanchus = []
+        })
+        .catch(error => {
+          console.log(error)
+        })
     },
-    async record () {
-      const data = await this.$http.get(
-        '/ver/cancel/selectCancelId'
-      )
-      console.log(data.data.data)
-      this.rec = data.data.data
+    handleSelectionChange (val) {
+      // console.log(1112112312)
+      this.multipleTable = val //  this.multipleTable 选中的值
+      console.log(val)
     },
-    // async addition () {
-    //   const data = await this.$http.get(
-    //     'http://172.26.16.97:9901/cancel/updateCancel'
-    //   )
+    // 查询
+    async ppl () {
+      api.login(this.formshijian)
+        .then(response => {
+          console.log('成功')
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    // compile (see) {
+    //   this.dialogFormVisible = true
+    //   // console.log(see)
+    //   // var index = '',
+    //   for (let i = 0; i <= see.length - 1; i++) {
+    //     console.log(i)
+    //     this.seeform.RealName = see[i].realName
+    //     this.seeform.site = see[i].site
+    //   }
+    // },
+    // async record () {
+    //   const data = await this.$http.get('/ver/cancel/selectCancel')
     //   console.log(data.data.data)
-    //   this.form = data.data.data
+    //   this.rec = data.data.data
     // },
     async area () {
-      const data = await this.$http.get(
-        '/ver/cancel/selectRegion'
-      )
+      const data = await this.$http.get('/ver/cancel/selectRegion')
       console.log(data.data.data)
       this.are = data.data.data
     },
     async time () {
-      const data = await this.$http.get(
-        '/ver/cancel/selectDate'
-      )
+      const data = await this.$http.get('/ver/cancel/selectDate')
 
       console.log(data.data.data)
       this.ti = data.data.data
     },
-    async ppl () {
-      const data = await this.$http.get(
-        '/ver/test/login'
-      )
-
-      console.log(data.data.data)
-      this.pp = data.data.data
-    },
     async tianjia () {
-      const data = await this.$http.get(
-        '/ver/updateCancelUser'
-      )
+      const data = await this.$http.get('/ver/updateCancelUser')
 
       console.log(data.data)
       this.tian = data.data
-    },
-    async shanchu () {
-      const data = await this.$http.get(
-        '/ver/cancel/deleteCancel'
-      )
-
-      console.log(data.data.data)
-      this.shan = data.data.data
     }
-
   },
 
   mounted () {}
 }
-
 </script>
 
 <style scoped lang="less">

@@ -7,8 +7,9 @@ function getProductList () {
 function queryGoods () {
   return Axios.get('/api/goods/queryGoods')
 }
+// 核销员
 function verifier () {
-  return Axios.get('http://172.26.16.97:9901/cancel/selectCancel')
+  return Axios.get('/ver/cancel/selectCancel')
 }
 // 获取类目
 function category () {
@@ -42,7 +43,7 @@ function updategoods (params) {
   fd.append('userId', 123)
   return Axios.post('/api/goods/updategood', fd, { responseType: 'arraybuffer' })
 }
-// 添加商品
+// 添加物品
 // http://192.168.1.233:9095/product/addproduct?hfName=衣服1&categoryId=1&brandId=1&productDesc=代步&bossId=1&lastModifier=swd
 function addProduct (params) {
   let fd = new FormData()
@@ -62,6 +63,23 @@ function addProduct (params) {
   fd.append('fileInfo', params.fileInfo)
   fd.append('cancelId', params.cancelId)
   return Axios.post('/api/goods/create', fd, { responseType: 'arraybuffer' })
+}
+// 添加商品
+function tianjianwup (params) {
+  let fd = new FormData()
+  fd.append('bossId', params.bossId)
+  fd.append('brandId', params.brandId)
+  fd.append('categoryId', params.categoryId)
+  fd.append('cancelId ', params.cancelId)
+  fd.append('claim ', params.claim)
+  fd.append('member ', params.member)
+  fd.append('lastModifier ', params.lastModifier)
+  fd.append('productDesc ', params.productDesc)
+  fd.append('requestId ', params.requestId)
+  fd.append('timestamp', params.timestamp)
+  fd.append('token', params.token)
+  fd.append('userId', params.userId)
+  return Axios.post('/api/product/addproduct', fd, { responseType: 'arraybuffer' })
 }
 
 // 按条件查询商品
@@ -235,5 +253,6 @@ export default {
   categoryTwo: categoryTwo,
   verifier: verifier,
   queryGoods: queryGoods,
-  updategoods: updategoods
+  updategoods: updategoods,
+  tianjianwup: tianjianwup
 }
