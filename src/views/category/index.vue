@@ -47,11 +47,12 @@
         <el-table-column prop="hfName" label="类目名称" align="center">
           <!-- <template slot-scope="scope">{{ scope.row.date }}</template> -->
         </el-table-column>
-        <!-- <el-table-column prop="name" label="所属层级" align="center">
-          <template slot-scope="scope" v-if="scope.row.levelId=='0'">{{scope.row.levelId==0?'一级':'二级'}}</template>
-          <div><template slot-scope="scope" v-if="scope.row.levelId=='1'">二级目录</template></div>
-          <div><template slot-scope="scope" v-if="scope.row.levelId=='2'">三级目录</template></div>
-        </el-table-column> -->
+        <el-table-column prop="nameSuperior" label="所属父级名称" align="center">
+          <template slot-scope="scope">{{scope.row.nameSuperior}}</template>
+        </el-table-column>
+        <el-table-column prop="name" label="所属层级" align="center">
+          <template slot-scope="scope">{{scope.row.levelId===0?'一级类目':scope.row.levelId===1?'二级类目':'三级类目'}}</template>
+        </el-table-column>
         <el-table-column
           prop="createTime"
           label="创建时间"
@@ -61,12 +62,12 @@
         ></el-table-column>
         <el-table-column fixed="right" label="操作" align="center">
           <template slot-scope="scope">
-            <!-- <el-button
+            <el-button
               @click="handleClick(scope.row)"
               type="text"
               size="small"
               style="font-size:18px;"
-            >编辑</el-button> -->
+            >编辑</el-button>
             <el-button  @click="deletesingle(index,scope.row)"  type="text" size="small" style="color: hotpink;font-size:18px;">删除</el-button>
           </template>
         </el-table-column>

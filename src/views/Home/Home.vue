@@ -38,9 +38,9 @@
             </template>
             <el-menu-item-group>
               <el-menu-item index="/orderform">全部订单</el-menu-item>
-              <el-menu-item index="/refund">退款维权</el-menu-item>
-              <el-menu-item index="/pair">快速打单</el-menu-item>
-              <el-menu-item index="/assess">评价管理</el-menu-item>
+              <!-- <el-menu-item index="/1">退款维权</el-menu-item> -->
+              <!-- <el-menu-item index="/1">快速打单</el-menu-item> -->
+              <!-- <el-menu-item index="/1">评价管理</el-menu-item> -->
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="/regiment">
@@ -69,7 +69,7 @@
             <i class="iconfont icon-huiyuan"></i>
             <span slot="title">核销管理</span>
           </el-menu-item>
-          <el-menu-item index="/xinxione">
+          <el-menu-item index="/1">
             <i class="iconfont icon-xiaoxi"></i>
             <span slot="title">消息</span>
           </el-menu-item>
@@ -79,11 +79,11 @@
               <span>资产</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="/mingx">交易明细</el-menu-item>
+              <el-menu-item index="/1">交易明细</el-menu-item>
               <!-- <el-menu-item index="/tixian">商家提现</el-menu-item> -->
             </el-menu-item-group>
           </el-submenu>
-          <el-menu-item index="/coupon">
+          <el-menu-item index="/1">
             <i class="iconfont icon-weibiaoti2fuzhi02"></i>
             <span slot="title">优惠卷</span>
           </el-menu-item>

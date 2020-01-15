@@ -9,7 +9,7 @@
         <div style="float: right;line-height: 50px;margin-right: 60px; color: #A3A0FB;">今日新增：300</div>
         <div style="float: right;line-height: 50px;margin-right: 60px;color: #A3A0FB;">用户总量：300</div>
       </div>
-      <div class="block">
+      <!-- <div class="block">
         <span class="demonstration">注册时间</span>
         <el-date-picker
           v-model="value1"
@@ -34,7 +34,7 @@
           <span style="margin-left: 10px;">客户身份</span>
           <el-select v-model="value" placeholder="请选择" style="margin-left: 20px;">
             <el-option
-              v-for="item in options"
+              v-for="item in identity"
               :key="item.value"
               :label="item.label"
               :value="item.value"
@@ -43,7 +43,7 @@
           <span style="margin-left: 10px;">性别</span>
           <el-select v-model="xingbie" placeholder="请选择" style="margin-left: 20px;">
             <el-option
-              v-for="item in options"
+              v-for="item in sex"
               :key="item.value"
               :label="item.label"
               :value="item.value"
@@ -66,7 +66,7 @@
           <span style="margin-left: 10px;">至</span>
           <el-input class="input2" v-model="form.input3" placeholder="请输入内容"></el-input>
         </div>
-      </div>
+      </div> -->
 
       <!-- <div style="width:22%;height: 60px;margin: 0 auto;margin-top: 30px;">
         <div
@@ -76,17 +76,17 @@
         <div
           style="float: left;width: 50%;height:60px;text-align: center;line-height: 60px;color: #A3A0FB;"
         >重置筛选条件</div>
-      </div>-->
+      </div> -->
 
-      <div style="width: 100%;height:100%;background:#ffffff;">
-        <!-- <div
+      <!-- <div style="width: 100%;height:100%;background:#ffffff;">
+        <div
           style="width:8%;height:40px;text-align: center;line-height: 40px;background: #ffffff;color: #cccccc;border-radius: 5px;float:right;margin-right: 40px;margin-top: 50px;border: 1px solid #cccccc;"
-        >批量管理</div>-->
+        >批量管理</div> -->
         <div
           style="width:8%;height:40px;text-align: center;line-height: 40px;background: #A6A3FB;color: #ffffff;border-radius: 5px;float: right;margin-right: 20px;margin-top: 50px;"
           @click="dialogVisible=true"
         >
-          <!-- <el-button type="primary" @click="dialogVisible = true" class="bg">+添加会员</el-button> -->
+          <el-button type="primary" @click="dialogVisible = true" class="bg">+添加会员</el-button>
         </div>
 
         <el-table
@@ -171,7 +171,7 @@
             <div class="left">
               <div class="lei">
                 <div class="zr">
-                  <span>*</span> 客户身份
+                  <span></span> 客户身份
                 </div>
                 <div class="zr_1">
                   <el-radio v-model="radio" label="1">会员</el-radio>
@@ -180,16 +180,16 @@
               </div>
               <div class="lei">
                 <div class="zr">
-                  <span>*</span> 手机号
+                  <span></span> 手机号
                 </div>
                 <div class="zr_2">
                   <el-input v-model="input" placeholder="请输入手机号" class="sr"></el-input>
                 </div>
               </div>
               <div class="lei">
-                <div class="zr">姓名</div>
+                <div class="zr">姓名</div>09
                 <div class="zr_2">
-                  <el-input v-model="input" placeholder="请输入姓名" class="sr"></el-input>
+                  <el-input v-model="input1" placeholder="请输入姓名" class="sr"></el-input>
                 </div>
               </div>
               <div class="lei">
@@ -276,6 +276,25 @@ export default {
       value: '',
       xingbie: '',
       textarea: '', // 弹窗里的
+      sex: [
+        {
+          value: '选项1',
+          label: '女'
+        },
+        {
+          value: '选项2',
+          label: '男'
+        }],
+      identity: [
+        {
+          value: '选项1',
+          label: '会员'
+        },
+        {
+          value: '选项2',
+          label: '非会员'
+        }
+      ],
       options: [
         {
           value: '选项1',
@@ -298,7 +317,6 @@ export default {
           label: '北京烤鸭'
         }
       ],
-
       pickerOptions: {
         shortcuts: [
           {
@@ -464,10 +482,10 @@ text-align: center
   border-radius:4px;
 
 }
-span{
-  color: #FF318A;
-}
 .bg{
   background-color: #A3A0FB;
+}
+.el-button--primary{
+  border: none !important;
 }
 </style>

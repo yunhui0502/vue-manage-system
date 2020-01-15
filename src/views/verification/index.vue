@@ -5,22 +5,22 @@
       <div slot="header" class="clearfix">
         <!-- <span>搜索</span> -->
       </div>
-      <!-- <div class="grid-content bg-purple" style="text-align:center"> -->
+      <div class="grid-content bg-purple" style="text-align:center">
         <!-- 时间 -->
-        <!-- <span class="demonstration" style="margin-right:20px">时间查询</span>
+        <span class="demonstration" style="margin-right:20px">时间查询</span>
         <span class="block" style="margin-bottom: 10px;">
         <el-date-picker style=" margin-left: 14px;" v-model="formshijian.createData" value-format="yyyy-MM-dd HH:mm:ss"  type="datetime"  placeholder="开始时间"></el-date-picker>
         <el-date-picker v-model="formshijian.createData1" type="datetime" value-format="yyyy-MM-dd HH:mm:ss"  placeholder="结束时间"></el-date-picker>
-      </span> -->
+      </span>
         <!-- 地区 -->
-        <!-- <span class="place">请选择地区</span>
+        <span class="place">请选择地区</span>
         <el-input v-model="formshijian.site" placeholder="请输入内容" style="width:150px"></el-input>
-      </div> -->
+      </div>
       <!-- 按钮 -->
-      <!-- <el-row class="btn">
+      <el-row class="btn">
         <el-button size="medium" style="background-color:#a6a3fb; color:#fff" @click="ppl">查询</el-button>
         <el-button size="medium">重置</el-button>
-      </el-row> -->
+      </el-row>
     </el-card>
 
     <!-- 内容 -->
@@ -262,8 +262,10 @@ export default {
     // 查询
     async ppl () {
       api.login(this.formshijian)
-        .then(response => {
-          console.log('成功')
+        .then(res => {
+          // console.log('成功')
+          this.checked = res.data.data.list
+          console.log(res)
         })
         .catch(error => {
           console.log(error)

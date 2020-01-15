@@ -58,30 +58,30 @@
           style="float: left;margin-top:50px;font-size: 16px;margin-left: -90px;"
         >资金结算至店铺余额，结算时扣除0.0%交易手续费（微信收取）。（仅支持境内使用，支付宝内无法使用微信支付）</div>
       </div>
-      <div style="width: 100%;height:120px;background:#ffffff;margin-top: 30px;">
+      <!-- <div style="width: 100%;height:120px;background:#ffffff;margin-top: 30px;">
         <img src="../img/13.png" style="margin-left: 80px;margin-top:30px;float: left;" />
         <div style="float: left;margin-left: 30px;margin-top:30px;font-size: 22px;">微信支付</div>
         <br />
         <div
           style="float: left;margin-top:50px;font-size: 16px;margin-left: -90px;"
         >资金结算至店铺余额，结算时扣除0.0%交易手续费（微信收取）。（仅支持境内使用，支付宝内无法使用微信支付）</div>
-      </div>
-      <div style="width: 100%;height:120px;background:#ffffff;margin-top: 30px;">
+      </div> -->
+      <!-- <div style="width: 100%;height:120px;background:#ffffff;margin-top: 30px;">
         <img src="../img/14.png" style="margin-left: 80px;margin-top:30px;float: left;" />
         <div style="float: left;margin-left: 30px;margin-top:30px;font-size: 22px;">微信支付</div>
         <br />
         <div
           style="float: left;margin-top:50px;font-size: 16px;margin-left: -90px;"
         >资金结算至店铺余额，结算时扣除0.0%交易手续费（微信收取）。（仅支持境内使用，支付宝内无法使用微信支付）</div>
-      </div>
-      <div style="width: 100%;height:120px;background:#ffffff;margin-bottom: 30px;">
+      </div> -->
+      <!-- <div style="width: 100%;height:120px;background:#ffffff;margin-bottom: 30px;">
         <img src="../img/yuezhifu.png" style="margin-left: 80px;margin-top:30px;float: left;" />
         <div style="float: left;margin-left: 30px;margin-top:30px;font-size: 22px;">余额支付</div>
         <br />
         <div
           style="float: left;margin-top:50px;font-size: 16px;margin-left: -90px;"
         >资金结算至店铺余额，结算时扣除0.0%交易手续费（微信收取）。（仅支持境内使用，支付宝内无法使用微信支付）</div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>

@@ -14,7 +14,7 @@
           class="demo-ruleForm"
         >
           <el-form-item label="商品标题" prop="goodName">
-            <el-input style="width:100%" v-model="ruleForm1.hfName "></el-input>
+            <el-input style="width:100%" v-model="ruleForm.hfName "></el-input>
           </el-form-item>
           <!-- <el-form-item style="width:100%" label="商品编号" prop="goodName">
             <el-input style="width:40%" v-model="ruleForm.goodName"></el-input>
@@ -66,7 +66,7 @@
             <el-select
               @change="twocategshijan"
               style="width:33.3%"
-              v-model="ruleForm.categoryId"
+              v-model="ruleForm.categoryId1"
               placeholder="请选择一级类目"
             >
               <el-option
@@ -106,191 +106,246 @@
               ></el-option>
             </el-select>
           </el-form-item>
+          <el-form-item style="width:60%" label="商品描述" prop="name">
+            <el-input
+              type="textarea"
+              :autosize="{ minRows: 2, maxRows: 6}"
+              placeholder="请输入商品描述"
+              v-model="ruleForm.productDesc"
+            ></el-input>
+          </el-form-item>
+          <el-form-item>
+            <!-- 标签 -->
+            <el-tag
+              :key="tag"
+              v-for="tag in ruleForm.specName"
+              closable
+              :disable-transitions="false"
+              @close="handleClose1(tag)"
+            >{{tag}}</el-tag>
+            <el-dialog :visible.sync="dialogVisible">
+              <img width="100%" :src="dialogImageUrl" alt />
+            </el-dialog>
+            <div>
+              <el-input
+                class="margin-top:8px"
+                v-model="AddSize"
+                style="width:120px; height:32px;"
+                placeholder="请输入内容"
+              ></el-input>
+              <el-button @click="submit1" style="margin:8px">添加规格</el-button>
+            </div>
+          </el-form-item>
+          <div class="reduceForm">
+            <el-upload
+              ref="upload"
+              class="upload-poster"
+              accept=".jpg, .jpeg, .png, .gif, .bmp, .JPG, .JPEG, .GIF, .BMP"
+              action
+              list-type="picture-card"
+              :on-remove="onRemove"
+              :on-change="imgPreview"
+              :auto-upload="false"
+            >
+              <i class="el-icon-plus"></i>
+              <el-dialog :visible.sync="dialogVisible">
+                <img width="100%" :src="ruleForm.fileInfo " alt />
+              </el-dialog>
+            </el-upload>
+          </div>
           <el-form-item label prop="brandId">
             <el-button style="width:25%; margin-left: 5px;" type="primary" @click="NewGoods">+新建商品</el-button>
-            <!-- <el-button style="width:25%" @click="resetForm('ruleForm')">批量添加</el-button> -->
           </el-form-item>
         </el-form>
+        <el-table :data="tableSpec" style="width: 100%">
+          <el-table-column prop="date" label="规格ID" width="180"></el-table-column>
+          <el-table-column prop="specValue" label="规格名称" width="180"></el-table-column>
+          <el-table-column prop="specSize" label="默认值"></el-table-column>
+        </el-table>
       </el-container>
     </el-card>
     <!-- ---------------------------------------------------------------------------------------------------------------------------------------------------- -->
     <el-card class="box-card">
-      <div slot="header" class="clearfix">
-        <span>型号单价</span>
-      </div>
-      <!-- 商品型号 -->
-      <span style="position: relative;top: 20px;left:220px">商品型号</span>
-      <div class="kaipi">
-        <el-button class="sc-delete" @click="clickdelete" type="text">删除型号</el-button>
-        <div>
-          <el-input
-            v-model="input"
-            style="width:304px;height: 32px; margin: 24px 0"
-            placeholder="请输入内容"
-          ></el-input>
-          <!-- 单选按钮 -->
-          <el-checkbox v-model="checked">添加规格图片</el-checkbox>
-        </div>
-        <!-- 标签 -->
-        <el-tag
-          :key="tag"
-          v-for="tag in ruleForm.specValue"
-          closable
-          :disable-transitions="false"
-          @close="handleClose(tag)"
-        >{{tag}}</el-tag>
-        <!-- 图片上传图片 -->
-        <el-upload
-          ref="upload"
-          class="upload-poster"
-          accept=".jpg, .jpeg, .png, .gif, .bmp, .JPG, .JPEG, .GIF, .BMP"
-          action
-          list-type="picture-card"
-          :on-remove="onRemove"
-          :on-change="imgPreview"
-          :auto-upload="false"
-        >
-          <i class="el-icon-plus"></i>
-          <el-dialog :visible.sync="dialogVisible">
-            <img width="100%" :src="ruleForm.fileInfo " alt />
-          </el-dialog>
-        </el-upload>
-        <el-input v-model="AddColor" style="width:194px; height:32px;" placeholder="请输入内容"></el-input>
-        <el-button @click="submit"  style="margin:8px">添加商品规格</el-button>
-      </div>
-      <!-- ==================================================================================================================================================== -->
-      <!-- <el-button class="add-button">添加</el-button> -->
-      <div class="kaipi">
-        <el-button class="sc-delete" @click="clickdelete2" type="text">删除型号</el-button>
-        <div>
-          <el-input
-            v-model="measure"
-            style="width:304px;height: 32px; margin: 24px 0"
-            placeholder="请输入内容"
-          ></el-input>
-          <!-- 单选按钮 -->
-          <el-checkbox v-model="checked">添加规格</el-checkbox>
-        </div>
-        <!-- 标签 -->
-        <el-tag
-          :key="tag"
-          v-for="tag in specificationForm2.specValue"
-          closable
-          :disable-transitions="false"
-          @close="handleClose1(tag)"
-        >{{tag}}</el-tag>
-        <el-dialog :visible.sync="dialogVisible">
-          <img width="100%" :src="dialogImageUrl" alt />
-        </el-dialog>
-        <div>
-          <el-input
-            class="margin-top:8px"
-            v-model="AddSize"
-            style="width:194px; height:32px;"
-            placeholder="请输入内容"
-          ></el-input>
-          <el-button @click="submit1"  style="margin:8px">添加商品规格</el-button>
-        </div>
-      </div>
-      <!-- ------------------------------------------------------------------------------------------ -->
-      <el-form :model="ruleForm2" ref="ruleForm" label-width="140px" class="reduceForm">
-        <!-- <el-form-item label="库存减扣方式" prop="region">
-          <el-select v-model="ruleForm2.region" placeholder="拍下减库存"></el-select>
-        </el-form-item>-->
-
-        <el-form-item style="width:21%" label="商品描述" prop="name">
-          <el-input
-            type="textarea"
-            :autosize="{ minRows: 2, maxRows: 6}"
-            placeholder="请输入商品描述"
-            v-model="ruleForm.goodsDesc"
-          ></el-input>
+      <el-form
+        :model="ruleForm"
+        :rules="rules"
+        ref="ruleForm"
+        label-width="280px"
+        class="demo-ruleForm"
+      >
+        <el-form-item label="物品描述" prop="goodsDesc ">
+          <el-input style="width:100%" v-model="ruleForm1.goodsDesc  "></el-input>
         </el-form-item>
-
-        <el-form-item class="particulars" label="商品详情" prop="name">
-          <el-upload
-            ref="upload"
-            class="upload-poster"
-            accept=".jpg, .jpeg, .png, .gif, .bmp, .JPG, .JPEG, .GIF, .BMP"
-            action
-            list-type="picture-card"
-            :on-remove="onRemove"
-            :on-change="imgPreview"
-            :auto-upload="false"
+        <el-form-item style="width:100%" label="物品名称" prop="goodName ">
+          <el-select style="width:30%" v-model="ruleForm1.goodName " placeholder="请选择商品属性">
+            <el-option label="会员" value="1"></el-option>
+            <el-option label="非会员" value="0"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="提货方式" prop="goodsDesc ">
+          <el-radio @change="change" style="margin-left: 50px;" v-model="radiol" label="3">快递</el-radio>
+          <el-radio @change="change" v-model="radiol" label="4">自取</el-radio>
+        </el-form-item>
+        <el-form-item v-if="radiol == 4" label="核销员" prop="region">
+          <el-select @change="pullverifier" v-model="ruleForm.verifier" placeholder="请输入核销员姓名">
+            <el-option
+              v-for="(item, index) in verifier"
+              :key="index"
+              :label="item.realName"
+              :value="item.realName"
+              style="height: 45px;"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item v-if="radiol == 3" label="核销员" prop="region">
+          <el-select @change="pullverifier" v-model="ruleForm.verifier" placeholder="请输入核销员姓名">
+            <el-option
+              v-for="item in verifier"
+              :key="item.id"
+              :label="item.realName"
+              :value="item.id"
+              style="height: 45px;"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <!-- <el-form-item label="快递运费" prop="region"> -->
+        <el-form-item v-if="radiol == 3" label="运费模板" prop="region">
+          <el-select v-model="ruleForm.yunfen" placeholder="请选择运费模板">
+            <el-option label="区域一" value="shanghai"></el-option>
+            <el-option label="区域二" value="beijing"></el-option>
+          </el-select>
+        </el-form-item>
+        <!-- </el-form-item> -->
+        <el-form-item label="商品类目" prop="categoryId">
+          <el-select
+            @change="twocategshijan"
+            style="width:33.3%"
+            v-model="ruleForm.categoryId1"
+            placeholder="请选择一级类目"
           >
-            <i class="el-icon-plus"></i>
-            <el-dialog :visible.sync="dialogVisible">
-              <img width="100%" :src="ruleForm.fileInfo " alt />
-            </el-dialog>
-          </el-upload>
+            <el-option
+              v-for="item in leiMu"
+              :key="item.id"
+              :label="item.hfName"
+              :value="item.id"
+              style="height: 45px;"
+            ></el-option>
+          </el-select>
+          <el-select
+            @change="threecategshijan"
+            style="width:33.3%"
+            v-model="ruleForm.region"
+            placeholder="请选择二级类目"
+          >
+            <el-option
+              v-for="(item, index) in erjimulu"
+              :key="index"
+              :label="item.hfName"
+              :value="item.id"
+              style="height: 45px;"
+            ></el-option>
+          </el-select>
+          <el-select
+            @change="threecateg"
+            style="width:33.3%"
+            v-model="ruleForm.freight"
+            placeholder="请选择三级类目"
+          >
+            <el-option
+              v-for="(item, index) in tiwoCatalogues"
+              :key="index"
+              :label="item.hfName"
+              :value="item.id"
+              style="height: 45px;"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <!-- 标签 -->
+          <!-- <el-tag
+            :key="tag"
+            v-for="tag in specificationForm2.specValue"
+            closable
+            :disable-transitions="false"
+            @close="handleClose1(tag)"
+          >{{tag}}</el-tag>
+          <el-dialog :visible.sync="dialogVisible">
+            <img width="100%" :src="dialogImageUrl" alt />
+          </el-dialog>-->
+          <el-tag
+            :key="tag"
+            v-for="tag in ruleForm1.specValue"
+            closable
+            :disable-transitions="false"
+            @close="handleClose(tag)"
+          >{{tag}}</el-tag>
+          <div>
+            <!-- <el-input
+              class="margin-top:8px"
+              v-model="AddSize"
+              style="width:120px; height:32px;"
+              placeholder="请输入内容"
+            ></el-input>
+            <el-button @click="submit1" style="margin:8px">添加规格</el-button>-->
+            <el-input v-model="AddColor" style="width:120px; height:32px;" placeholder="请输入内容"></el-input>
+            <el-button @click="submit" style="margin:8px">添加规格</el-button>
+          </div>
+        </el-form-item>
+        <el-form-item label prop="brandId">
+          <el-button style="width:25%; margin-left: 5px;" type="primary" @click="submitForm">+新建物品</el-button>
         </el-form-item>
       </el-form>
-      <!-- <el-button class="add-button">添加</el-button>
-      <span style="position: relative;top: 40px;left:82px">商品价格/库存</span>
-      <el-table :data=" ruleForm.specValue">
-        <el-table-column :label="input" width="156">
-          <template slot-scope="scope">
-            <span @click="scope(scope)" style="margin-left: 10px">{{tianjiayanse}}</span>
+      <el-button @click="dialogFormVisible = true" class="add-button">根据下方物品ID设置价格按钮</el-button>
+
+      <el-table :data="tableData" style="width: 100%">
+        <el-table-column type="expand">
+          <template slot-scope="props">
+            <el-form label-position="left" inline class="demo-table-expand">
+              <el-form-item label="物品ID">
+                <span>{{ props.row.id }}</span>
+              </el-form-item>
+              <el-form-item label="物品名称">
+                <span>{{ props.row.goodName }}</span>
+              </el-form-item>
+              <el-form-item label="物品价格">
+                <span>{{ props.row.sellPrice }}</span>
+              </el-form-item>
+              <el-form-item label="商品分类">
+                <span>{{ props.row.category }}</span>
+              </el-form-item>
+              <el-form-item label="物品描述">
+                <span>{{ props.row.goodsDesc }}</span>
+              </el-form-item>
+            </el-form>
           </template>
         </el-table-column>
-        <el-table-column :label="measure" width="156">
-          <template slot-scope="scope">
-            <span style="margin-left: 10px">{{tianjiachicun}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="价格" width="156">
-          <input style="width:120px;height:30px;" />
-        </el-table-column>
-        <el-table-column label="库存" width="156">
-          <input style="width:120px;height:30px;" />
-        </el-table-column>
-        <el-table-column label="划线价" width="156">
-          <input style="width:120px;height:30px;" />
-        </el-table-column>
-        <el-table-column label="图片" width="156">
-          <template slot-scope="scope">
-            <span style="margin-left: 10px">{{ scope.row.date }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="操作" width="156">
-          <template slot-scope="scope">
-            <el-button type="text" size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-            <el-button
-              type="text"
-              style="color:red"
-              plain
-              size="mini"
-              @click="handleDelete(scope.$index, scope.row)"
-            >删除</el-button>
-          </template>
-        </el-table-column>
+        <el-table-column label="物品 ID" prop="id"></el-table-column>
+        <el-table-column label="物品名称" prop="goodName"></el-table-column>
+        <el-table-column label="物品描述" prop="goodsDesc"></el-table-column>
       </el-table>
-      <el-button class="add-button">提交价格</el-button> -->
-    </el-card>
-    <!--
-    <el-card class="the-card">
-      <div slot="header" class="clearfix">
-        <span>其他信息</span>
-      </div>
-      <el-form>
-        <el-form-item style="width:30%" label="活动时间">
-          <el-col :span="11">
-            <el-date-picker
-              type="date"
-              placeholder="选择日期"
-              v-model="form.date1"
-              style="width: 100%;"
-            ></el-date-picker>
-          </el-col>
-        </el-form-item>
-        <div>
-          <span class="liji">立即购买按钮</span>
-          <el-radio v-model="radio" label="1">系统默认</el-radio>
-          <el-radio v-model="radio" label="2">自定义</el-radio>
-          <el-input style="width: 10%;" placeholder="6字之内"></el-input>
+      <!-- 修改价格弹窗 -->
+
+      <el-dialog title="设置价格" :visible.sync="dialogFormVisible">
+        <el-form :model="form">
+          <el-form-item label="设置价格">
+            <el-input v-model="specificationForm.sellPrice" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="物品ID">
+            <el-input v-model="specificationForm.hfGoodsId" placeholder="请输入下放物品ID" autocomplete="off"></el-input>
+          </el-form-item>
+           <el-form-item label="物品数量">
+            <el-input v-model="specificationForm.quantity"  autocomplete="off"></el-input>
+          </el-form-item>
+           <el-form-item label="物品描述">
+            <el-input v-model="specificationForm.respDesc"  autocomplete="off"></el-input>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogFormVisible = false">取 消</el-button>
+          <el-button type="primary" @click="SetThePrice">确 定</el-button>
         </div>
-      </el-form>
-    </el-card>-->
+      </el-dialog>
+    </el-card>
     <div class="button">
       <el-button @click="submitForm" type="primary">保存</el-button>
     </div>
@@ -303,6 +358,8 @@ import api from '@/api/commodity_api.js'
 export default {
   data () {
     return {
+      dialogFormVisible: false,
+      fileList: [],
       tianjiayanse: '', // 添加颜色
       tianjiachicun: '', // 添加尺寸
       tiwoCatalogues: [], // 三级目录
@@ -334,77 +391,84 @@ export default {
         date1: ''
       },
       leiMu: {},
-      // 表单绑定的添加商品
+      // 表单绑定的添加商品?bossId=11&brandId=111&categoryId=
+      // 11&hfName=11&id=11&lastModifier=11&productDesc=11&requestId=1
+      // 1&specName=11&specType=11&specUnit=11&specValue=11&timestamp=11&token=11&userId=11
       ruleForm: {
         freight: '',
+        categoryId1: '', // 商品所属的类目双向绑定的*
         yunfen: '',
-        inventory: '', // 库存    productId username
-        bossId: '1', // 商家id
-        brandId: '1', // 品牌id
-        goodName: '', // 商品名称
-        hfStoreId: '1', // 商铺id
-        goodsDesc: '', // 产品描述
-        productId: '33', // 商品id
-        username: '1', // 商家名称
-        requestId: '', // 发起请求的随机数, 用来判断请求是否重复 0
-        timestamp: '', // 当前时间
-        token: '11238',
-        userId: '12', // 用户id
-        verifier: '', // 核销员
-        specValue: ['hs', 'hs'], // 颜色和尺寸
-        member: '', // 是否为会员 0 非会员 1会员
+        categoryId: '', // 商品所属的类目id*
+        // inventory: '', // 库存
+        // bossId: '1', // 商家id  *
+        // brandId: '1', // 品牌id*
+        hfName: '', // 商品名称 *
+        id: '', // *
+        specName: [], // 规格名称*
+        // specValue: ['颜色', '尺寸'], // 颜色和尺寸*
+        requestId: '112123123', // 发起请求的随机数, 用来判断请求是否重复 0 *
+        lastModifier: '1', // 商家名称*
+        productDesc: '', // 产品描述*
+        productId: '', // 商品id
+        // username: '1', // 商家名称
+        // timestamp: '11111', // 当前时间*
+        token: '11238', // *
+        userId: '12', // 用户id*
+        // hfStoreId: '1', // 商铺id
         cancelId: '2', // 核销员Id
         fileInfo: [] // 图片路径
       },
-      // 添加商品
+      // 添加物品
       ruleForm1: {
-        bossId: '1', // 商家id
-        brandId: '2', // 品牌id
-        categoryId: '', // 商品所属的类目id
-        cancelId: '', // 核销Id
-        claim: '', // 是否自提
-        member: '', // 是否为会员商品
-        lastModifier: '1111', // 商家名称
-        productDesc: '123123123', // 商品描述
+        sellPrice: '', // 价格
+        quantity: '', // 库存量
+        productId: '13', // 商品id
+        // bossId: '1', // 商家id *
+        // brandId: '2', // 品牌id *
+        categoryId: '', // 商品所属的类目id*
+        cancelId: '', // 核销Id *
+        claim: '', // 是否自提 *
+        member: '', // 是否为会员商品 *
+        fileInfo1: [], // 图片*
+        frames: '0', // 上下架*
+        goodName: '', // 物品名称*
+        goodsDesc: '', // 物品描述*
+        // hfStoreId: '1', // 商铺id *
+        // lastModifier: '1111', // 商家名称
+        productDesc: '', // 商品描述
         requestId: '123123123', // 请求id, 发起请求的随机数, 用来判断请求是否重
-        timestamp: '12231231', // 当前时间
+        // timestamp: '12231231', // 当前时间
         token: '11238', // 登录成功后返回的token
-        userId: '12' // 用户id
-        // specValue: ['1.1'] // 标签 颜色 // 规格
+        userId: '12', // 用户id
+        // username: '7' // 商家名称
+        specValue: [] // 标签 颜色 // 规格
       },
-      // 添加图片
+      // 设置价格
       specificationForm: {
-        bossId: '1',
-        goodsId: '2', // 物品ID
-        productSpecId: '', // 商品规格ID
-        requestId: '123123123', // 发起请求的随机数, 用来判断请求是否重复
-        timestamp: '12231231', // 当前时间
+        quantity: '', // 物品数量
+        respDesc: '', // 库存描述
+        // bossId: '1',
+        hfGoodsId: '', // 物品ID
+        sellPrice: '', // 物品价格
+        // productSpecId: '', // 商品规格ID
+        requestId: '', // 发起请求的随机数, 用来判断请求是否重复
+        // timestamp: '12231231', // 当前时间
         token: '11238',
-        userId: '12' // 用户id
+        userId: '12', // 用户id
+        username: '12' // 店家名称, 登录修改的用户名称
         // specValue: ['1.1'] // 标签 颜色 // 规格
       },
       value: '',
-      // 添加至
-      options: [
+
+      // 表格数据
+      tableSpec: [
         {
-          value: '选项1',
-          label: '黄金糕'
+          specValue: '颜色',
+          specSize: '红色'
         },
         {
-          value: '选项2',
-          label: '双皮奶'
-        },
-        {
-          value: '选项3',
-          label: '蚵仔煎'
-        },
-        {
-          value: '选项4',
-          label: '龙须面'
-        },
-        {
-          value: '选项5',
-          label: '北京烤鸭'
+          specValue: '尺寸',
+          specSize: '5.5寸'
         }
       ],
       // 添加规格
@@ -427,7 +491,17 @@ export default {
         desc: ''
       },
       // 表单数据
-      tableData: [],
+      tableData: [
+        {
+          id: '12987122',
+          name: '好滋好味鸡蛋仔',
+          category: '江浙小吃、小吃零食',
+          desc: '荷兰优质淡奶，奶香浓而不腻',
+          address: '上海市普陀区真北路',
+          shop: '王小虎夫妻店',
+          shopId: '10333'
+        }
+      ],
       // 顶部表单验证
       rules: {
         hfName: [
@@ -445,27 +519,71 @@ export default {
     this.change()
   },
   methods: {
+    // 设置商品价格
+    SetThePrice () {
+      this.specificationForm.requestId = Date.now()
+      // this.specificationForm.hfGoodsId = this.ruleForm1.productId
+      api
+        .setPrice(this.specificationForm)
+        .then(res => {
+          this.dialogFormVisible = false
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error)
+        })
+    },
+    addition () {
+      // this.formSpec.specValue = this.$refs.specValue.value + ''
+      // this.formSpec.specSize = this.$refs.specSize.value + ''
+      // this.tableSpec.push(this.formSpec)
+      // this.value1 = ''
+      // this.value2 = ''
+    },
+    handleEdit (e) {
+      console.log(e)
+    },
+    // 获取规格
+    huq () {
+      this.$http
+        .get('/cat/product/category')
+        .then(res => {
+          this.threecategs = res.data.data
+          // console.log('类目', this.onecatalogues)
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error)
+        })
+    },
     // 添加商品 ruleForm1
     NewGoods () {
+      console.log(this.ruleForm.specName)
       this.$confirm('确认提交吗？', '提示', {}).then(() => {
         console.log(this.ruleForm1)
         // 拷贝
-        this.ruleForm1.requestId = Date.now()
-        let param = this.ruleForm1
-        api.tianjianwup(param).then(res => {
-          // this.$router.push({ name: 'commodity' })
-          this.$message({
-            message: '恭喜你，添加成功',
-            type: 'success'
+        this.ruleForm.requestId = Date.now()
+        let param = this.ruleForm
+        api
+          .tianjianwup(param)
+          .then(res => {
+            this.ruleForm1.productId = res.data.data.id
+
+            this.$message({
+              message: '恭喜你，添加成功',
+              type: 'success'
+            })
           })
-        })
+          .catch(err => {
+            console.log(err)
+          })
       })
     },
     clickdelete2 () {
       this.specificationForm2.specValue = ''
     },
     clickdelete () {
-      this.ruleForm.specValue = ''
+      this.ruleForm1.specValue = ''
     },
     onRemove (file) {},
     imgPreview (file) {
@@ -473,6 +591,7 @@ export default {
       let regex = /(.jpg|.jpeg|.gif|.png|.bmp)$/
       if (regex.test(fileName.toLowerCase())) {
         this.ruleForm.fileInfo.push(URL.createObjectURL(file.raw))
+        this.ruleForm1.fileInfo1.push(URL.createObjectURL(file.raw))
         console.log(file.raw)
         console.log(this.ruleForm.fileInfo)
         // this.uploadFile(file)
@@ -501,7 +620,7 @@ export default {
           console.log(err)
         })
     },
-    // 获取商品列表
+    // 获取物品列表
     async getcoommo () {
       api
         .getProductList(1)
@@ -518,14 +637,14 @@ export default {
     // 添加颜色事件
     submit () {
       // console.log(this.AddColor)
-      this.ruleForm.specValue.push(this.AddColor)
+      this.ruleForm1.specValue.push(this.AddColor)
       this.tianjiayanse = this.AddColor
-      this.AddColor = ''
+      // this.AddColor = ''
     },
     // 添加尺寸事件
     submit1 () {
       // console.log(this.AddColor)
-      this.specificationForm2.specValue.push(this.AddSize)
+      this.ruleForm.specName.push(this.AddSize)
       this.tianjiachicun = this.AddSize
       this.AddSize = ''
     },
@@ -559,7 +678,7 @@ export default {
     // },
     // 标签点击按钮
     handleClose (tag) {
-      this.ruleForm.specValue.splice(this.ruleForm.specValue.indexOf(tag))
+      this.ruleForm1.specValue.splice(this.ruleForm1.specValue.indexOf(tag))
     },
     // 标签点击按钮
     handleClose1 (tag) {
@@ -573,7 +692,7 @@ export default {
         .category()
         .then(res => {
           this.leiMu = res.data.data
-          this.leimu.levelId = res.data.length
+          // this.leimu.levelId = res.data.length
         })
         .catch(function (err) {
           console.log(err)
@@ -582,6 +701,7 @@ export default {
     // 二级 下拉触发事件
     twocategshijan (e) {
       // console.log(e)
+      this.ruleForm.categoryId = e
       this.ruleForm1.categoryId = e
       this.$http
         .get('/cat/product/category?parentCategoryId=' + e)
@@ -596,6 +716,7 @@ export default {
     },
     // 三级 下拉触发事件 threecateg
     threecategshijan (e) {
+      this.ruleForm.categoryId = e
       this.ruleForm1.categoryId = e
       // console.log(e)
       this.$http
@@ -610,6 +731,7 @@ export default {
         })
     },
     threecateg (e) {
+      this.ruleForm.categoryId = e
       this.ruleForm1.categoryId = e
       // console.log(e)
       this.$http
@@ -629,14 +751,14 @@ export default {
     },
     // 添加物品
     async submitForm () {
-      this.ruleForm.specValue.push(this.specificationForm2.specValue)
+      // this.ruleForm1.specValue.push(this.specificationForm2.specValue)
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
           this.$confirm('确认提交吗？', '提示', {}).then(() => {
             console.log(this.ruleForm)
             // 拷贝
             this.ruleForm.requestId = Date.now()
-            let param = this.ruleForm
+            let param = this.ruleForm1
             api.addProduct(param).then(res => {
               this.$router.push({ name: 'commodity' })
               this.$message({
@@ -705,6 +827,9 @@ export default {
     width: 920px;
   }
 }
+.el-form {
+  margin: 40px;
+}
 .kaipi {
   width: 676px;
   height: 100%;
@@ -758,11 +883,11 @@ export default {
 .el-table {
   width: 710px;
   height: 100%;
-  margin-left: 300px;
+  // margin-left: 300px;
   border: 1px solid rgba(46, 45, 45, 0.09);
 }
 .reduceForm {
-  margin-top: 45px;
+  margin: 30px;
   margin-left: 300px;
 }
 
@@ -787,5 +912,18 @@ export default {
 }
 .box-card {
   height: 100%;
+}
+
+.demo-table-expand {
+  font-size: 0;
+}
+.demo-table-expand label {
+  width: 90px;
+  color: #99a9bf;
+}
+.demo-table-expand .el-form-item {
+  margin-right: 0;
+  margin-bottom: 0;
+  width: 50%;
 }
 </style>

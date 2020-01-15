@@ -1,11 +1,26 @@
 import Axios from 'axios'
-// ========================================================================商品模块
+// =============================================商品模块
 // 获取商品列表
 function getProductList () {
   return Axios.get('/api/goods/listGoods?stoneId=1')
-}// 获取商品总数
+}
+// 获取商品总数
 function queryGoods () {
   return Axios.get('/api/goods/queryGoods')
+}
+// 设置商品价格
+function setPrice (params) {
+  let fd = new FormData()
+  fd.append('hfGoodsId', params.hfGoodsId)
+  fd.append('sellPrice', params.sellPrice)
+  // fd.append('productSpecId', params.productSpecId)
+  fd.append('requestId', params.requestId)
+  fd.append('token', params.token)
+  fd.append('userId', params.userId)
+  fd.append('username', params.username)
+  fd.append('quantity', params.quantity)
+  fd.append('respDesc', params.respDesc)
+  return Axios.post('/api/goods/setPrice', fd)
 }
 // 核销员
 function verifier () {
@@ -44,44 +59,57 @@ function updategoods (params) {
   return Axios.post('/api/goods/updategood', fd, { responseType: 'arraybuffer' })
 }
 // 添加物品
-// http://192.168.1.233:9095/product/addproduct?hfName=衣服1&categoryId=1&brandId=1&productDesc=代步&bossId=1&lastModifier=swd
 function addProduct (params) {
   let fd = new FormData()
-  fd.append('bossId', params.bossId)
-  fd.append('brandId', params.brandId)
-  fd.append('goodName ', params.goodName)
-  fd.append('goodsDesc ', params.goodsDesc)
-  fd.append('hfStoreId ', params.hfStoreId)
-  fd.append('productId ', params.productId)
-  fd.append('requestId ', params.requestId)
-  fd.append('timestamp ', params.timestamp)
-  fd.append('token ', params.token)
-  fd.append('userId', params.userId)
-  fd.append('username', params.username)
-  fd.append('specValue', params.specValue)
-  fd.append('member', params.member)
-  fd.append('fileInfo', params.fileInfo)
+  fd.append('productId', params.productId)
+  fd.append('categoryId', params.categoryId)
   fd.append('cancelId', params.cancelId)
+  fd.append('claim', params.claim)
+  fd.append('member', params.member)
+  fd.append('frames', params.frames)
+  fd.append('goodName', params.goodName)
+  fd.append('goodsDesc', params.goodsDesc)
+  fd.append('productDesc', params.productDesc)
+  fd.append('requestId', params.requestId)
+  fd.append('token', params.token)
+  fd.append('fileInfo1', params.fileInfo1)
+  fd.append('userId', params.userId)
+  fd.append('specValue', params.specValue)
   return Axios.post('/api/goods/create', fd, { responseType: 'arraybuffer' })
 }
 // 添加商品
 function tianjianwup (params) {
   let fd = new FormData()
-  fd.append('bossId', params.bossId)
-  fd.append('brandId', params.brandId)
   fd.append('categoryId', params.categoryId)
-  fd.append('cancelId ', params.cancelId)
-  fd.append('claim ', params.claim)
-  fd.append('member ', params.member)
-  fd.append('lastModifier ', params.lastModifier)
-  fd.append('productDesc ', params.productDesc)
-  fd.append('requestId ', params.requestId)
-  fd.append('timestamp', params.timestamp)
+  // fd.append('bossId', params.bossId)
+  // fd.append('brandId ', params.brandId)
+  fd.append('hfName ', params.hfName)
+  // fd.append('id', params.id)
+  fd.append('specName', params.specName)
+  // fd.append('specType ', params.specType)
+  // fd.append('specUnit ', params.specUnit)
+  // fd.append('specValue ', params.specValue)
+  fd.append('requestId', params.requestId)
+  fd.append('lastModifier', params.lastModifier)
+  fd.append('productDesc', params.productDesc)
   fd.append('token', params.token)
   fd.append('userId', params.userId)
-  return Axios.post('/api/product/addproduct', fd, { responseType: 'arraybuffer' })
+  fd.append('fileInfo', params.fileInfo)
+  return Axios.post('/api/product/addproduct', fd)
 }
-
+// let fd = new FormData()
+// fd.append('bossId', params.bossId)
+// fd.append('brandId', params.brandId)
+// fd.append('categoryId', params.categoryId)
+// fd.append('cancelId ', params.cancelId)
+// fd.append('claim ', params.claim)
+// fd.append('member ', params.member)
+// fd.append('lastModifier ', params.lastModifier)
+// fd.append('productDesc ', params.productDesc)
+// fd.append('requestId ', params.requestId)
+// fd.append('timestamp', params.timestamp)
+// fd.append('token', params.token)
+// fd.append('userId', params.userId)
 // 按条件查询商品
 function search (id, cateId, name) {
   let params = {
@@ -254,5 +282,6 @@ export default {
   verifier: verifier,
   queryGoods: queryGoods,
   updategoods: updategoods,
-  tianjianwup: tianjianwup
+  tianjianwup: tianjianwup,
+  setPrice: setPrice
 }

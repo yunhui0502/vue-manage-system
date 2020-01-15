@@ -54,7 +54,7 @@
               <template slot-scope="scope">{{ scope.row.id }}</template>
             </el-table-column>
             <el-table-column label="商品描述">
-              <template slot-scope="scope">{{ scope.row.hfGoods.goodsDesc }}</template>
+              <!-- <template slot-scope="scope">{{ scope.row.hfGoods.goodsDesc }}</template> -->
             </el-table-column>
           </el-table>
           <div style="margin-top:10px;text-align: right; ">
@@ -117,7 +117,7 @@
           <template slot-scope="scope">{{ scope.row.id }}</template>
         </el-table-column>
         <el-table-column label="商品描述" width="120">
-          <template slot-scope="scope">{{ scope.row.hfGoods.goodsDesc }}</template>
+          <!-- <template slot-scope="scope">{{ scope.row.hfGoods.goodsDesc }}</template> -->
         </el-table-column>
         <el-table-column prop="startTime" label="开始时间"></el-table-column>
         <el-table-column prop="stopTime" label="结束时间" show-overflow-tooltip></el-table-column>
