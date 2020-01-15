@@ -19,41 +19,29 @@
           <div style="padding:25px 0 24px  44px;">
             <el-form-item style="margin-bottom:24px;margin-left: 5px;" label>
               <el-form-item style="margin-bottom:50px;" label>
-                <div>商品ID</div>
+                <div>物品名称</div>
               </el-form-item>
               <input
+              v-model="inquire.goodsName"
                 type="text"
                 style="box-shadow:0px 2px 137px 1px rgba(107,107,107,0.11);
               width:257px;height:45px;border-radius:6px;outline: none;border:1px solid #EBEDF0;border-top:0.8px solid #EBEDF0;
               border-bottom:1.5px solid #EBEDF0; padding-left: 14px;"
-                placeholder="请输入商品名称 "
+                placeholder="请输入物品名称 "
               />
             </el-form-item>
 
             <el-form-item style="margin-bottom:24px;margin-left: 5px;" label>
               <el-form-item style="margin-bottom:50px;" label>
-                <div style>商品分类</div>
+                <div style>物品分类</div>
               </el-form-item>
-              <el-select
-                v-model="value1"
-                placeholder="请选择"
-                @change="checkMulist"
-                style="height: 45px;"
-              >
-                <el-option
-                  v-for="(item, index) in leiMu"
-                  :key="index"
-                  :label="item.hfName"
-                  :value="item.hfName"
-                  style="height: 45px;"
-                ></el-option>
-              </el-select>
+               <el-input v-model="inquire.productCategoryName" placeholder="请输入要查询的类目名称" autocomplete="off"></el-input>
             </el-form-item>
             <br />
             <div style="float: right;margin-right: 260px;">
               <el-button
                 type="primary"
-                @click="sou"
+                @click="seeAbout"
                 :loading="addLoading"
                 class="chaxun"
                 style="background: #A6A3FB;border: none;"
@@ -328,6 +316,11 @@ export default {
           cities: []
         }
       ],
+      // 查询绑定的值
+      inquire: {
+        goodsName: '', // 商品名称
+        productCategoryName: '' // 类目名称
+      },
       // props: {
       //   value: 'hfName',
       //   children: 'hfName'
@@ -401,6 +394,17 @@ export default {
       this.qihuans = '1'
       this.$http
         .get('/api/goods/selectFrames?frames=1')
+        .then(res => {
+          this.tableData = res.data.data
+        })
+        .catch(error => {
+          console.log(error)
+          this.$message(error + '失败')
+        })
+    },
+    // 查询
+    seeAbout  () {
+      api.queryList(this.inquire)
         .then(res => {
           this.tableData = res.data.data
         })
@@ -747,22 +751,8 @@ export default {
     },
 
     sou: function () {
-      // api.search(1, _this.leiMuId, _this.souhfName).then(response => {
-      //   console.log(response)
-      //   if (response.data.status === 200) {
-      //     _this.tableData = response.data.data
-      //     for (var i = 0; i < this.tableData.length; i++) {
-      //       this.tableData[i].createTime = this.tableData[i].createTime.split(
-      //         'T'
-      //       )
-      //       // eslint-disable-next-line standard/computed-property-even-spacing
-      //       this.tableData[i].createTime =
-      //         this.tableData[i].createTime[0] +
-      //         '  ' +
-      //         this.tableData[i].createTime[1]
-      //     }
-      //   }
-      // })
+      this.inquire.goodsName = ''
+      this.inquire.productCategoryName = ''
     },
     // 查询类目
     checkType: function (val) {

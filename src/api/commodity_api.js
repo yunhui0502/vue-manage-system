@@ -8,6 +8,13 @@ function getProductList () {
 function queryGoods () {
   return Axios.get('/api/goods/queryGoods')
 }
+// 查询
+function queryList (params) {
+  let fd = new FormData()
+  fd.append('hfGoodsId', params.goodsName)
+  fd.append('hfGoodsId', params.productCategoryName)
+  return Axios.get('/api/goods/queryList', fd)
+}
 // 设置商品价格
 function setPrice (params) {
   let fd = new FormData()
@@ -283,5 +290,6 @@ export default {
   queryGoods: queryGoods,
   updategoods: updategoods,
   tianjianwup: tianjianwup,
-  setPrice: setPrice
+  setPrice: setPrice,
+  queryList: queryList
 }
