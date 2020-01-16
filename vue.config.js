@@ -124,6 +124,7 @@ module.exports = {
       },
       '/cat': {
         target: 'http://192.168.1.101:9095', // 小方类目
+        // target: 'http://192.168.1.175:9095', // 小方类目
         changeOrigin: true,
         pathRewrite: {
           '^/cat': '' // 去掉接口地址中的foo字符串

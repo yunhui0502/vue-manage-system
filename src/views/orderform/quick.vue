@@ -1,7 +1,7 @@
 <template>
   <!-- 全部订单页面 -->
   <div style="width:100%;height:100%">
-    <div class="div" style="height: 100%;">
+    <!-- <div class="div" style="height: 100%;">
       <div class="header">
         <div style="margin-left:22px;line-height:42px;color: #666666;font-size:16px">订单查询</div>
       </div>
@@ -13,25 +13,9 @@
           v-model="search.orderId"
         ></el-input>
         <br />
-        <div style="font-size: 16px;float: left;margin-top:30px;color: #666666">下单时间</div>
+
         <div class="block">
-          <el-date-picker
-            type="date"
-            placeholder="开始日期"
-            style="width: 186px;margin-top:23px;margin-left: 40px;"
-            v-model="screen.creatTime"
-          ></el-date-picker>
-          <span style="margin-left: 13px;">至</span>
-          <el-date-picker
-            type="date"
-            placeholder="结束日期"
-            style="width: 186px;margin-top:23px;margin-left:13px;"
-            v-model="screen.creatTime"
-          ></el-date-picker>
-          <el-button style="margin-left:12px">今</el-button>
-          <el-button>昨</el-button>
-          <el-button>近7天</el-button>
-          <el-button>近30天</el-button>
+
           <br />
           <div style="font-size: 16px;float: left;margin-top:30px;color: #666666">商品名称</div>
           <el-input
@@ -87,11 +71,10 @@
             ></el-option>
           </el-select>
           <div class="dis" @click="shaixuan()">筛选</div>
-          <div class="disdaoc" @click="elxs()">导出</div>
           <div class="screen" @click="reset()">重置筛选条件</div>
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="div" style="margin-top:30px;margin-bottom:53px">
       <div class="footer">
         <div style="margin-left: 34px;padding-top: 20px;">
@@ -127,19 +110,19 @@
                 <el-table-column label="操作" width="300" align="center">
                   <template slot-scope="scope">
                     <el-button
-                      @click="detail(scope.row)"
+                      @click="tetail(scope.row)"
                       type="text"
                       id="yincang"
                       size="small"
                       style="color: #A3A0FB;  "
                     >订单详情</el-button>
-                    <el-button
+                    <!-- <el-button
                       @click="xiugai(scope)"
                       type="text"
                       id="yincang"
                       size="small"
                       style="color:hotpink;  "
-                    >修改订单</el-button>
+                    >修改订单</el-button> -->
                   </template>
                 </el-table-column>
               </el-table>
@@ -184,7 +167,7 @@
                 <el-table-column label="操作" width="300" align="center">
                   <template slot-scope="scope">
                     <el-button
-                      @click="detail(scope.row)"
+                      @click="tetail(scope.row)"
                       type="text"
                       id="yincang"
                       size="small"
@@ -228,16 +211,16 @@
                   style="color:orangered;"
                 ></el-table-column>
                 <el-table-column label="操作" width="300" align="center">
-                  <template slot-scope="scope">
+                  <template >
                     <el-button
-                      @click="detail(scope.row)"
+                      @click="tetail(scope.row)"
                       type="text"
                       id="yincang"
                       size="small"
                       style="color: #A3A0FB;  "
                     >订单详情</el-button>
                     <el-button
-                      @click="detail()"
+                      @click="tetail()"
                       type="text"
                       id="yincang"
                       size="small"
@@ -283,7 +266,7 @@
                 <el-table-column label="操作" width="300" align="center">
                   <template slot-scope="scope">
                     <el-button
-                      @click="detail(scope.row)"
+                      @click="tetail(scope.row)"
                       type="text"
                       id="yincang"
                       size="small"
@@ -329,7 +312,7 @@
                 <el-table-column label="操作" width="300" align="center">
                   <template slot-scope="scope">
                     <el-button
-                      @click="detail(scope.row)"
+                      @click="tetail(scope.row)"
                       type="text"
                       id="yincang"
                       size="small"
@@ -375,7 +358,7 @@
                 <el-table-column label="操作" width="300" align="center">
                   <template slot-scope="scope">
                     <el-button
-                      @click="detail(scope.row)"
+                      @click="tetail(scope.row)"
                       type="text"
                       id="yincang"
                       size="small"
@@ -421,7 +404,7 @@
                 <el-table-column label="操作" width="300" align="center">
                   <template>
                     <el-button
-                      @click="detail()"
+                      @click="tetail()"
                       type="text"
                       id="yincang"
                       size="small"
@@ -467,7 +450,7 @@
                 <el-table-column label="操作" width="300" align="center">
                   <template slot-scope="scope">
                     <el-button
-                      @click="detail(scope.row)"
+                      @click="tetail(scope.row)"
                       type="text"
                       id="yincang"
                       size="small"
@@ -942,15 +925,28 @@ export default {
     //
     // }
     // ,
+    // ----------------------------------------------
     // 筛选搜索
+    // shaixuan () {
+    //   console.log(this.search)
+    //   api.queryorder(this.search).then(res => {
+    //     console.log(res.data.data)
+    //     this.arr = res.data.data
+    //     // this.zhanshi()
+    //   })
+    // },
     shaixuan () {
-      console.log(this.search)
-      api.queryorder(this.search).then(res => {
-        console.log(res.data.data)
-        this.arr = res.data.data
-        // this.zhanshi()
-      })
+      this.$http
+        .get('/qui/order/queryOrder')
+        .then(res => {
+          this.tableData = res.data.data
+          console.log('类目', this.onecatalogues)
+        })
+        .catch(function (error) {
+          alert(error)
+        })
     },
+    // -----------------------------------------
     // 导出
     elxs () {
       let time = new Date()
@@ -1032,22 +1028,23 @@ export default {
       this.dialogVisible1 = true
     },
     // 查看订单详情
-    // detail (scope) {
-    //   console.log(scope)
-    //   const ID = scope.id
-    //   this.$router.push({
-    //     path: '/hf-detail',
-    //     query: { id: ID }
-    //   })
+    tetail (scope) {
+      console.log(123)
+      const ID = scope.id
+      console.log(ID)
+      this.$router.push({
+        path: '/tetail',
+        query: { id: ID }
+      })
 
-    //   console.log(scope.id)
+      console.log(scope.id)
 
-    //   this.dialogVisible=true
-    //   api.orderDetail(scope.id).then(res=>{
-    //   console.log(res.data.data)
-    //   this.Detail=res.data.data[0]
-    //   })
-    // },
+      this.dialogVisible = true
+      api.orderDetail(scope.id).then(res => {
+        console.log(res.data.data)
+        this.Detail = res.data.data[0]
+      })
+    },
     // --------------------------------------------------------------------------------------
     async zhuangtai () {
       const data = await this.$http.get('/qui/order/query')
@@ -1099,10 +1096,10 @@ export default {
     // ------------------------------------------------------------------------------------------
     // 修改订单
     xiugai (row) {
-      console.log(row.row.id)
+      console.log(row)
       this.dialogVisible2 = true
       // this.Add_ss.id=row.row.id
-      this.Add_ss.ordersId = row.row.id
+      this.Add_ss.ordersId = row.id
     },
     Add_s () {
       api.update(this.Add_ss).then(res => {
