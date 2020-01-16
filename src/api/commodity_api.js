@@ -1,12 +1,16 @@
 import Axios from 'axios'
 // =============================================商品模块
-// 获取商品列表
+// 获取列表
 function getProductList () {
   return Axios.get('/api/goods/listGoods?stoneId=1')
 }
 // 获取商品总数
 function queryGoods () {
   return Axios.get('/api/goods/queryGoods')
+}
+// 查询物品规格
+function specifies (id) {
+  return Axios.get('/api/product/specifies?productId=' + id)
 }
 // 查询
 function queryList (params) {
@@ -27,6 +31,7 @@ function setPrice (params) {
   fd.append('username', params.username)
   fd.append('quantity', params.quantity)
   fd.append('respDesc', params.respDesc)
+  fd.append('linePrice', params.linePrice)
   return Axios.post('/api/goods/setPrice', fd)
 }
 // 核销员
@@ -69,33 +74,27 @@ function updategoods (params) {
 function addProduct (params) {
   let fd = new FormData()
   fd.append('productId', params.productId)
-  fd.append('categoryId', params.categoryId)
+  // fd.append('categoryId', params.categoryId)
   fd.append('cancelId', params.cancelId)
   fd.append('claim', params.claim)
-  fd.append('member', params.member)
+  // fd.append('member', params.member)
   fd.append('frames', params.frames)
   fd.append('goodName', params.goodName)
   fd.append('goodsDesc', params.goodsDesc)
-  fd.append('productDesc', params.productDesc)
+  // fd.append('productDesc', params.productDesc)
   fd.append('requestId', params.requestId)
   fd.append('token', params.token)
   fd.append('fileInfo1', params.fileInfo1)
   fd.append('userId', params.userId)
-  fd.append('specValue', params.specValue)
+  // fd.append('specValue', params.specValue)
   return Axios.post('/api/goods/create', fd, { responseType: 'arraybuffer' })
 }
 // 添加商品
 function tianjianwup (params) {
   let fd = new FormData()
   fd.append('categoryId', params.categoryId)
-  // fd.append('bossId', params.bossId)
-  // fd.append('brandId ', params.brandId)
   fd.append('hfName ', params.hfName)
-  // fd.append('id', params.id)
-  fd.append('specName', params.specName)
-  // fd.append('specType ', params.specType)
-  // fd.append('specUnit ', params.specUnit)
-  // fd.append('specValue ', params.specValue)
+  // fd.append('specName', params.specName)
   fd.append('requestId', params.requestId)
   fd.append('lastModifier', params.lastModifier)
   fd.append('productDesc', params.productDesc)
@@ -104,19 +103,27 @@ function tianjianwup (params) {
   fd.append('fileInfo', params.fileInfo)
   return Axios.post('/api/product/addproduct', fd)
 }
-// let fd = new FormData()
-// fd.append('bossId', params.bossId)
-// fd.append('brandId', params.brandId)
-// fd.append('categoryId', params.categoryId)
-// fd.append('cancelId ', params.cancelId)
-// fd.append('claim ', params.claim)
-// fd.append('member ', params.member)
-// fd.append('lastModifier ', params.lastModifier)
-// fd.append('productDesc ', params.productDesc)
-// fd.append('requestId ', params.requestId)
-// fd.append('timestamp', params.timestamp)
-// fd.append('token', params.token)
-// fd.append('userId', params.userId)
+// 添加商品规格
+function addSpecify (params) {
+  let fd = new FormData()
+  fd.append('hfName', params.hfName)
+  fd.append('requestId ', params.requestId)
+  fd.append('timestamp', params.timestamp)
+  fd.append('token', params.token)
+  fd.append('userId', params.userId)
+  return Axios.post('/api/product/addSpecify', fd)
+}
+// 添加物品规格值
+function additionSpecs (params) {
+  let fd = new FormData()
+  fd.append('goodsId', params.goodsId)
+  fd.append('requestId ', params.requestId)
+  fd.append('specValue', params.specValue)
+  fd.append('timestamp', params.timestamp)
+  fd.append('token', params.token)
+  fd.append('userId', params.userId)
+  return Axios.post('/api/goods/addSpecify', fd)
+}
 // 按条件查询商品
 function search (id, cateId, name) {
   let params = {
@@ -291,5 +298,8 @@ export default {
   updategoods: updategoods,
   tianjianwup: tianjianwup,
   setPrice: setPrice,
-  queryList: queryList
+  queryList: queryList,
+  addSpecify: addSpecify,
+  specifies: specifies,
+  additionSpecs: additionSpecs
 }
