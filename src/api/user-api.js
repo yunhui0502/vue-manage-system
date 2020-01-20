@@ -2,7 +2,7 @@
 import Axios from 'axios'
 // 获取用户
 function categoryId () {
-  return Axios.get('/log/user/selectList')
+  return Axios.post('/log/user/selectList')
 }
 // 添加核销员
 function insertCancel (params) {
@@ -25,15 +25,55 @@ function update (params) {
 // 修改核销员信息
 function updateCancel (params) {
   let fd = new FormData()
-  fd.append('RealName', params.realName)
-  fd.append('userId', params.userId)
-  fd.append('cancel2', params.cancel2)
-  fd.append('site', params.site)
+  if (params.realName !== '') {
+    fd.append('RealName', params.realName)
+  }
+  if (params.userId !== '') {
+    fd.append('UserId', params.UserId)
+  }
+  if (params.cancel2 !== '') {
+    fd.append('cancel2', params.cancel2)
+  }
+  if (params.site !== '') {
+    fd.append('site', params.site)
+  }
   return Axios.post('/ver/cancel/updateCancel', fd)
+}
+
+// 筛选
+function filtrateUser (params) {
+  let fd = new FormData()
+  if (params.email !== '') {
+    fd.append('email', params.email)
+  } else
+  if (params.hfBalance !== '') {
+    fd.append('hfBalance', params.hfBalance)
+  } else
+  if (params.nickName !== '') {
+    fd.append('nickName', params.nickName)
+  } else
+  if (params.userStatus !== '') {
+    fd.append('userStatus', params.userStatus)
+  }
+  if (params.sex !== '') {
+    fd.append('sex', params.sex)
+  }
+  if (params.phone !== '') {
+    fd.append('phone', params.phone)
+  }
+  if (params.region !== '') {
+    fd.append('region', params.region)
+  }
+  if (params.time !== '') {
+    fd.append('time', params.time)
+  }
+
+  return Axios.post('/log/user/selectList', fd)
 }
 export default {
   categoryId: categoryId,
   insertCancel: insertCancel,
   update: update,
-  updateCancel: updateCancel
+  updateCancel: updateCancel,
+  filtrateUser: filtrateUser
 }

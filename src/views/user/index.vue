@@ -12,27 +12,31 @@
       <div class="block">
         <span class="demonstration">注册时间</span>
         <el-date-picker
-          v-model="value1"
-          type="daterange"
-          style="margin-left: 100px;margin-left: 45px;"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
+          style="width:20%;margin-left: 54px;"
+          v-model="form.time"
+          value-format="yyyy-MM-dd HH:mm:ss"
+          type="datetime"
+          placeholder="注册时间"
         ></el-date-picker>
       </div>
 
       <div class="block2">
-        <span class="leijixiaof" style>累计消费</span>
+        <span class="leijixiaof" style>用户邮箱</span>
         <span style="margin-left: 10px;"></span>
-        <el-input v-model="input" placeholder="请输入内容" style="width: 15%;margin-left:40px;"></el-input>
-        <span style="margin-left: 10px;">至</span>
-        <el-input v-model="input2" placeholder="请输入内容" style="width: 15%;margin-left:20px;"></el-input>
+        <el-input v-model="form.email" placeholder="请输入内容" style="width: 15%;margin-left:40px;"></el-input>
+        <span style="margin-left: 10px;">余额</span>
+        <el-input v-model="form.hfBalance" placeholder="请输入内容" style="width: 15%;margin-left:20px;"></el-input>
       </div>
       <div class="block3">
         <div>
           关键词
-          <el-input v-model="input1" placeholder="请输入退款编号" style="width:20%;margin-left: 60px;"></el-input>
+          <el-input
+            v-model="form.nickName"
+            placeholder="请输入退款编号"
+            style="width:20%;margin-left: 60px;"
+          ></el-input>
           <span style="margin-left: 10px;">客户身份</span>
-          <el-select v-model="value" placeholder="请选择" style="margin-left: 20px;">
+          <el-select v-model="form.userStatus" placeholder="请选择" style="margin-left: 20px;">
             <el-option
               v-for="item in identity"
               :key="item.value"
@@ -41,7 +45,7 @@
             ></el-option>
           </el-select>
           <span style="margin-left: 10px;">性别</span>
-          <el-select v-model="xingbie" placeholder="请选择" style="margin-left: 20px;">
+          <el-select v-model="form.sex" placeholder="请选择" style="margin-left: 20px;">
             <el-option
               v-for="item in sex"
               :key="item.value"
@@ -52,31 +56,32 @@
         </div>
 
         <div style="margin-top: 20px;">
-          购买次数
+          手机号
           <el-input
             style="margin-left: 45px;"
             class="input1"
-            v-model="form.input"
+            v-model="form.phone"
             placeholder="请输入内容"
           ></el-input>
-          <span style="margin-left: 10px;">至</span>
-          <el-input class="input2" v-model="form.input1" placeholder="请输入内容"></el-input>
-          <span style="margin-left: 10px;">单价</span>
-          <el-input class="input2" v-model="form.input2" placeholder="请输入内容"></el-input>
-          <span style="margin-left: 10px;">至</span>
-          <el-input class="input2" v-model="form.input3" placeholder="请输入内容"></el-input>
+          <span style="margin-left: 10px;">地区</span>
+          <el-input class="input2" v-model="form.region" placeholder="请输入内容"></el-input>
+          <!-- <span style="margin-left: 10px;">单价</span>
+          <el-input class="input2" v-model="form.input2" placeholder="请输入内容"></el-input>-->
+          <!-- <span style="margin-left: 10px;">至</span>
+          <el-input class="input2" v-model="form.input3" placeholder="请输入内容"></el-input>-->
         </div>
       </div>
 
-      <!-- <div style="width:22%;height: 60px;margin: 0 auto;margin-top: 30px;">
+      <div style="width:22%;height: 60px;margin: 0 auto;margin-top: 30px;">
         <div
           style="float: left;width:50%;height:60px;text-align: center;line-height: 60px;background: #A3A0FB;border-radius: 5px;color: #ffffff;haixuan"
-          @click="shaixuan()"
+          @click="filtrate()"
         >筛选</div>
         <div
+         @click="reset()"
           style="float: left;width: 50%;height:60px;text-align: center;line-height: 60px;color: #A3A0FB;"
         >重置筛选条件</div>
-      </div>-->
+      </div>
 
       <!-- <div style="width: 100%;height:100%;background:#ffffff;">
         <div
@@ -107,8 +112,8 @@
           <template slot-scope="scope">{{ scope.row.sex===1?'男':'女' }}</template>
         </el-table-column>
 
-        <el-table-column align="center" label="所在地">
-          <template slot-scope="scope">{{ scope.row.region }}</template>
+        <el-table-column align="address" label="所在地">
+          <template slot-scope="scope">{{ scope.row.address }}</template>
         </el-table-column>
         <el-table-column
           prop="userLevel"
@@ -122,8 +127,8 @@
         <el-table-column prop="createDate" label="关注时间" align="center" show-overflow-tooltip>
           <template slot-scope="scope">{{ scope.row.createDate }}</template>
         </el-table-column>
-        <el-table-column prop="address" label="余额" align="center" show-overflow-tooltip>
-          <template slot-scope="scope">{{ scope.row.chengjiao }}</template>
+        <el-table-column prop="hfBalance" label="余额" align="center" show-overflow-tooltip>
+          <template slot-scope="scope">{{ scope.row.hfBalance }}</template>
         </el-table-column>
         <!-- <el-table-column
             prop="address"
@@ -133,6 +138,12 @@
           >
             <template slot-scope="scope">{{ scope.row.chengjiao }}</template>
         </el-table-column>-->
+        <el-table-column prop="userStatus" label="用户身份" align="center" show-overflow-tooltip>
+          <template slot-scope="scope">{{ scope.row.userStatus==1?'会员':'非会员' }}</template>
+        </el-table-column>
+        <el-table-column prop="address" label="是否是核销员" align="center" show-overflow-tooltip>
+          <template slot-scope="scope">{{ scope.row.cancelId==1?'是':'否' }}</template>
+        </el-table-column>
         <el-table-column fixed="right" label="操作" width="260" align="center">
           <template slot-scope="scope">
             <el-button @click="amend(scope)" type="text" size="small" style="color: #A6A3FB;">编辑</el-button>
@@ -242,7 +253,7 @@
           <el-button type="primary" @click="dialogVisible = false" class="input_1">确 定</el-button>
         </div>
       </el-dialog>
-       <!-- 编辑------------------------------------------------------------------------->
+      <!-- 编辑------------------------------------------------------------------------->
       <el-dialog
         title="编辑"
         :visible.sync="dialogRedact"
@@ -392,13 +403,28 @@ export default {
   data () {
     return {
       form: {
-        input: '',
-        input1: '',
-        input2: '',
-        input3: '',
-        input4: '',
-        input6: '',
-        input5: ''
+        address: '', // 用户地址
+        balanceType: '', // 余额类型
+        birthDay: '', // 出生日期
+        cancelId: '', // 核销员Id
+        time: '', // 创建时间 *
+        email: '', // 用户邮箱
+        fileId: '', // 用户头像
+        hfBalance: '', // 余额
+        id: '', //
+        idDeleted: '', // 是否失效
+        lastAuthTime: '', // 最后修改人
+        modifyDate: '', // 修改时间
+        nickName: '', // 用户昵称 *
+        phone: '', // 手机号 *
+        realName: '', // 真实姓名
+        region: '', // 用户来源
+        sex: '', // 性别 *
+        sourceType: '', //
+        userId: '', //  用户Id
+        userLevel: '', // 用户等级
+        userStatus: '', // 用户状态 *
+        username: '' // 用户名
       },
       radio: '1', // 弹窗里的
       radio_1: '1', // 弹窗里的
@@ -434,13 +460,39 @@ export default {
         phone: '', // 手机号
         region: '', // 所在地区
         requestId: '1111', // 随机数
-        sex: '', // 性别
+        sex: '0', // 性别
         timestamp: '1111', // 发起请求的当前时间
         token: '123', // 登录成功后返回的token
         userId: '', // 登录的用户id
-        cancel2: '', // 是是否是核销员
+        UserId: '', // 登录的用户id
+        cancel2: '1', // 是是否是核销员
         site: '' // 核销地点
       },
+      // 选择时间
+      shortcuts: [
+        {
+          text: '今天',
+          onClick (picker) {
+            picker.$emit('pick', new Date())
+          }
+        },
+        {
+          text: '昨天',
+          onClick (picker) {
+            const date = new Date()
+            date.setTime(date.getTime() - 3600 * 1000 * 24)
+            picker.$emit('pick', date)
+          }
+        },
+        {
+          text: '一周前',
+          onClick (picker) {
+            const date = new Date()
+            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
+            picker.$emit('pick', date)
+          }
+        }
+      ],
       sex: [
         {
           value: '0',
@@ -526,10 +578,14 @@ export default {
   methods: {
     // 修改核销员信息
     amendVerifier () {
-      api.updateCancel(this.formRedact).then(res => {
-        this.threecategs = res.data.data
-        // console.log('类目', this.onecatalogues)
-      })
+      api
+        .updateCancel(this.formRedact)
+        .then(res => {
+          // this.threecategs = res.data.data
+          console.log('1234', res)
+          this.getcategory()
+          // console.log('类目', this.onecatalogues)
+        })
         .catch(function (error) {
           // handle error
           console.log(error)
@@ -556,7 +612,7 @@ export default {
       console.log(scope)
       this.formVerifier.UserId = scope.row.id
     },
-    // 编辑
+    // 编辑 getcategory ()
     submitCompile () {
       console.log(this.formRedact.userId)
       this.dialogRedact = false
@@ -564,19 +620,21 @@ export default {
         .update(this.formRedact)
         .then(res => {
           this.threecategs = res.data.data
-          this.amendVerifier()
+          this.getcategory()
           // console.log('类目', this.onecatalogues)
         })
         .catch(function (error) {
           // handle error
           console.log(error)
         })
+      this.amendVerifier(this.formRedact)
     },
     //  编辑
     amend (scope) {
       this.dialogRedact = true
       console.log(scope)
       this.formRedact.userId = scope.row.id
+      this.formRedact.UserId = scope.row.id
     },
     // 获取用户列表
     async getcategory () {
@@ -596,8 +654,20 @@ export default {
     handleSelectionChange (val) {
       this.multipleSelection = val
     },
-    shaixuan () {
-      // console.log('asdadsa')
+    // 筛选
+    filtrate () {
+      api
+        .filtrateUser(this.form)
+        .then(res => {
+          this.tableData = res.data.data
+        })
+        .catch(function (err) {
+          console.log(err)
+        })
+    },
+    // 重置
+    reset () {
+
     }
   }
 }
