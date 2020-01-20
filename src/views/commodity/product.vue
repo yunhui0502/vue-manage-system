@@ -116,7 +116,21 @@
           </el-form-item>
 
           <div class="reduceForm">
+            <!-- 上传图片 -->
             <el-upload
+              action="http://192.168.1.104:9095/product/addProductPictrue"
+              :data="form"
+              name="fileInfo"
+              list-type="picture-card"
+              :on-preview="handlePictureCardPreview"
+              :on-remove="handleRemove"
+            >
+              <i class="el-icon-plus"></i>
+            </el-upload>
+            <el-dialog :visible.sync="dialogVisible">
+              <img width="100%" :src="dialogImageUrl" alt />
+            </el-dialog>
+            <!-- <el-upload
               ref="upload"
               class="upload-poster"
               accept=".jpg, .jpeg, .png, .gif, .bmp, .JPG, .JPEG, .GIF, .BMP"
@@ -130,7 +144,7 @@
               <el-dialog :visible.sync="dialogVisible">
                 <img width="100%" :src="ruleForm.fileInfo " alt />
               </el-dialog>
-            </el-upload>
+            </el-upload>-->
           </div>
           <el-form-item label prop="brandId">
             <el-button style="width:25%; margin-left: 5px;" type="primary" @click="NewGoods">+新建商品</el-button>
@@ -150,12 +164,6 @@
               <span v-show="!scope.row.show">{{scope.row.tab3}}</span>
             </template>
           </el-table-column>
-          <!-- <el-table-column label="规格名称">
-            <template slot-scope="scope">
-              <el-input placeholder="请输入内容" v-show="scope.row.show" v-model="scope.row.tab4"></el-input>
-              <span v-show="!scope.row.show">{{scope.row.tab4}}</span>
-            </template>
-          </el-table-column>-->
           <el-table-column label="操作">
             <template slot-scope="scope">
               <el-button @click="scope.row.show =true">编辑</el-button>
@@ -174,13 +182,10 @@
         label-width="280px"
         class="demo-ruleForm"
       >
-        <el-form-item label="物品描述" prop="goodsDesc ">
-          <el-input style="width:100%" v-model="ruleForm1.goodsDesc  "></el-input>
-        </el-form-item>
         <el-form-item style="width:100%" label="物品名称" prop="goodName ">
           <el-input style="width:50%" v-model="ruleForm1.goodName  "></el-input>
         </el-form-item>
-        <el-form-item label="提货方式" prop="goodsDesc ">
+        <el-form-item label="提货方式">
           <el-radio @change="change" style="margin-left: 50px;" v-model="radiol" label="3">快递</el-radio>
           <el-radio @change="change" v-model="radiol" label="4">自取</el-radio>
         </el-form-item>
@@ -214,21 +219,20 @@
           </el-select>
         </el-form-item>
         <div class="reduceForm">
+          <!-- 上传图片 -->
           <el-upload
-            ref="upload"
-            class="upload-poster"
-            accept=".jpg, .jpeg, .png, .gif, .bmp, .JPG, .JPEG, .GIF, .BMP"
-            action
+            action="http://192.168.1.104:9095/product/addProductPictrue"
+            :data="form1"
+            name="fileInfo"
             list-type="picture-card"
-            :on-remove="onRemove"
-            :on-change="imgPreview"
-            :auto-upload="false"
+            :on-preview="handlePictureCardPreview"
+            :on-remove="handleRemove"
           >
             <i class="el-icon-plus"></i>
-            <el-dialog :visible.sync="dialogVisible">
-              <img width="100%" :src="ruleForm.fileInfo " alt />
-            </el-dialog>
           </el-upload>
+          <el-dialog :visible.sync="dialogVisible">
+            <img width="100%" :src="dialogImageUrl" alt />
+          </el-dialog>
         </div>
         <el-form-item label prop="brandId">
           <el-button style="width:25%; margin-left: 5px;" type="primary" @click="submitForm">+新建物品</el-button>
@@ -278,29 +282,29 @@
       </el-table>
       <!-- 弹窗 -->
       <el-dialog title="添加规格值" :visible.sync="dialogTableVisible">
-          <el-table :data="tabledatas1" border>
-            <el-table-column type="selection"></el-table-column>
-            <el-table-column label="商品规格ID">
-              <template slot-scope="scope">
-                <span v-show="!scope.row.show">{{scope.row.id}}</span>
-              </template>
-            </el-table-column>
-            <el-table-column label="规格名称">
-              <template slot-scope="scope">
-                <span v-show="!scope.row.show">{{scope.row.hfName}}</span>
-              </template>
-            </el-table-column>
-            <el-table-column label="规格值">
-              <template slot-scope="scope">
-                <el-input placeholder="请输入内容" v-model="scope.row.specValue"></el-input>
-              </template>
-            </el-table-column>
-            <el-table-column label="操作" width="180">
-              <template slot-scope="scope">
-                <el-button @click="additionSpec(scope)">添加</el-button>
-              </template>
-            </el-table-column>
-          </el-table>
+        <el-table :data="tabledatas1" border>
+          <el-table-column type="selection"></el-table-column>
+          <el-table-column label="商品规格ID">
+            <template slot-scope="scope">
+              <span v-show="!scope.row.show">{{scope.row.id}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="规格名称">
+            <template slot-scope="scope">
+              <span v-show="!scope.row.show">{{scope.row.hfName}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="规格值">
+            <template slot-scope="scope">
+              <el-input placeholder="请输入内容" v-model="scope.row.specValue"></el-input>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作" width="180">
+            <template slot-scope="scope">
+              <el-button @click="additionSpec(scope)">添加</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
       </el-dialog>
     </el-card>
     <div class="button">
@@ -345,7 +349,10 @@ export default {
       modelTags: [], // s码
       // 时间日期表单
       form: {
-        date1: ''
+        productId: '48'
+      },
+      form1: {
+        productId1: '1'
       },
       leiMu: {},
       // 添加商品
@@ -369,7 +376,7 @@ export default {
       // 添加商品规格
       specification: {
         specValue: '', // 默认值
-        productId: '',
+        productId: '48',
         hfName: '', // 规格名称
         requestId: '',
         timestamp: '',
@@ -378,6 +385,7 @@ export default {
       },
       // 添加物品规格值
       specGoods: {
+        productSpecId: '',
         goodsId: '55',
         requestId: '111',
         specValue: '',
@@ -389,14 +397,13 @@ export default {
       ruleForm1: {
         sellPrice: '', // 价格
         quantity: '', // 库存量
-        productId: '13', // 商品id*
+        productId: '1', // 商品id*
         categoryId: '', // 商品所属的类目id*
         cancelId: '', // 核销Id *
         claim: '', // 是否自提 *
         // member: '', // 是否为会员商品 *
         frames: '0', // 上下架*
         goodName: '', // 物品名称*
-        goodsDesc: '', // 物品描述*
         // productDesc: '', // 商品描述
         requestId: '123123123', // 请求id, 发起请求的随机数, 用来判断请求是否重
         token: '11238', // 登录成功后返回的token
@@ -518,9 +525,11 @@ export default {
       this.specificationForm.sellPrice = scope.row.sellPrice
       this.specificationForm.hfGoodsId = scope.row.id
       this.specificationForm.linePrice = scope.row.linePrice
-      api.setPrice(this.specificationForm).then(res => {
-        this.getcoommo()
-      })
+      api
+        .setPrice(this.specificationForm)
+        .then(res => {
+          this.getcoommo()
+        })
         .catch(function (error) {
           // handle error
           console.log(error)
@@ -531,15 +540,15 @@ export default {
       console.log(scope)
       // this.specGoods.goodsId = scope.row.id
       this.specGoods.specValue = scope.row.specValue
-      api.additionSpecs(this.specGoods)
-        .then(res => {
-
-        })
+      api
+        .additionSpecs(this.specGoods)
+        .then(res => {})
         .catch(function (error) {
           // handle error
           console.log(error)
         })
     },
+    // 添加商品规格
     save (scope) {
       scope.row.show = false
       this.specification.hfName = scope.row.tab2
@@ -549,9 +558,14 @@ export default {
         .then(res => {
           scope.row.tab3 = ''
           scope.row.tab2 = ''
+          api.specifies(this.specification.productId).then(res => {
+            console.log('获取规格ID', res)
+            this.tabledatas1 = res.data.data
+            this.specGoods.productSpecId = res.data.data[0].id
+            console.log(this.specGoods.goodsId)
+          })
         })
         .catch(function (error) {
-          // handle error
           console.log(error)
         })
     },
@@ -615,11 +629,9 @@ export default {
           .then(res => {
             this.ruleForm1.productId = res.data.data.id
             this.specification.productId = res.data.data.id
+            this.form.productId = res.data.data.id
             console.log('返回商品ID', this.specification)
-            api.specifies(res.data.data.id).then(res => {
-              console.log('获取规格ID', res)
-              this.tabledatas1 = res.data.data
-            })
+
             this.$message({
               message: '恭喜你，添加成功',
               type: 'success'
@@ -801,7 +813,7 @@ export default {
       // console.log(e)
       this.ruleForm1.cancelId = e
     },
-    // 添加物品
+    // 添加物品 goodsId
     async submitForm () {
       // this.ruleForm1.specValue.push(this.specificationForm2.specValue)
       this.$refs.ruleForm.validate(valid => {
@@ -813,6 +825,9 @@ export default {
             let param = this.ruleForm1
             api.addProduct(param).then(res => {
               // this.$router.push({ name: 'commodity' })
+              this.specGoods.goodsId = res.data.data
+              this.form1.productId1 = res.data.data
+              console.log(res.data.data)
               this.$message({
                 message: '恭喜你，添加成功',
                 type: 'success'

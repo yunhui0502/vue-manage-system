@@ -2,7 +2,7 @@ import Axios from 'axios'
 // =============================================商品模块
 // 获取列表
 function getProductList () {
-  return Axios.get('/api/goods/listGoods?stoneId=1')
+  return Axios.get('/api/goods/byStoneId?stoneId=1')
 }
 // 获取商品总数
 function queryGoods () {
@@ -40,7 +40,7 @@ function verifier () {
 }
 // 获取类目
 function category () {
-  return Axios.get('cat/product/category')
+  return Axios.get('/api/product/category')
 }
 // 获取二级类目
 function categoryTwo (id) {
@@ -80,14 +80,13 @@ function addProduct (params) {
   // fd.append('member', params.member)
   fd.append('frames', params.frames)
   fd.append('goodName', params.goodName)
-  fd.append('goodsDesc', params.goodsDesc)
   // fd.append('productDesc', params.productDesc)
   fd.append('requestId', params.requestId)
   fd.append('token', params.token)
   fd.append('fileInfo1', params.fileInfo1)
   fd.append('userId', params.userId)
   // fd.append('specValue', params.specValue)
-  return Axios.post('/api/goods/create', fd, { responseType: 'arraybuffer' })
+  return Axios.post('/api/goods/create', fd)
 }
 // 添加商品
 function tianjianwup (params) {
@@ -109,6 +108,7 @@ function addSpecify (params) {
   fd.append('hfName', params.hfName)
   fd.append('requestId ', params.requestId)
   fd.append('timestamp', params.timestamp)
+  fd.append('productId', params.productId)
   fd.append('token', params.token)
   fd.append('userId', params.userId)
   return Axios.post('/api/product/addSpecify', fd)
@@ -122,6 +122,7 @@ function additionSpecs (params) {
   fd.append('timestamp', params.timestamp)
   fd.append('token', params.token)
   fd.append('userId', params.userId)
+  fd.append('productSpecId', params.productSpecId)
   return Axios.post('/api/goods/addSpecify', fd)
 }
 // 按条件查询商品
