@@ -1,6 +1,6 @@
 <template>
   <!-- 全部订单页面 -->
-  <div style="width:100%;height:100%">
+  <div style="width:100%;height:50%">
     <!-- <div class="div" style="height: 100%;">
       <div class="header">
         <div style="margin-left:22px;line-height:42px;color: #666666;font-size:16px">订单查询</div>
@@ -13,9 +13,25 @@
           v-model="search.orderId"
         ></el-input>
         <br />
-
+        <div style="font-size: 16px;float: left;margin-top:30px;color: #666666">下单时间</div>
         <div class="block">
-
+          <el-date-picker
+            type="date"
+            placeholder="开始日期"
+            style="width: 186px;margin-top:23px;margin-left: 40px;"
+            v-model="screen.creatTime"
+          ></el-date-picker>
+          <span style="margin-left: 13px;">至</span>
+          <el-date-picker
+            type="date"
+            placeholder="结束日期"
+            style="width: 186px;margin-top:23px;margin-left:13px;"
+            v-model="screen.creatTime"
+          ></el-date-picker>
+          <el-button style="margin-left:12px">今</el-button>
+          <el-button>昨</el-button>
+          <el-button>近7天</el-button>
+          <el-button>近30天</el-button>
           <br />
           <div style="font-size: 16px;float: left;margin-top:30px;color: #666666">商品名称</div>
           <el-input
@@ -71,6 +87,7 @@
             ></el-option>
           </el-select>
           <div class="dis" @click="shaixuan()">筛选</div>
+          <div class="disdaoc" @click="elxs()">导出</div>
           <div class="screen" @click="reset()">重置筛选条件</div>
         </div>
       </div>
@@ -87,16 +104,112 @@
             <el-tab-pane label="全部" name="first">
               <el-table
                 class="table"
-                :data="cerit.slice((currpage-1)*pagesize,currpage*pagesize)"
+                :data="all.slice((currpage-1)*pagesize,currpage*pagesize)"
                 :current-page="currpage"
                 :page-size="pagesize"
-                :total="arr.length"
                 style="width: 100%;"
                 max-height="100%"
               >
                 <el-table-column prop="ordersId" label="订单号" width="200" align="center"></el-table-column>
                 <el-table-column prop="hfDesc" label="商品描述" width="200" align="center"></el-table-column>
-                <el-table-column prop="purchasePrice" label="单价/数量" width="200" align="center"></el-table-column>
+                <el-table-column prop="purchasePrice" label="单价" width="200" align="center"></el-table-column>
+                <el-table-column prop="purchaseQuantity" label="数量" width="200" align="center"></el-table-column>
+                <el-table-column prop="userName" label="买家/收货人" width="200" align="center"></el-table-column>
+                <el-table-column prop="logisticsCompany" label="快递" width="200" align="center"></el-table-column>
+                <el-table-column prop="amount" label="实收金额(元)" width="250" align="center"></el-table-column>
+                <el-table-column
+                  prop="orderDetailStatus"
+                  label="订单状态"
+                  width="200"
+                  align="center"
+                  style="color:orangered;"
+                ></el-table-column>
+                <el-table-column label="操作" width="300" align="center">
+                  <template slot-scope="scope">
+                    <el-button
+                      @click="tetail(scope.row)"
+                      type="text"
+                      id="yincang"
+                      size="small"
+                      style="color: #A3A0FB;  "
+                    >订单详情</el-button>
+                  </template>
+                </el-table-column>
+              </el-table>
+              <div
+                class="block"
+                style="float: right;margin-right:35px;margin-top:29px;
+                                              margin-bottom:29px"
+              >
+                <el-pagination
+                  style="bottom: 0;"
+                  @size-change="handleSizeChange"
+                  @current-change="handleCurrentChange"
+                  :page-size="10"
+                  layout="prev, pager, next, jumper"
+                  :total="alls"
+                ></el-pagination>
+              </div>
+            </el-tab-pane>
+            <el-tab-pane label="订金待付" name="second">
+              <el-table
+                class="table"
+                :data="mon.slice((currpage-1)*pagesize,currpage*pagesize)"
+                :current-page="currpage"
+                :page-size="pagesize"
+                style="width: 100%;"
+                max-height="100%"
+              >
+                <el-table-column prop="ordersId" label="订单号" width="200" align="center"></el-table-column>
+                <el-table-column prop="hfDesc" label="商品描述" width="200" align="center"></el-table-column>
+                <el-table-column prop="purchasePrice" label="单价" width="200" align="center"></el-table-column>
+                <el-table-column prop="purchaseQuantity" label="数量" width="200" align="center"></el-table-column>
+                <el-table-column prop="userName" label="买家/收货人" width="200" align="center"></el-table-column>
+                <el-table-column prop="logisticsCompany" label="快递" width="200" align="center"></el-table-column>
+                <el-table-column prop="amount" label="实收金额(元)" width="250" align="center"></el-table-column>
+                <el-table-column
+                  prop="orderDetailStatus"
+                  label="订单状态"
+                  width="200"
+                  align="center"
+                  style="color:orangered;"
+                ></el-table-column>
+                <el-table-column label="操作" width="300" align="center">
+                  <template slot-scope="scope">
+                    <el-button
+                      @click="tetail(scope.row)"
+                      type="text"
+                      id="yincang"
+                      size="small"
+                      style="color: #A3A0FB;  "
+                    >订单详情</el-button>
+                  </template>
+                </el-table-column>
+              </el-table>
+              <div class="block" style="float: right;margin-right:35px;">
+                <el-pagination
+                  style="bottom: 0;"
+                  @size-change="handleSizeChange"
+                  @current-change="handleCurrentChange"
+                  :page-size="10"
+                  layout="prev, pager, next, jumper"
+                  :total="mons"
+                ></el-pagination>
+              </div>
+            </el-tab-pane>
+            <el-tab-pane label="待发货" name="three">
+              <el-table
+                class="table"
+                :data="sta.slice((currpage-1)*pagesize,currpage*pagesize)"
+                :current-page="currpage"
+                :page-size="pagesize"
+                style="width: 100%;"
+                max-height="100%"
+              >
+                <el-table-column prop="ordersId" label="订单号" width="200" align="center"></el-table-column>
+                <el-table-column prop="hfDesc" label="商品描述" width="200" align="center"></el-table-column>
+                <el-table-column prop="purchasePrice" label="单价" width="200" align="center"></el-table-column>
+                <el-table-column prop="purchaseQuantity" label="数量" width="200" align="center"></el-table-column>
                 <el-table-column prop="userName" label="买家/收货人" width="200" align="center"></el-table-column>
                 <el-table-column prop="logisticsCompany" label="快递" width="200" align="center"></el-table-column>
                 <el-table-column prop="amount" label="实收金额(元)" width="250" align="center"></el-table-column>
@@ -117,62 +230,12 @@
                       style="color: #A3A0FB;  "
                     >订单详情</el-button>
                     <!-- <el-button
-                      @click="xiugai(scope)"
+                      @click="detail()"
                       type="text"
                       id="yincang"
                       size="small"
                       style="color:hotpink;  "
-                    >修改订单</el-button> -->
-                  </template>
-                </el-table-column>
-              </el-table>
-              <div
-                class="block"
-                style="float: right;margin-right:35px;margin-top:29px;
-                                              margin-bottom:29px"
-              >
-                <el-pagination
-                  style="bottom: 0;"
-                  @size-change="handleSizeChange"
-                  @current-change="handleCurrentChange"
-                  :page-size="100"
-                  layout="prev, pager, next, jumper"
-                  :total="1000"
-                ></el-pagination>
-              </div>
-            </el-tab-pane>
-            <el-tab-pane label="订金待付" name="second">
-              <el-table
-                class="table"
-                :data="mon.slice((currpage-1)*pagesize,currpage*pagesize)"
-                :current-page="currpage"
-                :page-size="pagesize"
-                :total="arr.length"
-                style="width: 100%;"
-                max-height="100%"
-              >
-                <el-table-column prop="ordersId" label="订单号" width="200" align="center"></el-table-column>
-                <el-table-column prop="hfDesc" label="商品描述" width="200" align="center"></el-table-column>
-                <el-table-column prop="purchasePrice" label="单价/数量" width="200" align="center"></el-table-column>
-                <el-table-column prop="userName" label="买家/收货人" width="200" align="center"></el-table-column>
-                <el-table-column prop="logisticsCompany" label="快递" width="200" align="center"></el-table-column>
-                <el-table-column prop="amount" label="实收金额(元)" width="250" align="center"></el-table-column>
-                <el-table-column
-                  prop="orderDetailStatus"
-                  label="订单状态"
-                  width="200"
-                  align="center"
-                  style="color:orangered;"
-                ></el-table-column>
-                <el-table-column label="操作" width="300" align="center">
-                  <template slot-scope="scope">
-                    <el-button
-                      @click="tetail(scope.row)"
-                      type="text"
-                      id="yincang"
-                      size="small"
-                      style="color: #A3A0FB;  "
-                    >订单详情</el-button>
+                    >发货</el-button> -->
                   </template>
                 </el-table-column>
               </el-table>
@@ -181,78 +244,25 @@
                   style="bottom: 0;"
                   @size-change="handleSizeChange"
                   @current-change="handleCurrentChange"
-                  :page-size="100"
+                  :page-size="10"
                   layout="prev, pager, next, jumper"
-                  :total="1000"
-                ></el-pagination>
-              </div>
-            </el-tab-pane>
-            <el-tab-pane label="待发货" name="three">
-              <el-table
-                class="table"
-                :data="sta.slice((currpage-1)*pagesize,currpage*pagesize)"
-                :current-page="currpage"
-                :page-size="pagesize"
-                :total="arr.length"
-                style="width: 100%;"
-                max-height="100%"
-              >
-                <el-table-column prop="ordersId" label="订单号" width="200" align="center"></el-table-column>
-                <el-table-column prop="hfDesc" label="商品描述" width="200" align="center"></el-table-column>
-                <el-table-column prop="purchasePrice" label="单价/数量" width="200" align="center"></el-table-column>
-                <el-table-column prop="userName" label="买家/收货人" width="200" align="center"></el-table-column>
-                <el-table-column prop="logisticsCompany" label="快递" width="200" align="center"></el-table-column>
-                <el-table-column prop="amount" label="实收金额(元)" width="250" align="center"></el-table-column>
-                <el-table-column
-                  prop="orderDetailStatus"
-                  label="订单状态"
-                  width="200"
-                  align="center"
-                  style="color:orangered;"
-                ></el-table-column>
-                <el-table-column label="操作" width="300" align="center">
-                  <template >
-                    <el-button
-                      @click="tetail(scope.row)"
-                      type="text"
-                      id="yincang"
-                      size="small"
-                      style="color: #A3A0FB;  "
-                    >订单详情</el-button>
-                    <el-button
-                      @click="tetail()"
-                      type="text"
-                      id="yincang"
-                      size="small"
-                      style="color:hotpink;  "
-                    >发货</el-button>
-                  </template>
-                </el-table-column>
-              </el-table>
-              <div class="block" style="float: right;margin-right:35px;">
-                <el-pagination
-                  style="bottom: 0;"
-                  @size-change="handleSizeChange"
-                  @current-change="handleCurrentChange"
-                  :page-size="100"
-                  layout="prev, pager, next, jumper"
-                  :total="1000"
+                  :total="stas"
                 ></el-pagination>
               </div>
             </el-tab-pane>
             <el-tab-pane label="已发货" name="for">
               <el-table
                 class="table"
-                :data="ship.slice((currpage-1)*pagesize,currpage*pagesize)"
+                :data="eva.slice((currpage-1)*pagesize,currpage*pagesize)"
                 :current-page="currpage"
                 :page-size="pagesize"
-                :total="arr.length"
                 style="width: 100%;"
                 max-height="100%"
               >
                 <el-table-column prop="ordersId" label="订单号" width="200" align="center"></el-table-column>
                 <el-table-column prop="hfDesc" label="商品描述" width="200" align="center"></el-table-column>
-                <el-table-column prop="purchasePrice" label="单价/数量" width="200" align="center"></el-table-column>
+                <el-table-column prop="purchasePrice" label="单价" width="200" align="center"></el-table-column>
+                <el-table-column prop="purchaseQuantity" label="数量" width="200" align="center"></el-table-column>
                 <el-table-column prop="userName" label="买家/收货人" width="200" align="center"></el-table-column>
                 <el-table-column prop="logisticsCompany" label="快递" width="200" align="center"></el-table-column>
                 <el-table-column prop="amount" label="实收金额(元)" width="250" align="center"></el-table-column>
@@ -280,25 +290,25 @@
                   style="bottom: 0;"
                   @size-change="handleSizeChange"
                   @current-change="handleCurrentChange"
-                  :page-size="100"
+                  :page-size="10"
                   layout="prev, pager, next, jumper"
-                  :total="1000"
+                  :total="evas"
                 ></el-pagination>
               </div>
             </el-tab-pane>
             <el-tab-pane label="待评价" name="five">
               <el-table
                 class="table"
-                :data="eva.slice((currpage-1)*pagesize,currpage*pagesize)"
+                :data="ship.slice((currpage-1)*pagesize,currpage*pagesize)"
                 :current-page="currpage"
                 :page-size="pagesize"
-                :total="arr.length"
                 style="width: 100%;"
                 max-height="100%"
               >
                 <el-table-column prop="ordersId" label="订单号" width="200" align="center"></el-table-column>
                 <el-table-column prop="hfDesc" label="商品描述" width="200" align="center"></el-table-column>
-                <el-table-column prop="purchasePrice" label="单价/数量" width="200" align="center"></el-table-column>
+                <el-table-column prop="purchasePrice" label="单价" width="200" align="center"></el-table-column>
+                <el-table-column prop="purchaseQuantity" label="数量" width="200" align="center"></el-table-column>
                 <el-table-column prop="userName" label="买家/收货人" width="200" align="center"></el-table-column>
                 <el-table-column prop="logisticsCompany" label="快递" width="200" align="center"></el-table-column>
                 <el-table-column prop="amount" label="实收金额(元)" width="250" align="center"></el-table-column>
@@ -326,25 +336,25 @@
                   style="bottom: 0;"
                   @size-change="handleSizeChange"
                   @current-change="handleCurrentChange"
-                  :page-size="100"
+                  :page-size="10"
                   layout="prev, pager, next, jumper"
-                  :total="1000"
+                  :total="ships"
                 ></el-pagination>
               </div>
             </el-tab-pane>
-            <el-tab-pane label="已完成" name="six">
+            <el-tab-pane  label="已完成" name="six">
               <el-table
                 class="table"
                 :data="don.slice((currpage-1)*pagesize,currpage*pagesize)"
                 :current-page="currpage"
                 :page-size="pagesize"
-                :total="arr.length"
                 style="width: 100%;"
                 max-height="100%"
               >
                 <el-table-column prop="ordersId" label="订单号" width="200" align="center"></el-table-column>
                 <el-table-column prop="hfDesc" label="商品描述" width="200" align="center"></el-table-column>
-                <el-table-column prop="purchasePrice" label="单价/数量" width="200" align="center"></el-table-column>
+                <el-table-column prop="purchasePrice" label="单价" width="200" align="center"></el-table-column>
+                <el-table-column prop="purchaseQuantity" label="数量" width="200" align="center"></el-table-column>
                 <el-table-column prop="userName" label="买家/收货人" width="200" align="center"></el-table-column>
                 <el-table-column prop="logisticsCompany" label="快递" width="200" align="center"></el-table-column>
                 <el-table-column prop="amount" label="实收金额(元)" width="250" align="center"></el-table-column>
@@ -372,9 +382,9 @@
                   style="bottom: 0;"
                   @size-change="handleSizeChange"
                   @current-change="handleCurrentChange"
-                  :page-size="100"
+                  :page-size="10"
                   layout="prev, pager, next, jumper"
-                  :total="1000"
+                  :total="dons"
                 ></el-pagination>
               </div>
             </el-tab-pane>
@@ -384,13 +394,13 @@
                 :data=" ref.slice((currpage-1)*pagesize,currpage*pagesize)"
                 :current-page="currpage"
                 :page-size="pagesize"
-                :total="arr.length"
                 style="width: 100%;"
                 max-height="100%"
               >
                 <el-table-column prop="ordersId" label="订单号" width="200" align="center"></el-table-column>
                 <el-table-column prop="hfDesc" label="商品描述" width="200" align="center"></el-table-column>
-                <el-table-column prop="purchasePrice" label="单价/数量" width="200" align="center"></el-table-column>
+                <el-table-column prop="purchasePrice" label="单价" width="200" align="center"></el-table-column>
+                <el-table-column prop="purchaseQuantity" label="数量" width="200" align="center"></el-table-column>
                 <el-table-column prop="userName" label="买家/收货人" width="200" align="center"></el-table-column>
                 <el-table-column prop="logisticsCompany" label="快递" width="200" align="center"></el-table-column>
                 <el-table-column prop="amount" label="实收金额(元)" width="250" align="center"></el-table-column>
@@ -404,7 +414,7 @@
                 <el-table-column label="操作" width="300" align="center">
                   <template>
                     <el-button
-                      @click="tetail()"
+                      @click="detail()"
                       type="text"
                       id="yincang"
                       size="small"
@@ -418,9 +428,9 @@
                   style="bottom: 0;"
                   @size-change="handleSizeChange"
                   @current-change="handleCurrentChange"
-                  :page-size="100"
+                  :page-size="10"
                   layout="prev, pager, next, jumper"
-                  :total="1000"
+                  :total="refs"
                 ></el-pagination>
               </div>
             </el-tab-pane>
@@ -430,13 +440,13 @@
                 :data="sec.slice((currpage-1)*pagesize,currpage*pagesize)"
                 :current-page="currpage"
                 :page-size="pagesize"
-                :total="arr.length"
                 style="width: 100%;"
                 max-height="100%"
               >
                 <el-table-column prop="ordersId" label="订单号" width="200" align="center"></el-table-column>
                 <el-table-column prop="hfDesc" label="商品描述" width="200" align="center"></el-table-column>
-                <el-table-column prop="purchasePrice" label="单价/数量" width="200" align="center"></el-table-column>
+                <el-table-column prop="purchasePrice" label="单价" width="200" align="center"></el-table-column>
+                <el-table-column prop="purchaseQuantity" label="数量" width="200" align="center"></el-table-column>
                 <el-table-column prop="userName" label="买家/收货人" width="200" align="center"></el-table-column>
                 <el-table-column prop="logisticsCompany" label="快递" width="200" align="center"></el-table-column>
                 <el-table-column prop="amount" label="实收金额(元)" width="250" align="center"></el-table-column>
@@ -466,9 +476,9 @@
                 <el-pagination
                   @size-change="handleSizeChange"
                   @current-change="handleCurrentChange"
-                  :page-size="100"
+                  :page-size="10"
                   layout="prev, pager, next, jumper"
-                  :total="1000"
+                  :total="secs"
                 ></el-pagination>
               </div>
             </el-tab-pane>
@@ -692,22 +702,30 @@
   </div>
 </template>
 <script>
-import FileSaver from 'file-saver'
+// import FileSaver from 'file-saver'
 //   import XLSX from "xlsx";
-import api from '../../apis/order-api.js'
+import api from '@/api/order-api.js'
 // import Axios from 'axios'
 export default {
   data () {
     return {
-      arr: [],
-      cerit: [],
-      sta: [],
-      mon: [],
-      ship: [],
-      eva: [],
-      don: [],
-      ref: [],
-      sec: [],
+      all: [], // 全部页面数据all
+      sta: [], // 待发货数据
+      mon: [], // 但付款数据
+      ship: [], // 待评价数据
+      eva: [], // 已发货数据
+      don: [], // 已完成的数据
+      ref: [], // 退款中数据
+      sec: [], // 二次退款中
+
+      alls: null, // 全部页面数据条数
+      stas: null, // 待发货数据条数
+      mons: null, // 但付款数据条数
+      ships: null,
+      evas: null, // 已发货数据条数
+      dons: null, // 已完成的数据条数
+      refs: null, // 退款中数据条数
+      secs: null, // 二次退款中条数
       isactives: false,
       activeName: 'first',
       dialogVisible: false,
@@ -716,7 +734,7 @@ export default {
       textarea: '',
       statu_s: [],
       show: true,
-      pagesize: 8,
+      pagesize: 10,
       currpage: 1,
       Detail: {},
       add_s: [],
@@ -909,83 +927,154 @@ export default {
   },
   created () {
     this.zhanshi()
-    this.status()
-    // this.Add()
-    this.zhuangtai()
-    this.money()
-    this.shipped()
-    this.evaluate()
     this.done()
+    this.obligation()
+    this.paid()
+    this.shipped()
+    this.daipj()
     this.refund()
-    this.second()
+    this.seckukuan()
+    this.huoququan()
+    this.huoqudingdanzhuant()
+    // this.zhuangtai()
+    // this.money()
+    // this.shipped()
+    // this.evaluate()
+    // this.refund()
+    // this.second()
   },
   methods: {
+
+    // 获取订单状态
+    huoqudingdanzhuant () {
+      this.$http.get('/qui/order/status').then(res => {
+        this.statu_s = res.data.data
+      })
+    },
+    // 已完成
+    done () {
+      api.queryorder('已完成').then(res => {
+        this.don = res.data.data
+      })
+      api.antiaojian('已完成').then(res => {
+        this.dons = res.data.data
+      })
+    },
+    // 待支付
+    obligation () {
+      api.queryorder('待支付').then(res => {
+        this.mon = res.data.data
+      })
+      api.antiaojian('待支付').then(res => {
+        this.mons = res.data.data
+      })
+    },
+    // 待发货
+    paid () {
+      api.queryorder('待发货').then(res => {
+        this.sta = res.data.data
+      })
+      api.antiaojian('待发货').then(res => {
+        this.stas = res.data.data
+      })
+    },
+    // 已发货
+    shipped () {
+      api.queryorder('已发货').then(res => {
+        this.eva = res.data.data
+      })
+      api.antiaojian('已发货').then(res => {
+        this.evas = res.data.data
+      })
+    },
+    // 待评价
+    daipj () {
+      api.queryorder('待评价').then(res => {
+        this.ship = res.data.data
+      })
+      api.antiaojian('待评价').then(res => {
+        this.ships = res.data.data
+      })
+    },
+    // 退款中
+    refund () {
+      api.queryorder('退款中').then(res => {
+        this.ref = res.data.data
+      })
+      api.antiaojian('退款中').then(res => {
+        this.refs = res.data.data
+      })
+    },
+    // 二次退款中
+    seckukuan () {
+      api.queryorder('二次申退').then(res => {
+        this.sec = res.data.data
+      })
+      api.antiaojian('二次申退').then(res => {
+        this.secs = res.data.data
+      })
+    },
+    // 获取全部订单数量
+    huoququan () {
+      api.huoququanbu().then(res => {
+        console.log(res)
+        this.alls = res.data.data
+        console.log(this.alls)
+      })
+    },
+    // 全部订单总数
+
     // 修改订单状态
     // zhuangtai(){
     //
     // }
     // ,
-    // ----------------------------------------------
     // 筛选搜索
-    // shaixuan () {
-    //   console.log(this.search)
-    //   api.queryorder(this.search).then(res => {
-    //     console.log(res.data.data)
-    //     this.arr = res.data.data
-    //     // this.zhanshi()
-    //   })
-    // },
     shaixuan () {
-      this.$http
-        .get('/qui/order/queryOrder')
-        .then(res => {
-          this.tableData = res.data.data
-          console.log('类目', this.onecatalogues)
-        })
-        .catch(function (error) {
-          alert(error)
-        })
-    },
-    // -----------------------------------------
-    // 导出
-    elxs () {
-      let time = new Date()
-      let year = time.getFullYear()
-      let month = time.getMonth() + 1
-      let day = time.getDate()
-      let name = year + '' + month + '' + day
-      // eslint-disable-next-line no-undef
-      var wb = XLSX.utils.table_to_book(document.querySelector('.table'))
-      // eslint-disable-next-line no-undef
-      var wbout = XLSX.write(wb, {
-        bookType: 'xlsx',
-        bookSST: true,
-        type: 'array'
+      console.log(this.search)
+      api.queryorder(this.search).then(res => {
+        this.all = res.data.data
+        // this.zhanshi()
       })
-      try {
-        FileSaver.saveAs(
-          new Blob([wbout], { type: 'application/octet-stream' }),
-          name + '.xlsx'
-        )
-      } catch (e) {
-        if (typeof console !== 'undefined') console.log(e, wbout)
-      }
-      return wbout
-    },
-    reset () {
-      this.search = ''
-      this.options2 = ''
     },
     // 导出
-    chakan () {
-      console.log('asdas')
-    },
+    // elxs () {
+    //   let time = new Date()
+    //   let year = time.getFullYear()
+    //   let month = time.getMonth() + 1
+    //   let day = time.getDate()
+    //   let name = year + '' + month + '' + day
+    //   // eslint-disable-next-line no-undef
+    //   var wb = XLSX.utils.table_to_book(document.querySelector('.table'))
+    //   // eslint-disable-next-line no-undef
+    //   var wbout = XLSX.write(wb, {
+    //     bookType: 'xlsx',
+    //     bookSST: true,
+    //     type: 'array'
+    //   })
+    //   try {
+    //     FileSaver.saveAs(
+    //       new Blob([wbout], { type: 'application/octet-stream' }),
+    //       name + '.xlsx'
+    //     )
+    //   } catch (e) {
+    //     if (typeof console !== 'undefined') console.log(e, wbout)
+    //   }
+    //   return wbout
+    // },
+    // reset () {
+    //   this.search = ''
+    //   this.options2 = ''
+    // },
+    // 导出
+    // chakan () {
+    //   console.log('asdas')
+    // },
 
     // 列表展示页
     zhanshi () {
-      api.query().then(res => {
-        console.log(res.data.data)
-        this.arr = res.data.data
+      api.checkOrderList().then(res => {
+        this.all = res.data.data
       })
     },
     // 确定创建订单
@@ -1036,70 +1125,14 @@ export default {
         path: '/tetail',
         query: { id: ID }
       })
-
-      console.log(scope.id)
-
-      this.dialogVisible = true
-      api.orderDetail(scope.id).then(res => {
-        console.log(res.data.data)
-        this.Detail = res.data.data[0]
-      })
-    },
-    // --------------------------------------------------------------------------------------
-    async zhuangtai () {
-      const data = await this.$http.get('/qui/order/query')
-      console.log(data.data.data)
-      this.cerit = data.data.data
-    },
-    // 待发货
-    async status () {
-      const data = await this.$http.get('/qui/order/queryOrder')
-      console.log(data.data.data)
-      this.sta = data.data.data
-    },
-    // 定金待付
-    async money () {
-      const data = await this.$http.get('/qui/order/queryOrder')
-      console.log(data.data.data)
-      this.mon = data.data.data
-    },
-    // 已发货
-    async shipped () {
-      const data = await this.$http.get('/qui/order/queryOrder')
-      console.log(data.data.data)
-      this.ship = data.data.data
-    },
-    // 待评价
-    async evaluate () {
-      const data = await this.$http.get('/qui/order/queryOrder')
-      console.log(data.data.data)
-      this.eva = data.data.data
-    },
-    // 已完成
-    async done () {
-      const data = await this.$http.get('/qui/order/queryOrder')
-      console.log(data.data.data)
-      this.don = data.data.data
-    },
-    // 退款中
-    async refund () {
-      const data = await this.$http.get('/qui/order/queryOrder')
-      console.log(data.data.data)
-      this.ref = data.data.data
-    },
-    // 二次申退
-    async second () {
-      const data = await this.$http.get('/qui/order/queryOrder')
-      console.log(data.data.data)
-      this.sec = data.data.data
     },
     // ------------------------------------------------------------------------------------------
     // 修改订单
     xiugai (row) {
-      console.log(row)
+      console.log(row.row.id)
       this.dialogVisible2 = true
       // this.Add_ss.id=row.row.id
-      this.Add_ss.ordersId = row.id
+      this.Add_ss.ordersId = row.row.id
     },
     Add_s () {
       api.update(this.Add_ss).then(res => {

@@ -10,11 +10,11 @@
           :model="ruleForm"
           :rules="rules"
           ref="ruleForm"
-          label-width="280px"
+          label-width="180px"
           class="demo-ruleForm"
         >
           <el-form-item label="商品标题" prop="goodName">
-            <el-input style="width:100%" v-model="ruleForm.hfName "></el-input>
+            <el-input style="width:70%" v-model="ruleForm.hfName "></el-input>
           </el-form-item>
           <!-- <el-form-item style="width:100%" label="商品编号" prop="goodName">
             <el-input style="width:40%" v-model="ruleForm.goodName"></el-input>
@@ -28,44 +28,11 @@
               <el-option label="非会员" value="0"></el-option>
             </el-select>
           </el-form-item>
-          <!-- <el-form-item label="提货方式" prop="goodsDesc ">
-            <el-radio @change="change" style="margin-left: 50px;" v-model="radiol" label="3">快递</el-radio>
-            <el-radio @change="change" v-model="radiol" label="4">自取</el-radio>
-          </el-form-item>-->
-          <!-- <el-form-item v-if="radiol == 4" label="核销员" prop="region">
-            <el-select @change="pullverifier" v-model="ruleForm.verifier" placeholder="请输入核销员姓名">
-              <el-option
-                v-for="(item, index) in verifier"
-                :key="index"
-                :label="item.realName"
-                :value="item.realName"
-                style="height: 45px;"
-              ></el-option>
-            </el-select>
-          </el-form-item>-->
-          <!-- <el-form-item v-if="radiol == 3" label="核销员" prop="region">
-            <el-select @change="pullverifier" v-model="ruleForm.verifier" placeholder="请输入核销员姓名">
-              <el-option
-                v-for="item in verifier"
-                :key="item.id"
-                :label="item.realName"
-                :value="item.id"
-                style="height: 45px;"
-              ></el-option>
-            </el-select>
-          </el-form-item>-->
-          <!-- <el-form-item label="快递运费" prop="region"> -->
-          <!-- <el-form-item v-if="radiol == 3" label="运费模板" prop="region">
-            <el-select v-model="ruleForm.yunfen" placeholder="请选择运费模板">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
-            </el-select>
-          </el-form-item>-->
-          <!-- </el-form-item> -->
+
           <el-form-item label="商品类目" prop="categoryId">
             <el-select
               @change="twocategshijan"
-              style="width:33.3%"
+              style
               v-model="ruleForm.categoryId1"
               placeholder="请选择一级类目"
             >
@@ -79,7 +46,7 @@
             </el-select>
             <el-select
               @change="threecategshijan"
-              style="width:33.3%"
+              style
               v-model="ruleForm.region"
               placeholder="请选择二级类目"
             >
@@ -91,12 +58,7 @@
                 style="height: 45px;"
               ></el-option>
             </el-select>
-            <el-select
-              @change="threecateg"
-              style="width:33.3%"
-              v-model="ruleForm.freight"
-              placeholder="请选择三级类目"
-            >
+            <el-select @change="threecateg" style v-model="ruleForm.freight" placeholder="请选择三级类目">
               <el-option
                 v-for="(item, index) in tiwoCatalogues"
                 :key="index"
@@ -115,42 +77,11 @@
             ></el-input>
           </el-form-item>
 
-          <div class="reduceForm">
-            <!-- 上传图片 -->
-            <el-upload
-              action="http://192.168.1.104:9095/product/addProductPictrue"
-              :data="form"
-              name="fileInfo"
-              list-type="picture-card"
-              :on-preview="handlePictureCardPreview"
-              :on-remove="handleRemove"
-            >
-              <i class="el-icon-plus"></i>
-            </el-upload>
-            <el-dialog :visible.sync="dialogVisible">
-              <img width="100%" :src="dialogImageUrl" alt />
-            </el-dialog>
-            <!-- <el-upload
-              ref="upload"
-              class="upload-poster"
-              accept=".jpg, .jpeg, .png, .gif, .bmp, .JPG, .JPEG, .GIF, .BMP"
-              action
-              list-type="picture-card"
-              :on-remove="onRemove"
-              :on-change="imgPreview"
-              :auto-upload="false"
-            >
-              <i class="el-icon-plus"></i>
-              <el-dialog :visible.sync="dialogVisible">
-                <img width="100%" :src="ruleForm.fileInfo " alt />
-              </el-dialog>
-            </el-upload>-->
-          </div>
           <el-form-item label prop="brandId">
-            <el-button style="width:25%; margin-left: 5px;" type="primary" @click="NewGoods">+新建商品</el-button>
+            <el-button class="goods-button" type="primary" @click="NewGoods">+新建商品</el-button>
           </el-form-item>
         </el-form>
-        <el-table :data="commoditytable" border>
+        <el-table class="goods-table" :data="commoditytable" border>
           <el-table-column type="selection"></el-table-column>
           <el-table-column label="规格名称">
             <template slot-scope="scope">
@@ -172,6 +103,23 @@
           </el-table-column>
         </el-table>
       </el-container>
+
+      <div class="reduceForm">
+        <!-- 上传图片 -->
+        <el-upload
+          action="http://192.168.1.104:9095/product/addProductPictrue"
+          :data="form"
+          name="fileInfo"
+          list-type="picture-card"
+          :on-preview="handlePictureCardPreview"
+          :on-remove="handleRemove"
+        >
+          <i class="el-icon-plus"></i>
+        </el-upload>
+        <el-dialog :visible.sync="dialogVisible">
+          <img width="100%" :src="dialogImageUrl" alt />
+        </el-dialog>
+      </div>
     </el-card>
     <!-- ---------------------------------------------------------------------------------------------------------------------------------------------------- -->
     <el-card class="box-card">
@@ -186,10 +134,10 @@
           <el-input style="width:50%" v-model="ruleForm1.goodName  "></el-input>
         </el-form-item>
         <el-form-item label="提货方式">
-          <el-radio @change="change" style="margin-left: 50px;" v-model="radiol" label="3">快递</el-radio>
-          <el-radio @change="change" v-model="radiol" label="4">自取</el-radio>
+          <el-radio @change="change" style="margin-left: 50px;" v-model="radiol" label="0">快递</el-radio>
+          <el-radio @change="change" v-model="radiol" label="1">自取</el-radio>
         </el-form-item>
-        <el-form-item v-if="radiol == 4" label="核销员" prop="region">
+        <el-form-item v-if="radiol == 1" label="核销员" prop="region">
           <el-select @change="pullverifier" v-model="ruleForm.verifier" placeholder="请输入核销员姓名">
             <el-option
               v-for="(item, index) in verifier"
@@ -200,7 +148,7 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item v-if="radiol == 3" label="核销员" prop="region">
+        <!-- <el-form-item v-if="radiol == 3" label="核销员" prop="region">
           <el-select @change="pullverifier" v-model="ruleForm.verifier" placeholder="请输入核销员姓名">
             <el-option
               v-for="item in verifier"
@@ -210,33 +158,19 @@
               style="height: 45px;"
             ></el-option>
           </el-select>
-        </el-form-item>
-        <!-- <el-form-item label="快递运费" prop="region"> -->
-        <el-form-item v-if="radiol == 3" label="运费模板" prop="region">
+        </el-form-item>-->
+        <el-form-item v-if="radiol == 0" label="运费模板" prop="region">
           <el-select v-model="ruleForm.yunfen" placeholder="请选择运费模板">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
+            <!-- <el-option label="区域一" value="shanghai"></el-option>
+            <el-option label="区域二" value="beijing"></el-option>-->
           </el-select>
         </el-form-item>
-        <div class="reduceForm">
-          <!-- 上传图片 -->
-          <el-upload
-            action="http://192.168.1.104:9095/product/addProductPictrue"
-            :data="form1"
-            name="fileInfo"
-            list-type="picture-card"
-            :on-preview="handlePictureCardPreview"
-            :on-remove="handleRemove"
-          >
-            <i class="el-icon-plus"></i>
-          </el-upload>
-          <el-dialog :visible.sync="dialogVisible">
-            <img width="100%" :src="dialogImageUrl" alt />
-          </el-dialog>
-        </div>
+        <el-form-item style="width:100%" label="物品描述" prop="goodsDesc">
+          <el-input style="width:50%" v-model="ruleForm1.goodsDesc  "></el-input>
+        </el-form-item>
         <el-form-item label prop="brandId">
           <el-button style="width:25%; margin-left: 5px;" type="primary" @click="submitForm">+新建物品</el-button>
-          <el-button type="success" style="color: #fff;" @click="dialogTableVisible = true">添加物品规格值</el-button>
+          <!-- <el-button type="success" style="color: #fff;" @click="dialogTableVisible = true">添加物品规格值</el-button> -->
         </el-form-item>
       </el-form>
       <!-- <el-button  id@click="dialogFormVisible = true" class="add-button">根据下方物品ID设置价格按钮</el-button> -->
@@ -276,12 +210,19 @@
         <el-table-column label="操作" width="180">
           <template slot-scope="scope">
             <!-- <el-button @click="show =true">编辑</el-button> -->
-            <el-button @click="submitPrice(scope)">提交价格</el-button>
+            <el-button type="text" style="color: rgb(24, 211, 71);" @click="submitPrice(scope)">提交</el-button>
+            <el-button type="text" @click="particulars(scope)">详情</el-button>
+            <el-button type="text" style="color: rgb(218, 18, 28);" @click="deletion(scope)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
       <!-- 弹窗 -->
-      <el-dialog title="添加规格值" :visible.sync="dialogTableVisible">
+      <el-dialog title="物品详情" :visible.sync="dialogTableVisible">
+        <div style="margin-bottom: 10px">
+          <span>物品描述:</span>
+          <span style="margin-left: 8px;">{{goodsDesc}}</span>
+        </div>
+        <div>规格列表</div>
         <el-table :data="tabledatas1" border>
           <el-table-column type="selection"></el-table-column>
           <el-table-column label="商品规格ID">
@@ -305,6 +246,22 @@
             </template>
           </el-table-column>
         </el-table>
+        <div class="reduceForm">
+          <!-- 上传图片 -->
+          <el-upload
+            action="http://192.168.1.104:9095/product/addProductPictrue"
+            :data="form1"
+            name="fileInfo"
+            list-type="picture-card"
+            :on-preview="handlePictureCardPreview"
+            :on-remove="handleRemove"
+          >
+            <i class="el-icon-plus"></i>
+          </el-upload>
+          <el-dialog :visible.sync="dialogVisible">
+            <img width="100%" :src="dialogImageUrl" alt />
+          </el-dialog>
+        </div>
       </el-dialog>
     </el-card>
     <div class="button">
@@ -319,6 +276,7 @@ import api from '@/api/commodity_api.js'
 export default {
   data () {
     return {
+      goodsDesc: '', // 弹窗里的物品描述
       dialogTableVisible: false,
       fileList: [],
       tianjiayanse: '', // 添加颜色
@@ -339,7 +297,7 @@ export default {
       dialogVisible: false,
       // 其他信息
       radio: 1, // 单选按钮
-      radiol: '3', // 单选按钮运费部分
+      radiol: '0', // 单选按钮运费部分
       // 多选择框 添加规格图片
       checked: true,
       checked2: true,
@@ -404,7 +362,7 @@ export default {
         // member: '', // 是否为会员商品 *
         frames: '0', // 上下架*
         goodName: '', // 物品名称*
-        // productDesc: '', // 商品描述
+        goodsDesc: '', // 商品描述
         requestId: '123123123', // 请求id, 发起请求的随机数, 用来判断请求是否重
         token: '11238', // 登录成功后返回的token
         userId: '12', // 用户id
@@ -449,51 +407,11 @@ export default {
         desc: ''
       },
 
-      tabledatas: [
-        { tab1: '111', tab2: '2222' },
-        { tab1: 'aaa', tab2: 'bbb' }
-      ],
-      tabledatas1: [
-        { tab1: '111', tab2: '2222' },
-        { tab1: 'aaa', tab2: 'bbb' }
-      ],
+      tabledatas: [],
+      tabledatas1: [],
       // show: false,
       // 表单数据
-      tableData: [
-        {
-          seen: false,
-          date: '2016-05-02',
-          name: '王小虎1',
-          address: '上海市普陀区金沙江路 1518 弄'
-        },
-        {
-          seen: false,
-          date: '2016-05-04',
-          name: '王小虎2',
-          address: '上海市普陀区金沙江路 1517 弄'
-        },
-        {
-          seen: false,
-          date: '2016-05-01',
-          name: '王小虎3',
-          address: '上海市普陀区金沙江路 1519 弄'
-        },
-        {
-          seen: false,
-          date: '2016-05-03',
-          name: '王小虎4',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }
-        // {
-        //   id: '12987122',
-        //   name: '好滋好味鸡蛋仔',
-        //   category: '江浙小吃、小吃零食',
-        //   desc: '荷兰优质淡奶，奶香浓而不腻',
-        //   address: '上海市普陀区真北路',
-        //   shop: '王小虎夫妻店',
-        //   shopId: '10333'
-        // }
-      ],
+      tableData: [],
       // 顶部表单验证
       rules: {
         hfName: [
@@ -508,10 +426,7 @@ export default {
     this.getcoommo()
     this.verifier1()
     this.scope()
-    let lists = [
-      // { tab1: '1', tab2: '颜色', tab3: '红色' }
-      { tab1: '1', tab2: '颜色', tab3: '红色' }
-    ]
+    let lists = [{ tab1: '1', tab2: '颜色', tab3: '红色' }]
     lists.forEach(element => {
       element['show'] = false
     })
@@ -519,6 +434,30 @@ export default {
     this.change()
   },
   methods: {
+    // 详情
+    particulars (scope) {
+      console.log(scope)
+      this.goodsDesc = scope.row.goodsDesc
+      this.dialogTableVisible = true
+    },
+    // 删除
+    deletion (scope) {
+      this.$confirm('确认删除吗？', '提示', {}).then(() => {
+        api
+          .deleteGood(scope.row.id)
+          .then(res => {
+            this.getcoommo()
+            this.$message({
+              message: '删除成功',
+              type: 'success'
+            })
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      })
+    },
+
     // 提交价格
     submitPrice (scope) {
       this.specificationForm.quantity = scope.row.quantity
@@ -884,8 +823,8 @@ export default {
   clear: both;
 }
 .el-container {
-  margin: 25px;
-  margin-top: 47px;
+  margin: 10px;
+  // margin-top: 47px;
   background-color: #fff;
   .basic {
     // width: 1576px;
@@ -899,7 +838,7 @@ export default {
   }
 }
 .el-form {
-  margin: 40px;
+  margin: 10px;
 }
 .kaipi {
   width: 676px;
@@ -959,7 +898,7 @@ export default {
 }
 .reduceForm {
   margin: 30px;
-  margin-left: 300px;
+  margin-left: 90px;
 }
 
 //最下3个卡片
@@ -996,5 +935,13 @@ export default {
   margin-right: 0;
   margin-bottom: 0;
   width: 50%;
+}
+.goods-table {
+  margin: 20px;
+}
+.goods-button {
+  width: 16%;
+  margin-left: 460px;
+  color: #fff;
 }
 </style>

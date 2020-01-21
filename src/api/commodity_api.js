@@ -80,7 +80,7 @@ function addProduct (params) {
   // fd.append('member', params.member)
   fd.append('frames', params.frames)
   fd.append('goodName', params.goodName)
-  // fd.append('productDesc', params.productDesc)
+  fd.append('goodsDesc', params.goodsDesc)
   fd.append('requestId', params.requestId)
   fd.append('token', params.token)
   fd.append('fileInfo1', params.fileInfo1)

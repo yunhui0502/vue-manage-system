@@ -292,12 +292,11 @@ export default {
   },
   methods: {
     reset () {
-      // eslint-disable-next-line no-unused-expressions
-      this.groupform.goodsId = '',
-      this.groupform.number = '',
-      this.groupform.price = '',
-      this.groupform.repertory = '',
-      this.groupform.startTime = '',
+      this.groupform.goodsId = ''
+      this.groupform.number = ''
+      this.groupform.price = ''
+      this.groupform.repertory = ''
+      this.groupform.startTime = ''
       this.groupform.stopTime = ''
     },
     // 提交
