@@ -8,13 +8,18 @@
             style="display: flex;align-items: center;border-bottom: 1px solid #E5E5E5;font-size: 16px;color: #666666;"
           >
             <div
-            @click="qihuanquanbu"
-            class="shang"
+              @click="qihuanquanbu"
+              class="shang"
               :class="qihuans=='0'?'active1':''"
               style="margin-left: 22px;text-align: center;;"
             >全部商品（{{queryGoods}}）</div>
-            <div class="shang" @click="qihuanchus" :class="qihuans=='1'?'active1':''" style="margin-left: 80px;margin-right: 81px;">出售中（{{chushozhong}}）</div>
-            <div class="shang" @click="qihuankuch" :class="qihuans=='2'?'active1':''" >库存（{{kuc}}）</div>
+            <div
+              class="shang"
+              @click="qihuanchus"
+              :class="qihuans=='1'?'active1':''"
+              style="margin-left: 80px;margin-right: 81px;"
+            >出售中（{{chushozhong}}）</div>
+            <div class="shang" @click="qihuankuch" :class="qihuans=='2'?'active1':''">库存（{{kuc}}）</div>
           </div>
           <div style="padding:25px 0 24px  44px;">
             <el-form-item style="margin-bottom:24px;margin-left: 5px;" label>
@@ -22,7 +27,7 @@
                 <div>物品名称</div>
               </el-form-item>
               <input
-              v-model="inquire.goodsName"
+                v-model="inquire.goodsName"
                 type="text"
                 style="box-shadow:0px 2px 137px 1px rgba(107,107,107,0.11);
               width:257px;height:45px;border-radius:6px;outline: none;border:1px solid #EBEDF0;border-top:0.8px solid #EBEDF0;
@@ -35,7 +40,11 @@
               <el-form-item style="margin-bottom:50px;" label>
                 <div style>物品分类</div>
               </el-form-item>
-               <el-input v-model="inquire.productCategoryName" placeholder="请输入要查询的类目名称" autocomplete="off"></el-input>
+              <el-input
+                v-model="inquire.productCategoryName"
+                placeholder="请输入要查询的类目名称"
+                autocomplete="off"
+              ></el-input>
             </el-form-item>
             <br />
             <div style="float: right;margin-right: 260px;">
@@ -403,8 +412,9 @@ export default {
         })
     },
     // 查询
-    seeAbout  () {
-      api.queryList(this.inquire)
+    seeAbout () {
+      api
+        .queryList(this.inquire)
         .then(res => {
           this.tableData = res.data.data
         })
@@ -504,19 +514,15 @@ export default {
     },
     // 获取物品库存总数
     quGoods1 () {
-      this.$http
-        .get('/api/goods/selectQ?frames=0')
-        .then(res => {
-          this.kuc = res.data.data
-        })
+      this.$http.get('/api/goods/selectQ?frames=0').then(res => {
+        this.kuc = res.data.data
+      })
     },
     // 获取出售中物品总数
     quGoods2 () {
-      this.$http
-        .get('/api/goods/selectQ?frames=1')
-        .then(res => {
-          this.chushozhong = res.data.data
-        })
+      this.$http.get('/api/goods/selectQ?frames=1').then(res => {
+        this.chushozhong = res.data.data
+      })
     },
     // 添加商品
     // async postcoommo () {

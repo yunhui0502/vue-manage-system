@@ -2,22 +2,22 @@ import Axios from 'axios'
 // =============================================商品模块
 // 获取列表
 function getProductList () {
-  return Axios.get('/api/goods/byStoneId?stoneId=1')
+  return Axios.get('/api/api/product/goods/byStoneId?stoneId=1')
 }
 // 获取商品总数
 function queryGoods () {
-  return Axios.get('/api/goods/queryGoods')
+  return Axios.get('/api/api/product/goods/queryGoods')
 }
 // 查询物品规格
 function specifies (id) {
-  return Axios.get('/api/product/specifies?productId=' + id)
+  return Axios.get('/api/api/product/product/specifies?productId=' + id)
 }
 // 查询
 function queryList (params) {
   let fd = new FormData()
   fd.append('hfGoodsId', params.goodsName)
   fd.append('hfGoodsId', params.productCategoryName)
-  return Axios.get('/api/goods/queryList', fd)
+  return Axios.get('/api/api/product/goods/queryList', fd)
 }
 // 设置商品价格
 function setPrice (params) {
@@ -32,15 +32,15 @@ function setPrice (params) {
   fd.append('quantity', params.quantity)
   fd.append('respDesc', params.respDesc)
   fd.append('linePrice', params.linePrice)
-  return Axios.post('/api/goods/setPrice', fd)
+  return Axios.post('/api/api/product/goods/setPrice', fd)
 }
 // 核销员
 function verifier () {
-  return Axios.get('/ver/cancel/selectCancel')
+  return Axios.get('/ver/api/product/cancel/selectCancel')
 }
 // 获取类目
 function category () {
-  return Axios.get('/api/product/category')
+  return Axios.get('/api/api/product/product/category')
 }
 // 获取二级类目
 function categoryTwo (id) {
@@ -49,14 +49,14 @@ function categoryTwo (id) {
       parentCategoryId: id
     }
   }
-  return Axios.get('/api/product/category', params)
+  return Axios.get('/api/api/product/product/category', params)
 }
 // 编辑商品
 function bianProduct (params) {
   let fd = new FormData()
   fd.append('id', params.id)
   fd.append('productDesc', params.productDesc)
-  return Axios.post('/api/product/addproduct', fd, { responseType: 'arraybuffer' })
+  return Axios.post('/api/api/product/product/addproduct', fd, { responseType: 'arraybuffer' })
 }
 // 编辑商品
 function updategoods (params) {
@@ -68,7 +68,7 @@ function updategoods (params) {
   fd.append('timestamp', 111)
   fd.append('token', 1213)
   fd.append('userId', 123)
-  return Axios.post('/api/goods/updategood', fd, { responseType: 'arraybuffer' })
+  return Axios.post('/api/api/product/goods/updategood', fd, { responseType: 'arraybuffer' })
 }
 // 添加物品
 function addProduct (params) {
@@ -86,7 +86,7 @@ function addProduct (params) {
   fd.append('fileInfo1', params.fileInfo1)
   fd.append('userId', params.userId)
   // fd.append('specValue', params.specValue)
-  return Axios.post('/api/goods/create', fd)
+  return Axios.post('/api/api/product/goods/create', fd)
 }
 // 添加商品
 function tianjianwup (params) {
@@ -100,7 +100,7 @@ function tianjianwup (params) {
   fd.append('token', params.token)
   fd.append('userId', params.userId)
   fd.append('fileInfo', params.fileInfo)
-  return Axios.post('/api/product/addproduct', fd)
+  return Axios.post('/api/api/product/product/addproduct', fd)
 }
 // 添加商品规格
 function addSpecify (params) {
@@ -111,7 +111,7 @@ function addSpecify (params) {
   fd.append('productId', params.productId)
   fd.append('token', params.token)
   fd.append('userId', params.userId)
-  return Axios.post('/api/product/addSpecify', fd)
+  return Axios.post('/api/api/product/product/addSpecify', fd)
 }
 // 添加物品规格值
 function additionSpecs (params) {
@@ -123,7 +123,7 @@ function additionSpecs (params) {
   fd.append('token', params.token)
   fd.append('userId', params.userId)
   fd.append('productSpecId', params.productSpecId)
-  return Axios.post('/api/goods/addSpecify', fd)
+  return Axios.post('/api/api/product/goods/addSpecify', fd)
 }
 // 按条件查询商品
 function search (id, cateId, name) {
@@ -134,7 +134,7 @@ function search (id, cateId, name) {
       productName: name
     }
   }
-  return Axios.get('/api/product/categoryId', params)
+  return Axios.get('/api/api/product/product/categoryId', params)
 }
 // 删除商品
 function deleteProduct (id) {
@@ -143,7 +143,7 @@ function deleteProduct (id) {
       productId: id
     }
   }
-  return Axios.get('/api/product/deleteSelectProductId', params)
+  return Axios.get('/api/api/product/product/deleteSelectProductId', params)
 }
 function singledeleteProduct (id) {
   let params = {
@@ -151,7 +151,7 @@ function singledeleteProduct (id) {
       productId: id
     }
   }
-  return Axios.get('/api/product/deleteProductId', params)
+  return Axios.get('/api/api/product/product/deleteProductId', params)
 }
 // 删除规格
 function deleteSpec (id) {
@@ -160,7 +160,7 @@ function deleteSpec (id) {
       productSpecId: id
     }
   }
-  return Axios.get('/api/product/deleteSpecifies', params)
+  return Axios.get('/api/api/product/product/deleteSpecifies', params)
 }
 // ============================================================================================店铺模块
 // 获取店铺列表
@@ -170,7 +170,7 @@ function getStoreList (Id) {
       bossId: Id
     }
   }
-  return Axios.get('/api/stone/byBossId', params)
+  return Axios.get('/api/api/product/stone/byBossId', params)
 }
 
 // 新增店铺
@@ -183,7 +183,7 @@ function addStore (params) {
   fd.append('stoneManagerId', params.stoneManagerId)
   fd.append('bossId', params.bossId)
   // fd.append('hfName', params.hfName);
-  return Axios.post('/api/stone/addStone', fd, { responseType: 'arraybuffer' })
+  return Axios.post('/api/api/product/stone/addStone', fd, { responseType: 'arraybuffer' })
 }
 // 修改店铺
 function updateStore (params) {
@@ -194,7 +194,7 @@ function updateStore (params) {
   fd.append('hfStatus', params.hfStatus)
 
   // fd.append('hfName', params.hfName);
-  return Axios.post('/api/stone/updateStone', fd, { responseType: 'arraybuffer' })
+  return Axios.post('/api/api/product/stone/updateStone', fd, { responseType: 'arraybuffer' })
 }
 // 删除店铺
 function deleteStore (id) {
@@ -203,7 +203,7 @@ function deleteStore (id) {
       stoneId: id
     }
   }
-  return Axios.get('/api/stone/deleteStone', params)
+  return Axios.get('/api/api/product/stone/deleteStone', params)
 }
 // ================================================================================================物品模块
 // 获取物品
@@ -213,7 +213,7 @@ function getGood (id) {
       stoneId: id
     }
   }
-  return Axios.get('/api/product/byStoneId', params)
+  return Axios.get('/api/api/product/product/byStoneId', params)
 }
 // 删除物品
 function deleteGood (id) {
@@ -222,7 +222,7 @@ function deleteGood (id) {
       hfGoodsId: id
     }
   }
-  return Axios.get('/api/stone/deleteGood', params)
+  return Axios.get('/api/api/product/stone/deleteGood', params)
 }
 
 // 编辑物品
@@ -230,7 +230,7 @@ function updateGood (params) {
   let fd = new FormData()
   fd.append('goodsDesc', params.goodsDesc)
   fd.append('id', params.id)
-  return Axios.post('/api/goods/updategood', fd, { responseType: 'arraybuffer' })
+  return Axios.post('/api/api/product/goods/updategood', fd, { responseType: 'arraybuffer' })
 }
 
 // 添加规格
@@ -243,7 +243,7 @@ function addSpec (params) {
   fd.append('token', params.token)
   fd.append('userId', params.userId)
   fd.append('productSpecId', params.productSpecId)
-  return Axios.post('/api/goods/addSpecify', fd, { responseType: 'arraybuffer' })
+  return Axios.post('/api/api/product/goods/addSpecify', fd, { responseType: 'arraybuffer' })
 }
 
 // 上传图片
@@ -261,7 +261,7 @@ function checkWarehouse (id) {
       bossId: id
     }
   }
-  return Axios.get('/api/wareHouse/listWareHouse', params)
+  return Axios.get('/api/api/product/wareHouse/listWareHouse', params)
 }
 // ======================================================================订单模块
 // 查看订单列表

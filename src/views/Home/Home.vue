@@ -27,9 +27,13 @@
             <i class="iconfont icon-fenleiguanli"></i>
             <span slot="title">类目管理</span>
           </el-menu-item>
-          <el-menu-item index="/commodity">
+          <!-- <el-menu-item index="/commodity">
             <i class="iconfont icon-tongji"></i>
             <span slot="title">商品管理</span>
+          </el-menu-item> -->
+          <el-menu-item index="/hfproduct">
+            <i class="iconfont icon-tongji"></i>
+            <span slot="title">新商品管理</span>
           </el-menu-item>
           <el-submenu index="/orderform">
             <template slot="title">

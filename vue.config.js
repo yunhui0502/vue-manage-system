@@ -81,7 +81,7 @@ module.exports = {
     proxy: {
       '/api': {
         // target: 'http://192.168.1.104:9095/', // 本地模拟数据服务器
-        target: 'http://localhost:9095/', // 远程服务器
+        target: 'https://www.tjsichuang.cn:1443', // 远程服务器
         changeOrigin: true,
         pathRewrite: {
           '^/api': '' // 去掉接口地址中的api字符串
@@ -89,7 +89,7 @@ module.exports = {
       },
       '/foo': {
         // target: 'http://192.168.1.175:9911', // 本地模拟数据服务器
-        target: 'http://localhost:9911', // 远程服务器
+        target: 'https://www.tjsichuang.cn:1443', // 远程服务器
         changeOrigin: true,
         pathRewrite: {
           '^/foo': '' // 去掉接口地址中的foo字符串
@@ -97,7 +97,7 @@ module.exports = {
       },
       '/jietu': {
         // target: 'http://192.168.1.175:9910', // 本地模拟数据服务器
-        target: 'http://localhost:9910', // 远程服务器
+        target: 'https://www.tjsichuang.cn:1443', // 远程服务器
         changeOrigin: true,
         pathRewrite: {
           '^/jietu': '' // 去掉接口地址中的foo字符串
@@ -106,7 +106,7 @@ module.exports = {
       '/log': {
         // target: 'http://192.168.1.196:8082', // 本地模拟数据服务器 小方
         // target: 'http://192.168.1.104:8082', // 本地模拟数据服务器 小朋
-        target: 'http://localhost:8082', // 远程服务器
+        target: 'https://www.tjsichuang.cn:1443', // 远程服务器
         changeOrigin: true,
         pathRewrite: {
           '^/log': '' // 去掉接口地址中的foo字符串
@@ -114,7 +114,7 @@ module.exports = {
       },
       '/qui': {
         // target: 'http://192.168.1.104:9097', // 本地模拟数据服务器
-        target: 'http://localhost:9097', // 远程服务器
+        target: 'https://www.tjsichuang.cn:1443', // 远程服务器
         changeOrigin: true,
         pathRewrite: {
           '^/qui': '' // 去掉接口地址中的foo字符串
@@ -122,7 +122,7 @@ module.exports = {
       },
       '/ver': {
         // target: 'http://192.168.1.125:9901', // 本地模拟数据服务器
-        target: 'http://localhost:9901', // 远程服务器
+        target: 'https://www.tjsichuang.cn:1443', // 远程服务器
         changeOrigin: true,
         pathRewrite: {
           '^/ver': '' // 去掉接口地址中的foo字符串
@@ -130,7 +130,7 @@ module.exports = {
       },
       '/cat': {
         // target: 'http://192.168.1.101:9095', // 小方类目
-        target: 'http://localhost:9095', // 远程
+        target: 'https://www.tjsichuang.cn:1443', // 远程
         changeOrigin: true,
         pathRewrite: {
           '^/cat': '' // 去掉接口地址中的foo字符串

@@ -31,6 +31,8 @@ import Xinxifour from '../views/information/xinxifour.vue'
 import Member from '../views/member'
 import Jurisdiction from '../views/jurisdiction'
 import Tetail from '../views/orderform/tetail'
+import hfproduct from '../views/hf-product'
+import hfadditive from '../views/hf-product/hf-additive'
 
 Vue.use(VueRouter)
 
@@ -75,7 +77,9 @@ const routes = [
       { path: '/xinxithere', name: 'xinxithere', component: Xinxithere },
       { path: '/xinxifour', name: 'xinxifour', component: Xinxifour },
       { path: '/member', name: 'member', component: Member },
-      { path: '/jurisdiction', name: 'jurisdiction', component: Jurisdiction }
+      { path: '/jurisdiction', name: 'jurisdiction', component: Jurisdiction },
+      { path: '/hfproduct', name: 'hfproduct', component: hfproduct },
+      { path: '/hfadditive', name: 'hfadditive', component: hfadditive }
     ]
   },
   { path: '*', name: '404', component: NotFound }
