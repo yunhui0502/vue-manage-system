@@ -4,14 +4,28 @@ import Axios from 'axios'
 function getProductList () {
   return Axios.get('/api/api/product/goods/byStoneId?stoneId=1')
 }
+// 获取库存或出售中
+function selectFrames (id) {
+  return Axios.get('/api/api/product/goods/selectFrames?frames=' + id)
+}
 // 获取商品总数
 function queryGoods () {
   return Axios.get('/api/api/product/goods/queryGoods')
+}
+// 获取出售中和库存总数
+function selectQ (id) {
+  return Axios.get('/api/api/product/goods/selectQ?frames=' + id)
 }
 // 查询物品规格
 function specifies (id) {
   return Axios.get('/api/api/product/product/specifies?productId=' + id)
 }
+
+// 获取规格
+function gainSpecifications (id) {
+  return Axios.get('/cat/api/product/product/category' + id)
+}
+
 // 查询
 function queryList (params) {
   let fd = new FormData()
@@ -302,5 +316,8 @@ export default {
   queryList: queryList,
   addSpecify: addSpecify,
   specifies: specifies,
-  additionSpecs: additionSpecs
+  additionSpecs: additionSpecs,
+  gainSpecifications: gainSpecifications,
+  selectFrames: selectFrames,
+  selectQ: selectQ
 }

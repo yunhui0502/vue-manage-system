@@ -81,7 +81,7 @@
             <el-button class="goods-button" type="primary" @click="NewGoods">+新建商品</el-button>
           </el-form-item>
         </el-form>
-        <!-- <el-table class="goods-table" :data="commoditytable" border>
+        <el-table class="goods-table" :data="commoditytable" border>
           <el-table-column type="selection"></el-table-column>
           <el-table-column label="规格名称">
             <template slot-scope="scope">
@@ -101,13 +101,13 @@
               <el-button @click="save(scope)">添加</el-button>
             </template>
           </el-table-column>
-        </el-table>-->
+        </el-table>
       </el-container>
 
       <div class="reduceForm">
         <!-- 上传图片 -->
         <el-upload
-          action="http://192.168.1.104:9095/product/addProductPictrue"
+          action="/api/api/product/product/addProductPictrue"
           :data="form"
           name="fileInfo"
           list-type="picture-card"
@@ -151,16 +151,22 @@
         <el-form-item style="width:100%" label="物品描述" prop="goodsDesc">
           <el-input style="width:50%" v-model="ruleForm1.goodsDesc  "></el-input>
         </el-form-item>
+        <el-form-item label prop="brandId">
+          <el-button style="width:25%; margin-left: 5px;" type="primary" @click="submitForm">+新建物品</el-button>
+          <!-- <el-button type="success" style="color: #fff;" @click="dialogTableVisible = true">添加物品规格值</el-button> -->
+        </el-form-item>
         <el-table :data="tabledatas1" border>
           <el-table-column type="selection"></el-table-column>
           <el-table-column label="规格名称">
             <template slot-scope="scope">
-              <span v-show="!scope.row.show">{{scope.row.id}}</span>
+              <span v-show="!scope.row.show">{{scope.row.hfName}}</span>
+              <!-- <el-input placeholder="请输入内容" v-model="scope.row.hfName"></el-input> -->
             </template>
           </el-table-column>
           <el-table-column label="规格类型">
             <template slot-scope="scope">
-              <span v-show="!scope.row.show">{{scope.row.hfName}}</span>
+              <span v-show="!scope.row.show">{{scope.row.id}}</span>
+              <!-- <el-input placeholder="请输入内容" v-model="scope.row.hfName"></el-input> -->
             </template>
           </el-table-column>
           <el-table-column label="规格值">
@@ -174,10 +180,19 @@
             </template>
           </el-table-column>
         </el-table>
-        <el-form-item label prop="brandId">
-          <el-button style="width:25%; margin-left: 5px;" type="primary" @click="submitForm">+新建物品</el-button>
-          <!-- <el-button type="success" style="color: #fff;" @click="dialogTableVisible = true">添加物品规格值</el-button> -->
-        </el-form-item>
+        <el-upload
+          action="/api/api/product/goods/addPicture"
+          :data="form1"
+          name="fileInfo1"
+          list-type="picture-card"
+          :on-preview="handlePictureCardPreview"
+          :on-remove="handleRemove"
+        >
+          <i class="el-icon-plus"></i>
+        </el-upload>
+        <el-dialog :visible.sync="dialogVisible">
+          <img width="100%" :src="dialogImageUrl" alt />
+        </el-dialog>
       </el-form>
       <!-- <el-button  id@click="dialogFormVisible = true" class="add-button">根据下方物品ID设置价格按钮</el-button> -->
 
@@ -217,7 +232,7 @@
           <template slot-scope="scope">
             <!-- <el-button @click="show =true">编辑</el-button> -->
             <el-button type="text" style="color: rgb(24, 211, 71);" @click="submitPrice(scope)">提交</el-button>
-            <el-button type="text" @click="particulars(scope)">详情</el-button>
+            <!-- <el-button type="text" @click="particulars(scope)">详情</el-button> -->
             <el-button type="text" style="color: rgb(218, 18, 28);" @click="deletion(scope)">删除</el-button>
           </template>
         </el-table-column>
@@ -254,8 +269,8 @@
         </el-table>-->
         <div class="reduceForm">
           <!-- 上传图片 -->
-          <el-upload
-            action="http://192.168.1.104:9095/product/addProductPictrue"
+          <!-- <el-upload
+            action="/api/api/product/product/addProductPictrue"
             :data="form1"
             name="fileInfo"
             list-type="picture-card"
@@ -266,7 +281,7 @@
           </el-upload>
           <el-dialog :visible.sync="dialogVisible">
             <img width="100%" :src="dialogImageUrl" alt />
-          </el-dialog>
+          </el-dialog>-->
         </div>
       </el-dialog>
     </el-card>
@@ -282,6 +297,7 @@ import api from '@/api/commodity_api.js'
 export default {
   data () {
     return {
+      judgment: '0',
       goodsDesc: '', // 弹窗里的物品描述
       dialogTableVisible: false,
       fileList: [],
@@ -316,7 +332,7 @@ export default {
         productId: '48'
       },
       form1: {
-        productId1: '1'
+        goodsId: '39'
       },
       leiMu: {},
       // 添加商品
@@ -414,11 +430,7 @@ export default {
       },
 
       tabledatas: [],
-      tabledatas1: [
-        { tab1: '1', tab2: '1', tab3: '1' },
-        { tab1: '2', tab2: '2', tab3: '2' },
-        { tab1: '3', tab2: '3', tab3: '3' }
-      ],
+      tabledatas1: [],
       // show: false,
       // 表单数据
       tableData: [],
@@ -489,9 +501,12 @@ export default {
       console.log(scope)
       // this.specGoods.goodsId = scope.row.id
       this.specGoods.specValue = scope.row.specValue
+      this.specGoods.productSpecId = scope.row.id
       api
         .additionSpecs(this.specGoods)
-        .then(res => {})
+        .then(res => {
+          this.getcoommo()
+        })
         .catch(function (error) {
           // handle error
           console.log(error)
@@ -499,6 +514,14 @@ export default {
     },
     // 添加商品规格
     save (scope) {
+      if (this.judgment === '0') {
+        this.$notify({
+          title: '提醒',
+          message: '请先加商品',
+          duration: 0
+        })
+        return
+      }
       scope.row.show = false
       this.specification.hfName = scope.row.tab2
       this.specification.specValue = scope.row.tab3
@@ -510,7 +533,8 @@ export default {
           api.specifies(this.specification.productId).then(res => {
             console.log('获取规格ID', res)
             this.tabledatas1 = res.data.data
-            this.specGoods.productSpecId = res.data.data[0].id
+            // this.specGoods.productSpecId = res.data.data[0].id
+            // this.specGoods.productSpecId = res.data.data[0].productId
             console.log(this.specGoods.goodsId)
           })
         })
@@ -554,8 +578,8 @@ export default {
     },
     // 获取规格
     huq () {
-      this.$http
-        .get('/cat/product/category')
+      api
+        .gainSpecifications()
         .then(res => {
           this.threecategs = res.data.data
           // console.log('类目', this.onecatalogues)
@@ -585,6 +609,7 @@ export default {
               message: '恭喜你，添加成功',
               type: 'success'
             })
+            this.judgment = '1'
           })
           .catch(err => {
             console.log(err)
@@ -715,8 +740,10 @@ export default {
       // console.log(e)
       this.ruleForm.categoryId = e
       this.ruleForm1.categoryId = e
-      this.$http
-        .get('/cat/product/category?parentCategoryId=' + e)
+      // this.$http
+      //   .get('/cat/product/category?parentCategoryId=' + e)
+      api
+        .categoryTwo(e)
         .then(res => {
           this.erjimulu = res.data.data
           // console.log('类目', this.onecatalogues)
@@ -731,8 +758,10 @@ export default {
       this.ruleForm.categoryId = e
       this.ruleForm1.categoryId = e
       // console.log(e)
-      this.$http
-        .get('/cat/product/category?parentCategoryId=' + e)
+      // this.$http
+      //   .get('/cat/product/category?parentCategoryId=' + e)
+      api
+        .categoryTwo(e)
         .then(res => {
           this.tiwoCatalogues = res.data.data
           // console.log('类目', this.onecatalogues)
@@ -746,8 +775,10 @@ export default {
       this.ruleForm.categoryId = e
       this.ruleForm1.categoryId = e
       // console.log(e)
-      this.$http
-        .get('/cat/product/category?parentCategoryId=' + e)
+      // this.$http
+      //   .get('/cat/product/category?parentCategoryId=' + e)
+      api
+        .categoryTwo(e)
         .then(res => {
           this.threecategs = res.data.data
           // console.log('类目', this.onecatalogues)
@@ -764,6 +795,14 @@ export default {
     },
     // 添加物品 goodsId
     async submitForm () {
+      if (this.judgment === '0') {
+        this.$notify({
+          title: '提醒',
+          message: '请先加商品',
+          duration: 0
+        })
+        return
+      }
       // this.ruleForm1.specValue.push(this.specificationForm2.specValue)
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
@@ -775,8 +814,9 @@ export default {
             api.addProduct(param).then(res => {
               // this.$router.push({ name: 'commodity' })
               this.specGoods.goodsId = res.data.data
-              this.form1.productId1 = res.data.data
+              this.form1.goodsId = res.data.data
               console.log(res.data.data)
+              this.getcoommo()
               this.$message({
                 message: '恭喜你，添加成功',
                 type: 'success'

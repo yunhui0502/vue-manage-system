@@ -8,9 +8,9 @@
           mode="horizontal"
           @select="handleSelect"
         >
-          <el-menu-item index="1">全部商品（500）</el-menu-item>
-          <el-menu-item index="2">出售中（500）</el-menu-item>
-          <el-menu-item index="3">库存（500）</el-menu-item>
+          <el-menu-item index="1">全部商品（{{queryGoods}}）</el-menu-item>
+          <el-menu-item index="2">出售中（{{onOffer}}）</el-menu-item>
+          <el-menu-item index="3">库存（{{StockQuantity}}）</el-menu-item>
         </el-menu>
       </div>
       <div class="text item">
@@ -66,7 +66,7 @@
 
     <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <el-button
+        <!-- <el-button
           class="butttj"
           style="color: #fff;outline:none; border-radius:3px;float:right;margin-right: 40px;
           background: #fff;border:1px solid #EBEDF0;color: #666;"
@@ -93,7 +93,7 @@
           background: #fff;border:1px solid #EBEDF0;color: #666;"
           size="mini"
           round
-        >批量分类</el-button>
+        >批量分类</el-button> -->
         <router-link to="/hfadditive">
           <el-button
             class="butttj"
@@ -129,11 +129,11 @@
           <el-table-column prop="createTime" label="创建时间" align="center"></el-table-column>
           <el-table-column fixed="right" label="操作" align="center">
             <template slot-scope="scope">
-              <span
+              <!-- <span
                 class="el"
                 @click="biangui(scope.row)"
                 style="color:#A6A3FB;font-family:ms sans serif;cursor: pointer;"
-              >编辑</span>
+              >编辑</span> -->
               <span
                 class="el"
                 @click="upFrame(scope.row)"
@@ -164,9 +164,13 @@
 
 <script>
 import api from '@/api/commodity_api.js'
+import qs from 'qs'
 export default {
   data () {
     return {
+      StockQuantity: '', // 库存数
+      queryGoods: '', // 商品总数
+      onOffer: '', // 出售中
       activeIndex: '1',
       // 查询绑定的值
       inquire: {
@@ -182,6 +186,9 @@ export default {
   },
   created () {
     this.getcoommo()
+    this.quGoods()
+    this.quGoods1()
+    this.quGoods2()
   },
   methods: {
     // 获取物品列表
@@ -238,8 +245,112 @@ export default {
         }
       })
     },
+    // 上下架
+    upFrame (row) {
+      console.log(row.frames)
+      console.log(1111111)
+      if (row.isDeleted === 1) {
+        this.$http
+          .get('/api/goods/racking', {
+            params: {
+              frames: 0,
+              goodsId: row.id
+            },
+            paramsSerializer: params => {
+              return qs.stringify(params, { indices: false })
+            }
+          })
+          .then(res => {
+            this.getcoommo()
+            this.$message({
+              showClose: true,
+              message: '恭喜你，下架成功',
+              type: 'success'
+            })
+          })
+          .catch(error => {
+            this.$message(error + '下架失败')
+          })
+      } else {
+        this.$http
+          .get('/api/goods/racking', {
+            params: {
+              frames: 1,
+              goodsId: row.id
+            },
+            paramsSerializer: params => {
+              return qs.stringify(params, { indices: false })
+            }
+          })
+          .then(res => {
+            this.getcoommo()
+            this.$message({
+              showClose: true,
+              message: '恭喜你，上架成功',
+              type: 'success'
+            })
+          })
+          .catch(error => {
+            this.$message(error + '上架失败')
+          })
+      }
+    },
+    // 出售中
+    qihuanchus () {
+      this.qihuans = '1'
+      api.selectFrames(1)
+        .then(res => {
+          this.tableData = res.data.data
+        })
+        .catch(error => {
+          console.log(error)
+          this.$message(error + '失败')
+        })
+    },
+    // 库存切换
+    qihuankuch () {
+      this.qihuans = '2'
+      api.selectFrames(0)
+        .then(res => {
+          this.tableData = res.data.data
+        })
+        .catch(error => {
+          this.$message(error + '失败')
+        })
+    },
     handleSelect (key, keyPath) {
       console.log(key, keyPath)
+      if (key === '1') {
+        this.getcoommo()
+      } else if (key === '2') {
+        this.qihuanchus()
+        console.log('出售中')
+      } else if (key === '3') {
+        this.qihuankuch()
+      }
+    },
+    // 获取物品总数
+    quGoods () {
+      api
+        .queryGoods()
+        .then(res => {
+          this.queryGoods = res.data.data
+        })
+        .catch(function (err) {
+          console.log(err)
+        })
+    },
+    // 获取物品库存总数
+    quGoods1 () {
+      api.selectQ(0).then(res => {
+        this.StockQuantity = res.data.data
+      })
+    },
+    // 获取出售中物品总数
+    quGoods2 () {
+      api.selectQ(1).then(res => {
+        this.onOffer = res.data.data
+      })
     },
     handleSizeChange (val) {
       // console.log(`每页 ${val} 条`)
