@@ -448,7 +448,7 @@ export default {
     this.getcoommo()
     this.verifier1()
     this.scope()
-    let lists = [{ tab1: '1', tab2: '颜色', tab3: '红色' }]
+    let lists = [{ tab1: '1', tab2: '颜色', tab3: '红色' }, { tab1: '1', tab2: '大小', tab3: '12寸' }]
     lists.forEach(element => {
       element['show'] = false
     })

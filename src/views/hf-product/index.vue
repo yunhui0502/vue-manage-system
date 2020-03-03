@@ -129,11 +129,11 @@
           <el-table-column prop="createTime" label="创建时间" align="center"></el-table-column>
           <el-table-column fixed="right" label="操作" align="center">
             <template slot-scope="scope">
-              <!-- <span
+              <span
                 class="el"
                 @click="biangui(scope.row)"
                 style="color:#A6A3FB;font-family:ms sans serif;cursor: pointer;"
-              >编辑</span> -->
+              >编辑</span>
               <span
                 class="el"
                 @click="upFrame(scope.row)"
@@ -251,7 +251,7 @@ export default {
       console.log(1111111)
       if (row.isDeleted === 1) {
         this.$http
-          .get('/api/goods/racking', {
+          .get('/api/api/product/goods/racking', {
             params: {
               frames: 0,
               goodsId: row.id
@@ -273,7 +273,7 @@ export default {
           })
       } else {
         this.$http
-          .get('/api/goods/racking', {
+          .get('/api/api/product/goods/racking', {
             params: {
               frames: 1,
               goodsId: row.id
