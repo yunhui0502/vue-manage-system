@@ -239,7 +239,7 @@ export default {
     biangui: function (row) {
       var arr = JSON.stringify(row)
       this.$router.push({
-        path: '/detail',
+        path: '/hfcompile',
         query: {
           row: arr
         }

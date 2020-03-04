@@ -33,6 +33,7 @@ import Jurisdiction from '../views/jurisdiction'
 import Tetail from '../views/orderform/tetail'
 import hfproduct from '../views/hf-product'
 import hfadditive from '../views/hf-product/hf-additive'
+import hfcompile from '../views/hf-product/hf-compile'
 
 Vue.use(VueRouter)
 
@@ -79,7 +80,8 @@ const routes = [
       { path: '/member', name: 'member', component: Member },
       { path: '/jurisdiction', name: 'jurisdiction', component: Jurisdiction },
       { path: '/hfproduct', name: 'hfproduct', component: hfproduct },
-      { path: '/hfadditive', name: 'hfadditive', component: hfadditive }
+      { path: '/hfadditive', name: 'hfadditive', component: hfadditive },
+      { path: '/hfcompile', name: 'hfcompile', component: hfcompile }
     ]
   },
   { path: '*', name: '404', component: NotFound }

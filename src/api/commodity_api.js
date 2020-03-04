@@ -16,11 +16,14 @@ function queryGoods () {
 function selectQ (id) {
   return Axios.get('/api/api/product/goods/selectQ?frames=' + id)
 }
-// 查询物品规格
+// 获取商品规格
 function specifies (id) {
   return Axios.get('/api/api/product/product/specifies?productId=' + id)
 }
-
+// 查询物品规格  是面那个可能有问题
+function specification (id) {
+  return Axios.get('/api/api/product/goods/specifies?goodsId=' + id)
+}
 // 获取规格
 function gainSpecifications (id) {
   return Axios.get('/cat/api/product/product/category' + id)
@@ -138,6 +141,19 @@ function additionSpecs (params) {
   fd.append('userId', params.userId)
   fd.append('productSpecId', params.productSpecId)
   return Axios.post('/api/api/product/goods/addSpecify', fd)
+}
+// 修改物品规格值
+function update (params) {
+  let fd = new FormData()
+  fd.append('goodsId', params.goodsId)
+  fd.append('requestId ', params.requestId)
+  fd.append('specValue', params.specValue)
+  fd.append('timestamp', params.timestamp)
+  fd.append('token', params.token)
+  fd.append('userId', params.userId)
+  fd.append('productSpecId', params.productSpecId)
+  fd.append('fileID', '213')
+  return Axios.post('/api/api/product/goods/spec/update', fd)
 }
 // 按条件查询商品
 function search (id, cateId, name) {
@@ -319,5 +335,7 @@ export default {
   additionSpecs: additionSpecs,
   gainSpecifications: gainSpecifications,
   selectFrames: selectFrames,
-  selectQ: selectQ
+  selectQ: selectQ,
+  update: update,
+  specification: specification
 }
