@@ -83,9 +83,9 @@
             <el-input placeholder="请输入内容" v-model="scope.row.specType"></el-input>
           </template>
         </el-table-column>
-        <el-table-column label="默认值" >
+        <el-table-column label="默认值">
           <template slot-scope="scope">
-            <span v-show="!scope.row.show">{{scope.row.specValue}}</span>
+            <span >{{scope.row.specValue}}</span>
             <!-- <el-input placeholder="请输入内容" v-model="scope.row.specValue"></el-input> -->
           </template>
         </el-table-column>
@@ -101,49 +101,97 @@
           </template>
         </el-table-column>
       </el-table>
+      <div class="f10">物品</div>
+      <el-table :data="Article" border>
+        <el-table-column type="selection"></el-table-column>
+        <el-table-column label="ID">
+          <template slot-scope="scope">
+            <!-- <el-input placeholder="请输入内容" v-model="scope.row.goodsId"></el-input> -->
+            <span >{{scope.row.goodsId}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="物品描述">
+          <template slot-scope="scope">
+            <!-- <el-input placeholder="请输入内容" v-model="scope.row.goodsDesc"></el-input> -->
+            <span >{{scope.row.goodsDesc}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" width="180">
+          <template slot-scope="scope">
+            <el-button type="text" style="color: rgb(24, 211, 71);"  @click="additionSpecvalue(scope)" >修改规格值</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+<!--
       <div class="f10">物品价格</div>
       <el-table :data="tabledatas" border>
         <el-table-column type="selection"></el-table-column>
         <el-table-column label="ID">
           <template slot-scope="scope">
             <el-input placeholder="请输入内容" v-model="scope.row.id"></el-input>
-            <!-- <span v-show="!scope.row.show">{{scope.row}}</span> -->
           </template>
         </el-table-column>
         <el-table-column label="物品名称">
           <template slot-scope="scope">
             <el-input placeholder="请输入内容" v-model="scope.row.goodName"></el-input>
-            <!-- <span v-show="!show">{{scope.row.goodName}}</span> -->
+
           </template>
         </el-table-column>
         <el-table-column label="价格">
           <template slot-scope="scope">
             <el-input placeholder="请输入内容" v-model="scope.row.sellPrice"></el-input>
-            <!-- <span v-show="!show">{{scope.row.sellPrice}}</span> -->
           </template>
         </el-table-column>
         <el-table-column label="划线价">
           <template slot-scope="scope">
             <el-input placeholder="请输入内容" v-model="scope.row.linePrice"></el-input>
-            <!-- <span v-show="!show">{{scope.row.linePrice}}</span> -->
+
           </template>
         </el-table-column>
         <el-table-column label="库存">
           <template slot-scope="scope">
             <el-input placeholder="请输入内容" v-model="scope.row.quantity"></el-input>
-            <!-- <span v-show="!show">{{scope.row.quantity}}</span> -->
           </template>
         </el-table-column>
         <el-table-column label="操作" width="180">
           <template slot-scope="scope">
-            <!-- <el-button @click="show =true">编辑</el-button> -->
+
             <el-button type="text" style="color: rgb(24, 211, 71);" @click="submitPrice(scope)">修改</el-button>
-            <!-- <el-button type="text" @click="particulars(scope)">详情</el-button> -->
+
             <el-button type="text" style="color: rgb(218, 18, 28);" @click="deletion(scope)">删除</el-button>
           </template>
         </el-table-column>
-      </el-table>
+      </el-table> -->
     </el-card>
+
+    <el-dialog title="物品规格" :visible.sync="dialogTableVisible">
+      <el-table :data="gridData">
+        <el-table-column type="selection"></el-table-column>
+        <el-table-column label="规格名称">
+          <template slot-scope="scope">
+            <!-- <el-input placeholder="请输入内容" v-model="scope.row.hfName"></el-input> -->
+            <span >{{scope.row.hfName}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="规格类型">
+          <template slot-scope="scope">
+            <el-input placeholder="请输入内容" v-model="scope.row.specType"></el-input>
+            <!-- <span v-show="!show">{{scope.row.hfName}}</span> -->
+          </template>
+        </el-table-column>
+        <el-table-column label="规格值">
+          <template slot-scope="scope">
+            <el-input placeholder="请输入内容" v-model="scope.row.specValue"></el-input>
+            <!-- <span v-show="!show">{{scope.row.specValue}}</span> -->
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" width="180">
+          <template slot-scope="scope">
+            <el-button type="text" style="color: rgb(24, 211, 71);" @click="modifySpec(scope)">修改</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-dialog>
   </div>
 </template>
 
@@ -152,6 +200,7 @@ import api from '@/api/commodity_api.js'
 export default {
   data () {
     return {
+      goodsId: '', // 物品ID
       // 添加按钮Loading加载
       addLoading: false,
       categoryId: '', // 商品所属的类目id*
@@ -168,16 +217,8 @@ export default {
         productId: '', // 商品id
         token: '11238', // *
         userId: '12' // 用户id*
-        // cancelId: '2', // 核销员Id
-        // productName: '',
-        // productDesc: '', // 描述
-        // productCategoryName: '', // 类目
-        // categoryId: '',
-        // id: '',
-        // timestamp: '1223',
-        // token: '123',
-        // userId: '1'
       },
+
       // 修改商品规格
       specGoods: {
         categorySpecId: '1', // 类目ID
@@ -186,23 +227,7 @@ export default {
         specName: '',
         specUnit: ''
       },
-      // 删除
-      deletion (scope) {
-        this.$confirm('确认删除吗？', '提示', {}).then(() => {
-          api
-            .deleteGood(scope.row.id)
-            .then(res => {
-              this.getcoommo()
-              this.$message({
-                message: '删除成功',
-                type: 'success'
-              })
-            })
-            .catch(err => {
-              console.log(err)
-            })
-        })
-      },
+
       bianRules: {
         productName: [
           {
@@ -243,9 +268,19 @@ export default {
         username: '12' // 店家名称, 登录修改的用户名称
         // specValue: ['1.1'] // 标签 颜色 // 规格
       },
+      // 修改物品规格值
+      updates: {
+        requestId: '12312', // 请求id, 发起请求的随机数, 用来判断请求是否重复, 一般使用UUID
+        timestamp: '20181023T081324Z', // 发起请求的当前时间, 时间格式:20181023T081324Z
+        token: '1', // 登录成功后返回的token
+        userId: '123'// 登录的用户id
+      },
       leiMu: {},
+      dialogTableVisible: false,
       tiwoCatalogues: [], // 三级目录
       erjimulu: [], // 二级目录
+      gridData: [], // 物品规格
+      Article: [], // 物品数据
       tabledatas: [],
       tabledatas1: []
     }
@@ -278,6 +313,28 @@ export default {
           console.log(error)
         })
     },
+    // 修改规格值
+    modifySpec (scope) {
+      api.updatespec(scope.row, this.updates, this.goodsId)
+      console.log(scope)
+    },
+    // 删除
+    deletion (scope) {
+      this.$confirm('确认删除吗？', '提示', {}).then(() => {
+        api
+          .deleteGood(scope.row.id)
+          .then(res => {
+            this.getcoommo()
+            this.$message({
+              message: '删除成功',
+              type: 'success'
+            })
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      })
+    },
     // 获取商品规格
     Acquire () {
       api.specifies(this.bianrow.id).then(res => {
@@ -295,6 +352,16 @@ export default {
         })
         .catch(function (err) {
           console.log(err)
+        })
+    },
+    // 修改商品规格值
+    additionSpecvalue (scope) {
+      this.dialogTableVisible = true
+      this.goodsId = scope.row.goodsId
+      api.specification(scope.row.goodsId)
+        .then(res => {
+          console.log(res)
+          this.gridData = res.data.data
         })
     },
     // 修改商品规格名称
@@ -381,7 +448,11 @@ export default {
       this.bianrow = JSON.parse(list)
       // this.bianrow=this.$route.query.row;
       console.log('编辑带过来的', this.bianrow)
-      // this.checkType()
+      // 根据商品ID获取物品
+      api.selectProductGoods(this.bianrow.id).then(res => {
+        console.log('123', res.data.data)
+        this.Article = res.data.data
+      })
     }
   }
 }

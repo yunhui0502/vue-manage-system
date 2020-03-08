@@ -157,6 +157,19 @@ function update (params) {
   fd.append('categorySpecId', params.categorySpecId)
   return Axios.post('/api/api/product/product/updatespec', fd)
 }
+// 修改物品规格
+function updatespec (params, updates, goodsId) {
+  let fd = new FormData()
+  fd.append('goodsId ', goodsId)
+  fd.append('categorySpecId ', params.categorySpecId)
+  fd.append('productSpecId', params.id)
+  fd.append('specValue ', params.specValue)
+  fd.append('requestId ', updates.requestId)
+  fd.append('timestamp ', updates.timestamp)
+  fd.append('token ', updates.token)
+  fd.append('userId ', updates.userId)
+  return Axios.post('/api/api/product/goods/spec/update', fd)
+}
 // 按条件查询商品
 function search (id, cateId, name) {
   let params = {
@@ -278,6 +291,16 @@ function addSpec (params) {
   return Axios.post('/api/api/product/goods/addSpecify', fd, { responseType: 'arraybuffer' })
 }
 
+// 根据商品ID获取物品
+function selectProductGoods (id) {
+  let params = {
+    params: {
+      productId: id
+    }
+  }
+  return Axios.get('/api/api/product/product/selectProductGoods', params)
+}
+
 // 上传图片
 // function loadPic(params) {
 //   let fd = new FormData();
@@ -339,5 +362,7 @@ export default {
   selectFrames: selectFrames,
   selectQ: selectQ,
   update: update,
-  specification: specification
+  specification: specification,
+  selectProductGoods: selectProductGoods,
+  updatespec: updatespec
 }
