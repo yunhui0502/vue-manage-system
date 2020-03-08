@@ -424,7 +424,6 @@ export default {
         api
           .deleteGood(scope.row.id)
           .then(res => {
-            this.getcoommo()
             this.$message({
               message: '删除成功',
               type: 'success'
@@ -444,7 +443,10 @@ export default {
       api
         .setPrice(this.specificationForm)
         .then(res => {
-          this.getcoommo()
+          this.$message({
+            message: '价格提交成功',
+            type: 'success'
+          })
         })
         .catch(function (error) {
           // handle error
@@ -467,6 +469,10 @@ export default {
       api
         .addSpecify(this.specification)
         .then(res => {
+          this.$message({
+            message: '添加商品规格成功',
+            type: 'success'
+          })
           api.specifies(this.specification.productId).then(res => {
             console.log('获取规格ID', res)
             this.tabledatas = res.data.data
@@ -503,7 +509,6 @@ export default {
       api
         .additionSpecs(this.specGoods)
         .then(res => {
-          this.getcoommo()
         })
         .catch(function (error) {
           // handle error
@@ -561,20 +566,6 @@ export default {
       row.seen = true
     },
 
-    // 设置商品价格
-    SetThePrice () {
-      this.specificationForm.requestId = Date.now()
-      // this.specificationForm.hfGoodsId = this.ruleForm1.productId
-      api
-        .setPrice(this.specificationForm)
-        .then(res => {
-          this.dialogFormVisible = false
-        })
-        .catch(function (error) {
-          // handle error
-          console.log(error)
-        })
-    },
     addition () {
       // this.formSpec.specValue = this.$refs.specValue.value + ''
       // this.formSpec.specSize = this.$refs.specSize.value + ''
@@ -815,7 +806,6 @@ export default {
               // 添加价格需要保存ID
               this.specificationForm.hfGoodsId = res.data.data
               console.log(res.data.data)
-              this.getcoommo()
               this.$message({
                 message: '恭喜你，添加成功',
                 type: 'success'
