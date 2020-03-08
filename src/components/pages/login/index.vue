@@ -44,7 +44,7 @@
 
         </div>
         <div class="div-img">
-           <router-link to='/code'><img src="../../assets/images/ico.png" alt=""></router-link>
+           <router-link to='/code'><img src="~@/assets/images/ico.png" alt=""></router-link>
           </div>
       </el-card>
     </div>
@@ -141,7 +141,7 @@ export default {
 .container {
   padding: 0;
   margin: 0;
-  background: url(../../assets/images/bj.png) no-repeat center / cover;
+  background: url(~@/assets/images/bj.png) no-repeat center / cover;
   width: 100%;
   height: 100%;
   position: absolute;
@@ -149,7 +149,7 @@ export default {
   top: 0;
   .th-card {
     position: relative;
-    background: url(../../assets/images/bj2.png) no-repeat center / cover;
+    background: url(~@/assets/images/bj2.png) no-repeat center / cover;
     width: 800px;
     height: 700px;
     .block {

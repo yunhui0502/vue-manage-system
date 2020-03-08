@@ -1,8 +1,8 @@
-'use strict'
+'use strict';
 // Template version: 1.3.1
 // see http://vuejs-templates.github.io/webpack for documentation.
 
-const path = require('path')
+const path = require('path');
 
 module.exports = {
   dev: {
@@ -15,8 +15,8 @@ module.exports = {
         // target:'http://192.168.1.104:9095',//小方
         changeOrigin: true,
         pathRewrite: {
-          '^/api': '/'
-        }
+          '^/api': '/',
+        },
       },
       '/user': {
         target: 'http://localhost:9097', // 王博朋
@@ -24,8 +24,8 @@ module.exports = {
         // target:'http://localhost:8082',
         changeOrigin: true,
         pathRewrite: {
-          '^/user': '/'
-        }
+          '^/user': '/',
+        },
       },
       '/order': {
         target: 'http://172.26.16.97:9097', // 王博朋
@@ -33,9 +33,9 @@ module.exports = {
         // target:'http://localhost:9097',
         changeOrigin: true,
         pathRewrite: {
-          '^/order': '/'
-        }
-      }
+          '^/order': '/',
+        },
+      },
 
     },
 
@@ -59,7 +59,7 @@ module.exports = {
     // https://vue-loader.vuejs.org/en/options.html#cachebusting
     cacheBusting: true,
 
-    cssSourceMap: true
+    cssSourceMap: true,
   },
 
   build: {
@@ -90,6 +90,6 @@ module.exports = {
     // View the bundle analyzer report after build finishes:
     // `npm run build --report`
     // Set to `true` or `false` to always turn it on or off
-    bundleAnalyzerReport: process.env.npm_config_report
-  }
-}
+    bundleAnalyzerReport: process.env.npm_config_report,
+  },
+};
