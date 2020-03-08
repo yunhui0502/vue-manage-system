@@ -304,6 +304,7 @@ export default {
       this.specGoods.productSpecId = scope.row.id
       this.specGoods.specUnit = scope.row.specUnit
       this.specGoods.productId = this.bianrow.id
+      this.specGoods.categorySpecId = this.bianrow.categoryId
       api
         .update(this.specGoods)
         .then(res => {
