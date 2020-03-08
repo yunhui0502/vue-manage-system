@@ -124,9 +124,9 @@
 
           <el-table-column prop="id" label="商品编号" align="center"></el-table-column>
 
-          <el-table-column prop="goodsDesc" label="商品描述" align="center"></el-table-column>
+          <el-table-column prop="productDesc" label="商品描述" align="center"></el-table-column>
 
-          <el-table-column prop="createTime" label="创建时间" align="center"></el-table-column>
+          <el-table-column prop="modifyTime" label="创建时间" align="center"></el-table-column>
           <el-table-column fixed="right" label="操作" align="center">
             <template slot-scope="scope">
               <span
@@ -138,11 +138,11 @@
                 class="el"
                 @click="upFrame(scope.row)"
                 style="margin-left: 16px;margin-right: 16px;color:#FFCE26;cursor: pointer;"
-              >{{ scope.row.isDeleted==1?'下架':'上架'}}</span>
+              >{{ scope.row.isDeleted==0?'下架':'上架'}}</span>
               <span
                 class="el"
                 style="color:#FF318A;cursor: pointer;"
-                @click="deletesingle(index,scope.row)"
+                @click="deletesingle(scope.$index,scope.row)"
               >删除</span>
             </template>
           </el-table-column>
@@ -186,17 +186,15 @@ export default {
   },
   created () {
     this.getcoommo()
-    this.quGoods()
-    this.quGoods1()
-    this.quGoods2()
   },
   methods: {
-    // 获取物品列表
+    // 获取商品列表
     async getcoommo () {
       api
         .getProductList()
         .then(res => {
-          this.tableData = res.data.data
+          this.tableData = res.data.data.list
+          this.queryGoods = res.data.data.endRow
         })
         .catch(function (err) {
           console.log(err)
@@ -221,7 +219,8 @@ export default {
     },
     // 删除单个商品
     deletesingle: function (index, row) {
-      // console.log(row)
+      console.log(row)
+      console.log(index)
       this.$confirm('确认删除吗？', '提示', {}).then(async () => {
         api
           .deleteGood(row.id)
@@ -249,12 +248,12 @@ export default {
     upFrame (row) {
       console.log(row.frames)
       console.log(1111111)
-      if (row.isDeleted === 1) {
+      if (row.isDeleted === 0) {
         this.$http
-          .get('/api/api/product/goods/racking', {
+          .get('/api/api/product/product/racking', {
             params: {
-              frames: 0,
-              goodsId: row.id
+              frames: 3,
+              productId: row.id
             },
             paramsSerializer: params => {
               return qs.stringify(params, { indices: false })
@@ -273,10 +272,10 @@ export default {
           })
       } else {
         this.$http
-          .get('/api/api/product/goods/racking', {
+          .get('/api/api/product/product/racking', {
             params: {
-              frames: 1,
-              goodsId: row.id
+              frames: 0,
+              productId: row.id
             },
             paramsSerializer: params => {
               return qs.stringify(params, { indices: false })
@@ -298,9 +297,10 @@ export default {
     // 出售中
     qihuanchus () {
       this.qihuans = '1'
-      api.selectFrames(1)
+      api.selectFrames(0)
         .then(res => {
-          this.tableData = res.data.data
+          this.tableData = res.data.data.list
+          this.onOffer = res.data.data.endRow
         })
         .catch(error => {
           console.log(error)
@@ -310,9 +310,10 @@ export default {
     // 库存切换
     qihuankuch () {
       this.qihuans = '2'
-      api.selectFrames(0)
+      api.selectFrames(3)
         .then(res => {
-          this.tableData = res.data.data
+          this.tableData = res.data.data.list
+          this.StockQuantity = res.data.data.endRow
         })
         .catch(error => {
           this.$message(error + '失败')
@@ -328,29 +329,6 @@ export default {
       } else if (key === '3') {
         this.qihuankuch()
       }
-    },
-    // 获取物品总数
-    quGoods () {
-      api
-        .queryGoods()
-        .then(res => {
-          this.queryGoods = res.data.data
-        })
-        .catch(function (err) {
-          console.log(err)
-        })
-    },
-    // 获取物品库存总数
-    quGoods1 () {
-      api.selectQ(0).then(res => {
-        this.StockQuantity = res.data.data
-      })
-    },
-    // 获取出售中物品总数
-    quGoods2 () {
-      api.selectQ(1).then(res => {
-        this.onOffer = res.data.data
-      })
     },
     handleSizeChange (val) {
       // console.log(`每页 ${val} 条`)

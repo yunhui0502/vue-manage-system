@@ -20,14 +20,14 @@
               <el-input
                 v-model="loginForm.authKey"
                 placeholder="请输入手机号"
-                style="width:420px;margin-right:10px"
+                style="width:284px;margin-right:10px"
               ></el-input>
             </el-form-item>
-            <el-form-item prop="code">
+            <el-form-item style="width:300px; text-align:left;" prop="code">
               <el-input
                 v-model="loginForm.code"
                 placeholder="请输入验证码"
-                style="width:270px;margin-right:10px"
+                style="width:100px;margin-right:10px"
               ></el-input>
               <el-button @click="Sendlogin()">发送验证码</el-button>
             </el-form-item>
@@ -38,7 +38,7 @@
           </template>
 
             <el-form-item>
-              <el-button @click="login()" type="info" style="width:402px;">登 录</el-button>
+              <el-button @click="login()" type="info" style="width:284px;">登 录</el-button>
             </el-form-item>
           </el-form>
 
@@ -52,7 +52,7 @@
 </template>
 
 <script>
-// import store from '@/store'
+import store from '@/store'
 export default {
   data () {
     // 定义一个校验函数
@@ -68,9 +68,9 @@ export default {
       squareUrl: '',
       // 表单数据对象
       loginForm: {
-        authKey: '18830709007',
+        authKey: '18830709006',
         authType: '2',
-        passwd: '1234'
+        code: ''
       },
       // 表单校验规则对象
       loginRules: {
@@ -97,8 +97,14 @@ export default {
         if (valid) {
           try {
             // eslint-disable-next-line no-unused-vars
-            await this.$http.get(`/log/user/login?authKey=${this.loginForm.authKey}&authType=${this.loginForm.authType}&passwd=${this.loginForm.passwd}`)
-            this.$router.push('/')
+            await this.$http.get(`/api/api/user/user/login?authKey=${this.loginForm.authKey}&authType=${this.loginForm.authType}&passwd=${this.loginForm.code}`)
+              .then(res => {
+                if (res.data.data === '1') {
+                  let data = { token: 'a1b2c3d4e4fg' }
+                  store.setUser(data)
+                  this.$router.push('/')
+                }
+              })
           } catch (e) {
             // 进行错误提示即可
             this.$message.error('手机号或验证码错误1')
@@ -115,7 +121,9 @@ export default {
           console.log(valid)
           try {
             // eslint-disable-next-line no-unused-vars
-            await this.$http.get('/log/user/code?phone=' + this.loginForm.phone)
+            await this.$http.get('/api/api/user/user/code?phone=' + this.loginForm.authKey).then(res => {
+              this.loginForm.code = res.data.data
+            })
             // this.$router.push('/')
           } catch (e) {
             // 进行错误提示即可

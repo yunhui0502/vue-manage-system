@@ -85,19 +85,20 @@
           <el-table-column type="selection"></el-table-column>
           <el-table-column label="规格名称">
             <template slot-scope="scope">
-              <el-input placeholder="请输入内容" v-show="scope.row.show" v-model="scope.row.tab2"></el-input>
-              <span v-show="!scope.row.show">{{scope.row.tab2}}</span>
+              <el-input placeholder="请输入内容" v-show="!scope.row.show" v-model="scope.row.tab2"></el-input>
+              <!-- <span v-show="scope.row.show">{{scope.row.tab2}}</span> -->
             </template>
           </el-table-column>
           <el-table-column label="默认值">
             <template slot-scope="scope">
-              <el-input placeholder="请输入内容" v-show="scope.row.show" v-model="scope.row.tab3"></el-input>
-              <span v-show="!scope.row.show">{{scope.row.tab3}}</span>
+              <el-input placeholder="请输入内容" v-show="!scope.row.show" v-model="scope.row.tab3"></el-input>
+              <!-- <span v-show="scope.row.show">{{scope.row.tab3}}</span> -->
             </template>
           </el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
-              <el-button @click="scope.row.show =true">编辑</el-button>
+              <el-button size="mini"
+              @click="addGoodsSpecificationList()">添加一行</el-button>
               <el-button @click="save(scope)">添加</el-button>
             </template>
           </el-table-column>
@@ -155,31 +156,6 @@
           <el-button style="width:25%; margin-left: 5px;" type="primary" @click="submitForm">+新建物品</el-button>
           <!-- <el-button type="success" style="color: #fff;" @click="dialogTableVisible = true">添加物品规格值</el-button> -->
         </el-form-item>
-        <el-table :data="tabledatas1" border>
-          <el-table-column type="selection"></el-table-column>
-          <el-table-column label="规格名称">
-            <template slot-scope="scope">
-              <span v-show="!scope.row.show">{{scope.row.hfName}}</span>
-              <!-- <el-input placeholder="请输入内容" v-model="scope.row.hfName"></el-input> -->
-            </template>
-          </el-table-column>
-          <el-table-column label="规格类型">
-            <template slot-scope="scope">
-              <span v-show="!scope.row.show">{{scope.row.id}}</span>
-              <!-- <el-input placeholder="请输入内容" v-model="scope.row.hfName"></el-input> -->
-            </template>
-          </el-table-column>
-          <el-table-column label="规格值">
-            <template slot-scope="scope">
-              <el-input placeholder="请输入内容" v-model="scope.row.specValue"></el-input>
-            </template>
-          </el-table-column>
-          <el-table-column label="操作" width="180">
-            <template slot-scope="scope">
-              <el-button @click="additionSpec(scope)">添加</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
         <el-upload
           action="/api/api/product/goods/addPicture"
           :data="form1"
@@ -196,19 +172,23 @@
       </el-form>
       <!-- <el-button  id@click="dialogFormVisible = true" class="add-button">根据下方物品ID设置价格按钮</el-button> -->
 
-      <el-table :data="tabledatas" border>
+      <el-table :data="tabledata" border>
         <el-table-column type="selection"></el-table-column>
         <el-table-column label="ID">
           <template slot-scope="scope">
             <el-input placeholder="请输入内容" v-model="scope.row.id"></el-input>
-            <!-- <span v-show="!scope.row.show">{{scope.row}}</span> -->
+            <!-- <span v-show="!scope.row.show">{{scope.row.id}}</span> -->
           </template>
         </el-table-column>
-        <el-table-column label="物品名称">
-          <template slot-scope="scope">
-            <el-input placeholder="请输入内容" v-model="scope.row.goodName"></el-input>
-            <!-- <span v-show="!show">{{scope.row.goodName}}</span> -->
-          </template>
+        <el-table-column v-for="(item,i) in cols" :key="i" :prop="item.prop" :label="item.label">
+          <el-table-column v-if="conceal!==1" :render-header="renderHeader">
+            <template slot-scope="scope">
+              <input value @input="inputEvent($event)" @blur="Article(value,scope)" ref="abc" />
+              <!-- <el-input placeholder="请输入内容" @blur="Article(scope)"
+              v-model="itemRadio[i]">23123</el-input>-->
+              <!-- <span v-show="!show" @click="ces(scope)">23123</span> -->
+            </template>
+          </el-table-column>
         </el-table-column>
         <el-table-column label="价格">
           <template slot-scope="scope">
@@ -230,6 +210,14 @@
         </el-table-column>
         <el-table-column label="操作" width="180">
           <template slot-scope="scope">
+            <el-button
+              v-model="handleAdd"
+              type="text"
+              circle
+              plain
+              icon="el-icon-plus"
+              @click="handleAdd()"
+            >添加一行</el-button>
             <!-- <el-button @click="show =true">编辑</el-button> -->
             <el-button type="text" style="color: rgb(24, 211, 71);" @click="submitPrice(scope)">提交</el-button>
             <!-- <el-button type="text" @click="particulars(scope)">详情</el-button> -->
@@ -237,53 +225,6 @@
           </template>
         </el-table-column>
       </el-table>
-      <!-- 弹窗 -->
-      <el-dialog title="物品详情" :visible.sync="dialogTableVisible">
-        <div style="margin-bottom: 10px">
-          <span>物品描述:</span>
-          <span style="margin-left: 8px;">{{goodsDesc}}</span>
-        </div>
-        <div>规格列表</div>
-        <!-- <el-table :data="tabledatas1" border>
-          <el-table-column type="selection"></el-table-column>
-          <el-table-column label="商品规格ID">
-            <template slot-scope="scope">
-              <span v-show="!scope.row.show">{{scope.row.id}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="规格名称">
-            <template slot-scope="scope">
-              <span v-show="!scope.row.show">{{scope.row.hfName}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="规格值">
-            <template slot-scope="scope">
-              <el-input placeholder="请输入内容" v-model="scope.row.specValue"></el-input>
-            </template>
-          </el-table-column>
-          <el-table-column label="操作" width="180">
-            <template slot-scope="scope">
-              <el-button @click="additionSpec(scope)">添加</el-button>
-            </template>
-          </el-table-column>
-        </el-table>-->
-        <div class="reduceForm">
-          <!-- 上传图片 -->
-          <!-- <el-upload
-            action="/api/api/product/product/addProductPictrue"
-            :data="form1"
-            name="fileInfo"
-            list-type="picture-card"
-            :on-preview="handlePictureCardPreview"
-            :on-remove="handleRemove"
-          >
-            <i class="el-icon-plus"></i>
-          </el-upload>
-          <el-dialog :visible.sync="dialogVisible">
-            <img width="100%" :src="dialogImageUrl" alt />
-          </el-dialog>-->
-        </div>
-      </el-dialog>
     </el-card>
     <div class="button">
       <!-- <el-button @click="submitForm" type="primary">保存</el-button> -->
@@ -297,9 +238,18 @@ import api from '@/api/commodity_api.js'
 export default {
   data () {
     return {
+      // 添加物品规格 展示数据
+      tabledata: [
+        {
+          createTime: '',
+          hfName: '',
+          modifyTime: '',
+          specType: '',
+          specValue: ''
+        }
+      ],
+      conceal: '1',
       judgment: '0',
-      goodsDesc: '', // 弹窗里的物品描述
-      dialogTableVisible: false,
       fileList: [],
       tianjiayanse: '', // 添加颜色
       tianjiachicun: '', // 添加尺寸
@@ -337,6 +287,7 @@ export default {
       leiMu: {},
       // 添加商品
       ruleForm: {
+        bossId: '1',
         freight: '',
         categoryId1: '', // 商品所属的类目双向绑定的*
         yunfen: '',
@@ -366,7 +317,7 @@ export default {
       // 添加物品规格值
       specGoods: {
         productSpecId: '',
-        goodsId: '55',
+        goodsId: '43',
         requestId: '111',
         specValue: '',
         timestamp: '111',
@@ -397,7 +348,7 @@ export default {
         quantity: '', // 物品数量
         respDesc: '111', // 库存描述
         // bossId: '1',
-        hfGoodsId: '', // 物品ID
+        hfGoodsId: '43', // 物品ID
         sellPrice: '', // 物品价格
         // productSpecId: '', // 商品规格ID
         requestId: '111', // 发起请求的随机数, 用来判断请求是否重复
@@ -430,10 +381,13 @@ export default {
       },
 
       tabledatas: [],
-      tabledatas1: [],
-      // show: false,
+      // 添加规格名称
+      cols: [
+        // { prop: 'date', label: '日期' }
+        // { prop: 'name', label: '姓名' }
+      ],
+      show: false,
       // 表单数据
-      tableData: [],
       // 顶部表单验证
       rules: {
         hfName: [
@@ -445,10 +399,12 @@ export default {
   },
   created () {
     this.getcategory()
-    this.getcoommo()
     this.verifier1()
     this.scope()
-    let lists = [{ tab1: '1', tab2: '颜色', tab3: '红色' }, { tab1: '1', tab2: '大小', tab3: '12寸' }]
+    this.test()
+    let lists = [
+      { tab1: '1', tab2: '颜色', tab3: '红色' }
+    ]
     lists.forEach(element => {
       element['show'] = false
     })
@@ -484,26 +440,9 @@ export default {
     submitPrice (scope) {
       this.specificationForm.quantity = scope.row.quantity
       this.specificationForm.sellPrice = scope.row.sellPrice
-      this.specificationForm.hfGoodsId = scope.row.id
       this.specificationForm.linePrice = scope.row.linePrice
       api
         .setPrice(this.specificationForm)
-        .then(res => {
-          this.getcoommo()
-        })
-        .catch(function (error) {
-          // handle error
-          console.log(error)
-        })
-    },
-    // 添加物品规格值
-    additionSpec (scope) {
-      console.log(scope)
-      // this.specGoods.goodsId = scope.row.id
-      this.specGoods.specValue = scope.row.specValue
-      this.specGoods.productSpecId = scope.row.id
-      api
-        .additionSpecs(this.specGoods)
         .then(res => {
           this.getcoommo()
         })
@@ -528,13 +467,17 @@ export default {
       api
         .addSpecify(this.specification)
         .then(res => {
-          scope.row.tab3 = ''
-          scope.row.tab2 = ''
           api.specifies(this.specification.productId).then(res => {
             console.log('获取规格ID', res)
-            this.tabledatas1 = res.data.data
-            // this.specGoods.productSpecId = res.data.data[0].id
-            // this.specGoods.productSpecId = res.data.data[0].productId
+            this.tabledatas = res.data.data
+            console.log(res)
+            for (var i = 0; i < res.data.data.length; i++) {
+              this.cols.push({
+                prop: 'specValue' + i,
+                label: res.data.data[i].hfName
+              })
+              console.log(this.tabledatas)
+            }
             console.log(this.specGoods.goodsId)
           })
         })
@@ -542,7 +485,73 @@ export default {
           console.log(error)
         })
     },
+    // 输入事件
+    inputEvent: function (e) {
+      console.log(e.target.value) // 实时获取输入值
+      this.specGoods.specValue = e.target.value
+      // console.log(index)// 获取点击输入框的索引
+    },
 
+    // 添加物品规格值
+    Article (value, scope) {
+      console.log(scope)
+      // console.log(scope.column.test)
+      // console.log('内容', this.$refs.abc[0].value)
+      // console.log('内容2', value)
+      console.log('2', this.tabledatas[scope.column.test].id)
+      this.specGoods.productSpecId = this.tabledatas[scope.column.test].id
+      api
+        .additionSpecs(this.specGoods)
+        .then(res => {
+          this.getcoommo()
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error)
+        })
+    },
+    renderHeader (h, { column, $index }) {
+      column.test = $index
+      console.log('h', this.cols)
+      console.log(column) // 这里打印下就知道新增属性成功
+      // return (
+      //   <span>竞猜对象信息</span>
+      // )
+    },
+    // 添加一行物品规格值
+    handleAdd () {
+      let row = {
+        createTime: '',
+        hfName: '',
+        modifyTime: '',
+        specType: '',
+        specValue: ''
+      }
+      this.tabledata.push(row)
+    },
+    // 添加一行商品规格
+    addGoodsSpecificationList () {
+      let row = { tab1: '', tab2: '', tab3: '' }
+      this.commoditytable.push(row)
+    },
+    // 测试 goodName
+    test () {
+      // this.$http
+      //   .get(
+      //     'https://www.tjsichuang.cn:1443/api/product/product/specifies?productId=83'
+      //   )
+      //   .then(res => {
+      //     this.tabledatas = res.data.data
+      //     console.log(res)
+      //     for (var i = 0; i < res.data.data.length; i++) {
+      //       this.cols.push({
+      //         prop: 'specValue' + i,
+      //         label: res.data.data[i].hfName
+      //       })
+      //       console.log(this.tabledatas)
+      //     }
+      //   })
+    },
     loseFcous (index, row) {
       debugger
       row.seen = false
@@ -637,11 +646,11 @@ export default {
       }
     },
     scope (scope) {
-      console.log(scope)
+      // console.log(scope)
     },
     change (label) {
-      console.log(label)
-      console.log(11111111)
+      // console.log(label)
+      // console.log(11111111)
       this.ruleForm1.claim = this.radiol
     },
     // 获取核销员
@@ -652,18 +661,6 @@ export default {
           console.log(res)
           this.verifier = res.data.data.list
           console.log(this.verifier)
-        })
-        .catch(function (err) {
-          console.log(err)
-        })
-    },
-    // 获取物品列表
-    async getcoommo () {
-      api
-        .getProductList(1)
-        .then(res => {
-          this.tabledatas = res.data.data
-          console.log(this.tabledatas)
         })
         .catch(function (err) {
           console.log(err)
@@ -815,6 +812,8 @@ export default {
               // this.$router.push({ name: 'commodity' })
               this.specGoods.goodsId = res.data.data
               this.form1.goodsId = res.data.data
+              // 添加价格需要保存ID
+              this.specificationForm.hfGoodsId = res.data.data
               console.log(res.data.data)
               this.getcoommo()
               this.$message({
