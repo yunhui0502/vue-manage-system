@@ -27,6 +27,11 @@ const router = new VueRouter({
           name: 'hf-product',
           component: (resolve) => require(['@/components/pages/hf-product'], resolve),
         },
+        {
+          path: '/hf-product/detail',
+          name: 'hf-product-detail',
+          component: (resolve) => require(['@/components/pages/hf-product/detail'], resolve),
+        },
       ],
     },
     {
