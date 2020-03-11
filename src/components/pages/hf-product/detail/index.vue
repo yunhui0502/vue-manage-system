@@ -11,8 +11,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="活动区域">
-              <el-select v-model="productInfo.region" placeholder="活动区域">
+            <el-form-item label="所属类目">
+              <el-select v-model="productInfo.catagety" placeholder="活动区域">
                 <el-option label="区域一" value="shanghai"></el-option>
                 <el-option label="区域二" value="beijing"></el-option>
               </el-select>
@@ -23,7 +23,7 @@
               <el-input v-model="productInfo.user" placeholder="所属类目"></el-input>
             </el-form-item>
           </el-col>
-          <el-button type="primary" @click="onProductSubmit">更新</el-button>
+          <el-button type="primary" @click="onProductSubmit">{{isCreate ? '添加商品' : '更新商品'}}</el-button>
           <el-button label="ltr" @click="drawer = true">查看更多</el-button>
         </el-row>
       </el-form>
@@ -61,6 +61,8 @@
 import GoodsList from '../goods/list';
 import ListPicture from '../list-picture';
 import ListSpecification from '../list-specification';
+import serviceProduct from '@/service/product.js';
+
 export default {
   components: {
     GoodsList,
@@ -69,7 +71,9 @@ export default {
   },
   data() {
     return {
+      loading: false,
       drawer: false,
+      isCreate: false,
       direction: 'rtl',
       productInfo: {
         user: '',
@@ -79,9 +83,30 @@ export default {
       },
     };
   },
+  created() {
+    console.log(this.$route.query);
+    let query = this.$route.query;
+    if (typeof query.productId === 'undefined') {
+      this.isCreate = true;
+    }
+    // 加载类目
+    this.getCatagery();
+  },
   methods: {
+    getCatagery() {
+      this.loading = true;
+      serviceProduct.getCatagery((res) => {
+        this.catagetys = res.data.data;
+        this.loading = false;
+      });
+    },
     onProductSubmit() {
-      console.log('submit!');
+      // 添加商品
+      this.loading = true;
+      serviceProduct.ceateProduct(this.productInfo, (res) => {
+        this.tableData = res.data.data;
+        this.loading = false;
+      });
     },
     handleClose(done) {
       this.$confirm('确认关闭？')
