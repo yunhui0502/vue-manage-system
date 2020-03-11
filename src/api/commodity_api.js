@@ -83,11 +83,11 @@ function updategoods (params, categoryiD) {
   fd.append('categoryId', categoryiD);
   fd.append('id', params.id);
   fd.append('hfName', params.productName);
-  fd.append('requestId', 12123);
+  fd.append('requestId', '12123');
   fd.append('lastModifier', params.lastModifier);
   // fd.append('timestamp', params.timestamp)
   fd.append('productDesc', params.productDesc);
-  fd.append('token', 23);
+  fd.append('token', '23');
   fd.append('userId', 1);
   return Axios.post('/api/api/product/product/updateProductId', fd, { responseType: 'arraybuffer' });
 }

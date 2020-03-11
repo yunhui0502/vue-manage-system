@@ -16,7 +16,7 @@
         <el-table-column prop="id" label="序号" width="50" align="center"></el-table-column>
         <el-table-column prop="hfName" label="商品名称"></el-table-column>
         <el-table-column prop="productDesc" label="商品描述"></el-table-column>
-        <el-table-column prop="categoryId" label="所属类目"></el-table-column>
+        <el-table-column prop="categoryName" label="所属类目名称"></el-table-column>
         <el-table-column prop="createTime" label="创建时间" width="150"></el-table-column>
         <el-table-column prop="modifyTime" label="更新时间" width="150"></el-table-column>
         <el-table-column prop="lastModifier" label="最近一次操作人" width="150"></el-table-column>
@@ -59,10 +59,11 @@ export default {
     setProducts() {
       this.loading = true;
       serviceProduct.getProductsByBossId((res) => {
-        this.tableData = res.data.data;
+        this.tableData = res.data.data.list;
         this.loading = false;
       });
     },
+
     handleCreate(e) {
       this.$router.push({
         path: '/hf-product/detail',
