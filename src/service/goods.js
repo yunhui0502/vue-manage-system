@@ -8,8 +8,17 @@ async function getGoodsByProductId(productId, handleResult) {
 async function getFileFileId(fileId, handleResult) {
   goods.getFileFileId(fileId).then((res) => handleResult(res));
 }
-
+// 添加物品
+async function addProduct(fileId, handleResult) {
+  goods.addProduct(fileId).then((res) => handleResult(res));
+}
+// 添加物品规格值
+async function additionSpecs(fileId, handleResult) {
+  goods.additionSpecs(fileId).then((res) => handleResult(res));
+}
 export default {
   getGoodsByProductId: getGoodsByProductId,
   getFileFileId: getFileFileId,
+  addProduct: addProduct,
+  additionSpecs: additionSpecs,
 };

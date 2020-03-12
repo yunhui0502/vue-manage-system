@@ -95,10 +95,8 @@ function updategoods (params, categoryiD) {
 function addProduct (params) {
   let fd = new FormData();
   fd.append('productId', params.productId);
-  // fd.append('categoryId', params.categoryId)
   fd.append('cancelId', params.cancelId);
   fd.append('claim', params.claim);
-  // fd.append('member', params.member)
   fd.append('frames', params.frames);
   fd.append('goodName', params.goodName);
   fd.append('goodsDesc', params.goodsDesc);
@@ -106,7 +104,6 @@ function addProduct (params) {
   fd.append('token', params.token);
   fd.append('fileInfo1', params.fileInfo1);
   fd.append('userId', params.userId);
-  // fd.append('specValue', params.specValue)
   return Axios.post('/api/api/product/goods/create', fd);
 }
 // 添加商品

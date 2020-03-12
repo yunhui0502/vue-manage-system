@@ -37,6 +37,18 @@ function selectProductPictures(productId) {
 function specifies(productId) {
   return Axios.get('/api/api/product/product/specifies?productId=' + productId);
 }
+// 添加商品规格
+function addSpecify (params) {
+  let fd = new FormData();
+  fd.append('hfName', params.hfName);
+  fd.append('requestId ', params.requestId);
+  fd.append('timestamp', params.timestamp);
+  fd.append('productId', params.productId);
+  fd.append('token', params.token);
+  fd.append('userId', params.userId);
+  fd.append('specValue', params.specValue);
+  return Axios.post('/api/api/product/product/addSpecify', fd);
+}
 
 export default {
   getProductsByBossId: getProductsByBossId,
@@ -44,4 +56,5 @@ export default {
   getCatagery: getCatagery,
   selectProductPictures: selectProductPictures,
   specifies: specifies,
+  addSpecify: addSpecify,
 };

@@ -27,7 +27,10 @@ async function selectProductPictures(productId, handleResult) {
 async function specifies(productId, handleResult) {
   product.specifies(productId).then((res) => handleResult(res));
 }
-
+//  添加商品规格
+async function addSpecify(productId, handleResult) {
+  product.addSpecify(productId).then((res) => handleResult(res));
+}
 export default {
   getProductsByBossId: getProductsByBossId,
   deleteById: deleteById,
@@ -35,4 +38,5 @@ export default {
   getCatagery: getCatagery,
   selectProductPictures: selectProductPictures,
   specifies: specifies,
+  addSpecify: addSpecify,
 };

@@ -428,10 +428,8 @@ export default {
               message: '删除成功',
               type: 'success',
             });
-          })
-          ['catch']((err) => {
-            console.log(err);
           });
+
       });
     },
 
@@ -447,10 +445,6 @@ export default {
             message: '价格提交成功',
             type: 'success',
           });
-        })
-        ['catch'](function (error) {
-          // handle error
-          console.log(error);
         });
     },
     // 添加商品规格
@@ -482,14 +476,10 @@ export default {
                 prop: 'specValue' + i,
                 label: res.data.data[i].hfName,
               });
-              console.log(this.tabledatas);
             }
-            console.log(this.specGoods.goodsId);
           });
-        })
-        ['catch'](function (error) {
-          console.log(error);
         });
+
     },
     // 输入事件
     inputEvent: function (e) {
@@ -509,11 +499,9 @@ export default {
       api
         .additionSpecs(this.specGoods)
         .then((res) => {
-        })
-        ['catch'](function (error) {
-          // handle error
-          console.log(error);
+          console.log(res);
         });
+
     },
     renderHeader (h, { column, $index }) {
       column.test = $index;
@@ -558,11 +546,10 @@ export default {
       //   })
     },
     loseFcous (index, row) {
-      debugger;
+
       row.seen = false;
     },
     cellClick (row, column) {
-      debugger;
       row.seen = true;
     },
 
@@ -610,10 +597,8 @@ export default {
               type: 'success',
             });
             this.judgment = '1';
-          })
-          ['catch']((err) => {
-            console.log(err);
           });
+
       });
     },
     clickdelete2 () {
