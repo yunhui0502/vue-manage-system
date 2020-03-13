@@ -31,17 +31,10 @@
               ></el-input>
               <el-button @click="Sendlogin()">发送验证码</el-button>
             </el-form-item>
-
-          <template>
-            <el-radio style="float: left;" v-model="radio" label="1">记住密码</el-radio>
-            <el-link style="float: right;" type="danger">忘记密码</el-link>
-          </template>
-
             <el-form-item>
               <el-button @click="login()" type="info" style="width:284px;">登 录</el-button>
             </el-form-item>
           </el-form>
-
         </div>
         <div class="div-img">
            <router-link to='/code'><img src="~@/assets/images/ico.png" alt=""></router-link>
@@ -97,8 +90,10 @@ export default {
         if (valid) {
           try {
             // eslint-disable-next-line no-unused-vars
+						// hf-auth/login /user/login
             await this.$http.get(`/api/api/user/user/login?authKey=${this.loginForm.authKey}&authType=${this.loginForm.authType}&passwd=${this.loginForm.code}`)
               .then((res) => {
+								console.log(res);
                 if (res.data.data === '1') {
                   let data = { token: 'a1b2c3d4e4fg' };
                   store.setUser(data);
@@ -107,7 +102,7 @@ export default {
               });
           } catch (e) {
             // 进行错误提示即可
-            this.$message.error('手机号或验证码错误1');
+            this.$message.error('手机号或验证码错误');
           }
         }
       });
