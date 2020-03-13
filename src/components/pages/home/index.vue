@@ -23,6 +23,10 @@
             <i class="iconfont icon-tongji"></i>
             <span slot="title">商品管理</span>
           </el-menu-item>
+					<el-menu-item index="/hf-userCenter">
+					  <i class="el-icon-user"></i>
+					  <span slot="title">用户中心</span>
+					</el-menu-item>
           <el-menu-item index="/set">
             <i class="iconfont icon-set"></i>
             <span slot="title">设置</span>
