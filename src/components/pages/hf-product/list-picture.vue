@@ -37,6 +37,12 @@ import servicegoods from '@/service/goods.js';
 import axios from 'axios';
 // import { mapGetters } from 'vuex';
 export default {
+  props: {
+    value: {
+      type: Number,
+      default: 0,
+    },
+  },
   data() {
     return {
       files: [],
@@ -70,23 +76,21 @@ export default {
     async handlePush() {
       this.$refs.upload.submit(); // 这里是执行文件上传的函数，其实也就是获取我们要上传的文件
       let fd = new FormData();
-      // fd.append('operator', this.username);
-      fd.append('reimment', '倪楚楚');
-      fd.append('deptname', '技术部');
-      // fd.append('taxno', this.taxno);
+      fd.append('productId', this.productId);
+      // fd.append('fileInfo', this.files);
       this.files.forEach(function(file) {
-        fd.append('file', file, file.name); // 因为要上传多个文件，所以需要遍历一下才行
+        console.log(file);
+        fd.append('fileInfo', file, file.name); // 因为要上传多个文件，所以需要遍历一下才行
         // 不要直接使用我们的文件数组进行上传，你会发现传给后台的是两个Object
       });
-      console.log(fd);
-      console.log(this.$refs);
-      // axios
-      //   .post(process.env.BASE_API + '/file/moreFileUpload', fd)
-      //   .then((res) => {
-      //     if (res.data.status === 'OK') {
-      //       console.log(res);
-      //     }
-      //   });
+      console.log(this.files);
+      axios
+        .post('https://www.tjsichuang.cn:1443/api/product//product/addProductPictrue', fd)
+        .then((res) => {
+          if (res.data.status === 'OK') {
+            console.log(res);
+          }
+        });
     },
   },
 };

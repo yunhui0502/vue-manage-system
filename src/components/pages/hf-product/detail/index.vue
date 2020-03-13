@@ -47,20 +47,20 @@
             type="primary"
           >添加物品</el-button>
         </div>
-        <GoodsList></GoodsList>
+        <GoodsList :value="value"></GoodsList>
       </el-col>
       <el-col :span="8">
         <div class="grid-content bg-purple-light">属性设置</div>
         <el-container class="t-10 radius-4">
           <el-header class="font-neue t-10">图片管理</el-header>
           <el-main>
-            <list-picture></list-picture>
+            <list-picture :value="value"></list-picture>
           </el-main>
         </el-container>
         <el-container class="t-10 radius-4">
           <el-header class="font-neue t-10">规格管理</el-header>
           <el-main>
-            <list-specification :value="value"></list-specification>
+            <list-specification :goosID='goosID' :value="value"></list-specification>
           </el-main>
         </el-container>
       </el-col>
@@ -126,7 +126,8 @@ export default {
   },
   data() {
     return {
-      value: '',
+      value: 0,
+      goosID: 0,
       title: '添加商品', // Drawer 抽屉标题头
       loading: false,
       drawer: false,
@@ -197,7 +198,8 @@ export default {
       // 添加物品
       serviceGoods.addProduct(this.ruleForm1, (res) => {
         console.log(res);
-        // 添加物品规格值
+        this.goosID = res.data.data.id;
+        // 添加物品规格值  goosID
         // this.specGoods.goodsId = res.data.data;
         // 添加价格需要保存ID
         // this.specificationForm.hfGoodsId = res.data.data;

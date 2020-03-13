@@ -6,13 +6,11 @@
       <el-table-column label="规格名称">
         <template slot-scope="scope">
           <el-input placeholder="请输入内容" v-show="!scope.row.show" v-model="scope.row.tab2"></el-input>
-          <!-- <span v-show="scope.row.show">{{scope.row.tab2}}</span> -->
         </template>
       </el-table-column>
       <el-table-column label="默认值">
         <template slot-scope="scope">
           <el-input placeholder="请输入内容" v-show="!scope.row.show" v-model="scope.row.tab3"></el-input>
-          <!-- <span v-show="scope.row.show">{{scope.row.tab3}}</span> -->
         </template>
       </el-table-column>
       <el-table-column label="操作">
@@ -28,16 +26,12 @@
         <el-table-column label="ID">
           <template slot-scope="scope">
             <el-input placeholder="请输入内容" v-model="scope.row.id"></el-input>
-            <!-- <span v-show="!scope.row.show">{{scope.row.id}}</span> -->
           </template>
         </el-table-column>
         <el-table-column v-for="(item,i) in cols" :key="i" :prop="item.prop" :label="item.label">
           <el-table-column v-if="conceal!==1" :render-header="renderHeader">
             <template slot-scope="scope">
               <input value @input="inputEvent($event)" @blur="Article(value,scope)" ref="abc" />
-              <!-- <el-input placeholder="请输入内容" @blur="Article(scope)"
-              v-model="itemRadio[i]">23123</el-input>-->
-              <!-- <span v-show="!show" @click="ces(scope)">23123</span> -->
             </template>
           </el-table-column>
         </el-table-column>
@@ -84,7 +78,6 @@
         </template>
       </el-table-column>
     </el-table>-->
-    <div>ss{{value}}ss</div>
   </div>
 </template>
 
@@ -92,7 +85,17 @@
 import serviceProduct from '@/service/product.js';
 import serviceGoods from '@/service/goods.js';
 export default {
-  props: ['value'],
+  name: 'listSpecification',
+  props: {
+    value: {
+      type: Number,
+      default: 0,
+    },
+    goosID: {
+      type: Number,
+      default: 0,
+    },
+  },
   data() {
     return {
       specificationData: [],
@@ -108,6 +111,16 @@ export default {
       ],
       // 添加物品规格获取数据
       tabledatas: [],
+      // 添加物品规格值
+      specGoods: {
+        productSpecId: '',
+        goodsId: '43',
+        requestId: '111',
+        specValue: '',
+        timestamp: '111',
+        token: '11',
+        userId: '11',
+      },
       productId: '',
       commoditytable: [{ tab1: '1', tab2: '颜色', tab3: '红色' }],
       // 添加规格名称
@@ -118,7 +131,7 @@ export default {
       // 添加商品规格
       specification: {
         specValue: '', // 默认值
-        productId: this.value,
+        productId: '',
         hfName: '', // 规格名称
         requestId: '',
         timestamp: '',
@@ -128,25 +141,15 @@ export default {
     };
   },
   created() {
-    this.getspecification();
+    // this.getspecification();
   },
-  // computed: {
-  watch: {
-    value: (n, o) => {// 箭头函数  不然会发生this改变
-      console.log(n);
-      this.productId = n;
-      this.specification.productId = n;
-      // this.imgs = n.img;
-    },
-  },
-  // },
+
   methods: {
     getspecification() {
-      // serviceProduct.specifies(this.productId, (res) => {
-      //   console.log(res);
-      //   this.specificationData = res.data.data;
-      // });
-      console.log('id', this.productId);
+      serviceProduct.specifies(this.productId, (res) => {
+        console.log(res);
+        this.specificationData = res.data.data;
+      });
     },
     // 添加一行商品规格
     addGoodsSpecificationList() {
@@ -155,21 +158,21 @@ export default {
     },
     // 添加一行物品规格值
     handleAdd () {
-      // let row = {
-      //   createTime: '',
-      //   hfName: '',
-      //   modifyTime: '',
-      //   specType: '',
-      //   specValue: '',
-      // };
-      // this.tabledata.push(row);
-      console.log('id', this.productId);
+      let row = {
+        createTime: '',
+        hfName: '',
+        modifyTime: '',
+        specType: '',
+        specValue: '',
+      };
+      this.tabledata.push(row);
     },
     // 添加商品规格
     save(scope) {
       scope.row.show = false;
       this.specification.hfName = scope.row.tab2;
       this.specification.specValue = scope.row.tab3;
+      this.specification.productId = this.value;
       serviceProduct.addSpecify(this.specification, () => {
         this.$message({
           message: '添加商品规格成功',
@@ -195,10 +198,11 @@ export default {
       // console.log(index)// 获取点击输入框的索引
     },
 
-    // 添加物品规格值
+    // 添加物品规格值 goosID
     Article(value, scope) {
       console.log(scope);
       console.log('2', this.tabledatas[scope.column.test].id);
+      this.specGoods.goodsId = this.goosID;
       this.specGoods.productSpecId = this.tabledatas[scope.column.test].id;
       serviceGoods.additionSpecs(this.specGoods, (res) => {
         console.log(res);

@@ -16,9 +16,14 @@ async function addProduct(fileId, handleResult) {
 async function additionSpecs(fileId, handleResult) {
   goods.additionSpecs(fileId).then((res) => handleResult(res));
 }
+// 删除物品
+async function deleteById(fileId, handleResult) {
+  goods.deleteById(fileId).then((res) => handleResult(res));
+}
 export default {
   getGoodsByProductId: getGoodsByProductId,
   getFileFileId: getFileFileId,
   addProduct: addProduct,
   additionSpecs: additionSpecs,
+  deleteById: deleteById,
 };

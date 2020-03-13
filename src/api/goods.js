@@ -10,6 +10,11 @@ function getFileFileId(fileId) {
   return Axios.get('/api/api/product/goods/getFile?fileId=' + fileId);
 }
 
+// 删除物品
+function deleteById(goodsId) {
+  return Axios.get('/api/api/product/goods/deleteGoods?goodsId=' + goodsId);
+}
+
 // 添加物品
 function addProduct(params) {
   let fd = new FormData();
@@ -42,4 +47,5 @@ export default {
   getFileFileId: getFileFileId,
   addProduct: addProduct,
   additionSpecs: additionSpecs,
+  deleteById: deleteById,
 };

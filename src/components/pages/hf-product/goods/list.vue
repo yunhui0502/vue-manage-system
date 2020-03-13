@@ -45,13 +45,19 @@
 import serviceGoods from '@/service/goods.js';
 
 export default {
+  props: {
+    value: {
+      type: Number,
+      default: 1,
+    },
+  },
   data() {
     return {
       loading: false,
       totalSize: 0,
       currpage: 1,
       tableData: [],
-      productId: 1,
+      productId: 0,
       drawer: false, // 抽屉组件开关
       direction: 'ttb', // 控制抽屉弹出位置
     };
@@ -62,6 +68,8 @@ export default {
   methods: {
     setProducts() {
       this.loading = true;
+      this.productId = this.value;
+      console.log(this.value);
       serviceGoods.getGoodsByProductId(this.productId, (res) => {
         this.tableData = res.data.data;
         this.loading = false;
@@ -77,8 +85,9 @@ export default {
       this.drawer = true;
     },
     deleteProduct(row) {
+      console.log(row.goodsId);
       this.$confirm('确认删除吗？', '提示', {}).then(async () => {
-        serviceGoods.deleteById(row.id, (res) => {
+        serviceGoods.deleteById(row.goodsId, (res) => {
           this.setProducts();
         });
       });
