@@ -57,18 +57,18 @@ export default {
       totalSize: 0,
       currpage: 1,
       tableData: [],
-      productId: 0,
+      productId: 1,
       drawer: false, // 抽屉组件开关
       direction: 'ttb', // 控制抽屉弹出位置
     };
   },
   created() {
+    console.log(this.props);
     this.setProducts();
   },
   methods: {
     setProducts() {
       this.loading = true;
-      this.productId = this.value;
       console.log(this.value);
       serviceGoods.getGoodsByProductId(this.productId, (res) => {
         this.tableData = res.data.data;

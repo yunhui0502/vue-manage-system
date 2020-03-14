@@ -22,11 +22,11 @@ const router = new VueRouter({
       path: '/',
       component: (resolve) => require(['@/components/pages/home'], resolve),
       children: [
-				{
-				  path: '/hf-userCenter',
-				  name: 'hf-userCenter',
-				  component: (resolve) => require(['@/components/pages/hf-userCenter'], resolve),
-				},
+        {
+          path: '/hf-userCenter',
+          name: 'hf-userCenter',
+          component: (resolve) => require(['@/components/pages/hf-userCenter'], resolve),
+        },
         {
           path: '/hf-product',
           name: 'hf-product',
