@@ -20,10 +20,26 @@ async function additionSpecs(fileId, handleResult) {
 async function deleteById(fileId, handleResult) {
   goods.deleteById(fileId).then((res) => handleResult(res));
 }
+// 物品详情信息
+async function selectProductGoods(goodsId, productId, handleResult) {
+  goods.selectProductGoods(goodsId, productId).then((res) => handleResult(res));
+}
+
+// 物品详情信息
+async function updateGood(goodsId, handleResult) {
+  goods.updateGood(goodsId).then((res) => handleResult(res));
+}
+// 设置物品价格
+async function setPrice(goodsId, handleResult) {
+  goods.setPrice(goodsId).then((res) => handleResult(res));
+}
 export default {
   getGoodsByProductId: getGoodsByProductId,
   getFileFileId: getFileFileId,
   addProduct: addProduct,
   additionSpecs: additionSpecs,
   deleteById: deleteById,
+  selectProductGoods: selectProductGoods,
+  updateGood: updateGood,
+  setPrice: setPrice,
 };

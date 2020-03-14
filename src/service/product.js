@@ -31,6 +31,18 @@ async function specifies(productId, handleResult) {
 async function addSpecify(productId, handleResult) {
   product.addSpecify(productId).then((res) => handleResult(res));
 }
+//  添加商品规格
+async function deleteProduct(productId, handleResult) {
+  product.deleteProduct(productId).then((res) => handleResult(res));
+}
+//  更新商品接口
+async function updateProduct(productId, handleResult) {
+  product.updateProduct(productId).then((res) => handleResult(res));
+}
+// 通过商品ID获取当前商品
+async function getDetail(productId, handleResult) {
+  product.getDetail(productId).then((res) => handleResult(res));
+}
 export default {
   getProductsByBossId: getProductsByBossId,
   deleteById: deleteById,
@@ -39,4 +51,7 @@ export default {
   selectProductPictures: selectProductPictures,
   specifies: specifies,
   addSpecify: addSpecify,
+  updateProduct: updateProduct,
+  deleteProduct: deleteProduct,
+  getDetail: getDetail,
 };

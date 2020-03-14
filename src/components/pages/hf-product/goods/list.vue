@@ -1,5 +1,7 @@
 <template>
   <div>
+    <el-button class="" @click="refresh" type="success" round>刷新</el-button>
+    <!-- <el-button  type="success" round>{{commodityId}}</el-button> -->
     <el-table
       :data="tableData"
       v-loading="loading"
@@ -34,8 +36,42 @@
       :direction="direction"
       :visible.sync="drawer"
       :before-close="handleClose"
+      size="50%"
     >
-      <span>我来啦!</span>
+      <el-table
+        :data="details"
+        v-loading="loading"
+        border
+        highlight-current-row
+        ref="multipleTable"
+      >
+        <el-table-column prop="goodsId" label="序号" width="50" align="center"></el-table-column>
+        <el-table-column prop="goodsName" label="物品名称">
+          <template slot-scope="scope">
+            <el-input placeholder="请输入内容" v-model="scope.row.goodsName"></el-input>
+          </template>
+        </el-table-column>
+        <el-table-column prop="goodsDesc" label="物品描述">
+          <template slot-scope="scope">
+            <el-input placeholder="请输入内容" v-model="scope.row.goodsDesc"></el-input>
+          </template>
+        </el-table-column>
+        <el-table-column prop="brandName" label="生产厂家">
+          <template slot-scope="scope">
+            <el-input placeholder="请输入内容" v-model="scope.row.brandName"></el-input>
+          </template>
+        </el-table-column>
+        <el-table-column prop="sellPrice" label="售卖价格">
+          <template slot-scope="scope">
+            <el-input placeholder="请输入内容" v-model="scope.row.sellPrice"></el-input>
+          </template>
+        </el-table-column>
+        <el-table-column fixed="right" width="100" label="操作">
+          <template slot-scope="scope">
+            <el-button @click="modification(scope)" type="text" size="small">修改</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
     </el-drawer>
   </div>
 </template>
@@ -46,9 +82,9 @@ import serviceGoods from '@/service/goods.js';
 
 export default {
   props: {
-    value: {
+    commodityId: {
       type: Number,
-      default: 1,
+      default: 0,
     },
   },
   data() {
@@ -59,7 +95,8 @@ export default {
       tableData: [],
       productId: 0,
       drawer: false, // 抽屉组件开关
-      direction: 'ttb', // 控制抽屉弹出位置
+      direction: 'btt', // 控制抽屉弹出位置
+      details: [],
     };
   },
   created() {
@@ -68,8 +105,8 @@ export default {
   methods: {
     setProducts() {
       this.loading = true;
-      this.productId = this.value;
-      console.log(this.value);
+      this.productId = this.commodityId;
+      console.log(this.commodityId);
       serviceGoods.getGoodsByProductId(this.productId, (res) => {
         this.tableData = res.data.data;
         this.loading = false;
@@ -80,9 +117,24 @@ export default {
         path: '/hf-product/detail',
       });
     },
+    // 刷新
+    refresh() {
+      this.setProducts();
+    },
     // 详情
     editProduct(row) {
       this.drawer = true;
+      serviceGoods.selectProductGoods(row.goodsId, this.commodityId, (res) => {
+        this.details = res.data.data;
+        console.log(res.data.data);
+      });
+    },
+    // 修改row
+    modification(scope) {
+
+      serviceGoods.updateGood(scope.row, (res) => {
+        console.log(res);
+      });
     },
     deleteProduct(row) {
       console.log(row.goodsId);
