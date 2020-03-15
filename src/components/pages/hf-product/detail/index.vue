@@ -1,71 +1,86 @@
 <template>
-<div slot="header" class="clearfix">
-  <el-row>
-    <el-col :span="24">
-      <div class="grid-content bg-purple-dark">商品信息</div>
-      <el-form :inline="true" :model="productInfo" class="demo-form-inline">
-        <el-row class="t-10">
-          <el-col :span="8">
-            <el-form-item label="商品名称">
-              <el-input v-model="productInfo.hfName" placeholder="商品名称"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="所属类目">
-              <el-select v-model="productInfo.categoryId" placeholder="请选择类目">
-                <el-option v-for="item in classifyData" :key="item.id" :label="item.hfName" :value="item.id" style="height: 45px;"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="所属商家">
-              <el-input v-model="productInfo.user" placeholder="所属商家"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-button type="primary" @click="onProductSubmit">{{isCreate ? '添加商品' : '更新商品'}}</el-button>
-          <el-button label="ltr" @click="evenMore">查看更多</el-button>
-        </el-row>
-      </el-form>
-    </el-col>
-  </el-row>
-  <el-row>
-    <el-col :span="16">
-      <div class="p-5"></div>
-      <div class="grid-content bg-purple">
-        物品信息列表
-        <el-button @click="appendGoods" round size="mini" style="float: right;margin-right: 8px;" type="primary">添加物品</el-button>
-      </div>
-      <GoodsList :value="value"></GoodsList>
-    </el-col>
-    <el-col :span="8">
-      <div class="grid-content bg-purple-light">属性设置</div>
-      <el-container class="t-10 radius-4">
-        <el-header class="font-neue t-10">图片管理</el-header>
-        <el-main>
-          <list-picture :value="value"></list-picture>
-        </el-main>
-      </el-container>
-      <el-container class="t-10 radius-4">
-        <el-header class="font-neue t-10">规格管理</el-header>
-        <el-main>
-          <list-specification :product-id='ruleForm1.productId' :value="value"></list-specification>
-        </el-main>
-      </el-container>
-    </el-col>
-  </el-row>
-  <!-- 抽屉组件 -->
-  <el-drawer :title="title" :visible.sync="drawer" :direction="direction" :before-close="handleClose" size="50%">
-    <ProductMore></ProductMore>
-    <GoodsCreate></GoodsCreate>
-    <list-specification></list-specification>
-  </el-drawer>
-</div>
+  <div slot="header" class="clearfix">
+    <el-row>
+      <el-col :span="24">
+        <div class="grid-content bg-purple-dark">商品信息</div>
+        <el-form :rules="rules" :inline="true" :model="productInfo" class="demo-form-inline">
+          <el-row class="t-10">
+            <el-col :span="8">
+              <el-form-item label="商品名称" prop="productName">
+                <el-input v-model="productInfo.productName" placeholder="商品名称"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="所属类目">
+                <el-select v-model="productInfo.categoryId" placeholder="请选择类目">
+                  <el-option
+                    v-for="item in classifyData"
+                    :key="item.id"
+                    :label="item.hfName"
+                    :value="item.id"
+                    style="height: 45px;"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="所属商家">
+                <el-input v-model="productInfo.lastModifier" placeholder="所属商家"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-button type="primary" @click="onProductSubmit">{{isCreate ? '添加商品' : '更新商品'}}</el-button>
+            <el-button label="ltr" @click="evenMore">查看更多</el-button>
+          </el-row>
+        </el-form>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="16">
+        <div class="p-5"></div>
+        <div class="grid-content bg-purple">
+          物品信息列表
+          <el-button
+            @click="appendGoods"
+            round
+            size="mini"
+            style="float: right;margin-right: 8px;"
+            type="primary"
+          >添加物品</el-button>
+        </div>
+        <GoodsList :commodityId="commodityId"></GoodsList>
+      </el-col>
+      <el-col :span="8">
+        <div class="grid-content bg-purple-light">属性设置</div>
+        <el-container class="t-10 radius-4">
+          <el-header class="font-neue t-10">图片管理</el-header>
+          <el-main>
+            <list-picture></list-picture>
+          </el-main>
+        </el-container>
+        <el-container class="t-10 radius-4">
+          <el-header class="font-neue t-10">规格管理</el-header>
+          <el-main>
+            <list-specification :goosID='goosID' :commodityId="commodityId"></list-specification>
+          </el-main>
+        </el-container>
+      </el-col>
+    </el-row>
+<!-- 抽屉组件 -->
+    <el-drawer
+      :title="title"
+      :visible.sync="drawer"
+      :direction="direction"
+      :before-close="handleClose"
+      size="80%"
+    >
+     <GoodsLncrease @func="getMsgFormSon" :commodityId="commodityId" v-if="title!=='添加商品'"></GoodsLncrease>
+    </el-drawer>
+  </div>
 </template>
 
 <script>
 import GoodsList from '../goods/list';
-import ProductMore from './more';
-import GoodsCreate from '../goods/create';
+import GoodsLncrease from '../goods/lncrease';
 import ListPicture from '../list-picture';
 import ListSpecification from '../list-specification';
 import serviceProduct from '@/service/product.js';
@@ -77,54 +92,34 @@ export default {
     GoodsCreate,
     ListSpecification,
     ListPicture,
+    GoodsLncrease,
   },
   data() {
     return {
-      value: 0,
+      commodityId: 0,
       goosID: 0,
-      title: '添加商品', // Drawer 抽屉标题头
+      title: '',
       loading: false,
       drawer: false,
       isCreate: false,
       direction: 'rtl',
       classifyData: {}, // 类目数据
       productInfo: {
-        user: '',
+        bossId: '1',
         region: '',
-        hfName: '',
+        productName: '',
+        lastModifier: '', // 商家名称
+        id: '',
         categoryId: '',
-      },
-      ruleForm: {},
-      // 添加物品
-      ruleForm1: {
-        sellPrice: '', // 价格
-        quantity: '', // 库存量
-        productId: '1', // 商品id*
-        categoryId: '', // 商品所属的类目id*
-        cancelId: '', // 核销Id *
-        claim: '', // 是否自提 *
-        // member: '', // 是否为会员商品 *
-        frames: '0', // 上下架*
-        goodName: '', // 物品名称*
-        goodsDesc: '', // 商品描述
-        requestId: '123123123', // 请求id, 发起请求的随机数, 用来判断请求是否重
-        token: '11238', // 登录成功后返回的token
-        userId: '12', // 用户id
-        fileInfo1: [],
       },
       // 顶部表单验证
       rules: {
-        hfName: [{
-          required: true,
-          message: '请输入活动名称',
-          trigger: 'blur',
-        },
-        {
-          min: 3,
-          max: 5,
-          message: '长度在 3 到 5 个字符',
-          trigger: 'blur',
-        },
+        productName: [
+          { required: true, message: '请输入商品名称', trigger: 'blur' },
+          { min: 1, max: 9, message: '长度在 1 到 9 个字符', trigger: 'blur' },
+        ],
+        hfName: [
+          { required: true, message: '请选择类目名称', trigger: 'change' },
         ],
       },
     };
@@ -135,13 +130,19 @@ export default {
     if (typeof query.productId === 'undefined') {
       this.isCreate = true;
     } else {
-      this.ruleForm1.productId = query.productId;
-      this.refreshPage();
+      this.commodityId = Number(query.productId);
     }
     // 加载类目
     this.getCatagery();
+    this.getCurrent();
   },
   methods: {
+    getMsgFormSon(data) {
+      this.drawer = data;
+      console.log(this.drawer);
+      console.log(data);
+    },
+
     getCatagery() {
       this.loading = true;
       serviceProduct.getCatagery((res) => {
@@ -154,21 +155,41 @@ export default {
       console.log('ddd');
     },
     onProductSubmit() {
-      this.loading = true;
-      if (this.isCreate) {
-        // 添加商品
-        serviceProduct.ceateProduct(this.productInfo, (res) => {
-          this.value = res.data.data.id;
-          console.log(res.data);
-          this.loading = false;
-          this.$router.push({
-            path: '/hf-product/detail?productId=' + res.data.data.id,
+      if (this.productInfo.id === '') {
+        if (this.productInfo.productName !== '') {
+          console.log('添加商品');
+          // 添加商品
+          this.loading = true;
+          serviceProduct.ceateProduct(this.productInfo, (res) => {
+            this.commodityId = res.data.data.productId;
+            // console.log('ID', res.data.data.productId);
+            this.productInfo.productName = res.data.data.productName;
+            this.productInfo.id = res.data.data.productId;
+            this.productInfo.lastModifier = res.data.data.bossName;
+            this.productInfo.categoryId = res.data.data.CategoryId;
+            this.loading = false;
           });
-        });
+        }
+
       } else {
-        // 更新商品
+        console.log('更新商品');
+        serviceProduct.updateProduct(this.productInfo, (res) => {
+          console.log('更新商品', res);
+        });
       }
 
+    },
+    // 获取当前商品
+    getCurrent() {
+      if (!this.isCreate) {
+        serviceProduct.getDetail(this.commodityId, (res) => {
+          console.log('获取当前', res.data.data);
+          this.productInfo.productName = res.data.data.productName;
+          this.productInfo.id = res.data.data.id;
+          this.productInfo.lastModifier = res.data.data.stoneName;
+          this.productInfo.categoryId = res.data.data.categoryId;
+        });
+      }
     },
     appendGoods() {
       // 抽屉控制 添加物品
@@ -180,6 +201,11 @@ export default {
       this.drawer = true;
       this.direction = 'rtl';
       this.title = '添加商品';
+    },
+    // 下拉 事件 核销员
+    pullverifier (e) {
+      // console.log(e)
+      this.ruleForm1.cancelId = e;
     },
     handleClose(done) {
       done();

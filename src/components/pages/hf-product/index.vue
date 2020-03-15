@@ -14,7 +14,7 @@
     <div class="text item">
       <el-table :data="tableData" v-loading="loading" border style="width: 100%" highlight-current-row ref="multipleTable">
         <el-table-column prop="id" label="序号" width="50" align="center"></el-table-column>
-        <el-table-column prop="hfName" label="商品名称"></el-table-column>
+        <el-table-column prop="productName" label="商品名称"></el-table-column>
         <el-table-column prop="productDesc" label="商品描述"></el-table-column>
         <el-table-column prop="categoryName" label="所属类目名称"></el-table-column>
         <el-table-column prop="createTime" label="创建时间" width="150"></el-table-column>
@@ -76,7 +76,7 @@ export default {
     },
     deleteProduct(row) {
       this.$confirm('确认删除吗？', '提示', {}).then(async () => {
-        serviceProduct.deleteById(row.id, (res) => {
+        serviceProduct.deleteProduct(row.id, (res) => {
           this.setProducts();
         });
       });

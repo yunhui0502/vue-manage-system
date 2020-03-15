@@ -14,7 +14,15 @@ function checkUser(params) {
 function deleteUser(userId) {
   return Axios.get('/api/api/user/hf-auth/deleteAdminUser?userId='+userId);
 }
+function uploadPicture(file,userId) {
+  let fd = new FormData();
+  fd.append('file', file);
+  fd.append('userId', userId);
+  return Axios.post('/api/api/user/user/upload_avatar', fd);
+}
+
 export default {
+	uploadPicture:uploadPicture,
   addUser: addUser,
 	checkUser:checkUser,
 	deleteUser:deleteUser

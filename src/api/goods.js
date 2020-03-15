@@ -9,6 +9,10 @@ function getGoodsByProductId(productId) {
 function getFileFileId(fileId) {
   return Axios.get('/api/api/product/goods/getFile?fileId=' + fileId);
 }
+// 物品详情信息
+function selectProductGoods(goodsId, productId) {
+  return Axios.get('/api/api/product/product/selectProductGoods?goodsId=' + goodsId + '&productId=' + productId);
+}
 
 // 删除物品
 function deleteById(goodsId) {
@@ -30,6 +34,26 @@ function addProduct(params) {
   fd.append('userId', params.userId);
   return Axios.post('/api/api/product/goods/create', fd);
 }
+// 设置物品价格
+function setPrice (params) {
+  let fd = new FormData();
+  fd.append('hfGoodsId', params.hfGoodsId);
+  fd.append('sellPrice', params.sellPrice);
+  fd.append('quantity', params.quantity);
+  fd.append('linePrice', params.linePrice);
+  return Axios.post('/api/api/product/goods/setPrice', fd);
+}
+// 编辑物品
+function updateGood (params) {
+  let fd = new FormData();
+  fd.append('brandName', params.brandName);
+  fd.append('goodName', params.goodsName);
+  fd.append('goodsDesc', params.goodsDesc);
+  fd.append('sellPrice', params.sellPrice);
+  fd.append('id', params.goodsId);
+  // fd.append('linePrice', params.linePrice); 划线价
+  return Axios.post('/api/api/product/goods/updategood', fd);
+}
 // 添加物品规格值
 function additionSpecs (params) {
   let fd = new FormData();
@@ -48,4 +72,7 @@ export default {
   addProduct: addProduct,
   additionSpecs: additionSpecs,
   deleteById: deleteById,
+  selectProductGoods: selectProductGoods,
+  updateGood: updateGood,
+  setPrice: setPrice,
 };

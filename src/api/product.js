@@ -5,13 +5,16 @@ import Axios from 'axios';
 function getProductsByBossId(bossId) {
   return Axios.get('/api/api/product/hfProduct/getstone?stoneId=' + bossId);
 }
-
+// 获取当前商品
+function getDetail(productId) {
+  return Axios.get('/api/api/product/hfProduct/getDetail?productId=' + productId);
+}
 // 添加商品接口
 function ceateProduct(params) {
   let fd = new FormData();
-  fd.append('bossId ', '1');
+  fd.append('bossId ', params.bossId);
   fd.append('categoryId', params.categoryId);
-  fd.append('hfName ', params.hfName);
+  fd.append('hfName ', params.productName);
 
   // fd.append('requestId', params.requestId);
   // fd.append('lastModifier', params.lastModifier);
@@ -23,6 +26,20 @@ function ceateProduct(params) {
   return Axios.post('/api/api/product/product/addproduct', fd);
 }
 
+// 更新商品接口
+function updateProduct(params) {
+  let fd = new FormData();
+  fd.append('bossId ', params.bossId);
+  fd.append('categoryId', params.categoryId);
+  fd.append('hfName', params.productName);
+  fd.append('id', params.id);
+  fd.append('lastModifier', params.lastModifier);
+  return Axios.post('/api/api/product/product/updateProductId', fd);
+}
+// 删除商品
+function deleteProduct(productId) {
+  return Axios.get('/api/api/product/product/deleteProductId?productId=' + productId);
+}
 // 获取类目列表
 function getCatagery() {
   return Axios.get('/api/api/product/product/category');
@@ -57,4 +74,7 @@ export default {
   selectProductPictures: selectProductPictures,
   specifies: specifies,
   addSpecify: addSpecify,
+  updateProduct: updateProduct,
+  deleteProduct: deleteProduct,
+  getDetail: getDetail,
 };

@@ -1,53 +1,60 @@
 <template>
-<el-container class="my-container">
-  <el-aside width="200px">
-    <el-col :span="12">
-      <div class="my-h5">
-        <h5 align="center">后台管理系统</h5>
-      </div>
-      <el-menu :default-active="$route.path" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" background-color="#3B3B53" text-color="#fff" router>
-        <el-menu-item index="/">
-          <i class="iconfont icon-home"></i>
-          <span slot="title">{{'  首页'}}</span>
-        </el-menu-item>
-        <el-menu-item index="/hf-product">
-          <i class="iconfont icon-tongji"></i>
-          <span slot="title">{{'  商品管理'}}</span>
-        </el-menu-item>
-        <el-menu-item index="/hf-userCenter">
-          <i class="iconfont el-icon-user"></i>
-          <span slot="title">{{' 用户中心'}}</span>
-        </el-menu-item>
-        <el-menu-item index="/set">
-          <i class="iconfont icon-set"></i>
-          <span slot="title">{{' 设置'}}</span>
-        </el-menu-item>
-      </el-menu>
-    </el-col>
-  </el-aside>
-  <el-container>
-    <el-header>
-      <el-container class="header-right">
-        <el-container class="header-user-con">
-          <el-dropdown trigger="click">
-            <span>
-              <i class="el-icon-search" style="margin-right: 10px;color: #CCCCCC;cursor: pointer;font-size: 30px;"></i>
-            </span>
-            <span style="cursor: pointer;">
-              <img src="../../img/8.png" />
-            </span>
-            <el-dropdown-menu slot="dropdown" style="width:300px;">
-              <el-dropdown-item>
-                <img style="width: 40px;height: 40px;float: left;" src="../../img/6.jpg" />
-                <div style="float:left;margin-top:-5px;margin-left: 10px;">用户的名字</div>
-                <br />
-                <div style="float: left;margin-left: 10px;margin-top: -20px;">请输入你要添加的内容</div>
-                <div style="float: right;margin-top: -40px;">明晚14:20</div>
-              </el-dropdown-item>
-              <br />
-              <el-dropdown-item divided>
-                <img style="width: 40px;height: 40px;float: left;" src="../../img/6.jpg" />
-                <div style="float:left;margin-top:-5px;margin-left: 10px;">用户的名字</div>
+  <el-container class="my-container">
+    <el-aside width="200px">
+      <el-col :span="12">
+        <div class="my-h5">
+          <h5 align="center">后台管理系统1</h5>
+        </div>
+        <el-menu
+          :default-active="$route.path"
+          class="el-menu-vertical-demo"
+          @open="handleOpen"
+          @close="handleClose"
+          background-color="#3B3B53"
+          text-color="#fff"
+          router
+        >
+          <el-menu-item index="/">
+            <i class="iconfont icon-home" style="font-size: 28px;"></i>
+            <span slot="title">首页</span>
+          </el-menu-item>
+          <el-menu-item index="/hf-product">
+            <i class="iconfont icon-tongji"></i>
+            <span slot="title">商品管理</span>
+          </el-menu-item>
+					<el-menu-item index="/hf-userCenter">
+					  <i class="el-icon-user"></i>
+					  <span slot="title">用户中心</span>
+					</el-menu-item>
+          <el-menu-item index="/set">
+            <i class="iconfont icon-set"></i>
+            <span slot="title">设置</span>
+          </el-menu-item>
+        </el-menu>
+      </el-col>
+    </el-aside>
+    <el-container>
+      <el-header>
+        <el-container class="header-right">
+          <el-container class="header-user-con">
+            <el-dropdown trigger="click">
+              <span>
+                <i
+                  class="el-icon-search"
+                  style="margin-right: 10px;color: #CCCCCC;cursor: pointer;font-size: 30px;"
+                ></i>
+              </span>
+              <span style="cursor: pointer;">
+                <img src="../../img/8.png" />
+              </span>
+              <el-dropdown-menu slot="dropdown" style="width:300px;">
+                <el-dropdown-item>
+                  <img style="width: 40px;height: 40px;float: left;" src="../../img/6.jpg" />
+                  <div style="float:left;margin-top:-5px;margin-left: 10px;">用户的名字</div>
+                  <br />
+                  <div style="float: left;margin-left: 10px;margin-top: -20px;">请输入你要添加的内容</div>
+                  <div style="float: right;margin-top: -40px;">明晚14:20</div>
+                </el-dropdown-item>
                 <br />
                 <div style="float: left;margin-left: 10px;margin-top: -20px;">请输入你要添加的内容</div>
                 <div style="float: right;margin-top: -40px;">明晚14:20</div>
