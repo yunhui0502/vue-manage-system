@@ -1,3 +1,4 @@
+/* eslint-disable require-jsdoc */
 import Axios from 'axios';
 // 添加后台管理员
 function addUser(params) {
@@ -12,9 +13,9 @@ function checkUser(params) {
 }
 // 删除台管理员
 function deleteUser(userId) {
-  return Axios.get('/api/api/user/hf-auth/deleteAdminUser?userId='+userId);
+  return Axios.get('/api/api/user/hf-auth/deleteAdminUser?userId=' + userId);
 }
-function uploadPicture(file,userId) {
+function uploadPicture(file, userId) {
   let fd = new FormData();
   fd.append('file', file);
   fd.append('userId', userId);
@@ -22,8 +23,8 @@ function uploadPicture(file,userId) {
 }
 
 export default {
-	uploadPicture:uploadPicture,
+  uploadPicture: uploadPicture,
   addUser: addUser,
-	checkUser:checkUser,
-	deleteUser:deleteUser
+  checkUser: checkUser,
+  deleteUser: deleteUser,
 };

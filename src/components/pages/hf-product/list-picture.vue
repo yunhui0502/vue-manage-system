@@ -59,7 +59,6 @@ export default {
   methods: {
     handleUpload(raw) {
       this.files.push(raw.file);
-			
     },
     // 获取图片
     acquire() {
