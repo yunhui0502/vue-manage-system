@@ -15,6 +15,23 @@
 				<el-button type="primary" @click="addUserSubmit()">确 定</el-button>
 			</span>
 		</el-dialog>
+		<!-- 上传头像 -->
+		<el-dialog title="上传头像" :limit="1" :visible.sync="pictureVisible" width="30%">
+			<el-upload     :auto-upload="false" class="avatar-uploader" action="" :limit="1" 
+			 :on-change="handleChange">
+			<!-- 	<el-dialog :visible.sync="dialogVisible">
+					<img width="100%" :src="dialogImageUrl" alt="">
+				</el-dialog> -->
+				<i class="el-icon-plus avatar-uploader-icon"></i>
+			</el-upload>
+			<el-dialog :visible.sync="dialogVisible">
+				<img width="100%" :src="imageUrl" alt="">
+			</el-dialog>
+			<span slot="footer" class="dialog-footer">
+				<el-button @click="pictureVisible = false">关闭</el-button>
+				
+			</span>
+		</el-dialog>
 		<el-card class="box-card">
 			<div slot="header" class="clearfix">
 				<span>用户列表</span>
@@ -29,16 +46,19 @@
 				</el-table-column>
 				<el-table-column label="头像">
 					<template slot-scope="scope">
-						<img :src="scope.row.image" v-if="scope.row.image"
+						<img src="http://5b0988e595225.cdn.sohucs.com/q_70,c_zoom,w_640/images/20200105/c5162a9d6f484ce3b8ff464b27f8865f.jpeg"
 						 min-width="70" height="70" />
-						<el-upload v-else class="upload-demo" 
-						action=""
-						:auto-upload="true"
-						:limit="1"
-						:on-change="handleChange" 
-						>
-							<el-button size="small" type="primary">上传头像</el-button>
-						</el-upload>
+						<!-- <div @click="getUserId(scope.row)" v-else> -->
+						<!-- <el-upload class="upload-demo" action="#" :auto-upload="false" :limit="1" 
+						* :on-change="handleChange"
+						 :show-file-list="false"> -->
+						<div>
+							<el-button size="small" type="primary" @click="upload(scope.row)">上传头像</el-button>
+						</div>
+
+						<!-- </el-upload> -->
+						<!-- </div> -->
+
 					</template>
 				</el-table-column>
 				<el-table-column label="操作">
@@ -55,7 +75,10 @@
 	export default {
 		data() {
 			return {
-				
+				dialogVisible: false,
+				userId: '',
+				imageUrl: '',
+				pictureVisible: false,
 				addUserForm: {
 					name: '杨莹',
 					phone: '15022209253'
@@ -87,6 +110,9 @@
 			},
 			handleChange(file, fileList) {
 				console.log(file);
+				userCenterService.uploadPicture(file, this.userId, (res) => {
+					console.log(res);
+				});
 			},
 			addUserSubmit: function() {
 				userCenterService.addUser(this.addUserForm, (res) => {
@@ -105,14 +131,18 @@
 			},
 			checkUser: function() {
 				userCenterService.checkUser((res) => {
-					console.log(res);
+					console.log(res.data.data)
 					this.userData = res.data.data
 				});
+			},
+			upload: function(row, id) {
+				this.userId = row.id;
+				this.pictureVisible = true;
+				console.log(row)
 			},
 			deleteUser: function(row) {
 				console.log(row);
 				userCenterService.deleteUser(row.id, (res) => {
-					console.log(res);
 					if (res.data.data == '删除成功') {
 						this.$message({
 							message: '删除成功',
@@ -124,7 +154,7 @@
 					}
 				});
 			},
-			// /hf-auth/findAdminUser
+		
 		},
 		mounted() {
 			this.checkUser();
@@ -132,6 +162,33 @@
 	}
 </script>
 <style>
+	.avatar-uploader .el-upload {
+		border: 1px dashed #d9d9d9;
+		border-radius: 6px;
+		cursor: pointer;
+		position: relative;
+		overflow: hidden;
+	}
+
+	.avatar-uploader .el-upload:hover {
+		border-color: #409EFF;
+	}
+
+	.avatar-uploader-icon {
+		font-size: 28px;
+		color: #8c939d;
+		width: 178px;
+		height: 178px;
+		line-height: 178px;
+		text-align: center;
+	}
+
+	.avatar {
+		width: 178px;
+		height: 178px;
+		display: block;
+	}
+
 	.text {
 		font-size: 14px;
 	}

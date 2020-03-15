@@ -9,9 +9,13 @@ async function checkUser(handleResult) {
 async function deleteUser(userId,handleResult) {
   userCenter.deleteUser(userId).then((res) => handleResult(res));
 }
+async function uploadPicture(file,userId, handleResult) {
+  userCenter.uploadPicture(file,userId).then((res) => handleResult(res));
+}
 export default {
   addUser: addUser,
 	checkUser:checkUser,
-	deleteUser:deleteUser
+	deleteUser:deleteUser,
+	uploadPicture:uploadPicture
 };
 
