@@ -71,9 +71,9 @@
       :visible.sync="drawer"
       :direction="direction"
       :before-close="handleClose"
-      size="50%"
+      size="80%"
     >
-     <GoodsLncrease :commodityId="commodityId" v-if="title!=='添加商品'"></GoodsLncrease>
+     <GoodsLncrease @func="getMsgFormSon" :commodityId="commodityId" v-if="title!=='添加商品'"></GoodsLncrease>
     </el-drawer>
   </div>
 </template>
@@ -135,6 +135,12 @@ export default {
     this.getCurrent();
   },
   methods: {
+    getMsgFormSon(data) {
+      this.drawer = data;
+      console.log(this.drawer);
+      console.log(data);
+    },
+
     getCatagery() {
       this.loading = true;
       serviceProduct.getCatagery((res) => {

@@ -1,13 +1,15 @@
 <template>
        <el-form
         :model="ruleForm"
-        :rules="rules"
         ref="ruleForm"
         label-width="280px"
         class="demo-ruleForm"
       >
         <el-form-item style="width:100%" label="物品名称" prop="goodName">
           <el-input style="width:50%" v-model="increase.goodName  "></el-input>
+        </el-form-item>
+         <el-form-item style="width:100%" label="物品描述" prop="goodsDesc">
+          <el-input style="width:50%" v-model="increase.goodsDesc  "></el-input>
         </el-form-item>
         <el-form-item label="提货方式">
           <el-radio @change="takeManner" style="margin-left: 50px;" v-model="radio" label="0">快递</el-radio>
@@ -24,14 +26,14 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item style="width:100%" label="价格" prop="goodsDesc">
+        <el-form-item style="width:100%" label="价格" prop="sellPrice">
           <el-input style="width:50%" v-model="specificationForm.sellPrice  "></el-input>
         </el-form-item>
-         <el-form-item style="width:100%" label="划线价格" prop="goodsDesc">
+         <el-form-item style="width:100%" label="划线价格" prop="linePrice">
           <el-input style="width:50%" v-model="specificationForm.linePrice  "></el-input>
         </el-form-item>
-                 <el-form-item style="width:100%" label="库存" prop="goodsDesc">
-          <el-input style="width:50%" v-model="specificationForm.quantity  "></el-input>
+                 <el-form-item style="width:100%" label="库存" prop="quantity">
+          <el-input style="width:50%" v-model="specificationForm.quantity"></el-input>
         </el-form-item>
         <el-form-item label prop="brandId">
           <el-button style="width:25%; margin-left: 5px;" type="primary" @click="SubmitGoods">提交</el-button>
@@ -96,7 +98,7 @@ export default {
       this.ruleForm1.claim = this.radio;
     },
     setPrices() {
-      serviceGoods.addProduct(this.increase, (res) => {
+      serviceGoods.setPrice(this.specificationForm, (res) => {
         console.log('添加价格', res);
       });
     },
@@ -105,14 +107,14 @@ export default {
       this.increase.productId = this.commodityId;
       serviceGoods.addProduct(this.increase, (res) => {
         console.log(res);
-        this.goosID = res.data.data.id;
-        this.specificationForm.hfGoodsId = res.data.data.id;
+        this.goosID = res.data.data;
+        this.specificationForm.hfGoodsId = res.data.data;
         this.setPrices();
         this.$message({
           message: '恭喜你，添加成功',
           type: 'success',
         });
-        this.drawer = false;
+        this.$emit('func', false);
       });
     },
   },

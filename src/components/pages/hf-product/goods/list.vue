@@ -133,7 +133,7 @@ export default {
     modification(scope) {
 
       serviceGoods.updateGood(scope.row, (res) => {
-        console.log(res);
+        this.drawer = false;
       });
     },
     deleteProduct(row) {
