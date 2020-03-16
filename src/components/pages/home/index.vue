@@ -3,7 +3,7 @@
   <el-aside width="200px">
     <el-col :span="12">
       <div class="my-h5">
-        <h5 align="center">后台管理系统1</h5>
+        <h5 align="center">后台管理系统</h5>
       </div>
       <el-menu :default-active="$route.path" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" background-color="#3B3B53" text-color="#fff" router>
         <el-menu-item index="/">
@@ -13,6 +13,10 @@
         <el-menu-item index="/hf-product">
           <i class="iconfont icon-tongji"></i>
           <span slot="title">商品管理</span>
+        </el-menu-item>
+        <el-menu-item index="/hf-orderCenter">
+          <i class="el-icon-tickets"></i>
+          <span slot="title">订单中心</span>
         </el-menu-item>
         <el-menu-item index="/hf-userCenter">
           <i class="el-icon-user"></i>
