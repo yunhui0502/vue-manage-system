@@ -91,6 +91,7 @@ export default {
         console.log(this.loginRules.authKey);
         if (valid) {
           try {
+<<<<<<< HEAD
             await this.$http
               .post(
                 `/api/api/user/hf-auth/login?authKey=${this.loginForm.authKey}&authType=${this.loginForm.authType}&passwd=${this.loginForm.code}`
@@ -99,6 +100,15 @@ export default {
                 console.log(res);
                 if (res.data.status == 200) {
                   let data = { token: "a1b2c3d4e4fg" };
+=======
+            // eslint-disable-next-line no-unused-vars
+            // hf-auth/login /user/login
+            await this.$http.get(`/api/api/user/user/login?authKey=${this.loginForm.authKey}&authType=${this.loginForm.authType}&passwd=${this.loginForm.code}`)
+              .then((res) => {
+                console.log(res.data.status);
+                if (res.data.data === '1') {
+                  let data = { token: 'a1b2c3d4e4fg' };
+>>>>>>> a20a074c67a7a62305455524cdbfffa3ed431b95
                   store.setUser(data);
                   window.sessionStorage.setItem(
                     "userInfor",
