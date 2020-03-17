@@ -23,6 +23,11 @@ const router = new VueRouter({
       component: (resolve) => require(['@/components/pages/home'], resolve),
       children: [
         {
+          path: '/update',
+          name: 'update',
+          component: (resolve) => require(['@/components/pages/home/update'], resolve),
+        },
+        {
           path: '/orderDetail',
           name: 'orderDetail',
           component: (resolve) => require(['@/components/pages/hf-orderCenter/orderDetail'], resolve),
