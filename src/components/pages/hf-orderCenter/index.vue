@@ -1,15 +1,15 @@
 <template>
-<div class="wrapper">
-   <userList></userList>
-</div>
+  <div class="wrapper">
+    <orderCenter></orderCenter>
+  </div>
 </template>
 <script>
-import userList from './userList.vue';
+import orderCenter from './hf-orderCenter.vue';
 
 export default {
   name: 'store',
   components: {
-    userList
+    orderCenter
   },
   data() {
     return {

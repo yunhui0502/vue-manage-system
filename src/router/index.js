@@ -22,11 +22,21 @@ const router = new VueRouter({
       path: '/',
       component: (resolve) => require(['@/components/pages/home'], resolve),
       children: [
-				{
-				  path: '/hf-userCenter',
-				  name: 'hf-userCenter',
-				  component: (resolve) => require(['@/components/pages/hf-userCenter'], resolve),
-				},
+        {
+          path: '/orderDetail',
+          name: 'orderDetail',
+          component: (resolve) => require(['@/components/pages/hf-orderCenter/orderDetail'], resolve),
+        },
+        {
+          path: '/hf-orderCenter',
+          name: 'hf-orderCenter',
+          component: (resolve) => require(['@/components/pages/hf-orderCenter'], resolve),
+        },
+        {
+          path: '/hf-userCenter',
+          name: 'hf-userCenter',
+          component: (resolve) => require(['@/components/pages/hf-userCenter'], resolve),
+        },
         {
           path: '/hf-product',
           name: 'hf-product',
@@ -56,7 +66,7 @@ router.beforeEach((to, from, next) => {
   // if (!store.getUser().token) return next('/login')
   // // 3. 其他情况 放行
   // next()
-  if (to.path !== '/loogin' && !store.getUser().token) {return next('/loogin');}
+  if (to.path !== '/loogin' && !store.getUser().token) { return next('/loogin'); }
   next();
 });
 

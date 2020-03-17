@@ -111,13 +111,14 @@ export default {
       totalSize: 0,
       currpage: 1,
       tableData: [],
-      productId: 0,
+      productId: 1,
       drawer: false, // 抽屉组件开关
       direction: 'btt', // 控制抽屉弹出位置
       details: [],
     };
   },
   created() {
+    console.log(this.props);
     this.setProducts();
   },
 

@@ -9,7 +9,6 @@ async function getProductsByBossId(handleResult) {
 async function deleteById(productId, handleResult) {
   product.deleteProductById(productId).then((res) => handleResult(res));
 }
-
 async function ceateProduct(productInfo, handleResult) {
   // 组装请求参数
   product.ceateProduct(productInfo).then((res) => handleResult(res));

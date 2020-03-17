@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <div slot="header" class="clearfix">
     <el-row>
       <el-col :span="24">
@@ -78,6 +79,67 @@
     </div>
     </el-drawer>
   </div>
+=======
+<div slot="header" class="clearfix">
+  <el-row>
+    <el-col :span="24">
+      <div class="grid-content bg-purple-dark">商品信息</div>
+      <el-form :rules="rules" :inline="true" :model="productInfo" class="demo-form-inline">
+        <el-row class="t-10">
+          <el-col :span="8">
+            <el-form-item label="商品名称" prop="productName">
+              <el-input v-model="productInfo.productName" placeholder="商品名称"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="所属类目">
+              <el-select v-model="productInfo.categoryId" placeholder="请选择类目">
+                <el-option v-for="item in classifyData" :key="item.id" :label="item.hfName" :value="item.id" style="height: 45px;"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="所属商家">
+              <el-input v-model="productInfo.lastModifier" placeholder="所属商家"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-button type="primary" @click="onProductSubmit">{{isCreate ? '添加商品' : '更新商品'}}</el-button>
+          <el-button label="ltr" @click="evenMore">查看更多</el-button>
+        </el-row>
+      </el-form>
+    </el-col>
+  </el-row>
+  <el-row>
+    <el-col :span="16">
+      <div class="p-5"></div>
+      <div class="grid-content bg-purple">
+        物品信息列表
+        <el-button @click="appendGoods" round size="mini" style="float: right;margin-right: 8px;" type="primary">添加物品</el-button>
+      </div>
+      <GoodsList :commodityId="commodityId"></GoodsList>
+    </el-col>
+    <el-col :span="8">
+      <div class="grid-content bg-purple-light">属性设置</div>
+      <el-container class="t-10 radius-4">
+        <el-header class="font-neue t-10">图片管理</el-header>
+        <el-main>
+          <list-picture></list-picture>
+        </el-main>
+      </el-container>
+      <el-container class="t-10 radius-4">
+        <el-header class="font-neue t-10">规格管理</el-header>
+        <el-main>
+          <list-specification :goosID='goosID' :commodityId="commodityId"></list-specification>
+        </el-main>
+      </el-container>
+    </el-col>
+  </el-row>
+  <!-- 抽屉组件 -->
+  <el-drawer :title="title" :visible.sync="drawer" :direction="direction" :before-close="handleClose" size="80%">
+    <GoodsLncrease @func="getMsgFormSon" :commodityId="commodityId" v-if="title!=='添加商品'"></GoodsLncrease>
+  </el-drawer>
+</div>
+>>>>>>> f1ea1922341dfba6b2106f6cce684c3901c7ec8f
 </template>
 
 <script>
@@ -125,13 +187,23 @@ export default {
       },
       // 顶部表单验证
       rules: {
-        productName: [
-          { required: true, message: '请输入商品名称', trigger: 'blur' },
-          { min: 1, max: 9, message: '长度在 1 到 9 个字符', trigger: 'blur' },
+        productName: [{
+          required: true,
+          message: '请输入商品名称',
+          trigger: 'blur',
+        },
+        {
+          min: 1,
+          max: 9,
+          message: '长度在 1 到 9 个字符',
+          trigger: 'blur',
+        },
         ],
-        hfName: [
-          { required: true, message: '请选择类目名称', trigger: 'change' },
-        ],
+        hfName: [{
+          required: true,
+          message: '请选择类目名称',
+          trigger: 'change',
+        }],
       },
     };
   },
@@ -181,6 +253,10 @@ export default {
         this.loading = false;
       });
     },
+    refreshPage() {
+      // 查询商品详情
+      console.log('ddd');
+    },
     onProductSubmit() {
       if (this.productInfo.id === '') {
         if (this.productInfo.productName !== '') {
@@ -226,14 +302,12 @@ export default {
       this.title = '添加商品';
     },
     // 下拉 事件 核销员
-    pullverifier (e) {
+    pullverifier(e) {
       // console.log(e)
       this.ruleForm1.cancelId = e;
     },
     handleClose(done) {
-      this.$confirm('确认关闭？').then((_) => {
-        done();
-      });
+      done();
     },
   },
 };
@@ -286,6 +360,7 @@ export default {
   font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
     "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
 }
+
 .pl-5 {
   padding-right: 5px;
 }
