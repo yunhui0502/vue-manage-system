@@ -90,10 +90,10 @@ export default {
         if (valid) {
           try {
             // eslint-disable-next-line no-unused-vars
-						// hf-auth/login /user/login
+            // hf-auth/login /user/login
             await this.$http.get(`/api/api/user/user/login?authKey=${this.loginForm.authKey}&authType=${this.loginForm.authType}&passwd=${this.loginForm.code}`)
               .then((res) => {
-								console.log(res);
+                console.log(res.data.status);
                 if (res.data.data === '1') {
                   let data = { token: 'a1b2c3d4e4fg' };
                   store.setUser(data);

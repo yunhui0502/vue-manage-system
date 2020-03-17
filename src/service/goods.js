@@ -33,6 +33,14 @@ async function updateGood(goodsId, handleResult) {
 async function setPrice(goodsId, handleResult) {
   goods.setPrice(goodsId).then((res) => handleResult(res));
 }
+// 物品规格
+async function goodsSpecifies(goodsId, handleResult) {
+  goods.goodsSpecifies(goodsId).then((res) => handleResult(res));
+}
+// 更新规格
+async function goodsSpecUpdate(goodsId, goosID, handleResult) {
+  goods.goodsSpecUpdate(goodsId, goosID).then((res) => handleResult(res));
+}
 export default {
   getGoodsByProductId: getGoodsByProductId,
   getFileFileId: getFileFileId,
@@ -42,4 +50,6 @@ export default {
   selectProductGoods: selectProductGoods,
   updateGood: updateGood,
   setPrice: setPrice,
+  goodsSpecifies: goodsSpecifies,
+  goodsSpecUpdate: goodsSpecUpdate,
 };

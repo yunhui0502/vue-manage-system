@@ -1,3 +1,4 @@
+/* eslint-disable no-tabs */
 
 <template>
   <el-container class="my-container">
@@ -23,10 +24,10 @@
             <i class="iconfont icon-tongji"></i>
             <span slot="title">商品管理</span>
           </el-menu-item>
-					<el-menu-item index="/hf-userCenter">
-					  <i class="el-icon-user"></i>
-					  <span slot="title">用户中心</span>
-					</el-menu-item>
+          <el-menu-item index="/hf-userCenter">
+            <i class="el-icon-user"></i>
+            <span slot="title">用户中心</span>
+          </el-menu-item>
           <el-menu-item index="/set">
             <i class="iconfont icon-set"></i>
             <span slot="title">设置</span>
@@ -133,13 +134,13 @@
 export default {
   name: 'home',
   methods: {
-    orderform () {
+    orderform() {
       this.$router.push('/orderform');
     },
-    handleOpen (key, keyPath) {
+    handleOpen(key, keyPath) {
       console.log(key, keyPath);
     },
-    handleClose (key, keyPath) {
+    handleClose(key, keyPath) {
       console.log(key, keyPath);
     },
   },

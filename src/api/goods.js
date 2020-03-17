@@ -18,20 +18,24 @@ function selectProductGoods(goodsId, productId) {
 function deleteById(goodsId) {
   return Axios.get('/api/api/product/goods/deleteGoods?goodsId=' + goodsId);
 }
-
+// 物品规格
+function goodsSpecifies(goodsId) {
+  return Axios.get('/api/api/product/goods/specifies?goodsId=' + goodsId);
+}
 // 添加物品
 function addProduct(params) {
   let fd = new FormData();
   fd.append('productId', params.productId);
   fd.append('cancelId', params.cancelId);
   fd.append('claim', params.claim);
-  fd.append('frames', params.frames);
+  // fd.append('frames', params.frames);
   fd.append('goodName', params.goodName);
   fd.append('goodsDesc', params.goodsDesc);
   fd.append('requestId', params.requestId);
   fd.append('token', params.token);
   fd.append('fileInfo1', params.fileInfo1);
   fd.append('userId', params.userId);
+  fd.append('specValue', params.specValue);
   return Axios.post('/api/api/product/goods/create', fd);
 }
 // 设置物品价格
@@ -66,6 +70,16 @@ function additionSpecs (params) {
   fd.append('productSpecId', params.productSpecId);
   return Axios.post('/api/api/product/goods/addSpecify', fd);
 }
+// 更新物品规格值
+function goodsSpecUpdate (params, goosID) {
+  let fd = new FormData();
+  fd.append('goodsId', goosID);
+  fd.append('specValue', params.specValue);
+  fd.append('productSpecId', params.id);
+  // fd.append('timestamp', '200195.35.12');
+  // fd.append('token', '13');
+  return Axios.post('/api/api/product/goods/spec/update', fd);
+}
 export default {
   getGoodsByProductId: getGoodsByProductId,
   getFileFileId: getFileFileId,
@@ -75,4 +89,6 @@ export default {
   selectProductGoods: selectProductGoods,
   updateGood: updateGood,
   setPrice: setPrice,
+  goodsSpecifies: goodsSpecifies,
+  goodsSpecUpdate: goodsSpecUpdate,
 };
