@@ -61,8 +61,6 @@ function addSpecify (params) {
   fd.append('requestId ', params.requestId);
   fd.append('timestamp', params.timestamp);
   fd.append('productId', params.productId);
-  fd.append('specType', params.specType);
-  fd.append('specUnit', params.specUnit);
   fd.append('token', params.token);
   fd.append('userId', params.userId);
   fd.append('specValue', params.specValue);

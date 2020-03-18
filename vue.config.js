@@ -72,11 +72,7 @@ module.exports = {
   },
   // 所有 webpack-dev-server 的选项都支持。
   devServer: {
-<<<<<<< HEAD
-    // host: '172.26.16.96',
-=======
     host: 'localhost',
->>>>>>> f1ea1922341dfba6b2106f6cce684c3901c7ec8f
     port: 3001, // 端口号
     https: false,
     open: true, // 配置自动启动浏览器
