@@ -58,59 +58,62 @@
 </template>
 
 <script>
-import orderCenterService from "@/service/orderCenter.js";
+import orderCenterService from '@/service/orderCenter.js';
+import userCenterService from '@/service/userCenter.js';
+import constants from '@/store/constants.js';
+
 export default {
   data() {
     return {
       type: {
-        orderType: "",
-        orderStatus: ""
+        orderType: '',
+        orderStatus: '',
       },
-      orderTypeValue: "",
+      orderTypeValue: '',
       orderType: [],
-      id: "",
-      value: "",
+      id: '',
+      value: '',
       updata: {
-        targetOrderStatus: "",
-        id: "",
-        orderCode: "",
-        originOrderStatus: ""
+        targetOrderStatus: '',
+        id: '',
+        orderCode: '',
+        originOrderStatus: '',
       },
-      optionvalue: "",
+      optionvalue: '',
       options: [
         {
-          value: "选项1",
-          label: "黄金糕"
+          value: '选项1',
+          label: '黄金糕',
         },
         {
-          value: "选项2",
-          label: "双皮奶"
+          value: '选项2',
+          label: '双皮奶',
         },
         {
-          value: "选项3",
-          label: "蚵仔煎"
+          value: '选项3',
+          label: '蚵仔煎',
         },
         {
-          value: "选项4",
-          label: "龙须面"
+          value: '选项4',
+          label: '龙须面',
         },
         {
-          value: "选项5",
-          label: "北京烤鸭"
-        }
+          value: '选项5',
+          label: '北京烤鸭',
+        },
       ],
       drawer: false,
       dialogVisible: false,
-      userId: "",
-      imageUrl: "",
+      userId: '',
+      imageUrl: '',
       pictureVisible: false,
       addUserForm: {
-        name: "杨莹",
-        phone: "15022209253"
+        name: '杨莹',
+        phone: '15022209253',
       },
       statusData: [],
       addUserVisible: false,
-      orderData: []
+      orderData: [],
     };
   },
   methods: {
@@ -121,7 +124,7 @@ export default {
         if (this.orderType[i].orderDesc === this.orderTypeValue) {
           this.type.orderType = this.orderType[i].orderType;
           // console.log(this.type);
-          orderCenterService.getOrderByType(this.type, res => {
+          orderCenterService.getOrderByType(this.type, (res) => {
             console.log(res);
             this.orderData = res.data.data;
           });
@@ -129,13 +132,13 @@ export default {
       }
     },
     getOrderByType: function() {
-      orderCenterService.getOrderType(res => {
+      orderCenterService.getOrderType((res) => {
         console.log(res);
         this.orderType = res.data.data;
       });
     },
     getOrderType: function() {
-      orderCenterService.getOrderType(res => {
+      orderCenterService.getOrderType((res) => {
         console.log(res);
         this.orderType = res.data.data;
         this.type.orderStatus = res.data.data[0].hfDesc;
@@ -146,16 +149,16 @@ export default {
       for (var i = 0; i < this.statusData.length; i++) {
         if (this.statusData[i].hfName === aaa) {
           this.updata.targetOrderStatus = this.statusData[i].hfDesc;
-          orderCenterService.upDataOrderStatus(this.updata, res => {
+          orderCenterService.upDataOrderStatus(this.updata, (res) => {
             console.log(this.updata, res);
-            if (res.data.status == 200) {
+            if (res.data.status === constants.SUCCESS_CODE) {
               this.$message({
-                message: "修改成功",
-                type: "success"
+                message: '修改成功',
+                type: 'success',
               });
               this.drawer = false;
             } else {
-              this.$message.error("修改失败");
+              this.$message.error('修改失败');
             }
             return false;
           });
@@ -170,7 +173,7 @@ export default {
           console.log(this.statusData[i].hfDesc);
           this.type.orderStatus = this.statusData[i].hfDesc;
           console.log(this.type.orderStatus);
-          orderCenterService.checkOrder(this.statusData[i].hfDesc, res => {
+          orderCenterService.checkOrder(this.statusData[i].hfDesc, (res) => {
             console.log(res);
             this.orderData = res.data.data;
             // console.log(this.statusData[i].hfDesc);
@@ -181,7 +184,7 @@ export default {
       this.orderData = [];
     },
     getStatus1: function(tab, event) {
-      orderCenterService.checkOrder(this.statusData[0].hfDesc, res => {
+      orderCenterService.checkOrder(this.statusData[0].hfDesc, (res) => {
         console.log(res);
         this.orderData = res.data.data;
       });
@@ -191,19 +194,19 @@ export default {
     },
     handleChange(file, fileList) {
       console.log(file);
-      userCenterService.uploadPicture(file, this.userId, res => {
+      userCenterService.uploadPicture(file, this.userId, (res) => {
         console.log(res);
       });
     },
     addUserSubmit: function() {
-      userCenterService.addUser(this.addUserForm, res => {
+      userCenterService.addUser(this.addUserForm, (res) => {
         console.log(res);
-        if (res.data.data === "该用户已经存在") {
-          this.$message.error("该用户已经存在");
+        if (res.data.data === '该用户已经存在') {
+          this.$message.error('该用户已经存在');
         } else {
           this.$message({
-            message: "添加成功",
-            type: "success"
+            message: '添加成功',
+            type: 'success',
           });
           this.addUserVisible = false;
           this.checkUser();
@@ -211,7 +214,7 @@ export default {
       });
     },
     checkUser: function() {
-      orderCenterService.checkStatus(res => {
+      orderCenterService.checkStatus((res) => {
         console.log(res.data.data);
         this.statusData = res.data.data;
         this.getStatus1();
@@ -233,16 +236,16 @@ export default {
     goDetail: function(row) {
       this.id = row.id;
       this.$router.push({
-        path: "/orderDetail",
+        path: '/orderDetail',
         query: {
-          id: row.id
-        }
+          id: row.id,
+        },
       });
-    }
+    },
   },
   mounted() {
     this.checkUser();
-  }
+  },
 };
 </script>
 

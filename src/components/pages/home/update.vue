@@ -24,70 +24,71 @@
   </el-form>
 </template>
 <script>
+import constants from '@/store/constants.js';
 export default {
   data() {
     var checkAge = (rule, value, callback) => {
       if (!value) {
-        return callback(new Error("年龄不能为空"));
+        return callback(new Error('年龄不能为空'));
       }
       setTimeout(() => {
         if (!Number.isInteger(value)) {
-          callback(new Error("请输入数字值"));
+          callback(new Error('请输入数字值'));
         } else {
-          if (value < 18) {
-            callback(new Error("必须年满18岁"));
+          if (value < constants.YOUTH_AGE) {
+            callback(new Error('必须年满18岁'));
           } else {
             callback();
           }
         }
-      }, 1000);
+      }, constants.SLEEP_SECOND);
     };
     var validatePass = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入密码"));
+      if (value === '') {
+        callback(new Error('请输入密码'));
       } else {
-        if (this.ruleForm.checkPass !== "") {
-          this.$refs.ruleForm.validateField("checkPass");
+        if (this.ruleForm.checkPass !== '') {
+          this.$refs.ruleForm.validateField('checkPass');
         }
         callback();
       }
     };
     var validatePass2 = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请再次输入密码"));
+      if (value === '') {
+        callback(new Error('请再次输入密码'));
       } else if (value !== this.ruleForm.pass) {
-        callback(new Error("两次输入密码不一致!"));
+        callback(new Error('两次输入密码不一致!'));
       } else {
         callback();
       }
     };
     return {
       ruleForm: {
-        pass: "",
-        checkPass: "",
-        age: ""
+        pass: '',
+        checkPass: '',
+        age: '',
       },
       rules: {
-        pass: [{ validator: validatePass, trigger: "blur" }],
-        checkPass: [{ validator: validatePass2, trigger: "blur" }],
-        age: [{ validator: checkAge, trigger: "blur" }]
-      }
+        pass: [{ validator: validatePass, trigger: 'blur' }],
+        checkPass: [{ validator: validatePass2, trigger: 'blur' }],
+        age: [{ validator: checkAge, trigger: 'blur' }],
+      },
     };
   },
   methods: {
     submitForm(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert("submit!");
+          alert('submit!');
         } else {
-          console.log("error submit!!");
+          console.log('error submit!!');
           return false;
         }
       });
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
-    }
-  }
+    },
+  },
 };
 </script>

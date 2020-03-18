@@ -67,42 +67,42 @@
 </template>
 
 <script>
-import userCenterService from "@/service/userCenter.js";
+import userCenterService from '@/service/userCenter.js';
 export default {
   data() {
     return {
       dialogVisible: false,
-      userId: "",
-      imageUrl: "",
+      userId: '',
+      imageUrl: '',
       pictureVisible: false,
       addUserForm: {
-        name: "杨莹",
-        phone: "15022209253"
+        name: '杨莹',
+        phone: '15022209253',
       },
       userData: [],
       addUserVisible: false,
       tableData: [
         {
-          createDate: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
+          createDate: '2016-05-02',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄',
         },
         {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1517 弄"
+          date: '2016-05-04',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1517 弄',
         },
         {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1519 弄"
+          date: '2016-05-01',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1519 弄',
         },
         {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄"
-        }
-      ]
+          date: '2016-05-03',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1516 弄',
+        },
+      ],
     };
   },
   methods: {
@@ -111,19 +111,19 @@ export default {
     },
     handleChange(file, fileList) {
       console.log(file);
-      userCenterService.uploadPicture(file, this.userId, res => {
+      userCenterService.uploadPicture(file, this.userId, (res) => {
         console.log(res);
       });
     },
     addUserSubmit: function() {
-      userCenterService.addUser(this.addUserForm, res => {
+      userCenterService.addUser(this.addUserForm, (res) => {
         console.log(res);
-        if (res.data.data === "该用户已经存在") {
-          this.$message.error("该用户已经存在");
+        if (res.data.data === '该用户已经存在') {
+          this.$message.error('该用户已经存在');
         } else {
           this.$message({
-            message: "添加成功",
-            type: "success"
+            message: '添加成功',
+            type: 'success',
           });
           this.addUserVisible = false;
           this.checkUser();
@@ -131,7 +131,7 @@ export default {
       });
     },
     checkUser: function() {
-      userCenterService.checkUser(res => {
+      userCenterService.checkUser((res) => {
         console.log(res.data.data);
         this.userData = res.data.data;
       });
@@ -143,22 +143,22 @@ export default {
     },
     deleteUser: function(row) {
       console.log(row);
-      userCenterService.deleteUser(row.id, res => {
-        if (res.data.data === "删除成功") {
+      userCenterService.deleteUser(row.id, (res) => {
+        if (res.data.data === '删除成功') {
           this.$message({
-            message: "删除成功",
-            type: "success"
+            message: '删除成功',
+            type: 'success',
           });
           this.checkUser();
         } else {
-          this.$message.error("删除失败");
+          this.$message.error('删除失败');
         }
       });
-    }
+    },
   },
   mounted() {
     this.checkUser();
-  }
+  },
 };
 </script>
 
