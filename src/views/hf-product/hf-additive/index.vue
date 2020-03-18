@@ -527,24 +527,7 @@ export default {
       let row = { tab1: '', tab2: '', tab3: '' };
       this.commoditytable.push(row);
     },
-    // 测试 goodName
-    test () {
-      // this.$http
-      //   .get(
-      //     'https://www.tjsichuang.cn:1443/api/product/product/specifies?productId=83'
-      //   )
-      //   .then(res => {
-      //     this.tabledatas = res.data.data
-      //     console.log(res)
-      //     for (var i = 0; i < res.data.data.length; i++) {
-      //       this.cols.push({
-      //         prop: 'specValue' + i,
-      //         label: res.data.data[i].hfName
-      //       })
-      //       console.log(this.tabledatas)
-      //     }
-      //   })
-    },
+
     loseFcous (index, row) {
 
       row.seen = false;
