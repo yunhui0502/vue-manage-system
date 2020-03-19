@@ -1,3 +1,4 @@
+
 <template>
   <div class="container">
     <!-- 卡片 element-ui 组件 -->
@@ -37,118 +38,98 @@
           </el-form>
         </div>
         <div class="div-img">
-          <router-link to="/code">
-            <img src="~@/assets/images/ico.png" alt />
-          </router-link>
-        </div>
+           <router-link to='/code'><img src="~@/assets/images/ico.png" alt=""></router-link>
+          </div>
       </el-card>
     </div>
   </div>
 </template>
 
 <script>
-import store from "@/store";
+import store from '@/store';
 export default {
-  data() {
+  data () {
     // 定义一个校验函数
     const checkMobile = (rule, value, callback) => {
       if (!/^1[3-9]\d{9}$/.test(value)) {
-        return callback(new Error("手机号不合法"));
+        return callback(new Error('手机号不合法'));
       }
       callback();
     };
     return {
       //  记住密码 单选框
-      radio: "1",
-      squareUrl: "",
+      radio: '1',
+      squareUrl: '',
       // 表单数据对象
       loginForm: {
-        authKey: "18830709006",
-        authType: "2",
-        code: ""
+        authKey: '18830709006',
+        authType: '2',
+        code: '',
       },
       // 表单校验规则对象
       loginRules: {
         authKey: [
-          { required: true, message: "请输入手机号", trigger: "blur" },
-          { validator: checkMobile, trigger: "change" }
+          { required: true, message: '请输入手机号', trigger: 'blur' },
+          { validator: checkMobile, trigger: 'change' },
         ],
         passwd: [
-          { required: true, message: "请输入验证码", trigger: "blur" },
-          { len: 4, message: "验证码长度4位", trigger: "blur" }
-        ]
-      }
+          { required: true, message: '请输入验证码', trigger: 'blur' },
+          { len: 4, message: '验证码长度4位', trigger: 'blur' },
+        ],
+      },
     };
   },
-  created() {
+  created () {
     // console.log(this.$refs.loginForm)
   },
   methods: {
     // 登录
-    login() {
+    login () {
       // 调用 validate 对整体表进行校验
-      this.$refs.loginForm.validate(async valid => {
+      this.$refs.loginForm.validate(async (valid) => {
         console.log(this.loginRules.authKey);
         if (valid) {
           try {
-<<<<<<< HEAD
-            await this.$http
-              .post(
-                `/api/api/user/hf-auth/login?authKey=${this.loginForm.authKey}&authType=${this.loginForm.authType}&passwd=${this.loginForm.code}`
-              )
-              .then(res => {
-                console.log(res);
-                if (res.data.status == 200) {
-                  let data = { token: "a1b2c3d4e4fg" };
-=======
             // eslint-disable-next-line no-unused-vars
             // hf-auth/login /user/login
             await this.$http.get(`/api/api/user/user/login?authKey=${this.loginForm.authKey}&authType=${this.loginForm.authType}&passwd=${this.loginForm.code}`)
               .then((res) => {
-                console.log(res.data.status);
-                if (res.data.data === '1') {
+                console.log(res);
+                if (res.data.status === 200) {
                   let data = { token: 'a1b2c3d4e4fg' };
->>>>>>> a20a074c67a7a62305455524cdbfffa3ed431b95
                   store.setUser(data);
-                  window.sessionStorage.setItem(
-                    "userInfor",
-                    JSON.stringify(res.data.data)
-                  );
-                  // localStorage.setItem()
-                  this.$router.push("/");
+                  this.$router.push('/');
                 }
               });
           } catch (e) {
             // 进行错误提示即可
-            this.$message.error("手机号或验证码错误");
+            this.$message.error('手机号或验证码错误');
           }
         }
       });
     },
     // 发送验证码
-    Sendlogin() {
+    Sendlogin () {
       // 调用 validate 对整体表进行校验
-      this.$refs.loginForm.validate(async valid => {
+      this.$refs.loginForm.validate(async (valid) => {
         console.log(1);
         if (valid) {
           console.log(valid);
           try {
             // eslint-disable-next-line no-unused-vars
-            await this.$http
-              .get("/api/api/user/user/code?phone=" + this.loginForm.authKey)
-              .then(res => {
-                this.loginForm.code = res.data.data;
-              });
+            await this.$http.get('/api/api/user/user/code?phone=' + this.loginForm.authKey).then((res) => {
+              this.loginForm.code = res.data.data;
+            });
             // this.$router.push('/')
           } catch (e) {
             // 进行错误提示即可
-            this.$message.error("手机号或验证码错误1");
+            this.$message.error('手机号或验证码错误1');
             console.log(e);
           }
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -222,8 +203,8 @@ export default {
     height: 70px;
     margin-left: 30px;
     position: absolute;
-    right: 25px;
-    bottom: 25px;
+      right: 25px;
+      bottom: 25px;
     img {
       width: 55px;
       height: 55px;

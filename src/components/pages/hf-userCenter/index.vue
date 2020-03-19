@@ -1,20 +1,22 @@
 <template>
 <div class="wrapper">
    <userList></userList>
+  </div>
 </div>
 </template>
+
 <script>
 import userList from './userList.vue';
 
 export default {
   name: 'store',
   components: {
-    userList
+    userList,
   },
   data() {
     return {
-      collapse: false
-    }
-  }
-}
+      collapse: false,
+    };
+  },
+};
 </script>
