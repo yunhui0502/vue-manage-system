@@ -17,7 +17,7 @@
     </el-select>
     <el-tabs type="border-card" @tab-click="getStatus">
       <el-tab-pane :label="item.hfName" v-for="item  in statusData" :key="item.hfName">
-        <el-table :data="orderData" stripe style="width: 100%">
+        <el-table :data="orderData.slice((currentPage-1)*pagesize,currentPage*pagesize)" stripe style="width: 100%">
           <el-table-column
             align="center"
             prop="orderCode"
@@ -36,6 +36,15 @@
             </template>
           </el-table-column>
         </el-table>
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          style="float:right;"
+          background
+          layout="prev, pager, next"
+          :total="orderData.length"
+          :page-size="pagesize"
+        ></el-pagination>
       </el-tab-pane>
     </el-tabs>
     <el-drawer :visible.sync="drawer">
@@ -62,6 +71,8 @@ import orderCenterService from "@/service/orderCenter.js";
 export default {
   data() {
     return {
+      currentPage: 1, //初始页
+      pagesize: 10, //每页的数据
       type: {
         orderType: "",
         orderStatus: ""
@@ -114,6 +125,12 @@ export default {
     };
   },
   methods: {
+    handleSizeChange(val) {
+      this.pagesize = val;
+    },
+    handleCurrentChange(val) {
+      this.currentPage = val;
+    },
     getlistByType: function(tab) {
       // console.log(1);
       // console.log( this.orderTypeValue)

@@ -7,10 +7,7 @@ function addUser(params) {
   fd.append('phone', params.phone);
   return Axios.post('/api/api/user/hf-auth/addAdminUser', fd);
 }
-// 查询台管理员
-function checkUser(params) {
-  return Axios.get('/api/api/user/hf-auth/findAdminUser');
-}
+
 // 删除台管理员
 function deleteUser(userId) {
   return Axios.get('/api/api/user/hf-auth/deleteAdminUser?userId=' + userId);
@@ -21,10 +18,23 @@ function uploadPicture(file, userId) {
   fd.append('userId', userId);
   return Axios.post('/api/api/user/user/upload_avatar', fd);
 }
-
+// 查询台管理员
+function checkUser(params) {
+  return Axios.get('/api/api/user/hf-auth/findAdminUser');
+}
+function updatePerson(params) {
+  let fd = new FormData();
+  console.log(params)
+  fd.append('nickName', params.nickName);
+  fd.append('invitationCode', params.invitationCode);
+  fd.append('userId', params.userId);
+  fd.append('phone', params.phone);
+  return Axios.post('/api/api/user/hf-auth/update', fd);
+}
 export default {
   uploadPicture: uploadPicture,
   addUser: addUser,
   checkUser: checkUser,
   deleteUser: deleteUser,
+  updatePerson:updatePerson
 };
