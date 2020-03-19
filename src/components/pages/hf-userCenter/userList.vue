@@ -80,33 +80,32 @@
 </template>
 
 <script>
-import userCenterService from "@/service/userCenter.js";
+import userCenterService from '@/service/userCenter.js';
 export default {
   data() {
     return {
-      currentPage: 1, //初始页
-      pagesize: 2, //每页的数据
+      currentPage: 1, // 初始页
+      pagesize: 2, // 每页的数据
       dialogVisible: false,
-      userId: "",
-      imageUrl: "",
+      userId: '',
+      imageUrl: '',
       pictureVisible: false,
       addUserForm: {
-        name: "杨莹",
-        phone: "15022209253"
+        name: '杨莹',
+        phone: '15022209253',
       },
       userData: [],
       addUserVisible: false,
     };
   },
   methods: {
-    godetail:function(row){
-       this.$router.push({
-        path: "/userDetail",
+    godetail: function(row) {
+      this.$router.push({
+        path: '/userDetail',
         query: {
-          id: row.id
-        }
+          id: row.id,
+        },
       });
-       
     },
     handleSizeChange(val) {
       this.pagesize = val;
@@ -119,19 +118,19 @@ export default {
     },
     handleChange(file, fileList) {
       console.log(file);
-      userCenterService.uploadPicture(file, this.userId, res => {
+      userCenterService.uploadPicture(file, this.userId, (res) => {
         console.log(res);
       });
     },
     addUserSubmit: function() {
-      userCenterService.addUser(this.addUserForm, res => {
+      userCenterService.addUser(this.addUserForm, (res) => {
         console.log(res);
-        if (res.data.data === "该用户已经存在") {
-          this.$message.error("该用户已经存在");
+        if (res.data.data === '该用户已经存在') {
+          this.$message.error('该用户已经存在');
         } else {
           this.$message({
-            message: "添加成功",
-            type: "success"
+            message: '添加成功',
+            type: 'success',
           });
           this.addUserVisible = false;
           this.checkUser();
@@ -139,7 +138,7 @@ export default {
       });
     },
     checkUser: function() {
-      userCenterService.checkUser(res => {
+      userCenterService.checkUser((res) => {
         console.log(res.data.data);
         this.userData = res.data.data.list;
       });
@@ -151,26 +150,26 @@ export default {
     },
     deleteUser: function(row) {
       console.log(row);
-       this.$confirm("确认删除吗？", "提示", {}).then(() => {
-        userCenterService.deleteUser(row.id, res => {
+      this.$confirm('确认删除吗？', '提示', {}).then(() => {
+        userCenterService.deleteUser(row.id, (res) => {
 
-          if (res.data.data === "删除成功") {
+          if (res.data.data === '删除成功') {
             this.$message({
-              message: "删除成功",
-              type: "success"
+              message: '删除成功',
+              type: 'success',
             });
             this.checkUser();
           } else {
-            this.$message.error("删除失败");
+            this.$message.error('删除失败');
           }
         });
-    });
-    }
-    
+      });
+    },
+
   },
   mounted() {
     this.checkUser();
-  }
+  },
 };
 </script>
 

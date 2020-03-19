@@ -26,7 +26,7 @@
   </div>
 </template>
 <script>
-import userCenterService from "@/service/userCenter.js";
+import userCenterService from '@/service/userCenter.js';
 export default {
   data() {
     return {
@@ -34,32 +34,32 @@ export default {
         name: [
           {
             required: true,
-            message: "请输入用户名",
-            trigger: "blur"
-          }
-        ]
+            message: '请输入用户名',
+            trigger: 'blur',
+          },
+        ],
       },
       use: {
-        invitationCode: "",
-        phone: "",
-        userId: "",
-        nickName: ""
+        invitationCode: '',
+        phone: '',
+        userId: '',
+        nickName: '',
       },
       ruleForm: {
-        nickName: ""
-      }
+        nickName: '',
+      },
     };
   },
   methods: {
     updatePerson: function() {
-      this.$refs.guiform.validate(valid => {
+      this.$refs.guiform.validate((valid) => {
         console.log(this.use);
-        userCenterService.updatePerson(this.use, res => {
+        userCenterService.updatePerson(this.use, (res) => {
           console.log(res);
           if (res.data.data === 1) {
             this.$message({
-              message: "更新成功",
-              type: "success"
+              message: '更新成功',
+              type: 'success',
             });
             //  this.$refs[guiform].resetFields();
           }
@@ -67,25 +67,25 @@ export default {
       });
     },
     submitForm(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert("submit!");
+          alert('submit!');
         } else {
-          console.log("error submit!!");
+          console.log('error submit!!');
           return false;
         }
       });
     },
     resetForm(guiform) {
       this.$refs[guiform].resetFields();
-    }
+    },
   },
   mounted() {
-    var content = window.sessionStorage.getItem("userInfor");
+    var content = window.sessionStorage.getItem('userInfor');
     this.content = JSON.parse(content);
     this.use.userId = this.content.id;
     this.use.phone = this.content.phone;
     console.log(this.content);
-  }
+  },
 };
 </script>

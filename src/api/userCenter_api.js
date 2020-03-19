@@ -24,7 +24,7 @@ function checkUser(params) {
 }
 function updatePerson(params) {
   let fd = new FormData();
-  console.log(params)
+  console.log(params);
   fd.append('nickName', params.nickName);
   fd.append('invitationCode', params.invitationCode);
   fd.append('userId', params.userId);
@@ -36,5 +36,5 @@ export default {
   addUser: addUser,
   checkUser: checkUser,
   deleteUser: deleteUser,
-  updatePerson:updatePerson
+  updatePerson: updatePerson,
 };

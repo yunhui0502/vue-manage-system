@@ -1,21 +1,54 @@
 <template>
   <div style="padding-bottom:130px ;">
-    <div style="font-weight: bold;">订单详情</div>
+    <div>
+      <span style="font-weight: bold;">订单详情</span>
+      <span style="margin-left:10px;">订单号:{{detail.orderCode}}</span>
+    </div>
     <el-card class="box-card">
-      <div slot="header" class="clearfix">
-        <span>订单号:{{detail.id}}</span>
-      </div>
-      <span>商品名称:{{detail.goodName}}</span>
-      <span style="margin-left: 20px;">订单类型:{{detail.orderType}}</span>
-      <span style="margin-left: 20px;">支付方式:{{detail.paymentName}}</span>
+      <span>支付人:{{detail.realName}}</span>
+      <span style="margin-left: 20px;" v-if="detail.paymentName === 'balance'">支付方式:余额支付</span>
+      <span style="margin-left: 20px;" v-if="detail.paymentName === 'BalancePayment'">支付方式:余额支付</span>
+      <span style="margin-left: 20px;" v-if="detail.paymentName === 'wechart'">支付方式:微信支付</span>
       <span style="margin-left: 20px;">支付金额:{{detail.amount}}</span>
+      <span style="margin-left: 20px;">支付时间:{{detail.modifyTime}}</span>
     </el-card>
     <el-card class="box-card">
       <div slot="header" class="clearfix">
         <span>订单扩展信息</span>
       </div>
-      <span>创建时间:{{detail.modifyTime}}</span>
-      <span style="margin-left: 20px;">订单类型:{{detail.hfRemark}}</span>
+      <span style="margin-left: 20px;">商品名称:{{detail.goodName}}</span>
+      <span style="margin-left: 20px;">物品名称:{{goodsName}}</span>
+      <span style="margin-left: 20px;">购买数量:{{detail.purchaseQuantity}}</span>
+      <el-table :data="hfGoodsSpecs" stripe style="width: 100%">
+          <el-table-column
+            align="center"
+            prop="hfName"
+            label="规格名"
+            :show-overflow-tooltip="true"
+            width="180"
+          ></el-table-column>
+          <el-table-column
+            align="center"
+            prop="hfValue"
+            label="规格值"
+            :show-overflow-tooltip="true"
+            width="180"
+          ></el-table-column>
+          <el-table-column
+            align="center"
+            prop="specType"
+            label="规格值类型"
+            :show-overflow-tooltip="true"
+            width="180"
+          ></el-table-column>
+          <el-table-column
+            align="center"
+            prop="specUnit"
+            label="规格单位"
+            :show-overflow-tooltip="true"
+            width="180"
+          ></el-table-column>
+        </el-table>
     </el-card>
     <div
       style="margin-top: 200px; display: flex;align-items: center;justify-content: space-around;padding:0 10%;"
@@ -37,65 +70,72 @@
 </template>
 
 <script>
-import orderCenterService from "@/service/orderCenter.js";
+import orderCenterService from '@/service/orderCenter.js';
+// eslint-disable-next-line no-unused-vars
+import constants from '@/store/constants.js';
 export default {
   data() {
     return {
+      goodsName: '',
+      hfGoodsSpecs: [],
       updata: {
-        targetOrderStatus: "process",
-        id: "",
-        orderCode: "",
-        originOrderStatus: "payment"
+        targetOrderStatus: 'process',
+        id: '',
+        orderCode: '',
+        originOrderStatus: 'payment',
       },
       updata1: {
-        targetOrderStatus: "cancel",
-        id: "",
-        orderCode: "",
-        originOrderStatus: "payment"
+        targetOrderStatus: 'cancel',
+        id: '',
+        orderCode: '',
+        originOrderStatus: 'payment',
       },
-      id: "",
-      detail: ""
+      id: '',
+      detail: '',
     };
   },
   methods: {
     getdetail: function() {
-      orderCenterService.getOrderDetail(this.id, res => {
+      orderCenterService.getOrderDetail(this.id, (res) => {
         console.log(res);
         this.detail = res.data.data;
+        this.detail.orderDesc = JSON.parse(this.detail.orderDesc);
+        this.hfGoodsSpecs = this.detail.orderDesc.hfGoodsSpecs;
+        this.goodsName = this.detail.orderDesc.goodsName ;
         this.updata.orderCode = this.detail.orderCode;
         this.updata1.orderCode = this.detail.orderCode;
       });
     },
     pay: function() {
-      orderCenterService.upDataOrderStatus(this.updata, res => {
+      orderCenterService.upDataOrderStatus(this.updata, (res) => {
         console.log(this.updata, res);
-        if (res.data.status === 200) {
+        if (res.data.status === constants.SUCCESS_CODE) {
           this.$message({
-            message: "支付成功",
-            type: "success"
+            message: '支付成功',
+            type: 'success',
           });
           this.drawer = false;
         } else {
-          this.$message.error("支付失败");
+          this.$message.error('支付失败');
         }
         return false;
       });
     },
     cancle: function() {
-      orderCenterService.upDataOrderStatus(this.updata1, res => {
+      orderCenterService.upDataOrderStatus(this.updata1, (res) => {
         console.log(this.updata1, res);
-        if (res.data.status === 200) {
+        if (res.data.status === constants.SUCCESS_CODE) {
           this.$message({
-            message: "已取消",
-            type: "success"
+            message: '已取消',
+            type: 'success',
           });
           this.drawer = false;
         } else {
-          this.$message.error("取消失败");
+          this.$message.error('取消失败');
         }
         return false;
       });
-    }
+    },
   },
 
   mounted() {
@@ -104,7 +144,7 @@ export default {
     this.updata1.id = this.$route.query.id;
     console.log(this.id);
     this.getdetail();
-  }
+  },
 };
 </script>
 <style>

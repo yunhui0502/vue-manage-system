@@ -121,31 +121,31 @@
 // @ is an alias to /src
 
 export default {
-  name: "home",
+  name: 'home',
   data() {
     return {
-      content: {}
+      content: {},
     };
   },
   methods: {
     goUpdte: function() {
-      this.$router.push("/update");
+      this.$router.push('/update');
     },
     orderform() {
-      this.$router.push("/orderform");
+      this.$router.push('/orderform');
     },
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
     },
     handleClose(key, keyPath) {
       console.log(key, keyPath);
-    }
+    },
   },
   mounted() {
-    var content = window.sessionStorage.getItem("userInfor");
+    var content = window.sessionStorage.getItem('userInfor');
     this.content = JSON.parse(content);
     console.log(this.content);
-  }
+  },
 };
 </script>
 
