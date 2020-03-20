@@ -22,6 +22,6 @@ export default {
   checkUser: checkUser,
   deleteUser: deleteUser,
   uploadPicture: uploadPicture,
-  updatePerson: updatePerson
+  updatePerson: updatePerson,
 };
 

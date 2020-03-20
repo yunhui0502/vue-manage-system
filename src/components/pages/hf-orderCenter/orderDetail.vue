@@ -37,29 +37,30 @@
 </template>
 
 <script>
-import orderCenterService from "@/service/orderCenter.js";
+import orderCenterService from '@/service/orderCenter.js';
+import constants from '@/store/constants.js';
 export default {
   data() {
     return {
       updata: {
-        targetOrderStatus: "process",
-        id: "",
-        orderCode: "",
-        originOrderStatus: "payment"
+        targetOrderStatus: 'process',
+        id: '',
+        orderCode: '',
+        originOrderStatus: 'payment',
       },
       updata1: {
-        targetOrderStatus: "cancel",
-        id: "",
-        orderCode: "",
-        originOrderStatus: "payment"
+        targetOrderStatus: 'cancel',
+        id: '',
+        orderCode: '',
+        originOrderStatus: 'payment',
       },
-      id: "",
-      detail: ""
+      id: '',
+      detail: '',
     };
   },
   methods: {
     getdetail: function() {
-      orderCenterService.getOrderDetail(this.id, res => {
+      orderCenterService.getOrderDetail(this.id, (res) => {
         console.log(res);
         this.detail = res.data.data;
         this.updata.orderCode = this.detail.orderCode;
@@ -67,35 +68,35 @@ export default {
       });
     },
     pay: function() {
-      orderCenterService.upDataOrderStatus(this.updata, res => {
+      orderCenterService.upDataOrderStatus(this.updata, (res) => {
         console.log(this.updata, res);
-        if (res.data.status === 200) {
+        if (res.data.status === constants.SUCCESS_CODE) {
           this.$message({
-            message: "支付成功",
-            type: "success"
+            message: '支付成功',
+            type: 'success',
           });
           this.drawer = false;
         } else {
-          this.$message.error("支付失败");
+          this.$message.error('支付失败');
         }
         return false;
       });
     },
     cancle: function() {
-      orderCenterService.upDataOrderStatus(this.updata1, res => {
+      orderCenterService.upDataOrderStatus(this.updata1, (res) => {
         console.log(this.updata1, res);
-        if (res.data.status === 200) {
+        if (res.data.status === constants.SUCCESS_CODE) {
           this.$message({
-            message: "已取消",
-            type: "success"
+            message: '已取消',
+            type: 'success',
           });
           this.drawer = false;
         } else {
-          this.$message.error("取消失败");
+          this.$message.error('取消失败');
         }
         return false;
       });
-    }
+    },
   },
 
   mounted() {
@@ -104,7 +105,7 @@ export default {
     this.updata1.id = this.$route.query.id;
     console.log(this.id);
     this.getdetail();
-  }
+  },
 };
 </script>
 <style>
