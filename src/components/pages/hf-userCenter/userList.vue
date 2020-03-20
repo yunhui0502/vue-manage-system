@@ -106,7 +106,6 @@ export default {
           id: row.id,
         },
       });
-
     },
     handleSizeChange(val) {
       this.pagesize = val;

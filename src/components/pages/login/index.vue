@@ -101,8 +101,7 @@ export default {
                 if (res.data.status === constants.SUCCESS_CODE) {
                   let data = { token: 'a1b2c3d4e4fg' };
                   store.setUser(data);
-                  window.sessionStorage.setItem(
-                    'userInfor',
+                  window.sessionStorage.setItem('userInfor',
                     JSON.stringify(res.data.data),
                   );
                   // localStorage.setItem()

@@ -25,8 +25,32 @@
             :show-overflow-tooltip="true"
             width="180"
           ></el-table-column>
-          <el-table-column align="center" prop="orderType" label="订单类型"></el-table-column>
-          <el-table-column align="center" prop="paymentName" label="支付方式"></el-table-column>
+          <el-table-column align="center" label="订单类型"  prop="orderType">
+           <!-- <template slot-scope="scope">
+             <span v-if="scope.row.orderType === 'nomalOrder'">
+               普通订单
+             </span>
+              <span v-if="scope.row.orderType ==='rechargeOrder'">
+               充值订单
+             </span>
+              <span v-if="scope.row.orderType ==='shoppingOrder'">
+               到店支付订单
+             </span>
+            </template> -->
+          </el-table-column>
+          <el-table-column align="center"  label="支付方式">
+            <template slot-scope="scope">
+             <span v-if="scope.row.paymentName === 'BalancePayment'">
+               余额支付
+             </span>
+              <span v-if="scope.row.paymentName ==='balance'">
+               余额支付
+             </span>
+              <span v-if="scope.row.paymentName ==='wechart'">
+               微信支付
+             </span>
+            </template>
+          </el-table-column>
           <el-table-column align="center" prop="amount" label="支付金额"></el-table-column>
           <el-table-column align="center" prop="modifyTime" label="修改时间" width="180"></el-table-column>
           <el-table-column align="center" label="操作">

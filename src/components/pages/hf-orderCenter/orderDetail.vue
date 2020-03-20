@@ -1,21 +1,54 @@
 <template>
   <div style="padding-bottom:130px ;">
-    <div style="font-weight: bold;">订单详情</div>
+    <div>
+      <span style="font-weight: bold;">订单详情</span>
+      <span style="margin-left:10px;">订单号:{{detail.orderCode}}</span>
+    </div>
     <el-card class="box-card">
-      <div slot="header" class="clearfix">
-        <span>订单号:{{detail.id}}</span>
-      </div>
-      <span>商品名称:{{detail.goodName}}</span>
-      <span style="margin-left: 20px;">订单类型:{{detail.orderType}}</span>
-      <span style="margin-left: 20px;">支付方式:{{detail.paymentName}}</span>
+      <span>支付人:{{detail.realName}}</span>
+      <span style="margin-left: 20px;" v-if="detail.paymentName === 'balance'">支付方式:余额支付</span>
+      <span style="margin-left: 20px;" v-if="detail.paymentName === 'BalancePayment'">支付方式:余额支付</span>
+      <span style="margin-left: 20px;" v-if="detail.paymentName === 'wechart'">支付方式:微信支付</span>
       <span style="margin-left: 20px;">支付金额:{{detail.amount}}</span>
+      <span style="margin-left: 20px;">支付时间:{{detail.modifyTime}}</span>
     </el-card>
     <el-card class="box-card">
       <div slot="header" class="clearfix">
         <span>订单扩展信息</span>
       </div>
-      <span>创建时间:{{detail.modifyTime}}</span>
-      <span style="margin-left: 20px;">订单类型:{{detail.hfRemark}}</span>
+      <span style="margin-left: 20px;">商品名称:{{detail.goodName}}</span>
+      <span style="margin-left: 20px;">物品名称:{{goodsName}}</span>
+      <span style="margin-left: 20px;">购买数量:{{detail.purchaseQuantity}}</span>
+      <el-table :data="hfGoodsSpecs" stripe style="width: 100%">
+          <el-table-column
+            align="center"
+            prop="hfName"
+            label="规格名"
+            :show-overflow-tooltip="true"
+            width="180"
+          ></el-table-column>
+          <el-table-column
+            align="center"
+            prop="hfValue"
+            label="规格值"
+            :show-overflow-tooltip="true"
+            width="180"
+          ></el-table-column>
+          <el-table-column
+            align="center"
+            prop="specType"
+            label="规格值类型"
+            :show-overflow-tooltip="true"
+            width="180"
+          ></el-table-column>
+          <el-table-column
+            align="center"
+            prop="specUnit"
+            label="规格单位"
+            :show-overflow-tooltip="true"
+            width="180"
+          ></el-table-column>
+        </el-table>
     </el-card>
     <div
       style="margin-top: 200px; display: flex;align-items: center;justify-content: space-around;padding:0 10%;"
@@ -42,6 +75,8 @@ import constants from '@/store/constants.js';
 export default {
   data() {
     return {
+      goodsName: '',
+      hfGoodsSpecs: [],
       updata: {
         targetOrderStatus: 'process',
         id: '',
@@ -63,6 +98,9 @@ export default {
       orderCenterService.getOrderDetail(this.id, (res) => {
         console.log(res);
         this.detail = res.data.data;
+        this.detail.orderDesc = JSON.parse(this.detail.orderDesc);
+        this.hfGoodsSpecs = this.detail.orderDesc.hfGoodsSpecs;
+        this.goodsName = this.detail.orderDesc.goodsName ;
         this.updata.orderCode = this.detail.orderCode;
         this.updata1.orderCode = this.detail.orderCode;
       });
