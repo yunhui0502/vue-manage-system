@@ -133,7 +133,7 @@ export default {
       tableData: [],
       leiMuId: '',
       selectList: [],
-      addLoading: false
+      addLoading: false,
     };
   },
   methods: {
@@ -143,8 +143,8 @@ export default {
       this.$router.push({
         path: '/detail',
         query: {
-          row: arr
-        }
+          row: arr,
+        },
       });
     },
     deletesingle: function(row) {
@@ -205,7 +205,7 @@ export default {
                 _this.listProduct();
                 this.$message({
                   message: '提交成功',
-                  type: 'success'
+                  type: 'success',
                 });
                 this.addForm.hfName = '';
                 this.addForm.productDesc = '';
@@ -314,7 +314,7 @@ export default {
     init() {
       this.listProduct();
       // this.checkType();
-    }
+    },
   },
   mounted() {
     this.init();
@@ -340,6 +340,6 @@ export default {
     let GMT = new Date(now);
     console.log(GMT);
 
-  }
+  },
 };
 </script>

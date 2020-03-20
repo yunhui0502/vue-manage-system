@@ -222,19 +222,19 @@ export default {
         {
           value: '选项1',
           label: '黄金糕',
-        }
+        },
       ],
       options1: [
         {
           value: '选项1',
-          label: '雪糕'
-        }
+          label: '雪糕',
+        },
       ],
       options2: [
         {
           value: '选项1',
-          label: '冰淇淋'
-        }
+          label: '冰淇淋',
+        },
       ],
       value: '',
       pickerOptions: {
@@ -246,7 +246,7 @@ export default {
             text: '今天',
             onClick(picker) {
               picker.$emit('pick', new Date());
-            }
+            },
           },
           {
             text: '昨天',
@@ -254,7 +254,7 @@ export default {
               const date = new Date();
               date.setTime(date.getTime() - 3600 * 1000 * 24);
               picker.$emit('pick', date);
-            }
+            },
           },
           {
             text: '一周前',
@@ -262,14 +262,14 @@ export default {
               const date = new Date();
               date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
               picker.$emit('pick', date);
-            }
-          }
-        ]
+            },
+          },
+        ],
       },
       value1: '',
       value2: '',
       searchVal: '',
-      query: ''
+      query: '',
     };
   },
   methods: {
@@ -306,7 +306,7 @@ export default {
       console.log(`当前页: ${val}`);
       this.currpage = val;
     },
-  }
+  },
 };
 </script>
 <style scoped="scoped">
