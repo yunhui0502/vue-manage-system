@@ -3,23 +3,45 @@
   <el-container>
     <el-container>
       <el-aside class="abc" width="380px">
-        <div>精选活动列表</div>
+        <div style="margin: 6px;">精选活动列表</div>
 
         <el-input placeholder="请输入内容排行名称" v-model="groupform.seniorityName" clearable></el-input>
         <!-- 上传图片 -->
-        <el-upload
-          action="https://jsonplaceholder.typicode.com/posts/"
-          list-type="picture-card"
-          :on-preview="handlePictureCardPreview"
-          :on-remove="handleRemove"
-        >
-          <i class="el-icon-plus"></i>
-        </el-upload>
-        <el-dialog :visible.sync="dialogVisible">
-          <img width="100%" :src="dialogImageUrl" alt />
-        </el-dialog>
+        <div style="text-align: center;">
+          <el-button @click="addGcommodity" type="success">添加</el-button>
+       </div>
+          <el-upload
+            class="upload-demo"
+            action="/api/api/product/seniority/updateSeniorityInfo"
+            :on-preview="handlePreview"
+            name="fileInfo"
+            :data="transfedata.seniorityId"
+            :on-remove="handleRemove"
+            :before-remove="beforeRemove"
+            multiple
+            :limit="3"
+            :on-exceed="handleExceed"
+            :file-list="fileList"
+          >
+            <el-button size="small" type="primary">点击上传</el-button>
+            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+          </el-upload>
 
-        <el-button @click="addGcommodity" type="success">添加</el-button>
+
+        <div style="margin-top: 16px;">
+          <div style="margin: 10px;">绑定商品</div>
+          <el-form width="40%" :inline="true" :model="transfedata" class="demo-form-inline">
+            <el-form-item label="商品ID">
+              <el-input v-model="transfedata.goodsId" placeholder="商品ID"></el-input>
+            </el-form-item>
+            <el-form-item label="活动ID">
+              <el-input v-model="transfedata.seniorityId" placeholder="活动ID"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="onSubmit">确定</el-button>
+            </el-form-item>
+          </el-form>
+        </div>
       </el-aside>
       <el-main class="qwe">
         <el-button @click="dialogTableVisible = true" type="primary">参与活动商品管理</el-button>
@@ -29,6 +51,7 @@
           tooltip-effect="dark"
           style="width: 100%"
           :select-all="dianji(selection)"
+          @selection-change="eventsSelectionChange"
         >
           <el-table-column checked type="selection" width="55"></el-table-column>
           <el-table-column label="ID" width="120">
@@ -37,11 +60,12 @@
           <el-table-column label="榜名单" width="120">
             <template slot-scope="scope">{{ scope.row.seniorityName}}</template>
           </el-table-column>
-          <el-table-column prop="createTime" label="创建时间" width="120"></el-table-column>
+          <el-table-column prop="createTime" label="创建时间" show-overflow-tooltip></el-table-column>
           <el-table-column prop="modifityTime" label="修改时间" show-overflow-tooltip></el-table-column>
           <el-table-column prop="address" label="操作" show-overflow-tooltip>
             <template slot-scope="scope">
               <el-button type="danger" @click="deleteEvent(scope.row.id)" size="mini">删除</el-button>
+              <el-button type="info" @click="view(scope.row.id)" size="mini">查看</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -74,6 +98,8 @@ import serviceEvents from '@/service/eventsManage.js';
 export default {
   data() {
     return {
+      imageUrl: '',
+      fileList: [], // 图片
       dialogTableVisible: false,
       selection: [],
       activeIndex: '1',
@@ -88,8 +114,12 @@ export default {
         userId: '123', // 登录的用户id
         token: '123', // 登录成功后返回的token
       },
-      dialogImageUrl: '', // 添加图片上的
-      dialogVisible: false, // 添加图片上的
+      transfedata: {
+        goodsId: '',
+        seniorityId: '',
+      },
+      // eventsId: [], // 保存活动ID
+      // goodsId: [], // 保存商品ID
       // 表单
       tableData: [],
       // 弹窗数据
@@ -101,12 +131,33 @@ export default {
     this.setProducts();
   },
   methods: {
+    // 绑定 里的确定按钮
+    onSubmit() {
+      console.log('submit!');
+    },
     // 查询排行相关信息
     getselect() {
       serviceEvents.seniorityfindSeniorityInfo((res) => {
         console.log('精选商品', res.data);
         this.tableData = res.data.data;
       });
+    },
+    submitUpload() {
+      this.$refs.upload.submit();
+      console.log(this.fileList);
+      console.log(this.$refs.upload);
+    },
+    handleExceed(files, fileList) {
+      this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+    },
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+    },
+    handlePreview(file) {
+      console.log(file);
+    },
+    beforeRemove(file, fileList) {
+      return this.$confirm(`确定移除 ${file.name}？`);
     },
     //  添加排行相关信息 timestamp  repertory
     addGcommodity() {
@@ -144,32 +195,44 @@ export default {
         this.getselect();
       });
     },
+    // 查看
+    view(seniorityId) {
+      console.log(seniorityId);
+      serviceEvents.seniorityfindSeniorityContent(seniorityId, (res) => {
+        console.log(res);
+      });
+    },
     dianji(selection) {
       console.log(selection);
     },
-    // 文件列表移除文件时的钩子
-    handleRemove(file, fileList) {
-      console.log(file, fileList);
-    },
-    // 点击文件列表中已上传的文件时的钩子
-    handlePictureCardPreview(file) {
-      this.dialogImageUrl = file.url;
-      this.dialogVisible = true;
+
+    eventsSelectionChange(val) {
+      console.log('活动', val);
+      this.transfedata.seniorityId = [];
+      for (let i = 0; i < val.length; i++) {
+        // this.transfedata.seniorityId = val[i].id;
+      }
+      console.log('this.eventsId', this.transfedata.seniorityId);
     },
     handleSelectionChange(val) {
-      // console.log(1112112312)
-      // this.multipleTable = val //  this.multipleTable 选中的值
-      this.addActivities = [];
-      console.log('选中的值', val);
-      let arr = val;
-      for (let i = 0; i < arr.length; i++) {
-        this.addActivities.push(val[i]);
+      console.log('所有', val);
+      this.transfedata.goodsId = [];
+      for (let i = 0; i < val.length; i++) {
+        // this.transfedata.goodsId = val[i].id;
       }
-      console.log(this.addActivities);
+      console.log('this.goodsId', this.transfedata.goodsId);
+    },
+
+    changeFile(file, fileList) {
+      this.fileInfo = file.raw;
+      console.log(file.raw);
     },
   },
 };
 </script>
 
 <style lang="less" scoped>
+.el-input__inner {
+  width: 50%;
+}
 </style>

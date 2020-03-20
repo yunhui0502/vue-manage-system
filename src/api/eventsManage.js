@@ -19,12 +19,24 @@ function killDelete(id) {
 function ceateInsert(params) {
   let fd = new FormData();
   fd.append('goodsId', params.goodsId);
+  fd.append('id', params.id);
   fd.append('price', params.price);
   fd.append('repertory', params.repertory);
   fd.append('startTime', params.startTime);
   fd.append('stopTime', params.stopTime);
   // 添加商品接口
   return Axios.post('/api/api/product/kill/insert', fd);
+}
+// 修改秒杀商品接口 startTime
+function killupdate(params) {
+  let fd = new FormData();
+  fd.append('goodsId', params.goodsId);
+  fd.append('price', params.price);
+  fd.append('id', params.id);
+  fd.append('repertory', params.repertory);
+  fd.append('startTime', params.startTime);
+  fd.append('stopTime', params.stopTime);
+  return Axios.post('/api/api/product/kill/update', fd);
 }
 
 // ========================================拼团
@@ -48,17 +60,33 @@ function groupInsert(params) {
   fd.append('stopTime', params.stopTime);
   return Axios.post('/api/api/product/group/insert', fd);
 }
+// 修改团购商品接口
+function groupupdate(params) {
+  let fd = new FormData();
+  fd.append('goodsId', params.goodsId);
+  fd.append('number', params.number);
+  fd.append('groupId', params.groupId);
+  fd.append('price', params.price);
+  fd.append('repertory', params.repertory);
+  fd.append('startTime', params.startTime);
+  fd.append('stopTime', params.stopTime);
+  return Axios.post('/api/api/product/group/update', fd);
+}
 // ========================================精选
 
 // 查询排行相关信息
 function seniorityfindSeniorityInfo() {
   return Axios.get('/api/api/product/seniority/findSeniorityInfo');
 }
+// 查询排行内容
+function seniorityfindSeniorityContent() {
+  return Axios.get('/api/api/product/seniority/findSeniorityContent');
+}
 // 添加排行相关信息
 function seniorityEvent(params) {
   let fd = new FormData();
   // fd.append('fileId', params.fileId);
-  // fd.append('fileInfo', params.fileInfo);
+  fd.append('fileInfo', params.fileInfo);
   fd.append('repertory', params.repertory);
   fd.append('seniorityName', params.seniorityName);
   fd.append('timestamp', params.timestamp);
@@ -67,10 +95,10 @@ function seniorityEvent(params) {
   return Axios.post('/api/api/product/seniority/addSeniorityInfo', fd);
 }
 // 排行相关信息和商品进行绑定
-function seniorityBinding(goodsId, seniorityId) {
+function seniorityBinding(params) {
   let fd = new FormData();
-  fd.append('goodsId', seniorityId);
-  fd.append('number', seniorityId);
+  fd.append('transfedata.goodsId', params.goodsId);
+  fd.append('seniorityId', params.seniorityId);
   return Axios.post('/api/api/product/seniority/addSeniorityContent', fd);
 }
 // 单个删除排行相关信息
@@ -89,15 +117,18 @@ export default {
   ceateInsert: ceateInsert,
   selectAll: selectAll,
   killDelete: killDelete,
+  killupdate: killupdate,
   // 团购
   groupSelete: groupSelete,
   groupInsert: groupInsert,
   groupDelete: groupDelete,
+  groupupdate: groupupdate,
   // 精选
   seniorityfindSeniorityInfo: seniorityfindSeniorityInfo,
   seniorityEvent: seniorityEvent,
   seniorityBinding: seniorityBinding,
   seniorityDelete: seniorityDelete,
   seniorityfind: seniorityfind,
+  seniorityfindSeniorityContent: seniorityfindSeniorityContent,
 };
 

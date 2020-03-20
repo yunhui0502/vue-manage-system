@@ -14,6 +14,10 @@ async function selectAll(handleResult) {
 async function ceateInsert(params, handleResult) {
   eventsManage.ceateInsert(params).then((res) => handleResult(res));
 }
+// 修改秒杀商品接口
+async function killupdate(params, handleResult) {
+  eventsManage.killupdate(params).then((res) => handleResult(res));
+}
 // 单个删除秒杀商品
 async function killDelete(id, handleResult) {
   eventsManage.killDelete(id).then((res) => handleResult(res));
@@ -27,6 +31,10 @@ async function groupSelete(handleResult) {
 async function groupInsert(params, handleResult) {
   eventsManage.groupInsert(params).then((res) => handleResult(res));
 }
+// 修改团购商品接口
+async function groupupdate(params, handleResult) {
+  eventsManage.groupupdate(params).then((res) => handleResult(res));
+}
 // 单个删除秒杀商品
 async function groupDelete(params, handleResult) {
   eventsManage.groupDelete(params).then((res) => handleResult(res));
@@ -35,6 +43,10 @@ async function groupDelete(params, handleResult) {
 // 查询排行相关信息
 async function seniorityfindSeniorityInfo(handleResult) {
   eventsManage.seniorityfindSeniorityInfo().then((res) => handleResult(res));
+}
+// 查询排行内容
+async function seniorityfindSeniorityContent(handleResult) {
+  eventsManage.seniorityfindSeniorityContent().then((res) => handleResult(res));
 }
 // 添加排行相关信息
 async function seniorityEvent(params, handleResult) {
@@ -59,14 +71,17 @@ export default {
   ceateInsert: ceateInsert,
   selectAll: selectAll,
   killDelete: killDelete,
+  killupdate: killupdate,
   // 团购
   groupSelete: groupSelete,
   groupInsert: groupInsert,
   groupDelete: groupDelete,
+  groupupdate: groupupdate,
   // 精选
   seniorityfindSeniorityInfo: seniorityfindSeniorityInfo,
   seniorityDelete: seniorityDelete,
   seniorityEvent: seniorityEvent,
   seniorityBinding: seniorityBinding,
   seniorityfind: seniorityfind,
+  seniorityfindSeniorityContent: seniorityfindSeniorityContent,
 };

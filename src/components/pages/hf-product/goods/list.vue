@@ -6,6 +6,7 @@
       :data="tableData"
       v-loading="loading"
       border
+      @row-click="rowClick"
       highlight-current-row
       ref="multipleTable"
     >
@@ -36,9 +37,13 @@
       :direction="direction"
       :visible.sync="drawer"
       :before-close="handleClose"
-      size="50%"
+      size="80%"
     >
-      <el-table
+    <div style="float: left;">
+      <ListSpecification ref="child" details="false" :interconnectedID="interconnectedID" :detailgoodsId="detailgoodsId" ></ListSpecification>
+    </div>
+    <div style="float: right;">
+        <el-table
         :data="details"
         v-loading="loading"
         border
@@ -46,32 +51,38 @@
         ref="multipleTable"
       >
         <el-table-column prop="goodsId" label="序号" width="50" align="center"></el-table-column>
-        <el-table-column prop="goodsName" label="物品名称">
+        <el-table-column prop="brandName" label="物品名称">
           <template slot-scope="scope">
-            <el-input placeholder="请输入内容" v-model="scope.row.goodsName"></el-input>
+            <el-input v-show="show" placeholder="请输入内容" v-model="scope.row.brandName"></el-input>
+                 <span v-show="!show">{{scope.row.brandName}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="goodsDesc" label="物品描述">
           <template slot-scope="scope">
-            <el-input placeholder="请输入内容" v-model="scope.row.goodsDesc"></el-input>
+            <el-input v-show="show" placeholder="请输入内容" v-model="scope.row.goodsDesc"></el-input>
+            <span v-show="!show">{{scope.row.goodsDesc}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="brandName" label="生产厂家">
           <template slot-scope="scope">
-            <el-input placeholder="请输入内容" v-model="scope.row.brandName"></el-input>
+            <el-input v-show="show" placeholder="请输入内容" v-model="scope.row.brandName"></el-input>
+            <span v-show="!show">{{scope.row.brandName}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="sellPrice" label="售卖价格">
           <template slot-scope="scope">
-            <el-input placeholder="请输入内容" v-model="scope.row.sellPrice"></el-input>
+            <el-input v-show="show" placeholder="请输入内容" v-model="scope.row.sellPrice"></el-input>
+            <span v-show="!show">{{scope.row.sellPrice}}</span>
           </template>
         </el-table-column>
         <el-table-column fixed="right" width="100" label="操作">
           <template slot-scope="scope">
-            <el-button @click="modification(scope)" type="text" size="small">修改</el-button>
+            <el-button type="text" size="small" @click="show =true">编辑</el-button>
+            <el-button @click="modification(scope)" type="text" size="small">提交</el-button>
           </template>
         </el-table-column>
       </el-table>
+    </div>
     </el-drawer>
   </div>
 </template>
@@ -80,6 +91,7 @@
 <script>
 import serviceGoods from '@/service/goods.js';
 
+import ListSpecification from '../list-specification';
 export default {
   props: {
     commodityId: {
@@ -87,8 +99,14 @@ export default {
       default: 0,
     },
   },
+  components: {
+    ListSpecification,
+  },
   data() {
     return {
+      detailgoodsId: '',
+      interconnectedID: 0,
+      show: false,
       loading: false,
       totalSize: 0,
       currpage: 1,
@@ -102,6 +120,7 @@ export default {
   created() {
     this.setProducts();
   },
+
   methods: {
     setProducts() {
       this.loading = true;
@@ -121,23 +140,33 @@ export default {
     refresh() {
       this.setProducts();
     },
+    // 点击物品列表行触发
+    rowClick(e) {
+      console.log('三级连动', e.goodsId);
+      this.interconnectedID = e.goodsId;
+
+      setTimeout(() => {
+        console.log(this.$refs.child);
+        this.$refs.child.callMethod();
+      }, 0);
+    },
     // 详情
     editProduct(row) {
+      console.log('row', row);
+      this.detailgoodsId = row.goodsId;
       this.drawer = true;
       serviceGoods.selectProductGoods(row.goodsId, this.commodityId, (res) => {
         this.details = res.data.data;
         console.log(res.data.data);
       });
     },
-    // 修改row
+    // 修改提交
     modification(scope) {
-
       serviceGoods.updateGood(scope.row, (res) => {
         this.drawer = false;
       });
     },
     deleteProduct(row) {
-      console.log(row.goodsId);
       this.$confirm('确认删除吗？', '提示', {}).then(async () => {
         serviceGoods.deleteById(row.goodsId, (res) => {
           this.setProducts();

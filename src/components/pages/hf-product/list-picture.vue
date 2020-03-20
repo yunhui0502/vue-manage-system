@@ -85,7 +85,7 @@ export default {
       });
       console.log(this.files);
       axios
-        .post('https://www.tjsichuang.cn:1443/api/product//product/addProductPictrue', fd)
+        .post('https://www.tjsichuang.cn:1443/api/product/product/addProductPictrue', fd)
         .then((res) => {
           if (res.data.status === 'OK') {
             console.log(res);
