@@ -1,7 +1,6 @@
 <template>
 <div class="wrapper">
-   <userList></userList>
-  </div>
+  <userList></userList>
 </div>
 </template>
 

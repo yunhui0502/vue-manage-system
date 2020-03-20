@@ -25,6 +25,7 @@
           <el-menu-item index="/hf-eventsManage">
             <i class="iconfont icon-huodong"></i>
             <span slot="title">活动管理</span>
+          </el-menu-item>
           <el-menu-item index="/hf-orderCenter">
             <i class="el-icon-tickets"></i>
             <span slot="title">订单中心</span>

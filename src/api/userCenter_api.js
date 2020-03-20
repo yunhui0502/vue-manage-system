@@ -36,4 +36,5 @@ export default {
   checkUser: checkUser,
   deleteUser: deleteUser,
   updatePerson: updatePerson,
+  uploadPicture: uploadPicture,
 };
