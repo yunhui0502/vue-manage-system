@@ -1,5 +1,3 @@
-/* eslint-disable no-tabs */
-
 <template>
   <el-container class="my-container">
     <el-aside width="200px">
@@ -17,7 +15,7 @@
           router
         >
           <el-menu-item index="/">
-            <i class="iconfont icon-home" style="font-size: 28px;"></i>
+            <i class="iconfont icon-home"></i>
             <span slot="title">首页</span>
           </el-menu-item>
           <el-menu-item index="/hf-product">
@@ -27,6 +25,9 @@
           <el-menu-item index="/hf-eventsManage">
             <i class="iconfont icon-huodong"></i>
             <span slot="title">活动管理</span>
+          <el-menu-item index="/hf-orderCenter">
+            <i class="el-icon-tickets"></i>
+            <span slot="title">订单中心</span>
           </el-menu-item>
           <el-menu-item index="/hf-userCenter">
             <i class="el-icon-user"></i>
@@ -62,10 +63,7 @@
                   <div style="float: right;margin-top: -40px;">明晚14:20</div>
                 </el-dropdown-item>
                 <br />
-                <el-dropdown-item divided>
-                  <img style="width: 40px;height: 40px;float: left;" src="../../img/6.jpg" />
-                  <div style="float:left;margin-top:-5px;margin-left: 10px;">用户的名字</div>
-                  <br />
+                <el-dropdown-item>
                   <div style="float: left;margin-left: 10px;margin-top: -20px;">请输入你要添加的内容</div>
                   <div style="float: right;margin-top: -40px;">明晚14:20</div>
                 </el-dropdown-item>
@@ -137,7 +135,15 @@
 
 export default {
   name: 'home',
+  data() {
+    return {
+      content: {},
+    };
+  },
   methods: {
+    goUpdte: function() {
+      this.$router.push('/update');
+    },
     orderform() {
       this.$router.push('/orderform');
     },
@@ -147,6 +153,11 @@ export default {
     handleClose(key, keyPath) {
       console.log(key, keyPath);
     },
+  },
+  mounted() {
+    var content = window.sessionStorage.getItem('userInfor');
+    this.content = JSON.parse(content);
+    console.log(this.content);
   },
 };
 </script>

@@ -47,6 +47,7 @@
 
 <script>
 import store from '@/store';
+import constants from '@/store/constants.js';
 export default {
   data () {
     // 定义一个校验函数
@@ -90,14 +91,19 @@ export default {
         console.log(this.loginRules.authKey);
         if (valid) {
           try {
-            // eslint-disable-next-line no-unused-vars
-            // hf-auth/login /user/login
-            await this.$http.get(`/api/api/user/user/login?authKey=${this.loginForm.authKey}&authType=${this.loginForm.authType}&passwd=${this.loginForm.code}`)
+            await this.$http
+              .post(
+                `/api/api/user/hf-auth/login?authKey=${this.loginForm.authKey}&authType=${this.loginForm.authType}&passwd=${this.loginForm.code}`,
+              )
               .then((res) => {
                 console.log(res);
-                if (res.data.status === 200) {
+                if (res.data.status === constants.SUCCESS_CODE) {
                   let data = { token: 'a1b2c3d4e4fg' };
                   store.setUser(data);
+                  window.sessionStorage.setItem('userInfor',
+                    JSON.stringify(res.data.data),
+                  );
+                  // localStorage.setItem()
                   this.$router.push('/');
                 }
               });
@@ -117,9 +123,11 @@ export default {
           console.log(valid);
           try {
             // eslint-disable-next-line no-unused-vars
-            await this.$http.get('/api/api/user/user/code?phone=' + this.loginForm.authKey).then((res) => {
-              this.loginForm.code = res.data.data;
-            });
+            await this.$http
+              .get('/api/api/user/user/code?phone=' + this.loginForm.authKey)
+              .then((res) => {
+                this.loginForm.code = res.data.data;
+              });
             // this.$router.push('/')
           } catch (e) {
             // 进行错误提示即可

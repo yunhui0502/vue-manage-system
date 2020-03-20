@@ -1,3 +1,7 @@
+/* eslint-disable vue/no-unused-vars */
+/* eslint-disable vue/no-unused-vars */
+/* eslint-disable arrow-parens */
+/* eslint-disable arrow-parens */
 <template>
   <div>
 
@@ -67,11 +71,9 @@
         </el-table-column>
 
         <el-table-column fixed="right" label="操作" width="260" align="center" >
-          <template slot-scope="scope">
-            <!-- <el-button type="primary" plain size="small" @click="addgui(scope.row)" style="margin-bottom: 10px;">查看规格</el-button> -->
-             <!-- <el-button type="primary" plain size="small" @click="biangui(scope.row)" style="margin-bottom: 10px;">修改规格</el-button> -->
+          <template slot-scope='scope'>
             <el-button  type="primary"   size="mini" icon="el-icon-edit"   @click="handleAdd()">修改订单状态</el-button>
-            <!-- <el-button type="danger" icon="el-icon-delete" @click="deletesingle(scope.row)" size="mini">删除</el-button> -->
+            <el-button type="danger" icon="el-icon-delete" @click="deletesingle(scope.row)" size="mini">删除</el-button>
           </template>
         </el-table-column>
 
@@ -110,234 +112,234 @@
 </template>
 
 <script>
-  import api from '@/apis/hf-api.js';
-  export default {
-    name: 'productTable',
-    data() {
-      return {
-        addForm: {
-          bossId: '1', //商家id
-          brandId: '1', //品牌id
-          categoryId: '', //类目
-          hfName: '', //商品名称
-          lastModifier: '1', //最后修改者
-          productDesc: '', //产品描述
+import api from '@/apis/hf-api.js';
+export default {
+  name: 'productTable',
+  data() {
+    return {
+      addForm: {
+        bossId: '1', // 商家id
+        brandId: '1', // 品牌id
+        categoryId: '', // 类目
+        hfName: '', // 商品名称
+        lastModifier: '1', // 最后修改者
+        productDesc: '', // 产品描述
+      },
+      index: 0,
+      addFormVisible: false,
+      leiMu: '',
+      value1: '',
+      souhfName: '',
+      tableData: [],
+      leiMuId: '',
+      selectList: [],
+      addLoading: false,
+    };
+  },
+  methods: {
+    // 编辑商品
+    biangui: function(row) {
+      var arr = JSON.stringify(row);
+      this.$router.push({
+        path: '/detail',
+        query: {
+          row: arr,
         },
-        index: 0,
-        addFormVisible: false,
-        leiMu: '',
-        value1: '',
-        souhfName: '',
-        tableData: [],
-        leiMuId: '',
-        selectList: [],
-        addLoading: false
-      }
+      });
     },
-    methods: {
-      // 编辑商品
-      biangui: function(row) {
-        var arr = JSON.stringify(row);
-        this.$router.push({
-          path: '/detail',
-          query: {
-            row: arr
-          }
-        })
-      },
-      deletesingle: function(row) {
-        this.$confirm("确认提交吗？", "提示", {}).then(() => {
-          var _this = this;
-          api.singledeleteProduct(row.id).then(response => {
-            console.log(response);
-            if (response.data.status === 200) {
-              _this.listProduct();
-            }
-          });
-        });
-      },
-      selectChange: function(val) {
-        console.log(val)
-        this.selectList = val;
-      },
-      //删除商品
-      deletegood: function(row) {
-        let delarr = [];
-        const length = this.selectList.length;
-        for (let i = 0; i < length; i++) {
-
-          delarr.push(this.selectList[i].id)
-
-        }
-
-        console.log(delarr);
+    deletesingle: function(row) {
+      this.$confirm('确认提交吗？', '提示', {}).then(() => {
         var _this = this;
-        this.$confirm("确认提交吗？", "提示", {}).then(() => {
-          api.deleteProduct(delarr.toString()).then(response => {
-            console.log(response);
-            if (response.data.status === 200) {
-              _this.listProduct();
-            }
-          });
-
-        })
-
-      },
-      // 添加商品
-      addSubmit: function() {
-        // console.log(this.value)
-        var _this = this;
-
-        this.$refs.addForm.validate(valid => {
-          if (valid) {
-            this.$confirm("确认提交吗？", "提示", {}).then(() => {
-              // this.addLoading = true;
-              // ============
-              console.log(_this.addForm);
-
-              let param = Object.assign({}, _this.addForm);
-              api.addProduct(param)
-                .then(res => {
-                  console.log('ssss', res);
-                  this.addLoading = false;
-                  _this.listProduct();
-                  this.$message({
-                    message: "提交成功",
-                    type: "success"
-                  });
-                  this.addForm.hfName = '';
-                  this.addForm.productDesc = '';
-                  this.addFormVisible = false;
-                });
-            });
-          }
-        });
-      },
-      changeQuentitySubject: function() {
-        let obj = {};
-        obj = this.leiMu.find((item) => { //这里的selectList就是上面遍历的数据源
-          //筛选出匹配数据
-          if (item.hfName == this.addForm.value) {
-            return item
-          }
-        });
-        this.addForm.categoryId = obj.id;
-
-
-      },
-      sou: function() {
-        var _this = this;
-        console.log(_this.souhfName)
-        api.search(1, _this.leiMuId, _this.souhfName).then(response => {
+        api.singledeleteProduct(row.id).then((response) => {
           console.log(response);
           if (response.data.status === 200) {
-            _this.tableData = response.data.data;
+            _this.listProduct();
+          }
+        });
+      });
+    },
+    selectChange: function(val) {
+      console.log(val);
+      this.selectList = val;
+    },
+    // 删除商品
+    deletegood: function(row) {
+      let delarr = [];
+      const length = this.selectList.length;
+      for (let i = 0; i < length; i++) {
+
+        delarr.push(this.selectList[i].id);
+
+      }
+
+      console.log(delarr);
+      var _this = this;
+      this.$confirm('确认提交吗？', '提示', {}).then(() => {
+        api.deleteProduct(delarr.toString()).then((response) => {
+          console.log(response);
+          if (response.data.status === 200) {
+            _this.listProduct();
+          }
+        });
+
+      });
+
+    },
+    // 添加商品
+    addSubmit: function() {
+      // console.log(this.value)
+      var _this = this;
+
+      this.$refs.addForm.validate((valid) => {
+        if (valid) {
+          this.$confirm('确认提交吗？', '提示', {}).then(() => {
+            // this.addLoading = true;
+            // ============
+            console.log(_this.addForm);
+
+            let param = Object.assign({}, _this.addForm);
+            api.addProduct(param)
+              .then((res) => {
+                console.log('ssss', res);
+                this.addLoading = false;
+                _this.listProduct();
+                this.$message({
+                  message: '提交成功',
+                  type: 'success',
+                });
+                this.addForm.hfName = '';
+                this.addForm.productDesc = '';
+                this.addFormVisible = false;
+              });
+          });
+        }
+      });
+    },
+    changeQuentitySubject: function() {
+      let obj = {};
+      obj = this.leiMu.find((item) => { // 这里的selectList就是上面遍历的数据源
+        // 筛选出匹配数据
+        if (item.hfName === this.addForm.value) {
+          return item;
+        }
+      });
+      this.addForm.categoryId = obj.id;
+
+
+    },
+    sou: function() {
+      var _this = this;
+      console.log(_this.souhfName);
+      api.search(1, _this.leiMuId, _this.souhfName).then((response) => {
+        console.log(response);
+        if (response.data.status === 200) {
+          _this.tableData = response.data.data;
+          for (var i = 0; i < this.tableData.length; i++) {
+            this.tableData[i].createTime = this.tableData[i].createTime.split('T');
+            this.tableData[i].createTime = this.tableData[i].createTime[0] + '  ' + this.tableData[i].createTime[
+              1];
+          }
+        }
+      });
+    },
+    // 查询类目
+    checkType: function(val) {
+      var _this = this;
+      api.category().then((response) => {
+        console.log(response);
+        if (response.status === 200) {
+          if (response.data.status === 200) {
+
+            _this.leiMu = response.data.data;
+          }
+        }
+
+      });
+
+    },
+    // 通过类目查询商品列表
+    checkMulist: function() {
+      let obj = {};
+      obj = this.leiMu.find((item) => {
+      // 这里的selectList就是上面遍历的数据源
+      // 筛选出匹配数据
+        if (item.hfName === this.value1) {
+          return item;
+        }
+      });
+
+      this.leiMuId = obj.id;
+      console.log(this.leiMuId);
+
+    },
+    conver: function(s) {
+      return s < 10 ? '0' + s : s;
+    },
+    // 显示新增界面
+    handleAdd: function() {
+      this.addFormVisible = true;
+    },
+    TellMeId(num) {
+      console.log(num);
+    },
+    // 获取商品列表
+    listProduct() {
+      api.checkOrderList(1).then((response) => {
+        console.log(response);
+        if (response.status === 200) {
+          if (response.data.status === 200) {
+            this.tableData = response.data.data;
             for (var i = 0; i < this.tableData.length; i++) {
-              this.tableData[i].createTime = this.tableData[i].createTime.split('T');
-              this.tableData[i].createTime = this.tableData[i].createTime[0] + '  ' + this.tableData[i].createTime[
-                1]
-            }
-          }
-        });
-      },
-      // 查询类目
-      checkType: function(val) {
-        var _this = this;
-        api.category().then(response => {
-          console.log(response);
-          if (response.status == 200) {
-            if (response.data.status === 200) {
-
-              _this.leiMu = response.data.data;
-            }
-          }
-
-        });
-
-      },
-      // 通过类目查询商品列表
-      checkMulist: function() {
-        let obj = {};
-        obj = this.leiMu.find((item) => {
-          //这里的selectList就是上面遍历的数据源
-          //筛选出匹配数据
-          if (item.hfName == this.value1) {
-            return item
-          }
-        });
-
-        this.leiMuId = obj.id;
-        console.log(this.leiMuId)
-
-      },
-      conver: function(s) {
-        return s < 10 ? '0' + s : s;
-      },
-      //显示新增界面
-      handleAdd: function() {
-        this.addFormVisible = true;
-      },
-      TellMeId(num) {
-        console.log(num)
-      },
-      // 获取商品列表
-      listProduct() {
-        api.checkOrderList(1).then(response => {
-          console.log(response);
-          if (response.status == 200) {
-            if (response.data.status === 200) {
-              this.tableData = response.data.data;
-              for (var i = 0; i < this.tableData.length; i++) {
-                let date = new Date(this.tableData[i].createTime)
-                let Str = date.getFullYear() + '-' +
+              let date = new Date(this.tableData[i].createTime);
+              let Str = date.getFullYear() + '-' +
                   (date.getMonth() + 1) + '-' +
                   date.getDate() + ' ' +
                   (date.getHours() + 8) % 24 + ':' +
                   date.getMinutes() + ':' +
-                  date.getSeconds()
-                this.tableData[i].createTime = Str;
-                // var date = new Date(this.tableData[i].createTime);
-                // Calendar cal = Calendar.getInstance();
-                // var localeString = date.toLocaleString();
-                // console.log(localeString);
-                // this.tableData[i].createTime=this.tableData[i].createTime.split('T');
-                // this.tableData[i].createTime=this.tableData[i].createTime[0]+''+this.tableData[i].createTime[1];
-              }
+                  date.getSeconds();
+              this.tableData[i].createTime = Str;
+              // var date = new Date(this.tableData[i].createTime);
+              // Calendar cal = Calendar.getInstance();
+              // var localeString = date.toLocaleString();
+              // console.log(localeString);
+              // this.tableData[i].createTime=this.tableData[i].createTime.split('T');
+              // this.tableData[i].createTime=this.tableData[i].createTime[0]+''+this.tableData[i].createTime[1];
             }
           }
+        }
 
-        });
-      },
-
-      init() {
-        this.listProduct();
-        // this.checkType();
-      }
+      });
     },
-    mounted() {
-      this.init();
-      var myDate = new Date();
 
-      //获取当前年
-      var year = myDate.getFullYear();
+    init() {
+      this.listProduct();
+      // this.checkType();
+    },
+  },
+  mounted() {
+    this.init();
+    var myDate = new Date();
 
-      //获取当前月
-      var month = myDate.getMonth() + 1;
+    // 获取当前年
+    var year = myDate.getFullYear();
 
-      //获取当前日
-      var date = myDate.getDate();
-      var h = myDate.getHours(); //获取当前小时数(0-23)
-      var m = myDate.getMinutes(); //获取当前分钟数(0-59)
-      var s = myDate.getSeconds();
+    // 获取当前月
+    var month = myDate.getMonth() + 1;
 
-      //获取当前时间
+    // 获取当前日
+    var date = myDate.getDate();
+    var h = myDate.getHours(); // 获取当前小时数(0-23)
+    var m = myDate.getMinutes(); // 获取当前分钟数(0-59)
+    var s = myDate.getSeconds();
 
-      var now = year + '-' + this.conver(month) + "-" + this.conver(date) + " " + this.conver(h) + ':' + this.conver(m) +
-        ":" + this.conver(s);
-      console.log(now)
-      let GMT = new Date(now);
-      console.log(GMT)
+    // 获取当前时间
 
-    }
-  }
+    var now = year + '-' + this.conver(month) + '-' + this.conver(date) + ' ' + this.conver(h) + ':' + this.conver(m) +
+     ':' + this.conver(s);
+    console.log(now);
+    let GMT = new Date(now);
+    console.log(GMT);
+
+  },
+};
 </script>

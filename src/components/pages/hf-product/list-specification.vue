@@ -1,110 +1,83 @@
 <template>
   <div>
-    <div v-if="detailsp">
-      <div>商品规格</div>
-      <el-table class="goods-table" :data="specificationData" border>
+    <div>商品规格</div>
+    <el-table class="goods-table" :data="commoditytable" border>
+      <el-table-column type="selection"></el-table-column>
+      <el-table-column label="规格名称">
+        <template slot-scope="scope">
+          <el-input placeholder="请输入内容" v-show="!scope.row.show" v-model="scope.row.tab2"></el-input>
+        </template>
+      </el-table-column>
+      <el-table-column label="默认值">
+        <template slot-scope="scope">
+          <el-input placeholder="请输入内容" v-show="!scope.row.show" v-model="scope.row.tab3"></el-input>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作">
+        <template slot-scope="scope">
+          <el-button size="mini" @click="addGoodsSpecificationList()">添加一行</el-button>
+          <el-button @click="save(scope)">添加</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <div>物品规格</div>
+     <el-table :data="tabledata" border>
         <el-table-column type="selection"></el-table-column>
-        <el-table-column label="规格名称">
+        <el-table-column label="ID">
           <template slot-scope="scope">
-            <el-input placeholder="请输入内容" v-model="scope.row.hfName"></el-input>
-          </template>
-        </el-table-column>
-        <el-table-column label="规格类型" width="90">
-          <template slot-scope="scope">
-            <el-select v-model="scope.row.specType" placeholder="请选择">
-              <el-option
-                v-for="item in Types"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </template>
-        </el-table-column>
-        <el-table-column label="默认值">
-          <template slot-scope="scope">
-            <el-input placeholder="请输入内容" v-model="scope.row.specValue"></el-input>
-          </template>
-        </el-table-column>
-        <el-table-column label="规格单位" width="90">
-          <template slot-scope="scope">
-            <el-select v-model="scope.row.specUnit" placeholder="请选择">
-              <el-option
-                v-for="item in Units"
-                :key="item.specUnit"
-                :label="item.label"
-                :value="item.specUnit"
-              ></el-option>
-            </el-select>
-          </template>
-        </el-table-column>
-        <el-table-column label="操作">
-          <template slot-scope="scope">
-            <el-button @click="save(scope)">添加</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <el-button style="float: right;" size="mini" @click="addGoodsSpecificationList()">添加一行</el-button>
-    </div>
-    <div v-if="!detailsp" style="margin-top: 20px;">
-      <div>物品规格</div>
-      <el-table :data="tabledata" border>
-        <el-table-column type="selection"></el-table-column>
-        <el-table-column label="规格名称">
-          <template slot-scope="scope">
-            <span placeholder="请输入内容" >{{scope.row.hfName}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="规格类型" width="90">
-          <template slot-scope="scope">
-            <el-select v-model="scope.row.specType" placeholder="请选择">
-              <el-option
-                v-for="item in Types"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </template>
-        </el-table-column>
-        <el-table-column label="值">
-          <template slot-scope="scope">
-            <el-input placeholder="请输入内容" v-model="scope.row.specValue"></el-input>
+            <el-input placeholder="请输入内容" v-model="scope.row.id"></el-input>
           </template>
         </el-table-column>
         <el-table-column v-for="(item,i) in cols" :key="i" :prop="item.prop" :label="item.label">
+          <el-table-column v-if="conceal!==1" :render-header="renderHeader">
             <template slot-scope="scope">
-              <input value @input="inputEvent($event)" @blur="Article(scope)" ref="abc" />
+              <input value @input="inputEvent($event)" @blur="Article(value,scope)" ref="abc" />
             </template>
-        </el-table-column>
-        <el-table-column label="规格单位" width="90">
-          <template slot-scope="scope">
-            <el-select v-model="scope.row.specUnit" placeholder="请选择">
-              <el-option
-                v-for="item in Units"
-                :key="item.specUnit"
-                :label="item.label"
-                :value="item.specUnit"
-              ></el-option>
-            </el-select>
-          </template>
+          </el-table-column>
         </el-table-column>
         <el-table-column label="操作" width="180">
           <template slot-scope="scope">
-            <el-button type="text" style="color: rgb(24, 211, 71);" @click="submitPrice(scope)">更新</el-button>
+            <el-button
+              v-model="handleAdd"
+              type="text"
+              circle
+              plain
+              icon="el-icon-plus"
+              @click="handleAdd()"
+            >添加一行</el-button>
+            <el-button type="text" style="color: rgb(24, 211, 71);" @click="submitPrice(scope)">提交</el-button>
             <!-- <el-button type="text" style="color: rgb(218, 18, 28);" @click="deletion(scope)">删除</el-button> -->
           </template>
         </el-table-column>
       </el-table>
-      <el-button
-        v-model="handleAdd"
-        type="text"
-        circle
-        plain
-        icon="el-icon-plus"
-        @click="handleAdd()"
-      >添加一列</el-button>
-    </div>
+    <!-- <el-table :data="specificationData" border>
+      <el-table-column type="selection"></el-table-column>
+      <el-table-column label="规格名称">
+        <template slot-scope="scope">
+          <el-input placeholder="请输入内容" v-model="scope.row.hfName"></el-input>
+        </template>
+      </el-table-column>
+      <el-table-column label="规格类型">
+        <template slot-scope="scope">
+          <el-input placeholder="请输入内容" v-model="scope.row.specType"></el-input>
+        </template>
+      </el-table-column>
+      <el-table-column label="默认值">
+        <template slot-scope="scope">
+          <span >{{scope.row.specValue}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="规格单位">
+        <template slot-scope="scope">
+          <el-input placeholder="请输入内容" v-model="scope.row.specUnit"></el-input>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" width="180">
+        <template slot-scope="">
+          <el-button>修改</el-button>
+        </template>
+      </el-table-column>
+    </el-table>-->
   </div>
 </template>
 
@@ -114,7 +87,7 @@ import serviceGoods from '@/service/goods.js';
 export default {
   name: 'listSpecification',
   props: {
-    commodityId: {
+    value: {
       type: Number,
       default: 0,
     },
@@ -122,24 +95,10 @@ export default {
       type: Number,
       default: 0,
     },
-    details: {
-      type: String,
-      default: 'true',
-    },
-    // 详情 interconnectedID
-    detailgoodsId: {
-      type: Number,
-      default: 0,
-    },
-    interconnectedID: {
-      type: Number,
-      default: 0,
-    },
   },
   data() {
     return {
-      detailsp: true,
-      specificationData: [], // 准备 删除
+      specificationData: [],
       // 添加物品规格 展示数据
       tabledata: [
         {
@@ -163,119 +122,57 @@ export default {
         userId: '11',
       },
       productId: '',
+      commoditytable: [{ tab1: '1', tab2: '颜色', tab3: '红色' }],
       // 添加规格名称
       cols: [
         // { prop: 'date', label: '颜色' },
+        // { prop: 'name', label: '姓名' }
       ],
       // 添加商品规格
       specification: {
         specValue: '', // 默认值
         productId: '',
         hfName: '', // 规格名称
-        specType: '', // 规格类型
-        specUnit: '', // 规格单元
         requestId: '',
         timestamp: '',
         token: '',
         userId: '',
       },
-      Types: [
-        {
-          value: '衣服',
-          label: '衣服',
-        },
-        {
-          value: '食品',
-          label: '食品',
-        },
-        {
-          value: '饮料',
-          label: '饮料',
-        },
-      ],
-      Units: [
-        {
-          specUnit: '色',
-          label: '色',
-        },
-        {
-          specUnit: '斤',
-          label: '斤',
-        },
-        {
-          specUnit: '寸',
-          label: '寸',
-        },
-      ],
     };
   },
   created() {
-    this.getspecification();
-    if (this.interconnectedID !== 0) {
-      console.log('成功');
-      this.detailsp = false;
-    }
-    this.goodsSpecification();
+    // this.getspecification();
   },
-  mounted () {
-    var that = this;
-    this.$on('bridge', () => {
-      that.setDefaultValue();
-      console.log('直接调用调用成功');
-    });// 设置接收父组件的方法
-  },
+
   methods: {
-    callMethod() {
-      console.log('方法2:直接调用调用成功');
-    },
     getspecification() {
-      serviceProduct.specifies(this.commodityId, (res) => {
+      serviceProduct.specifies(this.productId, (res) => {
         console.log(res);
         this.specificationData = res.data.data;
       });
     },
-    // 物品规格
-    goodsSpecification() {
-      if (this.detailgoodsId !== 0) {
-        console.log('物品规格');
-        serviceGoods.goodsSpecifies(this.detailgoodsId, (res) => {
-          console.log('物品规格');
-          console.log('物品规格', res);
-          this.tabledata = res.data.data;
-        });
-      } else {
-        serviceProduct.specifies(this.commodityId, (res) => {
-          console.log('商品规格');
-          this.tabledata = res.data.data;
-        });
-      }
-    },
     // 添加一行商品规格
     addGoodsSpecificationList() {
-      let row = {
-        specValue: '',
-        hfName: '',
-        specType: '',
-        specUnit: '',
-      };
-      this.specificationData.push(row);
+      let row = { tab1: '', tab2: '', tab3: '' };
+      this.commoditytable.push(row);
     },
     // 添加一行物品规格值
-    handleAdd() {
+    handleAdd () {
       let row = {
-        prop: 'date', label: '值',
+        createTime: '',
+        hfName: '',
+        modifyTime: '',
+        specType: '',
+        specValue: '',
       };
-      this.cols.push(row);
+      this.tabledata.push(row);
     },
     // 添加商品规格
     save(scope) {
-      console.log(scope);
       scope.row.show = false;
-      this.specification.hfName = scope.row.hfName;
-      this.specification.specValue = scope.row.specValue;
-      this.specification.specType = scope.row.specType;
-      this.specification.specUnit = scope.row.specUnit;
-      this.specification.productId = this.commodityId;
+      this.specification.hfName = scope.row.tab2;
+      this.specification.specValue = scope.row.tab3;
+      this.specification.productId = this.value;
       serviceProduct.addSpecify(this.specification, () => {
         this.$message({
           message: '添加商品规格成功',
@@ -301,25 +198,21 @@ export default {
       // console.log(index)// 获取点击输入框的索引
     },
 
-    // 添加物品规格值
-    Article(scope) {
+    // 添加物品规格值 goosID
+    Article(value, scope) {
       console.log(scope);
       console.log('2', this.tabledatas[scope.column.test].id);
       this.specGoods.goodsId = this.goosID;
       this.specGoods.productSpecId = this.tabledatas[scope.column.test].id;
-      // serviceGoods.additionSpecs(this.specGoods, (res) => {
-      //   console.log(res);
-      // });
-    },
-    // 更新按钮
-    submitPrice(scope) {
-      console.log(scope.row);
-      serviceGoods.goodsSpecUpdate(scope.row, this.detailgoodsId, (res) => {
+      serviceGoods.additionSpecs(this.specGoods, (res) => {
         console.log(res);
-        this.$message({
-          message: '提交成功',
-          type: 'success',
-        });
+      });
+    },
+    // 提交按钮
+    submitPrice (scope) {
+      this.$message({
+        message: '价格提交成功',
+        type: 'success',
       });
 
     },

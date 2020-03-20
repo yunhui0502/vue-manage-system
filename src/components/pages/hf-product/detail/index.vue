@@ -86,7 +86,7 @@ import GoodsLncrease from '../goods/lncrease';
 import ListPicture from '../list-picture';
 import ListSpecification from '../list-specification';
 import serviceProduct from '@/service/product.js';
-// import serviceGoods from '@/service/goods.js';
+
 export default {
   components: {
     GoodsList,
@@ -111,17 +111,6 @@ export default {
         lastModifier: '', // 商家名称
         id: '',
         categoryId: '',
-      },
-
-      // 添加物品规格值
-      specGoods: {
-        productSpecId: '',
-        goodsId: '43',
-        requestId: '111',
-        specValue: '',
-        timestamp: '20191023T081324Z',
-        token: '11',
-        userId: '11',
       },
       // 顶部表单验证
       rules: {
@@ -148,28 +137,8 @@ export default {
     this.getCurrent();
   },
   methods: {
-    // 提交按钮 物品格 productSpecId
-    submitPrice(scope) {
-
-      // this.specGoods.specValue = scope.row.specValue;
-      // this.specGoods.productSpecId = scope.row.id;
-      // serviceGoods.additionSpecs(this.specGoods, (res) => {
-      //   console.log(res);
-      // });
-      // this.$message({
-      //   message: '提交成功',
-      //   type: 'success',
-      // });
-    },
-
     getMsgFormSon(data) {
       this.drawer = data;
-      console.log(this.drawer);
-      console.log(data);
-    },
-    // 子组件传来的 物品ID
-    goodsIdGetMsg(data) {
-      this.specGoods.goodsId = data;
       console.log(this.drawer);
       console.log(data);
     },
@@ -189,18 +158,22 @@ export default {
           this.loading = true;
           serviceProduct.ceateProduct(this.productInfo, (res) => {
             this.commodityId = res.data.data.productId;
-            this.$router.push({
-              path: '/hf-product/detail?productId=' + res.data.data.productId,
-            });
-            location.reload();
+            // console.log('ID', res.data.data.productId);
+            this.productInfo.productName = res.data.data.productName;
+            this.productInfo.id = res.data.data.productId;
+            this.productInfo.lastModifier = res.data.data.bossName;
+            this.productInfo.categoryId = res.data.data.CategoryId;
+            this.loading = false;
           });
         }
+
       } else {
         console.log('更新商品');
         serviceProduct.updateProduct(this.productInfo, (res) => {
           console.log('更新商品', res);
         });
       }
+
     },
     // 获取当前商品
     getCurrent() {
