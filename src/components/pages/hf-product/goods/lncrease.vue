@@ -93,7 +93,7 @@
       <el-input style="width:50%" v-model="specificationForm.quantity"></el-input>
     </el-form-item>
     <el-form-item label prop="brandId">
-      <el-button style="width:25%; margin-left: 5px;" type="primary" @click="SubmitGoods">提交</el-button>
+      <el-button style="width:25%; margin-left: 5px;" type="primary" @click="SubmitGoods">保存</el-button>
       <!-- <el-button type="success" style="color: #fff;" @click="dialogTableVisible = true">添加物品规格值</el-button> -->
     </el-form-item>
   </el-form>
@@ -154,6 +154,7 @@ export default {
         quantity: '', // 物品数量
         hfGoodsId: '', // 物品ID
         sellPrice: '', // 物品价格
+        wareHouseId: '1', // 仓库ID
       },
       specificationData: [],
       // 添加物品

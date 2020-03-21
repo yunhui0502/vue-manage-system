@@ -1,31 +1,46 @@
 /* eslint-disable require-jsdoc */
 import Axios from 'axios';
+// 单个删除
+function eventsDelete(id) {
+  console.log(id);
+  return Axios.get('/api/api/product/kill/delete?id=' + id);
+}
+
+// 给活动绑定商品
+function seniorityBinding(params) {
+  let fd = new FormData();
+  fd.append('productId', params.goodsId);
+  fd.append('id', params.seniorityId);
+  return Axios.post('/api/api/product/hfProductActivity/intoActivityProduct', fd);
+}
+// 获取所有商品列表
+function selectAll() {
+  return Axios.get('/api/api/product/hfProduct/getProductsForRotation?quantity=10');
+}
 // ========================================秒杀
 
 // 获取秒杀商品列表
 function select() {
-  return Axios.get('/api/api/product/kill/select');
+  return Axios.get('/api/api/product/hfProductActivity/findProdcutActivity?activityType=seckillActivity');
 }
-// 获取所有商品列表
-function selectAll() {
-  return Axios.get('/api/api/product/kill/selectAll');
+// 获取商品活动类型
+function getProdcutActivityType() {
+  return Axios.get('/api/api/product/hfProductActivity/getProdcutActivityType');
 }
-// 单个删除秒杀商品
-function killDelete(id) {
-  console.log(id);
-  return Axios.get('/api/api/product/kill/delete?id=' + id);
-}
+
 // 添加秒杀商品接口 startTime
 function ceateInsert(params) {
   let fd = new FormData();
-  fd.append('goodsId', params.goodsId);
-  fd.append('id', params.id);
-  fd.append('price', params.price);
-  fd.append('repertory', params.repertory);
+  fd.append('activityName', params.activityName);
+  fd.append('activityType', params.activityType);
   fd.append('startTime', params.startTime);
-  fd.append('stopTime', params.stopTime);
+  fd.append('endTime', params.endTime);
+  fd.append('timestamp', params.timestamp);
+  fd.append('token', params.token);
+  fd.append('userId', params.userId);
+  fd.append('requestId', params.requestId);
   // 添加商品接口
-  return Axios.post('/api/api/product/kill/insert', fd);
+  return Axios.post('/api/api/product/hfProductActivity/addProdcutActivity', fd);
 }
 // 修改秒杀商品接口 startTime
 function killupdate(params) {
@@ -42,7 +57,7 @@ function killupdate(params) {
 // ========================================拼团
 // 获取团购商品列表
 function groupSelete() {
-  return Axios.get('/api/api/product/group/selete');
+  return Axios.get('/api/api/product/hfProductActivity/findProdcutActivity?activityType=groupActivity');
 }
 // 单个删除秒杀商品
 function groupDelete(id) {
@@ -76,7 +91,7 @@ function groupupdate(params) {
 
 // 查询排行相关信息
 function seniorityfindSeniorityInfo() {
-  return Axios.get('/api/api/product/seniority/findSeniorityInfo');
+  return Axios.get('/api/api/product/hfProductActivity/findProdcutActivity?activityType=seniorityActivity');
 }
 // 查询排行内容
 function seniorityfindSeniorityContent() {
@@ -94,13 +109,7 @@ function seniorityEvent(params) {
   fd.append('userId', params.userId);
   return Axios.post('/api/api/product/seniority/addSeniorityInfo', fd);
 }
-// 排行相关信息和商品进行绑定
-function seniorityBinding(params) {
-  let fd = new FormData();
-  fd.append('transfedata.goodsId', params.goodsId);
-  fd.append('seniorityId', params.seniorityId);
-  return Axios.post('/api/api/product/seniority/addSeniorityContent', fd);
-}
+
 // 单个删除排行相关信息
 function seniorityDelete(seniorityId) {
   return Axios.get('/api/api/product/seniority/deleteSeniorityInfo?seniorityId=' + seniorityId);
@@ -116,7 +125,7 @@ export default {
   select: select,
   ceateInsert: ceateInsert,
   selectAll: selectAll,
-  killDelete: killDelete,
+  eventsDelete: eventsDelete,
   killupdate: killupdate,
   // 团购
   groupSelete: groupSelete,
@@ -130,5 +139,7 @@ export default {
   seniorityDelete: seniorityDelete,
   seniorityfind: seniorityfind,
   seniorityfindSeniorityContent: seniorityfindSeniorityContent,
+
+  getProdcutActivityType: getProdcutActivityType,
 };
 

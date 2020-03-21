@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-button class="" @click="refresh" type="success" round>刷新</el-button>
+    <el-button class="positioning" @click="refresh" type="success" round>刷新</el-button>
     <!-- <el-button  type="success" round>{{commodityId}}</el-button> -->
     <el-table
       :data="tableData"
@@ -37,52 +37,70 @@
       :direction="direction"
       :visible.sync="drawer"
       :before-close="handleClose"
-      size="80%"
+      size="89%"
     >
-    <div style="float: left;">
-      <ListSpecification ref="child" details="false" :interconnectedID="interconnectedID" :detailgoodsId="detailgoodsId" ></ListSpecification>
-    </div>
-    <div style="float: right;">
+      <div>
         <el-table
-        :data="details"
-        v-loading="loading"
-        border
-        highlight-current-row
-        ref="multipleTable"
-      >
-        <el-table-column prop="goodsId" label="序号" width="50" align="center"></el-table-column>
-        <el-table-column prop="brandName" label="物品名称">
-          <template slot-scope="scope">
-            <el-input v-show="show" placeholder="请输入内容" v-model="scope.row.brandName"></el-input>
-                 <span v-show="!show">{{scope.row.brandName}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="goodsDesc" label="物品描述">
-          <template slot-scope="scope">
-            <el-input v-show="show" placeholder="请输入内容" v-model="scope.row.goodsDesc"></el-input>
-            <span v-show="!show">{{scope.row.goodsDesc}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="brandName" label="生产厂家">
-          <template slot-scope="scope">
-            <el-input v-show="show" placeholder="请输入内容" v-model="scope.row.brandName"></el-input>
-            <span v-show="!show">{{scope.row.brandName}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="sellPrice" label="售卖价格">
-          <template slot-scope="scope">
-            <el-input v-show="show" placeholder="请输入内容" v-model="scope.row.sellPrice"></el-input>
-            <span v-show="!show">{{scope.row.sellPrice}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column fixed="right" width="100" label="操作">
-          <template slot-scope="scope">
-            <el-button type="text" size="small" @click="show =true">编辑</el-button>
-            <el-button @click="modification(scope)" type="text" size="small">提交</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-    </div>
+          :data="details"
+          v-loading="loading"
+          border
+          highlight-current-row
+          ref="multipleTable"
+        >
+          <el-table-column prop="goodsId" label="序号" width="50" align="center"></el-table-column>
+          <el-table-column prop="brandName" label="物品名称">
+            <template slot-scope="scope">
+              <el-input v-show="show" placeholder="请输入内容" v-model="scope.row.brandName"></el-input>
+              <span v-show="!show">{{scope.row.brandName}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="goodsDesc" label="物品描述">
+            <template slot-scope="scope">
+              <el-input v-show="show" placeholder="请输入内容" v-model="scope.row.goodsDesc"></el-input>
+              <span v-show="!show">{{scope.row.goodsDesc}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="brandName" label="生产厂家">
+            <template slot-scope="scope">
+              <el-input v-show="show" placeholder="请输入内容" v-model="scope.row.brandName"></el-input>
+              <span v-show="!show">{{scope.row.brandName}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="sellPrice" label="售卖价格">
+            <template slot-scope="scope">
+              <el-input v-show="show" placeholder="请输入内容" v-model="scope.row.sellPrice"></el-input>
+              <span v-show="!show">{{scope.row.sellPrice}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column fixed="right" width="100" label="操作">
+            <template slot-scope="scope">
+              <el-button type="text" size="small" @click="show =true">编辑</el-button>
+              <el-button @click="modification(scope)" type="text" size="small">提交</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+      <div class="boxes">
+        <div style="flex:1;margin-top: 20px;">
+          <div>仓库信息</div>
+          <el-table :data="storage" stripe style="width: 100%">
+            <el-table-column prop="warehouseName" label="仓库" width="180"></el-table-column>
+            <el-table-column prop="quantity" label="数量" width="180"></el-table-column>
+          </el-table>
+        </div>
+        <div style="flex:1">
+          <ListSpecification
+            ref="child"
+            details="false"
+            :interconnectedID="interconnectedID"
+            :detailgoodsId="detailgoodsId"
+          ></ListSpecification>
+        </div>
+        <div style="flex:1;margin-top: 20px;">
+          <div>图片管理</div>
+          <ListPicture></ListPicture>
+        </div>
+      </div>
     </el-drawer>
   </div>
 </template>
@@ -90,7 +108,7 @@
 
 <script>
 import serviceGoods from '@/service/goods.js';
-
+import ListPicture from '../list-picture';
 import ListSpecification from '../list-specification';
 export default {
   props: {
@@ -101,6 +119,7 @@ export default {
   },
   components: {
     ListSpecification,
+    ListPicture,
   },
   data() {
     return {
@@ -115,6 +134,7 @@ export default {
       drawer: false, // 抽屉组件开关
       direction: 'btt', // 控制抽屉弹出位置
       details: [],
+      storage: [], // 仓库详情
     };
   },
   created() {
@@ -156,8 +176,8 @@ export default {
       this.detailgoodsId = row.goodsId;
       this.drawer = true;
       serviceGoods.selectProductGoods(row.goodsId, this.commodityId, (res) => {
-        this.details = res.data.data;
-        console.log(res.data.data);
+        this.storage = res.data.data;
+        console.log('详情', res.data.data);
       });
     },
     // 修改提交
@@ -190,8 +210,8 @@ export default {
   margin: 5px;
 }
 
-.clearfix {
-  height: 40px;
+.boxes {
+  display: flex;
 }
 </style>
 

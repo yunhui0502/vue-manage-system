@@ -45,6 +45,7 @@ function setPrice (params) {
   fd.append('sellPrice', params.sellPrice);
   fd.append('quantity', params.quantity);
   fd.append('linePrice', params.linePrice);
+  fd.append('wareHouseId', params.wareHouseId);
   return Axios.post('/api/api/product/goods/setPrice', fd);
 }
 // 编辑物品
