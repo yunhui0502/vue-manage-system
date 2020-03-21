@@ -20,51 +20,51 @@
       <span style="margin-left: 20px;">物品名称:{{goodsName}}</span>
       <span style="margin-left: 20px;">购买数量:{{detail.purchaseQuantity}}</span>
       <el-table :data="hfGoodsSpecs" stripe style="width: 100%">
-          <el-table-column
-            align="center"
-            prop="hfName"
-            label="规格名"
-            :show-overflow-tooltip="true"
-            width="180"
-          ></el-table-column>
-          <el-table-column
-            align="center"
-            prop="hfValue"
-            label="规格值"
-            :show-overflow-tooltip="true"
-            width="180"
-          ></el-table-column>
-          <el-table-column
-            align="center"
-            prop="specType"
-            label="规格值类型"
-            :show-overflow-tooltip="true"
-            width="180"
-          ></el-table-column>
-          <el-table-column
-            align="center"
-            prop="specUnit"
-            label="规格单位"
-            :show-overflow-tooltip="true"
-            width="180"
-          ></el-table-column>
-        </el-table>
+        <el-table-column
+          align="center"
+          prop="hfName"
+          label="规格名"
+          :show-overflow-tooltip="true"
+          width="180"
+        ></el-table-column>
+        <el-table-column
+          align="center"
+          prop="hfValue"
+          label="规格值"
+          :show-overflow-tooltip="true"
+          width="180"
+        ></el-table-column>
+        <el-table-column
+          align="center"
+          prop="specType"
+          label="规格值类型"
+          :show-overflow-tooltip="true"
+          width="180"
+        ></el-table-column>
+        <el-table-column
+          align="center"
+          prop="specUnit"
+          label="规格单位"
+          :show-overflow-tooltip="true"
+          width="180"
+        ></el-table-column>
+      </el-table>
     </el-card>
     <div
       style="margin-top: 200px; display: flex;align-items: center;justify-content: space-around;padding:0 10%;"
     >
       <div
-        v-if="detail.orderStatus==='payment'"
+        v-if="detail.orderType==='balancePayment'"
         @click="pay"
         style="background: #409EFF;color: #fff;padding:6px 10px ;border-radius:4px;"
       >去支付</div>
-      <div style="background: #40e5ff;color: #fff;padding:6px 10px ;border-radius:4px;">提醒用户支付</div>
+      <div  v-if="detail.orderType==='balancePayment'" style="background: #40e5ff;color: #fff;padding:6px 10px ;border-radius:4px;">提醒用户</div>
       <div
-        v-if="detail.orderStatus!='cancel'"
+        v-if="detail.orderType==='balancePayment'"
         @click="cancle()"
         style="background: #ff4040;color: #fff;padding:6px 10px ;border-radius:4px;"
       >取消订单</div>
-      <div>联系用户：{{detail.phone}}</div>
+      <div v-if="detail.orderType!='cancel'">联系用户：{{detail.phone}} </div>
     </div>
   </div>
 </template>
@@ -100,7 +100,7 @@ export default {
         this.detail = res.data.data;
         this.detail.orderDesc = JSON.parse(this.detail.orderDesc);
         this.hfGoodsSpecs = this.detail.orderDesc.hfGoodsSpecs;
-        this.goodsName = this.detail.orderDesc.goodsName ;
+        this.goodsName = this.detail.orderDesc.goodsName;
         this.updata.orderCode = this.detail.orderCode;
         this.updata1.orderCode = this.detail.orderCode;
       });

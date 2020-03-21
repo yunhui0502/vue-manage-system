@@ -95,7 +95,7 @@
               </el-dropdown-menu>
             </el-dropdown>
 
-            <el-dropdown class="user-name" trigger="click">
+            <el-dropdown class="user-name" trigger="click" style="margin-top:20px;">
               <span class="el-dropdown-link" style="float: left;">
                 用户昵称
                 <i class="el-icon-caret-bottom"></i>
@@ -108,12 +108,6 @@
                 <a href="https://github.com/adminDavin" target="_blank">
                   <el-dropdown-item>用户昵称</el-dropdown-item>
                   <el-dropdown-item>13837774547</el-dropdown-item>
-                </a>
-                <a href="https://github.com/adminDavin/hanfu-admin-vue" target="_blank">
-                  <el-dropdown-item divided>账号设置</el-dropdown-item>
-                </a>
-                <a href="https://github.com/adminDavin/hanfu-admin-vue" target="_blank">
-                  <el-dropdown-item>反馈</el-dropdown-item>
                 </a>
                 <a href="https://github.com/adminDavin/hanfu-admin-vue" target="_blank">
                   <el-dropdown-item>官网</el-dropdown-item>
