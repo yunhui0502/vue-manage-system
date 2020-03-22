@@ -54,7 +54,7 @@
         <el-container class="t-10 radius-4">
           <el-header class="font-neue t-10">图片管理</el-header>
           <el-main>
-            <list-picture></list-picture>
+            <list-picture :productId="productInfo.id"></list-picture>
           </el-main>
         </el-container>
         <el-container class="t-10 radius-4">
