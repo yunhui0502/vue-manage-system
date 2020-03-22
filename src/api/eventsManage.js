@@ -1,11 +1,16 @@
 /* eslint-disable require-jsdoc */
 import Axios from 'axios';
-// 单个删除
+
+// 删除活动
 function eventsDelete(id) {
   console.log(id);
-  return Axios.get('/api/api/product/kill/delete?id=' + id);
+  return Axios.post('/api/api/product/hfProductActivity/deleteProdcutActivity?id=' + id);
 }
-
+// 删除活动里的商品
+function deleteGoods(id) {
+  console.log(id);
+  return Axios.post('/api/api/product/hfProductActivity/deleteActivityProduct?id=' + id);
+}
 // 给活动绑定商品
 function seniorityBinding(params) {
   let fd = new FormData();
@@ -16,6 +21,35 @@ function seniorityBinding(params) {
 // 获取所有商品列表
 function selectAll() {
   return Axios.get('/api/api/product/hfProduct/getProductsForRotation?quantity=10');
+}
+
+// 查询活动商品列表信息
+function getActivityProductList(id) {
+  return Axios.get('/api/api/product/hfProductActivity/getActivityProductList?id=' + id);
+}
+// 完善活动商品信息 添加价格
+function updateActivityProduct(params) {
+  let fd = new FormData();
+  fd.append('id', params.id);
+  fd.append('groupNum', params.groupNum);
+  fd.append('favoravlePrice', params.favoravlePrice);
+  if (params.discountRatio !== undefined) {
+    fd.append('discountRatio', params.discountRatio);
+  }
+  fd.append('inventoryCelling', params.inventoryCelling);
+  fd.append('timestamp', params.timestamp);
+  fd.append('token', params.token);
+  fd.append('userId', params.userId);
+  fd.append('requestId', params.requestId);
+  return Axios.post('/api/api/product/hfProductActivity/updateActivityProduct', fd);
+}
+
+// 修改活动品接口
+function updateProdcutActivity(params) {
+  let fd = new FormData();
+  fd.append('activityName ', params.activityName);
+  fd.append('id', params.id);
+  return Axios.post('/api/api/product/hfProductActivity/updateProdcutActivity', fd);
 }
 // ========================================秒杀
 
@@ -28,7 +62,7 @@ function getProdcutActivityType() {
   return Axios.get('/api/api/product/hfProductActivity/getProdcutActivityType');
 }
 
-// 添加秒杀商品接口 startTime
+// 添加秒杀商品接口
 function ceateInsert(params) {
   let fd = new FormData();
   fd.append('activityName', params.activityName);
@@ -39,7 +73,6 @@ function ceateInsert(params) {
   fd.append('token', params.token);
   fd.append('userId', params.userId);
   fd.append('requestId', params.requestId);
-  // 添加商品接口
   return Axios.post('/api/api/product/hfProductActivity/addProdcutActivity', fd);
 }
 // 修改秒杀商品接口 startTime
@@ -120,6 +153,11 @@ function seniorityfind(seniorityId) {
   return Axios.get('/api/api/product/seniority/findSeniorityContent?seniorityId=' + seniorityId);
 }
 // ========================================分销
+// 获取分销活动列表
+function findProdcutActivity() {
+  return Axios.get('/api/api/product/hfProductActivity/findProdcutActivity?activityType=distributionActivity');
+}
+
 export default {
   // 秒杀
   select: select,
@@ -139,7 +177,13 @@ export default {
   seniorityDelete: seniorityDelete,
   seniorityfind: seniorityfind,
   seniorityfindSeniorityContent: seniorityfindSeniorityContent,
+  // 分销
+  findProdcutActivity: findProdcutActivity,
 
   getProdcutActivityType: getProdcutActivityType,
+  getActivityProductList: getActivityProductList,
+  updateActivityProduct: updateActivityProduct,
+  deleteGoods: deleteGoods,
+  updateProdcutActivity: updateProdcutActivity,
 };
 

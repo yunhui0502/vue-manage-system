@@ -96,7 +96,7 @@ export default {
   },
   data() {
     return {
-      commodityId: 0,
+      commodityId: '',
       goosID: 0,
       title: '',
       loading: false,

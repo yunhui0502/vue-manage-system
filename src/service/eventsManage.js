@@ -5,13 +5,29 @@ import eventsManage from '@/api/eventsManage.js';
 async function getProdcutActivityType(handleResult) {
   eventsManage.getProdcutActivityType().then((res) => handleResult(res));
 }
-// 单个删除秒杀商品
+// 删除活动
 async function eventsDelete(id, handleResult) {
   eventsManage.eventsDelete(id).then((res) => handleResult(res));
+}
+// 删除活动里的商品
+async function deleteGoods(id, handleResult) {
+  eventsManage.deleteGoods(id).then((res) => handleResult(res));
 }
 // 给活动绑定商品
 async function seniorityBinding(params, handleResult) {
   eventsManage.seniorityBinding(params).then((res) => handleResult(res));
+}
+// 查询活动商品列表信息
+async function getActivityProductList(id, handleResult) {
+  eventsManage.getActivityProductList(id).then((res) => handleResult(res));
+}
+// 完善活动商品信息 添加价格
+async function updateActivityProduct(id, handleResult) {
+  eventsManage.updateActivityProduct(id).then((res) => handleResult(res));
+}
+// 修改活动品接口
+async function updateProdcutActivity(id, handleResult) {
+  eventsManage.updateProdcutActivity(id).then((res) => handleResult(res));
 }
 // ========================================秒杀
 
@@ -73,6 +89,10 @@ async function seniorityfind(seniorityId, handleResult) {
   eventsManage.seniorityfind(seniorityId).then((res) => handleResult(res));
 }
 // ========================================分销
+// 获取分销活动列表
+async function findProdcutActivity(handleResult) {
+  eventsManage.findProdcutActivity().then((res) => handleResult(res));
+}
 export default {
   eventsDelete: eventsDelete,
   // 秒杀
@@ -92,6 +112,13 @@ export default {
   seniorityBinding: seniorityBinding,
   seniorityfind: seniorityfind,
   seniorityfindSeniorityContent: seniorityfindSeniorityContent,
+  // 分销
+  findProdcutActivity: findProdcutActivity,
+
 
   getProdcutActivityType: getProdcutActivityType,
+  getActivityProductList: getActivityProductList,
+  updateActivityProduct: updateActivityProduct,
+  deleteGoods: deleteGoods,
+  updateProdcutActivity: updateProdcutActivity,
 };

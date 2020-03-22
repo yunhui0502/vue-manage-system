@@ -50,14 +50,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-button
-        v-model="handleAdd"
-        type="text"
-        circle
-        plain
-        icon="el-icon-plus"
-        @click="handleAdd()"
-      >添加一列</el-button>
+
     </div>
 
   <div  style="float: right;width: 50%;">

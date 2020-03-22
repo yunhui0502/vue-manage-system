@@ -40,11 +40,11 @@
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button @click="save(scope)">添加</el-button>
+            <el-button @click="save(scope)">保存</el-button>
           </template>
         </el-table-column>
       </el-table>
-      <el-button style="float: right;" size="mini" @click="addGoodsSpecificationList()">添加一行</el-button>
+      <el-button style="float: right;" size="mini" @click="addGoodsSpecificationList()">添加规格</el-button>
     </div>
     <div v-if="!detailsp" style="margin-top: 20px;">
       <div>物品规格</div>
@@ -96,14 +96,6 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-button
-        v-model="handleAdd"
-        type="text"
-        circle
-        plain
-        icon="el-icon-plus"
-        @click="handleAdd()"
-      >添加一列</el-button>
     </div>
   </div>
 </template>
@@ -115,8 +107,8 @@ export default {
   name: 'listSpecification',
   props: {
     commodityId: {
-      type: Number,
-      default: 0,
+      type: String,
+      default: '',
     },
     goosID: {
       type: Number,

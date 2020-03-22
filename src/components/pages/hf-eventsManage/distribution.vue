@@ -1,26 +1,8 @@
 <template>
-  <!---------------------------------- 精选 -------------------------------------------------- -->
+  <!---------------------------------- 分销 -------------------------------------------------- -->
   <el-container>
     <el-container>
       <el-aside class="abc" width="40%">
-        <!-- 上传图片 -->
-        <!-- <el-upload
-          class="upload-demo"
-          action="/api/api/product/seniority/updateSeniorityInfo"
-          :on-preview="handlePreview"
-          name="fileInfo"
-          :data="transfedata.seniorityId"
-          :on-remove="handleRemove"
-          :before-remove="beforeRemove"
-          multiple
-          :limit="3"
-          :on-exceed="handleExceed"
-          :file-list="fileList"
-        >
-          <el-button size="small" type="primary">点击上传</el-button>
-          <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-        </el-upload>-->
-
         <el-button style="margin: 8px;" @click="addGoodsSpecificationList" type="primary">添加活动</el-button>
         <!-- 活动列表展示 -->
         <el-table
@@ -89,14 +71,13 @@
           @selection-change="eventsSelectionChange"
         >
           <el-table-column label="序列号" type="index" width="70"></el-table-column>
-          <el-table-column label="活动榜名">
+          <el-table-column label="商品名称">
             <template slot-scope="scope">{{ scope.row.productName}}</template>
           </el-table-column>
           <el-table-column prop="createTime" label="创建时间" show-overflow-tooltip></el-table-column>
           <el-table-column prop="modifyTime" label="修改时间" show-overflow-tooltip></el-table-column>
           <el-table-column prop="address" label="操作">
             <template slot-scope="scope">
-              <!-- <el-button type="text" @click="SettingPrice(scope.row)" size="mini">保存</el-button> -->
               <el-button type="text" @click="deleteArticle(scope.row.id)" size="mini">删除</el-button>
             </template>
           </el-table-column>
@@ -254,20 +235,6 @@ export default {
       };
       this.tableData.push(row);
     },
-    // 修改活动名称
-    preserveModify(scope) {
-      this.groupform.activityName = scope.row.activityName;
-      this.groupform.id = scope.row.id;
-      serviceEvents.updateProdcutActivity(this.groupform, (res) => {
-        console.log('修改活动', res);
-        this.$message({
-          showClose: true,
-          message: '恭喜你，修改成功',
-          type: 'success',
-        });
-        this.getselect();
-      });
-    },
     // 绑定 里的确定按钮
     onSubmit() {
       serviceEvents.seniorityBinding(this.transfedata, (res) => {
@@ -308,8 +275,8 @@ export default {
     },
     // 查询排行相关信息
     getselect() {
-      serviceEvents.seniorityfindSeniorityInfo((res) => {
-        console.log('精选商品', res.data);
+      serviceEvents.findProdcutActivity((res) => {
+        console.log('分销商品', res.data.data);
         this.tableData = res.data.data;
         if (res.data.data.length !== 0) {
           this.transfedata.seniorityId = res.data.data[0].id;
@@ -325,27 +292,7 @@ export default {
         }
       });
     },
-    submitUpload() {
-      this.$refs.upload.submit();
-      console.log(this.fileList);
-      console.log(this.$refs.upload);
-    },
-    handleExceed(files, fileList) {
-      this.$message.warning(
-        `当前限制选择 3 个文件，本次选择了 ${
-          files.length
-        } 个文件，共选择了 ${files.length + fileList.length} 个文件`,
-      );
-    },
-    handleRemove(file, fileList) {
-      console.log(file, fileList);
-    },
-    handlePreview(file) {
-      console.log(file);
-    },
-    beforeRemove(file, fileList) {
-      return this.$confirm(`确定移除 ${file.name}？`);
-    },
+
     //  添加排行相关信息 timestamp  repertory
     addGcommodity(scope) {
       this.groupform.activityName = scope.row.activityName;
@@ -382,6 +329,20 @@ export default {
             message: '恭喜你，删除成功',
             type: 'success',
           });
+        });
+        this.getselect();
+      });
+    },
+    // 修改活动名称
+    preserveModify(scope) {
+      this.groupform.activityName = scope.row.activityName;
+      this.groupform.id = scope.row.id;
+      serviceEvents.updateProdcutActivity(this.groupform, (res) => {
+        console.log('修改活动', res);
+        this.$message({
+          showClose: true,
+          message: '恭喜你，修改成功',
+          type: 'success',
         });
         this.getselect();
       });
