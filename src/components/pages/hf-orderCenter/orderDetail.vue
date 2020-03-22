@@ -11,6 +11,7 @@
       <span style="margin-left: 20px;" v-if="detail.paymentName === 'wechart'">支付方式:微信支付</span>
       <span style="margin-left: 20px;">支付金额:{{detail.amount}}</span>
       <span style="margin-left: 20px;">支付时间:{{detail.modifyTime}}</span>
+      <span style="margin-left: 20px;">订单状态:{{zhuang}}</span>
     </el-card>
     <el-card class="box-card">
       <div slot="header" class="clearfix">
@@ -54,17 +55,17 @@
       style="margin-top: 200px; display: flex;align-items: center;justify-content: space-around;padding:0 10%;"
     >
       <div
-        v-if="detail.orderType==='balancePayment'"
+        v-if="detail.orderStatus==='payment'"
         @click="pay"
         style="background: #409EFF;color: #fff;padding:6px 10px ;border-radius:4px;"
       >去支付</div>
-      <div  v-if="detail.orderType==='balancePayment'" style="background: #40e5ff;color: #fff;padding:6px 10px ;border-radius:4px;">提醒用户</div>
+      <div  v-if="detail.orderStatus==='payment'" style="background: #40e5ff;color: #fff;padding:6px 10px ;border-radius:4px;">提醒用户</div>
       <div
-        v-if="detail.orderType==='balancePayment'"
+        v-if="detail.orderStatus==='payment'"
         @click="cancle()"
         style="background: #ff4040;color: #fff;padding:6px 10px ;border-radius:4px;"
       >取消订单</div>
-      <div v-if="detail.orderType!='cancel'">联系用户：{{detail.phone}} </div>
+      <div >联系用户：{{detail.phone}} </div>
     </div>
   </div>
 </template>
@@ -75,6 +76,7 @@ import constants from '@/store/constants.js';
 export default {
   data() {
     return {
+      zhuang: '',
       goodsName: '',
       hfGoodsSpecs: [],
       updata: {
@@ -141,7 +143,8 @@ export default {
     this.id = this.$route.query.id;
     this.updata.id = this.$route.query.id;
     this.updata1.id = this.$route.query.id;
-    console.log(this.id);
+    this.zhuang = this.$route.query.zhuang;
+    console.log(this.id, this.zhuang);
     this.getdetail();
   },
 };

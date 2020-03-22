@@ -258,10 +258,13 @@ export default {
     },
     goDetail: function(row) {
       this.id = row.id;
+      console.log(this.zhuang);
+      var that = this;
       this.$router.push({
         path: '/orderDetail',
         query: {
           id: row.id,
+          zhuang: that.zhuang,
         },
       });
     },

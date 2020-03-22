@@ -16,7 +16,7 @@
       </span>
     </el-dialog>
     <el-tabs v-model="activeName" @tab-click="select">
-      <el-tab-pane label="基本信息" name="first">
+      <el-tab-pane label="用户列表" name="first">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
             <span>{{message}}</span>
@@ -48,7 +48,7 @@
         </el-card>
       </el-tab-pane>
       <el-tab-pane label="店铺管理员列表" name="second"></el-tab-pane>
-      <el-tab-pane label="用户列表" name="third"></el-tab-pane>
+      <el-tab-pane label="基本信息" name="third"></el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -57,7 +57,7 @@ import userCenterService from '@/service/userCenter.js';
 export default {
   data() {
     return {
-      message: '',
+      message: '用户列表',
       activeName: 'first',
       currentPage: 1, // 初始页
       pagesize: 2, // 每页的数据
