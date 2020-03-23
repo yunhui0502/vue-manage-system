@@ -48,7 +48,6 @@ export default {
     },
     // 获取图片
     acquire() {
-      console.log('123');
       serviceProduct.selectProductPictures(this.productId, (res) => {
         this.fileList = [];
         for (let i = 0; i < res.data.data.length; i++) {
