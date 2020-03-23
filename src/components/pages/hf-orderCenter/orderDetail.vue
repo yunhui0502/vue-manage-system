@@ -5,7 +5,7 @@
       <span style="margin-left:10px;">订单号:{{detail.orderCode}}</span>
     </div>
     <el-card class="box-card">
-      <span>支付人:{{detail.realName}}</span>
+      <span>支付人:{{detail.nickName}}</span>
       <span style="margin-left: 20px;" v-if="detail.paymentName === 'balance'">支付方式:余额支付</span>
       <span style="margin-left: 20px;" v-if="detail.paymentName === 'BalancePayment'">支付方式:余额支付</span>
       <span style="margin-left: 20px;" v-if="detail.paymentName === 'wechart'">支付方式:微信支付</span>
@@ -109,7 +109,7 @@ export default {
     },
     pay: function() {
       orderCenterService.upDataOrderStatus(this.updata, (res) => {
-        console.log(this.updata, res);
+        // console.log(this.updata, res);
         if (res.data.status === constants.SUCCESS_CODE) {
           this.$message({
             message: '支付成功',
@@ -124,7 +124,7 @@ export default {
     },
     cancle: function() {
       orderCenterService.upDataOrderStatus(this.updata1, (res) => {
-        console.log(this.updata1, res);
+        // console.log(this.updata1, res);
         if (res.data.status === constants.SUCCESS_CODE) {
           this.$message({
             message: '已取消',
@@ -144,7 +144,7 @@ export default {
     this.updata.id = this.$route.query.id;
     this.updata1.id = this.$route.query.id;
     this.zhuang = this.$route.query.zhuang;
-    console.log(this.id, this.zhuang);
+    // console.log(this.id, this.zhuang);
     this.getdetail();
   },
 };

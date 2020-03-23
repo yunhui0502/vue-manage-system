@@ -16,7 +16,9 @@
       </span>
     </el-dialog>
     <el-tabs v-model="activeName" @tab-click="select">
-      <el-tab-pane label="用户列表" name="first">
+      <el-tab-pane label="基本信息" name="first"></el-tab-pane>
+      <el-tab-pane label="店铺管理员列表" name="second"></el-tab-pane>
+      <el-tab-pane label="用户列表" name="third">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
             <span>{{message}}</span>
@@ -28,6 +30,7 @@
           >
             <el-table-column prop="nickName" label="姓名" width="180" align="center"></el-table-column>
             <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
+             <el-table-column prop="phone" label="邮箱" align="center"></el-table-column>
             <el-table-column prop="invitationCode" label="邀请码" align="center"></el-table-column>
             <el-table-column prop="ownInvitationCode" label="拥有的邀请码" align="center"></el-table-column>
             <el-table-column label="操作">
@@ -47,8 +50,6 @@
           ></el-pagination>
         </el-card>
       </el-tab-pane>
-      <el-tab-pane label="店铺管理员列表" name="second"></el-tab-pane>
-      <el-tab-pane label="基本信息" name="third"></el-tab-pane>
     </el-tabs>
   </div>
 </template>

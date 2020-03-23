@@ -22,6 +22,9 @@ function uploadPicture(file, userId) {
 function checkUser(params) {
   return Axios.get('/api/api/user/hf-auth/findAdminUser');
 }
+function getUserDetails(userId) {
+  return Axios.get('/api/api/user/hf-auth/findUserDetails?userId=' + userId);
+}
 function updatePerson(params) {
   let fd = new FormData();
   console.log(params);
@@ -37,4 +40,5 @@ export default {
   deleteUser: deleteUser,
   updatePerson: updatePerson,
   uploadPicture: uploadPicture,
+  getUserDetails: getUserDetails,
 };

@@ -16,12 +16,15 @@ async function uploadPicture(file, userId, handleResult) {
 async function updatePerson(params, handleResult) {
   userCenter.updatePerson(params).then((res) => handleResult(res));
 }
-
+async function getUserDetails(userId, handleResult) {
+  userCenter.getUserDetails(userId).then((res) => handleResult(res));
+}
 export default {
   addUser: addUser,
   checkUser: checkUser,
   deleteUser: deleteUser,
   uploadPicture: uploadPicture,
   updatePerson: updatePerson,
+  getUserDetails: getUserDetails,
 };
 
