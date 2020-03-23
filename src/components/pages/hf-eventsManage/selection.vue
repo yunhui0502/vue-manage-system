@@ -2,7 +2,7 @@
   <!---------------------------------- 精选 -------------------------------------------------- -->
   <el-container>
     <el-container>
-      <el-aside class="abc" width="40%">
+      <el-aside class="abc" width="46%">
         <!-- 上传图片 -->
         <!-- <el-upload
           class="upload-demo"
@@ -33,22 +33,13 @@
           style="width: 100%"
         >
           <el-table-column checked type="selection" width="55"></el-table-column>
-          <el-table-column label="活动名称" width="76">
+          <el-table-column label="活动名称" width="120">
             <template slot-scope="scope">
               <el-input placeholder="请输入内容" v-model="scope.row.activityName"></el-input>
             </template>
           </el-table-column>
-          <el-table-column label="活动类型" width="76">
-            <template slot-scope="scope">
-              <el-select v-model="scope.row.activityType" placeholder="请选择">
-                <el-option
-                  v-for="item in options"
-                  :key="item.activityType"
-                  :label="item.activityDesc"
-                  :value="item.activityType"
-                ></el-option>
-              </el-select>
-            </template>
+          <el-table-column label="活动类型" prop="activityType" width="">
+           <span>精选</span>
           </el-table-column>
           <el-table-column prop="startTime" label="开始时间" width="170">
             <template slot-scope="scope">
@@ -206,7 +197,7 @@ export default {
       // 添加精选
       groupform: {
         activityName: '', // 活动名称
-        activityType: '', // 活动类型
+        activityType: 'seniorityActivity', // 活动类型
         startTime: '', // 开始时间
         endTime: '', // 结束时间
         timestamp: '2', // 当前时间

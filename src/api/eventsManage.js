@@ -30,13 +30,28 @@ function getActivityProductList(id) {
 // 完善活动商品信息 添加价格
 function updateActivityProduct(params) {
   let fd = new FormData();
-  fd.append('id', params.id);
-  fd.append('groupNum', params.groupNum);
-  fd.append('favoravlePrice', params.favoravlePrice);
+  if (params.id !== undefined) {
+    fd.append('id', params.id);
+  }
+  if (params.groupNum !== undefined) {
+    fd.append('groupNum', params.groupNum);
+  }
+
+  if (params.distributionRatio !== undefined) {
+    fd.append('distributionRatio', params.distributionRatio);
+  }
+
+  if (params.favoravlePrice !== undefined) {
+    fd.append('favoravlePrice', params.favoravlePrice);
+  }
   if (params.discountRatio !== undefined) {
     fd.append('discountRatio', params.discountRatio);
   }
-  fd.append('inventoryCelling', params.inventoryCelling);
+
+  if (params.inventoryCelling !== undefined) {
+    fd.append('inventoryCelling', params.inventoryCelling);
+  }
+
   fd.append('timestamp', params.timestamp);
   fd.append('token', params.token);
   fd.append('userId', params.userId);

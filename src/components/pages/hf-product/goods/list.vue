@@ -1,6 +1,5 @@
 <template>
   <div>
-    <el-button class="positioning" @click="refresh" type="success" round>刷新</el-button>
     <!-- <el-button  type="success" round>{{commodityId}}</el-button> -->
     <el-table
       :data="tableData"
@@ -113,8 +112,8 @@ import ListSpecification from '../list-specification';
 export default {
   props: {
     commodityId: {
-      type: Number,
-      default: 0,
+      type: String,
+      default: '0',
     },
   },
   components: {
@@ -156,19 +155,10 @@ export default {
         path: '/hf-product/detail',
       });
     },
-    // 刷新
-    refresh() {
-      this.setProducts();
-    },
     // 点击物品列表行触发
     rowClick(e) {
       console.log('三级连动', e.goodsId);
       this.interconnectedID = e.goodsId;
-
-      setTimeout(() => {
-        console.log(this.$refs.child);
-        this.$refs.child.callMethod();
-      }, 0);
     },
     // 详情
     editProduct(row) {
@@ -177,6 +167,7 @@ export default {
       this.drawer = true;
       serviceGoods.selectProductGoods(row.goodsId, this.commodityId, (res) => {
         this.storage = res.data.data;
+        this.details = res.data.data;
         console.log('详情', res.data.data);
       });
     },

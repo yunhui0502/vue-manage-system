@@ -16,9 +16,6 @@
           <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
         </el-upload>
       </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="handlePush">发布</el-button>
-      </el-form-item>
     </el-form>
   </div>
 </template>
@@ -29,7 +26,12 @@ import servicegoods from '@/service/goods.js';
 import axios from 'axios';
 // import { mapGetters } from 'vuex';
 export default {
-  props: ['productId'],
+  props: {
+    productId: {
+      type: String,
+      default: '0',
+    },
+  },
   data() {
     return {
       files: [],
@@ -48,6 +50,7 @@ export default {
     },
     // 获取图片
     acquire() {
+      console.log(this.productId);
       serviceProduct.selectProductPictures(this.productId, (res) => {
         this.fileList = [];
         for (let i = 0; i < res.data.data.length; i++) {
@@ -76,25 +79,6 @@ export default {
       axios.post('/api/api/product/product/addProductPictrue', fd).then((res) => {
         this.acquire();
       });
-    },
-    async handlePush() {
-      this.$refs.upload.submit(); // 这里是执行文件上传的函数，其实也就是获取我们要上传的文件
-      let fd = new FormData();
-      fd.append('productId', this.productId);
-      // fd.append('fileInfo', this.files);
-      this.files.forEach(function(file) {
-        console.log(file);
-        fd.append('fileInfo', file, file.name); // 因为要上传多个文件，所以需要遍历一下才行
-        // 不要直接使用我们的文件数组进行上传，你会发现传给后台的是两个Object
-      });
-      console.log(this.files);
-      axios
-        .post('https://www.tjsichuang.cn:1443/api/product/product/addProductPictrue', fd)
-        .then((res) => {
-          if (res.data.status === 'OK') {
-            console.log(res);
-          }
-        });
     },
   },
 };

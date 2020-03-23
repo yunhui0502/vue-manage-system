@@ -43,6 +43,10 @@ async function updateProduct(productId, handleResult) {
 async function getDetail(productId, handleResult) {
   product.getDetail(productId).then((res) => handleResult(res));
 }
+//  删除商品规格
+async function deleteSpecifies(productSpecId, handleResult) {
+  product.deleteSpecifies(productSpecId).then((res) => handleResult(res));
+}
 export default {
   getProductsByBossId: getProductsByBossId,
   deleteById: deleteById,
@@ -54,4 +58,5 @@ export default {
   updateProduct: updateProduct,
   deleteProduct: deleteProduct,
   getDetail: getDetail,
+  deleteSpecifies: deleteSpecifies,
 };

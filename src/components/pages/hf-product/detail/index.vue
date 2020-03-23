@@ -39,6 +39,10 @@
         <div class="p-5"></div>
         <div class="grid-content bg-purple">
           物品信息列表
+          <el-button  size="mini"
+          round
+            style="float: right;margin-right: 2px;"
+            type="primary" @click="refresh">刷新</el-button>
           <el-button
             @click="appendGoods"
             round
@@ -47,7 +51,7 @@
             type="primary"
           >添加物品</el-button>
         </div>
-        <GoodsList :commodityId="commodityId"></GoodsList>
+        <GoodsList v-if="isRouterAlive" :commodityId="commodityId"></GoodsList>
       </el-col>
       <el-col :span="8">
         <div class="grid-content bg-purple-light">属性设置</div>
@@ -58,7 +62,7 @@
           </el-main>
         </el-container>
         <el-container class="t-10 radius-4">
-          <el-header class="font-neue t-10">规格管理</el-header>
+          <el-header class="font-neue t-10">{{Cabinet}}规格<span style="margin: 0 4px">{{Cabinet}}名称：{{productInfo.name}}</span> </el-header>
           <el-main>
             <list-specification :goosID='goosID' :commodityId="commodityId"></list-specification>
           </el-main>
@@ -70,7 +74,6 @@
       :title="title"
       :visible.sync="drawer"
       :direction="direction"
-      :before-close="handleClose"
       size="80%"
     >
     <div>
@@ -96,6 +99,8 @@ export default {
   },
   data() {
     return {
+      isRouterAlive: true,
+      Cabinet: '商品',
       commodityId: '',
       goosID: 0,
       title: '',
@@ -111,6 +116,7 @@ export default {
         lastModifier: '', // 商家名称
         id: '',
         categoryId: '',
+        name: '', // 展示
       },
 
       // 添加物品规格值
@@ -138,10 +144,11 @@ export default {
   created() {
     console.log(this.$route.query);
     let query = this.$route.query;
+    this.productInfo.id = query.productId;
     if (typeof query.productId === 'undefined') {
       this.isCreate = true;
     } else {
-      this.commodityId = Number(query.productId);
+      this.commodityId = query.productId;
     }
     // 加载类目
     this.getCatagery();
@@ -208,9 +215,10 @@ export default {
         serviceProduct.getDetail(this.commodityId, (res) => {
           console.log('获取当前', res.data.data);
           this.productInfo.productName = res.data.data.productName;
-          this.productInfo.id = res.data.data.id;
+          this.productInfo.id = res.data.data.id + '';
           this.productInfo.lastModifier = res.data.data.stoneName;
           this.productInfo.categoryId = res.data.data.categoryId;
+          this.productInfo.name = res.data.data.productName;
         });
       }
     },
@@ -230,10 +238,9 @@ export default {
       // console.log(e)
       this.ruleForm1.cancelId = e;
     },
-    handleClose(done) {
-      this.$confirm('确认关闭？').then((_) => {
-        done();
-      });
+    refresh() {
+      this.isRouterAlive = false;
+      this.$nextTick(() => (this.isRouterAlive = true));
     },
   },
 };

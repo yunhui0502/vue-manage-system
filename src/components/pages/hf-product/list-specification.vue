@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="detailsp">
-      <div>商品规格</div>
+      <!-- <div>商品规格</div> -->
       <el-table class="goods-table" :data="specificationData" border>
         <el-table-column type="selection"></el-table-column>
         <el-table-column label="规格名称">
@@ -40,7 +40,8 @@
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button @click="save(scope)">保存</el-button>
+            <el-button  type="text" @click="save(scope)">保存</el-button>
+            <el-button  type="text" style="color: red;" @click="deleteEvent(scope.row.id)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -195,12 +196,19 @@ export default {
       ],
     };
   },
+
+  watch: {
+    interconnectedID(newValue, oldValue) {
+      console.log('查看详情触发');
+      console.log(newValue);
+    },
+  },
   created() {
     this.getspecification();
-    if (this.interconnectedID !== 0) {
-      console.log('成功');
-      this.detailsp = false;
-    }
+    // if (this.interconnectedID !== 0) {
+    //   console.log('成功');
+    //   this.detailsp = false;
+    // }
     this.goodsSpecification();
   },
   mounted () {
@@ -211,6 +219,24 @@ export default {
     });// 设置接收父组件的方法
   },
   methods: {
+    // 删除商品规格
+    deleteEvent(id) {
+      this.$confirm('此操作将会删除该活动, 是否继续?', '提示', {}).then(() => {
+        console.log(id);
+        serviceProduct.deleteSpecifies(id, () => {
+          this.$message({
+            showClose: true,
+            message: '恭喜你，删除成功',
+            type: 'success',
+          });
+          this.goodsSpecification();
+        });
+      });
+    },
+
+    rowClick() {
+      console.log('子联动', this.interconnectedID);
+    },
     callMethod() {
       console.log('方法2:直接调用调用成功');
     },
@@ -257,6 +283,11 @@ export default {
     // 添加商品规格
     save(scope) {
       console.log(scope);
+      if (scope.row.hfName === '') {
+        this.$message.error('规格名称不能为空');
+        return;
+      }
+      console.log('sbasnh');
       scope.row.show = false;
       this.specification.hfName = scope.row.hfName;
       this.specification.specValue = scope.row.specValue;
