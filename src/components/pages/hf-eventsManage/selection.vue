@@ -340,7 +340,7 @@ export default {
     //  添加排行相关信息 timestamp  repertory
     addGcommodity(scope) {
       this.groupform.activityName = scope.row.activityName;
-      this.groupform.activityType = scope.row.activityType;
+      // this.groupform.activityType = scope.row.activityType;
       this.groupform.startTime = scope.row.startTime;
       this.groupform.endTime = scope.row.endTime;
       console.log('parathis.groupformms', this.groupform);

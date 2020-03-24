@@ -303,7 +303,7 @@ export default {
     // 添加团购商品 scope.row.id
     addGcommodity(scope) {
       this.groupform.activityName = scope.row.activityName;
-      this.groupform.activityType = scope.row.activityType;
+      // this.groupform.activityType = scope.row.activityType;
       this.groupform.startTime = scope.row.startTime;
       this.groupform.endTime = scope.row.endTime;
       console.log('params', this.groupform);
