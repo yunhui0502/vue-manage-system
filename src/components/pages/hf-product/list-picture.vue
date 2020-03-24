@@ -11,6 +11,7 @@
           :limit="20"
           :file-list="fileList"
           :on-change="imgUpload"
+          :on-remove="handleRemove"
         >
           <el-button size="small" type="primary">点击上传</el-button>
           <!-- <div slot="tip">只能上传jpg/png文件，且不超过500kb</div> -->
@@ -79,6 +80,10 @@ export default {
       axios.post('/api/api/product/product/addProductPictrue', fd).then((res) => {
         this.acquire();
       });
+    },
+    // 文件列表移除文件时的钩子
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
     },
   },
 };

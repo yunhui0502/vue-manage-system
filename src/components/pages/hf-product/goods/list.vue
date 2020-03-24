@@ -35,7 +35,6 @@
       title="物品详情"
       :direction="direction"
       :visible.sync="drawer"
-      :before-close="handleClose"
       size="89%"
     >
       <div>
@@ -47,10 +46,10 @@
           ref="multipleTable"
         >
           <el-table-column prop="goodsId" label="序号" width="50" align="center"></el-table-column>
-          <el-table-column prop="brandName" label="物品名称">
+          <el-table-column prop="goodsName" label="物品名称">
             <template slot-scope="scope">
-              <el-input v-show="show" placeholder="请输入内容" v-model="scope.row.brandName"></el-input>
-              <span v-show="!show">{{scope.row.brandName}}</span>
+              <el-input v-show="show" placeholder="请输入内容" v-model="scope.row.goodsName"></el-input>
+              <span v-show="!show">{{scope.row.goodsName}}</span>
             </template>
           </el-table-column>
           <el-table-column prop="goodsDesc" label="物品描述">
@@ -238,11 +237,7 @@ export default {
         });
       });
     },
-    handleClose(done) {
-      this.$confirm('确认关闭？').then((_) => {
-        done();
-      });
-    },
+
     handleCurrentChange(val) {
       this.currpage = val;
     },

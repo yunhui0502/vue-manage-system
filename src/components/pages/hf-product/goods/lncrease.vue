@@ -113,6 +113,10 @@ export default {
       type: String,
       default: '1',
     },
+    productName: {
+      type: String,
+      default: '商品名字',
+    },
   },
   data() {
     return {
@@ -242,17 +246,20 @@ export default {
     },
     SubmitGoods() {
       var object = {};
+      var Name = '';
       console.log(this.specificationData);
       for (var i = 0; i < this.specificationData.length; i++) {
         object[this.specificationData[i].id] = this.specificationData[
           i
         ].specValue;
+        Name += this.specificationData[i].hfName + ':' + this.specificationData[i].specValue + ',';
         var json = JSON.stringify(object);
       }
       console.log(json);
       this.increase.specValue = json;
       // 添加物品
       this.increase.productId = this.commodityId;
+      this.increase.goodName = this.productName + ':' + Name;
       console.log(this.commodityId);
       console.log(this.increase);
       serviceGoods.addProduct(this.increase, (res) => {

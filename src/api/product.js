@@ -9,12 +9,14 @@ function getProductsByBossId(bossId) {
 function getDetail(productId) {
   return Axios.get('/api/api/product/hfProduct/getDetail?productId=' + productId);
 }
-// 添加商品接口
+// 添加商品接口 lastModifier
 function ceateProduct(params) {
   let fd = new FormData();
   fd.append('bossId ', params.bossId);
   fd.append('categoryId', params.categoryId);
   fd.append('hfName ', params.productName);
+  fd.append('productDesc ', params.productDesc);
+  fd.append('lastModifier ', params.lastModifier);
 
   // fd.append('requestId', params.requestId);
   // fd.append('lastModifier', params.lastModifier);
@@ -32,6 +34,7 @@ function updateProduct(params) {
   fd.append('bossId ', params.bossId);
   fd.append('categoryId', params.categoryId);
   fd.append('hfName', params.productName);
+  fd.append('productDesc', params.productDesc);
   fd.append('id', params.id);
   fd.append('lastModifier', params.lastModifier);
   return Axios.post('/api/api/product/product/updateProductId', fd);

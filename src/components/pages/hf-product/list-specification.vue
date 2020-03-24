@@ -199,8 +199,12 @@ export default {
 
   watch: {
     interconnectedID(newValue, oldValue) {
-      console.log('查看详情触发');
-      console.log(newValue);
+      console.log('查看详情触发', newValue);
+      serviceGoods.goodsSpecifies(newValue, (res) => {
+        console.log('物品规格');
+        console.log('物品规格', res);
+        this.tabledata = res.data.data;
+      });
     },
   },
   created() {
