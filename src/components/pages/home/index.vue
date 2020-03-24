@@ -27,19 +27,19 @@
             <span slot="title">活动管理</span>
           </el-menu-item>
           <el-menu-item index="/hf-orderCenter">
-            <i class="el-icon-s-order"></i>
+            <i class="iconfont el-icon-s-order"></i>
             <span slot="title">订单中心</span>
           </el-menu-item>
           <el-menu-item index="/hf-store">
-            <i class="el-icon-folder-opened"></i>
+            <i class="iconfont el-icon-folder-opened"></i>
             <span slot="title">店铺管理</span>
           </el-menu-item>
           <el-menu-item index="/hf-userCenter">
-            <i class="el-icon-user-solid"></i>
+            <i class="iconfont el-icon-user-solid"></i>
             <span slot="title">用户中心</span>
           </el-menu-item>
           <el-menu-item index="/hf-file">
-            <i class="el-icon-sunny"></i>
+            <i class="iconfont el-icon-sunny"></i>
             <span slot="title">图片管理</span>
           </el-menu-item>
           <el-menu-item index="/set">
