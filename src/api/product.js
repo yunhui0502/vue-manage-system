@@ -40,6 +40,10 @@ function updateProduct(params) {
 function deleteProduct(productId) {
   return Axios.get('/api/api/product/product/deleteProductId?productId=' + productId);
 }
+// 删除商品规格
+function deleteSpecifies(productSpecId) {
+  return Axios.get('/api/api/product/product/deleteSpecifies?productSpecId=' + productSpecId);
+}
 // 获取类目列表
 function getCatagery() {
   return Axios.get('/api/api/product/product/category');
@@ -79,4 +83,5 @@ export default {
   updateProduct: updateProduct,
   deleteProduct: deleteProduct,
   getDetail: getDetail,
+  deleteSpecifies: deleteSpecifies,
 };

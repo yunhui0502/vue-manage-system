@@ -2,7 +2,7 @@
   <!---------------------------------- 分销 -------------------------------------------------- -->
   <el-container>
     <el-container>
-      <el-aside class="abc" width="40%">
+      <el-aside class="abc" width="46%">
         <el-button style="margin: 8px;" @click="addGoodsSpecificationList" type="primary">添加活动</el-button>
         <!-- 活动列表展示 -->
         <el-table
@@ -15,22 +15,13 @@
           style="width: 100%"
         >
           <el-table-column checked type="selection" width="55"></el-table-column>
-          <el-table-column label="活动名称" width="76">
+          <el-table-column label="活动名称" width="120">
             <template slot-scope="scope">
               <el-input placeholder="请输入内容" v-model="scope.row.activityName"></el-input>
             </template>
           </el-table-column>
-          <el-table-column label="活动类型" width="76">
-            <template slot-scope="scope">
-              <el-select v-model="scope.row.activityType" placeholder="请选择">
-                <el-option
-                  v-for="item in options"
-                  :key="item.activityType"
-                  :label="item.activityDesc"
-                  :value="item.activityType"
-                ></el-option>
-              </el-select>
-            </template>
+          <el-table-column label="活动类型" prop="activityType">
+            <span>分销</span>
           </el-table-column>
           <el-table-column prop="startTime" label="开始时间" width="170">
             <template slot-scope="scope">
@@ -65,6 +56,7 @@
         <el-table
           ref="multipleTable"
           :data="eventsGoods"
+          stripe
           tooltip-effect="dark"
           style="width: 100%;margin-top: 30px;"
           :select-all="dianji(selection)"
@@ -74,10 +66,19 @@
           <el-table-column label="商品名称">
             <template slot-scope="scope">{{ scope.row.productName}}</template>
           </el-table-column>
-          <el-table-column prop="createTime" label="创建时间" show-overflow-tooltip></el-table-column>
-          <el-table-column prop="modifyTime" label="修改时间" show-overflow-tooltip></el-table-column>
+          <el-table-column prop="distributionRatio" label="一级比例">
+            <template slot-scope="scope">
+              <el-input placeholder="请输入内容" v-model="scope.row.distributionRatio"></el-input>
+            </template>
+          </el-table-column>
+          <el-table-column prop="distributionRatio1" label="二级比例">
+            <template slot-scope="scope">
+              <el-input placeholder="请输入内容" v-model="scope.row.distributionRatio1"></el-input>
+            </template>
+          </el-table-column>
           <el-table-column prop="address" label="操作">
             <template slot-scope="scope">
+              <el-button type="text" @click="SettingPrice(scope.row)" size="mini">保存</el-button>
               <el-button type="text" @click="deleteArticle(scope.row.id)" size="mini">删除</el-button>
             </template>
           </el-table-column>
@@ -187,7 +188,7 @@ export default {
       // 添加精选
       groupform: {
         activityName: '', // 活动名称
-        activityType: '', // 活动类型
+        activityType: 'distributionActivity', // 活动类型
         startTime: '', // 开始时间
         endTime: '', // 结束时间
         timestamp: '2', // 当前时间
@@ -195,10 +196,16 @@ export default {
         userId: '1',
         requestId: '2', // 随机数
       },
-      options: [], // 下拉框
+      // options: [], // 下拉框
       transfedata: {
         goodsId: '',
         seniorityId: '',
+        id: '',
+        distributionRatio: '',
+        timestamp: '2', // 当前时间
+        token: '1',
+        userId: '1',
+        requestId: '2', // 随机数
       },
       // eventsId: [], // 保存活动ID
       // goodsId: [], // 保存商品ID
@@ -244,10 +251,32 @@ export default {
           message: '恭喜你，添加成功',
           type: 'success',
         });
-        serviceEvents.getActivityProductList(this.transfedata.seniorityId, (res) => {
-          console.log('活动商品列表信息', res);
-          this.eventsGoods = res.data.data;
-        });
+        serviceEvents.getActivityProductList(
+          this.transfedata.seniorityId,
+          (res) => {
+            console.log('活动商品列表信息', res);
+            // this.eventsGoods = res.data.data;
+            let ventsGood = res.data.data;
+            for (let vaents of ventsGood) {
+              console.log(vaents);
+              if (typeof vaents.distributionRatio !== 'undefined') {
+                vaents.distribut = JSON.parse(vaents.distributionRatio);
+                console.log(vaents.distribut);
+              }
+            }
+            this.eventsGoods = res.data.data;
+          },
+        );
+      });
+    },
+    // 保存价格比例
+    SettingPrice(row) {
+      console.log(row);
+      this.transfedata.distributionRatio =
+        row.distributionRatio + ',' + row.distributionRatio1;
+      this.transfedata.id = row.id;
+      serviceEvents.updateActivityProduct(this.transfedata, (res) => {
+        console.log('添加价格', res);
       });
     },
     // 编辑
@@ -265,6 +294,15 @@ export default {
         console.log('阻止');
         serviceEvents.getActivityProductList(row.id, (res) => {
           console.log('活动商品列表信息', res);
+          // this.eventsGoods = res.data.data;
+          let ventsGood = res.data.data;
+          for (let vaents of ventsGood) {
+            console.log(vaents);
+            if (typeof vaents.distributionRatio !== 'undefined') {
+              vaents.distribut = JSON.parse(vaents.distributionRatio);
+              console.log(vaents.distribut);
+            }
+          }
           this.eventsGoods = res.data.data;
         });
       }
@@ -285,6 +323,14 @@ export default {
               this.transfedata.seniorityId,
               (res) => {
                 console.log('活动商品列表信息', res);
+                let ventsGood = res.data.data;
+                for (let vaents of ventsGood) {
+                  console.log(vaents);
+                  if (typeof vaents.distributionRatio !== 'undefined') {
+                    vaents.distribut = JSON.parse(vaents.distributionRatio);
+                    console.log(vaents.distribut);
+                  }
+                }
                 this.eventsGoods = res.data.data;
               },
             );
@@ -296,7 +342,6 @@ export default {
     //  添加排行相关信息 timestamp  repertory
     addGcommodity(scope) {
       this.groupform.activityName = scope.row.activityName;
-      this.groupform.activityType = scope.row.activityType;
       this.groupform.startTime = scope.row.startTime;
       this.groupform.endTime = scope.row.endTime;
       console.log('parathis.groupformms', this.groupform);

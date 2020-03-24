@@ -1,6 +1,5 @@
 <template>
   <div>
-    <el-button class="positioning" @click="refresh" type="success" round>刷新</el-button>
     <!-- <el-button  type="success" round>{{commodityId}}</el-button> -->
     <el-table
       :data="tableData"
@@ -98,7 +97,23 @@
         </div>
         <div style="flex:1;margin-top: 20px;">
           <div>图片管理</div>
-          <ListPicture></ListPicture>
+          <el-form>
+            <el-form-item>
+              <el-upload
+                list-type="picture-card"
+                ref="upload"
+                action
+                multiple
+                :auto-upload="false"
+                :limit="20"
+                :file-list="fileList"
+                :on-change="imgUpload"
+              >
+                <el-button size="small" type="primary">点击上传</el-button>
+                <!-- <div slot="tip">只能上传jpg/png文件，且不超过500kb</div> -->
+              </el-upload>
+            </el-form-item>
+          </el-form>
         </div>
       </div>
     </el-drawer>
@@ -108,21 +123,21 @@
 
 <script>
 import serviceGoods from '@/service/goods.js';
-import ListPicture from '../list-picture';
 import ListSpecification from '../list-specification';
+import axios from 'axios';
 export default {
   props: {
     commodityId: {
-      type: Number,
-      default: 0,
+      type: String,
+      default: '0',
     },
   },
   components: {
     ListSpecification,
-    ListPicture,
   },
   data() {
     return {
+      fileList: [],
       detailgoodsId: '',
       interconnectedID: 0,
       show: false,
@@ -139,9 +154,47 @@ export default {
   },
   created() {
     this.setProducts();
+    this.acquire();
   },
 
   methods: {
+    imgUpload(file) {
+      let fileName = file.name;
+      let regex = /(.jpg|.jpeg|.gif|.png|.bmp)$/;
+      if (regex.test(fileName.toLowerCase())) {
+        this.picUrl = URL.createObjectURL(file.raw);
+        this.uploadFile(file);
+      } else {
+        this.$message.error('请选择图片文件');
+      }
+    },
+    uploadFile(file) {
+      let fd = new FormData();
+      fd.append('userId', 1);
+      fd.append('fileInfo1', file.raw);
+      fd.append('goodsId', this.details[0].goodsId);
+      fd.append('timestamp', '1');
+      fd.append('token', '2');
+      fd.append('userId', '3');
+      fd.append('requestId', '2');
+      axios.post('/api/api/product/goods/addPicture', fd).then((res) => {
+        this.acquire();
+      });
+    },
+    // 获取图片
+    acquire() {
+      console.log('图需要的ID', this.details[0].goodsId);
+      serviceGoods.selectProductPictures(this.details[0].goodsId, (res) => {
+        this.fileList = [];
+        for (let i = 0; i < res.data.data.length; i++) {
+          let file = res.data.data[i];
+          serviceGoods.getFileFileId(file.fileId, (res) => {
+            this.fileList.push({ name: file.hfName, url: res.config.url });
+            console.log(this.fileList);
+          });
+        }
+      });
+    },
     setProducts() {
       this.loading = true;
       this.productId = this.commodityId;
@@ -156,19 +209,10 @@ export default {
         path: '/hf-product/detail',
       });
     },
-    // 刷新
-    refresh() {
-      this.setProducts();
-    },
     // 点击物品列表行触发
     rowClick(e) {
       console.log('三级连动', e.goodsId);
       this.interconnectedID = e.goodsId;
-
-      setTimeout(() => {
-        console.log(this.$refs.child);
-        this.$refs.child.callMethod();
-      }, 0);
     },
     // 详情
     editProduct(row) {
@@ -177,6 +221,7 @@ export default {
       this.drawer = true;
       serviceGoods.selectProductGoods(row.goodsId, this.commodityId, (res) => {
         this.storage = res.data.data;
+        this.details = res.data.data;
         console.log('详情', res.data.data);
       });
     },

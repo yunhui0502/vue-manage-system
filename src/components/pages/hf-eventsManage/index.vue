@@ -28,22 +28,13 @@
               style="width: 100%"
             >
               <el-table-column checked type="selection" width="55"></el-table-column>
-              <el-table-column label="活动名称" width="76">
-                <template slot-scope="scope">
+              <el-table-column label="活动名称" >
+                <template slot-scope="scope" width="120">
                   <el-input placeholder="请输入内容" v-model="scope.row.activityName"></el-input>
                 </template>
               </el-table-column>
-              <el-table-column label="活动类型" width="76">
-                <template slot-scope="scope">
-                  <el-select v-model="scope.row.activityType" placeholder="请选择">
-                    <el-option
-                      v-for="item in options"
-                      :key="item.activityType"
-                      :label="item.activityDesc"
-                      :value="item.activityType"
-                    ></el-option>
-                  </el-select>
-                </template>
+              <el-table-column label="活动类型"  prop="activityType">
+                 <span>秒杀</span>
               </el-table-column>
               <el-table-column prop="startTime" label="开始时间" width="170">
                 <template slot-scope="scope">
@@ -74,12 +65,13 @@
             </el-table>
           </el-aside>
           <el-main class="qwe">
-            <el-button @click="dialogTableVisible = true" type="primary">参与活动商品管理</el-button>
+            <!-- <el-button @click="dialogTableVisible = true" type="primary">参与活动商品管理</el-button> -->
             <el-table
               ref="multipleTable"
               :data="eventsGoods"
+              stripe
               tooltip-effect="dark"
-              style="width: 100%"
+              style="width: 100%;margin-top: 30px;"
               :select-all="dianji(selection)"
               @selection-change="eventsSelectionChange"
             >
@@ -129,7 +121,7 @@
               <template slot-scope="scope">{{ scope.row.productDesc}}</template>
             </el-table-column>
           </el-table>
-        </el-dialog> -->
+        </el-dialog>-->
 
         <el-dialog title="编辑" :visible.sync="editboxVisible">
           <el-table :data="addActivities" style="width: 100%">
@@ -165,7 +157,7 @@
               </template>
             </el-table-column>
           </el-table>
-            <div style="margin: 6px;">给活动添加商品部分</div>
+          <div style="margin: 6px;">给活动添加商品部分</div>
           <el-form width="40%" :inline="true" :model="transfedata" class="demo-form-inline">
             <el-form-item label="商品ID">
               <el-input v-model="transfedata.goodsId" placeholder="商品ID"></el-input>
@@ -178,7 +170,7 @@
             </el-form-item>
           </el-form>
 
-           <el-table
+          <el-table
             ref="multipleTable"
             :data="gridData"
             tooltip-effect="dark"
@@ -240,7 +232,7 @@ export default {
       // 添加秒杀
       groupform: {
         activityName: '', // 活动名称
-        activityType: '', // 活动类型
+        activityType: 'seckillActivity', // 活动类型
         startTime: '', // 开始时间
         endTime: '', // 结束时间
         timestamp: '2', // 当前时间
@@ -297,7 +289,7 @@ export default {
     // 添加秒杀商品 value
     addGcommodity(scope) {
       this.groupform.activityName = scope.row.activityName;
-      this.groupform.activityType = scope.row.activityType;
+      // this.groupform.activityType = scope.row.activityType;
       this.groupform.startTime = scope.row.startTime;
       this.groupform.endTime = scope.row.endTime;
       // console.log('parathis.groupformms', this.groupform);
@@ -423,10 +415,13 @@ export default {
           message: '恭喜你，添加成功',
           type: 'success',
         });
-        serviceEvents.getActivityProductList(this.transfedata.seniorityId, (res) => {
-          console.log('活动商品列表信息', res);
-          this.eventsGoods = res.data.data;
-        });
+        serviceEvents.getActivityProductList(
+          this.transfedata.seniorityId,
+          (res) => {
+            console.log('活动商品列表信息', res);
+            this.eventsGoods = res.data.data;
+          },
+        );
       });
     },
     // 编辑
