@@ -26,6 +26,10 @@ function goodsSpecifies(goodsId) {
 function listWareHouse(goodsId) {
   return Axios.get('/api/api/product/wareHouse/listWareHouse?bossId=1');
 }
+// 物品图片
+function picturesAll(goodsId) {
+  return Axios.get('/api/api/product/goods/picturesAll?goodsId=' + goodsId);
+}
 // 添加物品
 function addProduct(params) {
   let fd = new FormData();
@@ -63,6 +67,7 @@ function updateGood (params) {
   // fd.append('linePrice', params.linePrice); 划线价
   return Axios.post('/api/api/product/goods/updategood', fd);
 }
+
 // 添加物品规格值
 function additionSpecs (params) {
   let fd = new FormData();
@@ -97,4 +102,5 @@ export default {
   goodsSpecifies: goodsSpecifies,
   goodsSpecUpdate: goodsSpecUpdate,
   listWareHouse: listWareHouse,
+  picturesAll: picturesAll,
 };

@@ -193,7 +193,8 @@ export default {
       });
     },
     onProductSubmit() {
-      if (this.productInfo.id === '') {
+      console.log(this.productInfo.id);
+      if (this.productInfo.id === undefined) {
         if (this.productInfo.productName !== '') {
           console.log('添加商品', this.productInfo);
           // 添加商品

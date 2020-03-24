@@ -154,6 +154,7 @@ export default {
   },
   created() {
     this.setProducts();
+    this.acquire();
   },
 
   methods: {
@@ -176,8 +177,22 @@ export default {
       fd.append('token', '2');
       fd.append('userId', '3');
       fd.append('requestId', '2');
-      axios.post('/api/api/product/goods/addPictureictrue', fd).then((res) => {
+      axios.post('/api/api/product/goods/addPicture', fd).then((res) => {
         this.acquire();
+      });
+    },
+    // 获取图片
+    acquire() {
+      console.log('图需要的ID', this.details[0].goodsId);
+      serviceGoods.selectProductPictures(this.details[0].goodsId, (res) => {
+        this.fileList = [];
+        for (let i = 0; i < res.data.data.length; i++) {
+          let file = res.data.data[i];
+          serviceGoods.getFileFileId(file.fileId, (res) => {
+            this.fileList.push({ name: file.hfName, url: res.config.url });
+            console.log(this.fileList);
+          });
+        }
       });
     },
     setProducts() {

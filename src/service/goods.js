@@ -41,6 +41,10 @@ async function goodsSpecifies(goodsId, handleResult) {
 async function goodsSpecUpdate(goodsId, goosID, handleResult) {
   goods.goodsSpecUpdate(goodsId, goosID).then((res) => handleResult(res));
 }
+// 更新规格
+async function picturesAll(goodsId, handleResult) {
+  goods.picturesAll(goodsId).then((res) => handleResult(res));
+}
 // 获取仓库
 async function listWareHouse(handleResult) {
   goods.listWareHouse().then((res) => handleResult(res));
@@ -57,4 +61,5 @@ export default {
   goodsSpecifies: goodsSpecifies,
   goodsSpecUpdate: goodsSpecUpdate,
   listWareHouse: listWareHouse,
+  picturesAll: picturesAll,
 };
