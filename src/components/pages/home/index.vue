@@ -26,6 +26,10 @@
             <i class="iconfont icon-huodong"></i>
             <span slot="title">活动管理</span>
           </el-menu-item>
+          <el-menu-item index="/hf-quan">
+            <i class="iconfont icon-huodong"></i>
+            <span slot="title">优惠券</span>
+          </el-menu-item>
           <el-menu-item index="/hf-orderCenter">
             <i class="el-icon-s-order"></i>
             <span slot="title">订单中心</span>

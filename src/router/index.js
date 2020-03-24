@@ -23,6 +23,11 @@ const router = new VueRouter({
       component: (resolve) => require(['@/components/pages/home'], resolve),
       children: [
         {
+          path: '/hf-quan',
+          name: 'hf-quan',
+          component: (resolve) => require(['@/components/pages/hf-quan'], resolve),
+        },
+        {
           path: '/hf-store',
           name: 'hfstore',
           component: (resolve) => require(['@/components/pages/hf-store'], resolve),
