@@ -22,6 +22,10 @@ function deleteById(goodsId) {
 function goodsSpecifies(goodsId) {
   return Axios.get('/api/api/product/goods/specifies?goodsId=' + goodsId);
 }
+// 查询仓库
+function listWareHouse(goodsId) {
+  return Axios.get('/api/api/product/wareHouse/listWareHouse?bossId=1');
+}
 // 添加物品
 function addProduct(params) {
   let fd = new FormData();
@@ -92,4 +96,5 @@ export default {
   setPrice: setPrice,
   goodsSpecifies: goodsSpecifies,
   goodsSpecUpdate: goodsSpecUpdate,
+  listWareHouse: listWareHouse,
 };

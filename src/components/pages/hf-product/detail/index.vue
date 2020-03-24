@@ -31,6 +31,9 @@
             <el-button type="primary" @click="onProductSubmit">{{isCreate ? '添加商品' : '更新商品'}}</el-button>
             <el-button label="ltr" @click="evenMore">查看更多</el-button>
           </el-row>
+           <el-form-item label="商品描述">
+                <el-input type="textarea" v-model="productInfo.productDesc"></el-input>
+            </el-form-item>
         </el-form>
       </el-col>
     </el-row>
@@ -56,13 +59,13 @@
       <el-col :span="8">
         <div class="grid-content bg-purple-light">属性设置</div>
         <el-container class="t-10 radius-4">
-          <el-header class="font-neue t-10">图片管理</el-header>
+          <el-header style="height: -1px;" class="font-neue t-10">图片管理</el-header>
           <el-main>
             <list-picture :productId="productInfo.id"></list-picture>
           </el-main>
         </el-container>
         <el-container class="t-10 radius-4">
-          <el-header class="font-neue t-10">{{Cabinet}}规格<span style="margin: 0 4px">{{Cabinet}}名称：{{productInfo.name}}</span> </el-header>
+          <el-header style="height: 10px;" class="font-neue t-10">{{Cabinet}}规格<span style="margin: 0 4px">{{Cabinet}}名称：{{productInfo.name}}</span> </el-header>
           <el-main>
             <list-specification :goosID='goosID' :commodityId="commodityId"></list-specification>
           </el-main>
@@ -114,6 +117,7 @@ export default {
         region: '',
         productName: '',
         lastModifier: '', // 商家名称
+        productDesc: '',
         id: '',
         categoryId: '',
         name: '', // 展示
@@ -191,7 +195,7 @@ export default {
     onProductSubmit() {
       if (this.productInfo.id === '') {
         if (this.productInfo.productName !== '') {
-          console.log('添加商品');
+          console.log('添加商品', this.productInfo);
           // 添加商品
           this.loading = true;
           serviceProduct.ceateProduct(this.productInfo, (res) => {
@@ -203,7 +207,7 @@ export default {
           });
         }
       } else {
-        console.log('更新商品');
+        console.log('更新商品', this.productInfo);
         serviceProduct.updateProduct(this.productInfo, (res) => {
           console.log('更新商品', res);
         });

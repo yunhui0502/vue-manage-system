@@ -41,6 +41,10 @@ async function goodsSpecifies(goodsId, handleResult) {
 async function goodsSpecUpdate(goodsId, goosID, handleResult) {
   goods.goodsSpecUpdate(goodsId, goosID).then((res) => handleResult(res));
 }
+// 获取仓库
+async function listWareHouse(handleResult) {
+  goods.listWareHouse().then((res) => handleResult(res));
+}
 export default {
   getGoodsByProductId: getGoodsByProductId,
   getFileFileId: getFileFileId,
@@ -52,4 +56,5 @@ export default {
   setPrice: setPrice,
   goodsSpecifies: goodsSpecifies,
   goodsSpecUpdate: goodsSpecUpdate,
+  listWareHouse: listWareHouse,
 };

@@ -97,7 +97,23 @@
         </div>
         <div style="flex:1;margin-top: 20px;">
           <div>图片管理</div>
-          <ListPicture></ListPicture>
+          <el-form>
+            <el-form-item>
+              <el-upload
+                list-type="picture-card"
+                ref="upload"
+                action
+                multiple
+                :auto-upload="false"
+                :limit="20"
+                :file-list="fileList"
+                :on-change="imgUpload"
+              >
+                <el-button size="small" type="primary">点击上传</el-button>
+                <!-- <div slot="tip">只能上传jpg/png文件，且不超过500kb</div> -->
+              </el-upload>
+            </el-form-item>
+          </el-form>
         </div>
       </div>
     </el-drawer>
@@ -107,8 +123,8 @@
 
 <script>
 import serviceGoods from '@/service/goods.js';
-import ListPicture from '../list-picture';
 import ListSpecification from '../list-specification';
+import axios from 'axios';
 export default {
   props: {
     commodityId: {
@@ -118,10 +134,10 @@ export default {
   },
   components: {
     ListSpecification,
-    ListPicture,
   },
   data() {
     return {
+      fileList: [],
       detailgoodsId: '',
       interconnectedID: 0,
       show: false,
@@ -141,6 +157,29 @@ export default {
   },
 
   methods: {
+    imgUpload(file) {
+      let fileName = file.name;
+      let regex = /(.jpg|.jpeg|.gif|.png|.bmp)$/;
+      if (regex.test(fileName.toLowerCase())) {
+        this.picUrl = URL.createObjectURL(file.raw);
+        this.uploadFile(file);
+      } else {
+        this.$message.error('请选择图片文件');
+      }
+    },
+    uploadFile(file) {
+      let fd = new FormData();
+      fd.append('userId', 1);
+      fd.append('fileInfo1', file.raw);
+      fd.append('goodsId', this.details[0].goodsId);
+      fd.append('timestamp', '1');
+      fd.append('token', '2');
+      fd.append('userId', '3');
+      fd.append('requestId', '2');
+      axios.post('/api/api/product/goods/addPictureictrue', fd).then((res) => {
+        this.acquire();
+      });
+    },
     setProducts() {
       this.loading = true;
       this.productId = this.commodityId;

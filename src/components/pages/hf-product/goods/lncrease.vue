@@ -1,7 +1,7 @@
 <template>
-<div>
-   <div style="float: left;">
-       <div>物品规格</div>
+  <div>
+    <div style="float: left;">
+      <div>物品规格</div>
       <el-table :data="specificationData" border>
         <el-table-column type="selection"></el-table-column>
         <el-table-column label="规格名称">
@@ -27,9 +27,9 @@
           </template>
         </el-table-column>
         <el-table-column v-for="(item,i) in cols" :key="i" :prop="item.prop" :label="item.label">
-            <template slot-scope="scope">
-              <input value @input="inputEvent($event)" @blur="Article(scope)" ref="abc" />
-            </template>
+          <template slot-scope="scope">
+            <input value @input="inputEvent($event)" @blur="Article(scope)" ref="abc" />
+          </template>
         </el-table-column>
         <el-table-column label="规格单位" width="90">
           <template slot-scope="scope">
@@ -43,55 +43,65 @@
             </el-select>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="180">
+        <!-- <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button type="text" style="color: rgb(24, 211, 71);" @click="submitPrice(scope)">提交</el-button>
-            <!-- <el-button type="text" style="color: rgb(218, 18, 28);" @click="deletion(scope)">删除</el-button> -->
           </template>
-        </el-table-column>
+        </el-table-column> -->
       </el-table>
-
     </div>
 
-  <div  style="float: right;width: 50%;">
-    <el-form :model="ruleForm" ref="ruleForm" label-width="280px" class="demo-ruleForm">
-    <el-form-item style="width:100%" label="物品名称" prop="goodName">
-      <el-input style="width:50%" v-model="increase.goodName  "></el-input>
-    </el-form-item>
-    <el-form-item style="width:100%" label="物品描述" prop="goodsDesc">
-      <el-input style="width:50%" v-model="increase.goodsDesc  "></el-input>
-    </el-form-item>
-    <el-form-item label="提货方式">
-      <el-radio @change="takeManner" style="margin-left: 50px;" v-model="radio" label="0">快递</el-radio>
-      <el-radio @change="takeManner" v-model="radio" label="1">自取</el-radio>
-    </el-form-item>
-    <el-form-item v-if="radio == 1" label="核销员" prop="region">
-      <el-select @change="pullverifier" v-model="increase.verifier" placeholder="请输入核销员姓名">
-        <el-option
-          v-for="(item, index) in verifier"
-          :key="index"
-          :label="item.realName"
-          :value="item.realName"
-          style="height: 45px;"
-        ></el-option>
-      </el-select>
-    </el-form-item>
-    <el-form-item style="width:100%" label="价格" prop="sellPrice">
-      <el-input style="width:50%" v-model="specificationForm.sellPrice  "></el-input>
-    </el-form-item>
-    <el-form-item style="width:100%" label="划线价格" prop="linePrice">
-      <el-input style="width:50%" v-model="specificationForm.linePrice  "></el-input>
-    </el-form-item>
-    <el-form-item style="width:100%" label="库存" prop="quantity">
-      <el-input style="width:50%" v-model="specificationForm.quantity"></el-input>
-    </el-form-item>
-    <el-form-item label prop="brandId">
-      <el-button style="width:25%; margin-left: 5px;" type="primary" @click="SubmitGoods">保存</el-button>
-      <!-- <el-button type="success" style="color: #fff;" @click="dialogTableVisible = true">添加物品规格值</el-button> -->
-    </el-form-item>
-  </el-form>
+    <div style="float: right;width: 64%;">
+      <el-form :inline="true" :model="ruleForm" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+        <el-form-item  label="物品名称" prop="goodName">
+          <el-input  v-model="increase.goodName  "></el-input>
+        </el-form-item>
+        <el-form-item label="物品描述" prop="goodsDesc">
+          <el-input style="width:100%"  type="textarea" v-model="increase.goodsDesc"></el-input>
+        </el-form-item>
+        <el-form-item style="width:100%" label="提货方式">
+          <el-radio @change="takeManner" style="margin-left: 50px;" v-model="radio" label="0">快递</el-radio>
+          <el-radio @change="takeManner" v-model="radio" label="1">自取</el-radio>
+        </el-form-item>
+        <!-- <el-form-item v-if="radio == 1" label="核销员" prop="region">
+          <el-select  v-model="increase.verifier" placeholder="请输入核销员姓名">
+            <el-option
+              v-for="(item, index) in verifier"
+              :key="index"
+              :label="item.realName"
+              :value="item.id"
+              style="height: 45px;"
+            ></el-option>
+          </el-select>
+        </el-form-item> -->
+        <el-form-item style="" label="价格" prop="sellPrice">
+          <el-input style="" v-model="specificationForm.sellPrice  "></el-input>
+        </el-form-item>
+        <el-form-item style="" label="划线价格" prop="linePrice">
+          <el-input style="" v-model="specificationForm.linePrice  "></el-input>
+        </el-form-item>
+        <el-form-item style="width:40%;margin-bottom:0;" label="仓库" prop="linePrice">
+          <!-- <template slot-scope="scope"> -->
+            <el-select  style="width:80%" v-model="specificationForm.wareHouseId" placeholder="请输入核销员姓名">
+              <el-option
+                v-for="item in options"
+                :key="item.id"
+                :label="item.hfName"
+                :value="item.id"
+              ></el-option>
+            </el-select>
+          <!-- </template> -->
+        </el-form-item>
+        <el-form-item label="库存" prop="quantity">
+          <el-input  v-model="specificationForm.quantity"></el-input>
+        </el-form-item>
+        <el-form-item style="width:100%" label prop="brandId">
+          <el-button style="margin-left: 5px;" type="primary" @click="SubmitGoods">保存</el-button>
+          <!-- <el-button type="success" style="color: #fff;" @click="dialogTableVisible = true">添加物品规格值</el-button> -->
+        </el-form-item>
+      </el-form>
+    </div>
   </div>
-</div>
 </template>
 
 <script>
@@ -100,8 +110,8 @@ import serviceProduct from '@/service/product.js';
 export default {
   props: {
     commodityId: {
-      type: Number,
-      default: 1,
+      type: String,
+      default: '1',
     },
   },
   data() {
@@ -138,6 +148,22 @@ export default {
           label: '寸',
         },
       ],
+      options: [{
+        value: '选项1',
+        label: '黄金糕',
+      }, {
+        value: '选项2',
+        label: '双皮奶',
+      }, {
+        value: '选项3',
+        label: '蚵仔煎',
+      }, {
+        value: '选项4',
+        label: '龙须面',
+      }, {
+        value: '选项5',
+        label: '北京烤鸭',
+      }],
       title: '添加物品', // Drawer 抽屉标题头
       radio: '0', // 单选按钮运费部分
       ruleForm: {},
@@ -147,7 +173,7 @@ export default {
         quantity: '', // 物品数量
         hfGoodsId: '', // 物品ID
         sellPrice: '', // 物品价格
-        wareHouseId: '1', // 仓库ID
+        wareHouseId: '', // 仓库ID
       },
       specificationData: [],
       // 添加物品
@@ -179,6 +205,7 @@ export default {
   },
   created() {
     this.getspecification();
+    this.depot();
   },
   methods: {
     // 商品规格
@@ -188,10 +215,18 @@ export default {
         this.specificationData = res.data.data;
       });
     },
+    // 获取仓库
+    depot() {
+      serviceGoods.listWareHouse((res) => {
+        console.log('获取仓库', res);
+        this.options = res.data.data;
+      });
+    },
     // 添加一行物品规格值
     handleAdd() {
       let row = {
-        prop: 'date', label: '值',
+        prop: 'date',
+        label: '值',
       };
       this.cols.push(row);
     },
@@ -200,6 +235,7 @@ export default {
       this.ruleForm1.claim = this.radio;
     },
     setPrices() {
+      console.log(this.specificationForm);
       serviceGoods.setPrice(this.specificationForm, (res) => {
         console.log('添加价格', res);
       });
@@ -207,16 +243,18 @@ export default {
     SubmitGoods() {
       var object = {};
       console.log(this.specificationData);
-      for (var i = 0;i < this.specificationData.length;i++) {
-        object[this.specificationData[i].id] = this.specificationData[i].specValue;
+      for (var i = 0; i < this.specificationData.length; i++) {
+        object[this.specificationData[i].id] = this.specificationData[
+          i
+        ].specValue;
         var json = JSON.stringify(object);
-
       }
       console.log(json);
       this.increase.specValue = json;
       // 添加物品
       this.increase.productId = this.commodityId;
       console.log(this.commodityId);
+      console.log(this.increase);
       serviceGoods.addProduct(this.increase, (res) => {
         console.log(res);
         console.log(res.data.data);
@@ -228,7 +266,7 @@ export default {
           message: '恭喜你，添加成功',
           type: 'success',
         });
-      // this.$emit('func', false);
+        // this.$emit('func', false);
       });
     },
   },
