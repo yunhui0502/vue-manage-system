@@ -84,6 +84,11 @@ export default {
     // 文件列表移除文件时的钩子
     handleRemove(file, fileList) {
       console.log(file, fileList);
+      var num = file.url.replace(/[^0-9]/ig, '');
+      console.log('num', num);
+      serviceProduct.deleteProductPictrue(num, this.productId, (res) => {
+        console.log('删除成功');
+      });
     },
   },
 };

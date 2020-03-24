@@ -20,6 +20,10 @@ async function additionSpecs(fileId, handleResult) {
 async function deleteById(fileId, handleResult) {
   goods.deleteById(fileId).then((res) => handleResult(res));
 }
+// 删除物品图片
+async function deleteGoodsFile(fileId, handleResult) {
+  goods.deleteGoodsFile(fileId).then((res) => handleResult(res));
+}
 // 物品详情信息
 async function selectProductGoods(goodsId, productId, handleResult) {
   goods.selectProductGoods(goodsId, productId).then((res) => handleResult(res));
@@ -62,4 +66,5 @@ export default {
   goodsSpecUpdate: goodsSpecUpdate,
   listWareHouse: listWareHouse,
   picturesAll: picturesAll,
+  deleteGoodsFile: deleteGoodsFile,
 };

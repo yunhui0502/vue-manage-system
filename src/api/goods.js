@@ -30,6 +30,10 @@ function listWareHouse(goodsId) {
 function picturesAll(goodsId) {
   return Axios.get('/api/api/product/goods/picturesAll?goodsId=' + goodsId);
 }
+// 删除物品图片
+function deleteGoodsFile(fileId) {
+  return Axios.get('/api/api/product/goods/deleteGoodsFile?fileId=' + fileId);
+}
 // 添加物品
 function addProduct(params) {
   let fd = new FormData();
@@ -103,4 +107,5 @@ export default {
   goodsSpecUpdate: goodsSpecUpdate,
   listWareHouse: listWareHouse,
   picturesAll: picturesAll,
+  deleteGoodsFile: deleteGoodsFile,
 };

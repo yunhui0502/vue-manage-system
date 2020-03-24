@@ -77,6 +77,11 @@ const router = new VueRouter({
           name: 'hf-file',
           component: (resolve) => require(['@/components/pages/hf-file'], resolve),
         },
+        {
+          path: '/',
+          name: 'header',
+          component: (resolve) => require(['@/components/pages/header'], resolve),
+        },
       ],
     },
     {

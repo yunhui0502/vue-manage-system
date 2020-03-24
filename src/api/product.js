@@ -9,6 +9,10 @@ function getProductsByBossId(bossId) {
 function getDetail(productId) {
   return Axios.get('/api/api/product/hfProduct/getDetail?productId=' + productId);
 }
+// 删除商品图片
+function deleteProductPictrue(fileId, productId) {
+  return Axios.post('/api/api/product/product/deleteProductPictrue?fileId=' + fileId + '&productId=' + productId);
+}
 // 添加商品接口 lastModifier
 function ceateProduct(params) {
   let fd = new FormData();
@@ -87,4 +91,5 @@ export default {
   deleteProduct: deleteProduct,
   getDetail: getDetail,
   deleteSpecifies: deleteSpecifies,
+  deleteProductPictrue: deleteProductPictrue,
 };
