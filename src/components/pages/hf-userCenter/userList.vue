@@ -17,7 +17,39 @@
     </el-dialog>
     <el-tabs v-model="activeName" @tab-click="select">
       <el-tab-pane label="基本信息" name="first"></el-tab-pane>
-      <el-tab-pane label="店铺管理员列表" name="second"></el-tab-pane>
+      <el-tab-pane label="店铺管理员列表" name="second">
+        <el-card class="box-card">
+          <div slot="header" class="clearfix">
+            <span>{{message}}</span>
+          </div>
+          <el-table
+            :data="Admindata.slice((currentPage-1)*pagesize,currentPage*pagesize)"
+            stripe
+            style="width: 100%"
+          >
+           <el-table-column prop="userId" label="姓名" width="180" align="center"></el-table-column>
+            <el-table-column prop="userName" label="姓名" width="180" align="center"></el-table-column>
+            <el-table-column prop="userPhone" label="手机号" align="center"></el-table-column>
+            <!-- <el-table-column prop="phone" label="邮箱" align="center"></el-table-column> -->
+            <!-- <el-table-column prop="invitationCode" label="邀请码" align="center"></el-table-column>
+            <el-table-column prop="ownInvitationCode" label="拥有的邀请码" align="center"></el-table-column> -->
+            <el-table-column label="操作">
+              <template slot-scope="scope">
+                <el-button @click="godetail(scope.row.userId)" type="text" size="small" align="center">详情</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+          <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            style="float:right;"
+            background
+            layout="prev, pager, next"
+            :total="userData.length"
+            :page-size="pagesize"
+          ></el-pagination>
+        </el-card>
+      </el-tab-pane>
       <el-tab-pane label="用户列表" name="third">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
@@ -30,12 +62,12 @@
           >
             <el-table-column prop="nickName" label="姓名" width="180" align="center"></el-table-column>
             <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
-             <el-table-column prop="phone" label="邮箱" align="center"></el-table-column>
+            <!-- <el-table-column prop="phone" label="邮箱" align="center"></el-table-column> -->
             <el-table-column prop="invitationCode" label="邀请码" align="center"></el-table-column>
             <el-table-column prop="ownInvitationCode" label="拥有的邀请码" align="center"></el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <el-button @click="godetail(scope.row)" type="text" size="small" align="center">详情</el-button>
+                <el-button @click="godetail(scope.row.id)" type="text" size="small" align="center">详情</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -58,10 +90,11 @@ import userCenterService from '@/service/userCenter.js';
 export default {
   data() {
     return {
+      bossid: 1,
       message: '用户列表',
       activeName: 'first',
       currentPage: 1, // 初始页
-      pagesize: 2, // 每页的数据
+      pagesize: 10, // 每页的数据
       dialogVisible: false,
       userId: '',
       imageUrl: '',
@@ -73,9 +106,16 @@ export default {
       userData: [],
       addUserVisible: false,
       tableData: [],
+      Admindata: [],
     };
   },
   methods: {
+    checkAdmin: function(tab) {
+      userCenterService.checkAdmin(this.bossid, (res) => {
+        console.log(res);
+        this.Admindata = res.data.data;
+      });
+    },
     // eslint-disable-next-line no-empty-function
     select: function(tab) {
       console.log(tab.label);
@@ -85,7 +125,7 @@ export default {
       this.$router.push({
         path: '/userDetail',
         query: {
-          id: row.id,
+          id: row,
         },
       });
     },
@@ -144,6 +184,7 @@ export default {
   },
   mounted() {
     this.checkUser();
+    this.checkAdmin();
   },
 };
 </script>

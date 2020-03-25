@@ -7,7 +7,12 @@
         <el-table :data="storeData" stripe style="width: 100%" @row-click="getStoreId">
           <el-table-column align="center" prop="hfName" label="店铺名称" ></el-table-column>
           <el-table-column align="center" prop="hfDesc" label="店铺描述" ></el-table-column>
-          <el-table-column align="center" prop="hfStatus" label="店铺状态" ></el-table-column>
+          <el-table-column align="center" prop="hfStatus" label="店铺状态" >
+             <template slot-scope= "scope">
+              <span v-if="scope.row.hfStatus===0">未营业</span>
+              <span v-if="scope.row.hfStatus===1">营业</span>
+              </template >
+          </el-table-column>
           <el-table-column align="center" prop="address" label="店铺位置" ></el-table-column>
           <el-table-column align="center" prop="hfDesc" label="操作" >
              <template slot-scope= "scope">
@@ -23,6 +28,7 @@
       <el-table-column align="center" prop="userId" label="用户id" ></el-table-column>
       <el-table-column align="center" prop="userName" label="姓名" ></el-table-column>
       <el-table-column align="center" prop="realName" label="昵称" ></el-table-column>
+      <el-table-column align="center" prop="storeRoleName" label="角色" ></el-table-column>
       <el-table-column label="是否参与核销" align="center">
         <template slot-scope= "scope">
                 <div v-if="scope.row.isCancel===1">是</div>
@@ -60,7 +66,8 @@
           <el-input v-model="store.hfDesc"  autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="店铺状态" prop="hfStatus">
-          <el-input v-model="store.hfStatus"></el-input>
+            <el-radio v-model="radioye" label="0" @change="status">未营业</el-radio>
+            <el-radio v-model="radioye" label="1" @change="status">营业</el-radio>
         </el-form-item>
         <el-form-item label="店铺位置" prop="hfStatus">
           <el-input v-model="store.address"></el-input>
@@ -93,7 +100,8 @@
           <el-input v-model="editData.hfDesc"  ></el-input>
         </el-form-item>
         <el-form-item label="店铺状态" prop="hfStatus">
-          <el-input v-model="editData.hfStatus"></el-input>
+            <el-radio v-model="radioye1" label="0" @change="status1">未营业</el-radio>
+            <el-radio v-model="radioye1" label="1" @change="status1">营业</el-radio>
         </el-form-item>
         <el-form-item label="店铺位置" prop="hfStatus">
           <el-input v-model="editData.address"></el-input>
@@ -121,9 +129,24 @@
       :with-header="false">
       <template >
         <div style="margin-top:100px;margin-left:30px;">
-            <span style="font-size:13px;margin-right:12px;">是否参与核销</span>
-            <el-radio v-model="radio" label="0" @change="changestatus">否</el-radio>
-            <el-radio v-model="radio" label="1" @change="changestatus">是</el-radio>
+            <div>
+              <span style="font-size:13px;margin-right:12px;">是否参与核销</span>
+              <el-radio v-model="radio" label="0" @change="changestatus">否</el-radio>
+              <el-radio v-model="radio" label="1" @change="changestatus">是</el-radio>
+            </div>
+         <div style="margin-top:40px;">
+           <span style="font-size:13px;">
+             设置成员角色：
+           </span>
+           <el-select v-model="value" placeholder="请选择" @change="roleval">
+              <el-option
+                v-for="item in StoreRole"
+                :key="item.roleName"
+                :label="item.roleName"
+                :value="item.roleName">
+              </el-option>
+            </el-select>
+          </div>
         </div>
       </template>
     </el-drawer>
@@ -138,6 +161,25 @@ import constants from '@/store/constants.js';
 export default {
   data() {
     return {
+      radioye1: '',
+      radioye: '0',
+      options: [{
+        value: '选项1',
+        label: '黄金糕',
+      }, {
+        value: '选项2',
+        label: '双皮奶',
+      }, {
+        value: '选项3',
+        label: '蚵仔煎',
+      }, {
+        value: '选项4',
+        label: '龙须面',
+      }, {
+        value: '选项5',
+        label: '北京烤鸭',
+      }],
+      value: '',
       cancle: {
         stoneId: '',
         isCancel: '',
@@ -172,13 +214,6 @@ export default {
             trigger: 'blur',
           },
         ],
-        hfStatus: [
-          {
-            required: true,
-            message: '请输入店铺状态',
-            trigger: 'blur',
-          },
-        ],
         address: [
           {
             required: true,
@@ -191,7 +226,7 @@ export default {
       store: {
         hfName: '',
         hfDesc: '',
-        hfStatus: '',
+        hfStatus: 0,
         userId: '',
         address: '',
       },
@@ -207,9 +242,64 @@ export default {
       direction: 'btt',
       storeData: [
       ],
+      StoreRole: [],
+      roledata: {
+        StoreRoleId: '',
+        userId: '',
+        storeId: '',
+      },
     };
   },
   methods: {
+    status1: function(e) {
+      console.log(e);
+      if (e === '0') {
+        this.editData.hfStatus = 0;
+      } else if (e === '1') {
+        this.editData.hfStatus = 1;
+      }
+      console.log(this.editData);
+    },
+    status: function(e) {
+      console.log(e);
+      if (e === '0') {
+        this.store.status = 0;
+      } else if (e === '1') {
+        this.store.status = 1;
+      }
+      console.log(this.store.status);
+    },
+    roleval: function(qqq) {
+      console.log(qqq);
+      for (var i = 0; i < this.StoreRole.length; i++) {
+        if (this.StoreRole[i].roleName === qqq) {
+          this.roledata.StoreRoleId = this.StoreRole[i].id;
+        }
+      }
+      console.log(this.roledata);
+      storeService.updateRole(this.roledata, (res) => {
+        console.log(res);
+        if (res.data.data === 0) {
+          this.$message({
+            message: '修改成功',
+            type: 'success',
+          });
+          this.draweruser = false;
+          this.checkPerson();
+        } else {
+          this.$message({
+            message: '修改失败',
+            type: 'error',
+          });
+        }
+      });
+    },
+    getStoreRole: function() {
+      storeService.getStoreRole(this.storeId, (res) => {
+        console.log(res);
+        this.StoreRole = res.data.data;
+      });
+    },
     changestatus: function(e) {
       console.log(e);
       this.cancle.isCancel = e;
@@ -235,13 +325,16 @@ export default {
     checkPersonDetail: function(row) {
       console.log(row);
       this.radio = row.isCancel;
+      this.roledata.userId = row.userId;
       if (row.isCancel === 0) {
         this.radio = '0';
       } else {
         this.radio = '1';
       }
+      this.roledata.storeId = this.storeId;
       this.cancle.userId = row.userId;
       this.draweruser = true;
+      this.getStoreRole();
     },
     submitedit: function() {
       storeService.updataStore(this.editData, (res) => {
@@ -272,6 +365,11 @@ export default {
         console.log(this.editData.hfName);
         this.editData.hfDesc = res.data.data.hfDesc;
         this.editData.hfStatus = res.data.data.hfStatus;
+        if (this.editData.hfStatus === 0) {
+          this.radioye1 = '0';
+        } else {
+          this.radioye1 = '1';
+        }
         this.editData.address = res.data.data.address;
       });
       console.log(this.editData);
@@ -344,6 +442,7 @@ export default {
       });
     },
     submitForm(formName) {
+      console.log(this.store);
       this.$refs[formName].validate((valid) => {
         if (valid) {
           storeService.addStore(this.store, (res) => {

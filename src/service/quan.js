@@ -10,10 +10,14 @@ async function getScope(params, handleResult) {
 async function getlist(params, handleResult) {
   quan.getlist(params).then((res) => handleResult(res));
 }
+async function bianCoupon(params, handleResult) {
+  quan.bianCoupon(params).then((res) => handleResult(res));
+}
 
 
 export default {
   addCoupon: addCoupon,
   getScope: getScope,
   getlist: getlist,
+  bianCoupon: bianCoupon,
 };

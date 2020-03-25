@@ -22,6 +22,12 @@ async function updataStore(params, handleResult) {
 async function isCancel(params, handleResult) {
   store.isCancel(params).then((res) => handleResult(res));
 }
+async function getStoreRole(params, handleResult) {
+  store.getStoreRole(params).then((res) => handleResult(res));
+}
+async function updateRole(params, handleResult) {
+  store.updateRole(params).then((res) => handleResult(res));
+}
 
 
 export default {
@@ -32,4 +38,6 @@ export default {
   getStoreid: getStoreid,
   updataStore: updataStore,
   isCancel: isCancel,
+  getStoreRole: getStoreRole,
+  updateRole: updateRole,
 };

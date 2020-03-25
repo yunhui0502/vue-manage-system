@@ -42,6 +42,10 @@
             <i class="iconfont el-icon-user-solid"></i>
             <span slot="title">用户中心</span>
           </el-menu-item>
+          <el-menu-item index="/hf-vip">
+            <i class="iconfont el-icon-user-solid"></i>
+            <span slot="title">会员管理</span>
+          </el-menu-item>
           <el-menu-item index="/hf-file">
             <i class="iconfont el-icon-sunny"></i>
             <span slot="title">图片管理</span>

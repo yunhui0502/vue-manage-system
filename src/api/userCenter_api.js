@@ -34,6 +34,11 @@ function updatePerson(params) {
   fd.append('phone', params.phone);
   return Axios.post('/api/api/user/hf-auth/update', fd);
 }
+function checkAdmin(bossId) {
+  return Axios.get('/api/api/user/hf-auth/selectStoneAdmin?bossId=' + bossId);
+}
+
+
 export default {
   addUser: addUser,
   checkUser: checkUser,
@@ -41,4 +46,5 @@ export default {
   updatePerson: updatePerson,
   uploadPicture: uploadPicture,
   getUserDetails: getUserDetails,
+  checkAdmin: checkAdmin,
 };

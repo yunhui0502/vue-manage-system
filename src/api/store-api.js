@@ -20,6 +20,7 @@ function getStoreid(id) {
 function addPerson(params) {
   console.log(params);
   let fd = new FormData();
+  fd.append('StoreRoleId', 1);
   fd.append('ids', params.ids);
   fd.append('storeId', params.stoneId);
   return Axios.post('/api/api/user/HfStoreMenber/add', fd);
@@ -31,6 +32,13 @@ function isCancel(params) {
   return Axios.get('/api/api/user/HfStoreMenber/isCancel?isCancel=' + params.isCancel + '&userId=' +
    params.userId + '&stoneId=' + params.stoneId);
 }
+function getStoreRole(storeId) {
+  return Axios.get('/api/api/user/HfStoreMenber/selectRole?StoreId=' + storeId);
+}
+function updateRole(params) {
+  return Axios.get('/api/api/user/HfStoreMenber/updateRole?StoreId=' + params.storeId + '&StoreRoleId=' + params.StoreRoleId + '&userId=' + params.userId);
+}
+
 
 function updataStore(params) {
   console.log(params);
@@ -52,4 +60,6 @@ export default {
   getStoreid: getStoreid,
   updataStore: updataStore,
   isCancel: isCancel,
+  getStoreRole: getStoreRole,
+  updateRole: updateRole,
 };

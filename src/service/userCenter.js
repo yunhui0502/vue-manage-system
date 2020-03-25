@@ -19,6 +19,9 @@ async function updatePerson(params, handleResult) {
 async function getUserDetails(userId, handleResult) {
   userCenter.getUserDetails(userId).then((res) => handleResult(res));
 }
+async function checkAdmin(bossid, handleResult) {
+  userCenter.checkAdmin(bossid).then((res) => handleResult(res));
+}
 export default {
   addUser: addUser,
   checkUser: checkUser,
@@ -26,5 +29,6 @@ export default {
   uploadPicture: uploadPicture,
   updatePerson: updatePerson,
   getUserDetails: getUserDetails,
+  checkAdmin: checkAdmin,
 };
 
