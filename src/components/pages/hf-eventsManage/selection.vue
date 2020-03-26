@@ -4,23 +4,6 @@
     <el-container>
       <el-aside class="abc" width="46%">
         <!-- 上传图片 -->
-        <!-- <el-upload
-          class="upload-demo"
-          action="/api/api/product/seniority/updateSeniorityInfo"
-          :on-preview="handlePreview"
-          name="fileInfo"
-          :data="transfedata.seniorityId"
-          :on-remove="handleRemove"
-          :before-remove="beforeRemove"
-          multiple
-          :limit="3"
-          :on-exceed="handleExceed"
-          :file-list="fileList"
-        >
-          <el-button size="small" type="primary">点击上传</el-button>
-          <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-        </el-upload>-->
-
         <el-button style="margin: 8px;" @click="addGoodsSpecificationList" type="primary">添加活动</el-button>
         <!-- 活动列表展示 -->
         <el-table
@@ -38,8 +21,8 @@
               <el-input placeholder="请输入内容" v-model="scope.row.activityName"></el-input>
             </template>
           </el-table-column>
-          <el-table-column label="活动类型" prop="activityType" width="">
-           <span>精选</span>
+          <el-table-column label="活动类型" prop="activityType" width>
+            <span>精选</span>
           </el-table-column>
           <el-table-column prop="startTime" label="开始时间" width="170">
             <template slot-scope="scope">
@@ -147,6 +130,21 @@
           </template>
         </el-table-column>
       </el-table>
+      <el-upload
+        class="upload-demo"
+        action="/api/api/product/seniority/updateSeniorityInfo"
+        :on-preview="handlePreview"
+        name="fileInfo"
+        :data="transfedata.seniorityId"
+        :on-remove="handleRemove"
+        :before-remove="beforeRemove"
+        multiple
+        :limit="3"
+        :on-exceed="handleExceed"
+        :file-list="fileList"
+      >
+        <el-button size="small" type="primary">点击上传</el-button>
+      </el-upload>
       <div style="margin: 6px;">给活动添加商品部分</div>
       <el-form width="40%" :inline="true" :model="transfedata" class="demo-form-inline">
         <el-form-item label="商品ID">
@@ -268,10 +266,13 @@ export default {
           message: '恭喜你，添加成功',
           type: 'success',
         });
-        serviceEvents.getActivityProductList(this.transfedata.seniorityId, (res) => {
-          console.log('活动商品列表信息', res);
-          this.eventsGoods = res.data.data;
-        });
+        serviceEvents.getActivityProductList(
+          this.transfedata.seniorityId,
+          (res) => {
+            console.log('活动商品列表信息', res);
+            this.eventsGoods = res.data.data;
+          },
+        );
       });
     },
     // 编辑

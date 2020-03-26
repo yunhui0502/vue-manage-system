@@ -83,10 +83,9 @@ function addSpecify (params) {
 // 修改商品规格
 function updatespec (params) {
   let fd = new FormData();
-  fd.append('hfName', params.hfName);
+  fd.append('specName', params.hfName);
   fd.append('productId', params.productId);
   fd.append('productSpecId', params.productSpecId);
-  fd.append('specType', params.specType);
   fd.append('specUnit', params.specUnit);
   return Axios.post('/api/api/product/product/updatespec', fd);
 }
