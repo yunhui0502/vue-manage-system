@@ -447,6 +447,7 @@ export default {
     rowChange(row) {
       console.log(row);
       this.transfedata.seniorityId = row.id;
+      this.eventsGoods = [];
       if (row.id !== undefined) {
         console.log('阻止');
         serviceEvents.getActivityProductList(row.id, (res) => {
