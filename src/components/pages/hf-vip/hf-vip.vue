@@ -3,16 +3,16 @@
     <el-tabs type="border-card">
       <el-tab-pane label="会员列表">
         <div style="overflow:hidden;margin-right:130px;margin-bottom:30px;">
-          <el-button type="primary" style="float:right;">添加会员</el-button>
+          <el-button type="primary" style="float:right;" @click="draweradd = true">添加会员</el-button>
         </div>
-        <el-table :data="tableData" stripe style="width: 100%">
-          <el-table-column prop="date" align="center" label="会员名"></el-table-column>
-          <el-table-column prop="name" align="center" label="会员等级"></el-table-column>
-          <el-table-column label="操作">
-              <template slot-scope="scope">
-                <el-button @click="updatelevel(scope.row.userId)" type="text" size="small" align="center">修改</el-button>
-              </template>
-            </el-table-column>
+        <el-table :data="manage" stripe style="width: 100%">
+          <el-table-column prop="name" align="center" label="会员名"></el-table-column>
+          <el-table-column prop="levelName" align="center" label="会员等级"></el-table-column>
+          <el-table-column  align="center" label="会员等级">
+            <template slot-scope="scope">
+              <el-button type="text" @click="deletevip(scope.row)">删除</el-button>
+            </template>
+          </el-table-column>
         </el-table>
       </el-tab-pane>
       <el-tab-pane label="配置管理">
@@ -20,22 +20,45 @@
           <el-button type="primary" style="float:right;" @click="drawer=true">添加等级</el-button>
         </div>
         <div style="display:flex;">
-          <el-table :data="levellist" stripe style @row-click="getlevel">
+          <el-table :data="levellist" stripe style  @row-click="finddesnum">
             <el-table-column prop="levelName" align="center" label="会员等级"></el-table-column>
+             <el-table-column  align="center" label="操作">
+             <template slot-scope="scope">
+              <el-button type="text" @click="addmiao(scope.row)">添加描述</el-button>
+              <el-button
+                @click="editlevel(scope.row)"
+                type="text"
+                size="small"
+                align="center"
+              >修改</el-button>
+            </template>
+             </el-table-column>
           </el-table>
-          <el-table :data="tableData" stripe style="margin-left:130px;">
-            <el-table-column prop="date" align="center" label="等级描述"></el-table-column>
+          <el-table :data="miaodata" stripe style="margin-left:130px;">
+            <el-table-column type="index"  align="center" label="序号"></el-table-column>
+            <el-table-column prop="levelDescribe" align="center" label="等级描述"></el-table-column>
           </el-table>
         </div>
       </el-tab-pane>
     </el-tabs>
-
-    <el-drawer
-      size="70%"
-      title="我是标题"
-      :visible.sync="drawer"
-      :direction="direction"
-    >
+    <el-drawer size="70%" title="添加描述" :visible.sync="desdrawer" :direction="direction">
+      <el-form
+        :model="ruleForm3"
+        status-icon
+        :rules="rules3"
+        ref="ruleForm3"
+        label-width="100px"
+        class="demo-ruleForm"
+      >
+        <el-form-item label="描述名称" prop="levelDescribe">
+          <el-input style="width:300px;" v-model="ruleForm3.levelDescribe" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="submitForm3('ruleForm3')">提交</el-button>
+        </el-form-item>
+      </el-form>
+    </el-drawer>
+    <el-drawer size="70%" title="添加等级" :visible.sync="drawer" :direction="direction">
       <el-form
         :model="ruleForm"
         status-icon
@@ -45,10 +68,57 @@
         class="demo-ruleForm"
       >
         <el-form-item label="等级名称" prop="name">
-          <el-input  style="width:300px;" v-model="ruleForm.name" autocomplete="off"></el-input>
+          <el-input style="width:300px;" v-model="ruleForm.name" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+        </el-form-item>
+      </el-form>
+    </el-drawer>
+
+    <el-drawer size="50%" title="添加会员" :visible.sync="draweradd" :direction="rtl">
+       <el-table :data="userData" stripe style="width: 100%"  @selection-change="handleSelectionChange"  ref="table" @row-click="currentChange">
+          <el-table-column type=selection align="center"  label="选择" width="50"></el-table-column>
+          <el-table-column align="center" prop="nickName" label="用户名"> </el-table-column>
+          <el-table-column align="center" prop="phone" label="手机号" ></el-table-column>
+        </el-table>
+      <el-form
+        :model="ruleForm1"
+        status-icon
+        :rules="rules1"
+        ref="ruleForm1"
+        label-width="100px"
+        class="demo-ruleForm"
+      >
+        <el-form-item label="等级名称" prop="levelName" style="margin-top:40px;">
+          <el-select v-model="ruleForm1.levelName" placeholder="请选择">
+            <el-option
+              v-for="item in levellist"
+              :key="item.id"
+              :label="item.levelName"
+              :value="item.levelName"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="submitForm1('ruleForm1')">提交</el-button>
+        </el-form-item>
+      </el-form>
+    </el-drawer>
+     <el-drawer size="70%" title="修改等级" :visible.sync="leveledit" :direction="direction">
+         <el-form
+        :model="ruleForm2"
+        status-icon
+        :rules="rules2"
+        ref="ruleForm2"
+        label-width="100px"
+        class="demo-ruleForm"
+      >
+        <el-form-item label="等级名称" prop="name">
+          <el-input style="width:300px;" v-model="ruleForm2.name" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="submitForm2('ruleForm2')">提交</el-button>
         </el-form-item>
       </el-form>
     </el-drawer>
@@ -56,12 +126,50 @@
 </template>
 <script>
 // eslint-disable-next-line no-unused-vars
+import userCenterService from '@/service/userCenter.js';
+import constants from '@/store/constants.js';
 import vip from '@/service/vip.js';
 export default {
   data() {
     return {
+      miaodata: [],
+      desdrawer: false,
+      rtl: 'rtl',
+      userData: [],
+      manage: [],
+      leveledit: false,
+      content: '',
+      value: '',
+      draweradd: false,
       levellist: [],
+      rules1: {
+        levelName: [
+          {
+            required: true,
+            message: '请选择等级',
+            trigger: 'blur',
+          },
+        ],
+      },
       rules: {
+        name: [
+          {
+            required: true,
+            message: '请输入等级名称',
+            trigger: 'blur',
+          },
+        ],
+      },
+      rules2: {
+        name: [
+          {
+            required: true,
+            message: '请输入等级名称',
+            trigger: 'blur',
+          },
+        ],
+      },
+      rules3: {
         name: [
           {
             required: true,
@@ -72,6 +180,19 @@ export default {
       },
       ruleForm: {
         name: '',
+      },
+      ruleForm2: {
+        name: '',
+        id: '',
+      },
+      ruleForm1: {
+        levelName: '',
+        levelId: '',
+        userId: [],
+      },
+      ruleForm3: {
+        levelDescribe: '',
+        id: '',
       },
       drawer: false,
       direction: 'btt',
@@ -98,9 +219,96 @@ export default {
         },
       ],
       activeName: 'second',
+      selectDdata: [],
     };
   },
   methods: {
+    addmiao: function(row) {
+      this.desdrawer = true;
+      this.ruleForm3.id = row.id;
+
+    },
+    finddesnum: function(aaa) {
+      console.log(aaa);
+      vip.finddes(aaa.id, (res) => {
+        console.log(res);
+        this.miaodata = res.data.data;
+
+      });
+    },
+    submitForm3(ruleForm3) {
+      this.$refs[ruleForm3].validate((valid) => {
+        if (valid) {
+          console.log(this.ruleForm3);
+          vip.adddes(this.ruleForm3, (res) => {
+            console.log(res);
+            // eslint-disable-next-line no-magic-numbers
+            if (res.data.status === 200) {
+              this.$message({
+                message: '添加成功',
+                type: 'success',
+              });
+              this.desdrawer = false;
+              // this.checkLevel();
+            } else {
+              this.$message({
+                message: '添加失败',
+                type: 'error',
+              });
+            }
+          });
+        }
+      });
+    },
+    currentChange: function(row) {
+      console.log(row);
+      // this.persondata.personid = row.id;
+      this.$refs.table.toggleRowSelection(row);
+    },
+    handleSelectionChange (val) {
+      console.log(val);
+      this.selectDdata = val;
+
+    },
+    checkUser: function() {
+      userCenterService.checkUser((res) => {
+        // console.log(res.data.data);
+        this.userData = res.data.data.list;
+      });
+    },
+    editlevel: function(row) {
+      console.log(row);
+      this.leveledit = true;
+      this.ruleForm2.id = row.id;
+      this.ruleForm2.name = row.levelName;
+    },
+    deletevip: function(row) {
+      console.log(row);
+      vip.deletevip(row.id, (res) => {
+        console.log(res);
+        if (res.data.status === constants.SUCCESS_CODE) {
+          this.$message({
+            message: '删除成功',
+            type: 'success',
+          });
+          // this.draweradd = false;
+          this.findvip();
+        } else {
+          this.$message({
+            message: '删除失败',
+            type: 'error',
+          });
+        }
+
+      });
+    },
+    findvip: function() {
+      vip.findvip((res) => {
+        console.log(res);
+        this.manage = res.data.data;
+        // this.levellist = res.data.data;
+      });
+    },
     getlevel: function() {
       vip.checkLevel((res) => {
         console.log(res);
@@ -111,10 +319,56 @@ export default {
       vip.checkLevel((res) => {
         console.log(res);
         this.levellist = res.data.data;
+        vip.finddes(this.levellist[0].id, (res) => {
+          console.log(res);
+          this.miaodata = res.data.data;
+
+        });
+      });
+    },
+    submitForm1(ruleForm1) {
+      this.$refs[ruleForm1].validate((valid) => {
+        if (valid) {
+          if (this.selectDdata.length > 0) {
+            for (var i = 0;i < this.selectDdata.length;i++) {
+              this.ruleForm1.userId.push(this.selectDdata[i].id);
+            }
+          }
+          if (this.selectDdata.length === 0) {
+            this.$message({
+              message: '请选择用户',
+              type: 'error',
+            });
+            return;
+          }
+          // eslint-disable-next-line no-redeclare
+          for (var j = 0; j < this.levellist.length; j++) {
+            if (this.levellist[i].levelName === this.ruleForm1.levelName) {
+              this.ruleForm1.levelId = this.levellist[j].id;
+            }
+          }
+          console.log(this.ruleForm1);
+          vip.addvip(this.ruleForm1, (res) => {
+            console.log(res);
+            // eslint-disable-next-line no-magic-numbers
+            if (res.data.status === 200) {
+              this.$message({
+                message: '添加成功',
+                type: 'success',
+              });
+              this.draweradd = false;
+              // this.checkLevel();
+            } else {
+              this.$message({
+                message: '添加失败',
+                type: 'error',
+              });
+            }
+          });
+        }
       });
     },
     submitForm(ruleForm) {
-
       this.$refs[ruleForm].validate((valid) => {
         if (valid) {
           console.log(this.ruleForm.name);
@@ -134,7 +388,30 @@ export default {
                 type: 'error',
               });
             }
-
+          });
+        }
+      });
+    },
+    submitForm2(ruleForm2) {
+      this.$refs[ruleForm2].validate((valid) => {
+        if (valid) {
+          console.log(this.ruleForm2);
+          vip.editLevel(this.ruleForm2, (res) => {
+            console.log(res);
+            // eslint-disable-next-line no-magic-numbers
+            if (res.data.status === 200) {
+              this.$message({
+                message: '修改成功',
+                type: 'success',
+              });
+              this.leveledit = false;
+              this.checkLevel();
+            } else {
+              this.$message({
+                message: '修改失败',
+                type: 'error',
+              });
+            }
           });
         }
       });
@@ -145,6 +422,10 @@ export default {
   },
   mounted() {
     this.checkLevel();
+    this.checkUser();
+    var content = window.sessionStorage.getItem('userInfor');
+    this.content = JSON.parse(content);
+    this.findvip();
   },
 };
 </script>
