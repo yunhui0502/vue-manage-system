@@ -13,9 +13,8 @@
             <el-col :span="6">
               <el-form-item label="所属类目">
                 <el-cascader :options="options"
-                :children="'categories'"
                 v-model="productInfo.categoryId"
-                :props="{ checkStrictly: true ,value: 'id', label: 'hfName' ,children:'categories'}"
+                :props="{ value: 'id', label: 'hfName' ,children:'categories'}"
                 clearable></el-cascader>
               </el-form-item>
             </el-col>
