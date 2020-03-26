@@ -167,6 +167,8 @@ export default {
         timestamp: '',
         token: '',
         userId: '',
+        // 更新用的
+        productSpecId: '',
       },
       Types: [
         {
@@ -305,30 +307,44 @@ export default {
         this.$message.error('规格名称不能为空');
         return;
       }
-      console.log('sbasnh');
-      scope.row.show = false;
-      this.specification.hfName = scope.row.hfName;
-      this.specification.specValue = scope.row.specValue;
-      this.specification.specType = scope.row.specType;
-      this.specification.specUnit = scope.row.specUnit;
-      this.specification.productId = this.commodityId;
-      serviceProduct.addSpecify(this.specification, () => {
-        this.$message({
-          message: '添加商品规格成功',
-          type: 'success',
+      if (scope.row.id === undefined) {
+        console.log('添加');
+        scope.row.show = false;
+        this.specification.hfName = scope.row.hfName;
+        this.specification.specValue = scope.row.specValue;
+        this.specification.specType = scope.row.specType;
+        this.specification.specUnit = scope.row.specUnit;
+        this.specification.productId = this.commodityId;
+        serviceProduct.addSpecify(this.specification, () => {
+          this.$message({
+            message: '添加商品规格成功',
+            type: 'success',
+          });
+          serviceProduct.specifies(this.specification.productId, (res) => {
+            console.log('获取规格ID', res);
+            this.tabledatas = res.data.data;
+            console.log(res);
+            for (var i = 0; i < res.data.data.length; i++) {
+              this.cols.push({
+                prop: 'specValue' + i,
+                label: res.data.data[i].hfName,
+              });
+            }
+          });
         });
-        serviceProduct.specifies(this.specification.productId, (res) => {
-          console.log('获取规格ID', res);
-          this.tabledatas = res.data.data;
-          console.log(res);
-          for (var i = 0; i < res.data.data.length; i++) {
-            this.cols.push({
-              prop: 'specValue' + i,
-              label: res.data.data[i].hfName,
-            });
-          }
+      } else {
+        console.log('更新');
+        this.specification.hfName = scope.row.hfName;
+        this.specification.productSpecId = scope.row.id;
+        this.specification.specUnit = scope.row.specUnit;
+        this.specification.productId = this.commodityId;
+        serviceProduct.updatespec(this.specification, () => {
+          this.$message({
+            message: '保存商品规格成功',
+            type: 'success',
+          });
         });
-      });
+      }
     },
     // 输入事件
     inputEvent: function(e) {

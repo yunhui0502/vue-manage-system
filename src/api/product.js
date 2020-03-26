@@ -80,6 +80,16 @@ function addSpecify (params) {
   return Axios.post('/api/api/product/product/addSpecify', fd);
 }
 
+// 修改商品规格
+function updatespec (params) {
+  let fd = new FormData();
+  fd.append('hfName', params.hfName);
+  fd.append('productId', params.productId);
+  fd.append('productSpecId', params.productSpecId);
+  fd.append('specType', params.specType);
+  fd.append('specUnit', params.specUnit);
+  return Axios.post('/api/api/product/product/updatespec', fd);
+}
 export default {
   getProductsByBossId: getProductsByBossId,
   ceateProduct: ceateProduct,
@@ -92,4 +102,5 @@ export default {
   getDetail: getDetail,
   deleteSpecifies: deleteSpecifies,
   deleteProductPictrue: deleteProductPictrue,
+  updatespec: updatespec,
 };

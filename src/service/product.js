@@ -39,6 +39,10 @@ async function addSpecify(productId, handleResult) {
 async function deleteProduct(productId, handleResult) {
   product.deleteProduct(productId).then((res) => handleResult(res));
 }
+//  添加商品规格
+async function updatespec(productId, handleResult) {
+  product.updatespec(productId).then((res) => handleResult(res));
+}
 //  更新商品接口
 async function updateProduct(productId, handleResult) {
   product.updateProduct(productId).then((res) => handleResult(res));
@@ -64,4 +68,5 @@ export default {
   getDetail: getDetail,
   deleteSpecifies: deleteSpecifies,
   deleteProductPictrue: deleteProductPictrue,
+  updatespec: updatespec,
 };

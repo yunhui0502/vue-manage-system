@@ -152,7 +152,7 @@ export default {
         lastModifier: '', // 商家名称
         productDesc: '',
         id: '',
-        categoryId: '',
+        categoryId: [],
         name: '', // 展示
       },
 
