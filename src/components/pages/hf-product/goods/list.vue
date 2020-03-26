@@ -213,6 +213,7 @@ export default {
     rowClick(e) {
       console.log('三级连动', e.goodsId);
       this.interconnectedID = e.goodsId;
+      this.$emit('change', e.goodsId + '');
     },
     // 详情
     editProduct(row) {

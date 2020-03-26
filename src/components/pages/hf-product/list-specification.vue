@@ -48,7 +48,7 @@
       <el-button style="float: right;" size="mini" @click="addGoodsSpecificationList()">添加规格</el-button>
     </div>
     <div v-if="!detailsp" style="margin-top: 20px;">
-      <div>物品规格</div>
+      <!-- <div>物品规格</div> -->
       <el-table :data="tabledata" border>
         <el-table-column type="selection"></el-table-column>
         <el-table-column label="规格名称">
@@ -128,6 +128,8 @@ export default {
       type: Number,
       default: 0,
     },
+    // 联动
+    letter: String,
   },
   data() {
     return {
@@ -206,6 +208,17 @@ export default {
         this.tabledata = res.data.data;
       });
     },
+    letter () {
+      if (this.letter) {
+        console.log('三级连动规格触发', this.letter);
+        this.detailsp = false;
+        serviceGoods.goodsSpecifies(this.letter, (res) => {
+          console.log('物品规格');
+          console.log('物品规格', res);
+          this.tabledata = res.data.data;
+        });
+      }
+    },
   },
   created() {
     this.getspecification();
@@ -263,6 +276,7 @@ export default {
       } else {
         serviceProduct.specifies(this.commodityId, (res) => {
           console.log('商品规格');
+          console.log('商品规格', res);
           this.tabledata = res.data.data;
         });
       }

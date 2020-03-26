@@ -53,7 +53,7 @@ function deleteSpecifies(productSpecId) {
 }
 // 获取类目列表
 function getCatagery() {
-  return Axios.get('/api/api/product/product/category');
+  return Axios.get('/api/api/product/product/categoryAll');
 }
 
 // 根据商品ID获取商品图片列表和文件ID

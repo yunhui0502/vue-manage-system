@@ -66,19 +66,12 @@
           <el-table-column label="商品名称">
             <template slot-scope="scope">{{ scope.row.productName}}</template>
           </el-table-column>
-          <el-table-column prop="distributionRatio" label="一级比例">
-            <template slot-scope="scope">
-              <el-input placeholder="请输入内容" v-model="scope.row.distributionRatio"></el-input>
-            </template>
-          </el-table-column>
-          <el-table-column prop="distributionRatio1" label="二级比例">
-            <template slot-scope="scope">
-              <el-input placeholder="请输入内容" v-model="scope.row.distributionRatio1"></el-input>
-            </template>
-          </el-table-column>
+          <el-table-column prop="createTime" label="创建时间" show-overflow-tooltip></el-table-column>
+          <el-table-column prop="modifyTime" label="修改时间" show-overflow-tooltip></el-table-column>
           <el-table-column prop="address" label="操作">
             <template slot-scope="scope">
-              <el-button type="text" @click="SettingPrice(scope.row)" size="mini">保存</el-button>
+              <!-- <el-button type="text" @click="SettingPrice(scope.row)" size="mini">保存</el-button> -->
+              <el-button type="text" @click="lookover(scope.row)" size="mini">查看</el-button>
               <el-button type="text" @click="deleteArticle(scope.row.id)" size="mini">删除</el-button>
             </template>
           </el-table-column>
@@ -170,6 +163,69 @@
         </el-table-column>
       </el-table>
     </el-dialog>
+
+    <el-drawer title="商品分销设置" :visible.sync="drawer"  size="80%" direction="btt">
+      <el-row type="flex" class="row-bg">
+        <el-table
+          ref="multipleTable"
+          :data="proportionlist"
+          stripe
+          tooltip-effect="dark"
+          style="width: 100%;margin-top: 30px;"
+          :select-all="dianji(selection)"
+          @selection-change="eventsSelectionChange"
+        >
+          <el-table-column label="序列号" type="index" width="70"></el-table-column>
+          <el-table-column label="商品名称">
+            <template slot-scope="scope">{{ scope.row.productName}}</template>
+          </el-table-column>
+          <el-table-column prop="createTime" label="创建时间" show-overflow-tooltip></el-table-column>
+          <el-table-column prop="modifyTime" label="修改时间" show-overflow-tooltip></el-table-column>
+          <el-table-column prop="address" label="操作">
+            <!-- <template slot-scope="scope">
+
+            </template>-->
+          </el-table-column>
+        </el-table>
+      </el-row>
+      <el-row type="flex" class="row-bg">
+        <el-col :span="12">
+           <div></div>
+           <div>分销比例设置</div>
+           <div>
+        <el-table class="goods-table" :data="Placelist" border>
+        <el-table-column type="selection"></el-table-column>
+        <el-table-column label="分销名称"  width="90">
+          <template slot-scope="scope">
+            <el-select v-model="scope.row.name" placeholder="请选择">
+              <el-option
+                v-for="item in Types"
+                :key="item.index"
+                :label="item.name"
+                :value="item.name"
+              ></el-option>
+            </el-select>
+          </template>
+        </el-table-column>
+        <el-table-column label="分销比例">
+          <template slot-scope="scope">
+            <el-input placeholder="请输入内容" v-model="scope.row.ratio"></el-input>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button type="text" @click="SettingPrice(scope.row)" size="mini">保存</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-button style="float: right;" size="mini" @click="addGoodsList()">添加分销</el-button>
+           </div>
+        </el-col>
+        <el-col :span="12">
+          <div class="grid-content bg-purple"></div>
+        </el-col>
+      </el-row>
+    </el-drawer>
   </el-container>
 </template>
 
@@ -179,6 +235,23 @@ import serviceEvents from '@/service/eventsManage.js';
 export default {
   data() {
     return {
+      Types: [
+        {
+          index: '1',
+          name: '一级',
+        },
+        {
+          index: '2',
+          name: '二级',
+        },
+        {
+          index: '3',
+          name: '三级',
+        },
+      ],
+      proportionlist: [], // 抽屉里的
+      Placelist: [], // 列表
+      drawer: false,
       imageUrl: '',
       fileList: [], // 图片
       dialogTableVisible: false,
@@ -225,6 +298,14 @@ export default {
     this.geteventType();
   },
   methods: {
+    // 添加一行分销
+    addGoodsList() {
+      let row = {
+        ratio: '',
+        name: '',
+      };
+      this.Placelist.push(row);
+    },
     // 获取商品活动类型
     geteventType() {
       serviceEvents.getProdcutActivityType((res) => {
@@ -265,18 +346,29 @@ export default {
               }
             }
             this.eventsGoods = res.data.data;
+            this.Placelist = res.data.data.distribut;
+            console.log(this.Placelist);
           },
         );
       });
     },
+    // 查看
+    lookover(row) {
+      this.drawer = true;
+      console.log(row);
+      this.transfedata.id = row.id;
+      this.proportionlist.push(row);
+    },
     // 保存价格比例
     SettingPrice(row) {
       console.log(row);
+      let comma = ',';
       this.transfedata.distributionRatio =
-        row.distributionRatio + ',' + row.distributionRatio1;
-      this.transfedata.id = row.id;
+       'name:' + row.name + comma + 'ratio:' + row.ratio;
+      console.log(this.transfedata.distributionRatio);
+      console.log(this.transfedata.distributionRatio);
       serviceEvents.updateActivityProduct(this.transfedata, (res) => {
-        console.log('添加价格', res);
+        console.log('保存比例', res);
       });
     },
     // 编辑
@@ -304,6 +396,8 @@ export default {
             }
           }
           this.eventsGoods = res.data.data;
+          this.Placelist = res.data.data.distribut;
+          console.log(this.Placelist);
         });
       }
     },
@@ -329,9 +423,11 @@ export default {
                   if (typeof vaents.distributionRatio !== 'undefined') {
                     vaents.distribut = JSON.parse(vaents.distributionRatio);
                     console.log(vaents.distribut);
+                    this.Placelist = vaents.distribut;
                   }
                 }
                 this.eventsGoods = res.data.data;
+                // console.log('分销查看', this.Placelist);
               },
             );
           }
