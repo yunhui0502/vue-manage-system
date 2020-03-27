@@ -87,7 +87,7 @@ export default {
       fd.append('userId', '3');
       fd.append('requestId', '2');
       axios.post('/api/api/product/goods/addPicture', fd).then((res) => {
-        this.acquire();
+        // this.acquire();
       });
     },
     // 文件列表移除文件时的钩子

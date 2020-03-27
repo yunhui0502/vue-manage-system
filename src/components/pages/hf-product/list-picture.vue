@@ -78,7 +78,7 @@ export default {
       fd.append('fileInfo', file.raw);
       fd.append('productId', this.productId);
       axios.post('/api/api/product/product/addProductPictrue', fd).then((res) => {
-        this.acquire();
+        // this.acquire();
       });
     },
     // 文件列表移除文件时的钩子

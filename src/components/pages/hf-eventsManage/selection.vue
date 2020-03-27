@@ -3,7 +3,6 @@
   <el-container>
     <el-container>
       <el-aside class="abc" width="46%">
-        <!-- 上传图片 -->
         <el-button style="margin: 8px;" @click="addGoodsSpecificationList" type="primary">添加活动</el-button>
         <!-- 活动列表展示 -->
         <el-table
@@ -78,23 +77,6 @@
       </el-main>
     </el-container>
 
-    <el-dialog title="所有商品" :visible.sync="dialogTableVisible">
-      <el-table
-        ref="multipleTable"
-        :data="gridData"
-        tooltip-effect="dark"
-        style="width: 100%"
-        @selection-change="handleSelectionChange"
-      >
-        <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column label="商品ID">
-          <template slot-scope="scope">{{ scope.row.id}}</template>
-        </el-table-column>
-        <el-table-column label="商品描述">
-          <template slot-scope="scope">{{ scope.row.goodsDesc}}</template>
-        </el-table-column>
-      </el-table>
-    </el-dialog>
 
     <el-dialog title="编辑" :visible.sync="editboxVisible">
       <el-table :data="addActivities" style="width: 100%">
@@ -130,21 +112,20 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-upload
-        class="upload-demo"
-        action="/api/api/product/seniority/updateSeniorityInfo"
-        :on-preview="handlePreview"
-        name="fileInfo"
-        :data="transfedata.seniorityId"
-        :on-remove="handleRemove"
-        :before-remove="beforeRemove"
-        multiple
-        :limit="3"
-        :on-exceed="handleExceed"
-        :file-list="fileList"
-      >
-        <el-button size="small" type="primary">点击上传</el-button>
-      </el-upload>
+      <!-- 上传图片 -->
+          <el-upload
+            list-type="picture-card"
+            ref="upload"
+            action
+            multiple
+            :auto-upload="false"
+            :limit="2"
+            :file-list="fileList"
+            :on-change="imgUpload"
+          >
+            <el-button size="small" type="primary">点击上传</el-button>
+            <!-- <div slot="tip">只能上传jpg/png文件，且不超过500kb</div> -->
+          </el-upload>
       <div style="margin: 6px;">给活动添加商品部分</div>
       <el-form width="40%" :inline="true" :model="transfedata" class="demo-form-inline">
         <el-form-item label="商品ID">
@@ -183,12 +164,13 @@
 <script>
 // import store from '@/store';
 import serviceEvents from '@/service/eventsManage.js';
+import serviceGoods from '@/service/goods.js';
+import axios from 'axios';
 export default {
   data() {
     return {
-      imageUrl: '',
+      imageId: '', // 添加图片用的查看时给他赋值
       fileList: [], // 图片
-      dialogTableVisible: false,
       editboxVisible: false, // 编辑
       selection: [],
       activeIndex: '1',
@@ -226,6 +208,24 @@ export default {
     this.geteventType();
   },
   methods: {
+    imgUpload(file) {
+      let fileName = file.name;
+      let regex = /(.jpg|.jpeg|.gif|.png|.bmp)$/;
+      if (regex.test(fileName.toLowerCase())) {
+        this.picUrl = URL.createObjectURL(file.raw);
+        this.uploadFile(file);
+      } else {
+        this.$message.error('请选择图片文件');
+      }
+    },
+    uploadFile(file) {
+      let fd = new FormData();
+      fd.append('fileInfo', file.raw);
+      fd.append('id', this.imageId);
+      axios.post('/api/api/product/hfProductActivity/updateProdcutActivity', fd).then((res) => {
+        // this.acquire();
+      });
+    },
     // 获取商品活动类型
     geteventType() {
       serviceEvents.getProdcutActivityType((res) => {
@@ -275,12 +275,18 @@ export default {
         );
       });
     },
-    // 编辑
+    // 查看 编辑
     editEvent(row) {
       console.log(row);
       this.addActivities = [];
       this.editboxVisible = true;
       this.addActivities.push(row);
+      this.imageId = row.id;
+      // 获取图片;
+      this.fileList = [];
+      serviceGoods.getFileFileId(row.fileId, (res) => {
+        this.fileList.push({ url: res.config.url });
+      });
     },
     // 点击一行触发
     rowChange(row) {
@@ -330,15 +336,7 @@ export default {
         } 个文件，共选择了 ${files.length + fileList.length} 个文件`,
       );
     },
-    handleRemove(file, fileList) {
-      console.log(file, fileList);
-    },
-    handlePreview(file) {
-      console.log(file);
-    },
-    beforeRemove(file, fileList) {
-      return this.$confirm(`确定移除 ${file.name}？`);
-    },
+
     //  添加排行相关信息 timestamp  repertory
     addGcommodity(scope) {
       this.groupform.activityName = scope.row.activityName;

@@ -167,6 +167,7 @@ function seniorityDelete(seniorityId) {
 function seniorityfind(seniorityId) {
   return Axios.get('/api/api/product/seniority/findSeniorityContent?seniorityId=' + seniorityId);
 }
+
 // ========================================分销
 // 获取分销活动列表
 function findProdcutActivity() {

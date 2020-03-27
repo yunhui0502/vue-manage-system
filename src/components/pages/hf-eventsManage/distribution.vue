@@ -202,7 +202,7 @@
                 v-for="item in Types"
                 :key="item.index"
                 :label="item.name"
-                :value="item.name"
+                :value="item.index"
               ></el-option>
             </el-select>
           </template>
@@ -357,7 +357,12 @@ export default {
       this.drawer = true;
       console.log(row);
       this.transfedata.id = row.id;
+      this.proportionlist = [];
       this.proportionlist.push(row);
+      this.Placelist = [];
+      if (row.distributionRatio !== null) {
+        this.Placelist = JSON.parse(row.distributionRatio);
+      }
     },
     // 保存价格比例
     SettingPrice(row) {
@@ -396,7 +401,6 @@ export default {
             }
           }
           this.eventsGoods = res.data.data;
-          this.Placelist = res.data.data.distribut;
           console.log(this.Placelist);
         });
       }
@@ -417,17 +421,7 @@ export default {
               this.transfedata.seniorityId,
               (res) => {
                 console.log('活动商品列表信息', res);
-                let ventsGood = res.data.data;
-                for (let vaents of ventsGood) {
-                  console.log(vaents);
-                  if (typeof vaents.distributionRatio !== 'undefined') {
-                    vaents.distribut = JSON.parse(vaents.distributionRatio);
-                    console.log(vaents.distribut);
-                    this.Placelist = vaents.distribut;
-                  }
-                }
                 this.eventsGoods = res.data.data;
-                // console.log('分销查看', this.Placelist);
               },
             );
           }
