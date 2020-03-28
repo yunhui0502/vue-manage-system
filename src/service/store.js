@@ -28,6 +28,12 @@ async function getStoreRole(params, handleResult) {
 async function updateRole(params, handleResult) {
   store.updateRole(params).then((res) => handleResult(res));
 }
+async function getstoneproduct(params, handleResult) {
+  store.getstoneproduct(params).then((res) => handleResult(res));
+}
+async function storeAddProduct(params, handleResult) {
+  store.storeAddProduct(params).then((res) => handleResult(res));
+}
 
 
 export default {
@@ -40,4 +46,6 @@ export default {
   isCancel: isCancel,
   getStoreRole: getStoreRole,
   updateRole: updateRole,
+  getstoneproduct: getstoneproduct,
+  storeAddProduct: storeAddProduct,
 };

@@ -6,7 +6,7 @@
            <!-- 左区块1区 -->
            <div class="hb-1-1">
                <div class="hb-1-title">
-                   <span class="hb-1-text">预警提醒</span>
+                   <!-- <span class="hb-1-text">预警提醒</span> -->
                </div>
                <div class="hb-1-contents">
                    <ul class="hb-1-content">
@@ -172,48 +172,51 @@
     </div>
 </template>
 <script>
-import echarts from 'echarts'
+import echarts from 'echarts';
 export default {
   mounted () {
-    this.clone()
-    this.clones()
-    this.cloness()
+    this.clone();
+    this.clones();
+    this.cloness();
   },
   data () {
     return {
 
-    }
+    };
   },
   methods: {
     cloness () {
-      var myChart = echarts.init(document.getElementById('main2'))
+      var myChart = echarts.init(document.getElementById('main2'));
       var option = {
         xAxis: {
           type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
         },
         yAxis: {
-          type: 'value'
+          type: 'value',
         },
         series: [{
+          // eslint-disable-next-line no-magic-numbers
           data: [820, 932, 901, 934, 1290, 1330, 1320],
           type: 'line',
-          smooth: true
-        }]
-      }
-      myChart.setOption(option)
+          smooth: true,
+        }],
+      };
+      myChart.setOption(option);
     },
     clones () {
-      var myChart = echarts.init(document.getElementById('main1'))
+      var myChart = echarts.init(document.getElementById('main1'));
       var option = {
         legend: {},
         tooltip: {},
         dataset: {
           source: [
             ['product', '2015', '2016', '2017'],
+            // eslint-disable-next-line no-magic-numbers
             ['Matcha Latte', 43.3, 85.8, 93.7],
-            ['Walnut Brownie', 72.4, 53.9, 39.1]
-          ]
+            // eslint-disable-next-line no-magic-numbers
+            ['Walnut Brownie', 72.4, 53.9, 39.1],
+          ],
         },
         xAxis: { type: 'category' },
         yAxis: {},
@@ -222,23 +225,23 @@ export default {
         series: [
           { type: 'bar' },
           { type: 'bar' },
-          { type: 'bar' }
-        ]
-      }
+          { type: 'bar' },
+        ],
+      };
 
-      myChart.setOption(option)
+      myChart.setOption(option);
     },
     clone () {
-      var myChart = echarts.init(document.getElementById('main'))
+      var myChart = echarts.init(document.getElementById('main'));
       var option = {
         tooltip: {
           trigger: 'item',
-          formatter: '{a} <br/>{b}: {c} ({d}%)'
+          formatter: '{a} <br/>{b}: {c} ({d}%)',
         },
         legend: {
           orient: 'vertical',
           x: 'left',
-          data: ['直接访问', '邮件营销', '联盟广告', '视频广告']
+          data: ['直接访问', '邮件营销', '联盟广告', '视频广告'],
         },
         series: [
           {
@@ -250,35 +253,35 @@ export default {
             label: {
               normal: {
                 show: false,
-                position: 'center'
+                position: 'center',
               },
               emphasis: {
                 show: true,
                 textStyle: {
                   fontSize: '30',
-                  fontWeight: 'bold'
-                }
-              }
+                  fontWeight: 'bold',
+                },
+              },
             },
             labelLine: {
               normal: {
-                show: false
-              }
+                show: false,
+              },
             },
             data: [
               { value: 500, name: '直接访问' },
               { value: 500, name: '邮件营销' },
               { value: 500, name: '联盟广告' },
-              { value: 500, name: '视频广告' }
+              { value: 500, name: '视频广告' },
 
-            ]
-          }
-        ]
-      }
-      myChart.setOption(option)
-    }
-  }
-}
+            ],
+          },
+        ],
+      };
+      myChart.setOption(option);
+    },
+  },
+};
 </script>
 
 <style scoped >

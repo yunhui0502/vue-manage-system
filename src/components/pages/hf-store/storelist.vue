@@ -14,9 +14,12 @@
               </template >
           </el-table-column>
           <el-table-column align="center" prop="address" label="店铺位置" ></el-table-column>
-          <el-table-column align="center" prop="hfDesc" label="操作" >
+          <el-table-column align="center" prop="hfDesc" label="操作" width="180" >
              <template slot-scope= "scope">
                 <el-button  type="text" size="small" align="center" @click="edit(scope.row.id)">编辑</el-button>
+                <el-button  type="text" size="small" align="center" @click="gostoreproduct(scope.row.id)">店铺商品</el-button>
+                <!-- <el-button  type="text" size="small" align="center" @click="getstoneproduct(scope.row.id)">店铺商品</el-button> -->
+                 <!-- <el-button  type="text" size="small" align="center" @click="getstoneproduct(scope.row.id)">添加店铺商品</el-button> -->
               </template>
           </el-table-column>
         </el-table>
@@ -150,6 +153,23 @@
         </div>
       </template>
     </el-drawer>
+    <!-- 店铺商品 -->
+    <el-dialog
+  title="店铺商品"
+  :visible.sync="productVisible"
+  width="30%"
+ >
+    <el-table :data="list" stripe style="width: 100%"  @selection-change="handleSelectionChange"  ref="table" @row-click="currentChange">
+          <el-table-column type=index align="center"  label="选择" width="50"></el-table-column>
+          <el-table-column align="center" prop="productName" label="商品名称"> </el-table-column>
+          <el-table-column align="center" prop="productDesc" label="商品描述" ></el-table-column>
+          <el-table-column align="center" prop="categoryName" label="规格名称" ></el-table-column>
+    </el-table>
+  <span slot="footer" class="dialog-footer">
+    <el-button @click="productVisible = false" type="primary">关闭</el-button>
+    <!-- <el-button type="primary" @click="dialogVisible = false">确 定</el-button> -->
+  </span>
+</el-dialog>
   </div>
 </template>
 
@@ -161,6 +181,7 @@ import constants from '@/store/constants.js';
 export default {
   data() {
     return {
+      productVisible: false,
       radioye1: '',
       radioye: '0',
       options: [{
@@ -248,9 +269,18 @@ export default {
         userId: '',
         storeId: '',
       },
+      list: [],
     };
   },
   methods: {
+    gostoreproduct: function(id) {
+      this.$router.push({
+        path: '/hf-storeproduct',
+        query: {
+          id: id,
+        },
+      });
+    },
     status1: function(e) {
       console.log(e);
       if (e === '0') {

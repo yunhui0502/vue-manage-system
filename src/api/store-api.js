@@ -38,6 +38,9 @@ function getStoreRole(storeId) {
 function updateRole(params) {
   return Axios.get('/api/api/user/HfStoreMenber/updateRole?StoreId=' + params.storeId + '&StoreRoleId=' + params.StoreRoleId + '&userId=' + params.userId);
 }
+function getstoneproduct(storeId) {
+  return Axios.get('/api/api/product/hfProduct/getstone?stoneId=' + storeId);
+}
 
 
 function updataStore(params) {
@@ -52,6 +55,16 @@ function updataStore(params) {
   fd.append('stoneId', params.stoneId);
   return Axios.post('/api/api/product/stone/updateStone', fd);
 }
+function storeAddProduct(params) {
+  console.log(params);
+  let fd = new FormData();
+  fd.append('productIds ', params.productIds);
+  fd.append('stoneId', params.stoneId);
+  fd.append('userId ', params.userId);
+  return Axios.post('/api/api/product/product/addStoneProduct', fd);
+}
+
+
 export default {
   addStore: addStore,
   getStore: getStore,
@@ -62,4 +75,6 @@ export default {
   isCancel: isCancel,
   getStoreRole: getStoreRole,
   updateRole: updateRole,
+  getstoneproduct: getstoneproduct,
+  storeAddProduct: storeAddProduct,
 };

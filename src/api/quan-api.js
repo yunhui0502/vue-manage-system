@@ -13,6 +13,7 @@ function addCoupon(params) {
   fd.append('stopTime', params.stopTime);
   fd.append('superposition', params.superposition);
   fd.append('useLimit', params.useLimit);
+  fd.append('useState', -1);
   return Axios.post('/api/api/product/discountCoupon/addDiscountCoupon', fd);
 }
 function bianCoupon(params) {
@@ -27,6 +28,8 @@ function bianCoupon(params) {
   fd.append('stopTime', params.stopTime);
   fd.append('superposition', params.superposition);
   fd.append('useLimit', params.useLimit);
+  fd.append('id', params.id);
+
   return Axios.post('/api/api/product/discountCoupon/updateDiscountCoupon', fd);
 }
 

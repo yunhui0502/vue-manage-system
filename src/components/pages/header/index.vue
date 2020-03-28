@@ -2,61 +2,12 @@
 /* eslint-disable no-undef */
 <template>
     <div class="header-boss">
-        <!-- 左区块 -->
-       <div class="header-boss-1">
-           <!-- 左区块1区 -->
-           <div class="hb-1-1">
-               <div class="hb-1-title">
-                   <span class="hb-1-text">预警提醒</span>
-               </div>
-               <div class="hb-1-contents">
-                   <ul class="hb-1-content">
-                       <li class="hb-1-hover">仓库A：货物短缺，请补货...</li>
-                       <li>仓库A：货物短缺，请补货...</li>
-                       <li>仓库A：货物短缺，请补货...</li>
-                       <li>仓库A：货物短缺，请补货...</li>
-                   </ul>
-               </div>
-           </div>
-           <!-- 左区块2区 -->
-           <div class="hb-2-2">
-              <div class="hb-1-title">
-                   <span class="hb-1-text">系统公告</span>
-             </div>
-             <div class="hb-2-contents">
-                <ul class="hb-2-content">
-                    <li class="hb-2-hover">前方高能   |  10万元征集机械师创物者设计本专属...</li>
-                    <li>前方高能   |  10万元征集机械师创物者设计本专属...</li>
-                    <li>前方高能   |  10万元征集机械师创物者设计本专属...</li>
-                    <li>前方高能   |  10万元征集机械师创物者设计本专属...</li>
-                </ul>
-             </div>
-           </div>
-           <!-- 左区块3区 -->
-           <div class="hb-3-3">
-               <div class="hb-3-title">
-                   <span class="hb-3-text">销量排行</span>
-                   <span class="hb-3-move">查看更多</span>
-               </div>
-               <div class="hb-4-title">
-                   <ul>
-                    <li><span>排名</span><span class="hb-p">品名</span><span class="hb-x">销量</span></li>
-                    <li><span>1</span><span>商品名称</span><span>2233</span></li>
-                    <li><span>1</span><span>商品名称</span><span>2223</span></li>
-                    <li><span>1</span><span>商品名称</span><span>3322</span></li>
-                    <li><span>1</span><span>商品名称</span><span>3332</span></li>
-                    <li><span>1</span><span>商品名称</span><span>2233</span></li>
-                    <li><span>1</span><span>商品名称</span><span>3322</span></li>
-                   </ul>
-               </div>
-           </div>
-       </div>
        <!-- 右区块 -->
-       <div class="header-boss-2">
+       <div class="header-boss-2" >
            <!-- 右区域数据1 -->
-           <div class="header-sj-box">
-               <div class="header-first">
-                   <div class="header-first-text">
+           <div class="header-sj-box" style="width:100%">
+               <div class="header-first" style="width:50%">
+                   <div class="header-first-text" >
                        <p class="header-first-money">今日收入金额（元）</p>
                        <div class="header-first-tu">
                            <p class="header-first-money header-first-sj">1564865486.28</p>
@@ -90,7 +41,7 @@
                        </div>
                    </div>
                </div>
-               <div class="header-second">
+               <div class="header-second" style="width:50%">
                    <div class="header-first-text">
                        <p class="header-first-money">本月收入金额（元）</p>
                        <div class="header-first-tu">
@@ -125,7 +76,7 @@
                        </div>
                    </div>
                </div>
-               <div class="header-menu">
+               <!-- <div class="header-menu">
                    <div class="header-menu-title">
                        <span>快捷入口</span>
                    </div>
@@ -137,20 +88,20 @@
                            <li><a href="" class="header-menu-left">订单查询</a><a href="">订单查询</a></li>
                        </ul>
                    </div>
-               </div>
+               </div> -->
            </div>
            <!-- 右区域数据2 -->
            <div class="header-sj-box2">
                <div class="header-third">
-                   <div class="header-third-title">
+                   <!-- <div class="header-third-title">
                        <span>转换率统计</span>
-                   </div>
-                   <select class="header-third-table">
+                   </div> -->
+                   <!-- <select class="header-third-table">
                     <option value ="volvo">30天内</option>
                     <option value ="saab">30天内</option>
                     <option value="opel">30天内</option>
                     <option value="audi">30天内</option>
-                 </select>
+                 </select> -->
                    <div id="main"></div>
                </div>
                <div class="header-third header-left">

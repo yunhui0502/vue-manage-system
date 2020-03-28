@@ -5,7 +5,8 @@
         <span>优惠券</span>
         <el-button style="float: right;" size="small" type="primary" @click="drawer = true">添加优惠券</el-button>
       </div>
-      <el-table stripe :data="list" style="width: 100%">
+      <el-table stripe :data="list.slice((currentPage-1)*pagesize,currentPage*pagesize)" style="width: 100%">
+         <el-table-column type="index" label="序号" align="center"></el-table-column>
         <el-table-column prop="id" label="id" align="center"></el-table-column>
         <el-table-column prop="discountCouponName" label="名称" align="center"></el-table-column>
         <el-table-column align="center" prop="discountCouponType" label="优惠类型">
@@ -14,11 +15,18 @@
             <span v-if="scope.row.discountCouponType==='1'">满减</span>
           </template>
         </el-table-column>
+        <el-table-column align="center" prop="useState" label="状态">
+           <template slot-scope="scope">
+             <span v-if="scope.row.useState===-1">未开始</span>
+            <span v-if="scope.row.useState===0">进行中</span>
+            <span v-if="scope.row.useState===1">已结束</span>
+          </template>
+        </el-table-column>
         <el-table-column align="center" prop="discountCouponDesc" label="描述"></el-table-column>
         <el-table-column align="center" label="适用范围">
           <template slot-scope="scope">
             <span v-if="scope.row.scope==='allUser'">所有用户</span>
-            <span v-if="scope.row.scope==='vipUser'">vip用户</span>
+            <span v-if="scope.row.scope==='vipUser'">会员用户</span>
           </template>
         </el-table-column>
         <el-table-column align="center" label="是否可以叠加">
@@ -40,6 +48,15 @@
           </template>
         </el-table-column>
       </el-table>
+            <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            style="float:right;"
+            background
+            layout="prev, pager, next"
+            :total="list.length"
+            :page-size="pagesize"
+          ></el-pagination>
     </el-card>
     <el-drawer size="55%" title="添加优惠券" :visible.sync="drawer" :direction="direction">
       <el-form
@@ -58,6 +75,11 @@
           <el-radio v-model="radio" label="0" @change="zhe">折扣</el-radio>
           <el-radio v-model="radio" label="1" @change="zhe">满减</el-radio>
         </el-form-item>
+        <!-- <el-form-item label="状态" prop="useState">
+          <el-radio v-model="formquan.useState" label="-1">未开始</el-radio>
+          <el-radio v-model="formquan.useState" label="0" >进行中</el-radio>
+          <el-radio v-model="formquan.useState" label="1" >已结束</el-radio>
+        </el-form-item> -->
         <el-form-item label="有效期开始时间" prop="startTime">
           <el-date-picker v-model="formquan.startTime" type="datetime" placeholder="选择日期时间"></el-date-picker>
         </el-form-item>
@@ -86,7 +108,7 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="是否可以叠加使用" prop="discountCouponType" style="margin-top:20px;">
+        <el-form-item label="是否可以叠加使用"  style="margin-top:20px;">
           <el-radio v-model="radio1" label="1" @change="die">是</el-radio>
           <el-radio v-model="radio1" label="2" @change="die">否</el-radio>
         </el-form-item>
@@ -154,14 +176,14 @@
           <el-input v-model="formquan1.discountCouponName" style="width:230px;" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="优惠类型" prop="discountCouponType">
-          <el-radio v-model="radioval" label="0" @change="zhe">折扣</el-radio>
-          <el-radio v-model="radioval" label="1" @change="zhe">满减</el-radio>
+          <el-radio v-model="radioval" label="0" @change="zhe1">折扣</el-radio>
+          <el-radio v-model="radioval" label="1" @change="zhe1">满减</el-radio>
         </el-form-item>
         <el-form-item label="有效期开始时间" prop="startTime">
-          <el-date-picker v-model="formquan1.startTime" type="datetime" placeholder="选择日期时间"></el-date-picker>
+          <el-date-picker @change="uptime1"  v-model="formquan1.startTime" type="datetime" placeholder="选择日期时间"></el-date-picker>
         </el-form-item>
         <el-form-item label="有效期结束时间" prop="stopTime">
-          <el-date-picker v-model="formquan1.stopTime" type="datetime" placeholder="选择日期时间"></el-date-picker>
+          <el-date-picker   @change="uptime2"  v-model="formquan1.stopTime" type="datetime" placeholder="选择日期时间"></el-date-picker>
         </el-form-item>
         <el-form-item label="描述" prop="discountCouponDesc" style="margin-top:20px;">
           <el-input
@@ -175,7 +197,7 @@
           ></el-input>
         </el-form-item>
         <el-form-item label="适用范围" prop="scope" style="margin-top:20px;">
-          <el-select @change="getchangdata" v-model="valselect" placeholder="请选择">
+          <el-select @change="getchangdata1" v-model="valselect" placeholder="请选择">
             <el-option
               v-for="item in scopedata"
               :key="item.name"
@@ -186,8 +208,8 @@
         </el-form-item>
 
         <el-form-item label="是否可以叠加使用"  style="margin-top:20px;">
-          <el-radio v-model="radiodie" label="1" @change="die">是</el-radio>
-          <el-radio v-model="radiodie" label="2" @change="die">否</el-radio>
+          <el-radio v-model="radiodie" label="1" @change="die1">是</el-radio>
+          <el-radio v-model="radiodie" label="2" @change="die1">否</el-radio>
         </el-form-item>
         <el-row v-if="formquan1.discountCouponType ===1">
           <el-col :span="1">
@@ -249,6 +271,9 @@ import constants from '@/store/constants.js';
 export default {
   data() {
     return {
+      zhuangval: '',
+      currentPage: 1, // 初始页
+      pagesize: 10, // 每页的数据
       radiodie: '',
       valselect: '',
       radioval: '0',
@@ -309,13 +334,13 @@ export default {
             trigger: 'blur',
           },
         ],
-        scope: [
-          {
-            required: true,
-            message: '请选择适用范围',
-            trigger: 'blur',
-          },
-        ],
+        // scope: [
+        //   {
+        //     required: true,
+        //     message: '请选择适用范围',
+        //     trigger: 'blur',
+        //   },
+        // ],
         useLimit: {
           full: [
             {
@@ -338,6 +363,8 @@ export default {
       textarea: '',
       drawer: false,
       formquan: {
+        useState: '-1',
+        discountCouponDesc: '',
         bossId: 1,
         useLimit: {
           full: '',
@@ -350,6 +377,8 @@ export default {
         stopTime: '',
       },
       formquan1: {
+        useState: '-1',
+        id: '',
         bossId: 1,
         useLimit: {
           full: '',
@@ -360,6 +389,7 @@ export default {
         discountCouponType: 0,
         startTime: '',
         stopTime: '',
+        discountCouponDesc: '',
       },
       tableData: [
         {
@@ -376,6 +406,20 @@ export default {
     };
   },
   methods: {
+    uptime1: function(val) {
+      console.log(val);
+      this.formquan1.startTime = this.formatDate(val);
+    },
+    uptime2: function(val) {
+      console.log(val);
+      this.formquan1.stopTime = this.formatDate(val);
+    },
+    handleSizeChange(val) {
+      this.pagesize = val;
+    },
+    handleCurrentChange(val) {
+      this.currentPage = val;
+    },
     formatTen: function(num) {
       // eslint-disable-next-line no-magic-numbers
       return num > 9 ? num + '' : '0' + num;
@@ -416,6 +460,16 @@ export default {
       }
       // console.log(this.formquan.scope);
     },
+    getchangdata1: function(aaa) {
+      // console.log(aaa);
+      this.formquan1.scope = aaa;
+      for (var i = 0; i < this.scopedata.length; i++) {
+        if (this.scopedata[i].name === aaa) {
+          this.formquan1.scope = this.scopedata[i].code;
+        }
+      }
+      // console.log(this.formquan.scope);
+    },
     zhe: function(e) {
       console.log(e);
       if (e === '0') {
@@ -425,17 +479,34 @@ export default {
       }
       // console.log(this.formquan.discountCouponType);
     },
+    zhe1: function(e) {
+      console.log(e);
+      if (e === '0') {
+        this.formquan1.discountCouponType = 0;
+      } else {
+        this.formquan1.discountCouponType = 1;
+      }
+      // console.log(this.formquan.discountCouponType);
+    },
     checkPersonDetail: function(row) {
       this.drawer1 = true;
       console.log(row);
+      this.formquan1.id = row.id;
       this.formquan1.discountCouponName = row.discountCouponName;
       this.formquan1.discountCouponType = row.discountCouponType;
+      this.formquan1.useLimit = row.useLimit;
       this.radioval = this.formquan1.discountCouponType;
+      if (this.formquan1.discountCouponType === '1') {
+        this.formquan1.discountCouponType = 1;
+      } else {
+        this.formquan1.discountCouponType = 0;
+      }
       this.formquan1.startTime = row.startTime;
       this.formquan1.stopTime = row.stopTime;
       this.formquan1.discountCouponDesc = row.discountCouponDesc;
       this.formquan1.scope = row.scope;
-      console.log(this.formquan.discountCouponType);
+      this.formquan1.useLimit = JSON.parse(this.formquan1.useLimit);
+      console.log(this.formquan1.useLimit);
       if (row.superposition === 1) {
         this.radiodie = '1';
       // eslint-disable-next-line no-magic-numbers
@@ -461,6 +532,7 @@ export default {
               });
               this.drawer = false;
               this.getlist();
+              this.$refs[ruleForm].resetFields();
             } else {
               this.$message({
                 message: '添加失败',
@@ -476,20 +548,22 @@ export default {
       //   this.formquan.stopTime = this.formquan.startTime.toLocaleString();
       this.$refs[ruleForm].validate((valid) => {
         if (valid) {
+          this.formquan1.useLimit = JSON.stringify(this.formquan1.useLimit);
           // this.formquan1.startTime = this.formatDate(this.formquan1.startTime);
           // this.formquan1.stopTime = this.formatDate(this.formquan1.stopTime);
           quan.bianCoupon(this.formquan1, (res) => {
-            // console.log(res);
+            console.log(res);
+            console.log(this.formquan1);
             if (res.data.status === constants.SUCCESS_CODE) {
               this.$message({
-                message: '添加成功',
+                message: '修改成功',
                 type: 'success',
               });
-              this.drawer = false;
+              this.drawer1 = false;
               this.getlist();
             } else {
               this.$message({
-                message: '添加失败',
+                message: '修改失败',
                 type: 'error',
               });
             }
@@ -506,15 +580,24 @@ export default {
       }
       // console.log(this.formquan.superposition);
     },
+    die1: function(e) {
+      // console.log(e);
+      if (e === '1') {
+        this.formquan1.superposition = 1;
+      } else if (e === '2') {
+        this.formquan1.superposition = 2;
+      }
+      // console.log(this.formquan.superposition);
+    },
     getScope: function() {
       quan.getScope(this.editid, (res) => {
-        // console.log(res);
+        console.log(res);
         this.scopedata = res.data.data;
       });
     },
     getlist: function() {
       quan.getlist(this.editid, (res) => {
-        // console.log(res);
+        console.log(res);
         this.list = res.data.data;
       });
     },
