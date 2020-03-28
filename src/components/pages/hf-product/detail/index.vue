@@ -13,8 +13,9 @@
             <el-col :span="6">
               <el-form-item label="所属类目">
                 <el-cascader :options="options"
+                :children="'categories'"
                 v-model="productInfo.categoryId"
-                :props="{ value: 'id', label: 'hfName' ,children:'categories'}"
+                :props="{ checkStrictly: true ,value: 'id', label: 'hfName' ,children:'categories'}"
                 clearable></el-cascader>
               </el-form-item>
             </el-col>
@@ -151,7 +152,7 @@ export default {
         lastModifier: '', // 商家名称
         productDesc: '',
         id: '',
-        categoryId: [],
+        categoryId: '',
         name: '', // 展示
       },
 

@@ -164,7 +164,7 @@
       </el-table>
     </el-dialog>
 
-    <el-drawer title="商品分销设置" :visible.sync="drawer" size="80%" direction="btt">
+    <el-drawer title="商品分销设置" :visible.sync="drawer"  size="80%" direction="btt">
       <el-row type="flex" class="row-bg">
         <el-table
           ref="multipleTable"
@@ -190,36 +190,36 @@
       </el-row>
       <el-row type="flex" class="row-bg">
         <el-col :span="12">
-          <div></div>
-          <div>分销比例设置</div>
-          <div>
-            <el-table class="goods-table" :data="Placelist" border>
-              <el-table-column type="selection"></el-table-column>
-              <el-table-column label="分销名称" width="90">
-                <template slot-scope="scope">
-                  <el-select v-model="scope.row.name" placeholder="请选择">
-                    <el-option
-                      v-for="item in Types"
-                      :key="item.index"
-                      :label="item.name"
-                      :value="item.index"
-                    ></el-option>
-                  </el-select>
-                </template>
-              </el-table-column>
-              <el-table-column label="分销比例">
-                <template slot-scope="scope">
-                  <el-input placeholder="请输入内容" v-model="scope.row.ratio"></el-input>
-                </template>
-              </el-table-column>
-              <el-table-column label="操作">
-                <template slot-scope="scope">
-                  <el-button type="text" @click="SettingPrice(scope.row)" size="mini">保存</el-button>
-                </template>
-              </el-table-column>
-            </el-table>
-            <el-button style="float: right;" size="mini" @click="addGoodsList()">添加分销</el-button>
-          </div>
+           <div></div>
+           <div>分销比例设置</div>
+           <div>
+        <el-table class="goods-table" :data="Placelist" border>
+        <el-table-column type="selection"></el-table-column>
+        <el-table-column label="分销名称"  width="90">
+          <template slot-scope="scope">
+            <el-select v-model="scope.row.name" placeholder="请选择">
+              <el-option
+                v-for="item in Types"
+                :key="item.index"
+                :label="item.name"
+                :value="item.name"
+              ></el-option>
+            </el-select>
+          </template>
+        </el-table-column>
+        <el-table-column label="分销比例">
+          <template slot-scope="scope">
+            <el-input placeholder="请输入内容" v-model="scope.row.ratio"></el-input>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button type="text" @click="SettingPrice(scope.row)" size="mini">保存</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-button style="float: right;" size="mini" @click="addGoodsList()">添加分销</el-button>
+           </div>
         </el-col>
         <el-col :span="12">
           <div class="grid-content bg-purple"></div>
@@ -251,7 +251,6 @@ export default {
       ],
       proportionlist: [], // 抽屉里的
       Placelist: [], // 列表
-      Placelists: [],
       drawer: false,
       imageUrl: '',
       fileList: [], // 图片
@@ -358,38 +357,18 @@ export default {
       this.drawer = true;
       console.log(row);
       this.transfedata.id = row.id;
-      this.proportionlist = [];
       this.proportionlist.push(row);
-      this.Placelist = [];
-      if (row.distributionRatio !== null) {
-        this.Placelist = JSON.parse(row.distributionRatio);
-        this.Placelists = JSON.parse(row.distributionRatio);
-      }
     },
     // 保存价格比例
     SettingPrice(row) {
       console.log(row);
-      for (var i = 0; i < this.Placelists.length; i++) {
-        console.log(this.Placelist[i].name === row.name);
-        console.log(i);
-        if (this.Placelist[i].name === row.name) {
-          this.$message({
-            message: '无法重复添加',
-            type: 'warning',
-          });
-          return;
-        }
-      }
       let comma = ',';
       this.transfedata.distributionRatio =
-        'name:' + row.name + comma + 'ratio:' + row.ratio;
+       'name:' + row.name + comma + 'ratio:' + row.ratio;
       console.log(this.transfedata.distributionRatio);
       console.log(this.transfedata.distributionRatio);
       serviceEvents.updateActivityProduct(this.transfedata, (res) => {
-        console.log(res.data);
-        if (res.data.data === '-1') {
-          this.$message.error('无法直接添加此等级比例;请先添加他的上级比例');
-        }
+        console.log('保存比例', res);
       });
     },
     // 编辑
@@ -404,9 +383,20 @@ export default {
       console.log(row);
       this.transfedata.seniorityId = row.id;
       if (row.id !== undefined) {
+        console.log('阻止');
         serviceEvents.getActivityProductList(row.id, (res) => {
           console.log('活动商品列表信息', res);
+          // this.eventsGoods = res.data.data;
+          let ventsGood = res.data.data;
+          for (let vaents of ventsGood) {
+            console.log(vaents);
+            if (typeof vaents.distributionRatio !== 'undefined') {
+              vaents.distribut = JSON.parse(vaents.distributionRatio);
+              console.log(vaents.distribut);
+            }
+          }
           this.eventsGoods = res.data.data;
+          this.Placelist = res.data.data.distribut;
           console.log(this.Placelist);
         });
       }
@@ -427,7 +417,17 @@ export default {
               this.transfedata.seniorityId,
               (res) => {
                 console.log('活动商品列表信息', res);
+                let ventsGood = res.data.data;
+                for (let vaents of ventsGood) {
+                  console.log(vaents);
+                  if (typeof vaents.distributionRatio !== 'undefined') {
+                    vaents.distribut = JSON.parse(vaents.distributionRatio);
+                    console.log(vaents.distribut);
+                    this.Placelist = vaents.distribut;
+                  }
+                }
                 this.eventsGoods = res.data.data;
+                // console.log('分销查看', this.Placelist);
               },
             );
           }

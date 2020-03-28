@@ -48,17 +48,6 @@ module.exports = {
   },
   chainWebpack: (config) => {
     config.optimization.splitChunks({
-      performance: {
-        hints: 'warning',
-        // 入口起点的最大体积 整数类型（以字节为单位）
-        maxEntrypointSize: 50000000,
-        // 生成文件的最大体积 整数类型（以字节为单位 300k）
-        maxAssetSize: 30000000,
-        // 只给出 js 文件的性能提示
-        assetFilter: function(assetFilename) {
-          return assetFilename.endsWith('.js');
-        },
-      },
       chunks: 'all', // async表示抽取异步模块，all表示对所有模块生效，initial表示对同步模块生效
       cacheGroups: {
         vendors: {

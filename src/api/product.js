@@ -3,7 +3,7 @@ import Axios from 'axios';
 // =============================================商品模块
 // 获取商品列表
 function getProductsByBossId(bossId) {
-  return Axios.get('/api/api/product/hfProduct/getstone?bossId=' + bossId);
+  return Axios.get('/api/api/product/hfProduct/getstone?stoneId=' + bossId);
 }
 // 获取当前商品
 function getDetail(productId) {
@@ -80,15 +80,6 @@ function addSpecify (params) {
   return Axios.post('/api/api/product/product/addSpecify', fd);
 }
 
-// 修改商品规格
-function updatespec (params) {
-  let fd = new FormData();
-  fd.append('specName', params.hfName);
-  fd.append('productId', params.productId);
-  fd.append('productSpecId', params.productSpecId);
-  fd.append('specUnit', params.specUnit);
-  return Axios.post('/api/api/product/product/updatespec', fd);
-}
 export default {
   getProductsByBossId: getProductsByBossId,
   ceateProduct: ceateProduct,
@@ -101,5 +92,4 @@ export default {
   getDetail: getDetail,
   deleteSpecifies: deleteSpecifies,
   deleteProductPictrue: deleteProductPictrue,
-  updatespec: updatespec,
 };
