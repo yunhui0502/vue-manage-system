@@ -3,7 +3,7 @@ import Axios from 'axios';
 // =============================================商品模块
 // 获取商品列表
 function getProductsByBossId(bossId) {
-  return Axios.get('/api/api/product/hfProduct/getstone?stoneId=' + bossId);
+  return Axios.get('/api/api/product/hfProduct/getstone?bossId=' + bossId);
 }
 // 获取当前商品
 function getDetail(productId) {
