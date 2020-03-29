@@ -10,7 +10,7 @@
                    <div class="header-first-text" >
                        <p class="header-first-money">今日收入金额（元）</p>
                        <div class="header-first-tu">
-                           <p class="header-first-money header-first-sj">1564865486.28</p>
+                           <p class="header-first-money header-first-sj">{{liulan.amountDay}}</p>
                            <!-- <span class="iconfont icon-shangjiantou"></span> -->
                        </div>
                    </div>
@@ -18,18 +18,18 @@
                        <div class="pay-one pay-one-left">
                            <p class="pay-one-d">支付订单数</p>
                            <div class="pay-one-s">
-                               <i>35</i>
+                               <i>{{liulan.orderCountsDay}}</i>
                                <!-- <span class="iconfont icon-shangjiantou"></span> -->
                            </div>
-                           <p class="pay-one-day">昨日：20</p>
+                           <p class="pay-one-day">昨日：{{liulan.orderCountsYestday}}</p>
                        </div>
                        <div class="pay-one pay-one-right">
                            <p class="pay-one-d">支付人数</p>
                            <div class="pay-one-s">
-                               <i>35</i>
+                               <i>{{liulan.browseCountsDay}}</i>
                                <!-- <span class="iconfont icon-shangjiantou"></span> -->
                            </div>
-                           <p class="pay-one-day">昨日：20</p>
+                           <p class="pay-one-day">昨日：{{liulan.paymentConutsYestday}}</p>
                        </div>
                        <div class="pay-one">
                            <p class="pay-one-d">浏览量</p>
@@ -37,7 +37,7 @@
                                <i>35</i>
                                <!-- <span class="iconfont icon-shangjiantou"></span> -->
                            </div>
-                           <p class="pay-one-day">昨日：20</p>
+                           <p class="pay-one-day">昨日：{{liulan.browseCountsYestday}}</p>
                        </div>
                    </div>
                </div>
@@ -45,7 +45,7 @@
                    <div class="header-first-text">
                        <p class="header-first-money">本月收入金额（元）</p>
                        <div class="header-first-tu">
-                           <p class="header-first-money header-first-sj">1564865486.28</p>
+                           <p class="header-first-money header-first-sj">{{liulan.amountMouth}}</p>
                            <!-- <span class="iconfont icon-xiajiantou"></span> -->
                        </div>
                    </div>
@@ -53,26 +53,26 @@
                        <div class="pay-one pay-one-left">
                            <p class="pay-one-d">支付订单数</p>
                            <div class="pay-one-s">
-                               <i>35</i>
+                               <i>{{liulan.orderConutsMouth}}</i>
                                <!-- <span class="iconfont icon-xiajiantou"></span> -->
                            </div>
-                           <p class="pay-one-day">昨日：20</p>
+                           <p class="pay-one-day">昨日：{{liulan.orderCountsYestday}}</p>
                        </div>
                        <div class="pay-one pay-one-right">
                            <p class="pay-one-d">支付人数</p>
                            <div class="pay-one-s">
-                               <i>35</i>
+                               <i>{{liulan.paymentConutsMouth}}</i>
                                <!-- <span class="iconfont icon-xiajiantou"></span> -->
                            </div>
-                           <p class="pay-one-day">昨日：20</p>
+                           <p class="pay-one-day">昨日：{{liulan.paymentConutsYestday}}</p>
                        </div>
                        <div class="pay-one">
                            <p class="pay-one-d">浏览量</p>
                            <div class="pay-one-s">
-                               <i>35</i>
+                               <i>{{liulan.browseCountsMouth}}</i>
                                <!-- <span class="iconfont icon-xiajiantou"></span> -->
                            </div>
-                           <p class="pay-one-day">昨日：20</p>
+                           <p class="pay-one-day">昨日：{{liulan.browseCountsYestday}}</p>
                        </div>
                    </div>
                </div>
@@ -124,6 +124,7 @@
     </div>
 </template>
 <script>
+import home from '@/service/home.js';
 import echarts from 'echarts';
 export default {
   mounted () {
@@ -133,10 +134,21 @@ export default {
   },
   data () {
     return {
-
+      liulan: {},
+      bossId: 1,
     };
   },
+  // eslint-disable-next-line no-dupe-keys
+  mounted() {
+    this.getstoneproduct();
+  },
   methods: {
+    getstoneproduct() {
+      home.getstoneproduct(this.bossId, (res) => {
+        console.log(res);
+        this.liulan = res.data.data;
+      });
+    },
     cloness () {
       var myChart = echarts.init(document.getElementById('main2'));
       var option = {

@@ -37,7 +37,7 @@
         </el-table-column>
         <el-table-column align="center" prop="startTime" width="180" label="有效期开始时间"></el-table-column>
         <el-table-column align="center" width="180" prop="stopTime" label="有效期结束时间"></el-table-column>
-        <el-table-column align="center" label="操作">
+        <el-table-column align="center" label="操作"  fixed="right">
           <template slot-scope="scope">
             <el-button
               type="text"

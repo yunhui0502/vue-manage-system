@@ -8,20 +8,21 @@
         <el-table :data="manage" stripe style="width: 100%">
           <el-table-column prop="name" align="center" label="会员名"></el-table-column>
           <el-table-column prop="levelName" align="center" label="会员等级"></el-table-column>
-          <el-table-column  align="center" label="会员等级">
+          <el-table-column  align="center" label="操作">
             <template slot-scope="scope">
               <el-button type="text" @click="deletevip(scope.row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
       </el-tab-pane>
-      <el-tab-pane label="等级管理">
+      <el-tab-pane label="特权管理">
         <div style="overflow:hidden;margin-right:130px;margin-bottom:30px;">
           <el-button type="primary" style="float:right;" @click="drawer=true">添加等级</el-button>
         </div>
         <div style="display:flex;">
           <el-table :data="levellist" stripe style  @row-click="finddesnum">
-            <el-table-column prop="levelName" align="center" label="会员等级"></el-table-column>
+            <el-table-column prop="levelName" align="center" label="等级名称"></el-table-column>
+            <el-table-column prop="levelName" align="center" label="描述"></el-table-column>
              <el-table-column  align="center" label="操作">
              <template slot-scope="scope">
               <el-button type="text" @click="addmiao(scope.row)">添加等级描述</el-button>

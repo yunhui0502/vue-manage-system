@@ -37,7 +37,9 @@ function updatePerson(params) {
 function checkAdmin(bossId) {
   return Axios.get('/api/api/user/hf-auth/selectStoneAdmin?bossId=' + bossId);
 }
-
+function bossinfor(bossId) {
+  return Axios.get('/api/api/user/hf-auth/findBossInfo?bossId=' + bossId);
+}
 
 export default {
   addUser: addUser,
@@ -47,4 +49,5 @@ export default {
   uploadPicture: uploadPicture,
   getUserDetails: getUserDetails,
   checkAdmin: checkAdmin,
+  bossinfor: bossinfor,
 };

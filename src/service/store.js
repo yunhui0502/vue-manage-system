@@ -34,6 +34,9 @@ async function getstoneproduct(params, handleResult) {
 async function storeAddProduct(params, handleResult) {
   store.storeAddProduct(params).then((res) => handleResult(res));
 }
+async function getproductgood(params, handleResult) {
+  store.getproductgood(params).then((res) => handleResult(res));
+}
 
 
 export default {
@@ -48,4 +51,5 @@ export default {
   updateRole: updateRole,
   getstoneproduct: getstoneproduct,
   storeAddProduct: storeAddProduct,
+  getproductgood: getproductgood,
 };

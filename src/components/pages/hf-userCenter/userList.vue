@@ -3,7 +3,7 @@
     <!-- 添加用户 -->
     <el-dialog title="添加用户" :visible.sync="addUserVisible" width="30%">
       <el-form label-width="80px" :model="addUserForm">
-        <el-form-item label="用户名">
+        <el-form-item label="用户名" >
           <el-input v-model="addUserForm.name"></el-input>
         </el-form-item>
         <el-form-item label="手机号">
@@ -16,12 +16,16 @@
       </span>
     </el-dialog>
     <el-tabs v-model="activeName" @tab-click="select">
-      <el-tab-pane label="基本信息" name="first"></el-tab-pane>
+      <el-tab-pane label="基本信息" name="first">
+        <el-card class="box-card">
+           <span style="margin-right:30px;">商家姓名： {{jinben.bossName}}</span>
+           <span>商家手机号： {{jinben.bossName}}</span>
+            <span style="margin-right:30px;">注册资本： {{jinben.bossName}}</span>
+           <span>经营范围： {{jinben.bossName}}</span>
+        </el-card>
+      </el-tab-pane>
       <el-tab-pane label="店铺管理员列表" name="second">
         <el-card class="box-card">
-          <div slot="header" class="clearfix">
-            <span>{{message}}</span>
-          </div>
           <el-table
             :data="Admindata.slice((currentPage-1)*pagesize,currentPage*pagesize)"
             stripe
@@ -52,9 +56,6 @@
       </el-tab-pane>
       <el-tab-pane label="用户列表" name="third">
         <el-card class="box-card">
-          <div slot="header" class="clearfix">
-            <span>{{message}}</span>
-          </div>
           <el-table
             :data="userData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
             stripe
@@ -90,6 +91,7 @@ import userCenterService from '@/service/userCenter.js';
 export default {
   data() {
     return {
+      jinben: {},
       bossid: 1,
       message: '用户列表',
       activeName: 'first',
@@ -110,6 +112,13 @@ export default {
     };
   },
   methods: {
+    bossinfor: function() {
+      userCenterService.bossinfor(this.bossid, (res) => {
+        console.log(res);
+        this.jinben = res.data.data;
+        // this.Admindata = res.data.data;
+      });
+    },
     checkAdmin: function(tab) {
       userCenterService.checkAdmin(this.bossid, (res) => {
         console.log(res);
@@ -185,6 +194,7 @@ export default {
   mounted() {
     this.checkUser();
     this.checkAdmin();
+    this.bossinfor();
   },
 };
 </script>

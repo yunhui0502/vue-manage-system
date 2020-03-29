@@ -1,6 +1,21 @@
 <template>
   <div>
-<el-card class="box-card">
+  <el-card class="box-card" style="margin-bottom:20px;">
+  <div slot="header" class="clearfix">
+     <span >店铺基本信息</span>
+     <div style="margin-top:10px;">
+      <span>店铺名称:{{storeinfor.hfName}}</span>
+      <span style="margin-left: 20px;" v-if="storeinfor.hfStatus=== 0">店铺状态:营业</span>
+      <span style="margin-left: 20px;" v-if="storeinfor.hfStatus === 1">店铺状态:未营业</span>
+      <span style="margin-left: 20px;" >店铺描述:{{storeinfor.hfDesc}}</span>
+      <span style="margin-left: 20px;" >店铺地址:{{storeinfor.address}}</span>
+      <!-- <span style="margin-left: 20px;">{{storeinfor.hfDesc}}</span>
+      <span style="margin-left: 20px;">支付时间:{{storeinfor.hfStatus}}</span>
+      <span style="margin-left: 20px;">订单状态:{{zhuang}}</span> -->
+     </div>
+  </div>
+      </el-card>
+<el-card class="box-card" style="width:50%;">
   <div slot="header" class="clearfix">
     <span>商品列表</span>
     <el-button style="float: right;" type="primary" @click="add = true">添加店铺商品</el-button>
@@ -48,6 +63,7 @@ export default {
   name: 'store',
   data() {
     return {
+      storeinfor: {},
       content: {},
       product: {
         productIds: [],
@@ -77,13 +93,14 @@ export default {
       this.product.stoneId = this.id;
       console.log(this.product);
       storeService.storeAddProduct(this.product, (res) => {
-        // console.log(res);
+        console.log(res);
         if (res.data.status === constants.SUCCESS_CODE) {
           this.$message({
             message: '添加成功',
             type: 'success',
           });
           this.add = false;
+          this.getstoneproduct();
           // this.product.productIds = [];
           // this.selectDdata = [];
         } else {
@@ -107,9 +124,18 @@ export default {
       });
     },
     getstoneproduct: function() {
+      console.log(this.id);
       storeService.getstoneproduct(this.id, (res) => {
         console.log(res);
         this.list = res.data.data.list;
+      });
+    },
+    getStoreid: function() {
+      console.log(this.id);
+      storeService.getStoreid(this.id, (res) => {
+        console.log(res);
+        this.storeinfor = res.data.data;
+        // this.list = res.data.data.list;
       });
     },
   },
@@ -117,6 +143,7 @@ export default {
     var content = window.sessionStorage.getItem('userInfor');
     this.content = JSON.parse(content);
     this.id = this.$route.query.id;
+    this.getStoreid();
     this.getstoneproduct();
     this.setProducts();
   },

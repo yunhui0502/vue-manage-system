@@ -4,7 +4,7 @@
       <div style="width:50%">
         <div style="margin-bottom:20px;">店铺列表</div>
         <el-button type="primary" style="margin-bottom:10px;" @click="drawer = true">添加店铺</el-button>
-        <el-table :data="storeData" stripe style="width: 100%" @row-click="getStoreId">
+        <el-table :data="storeData.slice((currentPage-1)*pagesize,currentPage*pagesize)" stripe style="width: 100%" @row-click="getStoreId">
           <el-table-column align="center" prop="hfName" label="店铺名称" ></el-table-column>
           <el-table-column align="center" prop="hfDesc" label="店铺描述" ></el-table-column>
           <el-table-column align="center" prop="hfStatus" label="店铺状态" >
@@ -23,8 +23,21 @@
               </template>
           </el-table-column>
         </el-table>
+          <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            style="float:right;margin-top:10px;"
+            background
+            layout="prev, pager, next"
+            :total="storeData.length"
+            :page-size="pagesize"
+          ></el-pagination>
     </div>
    <div style="margin-left:20px;width:50%" >
+     <div style="margin-bottom:20px;" >店铺经营状态</div>
+     <div style="height:100px;background:#f0f0f0;margin-bottom:10px;">
+
+     </div>
     <div style="margin-bottom:20px;" >店铺成员</div>
      <el-button type="primary" style="margin-bottom:10px;background:#ff0099;border-color:#ff0099;"  @click="dialogVisible = true">添加店铺成员</el-button>
     <el-table :data="Person" stripe style="width: 100%">
@@ -181,6 +194,8 @@ import constants from '@/store/constants.js';
 export default {
   data() {
     return {
+      currentPage: 1, // 初始页
+      pagesize: 6, // 每页的数据
       productVisible: false,
       radioye1: '',
       radioye: '0',
@@ -273,6 +288,12 @@ export default {
     };
   },
   methods: {
+    handleSizeChange(val) {
+      this.pagesize = val;
+    },
+    handleCurrentChange(val) {
+      this.currentPage = val;
+    },
     gostoreproduct: function(id) {
       this.$router.push({
         path: '/hf-storeproduct',

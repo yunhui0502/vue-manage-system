@@ -41,8 +41,6 @@ function updateRole(params) {
 function getstoneproduct(storeId) {
   return Axios.get('/api/api/product/hfProduct/getstone?stoneId=' + storeId);
 }
-
-
 function updataStore(params) {
   console.log(params);
   let fd = new FormData();
