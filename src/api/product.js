@@ -6,8 +6,8 @@ function getProductsByBossId(bossId) {
   return Axios.get('/api/api/product/hfProduct/getstone?bossId=' + bossId);
 }
 // 获取当前商品
-function getDetail(productId) {
-  return Axios.get('/api/api/product/hfProduct/getDetail?productId=' + productId);
+function getDetail(productId, stoneId) {
+  return Axios.get('/api/api/product/hfProduct/getDetail?productId=' + productId + '&stoneId=' + stoneId);
 }
 // 删除商品图片
 function deleteProductPictrue(fileId, productId) {

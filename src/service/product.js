@@ -44,8 +44,8 @@ async function updateProduct(productId, handleResult) {
   product.updateProduct(productId).then((res) => handleResult(res));
 }
 // 通过商品ID获取当前商品
-async function getDetail(productId, handleResult) {
-  product.getDetail(productId).then((res) => handleResult(res));
+async function getDetail(productId, stoneId, handleResult) {
+  product.getDetail(productId, stoneId).then((res) => handleResult(res));
 }
 //  删除商品规格
 async function deleteSpecifies(productSpecId, handleResult) {

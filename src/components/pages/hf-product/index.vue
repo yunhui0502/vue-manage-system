@@ -70,8 +70,9 @@ export default {
       });
     },
     editProduct(row) {
+      console.log(row);
       this.$router.push({
-        path: '/hf-product/detail?productId=' + row.id,
+        path: '/hf-product/detail?productId=' + row.id + '&stoneId=' + row.stoneId,
       });
     },
     deleteProduct(row) {

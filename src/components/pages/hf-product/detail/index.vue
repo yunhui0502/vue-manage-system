@@ -255,11 +255,11 @@ export default {
     // 获取当前商品
     getCurrent() {
       if (!this.isCreate) {
-        serviceProduct.getDetail(this.commodityId, (res) => {
+        serviceProduct.getDetail(this.commodityId, this.$route.query.stoneId, (res) => {
           console.log('获取当前', res.data.data);
           this.productInfo.productName = res.data.data.productName;
           this.productInfo.id = res.data.data.id + '';
-          this.productInfo.lastModifier = res.data.data.stoneName;
+          this.productInfo.lastModifier = res.data.data.lastModifier;
           this.productInfo.categoryId = res.data.data.categoryId;
           this.productInfo.name = res.data.data.productName;
           this.productInfo.productDesc = res.data.data.productDesc;
