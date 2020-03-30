@@ -34,8 +34,8 @@ async function getstoneproduct(params, handleResult) {
 async function storeAddProduct(params, handleResult) {
   store.storeAddProduct(params).then((res) => handleResult(res));
 }
-async function getproductgood(params, handleResult) {
-  store.getproductgood(params).then((res) => handleResult(res));
+async function getproductgood(productId, handleResult) {
+  store.getproductgood(productId).then((res) => handleResult(res));
 }
 
 

@@ -61,7 +61,9 @@ function storeAddProduct(params) {
   fd.append('userId ', params.userId);
   return Axios.post('/api/api/product/product/addStoneProduct', fd);
 }
-
+function getproductgood(productId) {
+  return Axios.get('/api/api/product/product/selectProductGoods?productId=' + productId);
+}
 
 export default {
   addStore: addStore,
@@ -75,4 +77,5 @@ export default {
   updateRole: updateRole,
   getstoneproduct: getstoneproduct,
   storeAddProduct: storeAddProduct,
+  getproductgood: getproductgood,
 };

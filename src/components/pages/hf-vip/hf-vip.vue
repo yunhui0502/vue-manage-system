@@ -22,10 +22,11 @@
         <div style="display:flex;">
           <el-table :data="levellist" stripe style  @row-click="finddesnum">
             <el-table-column prop="levelName" align="center" label="等级名称"></el-table-column>
-            <el-table-column prop="levelName" align="center" label="描述"></el-table-column>
+            <el-table-column prop="levelName" align="center" label="等级排序"></el-table-column>
+             <el-table-column prop="levelName" align="center" label="等级描述"></el-table-column>
              <el-table-column  align="center" label="操作">
              <template slot-scope="scope">
-              <el-button type="text" @click="addmiao(scope.row)">添加等级描述</el-button>
+              <!-- <el-button type="text" @click="addmiao(scope.row)">添加等级描述</el-button> -->
               <el-button
                 @click="editlevel(scope.row)"
                 type="text"
@@ -37,7 +38,15 @@
           </el-table>
           <el-table :data="miaodata" stripe style="margin-left:130px;">
             <el-table-column type="index"  align="center" label="序号"></el-table-column>
-            <el-table-column prop="levelDescribe" align="center" label="等级描述"></el-table-column>
+            <el-table-column prop="levelDescribe" align="center" label="特权名称"></el-table-column>
+            <el-table-column prop="levelDescribe" align="center" label="特权描述"></el-table-column>
+            <el-table-column prop="levelDescribe" align="center" label="有效期"></el-table-column>
+            <el-table-column prop="levelDescribe" align="center" label="状态"></el-table-column>
+            <el-table-column  align="center" label="操作">
+            <template slot-scope="scope">
+              <el-button type="text" @click="deletevip(scope.row)">删除</el-button>
+            </template>
+          </el-table-column>
           </el-table>
         </div>
       </el-tab-pane>

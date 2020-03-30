@@ -15,7 +15,8 @@
      </div>
   </div>
       </el-card>
-<el-card class="box-card" style="width:50%;">
+<div style="display:flex;">
+  <el-card class="box-card" style="width:40%;">
   <div slot="header" class="clearfix">
     <span>商品列表</span>
     <el-button style="float: right;" type="primary" @click="add = true">添加店铺商品</el-button>
@@ -25,6 +26,7 @@
       stripe
       style="width: 100%"
       ref="table"
+      @row-click="getproductgood"
     >
       <el-table-column type="index" align="center" label="选择" width="50"></el-table-column>
       <el-table-column align="center" prop="productName" label="商品名称"></el-table-column>
@@ -32,6 +34,29 @@
       <el-table-column align="center" prop="categoryName" label="规格"></el-table-column>
     </el-table>
 </el-card>
+<el-card class="box-card" style="width:50%;margin-left:20px;">
+  <div slot="header" class="clearfix">
+    <span>物品列表</span>
+    <!-- <el-button style="float: right;" type="primary" @click="add = true">添加店铺物品</el-button> -->
+  </div>
+     <el-table
+      :data="listwu"
+      stripe
+      style="width: 100%"
+      ref="table"
+      @row-click="getproductgood"
+    >
+      <el-table-column prop="goodsId" label="序号" width="50" align="center"></el-table-column>
+      <el-table-column prop="goodsName" label="物品名称"></el-table-column>
+      <el-table-column prop="goodsDesc" label="物品描述"></el-table-column>
+      <el-table-column prop="brandName" label="生产厂家"></el-table-column>
+      <el-table-column prop="sellPrice" label="售卖价格"></el-table-column>
+      <el-table-column prop="createTime" label="创建时间" width="137"></el-table-column>
+      <el-table-column prop="modifyTime" label="更新时间" width="137"></el-table-column>
+    </el-table>
+</el-card>
+</div>
+
     <el-dialog
   title="店铺商品"
   :visible.sync="add"
@@ -76,9 +101,17 @@ export default {
       list: [],
       collapse: false,
       selectDdata: [],
+      listwu: [],
     };
   },
   methods: {
+    getproductgood: function(aaa) {
+      console.log(aaa);
+      storeService.getproductgood(aaa.id, (res) => {
+        console.log(res);
+        this.listwu = res.data.data;
+      });
+    },
     submit: function() {
       // this.product.productIds = [];
       if (this.selectDdata.length > 0) {
@@ -128,6 +161,10 @@ export default {
       storeService.getstoneproduct(this.id, (res) => {
         console.log(res);
         this.list = res.data.data.list;
+        storeService.getproductgood(this.list[0].id, (res) => {
+          console.log(res);
+          this.listwu = res.data.data;
+        });
       });
     },
     getStoreid: function() {
