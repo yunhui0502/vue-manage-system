@@ -73,8 +73,8 @@
         </div>
       </div>
     </div>
-    <div style="display:flex;margin-top:20px;">
-      <div class="hb-3-3" style="width:300px;">
+  <div style="display:flex;margin-top:30px;">
+    <div class="hb-3-3" style="width:30%;">
         <div class="hb-3-title">
           <span class="hb-3-text">销量排行</span>
           <span class="hb-3-move">查看更多</span>
@@ -86,81 +86,25 @@
               <span class="hb-p">品名</span>
               <span class="hb-x">销量</span>
             </li>
-            <li>
-              <span>1</span>
-              <span>商品名称</span>
-              <span>2233</span>
-            </li>
-            <li>
-              <span>1</span>
-              <span>商品名称</span>
-              <span>2223</span>
-            </li>
-            <li>
-              <span>1</span>
-              <span>商品名称</span>
-              <span>3322</span>
-            </li>
-            <li>
-              <span>1</span>
-              <span>商品名称</span>
-              <span>3332</span>
-            </li>
-            <li>
-              <span>1</span>
-              <span>商品名称</span>
-              <span>2233</span>
-            </li>
-            <li>
-              <span>1</span>
-              <span>商品名称</span>
-              <span>3322</span>
-            </li>
-            <li>
-              <span>1</span>
-              <span>商品名称</span>
-              <span>2233</span>
-            </li>
-            <li>
-              <span>1</span>
-              <span>商品名称</span>
-              <span>2223</span>
-            </li>
-            <li>
-              <span>1</span>
-              <span>商品名称</span>
-              <span>3322</span>
-            </li>
-            <li>
-              <span>1</span>
-              <span>商品名称</span>
-              <span>3332</span>
-            </li>
-            <li>
-              <span>1</span>
-              <span>商品名称</span>
-              <span>2233</span>
-            </li>
-            <li>
-              <span>1</span>
-              <span>商品名称</span>
-              <span>3322</span>
+            <li v-for="(item,index) in pai" :key="index">
+              <span>{{index+1}}</span>
+              <span>{{item.productName}}</span>
+              <span>{{item.salesCountAll}}</span>
             </li>
           </ul>
         </div>
       </div>
-      <div style="margin-left:40px;">
-        <div style="display:flex;">
-          <div id="main1" style="margin-top: .99vw;width: 360px;height:260px;"></div>
-          <div id="main2" style="margin-top: .99vw;width: 400px;height:300px;margin-left:20px;"></div>
-        </div>
-        <div style="display:flex;margin-top:20px;">
-          <div>
+
+          <div id="main1" style="margin-top: .99vw;width: 30%;height:260px;"></div>
+          <div id="main2" style="margin-top: .99vw;width: 30%;height:300px;margin-left:20px;"></div>
+  </div>
+      <div style="display:flex;">
+          <div style="width:50%;">
             <div>销售情况</div>
-            <div id="main" style="width: 500px;height:300px;"></div>
+            <div id="main" style="width:100%;height:300px;"></div>
           </div>
-          <div style="flex:1;">
-            <div style="display:flex; justify-content:space-between;width:100%;">
+          <div style="width:30%;">
+            <div style="display:flex; justify-content:space-between;">
               <div>消息通知</div>
               <div>查看更多</div>
             </div>
@@ -171,11 +115,8 @@
                     </p>
                 </div>
             </div>
-
           </div>
         </div>
-      </div>
-    </div>
   </div>
 </template>
 <script>
@@ -186,6 +127,13 @@ import echarts from 'echarts';
 export default {
   data() {
     return {
+      year: [],
+      browseCountForYeay: [],
+      salesCountMonth: [],
+      mouth: [],
+      orderTypeStr: [],
+      typeJson: [],
+      pai: [],
       logList: [
         {
           message: 1,
@@ -222,12 +170,44 @@ export default {
   },
   // eslint-disable-next-line no-empty-function
   mounted() {
+    this.getpai();
+    this.getorder();
     this.getstoneproduct();
-    this.shous();
-    this.bing();
-    this.zhu();
+    // this.shous();
+    this.xiao();
+    this.ke();
   },
   methods: {
+    ke() {
+      home.ke(this.bossId, (res) => {
+        console.log(res);
+        this.year = res.data.data.year;
+        this.browseCountForYeay = res.data.data.browseCountForYeay;
+        this.zhu();
+      });
+    },
+    xiao() {
+      home.xiao(this.bossId, (res) => {
+        // console.log(res);
+        this.mouth = res.data.data.mouth;
+        this.salesCountMonth = res.data.data.salesCountMonth;
+        this.shous();
+      });
+    },
+    getorder() {
+      home.getorder(this.bossId, (res) => {
+        // console.log(res);
+        this.orderTypeStr = res.data.data;
+        this.typeJson = res.data.data.js;
+        this.bing();
+      });
+    },
+    getpai() {
+      home.getpai(this.bossId, (res) => {
+        // console.log(res);
+        this.pai = res.data.data;
+      });
+    },
     ScrollUp() {
       this.intnum = setInterval((_) => {
         if (this.activeIndex < this.prizeList.length) {
@@ -247,7 +227,7 @@ export default {
 
     getstoneproduct() {
       home.getstoneproduct(this.bossId, (res) => {
-        console.log(res);
+        // console.log(res);
         this.liulan = res.data.data;
       });
     },
@@ -273,10 +253,12 @@ export default {
           bottom: '3%',
           containLabel: true,
         },
+        // this.year = res.data.data.year;
+        // this.browseCountForYeay = res.data.data.browseCountForYeay;
         xAxis: [
           {
             type: 'category',
-            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            data: this.year,
             axisTick: {
               alignWithLabel: true,
             },
@@ -293,7 +275,7 @@ export default {
             type: 'bar',
             barWidth: '60%',
             // eslint-disable-next-line no-magic-numbers
-            data: [10, 52, 200, 334, 390, 330, 220],
+            data: this.browseCountForYeay,
           },
         ],
       };
@@ -315,7 +297,7 @@ export default {
         legend: {
           orient: 'vertical',
           left: 'left',
-          data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎'],
+          data: this.orderTypeStr,
         },
         series: [
           {
@@ -323,13 +305,7 @@ export default {
             type: 'pie',
             radius: '55%',
             center: ['50%', '60%'],
-            data: [
-              { value: 335, name: '直接访问' },
-              { value: 310, name: '邮件营销' },
-              { value: 234, name: '联盟广告' },
-              { value: 135, name: '视频广告' },
-              { value: 1548, name: '搜索引擎' },
-            ],
+            data: this.typeJson,
             emphasis: {
               itemStyle: {
                 shadowBlur: 10,
@@ -350,7 +326,7 @@ export default {
       var option = {
         xAxis: {
           type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          data: this.mouth,
         },
         yAxis: {
           type: 'value',
@@ -358,7 +334,7 @@ export default {
         series: [
           {
             // eslint-disable-next-line no-magic-numbers
-            data: [820, 932, 901, 934, 1290, 1330, 1320],
+            data: this.salesCountMonth,
             type: 'line',
           },
         ],

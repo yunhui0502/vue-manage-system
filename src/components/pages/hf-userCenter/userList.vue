@@ -17,11 +17,18 @@
     </el-dialog>
     <el-tabs v-model="activeName" @tab-click="select">
       <el-tab-pane label="基本信息" name="first">
-        <el-card class="box-card">
-           <span style="margin-right:30px;">商家姓名： {{jinben.bossName}}</span>
-           <span>商家手机号： {{jinben.bossName}}</span>
-            <span style="margin-right:30px;">注册资本： {{jinben.bossName}}</span>
-           <span>经营范围： {{jinben.bossName}}</span>
+        <el-card class="box-card" style="
+         background:#fafafa;color:#666;">
+         <div style="
+         padding:10px;
+         width:100%;align-items:center;flex-wrap:wrap;
+        background:#fafafa;color:#666;font-size:12px;">
+           <div>商家姓名： {{jinben.bossName}}</div>
+           <div  style="margin-top:10px;">手机号： {{jinben.phone}}</div>
+            <div  style="margin-top:10px;">注册资本： {{jinben.registeredCapital}} 万</div>
+           <div  style="margin-top:10px;line-height:20px;">经营范围： {{jinben.businessScope}}</div>
+         </div>
+
         </el-card>
       </el-tab-pane>
       <el-tab-pane label="店铺管理员列表" name="second">

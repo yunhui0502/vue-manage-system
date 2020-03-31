@@ -64,6 +64,16 @@ function storeAddProduct(params) {
 function getproductgood(productId) {
   return Axios.get('/api/api/product/product/selectProductGoods?productId=' + productId);
 }
+function updatagood(params) {
+  console.log(params);
+  let fd = new FormData();
+  fd.append('id', params.id);
+  fd.append('stoneId', params.stoneId);
+  fd.append('userId ', params.userId);
+  fd.append('productId ', params.productId);
+  fd.append('sellPrice ', params.sellPrice);
+  return Axios.post('/api/api/product/goods/updategood', fd);
+}
 
 export default {
   addStore: addStore,
@@ -78,4 +88,5 @@ export default {
   getstoneproduct: getstoneproduct,
   storeAddProduct: storeAddProduct,
   getproductgood: getproductgood,
+  updatagood: updatagood,
 };

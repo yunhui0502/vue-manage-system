@@ -40,8 +40,14 @@
             <el-table-column type="index"  align="center" label="序号"></el-table-column>
             <el-table-column prop="levelDescribe" align="center" label="特权名称"></el-table-column>
             <el-table-column prop="levelDescribe" align="center" label="特权描述"></el-table-column>
-            <el-table-column prop="levelDescribe" align="center" label="有效期"></el-table-column>
-            <el-table-column prop="levelDescribe" align="center" label="状态"></el-table-column>
+            <el-table-column prop="startTime" align="center" width="180"  label="开始时间"></el-table-column>
+            <el-table-column prop="expireTime" align="center"  width="180" label="结束时间"></el-table-column>
+            <el-table-column prop="levelDescribe" align="center" label="状态">
+              <template slot-scope="scope">
+                 <span v-if="scope.row.prerogativeState==-1">不生效</span>
+                 <span v-if="scope.row.prerogativeState==1">生效</span>
+            </template>
+            </el-table-column>
             <el-table-column  align="center" label="操作">
             <template slot-scope="scope">
               <el-button type="text" @click="deletevip(scope.row)">删除</el-button>

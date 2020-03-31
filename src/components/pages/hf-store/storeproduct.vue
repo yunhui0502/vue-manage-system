@@ -31,13 +31,11 @@
       <el-table-column type="index" align="center" label="选择" width="50"></el-table-column>
       <el-table-column align="center" prop="productName" label="商品名称"></el-table-column>
       <el-table-column align="center" prop="productDesc" label="商品描述"></el-table-column>
-      <el-table-column align="center" prop="categoryName" label="规格"></el-table-column>
     </el-table>
 </el-card>
 <el-card class="box-card" style="width:50%;margin-left:20px;">
   <div slot="header" class="clearfix">
     <span>物品列表</span>
-    <!-- <el-button style="float: right;" type="primary" @click="add = true">添加店铺物品</el-button> -->
   </div>
      <el-table
       :data="listwu"
@@ -47,12 +45,24 @@
       @row-click="getproductgood"
     >
       <el-table-column prop="goodsId" label="序号" width="50" align="center"></el-table-column>
-      <el-table-column prop="goodsName" label="物品名称"></el-table-column>
-      <el-table-column prop="goodsDesc" label="物品描述"></el-table-column>
-      <el-table-column prop="brandName" label="生产厂家"></el-table-column>
-      <el-table-column prop="sellPrice" label="售卖价格"></el-table-column>
-      <el-table-column prop="createTime" label="创建时间" width="137"></el-table-column>
-      <el-table-column prop="modifyTime" label="更新时间" width="137"></el-table-column>
+      <el-table-column prop="goodsName" label="物品名称" align="center"></el-table-column>
+      <el-table-column prop="goodsDesc" label="物品描述" align="center"></el-table-column>
+      <el-table-column prop="brandName" label="生产厂家" align="center"></el-table-column>
+      <el-table-column prop="sellPrice" label="售卖价格" align="center">
+        <template slot-scope="scope">
+            <el-input
+              style="text-align:center;"
+              v-model="scope.row.sellPrice"
+            ></el-input>
+          </template>
+      </el-table-column>
+      <el-table-column prop="createTime" width="180" label="创建时间" align="center"  ></el-table-column>
+      <el-table-column prop="modifyTime" width="180" label="更新时间" align="center" ></el-table-column>
+      <el-table-column  align="center" label="操作" fixed="right">
+            <template slot-scope="scope">
+              <el-button type="text" @click="updatagood(scope.row)">保存</el-button>
+            </template>
+      </el-table-column>
     </el-table>
 </el-card>
 </div>
@@ -88,6 +98,13 @@ export default {
   name: 'store',
   data() {
     return {
+      updata: {
+        productId: '',
+        stoneId: '',
+        userId: '',
+        id: '',
+        sellPrice: '',
+      },
       storeinfor: {},
       content: {},
       product: {
@@ -102,11 +119,41 @@ export default {
       collapse: false,
       selectDdata: [],
       listwu: [],
+      productid: '',
     };
   },
   methods: {
+    updatagood: function(row) {
+      console.log(row);
+      this.updata.stoneId = this.$route.query.id;
+      this.updata.userId = this.content.id;
+      this.updata.id = row.goodsId;
+      this.updata.sellPrice = row.sellPrice;
+      console.log(this.updata);
+      storeService.updatagood(this.updata, (res) => {
+        console.log(res);
+        if (res.data.status === constants.SUCCESS_CODE) {
+          this.$message({
+            message: '更新成功',
+            type: 'success',
+          });
+          storeService.getproductgood(this.productid, (res) => {
+            // console.log(res);
+            this.listwu = res.data.data;
+          });
+          // this.product.productIds = [];
+          // this.selectDdata = [];
+        } else {
+          this.$message({
+            message: '更新失败',
+            type: 'error',
+          });
+        }
+      });
+    },
     getproductgood: function(aaa) {
       console.log(aaa);
+      this.productid = aaa.id;
       storeService.getproductgood(aaa.id, (res) => {
         console.log(res);
         this.listwu = res.data.data;
@@ -161,6 +208,8 @@ export default {
       storeService.getstoneproduct(this.id, (res) => {
         console.log(res);
         this.list = res.data.data.list;
+        this.updata.productId = this.list[0].id;
+        this.productid = this.list[0].id;
         storeService.getproductgood(this.list[0].id, (res) => {
           console.log(res);
           this.listwu = res.data.data;
