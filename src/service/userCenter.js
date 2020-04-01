@@ -25,6 +25,10 @@ async function checkAdmin(bossid, handleResult) {
 async function bossinfor(bossId, handleResult) {
   userCenter.bossinfor(bossId).then((res) => handleResult(res));
 }
+async function getOrderDetail1(bossId, handleResult) {
+  userCenter.getOrderDetail1(bossId).then((res) => handleResult(res));
+}
+
 export default {
   addUser: addUser,
   checkUser: checkUser,
@@ -34,5 +38,6 @@ export default {
   getUserDetails: getUserDetails,
   checkAdmin: checkAdmin,
   bossinfor: bossinfor,
+  getOrderDetail1: getOrderDetail1,
 };
 

@@ -56,6 +56,24 @@
           width="180"
         ></el-table-column>
       </el-table>
+    <div style="display:fkex;align-items:center;margin-top:20px;" v-if="takingType==='delivery'&&detail.orderStatus==='process'&&detail.orderType==='nomalOrder'">
+       <span>物流单号：</span>
+       <el-input v-model="order.logisticsOrdersId" placeholder="请输入物流单号" style="width:200px;"></el-input>
+        <span style="margin-left:20px;">物流公司名：</span>
+       <el-input v-model="order.logisticsCompany" placeholder="请输入物流单号" style="width:200px;"></el-input>
+    </div>
+    <div style="line-height:30px; display:fkex;align-items:center;margin-top:20px;font-size:12px;" v-if="takingType==='delivery'&&detail.orderStatus==='transport'&&detail.orderType==='nomalOrder'">
+     <span style="margin-bottom:10px;">物流单号：{{wuliuinfor.logisticCode}}</span>
+      <span style="margin-left:20px;margin-bottom:10px;">物流公司名：{{wuliuinfor.company}}</span>
+      <!-- <span style="margin-left:20px;">物流信息</span> -->
+      <div>物流信息:</div>
+      <div  v-for="(item,index) in wuliuinfor.traces" :key='index'>
+        <div>
+          <span>{{item.AcceptStation}}</span>
+          <span >{{item.AcceptTime}}</span>
+        </div>
+      </div>
+    </div>
     </el-card>
     <div style="margin-top: 200px; display: flex;justify-content: space-around;padding:0 10%;">
       <div
@@ -78,22 +96,6 @@
           @click="que()"
           style="background:#00bcd4;color: #fff;padding:6px 10px ;border-radius:4px;height:23px;width:66px;"
         >确认订单</div>
-        <div v-if="xian">
-          <div>
-          <div style="display:flex;align-items:center;margin-top:20px;">
-            <el-input v-model="input" placeholder="请输入物流单号" style="width:200px;"></el-input>
-            <div
-              v-if="detail.orderStatus==='process'"
-              style="margin-left:10px; background:#00bcd4;color: #fff;font-size:12px; padding:6px 10px;border-radius:4px;height:16px;width:140px;"
-            >提交物流单号(可不填写)</div>
-          </div>
-        </div>
-           <div
-          v-if="detail.orderStatus==='process'"
-          @click="que()"
-          style="background:#00bcd4;color: #fff;float:right; text-align:center;margin-top:20px; padding:6px 10px ;border-radius:4px;height:23px;width:46px;"
-        >确认</div>
-        </div>
       </div>
       <div>联系用户：{{detail.phone}}</div>
     </div>
@@ -106,6 +108,16 @@ import constants from '@/store/constants.js';
 export default {
   data() {
     return {
+      wuliuinfor: {},
+      order: {
+        id: '',
+        logisticsOrdersId: '',
+        logisticsCompany: '',
+        googsId: '',
+      },
+      input: '',
+      content: {},
+      takingType: '',
       xian: false,
       zhuang: '',
       goodsName: '',
@@ -122,24 +134,111 @@ export default {
         orderCode: '',
         originOrderStatus: 'payment',
       },
+      updata2: {
+        targetOrderStatus: 'transport',
+        id: '',
+        orderCode: '',
+        originOrderStatus: 'process',
+      },
       id: '',
-      detail: '',
+      detail: {
+      },
     };
   },
   methods: {
     que: function() {
-      this.xian = true;
+      this.order.id = this.$route.query.id;
+      if (this.takingType === 'delivery' && this.detail.orderStatus === 'process' && this.detail.orderType === 'nomalOrder') {
+        if (this.order.logisticsOrdersId === '') {
+          this.$message.error('请填写物流单号');
+
+        } else if (this.order.logisticsCompany === '') {
+          this.$message.error('请填写物流公司');
+
+        } else {
+          orderCenterService.writeWuLiu(this.order, (res) => {
+            if (res.data.status === constants.SUCCESS_CODE) {
+              // this.$message({
+              //   message: '提交成功',
+              //   type: 'success',
+              // });
+              orderCenterService.upDataOrderStatus(this.updata2, (res) => {
+              // console.log(this.updata1, res);
+                if (res.data.status === constants.SUCCESS_CODE) {
+                  this.$message({
+                    message: '已确认',
+                    type: 'success',
+                  });
+                  this.drawer = false;
+                  this.getdetail();
+                } else {
+                  this.$message.error('取消失败');
+                }
+                return false;
+              });
+            } else {
+              this.$message.error('提交失败');
+            }
+            // this.takingType = res.data.data[0].takingType;
+          });
+        }
+      } else {
+        orderCenterService.writeWuLiu1(this.order, (res) => {
+          if (res.data.status === constants.SUCCESS_CODE) {
+            // this.$message({
+            //   message: '提交成功',
+            //   type: 'success',
+            // });
+            orderCenterService.upDataOrderStatus(this.updata2, (res) => {
+              if (res.data.status === constants.SUCCESS_CODE) {
+                this.$message({
+                  message: '已确认',
+                  type: 'success',
+                });
+                this.drawer = false;
+                this.getdetail();
+              } else {
+                this.$message.error('取消失败');
+              }
+              return false;
+            });
+          } else {
+            this.$message.error('提交失败');
+          }
+          // this.takingType = res.data.data[0].takingType;
+        });
+      }
     },
     getdetail: function() {
       orderCenterService.getOrderDetail(this.id, (res) => {
-        console.log(res);
         this.detail = res.data.data;
         this.detail.orderDesc = JSON.parse(this.detail.orderDesc);
         this.hfGoodsSpecs = this.detail.orderDesc.hfGoodsSpecs;
         this.goodsName = this.detail.orderDesc.goodsName;
         this.updata.orderCode = this.detail.orderCode;
         this.updata1.orderCode = this.detail.orderCode;
+        this.updata2.orderCode = this.detail.orderCode;
+        this.detail.userId = this.content.id;
         this.updata1.originOrderStatus = this.detail.orderStatus;
+        orderCenterService.getOrderDetail1(this.detail, (res) => {
+          console.log(res);
+          this.takingType = res.data.data[0].takingType;
+          this.order.googsId = res.data.data[0].goodsId;
+        });
+        // if (this.takingType === 'delivery' && this.detail.orderStatus === 'transport' && this.detail.orderType === 'nomalOrder') {
+        orderCenterService.getWuLiu(this.id, (res) => {
+          this.wuliuinfor = res.data.data;
+          console.log('6', this.wuliuinfor);
+          // eslint-disable-next-line no-eval
+          // this.wuliuinfor = JSON.parse(this.wuliuinfor);
+          // console.log('7', this.wuliuinfor);
+          // var obj = '{LogisticCode:'75338825465751',ShipperCode:'ZTO'}';
+          // console.log('7', obj);
+          // this.takingType = res.data.data[0].takingType;
+          // this.order.googsId = res.data.data[0].goodsId;
+        });
+        // }
+
       });
     },
     pay: function() {
@@ -180,9 +279,13 @@ export default {
     this.id = this.$route.query.id;
     this.updata.id = this.$route.query.id;
     this.updata1.id = this.$route.query.id;
+    this.updata2.id = this.$route.query.id;
     this.zhuang = this.$route.query.zhuang;
-    // console.log(this.id, this.zhuang);
+    var content = window.sessionStorage.getItem('userInfor');
+    this.content = JSON.parse(content);
+    console.log(this.id);
     this.getdetail();
+    // this.getdetail1();
   },
 };
 </script>

@@ -21,6 +21,19 @@ async function getOrderByType(params, handleResult) {
 async function getOrderDetail(id, handleResult) {
   orderCenter.getOrderDetail(id).then((res) => handleResult(res));
 }
+async function getOrderDetail1(params, handleResult) {
+  orderCenter.getOrderDetail1(params).then((res) => handleResult(res));
+}
+async function writeWuLiu(params, handleResult) {
+  orderCenter.writeWuLiu(params).then((res) => handleResult(res));
+}
+async function writeWuLiu1(params, handleResult) {
+  orderCenter.writeWuLiu1(params).then((res) => handleResult(res));
+}
+async function getWuLiu(orderId, handleResult) {
+  orderCenter.getWuLiu(orderId).then((res) => handleResult(res));
+}
+
 export default {
   checkStatus: checkStatus,
   checkOrder: checkOrder,
@@ -28,4 +41,8 @@ export default {
   getOrderType: getOrderType,
   getOrderByType: getOrderByType,
   getOrderDetail: getOrderDetail,
+  getOrderDetail1: getOrderDetail1,
+  writeWuLiu: writeWuLiu,
+  writeWuLiu1: writeWuLiu1,
+  getWuLiu: getWuLiu,
 };

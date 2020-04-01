@@ -7,8 +7,9 @@
         </div>
         <el-table :data="manage" stripe style="width: 100%">
           <el-table-column prop="name" align="center" label="会员名"></el-table-column>
+          <el-table-column prop="phone" align="center" label="手机号"></el-table-column>
           <el-table-column prop="levelName" align="center" label="会员等级"></el-table-column>
-          <el-table-column  align="center" label="操作">
+          <el-table-column align="center" label="操作">
             <template slot-scope="scope">
               <el-button type="text" @click="deletevip(scope.row)">删除</el-button>
             </template>
@@ -16,48 +17,55 @@
         </el-table>
       </el-tab-pane>
       <el-tab-pane label="特权管理">
-        <div style="overflow:hidden;margin-right:130px;margin-bottom:30px;">
-          <el-button type="primary" style="float:right;" @click="drawer=true">添加等级</el-button>
-        </div>
-        <div style="display:flex;">
-          <el-table :data="levellist" stripe style  @row-click="finddesnum">
-            <el-table-column prop="levelName" align="center" label="等级名称"></el-table-column>
-            <el-table-column prop="levelName" align="center" label="等级排序"></el-table-column>
-             <el-table-column prop="levelName" align="center" label="等级描述"></el-table-column>
-             <el-table-column  align="center" label="操作">
-             <template slot-scope="scope">
-              <!-- <el-button type="text" @click="addmiao(scope.row)">添加等级描述</el-button> -->
-              <el-button
-                @click="editlevel(scope.row)"
-                type="text"
-                size="small"
-                align="center"
-              >修改</el-button>
-            </template>
-             </el-table-column>
-          </el-table>
-          <el-table :data="miaodata" stripe style="margin-left:130px;">
-            <el-table-column type="index"  align="center" label="序号"></el-table-column>
-            <el-table-column prop="levelDescribe" align="center" label="特权名称"></el-table-column>
+        <div style="display:flex; ">
+          <div style="width:40%;">
+            <div style="overflow:hidden;margin-bottom:30px;float:right;">
+              <el-button type="primary" @click="drawer=true">添加等级</el-button>
+            </div>
+            <el-table :data="levellist" stripe style @row-click="finddesnum">
+              <el-table-column prop="levelName" align="center" label="等级名称"></el-table-column>
+              <!-- <el-table-column prop="levelName" align="center" label="等级排序"></el-table-column> -->
+              <el-table-column prop="levelDescribe" align="center" label="等级描述"></el-table-column>
+              <el-table-column align="center" label="操作">
+                <template slot-scope="scope">
+                  <!-- <el-button type="text" @click="addmiao(scope.row)">添加等级描述</el-button> -->
+                  <el-button
+                    @click="editlevel(scope.row)"
+                    type="text"
+                    size="small"
+                    align="center"
+                  >修改</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+          </div>
+          <div style="margin-left:20px;">
+            <div style="overflow:hidden;margin-bottom:30px;float:right;">
+              <el-button type="primary" @click="desdrawer=true">添加特权</el-button>
+            </div>
+          <el-table :data="miaodata" stripe style="">
+            <el-table-column type="index" align="center" label="序号"></el-table-column>
+            <el-table-column prop="prerogative" align="center" label="特权名称"></el-table-column>
             <el-table-column prop="levelDescribe" align="center" label="特权描述"></el-table-column>
-            <el-table-column prop="startTime" align="center" width="180"  label="开始时间"></el-table-column>
-            <el-table-column prop="expireTime" align="center"  width="180" label="结束时间"></el-table-column>
+            <el-table-column prop="startTime" align="center" width="180" label="开始时间"></el-table-column>
+            <el-table-column prop="expireTime" align="center" width="180" label="结束时间"></el-table-column>
             <el-table-column prop="levelDescribe" align="center" label="状态">
               <template slot-scope="scope">
-                 <span v-if="scope.row.prerogativeState==-1">不生效</span>
-                 <span v-if="scope.row.prerogativeState==1">生效</span>
-            </template>
+                <span v-if="scope.row.prerogativeState==-1">不生效</span>
+                <span v-if="scope.row.prerogativeState==1">生效</span>
+              </template>
             </el-table-column>
-            <el-table-column  align="center" label="操作">
-            <template slot-scope="scope">
-              <el-button type="text" @click="deletevip(scope.row)">删除</el-button>
-            </template>
-          </el-table-column>
+            <el-table-column align="center" label="操作">
+              <template slot-scope="scope">
+                <el-button type="text" @click="deletevip(scope.row)">删除</el-button>
+              </template>
+            </el-table-column>
           </el-table>
+          </div>
         </div>
       </el-tab-pane>
     </el-tabs>
-    <el-drawer size="70%" title="添加描述" :visible.sync="desdrawer" :direction="direction">
+    <el-drawer size="70%" title="添加特权" :visible.sync="desdrawer" :direction="direction">
       <el-form
         :model="ruleForm3"
         status-icon
@@ -66,8 +74,17 @@
         label-width="100px"
         class="demo-ruleForm"
       >
-        <el-form-item label="等级描述" prop="levelDescribe">
+        <el-form-item label="特权名称" prop="prerogative">
+          <el-input style="width:300px;" v-model="ruleForm3.prerogative" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="特权描述" prop="levelDescribe">
           <el-input style="width:300px;" v-model="ruleForm3.levelDescribe" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="有效期开始时间" prop="startTime">
+          <el-date-picker   @change="uptime1"  v-model="ruleForm3.startTime" type="datetime" placeholder="选择日期时间"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="有效期结束时间" prop="expireTime">
+          <el-date-picker   @change="uptime2"  v-model="ruleForm3.expireTime" type="datetime" placeholder="选择日期时间"></el-date-picker>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm3('ruleForm3')">提交</el-button>
@@ -86,6 +103,9 @@
         <el-form-item label="等级名称" prop="name">
           <el-input style="width:300px;" v-model="ruleForm.name" autocomplete="off"></el-input>
         </el-form-item>
+        <el-form-item label="等级描述" prop="name">
+          <el-input style="width:300px;" v-model="ruleForm.levelDescribe" autocomplete="off"></el-input>
+        </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
         </el-form-item>
@@ -93,11 +113,18 @@
     </el-drawer>
 
     <el-drawer size="50%" title="添加会员" :visible.sync="draweradd" :direction="rtl">
-       <el-table :data="userData" stripe style="width: 100%"  @selection-change="handleSelectionChange"  ref="table" @row-click="currentChange">
-          <el-table-column type=selection align="center"  label="选择" width="50"></el-table-column>
-          <el-table-column align="center" prop="nickName" label="用户名"> </el-table-column>
-          <el-table-column align="center" prop="phone" label="手机号" ></el-table-column>
-        </el-table>
+      <el-table
+        :data="userData"
+        stripe
+        style="width: 100%"
+        @selection-change="handleSelectionChange"
+        ref="table"
+        @row-click="currentChange"
+      >
+        <el-table-column type="selection" align="center" label="选择" width="50"></el-table-column>
+        <el-table-column align="center" prop="nickName" label="用户名"></el-table-column>
+        <el-table-column align="center" prop="phone" label="手机号"></el-table-column>
+      </el-table>
       <el-form
         :model="ruleForm1"
         status-icon
@@ -121,8 +148,8 @@
         </el-form-item>
       </el-form>
     </el-drawer>
-     <el-drawer size="70%" title="修改等级" :visible.sync="leveledit" :direction="direction">
-         <el-form
+    <el-drawer size="70%" title="修改等级" :visible.sync="leveledit" :direction="direction">
+      <el-form
         :model="ruleForm2"
         status-icon
         :rules="rules2"
@@ -132,6 +159,9 @@
       >
         <el-form-item label="等级名称" prop="name">
           <el-input style="width:300px;" v-model="ruleForm2.name" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="等级描述" prop="levelDescribe">
+          <el-input style="width:300px;" v-model="ruleForm2.levelDescribe" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm2('ruleForm2')">提交</el-button>
@@ -175,6 +205,13 @@ export default {
             trigger: 'blur',
           },
         ],
+        levelDescribe: [
+          {
+            required: true,
+            message: '请输入等级描述',
+            trigger: 'blur',
+          },
+        ],
       },
       rules2: {
         name: [
@@ -184,20 +221,50 @@ export default {
             trigger: 'blur',
           },
         ],
-      },
-      rules3: {
-        name: [
+        levelDescribe: [
           {
             required: true,
-            message: '请输入等级名称',
+            message: '请输入等级描述',
+            trigger: 'blur',
+          },
+        ],
+      },
+      rules3: {
+        prerogative: [
+          {
+            required: true,
+            message: '请输入特权名称',
+            trigger: 'blur',
+          },
+        ],
+        levelDescribe: [
+          {
+            required: true,
+            message: '请输入特权描述',
+            trigger: 'blur',
+          },
+        ],
+        startTime: [
+          {
+            required: true,
+            message: '请输入开始时间',
+            trigger: 'blur',
+          },
+        ],
+        expireTime: [
+          {
+            required: true,
+            message: '请输入结束时间',
             trigger: 'blur',
           },
         ],
       },
       ruleForm: {
+        levelDescribe: '',
         name: '',
       },
       ruleForm2: {
+        levelDescribe: '',
         name: '',
         id: '',
       },
@@ -207,8 +274,11 @@ export default {
         userId: [],
       },
       ruleForm3: {
+        expireTime: '',
+        startTime: '',
+        prerogative: '',
         levelDescribe: '',
-        id: '',
+        levelId: '',
       },
       drawer: false,
       direction: 'btt',
@@ -239,17 +309,52 @@ export default {
     };
   },
   methods: {
+    formatTen: function(num) {
+      // eslint-disable-next-line no-magic-numbers
+      return num > 9 ? num + '' : '0' + num;
+    },
+    formatDate: function(date) {
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      var day = date.getDate();
+      // eslint-disable-next-line no-unused-vars
+      var hour = date.getHours();
+      // eslint-disable-next-line no-unused-vars
+      var minute = date.getMinutes();
+      // eslint-disable-next-line no-unused-vars
+      var second = date.getSeconds();
+      // eslint-disable-next-line no-undef
+      return (
+        year +
+        '-' +
+        this.formatTen(month) +
+        '-' +
+        this.formatTen(day) +
+        ' ' +
+        hour +
+        ':' +
+        minute +
+        ':' +
+        second
+      );
+    },
+    uptime1: function(val) {
+      console.log(val);
+      this.ruleForm3.startTime = this.formatDate(val);
+    },
+    uptime2: function(val) {
+      console.log(val);
+      this.ruleForm3.expireTime = this.formatDate(val);
+    },
     addmiao: function(row) {
       this.desdrawer = true;
       this.ruleForm3.id = row.id;
-
     },
     finddesnum: function(aaa) {
       console.log(aaa);
       vip.finddes(aaa.id, (res) => {
         console.log(res);
         this.miaodata = res.data.data;
-
       });
     },
     submitForm3(ruleForm3) {
@@ -281,10 +386,9 @@ export default {
       // this.persondata.personid = row.id;
       this.$refs.table.toggleRowSelection(row);
     },
-    handleSelectionChange (val) {
+    handleSelectionChange(val) {
       console.log(val);
       this.selectDdata = val;
-
     },
     checkUser: function() {
       userCenterService.checkUser((res) => {
@@ -315,7 +419,6 @@ export default {
             type: 'error',
           });
         }
-
       });
     },
     findvip: function() {
@@ -335,10 +438,10 @@ export default {
       vip.checkLevel((res) => {
         console.log(res);
         this.levellist = res.data.data;
+        this.ruleForm3.levelId = this.levellist[0].id;
         vip.finddes(this.levellist[0].id, (res) => {
           console.log(res);
           this.miaodata = res.data.data;
-
         });
       });
     },
@@ -346,7 +449,7 @@ export default {
       this.$refs[ruleForm1].validate((valid) => {
         if (valid) {
           if (this.selectDdata.length > 0) {
-            for (var i = 0;i < this.selectDdata.length;i++) {
+            for (var i = 0; i < this.selectDdata.length; i++) {
               this.ruleForm1.userId.push(this.selectDdata[i].id);
             }
           }
@@ -387,8 +490,8 @@ export default {
     submitForm(ruleForm) {
       this.$refs[ruleForm].validate((valid) => {
         if (valid) {
-          console.log(this.ruleForm.name);
-          vip.addLevel(this.ruleForm.name, (res) => {
+          console.log(this.ruleForm);
+          vip.addLevel(this.ruleForm, (res) => {
             console.log(res);
             // eslint-disable-next-line no-magic-numbers
             if (res.data.status === 200) {
