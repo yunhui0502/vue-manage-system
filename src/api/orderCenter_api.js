@@ -27,7 +27,7 @@ function getOrderDetail1(params) {
 function writeWuLiu(params) {
   console.log(params);
   return Axios.get('/api/api/order/order/insertLogistics?ordersId=' + params.id +
-  '&logisticsOrdersId=' + params.logisticsOrdersId + '&googsId=' + params.googsId + '&logisticsCompany' + params.logisticsCompany);
+  '&logisticsOrdersId=' + params.logisticsOrdersId + '&googsId=' + params.googsId);
 }
 function writeWuLiu1(params) {
   console.log(params);

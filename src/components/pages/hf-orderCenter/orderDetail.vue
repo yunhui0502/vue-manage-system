@@ -59,8 +59,8 @@
     <div style="display:fkex;align-items:center;margin-top:20px;" v-if="takingType==='delivery'&&detail.orderStatus==='process'&&detail.orderType==='nomalOrder'">
        <span>物流单号：</span>
        <el-input v-model="order.logisticsOrdersId" placeholder="请输入物流单号" style="width:200px;"></el-input>
-        <span style="margin-left:20px;">物流公司名：</span>
-       <el-input v-model="order.logisticsCompany" placeholder="请输入物流单号" style="width:200px;"></el-input>
+        <!-- <span style="margin-left:20px;">物流公司名：</span>
+       <el-input v-model="order.logisticsCompany" placeholder="请输入物流单号" style="width:200px;"></el-input> -->
     </div>
     <div style="line-height:30px; display:fkex;align-items:center;margin-top:20px;font-size:12px;" v-if="takingType==='delivery'&&detail.orderStatus==='transport'&&detail.orderType==='nomalOrder'">
      <span style="margin-bottom:10px;">物流单号：{{wuliuinfor.logisticCode}}</span>
@@ -152,9 +152,6 @@ export default {
         if (this.order.logisticsOrdersId === '') {
           this.$message.error('请填写物流单号');
 
-        } else if (this.order.logisticsCompany === '') {
-          this.$message.error('请填写物流公司');
-
         } else {
           orderCenterService.writeWuLiu(this.order, (res) => {
             if (res.data.status === constants.SUCCESS_CODE) {
@@ -162,6 +159,7 @@ export default {
               //   message: '提交成功',
               //   type: 'success',
               // });
+              console.log(this.updata2);
               orderCenterService.upDataOrderStatus(this.updata2, (res) => {
               // console.log(this.updata1, res);
                 if (res.data.status === constants.SUCCESS_CODE) {
