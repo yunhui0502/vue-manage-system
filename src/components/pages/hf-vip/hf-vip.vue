@@ -113,18 +113,6 @@
     </el-drawer>
 
     <el-drawer size="50%" title="添加会员" :visible.sync="draweradd" :direction="rtl">
-      <el-table
-        :data="userData"
-        stripe
-        style="width: 100%"
-        @selection-change="handleSelectionChange"
-        ref="table"
-        @row-click="currentChange"
-      >
-        <el-table-column type="selection" align="center" label="选择" width="50"></el-table-column>
-        <el-table-column align="center" prop="nickName" label="用户名"></el-table-column>
-        <el-table-column align="center" prop="phone" label="手机号"></el-table-column>
-      </el-table>
       <el-form
         :model="ruleForm1"
         status-icon
@@ -134,7 +122,7 @@
         class="demo-ruleForm"
       >
         <el-form-item label="等级名称" prop="levelName" style="margin-top:40px;">
-          <el-select v-model="ruleForm1.levelName" placeholder="请选择">
+          <el-select v-model="ruleForm1.levelName" placeholder="请选择" @change="getchang">
             <el-option
               v-for="item in levellist"
               :key="item.id"
@@ -147,6 +135,18 @@
           <el-button type="primary" @click="submitForm1('ruleForm1')">提交</el-button>
         </el-form-item>
       </el-form>
+      <el-table
+        :data="userData"
+        stripe
+        style="width: 100%"
+        @selection-change="handleSelectionChange"
+        ref="table"
+        @row-click="currentChange"
+      >
+        <el-table-column type="selection" align="center" label="选择" width="50"></el-table-column>
+        <el-table-column align="center" prop="realName" label="用户名"></el-table-column>
+        <el-table-column align="center" prop="phone" label="手机号"></el-table-column>
+      </el-table>
     </el-drawer>
     <el-drawer size="70%" title="修改等级" :visible.sync="leveledit" :direction="direction">
       <el-form
@@ -309,6 +309,11 @@ export default {
     };
   },
   methods: {
+    getchang: function(val) {
+      console.log(val);
+      this.ruleForm1.levelName = val;
+      console.log(this.ruleForm1);
+    },
     formatTen: function(num) {
       // eslint-disable-next-line no-magic-numbers
       return num > 9 ? num + '' : '0' + num;
@@ -352,6 +357,7 @@ export default {
     },
     finddesnum: function(aaa) {
       console.log(aaa);
+      this.ruleForm3.levelId = aaa.id;
       vip.finddes(aaa.id, (res) => {
         console.log(res);
         this.miaodata = res.data.data;
@@ -389,10 +395,11 @@ export default {
     handleSelectionChange(val) {
       console.log(val);
       this.selectDdata = val;
+      console.log(this.ruleForm1);
     },
     checkUser: function() {
       userCenterService.checkUser((res) => {
-        // console.log(res.data.data);
+        console.log(res.data.data);
         this.userData = res.data.data.list;
       });
     },
@@ -446,6 +453,7 @@ export default {
       });
     },
     submitForm1(ruleForm1) {
+      console.log(this.ruleForm1);
       this.$refs[ruleForm1].validate((valid) => {
         if (valid) {
           if (this.selectDdata.length > 0) {
@@ -460,9 +468,11 @@ export default {
             });
             return;
           }
+          console.log(this.ruleForm1);
+          console.log(this.levellist);
           // eslint-disable-next-line no-redeclare
           for (var j = 0; j < this.levellist.length; j++) {
-            if (this.levellist[i].levelName === this.ruleForm1.levelName) {
+            if (this.levellist[j].levelName === this.ruleForm1.levelName) {
               this.ruleForm1.levelId = this.levellist[j].id;
             }
           }
@@ -476,6 +486,8 @@ export default {
                 type: 'success',
               });
               this.draweradd = false;
+              this.findvip();
+              this.$refs.ruleForm1.resetFields();
               // this.checkLevel();
             } else {
               this.$message({
