@@ -138,7 +138,8 @@
       <el-table
         :data="userData"
         stripe
-        style="width: 100%"
+        height="250"
+        style="width: 100%;"
         @selection-change="handleSelectionChange"
         ref="table"
         @row-click="currentChange"
@@ -376,7 +377,10 @@ export default {
                 type: 'success',
               });
               this.desdrawer = false;
-              // this.checkLevel();
+              vip.finddes(this.ruleForm3.levelId, (res) => {
+                console.log(res);
+                this.miaodata = res.data.data;
+              });
             } else {
               this.$message({
                 message: '添加失败',
