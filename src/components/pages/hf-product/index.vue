@@ -1,51 +1,72 @@
 <template>
-<div>
-  <el-card class="box-card">
-    <!-- 搜索渲染区 -->
-    <div class="filter-container">
-      <Search></Search>
-      <div class="letf-items" style="float: left;"></div>
-      <div class="right-items" style="float: right;padding-top: 10px;">
-        <el-button size="mini" @click="setProducts()" type="primary">刷新</el-button>
-        <el-button size="mini" @click="handleCreate()" type="primary">新增商品</el-button>
-      </div>
-    </div>
-    <!-- 内容区 -->
-    <div class="text item">
-      <el-table :data="tableData" v-loading="loading" border style="width: 100%" highlight-current-row ref="multipleTable">
-        <el-table-column prop="id" label="序号" width="50" align="center"></el-table-column>
-        <el-table-column prop="productName" label="商品名称"></el-table-column>
-        <el-table-column prop="productDesc" label="商品描述"></el-table-column>
-        <el-table-column prop="categoryName" label="所属类目名称"></el-table-column>
-        <el-table-column prop="createTime" label="创建时间" width="150"></el-table-column>
-        <el-table-column prop="modifyTime" label="更新时间" width="150"></el-table-column>
-        <el-table-column prop="lastModifier" label="最近一次操作人" width="150"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="100">
-          <template slot-scope="scope">
-            <el-button @click="editProduct(scope.row)" type="text" size="small">编辑</el-button>
-            <el-button @click="deleteProduct(scope.row)" type="text" size="small">删除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <div class="block">
-        <el-pagination background layout="prev, pager, next" @current-change="handleCurrentChange" :total="totalSize">
-        </el-pagination>
-      </div>
-    </div>
-  </el-card>
-</div>
+  <div>
+    <el-tabs v-model="activeName" @tab-click="handleClick">
+      <el-tab-pane label="商品管理" name="goods">
+        <el-card class="box-card">
+          <!-- 搜索渲染区 -->
+          <div class="filter-container">
+            <Search></Search>
+            <div class="letf-items" style="float: left;"></div>
+            <div class="right-items" style="float: right;padding-top: 10px;">
+              <el-button size="mini" @click="setProducts()" type="primary">刷新</el-button>
+              <el-button size="mini" @click="handleCreate()" type="primary">新增商品</el-button>
+            </div>
+          </div>
+          <!-- 内容区 -->
+          <div class="text item">
+            <el-table
+              :data="tableData"
+              v-loading="loading"
+              border
+              style="width: 100%"
+              highlight-current-row
+              ref="multipleTable"
+            >
+              <el-table-column prop="id" label="序号" width="50" align="center"></el-table-column>
+              <el-table-column prop="productName" label="商品名称"></el-table-column>
+              <el-table-column prop="productDesc" label="商品描述"></el-table-column>
+              <el-table-column prop="categoryName" label="所属类目名称"></el-table-column>
+              <el-table-column prop="createTime" label="创建时间" width="150"></el-table-column>
+              <el-table-column prop="modifyTime" label="更新时间" width="150"></el-table-column>
+              <el-table-column prop="lastModifier" label="最近一次操作人" width="150"></el-table-column>
+              <el-table-column fixed="right" label="操作" width="100">
+                <template slot-scope="scope">
+                  <el-button @click="editProduct(scope.row)" type="text" size="small">编辑</el-button>
+                  <el-button @click="deleteProduct(scope.row)" type="text" size="small">删除</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+            <div class="block">
+              <el-pagination
+                background
+                layout="prev, pager, next"
+                @current-change="handleCurrentChange"
+                :total="totalSize"
+              ></el-pagination>
+            </div>
+          </div>
+        </el-card>
+      </el-tab-pane>
+      <el-tab-pane label="类目管理" name="category">
+        <category></category>
+      </el-tab-pane>
+    </el-tabs>
+  </div>
 </template>
 
 <script>
 import serviceProduct from '@/service/product.js';
+import category from '../hf-product/category';
 import Search from './search';
 
 export default {
   components: {
     Search,
+    category,
   },
   data() {
     return {
+      activeName: 'goods',
       loading: false,
       totalSize: 0,
       currpage: 1,
@@ -72,7 +93,8 @@ export default {
     editProduct(row) {
       console.log(row);
       this.$router.push({
-        path: '/hf-product/detail?productId=' + row.id + '&stoneId=' + row.stoneId,
+        path:
+          '/hf-product/detail?productId=' + row.id + '&stoneId=' + row.stoneId,
       });
     },
     deleteProduct(row) {
@@ -84,6 +106,9 @@ export default {
     },
     handleCurrentChange(val) {
       this.currpage = val;
+    },
+    handleClick(tab, event) {
+      console.log(tab, event);
     },
   },
 };

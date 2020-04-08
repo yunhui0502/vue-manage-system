@@ -31,12 +31,7 @@
         :total="totalSize"
       ></el-pagination>
     </div>
-    <el-drawer
-      title="物品详情"
-      :direction="direction"
-      :visible.sync="drawer"
-      size="89%"
-    >
+    <el-drawer title="物品详情" :direction="direction" :visible.sync="drawer" size="89%">
       <div>
         <el-table
           :data="details"
@@ -82,8 +77,30 @@
         <div style="flex:1;margin-top: 20px;">
           <div>仓库信息</div>
           <el-table :data="storage" stripe style="width: 100%">
-            <el-table-column prop="warehouseName" label="仓库" width="180"></el-table-column>
-            <el-table-column prop="quantity" label="数量" width="180"></el-table-column>
+            <el-table-column prop="warehouseName" label="仓库" width="180">
+              <template slot-scope="scope">
+               <el-select  style="width:80%" v-model="scope.row.warehouseId" placeholder="请选择">
+              <el-option
+                v-for="item in options"
+                :key="item.id"
+                :label="item.hfName"
+                :value="item.id"
+              ></el-option>
+            </el-select>
+              </template>
+            </el-table-column>
+            <el-table-column prop="quantity" label="数量" width="180">
+              <template slot-scope="scope">
+                <el-input v-show="Display" placeholder="请输入内容" v-model="scope.row.quantity"></el-input>
+                <span v-show="!Display">{{scope.row.quantity}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column fixed="right" width="100" label="操作">
+              <template slot-scope="scope">
+                <el-button type="text" size="small" @click="Display =true">编辑</el-button>
+                <el-button @click="warehouse(scope)" type="text" size="small">提交</el-button>
+              </template>
+            </el-table-column>
           </el-table>
         </div>
         <div style="flex:1">
@@ -137,10 +154,12 @@ export default {
   },
   data() {
     return {
+      options: [], // 库存
       fileList: [],
       detailgoodsId: '',
       interconnectedID: 0,
       show: false,
+      Display: false,
       loading: false,
       totalSize: 0,
       currpage: 1,
@@ -150,13 +169,25 @@ export default {
       direction: 'btt', // 控制抽屉弹出位置
       details: [],
       storage: [], // 仓库详情
+      ware: {
+        warehouseName: '',
+        quantity: '',
+      },
     };
   },
   created() {
     this.setProducts();
+    this.depot();
   },
 
   methods: {
+    // 获取仓库
+    depot() {
+      serviceGoods.listWareHouse((res) => {
+        console.log('获取仓库', res);
+        this.options = res.data.data;
+      });
+    },
     imgUpload(file) {
       let fileName = file.name;
       let regex = /(.jpg|.jpeg|.gif|.png|.bmp)$/;
@@ -233,6 +264,13 @@ export default {
         this.drawer = false;
       });
     },
+    // 修改仓库
+    warehouse(scope) {
+      console.log(scope);
+      serviceGoods.updateGood(scope.row, (res) => {
+        this.Display = false;
+      });
+    },
     deleteProduct(row) {
       this.$confirm('确认删除吗？', '提示', {}).then(async () => {
         serviceGoods.deleteById(row.goodsId, (res) => {
@@ -244,7 +282,7 @@ export default {
     handleRemove(file, fileList) {
       console.log(file, fileList);
       // var num = parseInt(file.url.substring(1).file.url.substring(1));
-      var num = file.url.replace(/[^0-9]/ig, '');
+      var num = file.url.replace(/[^0-9]/gi, '');
       console.log('num', num);
       serviceGoods.deleteGoodsFile(num, (res) => {
         console.log('删除成功');

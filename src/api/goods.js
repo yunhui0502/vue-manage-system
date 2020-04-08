@@ -68,6 +68,12 @@ function updateGood (params) {
   fd.append('goodsDesc', params.goodsDesc);
   fd.append('sellPrice', params.sellPrice);
   fd.append('id', params.goodsId);
+  if (params.warehouseId !== '') {
+    fd.append('warehouseId', params.warehouseId);
+  }
+  if (params.quantity !== '') {
+    fd.append('quantity', params.quantity);
+  }
   // fd.append('linePrice', params.linePrice); 划线价
   return Axios.post('/api/api/product/goods/updategood', fd);
 }

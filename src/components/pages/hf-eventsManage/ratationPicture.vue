@@ -3,24 +3,6 @@
   <el-container>
     <el-container>
       <el-aside class="abc" width="46%">
-        <!-- 上传图片 -->
-        <!-- <el-upload
-          class="upload-demo"
-          action="/api/api/product/seniority/updateSeniorityInfo"
-          :on-preview="handlePreview"
-          name="fileInfo"
-          :data="transfedata.seniorityId"
-          :on-remove="handleRemove"
-          :before-remove="beforeRemove"
-          multiple
-          :limit="3"
-          :on-exceed="handleExceed"
-          :file-list="fileList"
-        >
-          <el-button size="small" type="primary">点击上传</el-button>
-          <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-        </el-upload>-->
-
         <el-button style="margin: 8px;" @click="addGoodsSpecificationList" type="primary">添加活动</el-button>
         <!-- 活动列表展示 -->
         <el-table
@@ -39,7 +21,8 @@
             </template>
           </el-table-column>
           <el-table-column label="活动类型" prop="activityType" width="">
-           <span>精选</span>
+           <span>轮播图
+           </span>
           </el-table-column>
           <!-- <el-table-column prop="startTime" label="开始时间" width="170">
             <template slot-scope="scope">
@@ -214,7 +197,7 @@ export default {
       // 添加精选
       groupform: {
         activityName: '', // 活动名称
-        activityType: 'seniorityActivity', // 活动类型
+        activityType: 'ratationActivity', // 活动类型
         // startTime: '', // 开始时间
         // endTime: '', // 结束时间
         timestamp: '2', // 当前时间
@@ -242,7 +225,6 @@ export default {
   created() {
     this.getselect();
     this.setProducts();
-    this.geteventType();
   },
   methods: {
     imgUpload(file) {
@@ -261,13 +243,6 @@ export default {
       fd.append('id', this.imageId);
       axios.post('/api/api/product/hfProductActivity/updateProdcutActivity', fd).then((res) => {
         // this.acquire();
-      });
-    },
-    // 获取商品活动类型
-    geteventType() {
-      serviceEvents.getProdcutActivityType((res) => {
-        console.log('获取商品活动类型', res.data.data);
-        this.options = res.data.data;
       });
     },
     // 添加一行商品规格
@@ -341,8 +316,8 @@ export default {
     },
     // 查询排行相关信息
     getselect() {
-      serviceEvents.seniorityfindSeniorityInfo((res) => {
-        console.log('精选商品', res.data);
+      serviceEvents.ratationActivity((res) => {
+        console.log('轮播图商品', res.data);
         this.tableData = res.data.data;
         if (res.data.data.length !== 0) {
           this.transfedata.seniorityId = res.data.data[0].id;
@@ -379,7 +354,7 @@ export default {
     beforeRemove(file, fileList) {
       return this.$confirm(`确定移除 ${file.name}？`);
     },
-    //  添加排行相关信息 timestamp  repertory
+    //  添加轮播图相关信息 timestamp  repertory
     addGcommodity(scope) {
       this.groupform.activityName = scope.row.activityName;
       // this.groupform.activityType = scope.row.activityType;
@@ -388,7 +363,7 @@ export default {
       console.log('parathis.groupformms', this.groupform);
       console.log('保存');
       serviceEvents.ceateInsert(this.groupform, (res) => {
-        console.log('精选', res);
+        console.log('轮播图', res);
         this.$message({
           showClose: true,
           message: '恭喜你，添加成功',

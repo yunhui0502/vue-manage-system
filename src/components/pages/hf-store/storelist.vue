@@ -11,7 +11,7 @@
              <template slot-scope= "scope">
               <span v-if="scope.row.hfStatus===0">未营业</span>
               <span v-if="scope.row.hfStatus===1">营业</span>
-              </template >
+             </template >
           </el-table-column>
           <el-table-column align="center" prop="address" label="店铺位置" ></el-table-column>
           <el-table-column align="center" prop="hfDesc" label="操作" width="180" >

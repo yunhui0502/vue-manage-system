@@ -82,8 +82,14 @@ function ceateInsert(params) {
   let fd = new FormData();
   fd.append('activityName', params.activityName);
   fd.append('activityType', params.activityType);
-  fd.append('startTime', params.startTime);
-  fd.append('endTime', params.endTime);
+
+  if (params.startTime !== '') {
+    fd.append('startTime', params.startTime);
+  }
+  if (params.endTime !== '') {
+    fd.append('endTime', params.endTime);
+  }
+
   fd.append('timestamp', params.timestamp);
   fd.append('token', params.token);
   fd.append('userId', params.userId);
@@ -172,7 +178,11 @@ function seniorityfind(seniorityId) {
 function findProdcutActivity() {
   return Axios.get('/api/api/product/hfProductActivity/findProdcutActivity?activityType=distributionActivity');
 }
-
+// ========================================轮播图
+// 获取轮播图活动列表
+function ratationActivity() {
+  return Axios.get('/api/api/product/hfProductActivity/findProdcutActivity?activityType=ratationActivity');
+}
 export default {
   // 秒杀
   select: select,
@@ -200,5 +210,8 @@ export default {
   updateActivityProduct: updateActivityProduct,
   deleteGoods: deleteGoods,
   updateProdcutActivity: updateProdcutActivity,
+
+  // 轮播图
+  ratationActivity: ratationActivity,
 };
 

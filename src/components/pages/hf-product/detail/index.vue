@@ -3,7 +3,7 @@
     <el-row>
       <el-col :span="24">
         <div class="grid-content bg-purple-dark">商品信息</div>
-        <el-form :rules="rules" :inline="true" :model="productInfo" class="demo-form-inline">
+        <el-form :rules="rules" ref="formName" :inline="true" :model="productInfo" class="demo-form-inline">
           <el-row class="t-10">
             <el-col :span="8">
               <el-form-item label="商品名称" prop="productName">
@@ -11,7 +11,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="所属类目">
+              <el-form-item prop="categoryId" label="所属类目">
                 <el-cascader :options="options"
                 :children="'categories'"
                 v-model="productInfo.categoryId"
@@ -24,7 +24,7 @@
                 <el-input v-model="productInfo.lastModifier" placeholder="所属商家"></el-input>
               </el-form-item>
             </el-col>
-            <el-button type="primary" @click="onProductSubmit">{{isCreate ? '添加商品' : '更新商品'}}</el-button>
+            <el-button type="primary" @click="onProductSubmit('formName')">{{isCreate ? '添加商品' : '更新商品'}}</el-button>
             <!-- <el-button label="ltr" @click="evenMore">查看更多</el-button> -->
           </el-row>
           <el-form-item prop="productDesc" label="商品描述">
@@ -172,7 +172,7 @@ export default {
           { required: true, message: '请输入商品名称', trigger: 'blur' },
           { min: 1, message: '请输入内容', trigger: 'blur' },
         ],
-        hfName: [
+        categoryId: [
           { required: true, message: '请选择类目名称', trigger: 'change' },
         ],
       },
@@ -230,30 +230,38 @@ export default {
         this.loading = false;
       });
     },
-    onProductSubmit() {
-      console.log(this.productInfo.id);
-      if (this.productInfo.id === undefined) {
-        if (this.productInfo.productName !== '') {
-          console.log('添加商品', this.productInfo);
-          // 添加商品
-          this.loading = true;
-          serviceProduct.ceateProduct(this.productInfo, (res) => {
-            this.commodityId = res.data.data.productId;
-            this.$router.push({
-              path: '/hf-product/detail?productId=' + res.data.data.productId,
+    onProductSubmit(formName) {
+      this.$refs[formName].validate((valid) => {
+        console.log(this.productInfo.id);
+        if (valid) {
+          if (this.productInfo.id === undefined) {
+            console.log('添加商品', this.productInfo);
+            // 添加商品
+            this.loading = true;
+            serviceProduct.ceateProduct(this.productInfo, (res) => {
+              console.log(res);
+              this.commodityId = res.data.data.productId;
+              this.$router.push({
+                path: '/hf-product/detail?productId=' + res.data.data.productId + '&stoneId=' + res.data.data.stoneId,
+              });
+              location.reload();
             });
-            location.reload();
-          });
+          } else {
+            console.log('更新商品', this.productInfo);
+            serviceProduct.updateProduct(this.productInfo, (res) => {
+              console.log('更新商品', res);
+            });
+          }
+        } else {
+          console.log('请输入内容');
+          return false;
         }
-      } else {
-        console.log('更新商品', this.productInfo);
-        serviceProduct.updateProduct(this.productInfo, (res) => {
-          console.log('更新商品', res);
-        });
-      }
+
+      });
     },
     // 获取当前商品
     getCurrent() {
+      console.log(this.$route.query.stoneId);
       if (!this.isCreate) {
         serviceProduct.getDetail(this.commodityId, this.$route.query.stoneId, (res) => {
           console.log('获取当前', res.data.data);
@@ -322,6 +330,7 @@ export default {
 .grid-content {
   border-radius: 4px;
   min-height: 36px;
+
 }
 
 .row-bg {

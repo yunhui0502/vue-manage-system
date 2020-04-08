@@ -51,6 +51,10 @@ async function getDetail(productId, stoneId, handleResult) {
 async function deleteSpecifies(productSpecId, handleResult) {
   product.deleteSpecifies(productSpecId).then((res) => handleResult(res));
 }
+//  更新商品规格
+async function updatespec(productId, handleResult) {
+  product.updatespec(productId).then((res) => handleResult(res));
+}
 export default {
   getProductsByBossId: getProductsByBossId,
   deleteById: deleteById,
@@ -64,4 +68,5 @@ export default {
   getDetail: getDetail,
   deleteSpecifies: deleteSpecifies,
   deleteProductPictrue: deleteProductPictrue,
+  updatespec: updatespec,
 };

@@ -12,6 +12,7 @@
           :file-list="fileList"
           :on-change="imgUpload"
           :on-remove="handleRemove"
+          on-error="error"
         >
           <el-button size="small" type="primary">点击上传</el-button>
           <!-- <div slot="tip">只能上传jpg/png文件，且不超过500kb</div> -->
@@ -89,6 +90,10 @@ export default {
       serviceProduct.deleteProductPictrue(num, this.productId, (res) => {
         console.log('删除成功');
       });
+    },
+    error(err) {
+      console.log(err);
+      this.$message.error('图片过大');
     },
   },
 };

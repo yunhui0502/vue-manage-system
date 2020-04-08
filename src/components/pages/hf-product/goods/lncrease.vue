@@ -52,37 +52,26 @@
     </div>
 
     <div style="float: right;width: 64%;">
-      <el-form :inline="true" :model="ruleForm" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+      <el-form :rules="rules" status-icon ref="formName" :inline="true" :model="specificationForm" label-width="100px" class="demo-ruleForm">
         <el-form-item  label="物品名称" prop="goodName">
-          <el-input  v-model="increase.goodName  "></el-input>
+          <el-input  v-model="increase.goodName" :disabled="true"></el-input>
         </el-form-item>
-        <el-form-item label="物品描述" prop="goodsDesc">
+        <el-form-item  label="物品描述" prop="goodsDesc">
           <el-input style="width:100%"  type="textarea" v-model="increase.goodsDesc"></el-input>
         </el-form-item>
-        <el-form-item style="width:100%" label="提货方式">
+        <!-- <el-form-item style="width:100%" label="提货方式">
           <el-radio @change="takeManner" style="margin-left: 50px;" v-model="radio" label="0">快递</el-radio>
           <el-radio @change="takeManner" v-model="radio" label="1">自取</el-radio>
-        </el-form-item>
-        <!-- <el-form-item v-if="radio == 1" label="核销员" prop="region">
-          <el-select  v-model="increase.verifier" placeholder="请输入核销员姓名">
-            <el-option
-              v-for="(item, index) in verifier"
-              :key="index"
-              :label="item.realName"
-              :value="item.id"
-              style="height: 45px;"
-            ></el-option>
-          </el-select>
         </el-form-item> -->
-        <el-form-item style="" label="价格" prop="sellPrice">
+        <el-form-item style="width:40%;" label="价格" prop="sellPrice">
           <el-input style="" v-model="specificationForm.sellPrice  "></el-input>
         </el-form-item>
         <el-form-item style="" label="划线价格" prop="linePrice">
           <el-input style="" v-model="specificationForm.linePrice  "></el-input>
         </el-form-item>
-        <el-form-item style="width:40%;margin-bottom:0;" label="仓库" prop="linePrice">
+        <el-form-item style="width:40%;margin-bottom:0;" label="仓库" prop="wareHouseId">
           <!-- <template slot-scope="scope"> -->
-            <el-select  style="width:80%" v-model="specificationForm.wareHouseId" placeholder="请输入核销员姓名">
+            <el-select  style="width:80%" v-model="specificationForm.wareHouseId" placeholder="请选择">
               <el-option
                 v-for="item in options"
                 :key="item.id"
@@ -96,7 +85,7 @@
           <el-input  v-model="specificationForm.quantity"></el-input>
         </el-form-item>
         <el-form-item style="width:100%" label prop="brandId">
-          <el-button style="margin-left: 5px;" type="primary" @click="SubmitGoods">保存</el-button>
+          <el-button style="margin-left: 5px;" type="primary" @click="SubmitGoods('formName')">保存</el-button>
           <!-- <el-button type="success" style="color: #fff;" @click="dialogTableVisible = true">添加物品规格值</el-button> -->
         </el-form-item>
       </el-form>
@@ -119,6 +108,15 @@ export default {
     },
   },
   data() {
+    var checkAge = (rule, value, callback) => {
+      const age = /^[0-9]*$/;
+      if (!age.test(value)) {
+        callback(new Error('只能为数字'));
+      } else {
+        callback();
+      }
+      // eslint-disable-next-line no-magic-numbers
+    };
     return {
       // 添加规格名称
       cols: [
@@ -200,9 +198,17 @@ export default {
       },
       // 顶部表单验证
       rules: {
-        goodName: [
-          { required: true, message: '请输入名称', trigger: 'blur' },
-          { min: 1, max: 9, message: '长度在 1 到 9 个字符', trigger: 'blur' },
+        wareHouseId: [
+          { required: true, message: '请选择仓库', trigger: 'change' },
+        ],
+        sellPrice: [
+          { validator: checkAge, trigger: 'blur' },
+        ],
+        linePrice: [
+          { validator: checkAge, trigger: 'blur' },
+        ],
+        quantity: [
+          { validator: checkAge, trigger: 'blur' },
         ],
       },
     };
@@ -244,36 +250,42 @@ export default {
         console.log('添加价格', res);
       });
     },
-    SubmitGoods() {
-      var object = {};
-      var Name = '';
-      console.log(this.specificationData);
-      for (var i = 0; i < this.specificationData.length; i++) {
-        object[this.specificationData[i].id] = this.specificationData[
-          i
-        ].specValue;
-        Name += this.specificationData[i].hfName + ':' + this.specificationData[i].specValue + ',';
-        var json = JSON.stringify(object);
-      }
-      console.log(json);
-      this.increase.specValue = json;
-      // 添加物品
-      this.increase.productId = this.commodityId;
-      this.increase.goodName = this.productName + ':' + Name;
-      console.log(this.commodityId);
-      console.log(this.increase);
-      serviceGoods.addProduct(this.increase, (res) => {
-        console.log(res);
-        console.log(res.data.data);
-        this.goosID = res.data.data;
-        this.specificationForm.hfGoodsId = res.data.data;
-        this.setPrices();
-        this.$emit('goodsId', res.data.data);
-        this.$message({
-          message: '恭喜你，添加成功',
-          type: 'success',
-        });
-        // this.$emit('func', false);
+    SubmitGoods(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          var object = {};
+          var Name = '';
+          console.log(this.specificationData);
+          for (var i = 0; i < this.specificationData.length; i++) {
+            object[this.specificationData[i].id] = this.specificationData[
+              i
+            ].specValue;
+            Name += this.specificationData[i].hfName + ':' + this.specificationData[i].specValue + ',';
+            var json = JSON.stringify(object);
+          }
+          console.log(json);
+          this.increase.specValue = json;
+          // 添加物品
+          this.increase.productId = this.commodityId;
+          this.increase.goodName = this.productName + ':' + Name;
+          console.log(this.commodityId);
+          console.log(this.increase);
+          serviceGoods.addProduct(this.increase, (res) => {
+            console.log(res);
+            console.log(res.data.data);
+            this.goosID = res.data.data;
+            this.specificationForm.hfGoodsId = res.data.data;
+            this.setPrices();
+            this.$emit('goodsId', res.data.data);
+            this.$message({
+              message: '恭喜你，添加成功',
+              type: 'success',
+            });
+          });
+        } else {
+          console.log('填写格式不对或未填写');
+          return false;
+        }
       });
     },
   },

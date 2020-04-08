@@ -93,6 +93,11 @@ async function seniorityfind(seniorityId, handleResult) {
 async function findProdcutActivity(handleResult) {
   eventsManage.findProdcutActivity().then((res) => handleResult(res));
 }
+// ========================================轮播图
+// 获取分销活动列表
+async function ratationActivity(handleResult) {
+  eventsManage.ratationActivity().then((res) => handleResult(res));
+}
 export default {
   eventsDelete: eventsDelete,
   // 秒杀
@@ -121,4 +126,7 @@ export default {
   updateActivityProduct: updateActivityProduct,
   deleteGoods: deleteGoods,
   updateProdcutActivity: updateProdcutActivity,
+
+  // 轮播图
+  ratationActivity: ratationActivity,
 };
