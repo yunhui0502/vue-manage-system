@@ -21,7 +21,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="所属商家">
-                <el-input v-model="productInfo.lastModifier" placeholder="所属商家"></el-input>
+                <el-input v-model="productInfo.stoneName" placeholder="所属商家"></el-input>
               </el-form-item>
             </el-col>
             <el-button type="primary" @click="onProductSubmit('formName')">{{isCreate ? '添加商品' : '更新商品'}}</el-button>
@@ -126,8 +126,6 @@ export default {
     return {
       detailsp: true, // 图片显示物品获商品控制
       letter: '', // 物品列表连动传递的值
-      options: [
-      ],
       props: {
         value: 'main',
         // 显示的文字字段名
@@ -146,16 +144,19 @@ export default {
       direction: 'rtl',
       classifyData: {}, // 类目数据
       productInfo: {
-        bossId: '1',
+        bossId: '1', // 店铺
+        stoneId: '1', // 商家
         region: '',
         productName: '',
-        lastModifier: '', // 商家名称
+        stoneName: '',
+        // lastModifier: '', // 商家名称
         productDesc: '',
         id: '',
         categoryId: '',
         name: '', // 展示
+        userId: '',
       },
-
+      options: [],
       // 添加物品规格值
       specGoods: {
         productSpecId: '',
@@ -181,7 +182,7 @@ export default {
   created() {
     console.log(this.$route.query);
     let query = this.$route.query;
-    this.productInfo.id = query.productId;
+    this.productInfo.id = query.productId + '';
     if (typeof query.productId === 'undefined') {
       this.isCreate = true;
     } else {
@@ -231,6 +232,8 @@ export default {
       });
     },
     onProductSubmit(formName) {
+      let userId = JSON.parse(window.sessionStorage.userInfor);
+      this.productInfo.userId = userId.id;
       this.$refs[formName].validate((valid) => {
         console.log(this.productInfo.id);
         if (valid) {
@@ -256,7 +259,6 @@ export default {
           console.log('请输入内容');
           return false;
         }
-
       });
     },
     // 获取当前商品
@@ -267,7 +269,7 @@ export default {
           console.log('获取当前', res.data.data);
           this.productInfo.productName = res.data.data.productName;
           this.productInfo.id = res.data.data.id + '';
-          this.productInfo.lastModifier = res.data.data.lastModifier;
+          this.productInfo.stoneName = res.data.data.stoneName;
           this.productInfo.categoryId = res.data.data.categoryId;
           this.productInfo.name = res.data.data.productName;
           this.productInfo.productDesc = res.data.data.productDesc;

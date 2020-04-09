@@ -1,8 +1,8 @@
 <template>
   <div style="width:95%;height: 95%;background: #ffffff;margin:0 auto;margin-top: 40px;">
-      <div style="width: 100%;height: 50px;border-bottom: 1px solid #cccccc;">
-        <span style="display: block;padding-top:10px;margin-left: 15px;font-size: 20px;">类目管理</span>
-      </div>
+    <div style="width: 100%;height: 50px;border-bottom: 1px solid #cccccc;">
+      <span style="display: block;padding-top:10px;margin-left: 15px;font-size: 20px;">类目管理</span>
+    </div>
     <div style="width: 100%;height: 100%;background:#ffffff;">
       <!-- <div
         style="float: right;width: 140px;height: 50px;border:1px solid #cccccc;text-align: center;line-height: 50px;color: #ffffff;border-radius: 5px;color:black;margin-right:100px;margin-top: 40px;"
@@ -13,38 +13,29 @@
       >+添加类目</div>
       <br />
       <el-table
-        ref="multipleTable"
         :data="tableData"
-        tooltip-effect="dark"
-        style="width: 100%"
-        @selection-change="handleSelectionChange"
+        style="width: 100%;margin-bottom: 20px;"
+        row-key="id"
+        border
+        :tree-props="{children: 'categories', hasChildren: 'hasChildren'}"
       >
-        <el-table-column type="selection" align="center"></el-table-column>
-        <el-table-column prop="hfName" label="类目名称" align="center">
-          <!-- <template slot-scope="scope">{{ scope.row.date }}</template> -->
+        <el-table-column prop="id" label="类目ID" width="180"></el-table-column>
+        <el-table-column prop="hfName" label="类目名称" width="180"></el-table-column>
+        <el-table-column prop="level" label="所属层级" align="center">
+          <template
+            slot-scope="scope"
+          >{{scope.row.level===1?'一级类目':scope.row.level===2?'二级类目':'三级类目'}}</template>
         </el-table-column>
-        <el-table-column prop="nameSuperior" label="所属父级名称" align="center">
-          <template slot-scope="scope">{{scope.row.nameSuperior}}</template>
-        </el-table-column>
-        <el-table-column prop="name" label="所属层级" align="center">
-          <template slot-scope="scope">{{scope.row.levelId===0?'一级类目':scope.row.levelId===1?'二级类目':'三级类目'}}</template>
-        </el-table-column>
-        <el-table-column
-          prop="createTime"
-          label="创建时间"
-          align="center"
-          width="200"
-          show-overflow-tooltip
-        ></el-table-column>
-        <el-table-column fixed="right" label="操作" align="center">
+        <el-table-column prop="date" label="创建时间" align="center" show-overflow-tooltip></el-table-column>
+        <el-table-column fixed="right" width="100" label="操作" align="center">
           <template slot-scope="scope">
+            <el-button @click="handleClicks(scope.row)" type="text" size="small">编辑</el-button>
             <el-button
-              @click="handleClick(scope.row)"
+              @click="deletesingle(index,scope.row)"
               type="text"
               size="small"
-              style="font-size:18px;"
-            >编辑</el-button>
-            <el-button  @click="deletesingle(index,scope.row)"  type="text" size="small" style="color: hotpink;font-size:18px;">删除</el-button>
+              style="color: hotpink;"
+            >删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -117,7 +108,7 @@
                   </div>
                   <br />
                   <div>
-                    <el-upload
+                    <!-- <el-upload
                       ref="upload"
                       class="upload-poster"
                       accept=".jpg, .jpeg, .png, .gif, .bmp, .JPG, .JPEG, .GIF, .BMP"
@@ -127,10 +118,7 @@
                       :auto-upload="false"
                     >
                       <i class="el-icon-plus"></i>
-                      <!-- <el-dialog :visible.sync="dialogVisible">
-                        <img width="100%" :src="fileInfo" alt />
-                      </el-dialog>-->
-                    </el-upload>
+                    </el-upload> -->
                   </div>
                   <span slot="footer" class="dialog-footer">
                     <div style="width: 300px;height: 80px ;margin: 0 auto;">
@@ -149,14 +137,63 @@
         </div>
       </div>
     </div>
+
+    <el-drawer title="修改类目" :visible.sync="drawer" direction="btt" :before-close="handleClose" size="80%">
+      <el-table
+        :data="details"
+        border
+        highlight-current-row
+        ref="multipleTable"
+      >
+        <el-table-column prop="goodsId" label="序号" width="50" align="center"></el-table-column>
+        <el-table-column prop="hfName" label="类目名称">
+          <template slot-scope="scope">
+            <el-input v-show="show" placeholder="请输入内容" v-model="scope.row.hfName"></el-input>
+            <span v-show="!show">{{scope.row.hfName}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="date" label="创建时间">
+          <template slot-scope="scope">
+            <span>{{scope.row.date}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column fixed="right" width="100" label="操作">
+          <template slot-scope="scope">
+            <el-button type="text" size="small" @click="show =true">编辑</el-button>
+            <el-button @click="modification(scope.row)" type="text" size="small">提交</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <!-- ---------------------------------------图片--------------------------------------------- -->
+      <el-upload
+        list-type="picture-card"
+        ref="upload"
+        action
+        multiple
+        :auto-upload="false"
+        :limit="20"
+        :file-list="fileList"
+        :on-change="imgUpload"
+        on-error="error"
+      >
+        <el-button size="small" type="primary">点击上传</el-button>
+        <!-- <div slot="tip">只能上传jpg/png文件，且不超过500kb</div> -->
+      </el-upload>
+    </el-drawer>
   </div>
 </template>
 
 <script>
-import api from '@/api/category_api.js';
+import api from '@/service/category.js';
+// import servicegoods from '@/service/goods.js';
+import axios from 'axios';
 export default {
-  data () {
+  data() {
     return {
+      details: [], // 类目
+      fileList: [], // 图片
+      show: false,
+      drawer: false,
       // 判断一级目录选择的东西控制2 3 目录显示隐藏
       controlCatalogue: '0',
       // 添加一级目录 绑定的参数
@@ -218,49 +255,74 @@ export default {
       tableData: [],
     };
   },
-  created () {
+  created() {
     this.categorys();
     this.huoqsuoy();
   },
-  //   mounted () {},
   methods: {
-    // 删除单个商品
-    deletesingle: function (index, row) {
-      // console.log(row)
-      this.$confirm('确认删除吗？', '提示', {}).then(async () => {
-        api
-          .deleteCategory(row.id)
-          .then((res) => {
-            this.huoqsuoy();
-            this.tableData.splice(index, 1);
-            // this.quGoods()
-          });
-      });
+    handleClose(done) {
+      // this.$confirm('确认关闭？')
+      //   .then((_) => {
+      done();
+      // });
     },
-    // 添加图里的
-    // onRemove (file) {},
-    // 添加图里的
-    imgPreview (file) {
+    // ----------------------------------------------图片-----------------------------------------
+    // 获取图片
+    acquire() {
+      // servicegoods.getFileFileId(, (res) => {
+      //   this.fileList.push({ name: file.hfName, url: res.config.url });
+      // });
+    },
+
+    imgUpload(file) {
       let fileName = file.name;
       let regex = /(.jpg|.jpeg|.gif|.png|.bmp)$/;
       if (regex.test(fileName.toLowerCase())) {
-        this.fileInfo.push(URL.createObjectURL(file.raw));
-        // console.log(file.raw)
-        // console.log(this.ruleForm.fileInfo)
-        // this.uploadFile(file)
+        this.picUrl = URL.createObjectURL(file.raw);
+        this.uploadFile(file);
       } else {
         this.$message.error('请选择图片文件');
       }
     },
-    onSubmit () {
+    uploadFile(file) {
+      let fd = new FormData();
+      fd.append('userId', 1);
+      fd.append('fileInfo', file.raw);
+      fd.append('productId', this.productId);
+      axios.post('/api/api/product/product/addProductPictrue', fd).then((res) => {
+        this.acquire();
+      });
+    },
+    // // 文件列表移除文件时的钩子
+    // handleRemove(file, fileList) {
+    //   console.log(file, fileList);
+    //   var num = file.url.replace(/[^0-9]/ig, '');
+    //   console.log('num', num);
+    //   serviceProduct.deleteProductPictrue(num, this.productId, (res) => {
+    //     console.log('删除成功');
+    //   });
+    // },
+    // --------------------------------------------------上---------------------------------------
+    // 删除单个商品
+    deletesingle: function(index, row) {
+      // console.log(row)
+      this.$confirm('确认删除吗？', '提示', {}).then(async () => {
+        api.deleteCategory(row.id).then((res) => {
+          this.huoqsuoy();
+          this.tableData.splice(index, 1);
+          // this.quGoods()
+        });
+      });
+    },
+    onSubmit() {
       console.log('submit!');
     },
     // 一级 下拉触发事件
-    categshijan (e) {
+    categshijan(e) {
       this.controlCatalogue = e;
     },
     // 二级 下拉触发事件
-    twocategshijan (e) {
+    twocategshijan(e) {
       this.form1.parentCategoryId = e;
       this.$http
         .get('/api/api/product/product/category?parentCategoryId=' + e)
@@ -270,7 +332,7 @@ export default {
         });
     },
     // 三级 下拉触发事件
-    threecategshijan (e) {
+    threecategshijan(e) {
       console.log(e);
       this.form2.parentCategoryId = e;
       this.$http
@@ -281,12 +343,12 @@ export default {
         });
     },
     // 重置
-    reset () {
+    reset() {
       this.value1 = '';
       this.input = '';
     },
     // 添加类目
-    change () {
+    change() {
       if (this.controlCatalogue === '0') {
         this.time();
         this.form.requestId = Date.now();
@@ -335,30 +397,53 @@ export default {
       }
     },
     // 获取一级类目
-    categorys () {
-      this.$http
-        .get('/api/api/product/product/category')
-        .then((res) => {
-          this.onecatalogues = res.data.data;
-          // console.log('类目', this.onecatalogues)
-        });
+    categorys() {
+      this.$http.get('/api/api/product/product/category').then((res) => {
+        this.onecatalogues = res.data.data;
+        // console.log('类目', this.onecatalogues)
+      });
     },
     // 获取所有类目
-    huoqsuoy () {
-      this.$http
-        .get('/api/api/product/product/findAllCategory')
-        .then((res) => {
-          this.tableData = res.data.data;
-          // console.log('类目', this.onecatalogues)
-        });
-      // ['catch'](function (error) {
-      //   alert(error);
-      // });
+    huoqsuoy() {
+      api.getCatagery((res) => {
+        console.log('类目', res);
+        this.tableData = res.data.data;
+      });
+
+      // this.$http
+      //   .get('/api/api/product/product/findAllCategory')
+      //   .then((res) => {
+      //     this.tableData = res.data.data;
+      //     // console.log('类目', this.onecatalogues)
+      //   });
+      // // ['catch'](function (error) {
+      // //   alert(error);
+      // // });
     },
-    handleClick (row) {
+    handleClick(row) {
       console.log(row);
     },
-    toggleSelection (rows) {
+
+    handleClicks(row) {
+      console.log(row);
+      this.details = [];
+      this.drawer = true;
+      this.details.push(row);
+    },
+
+    modification(row) {
+      console.log(row);
+      let userId = JSON.parse(window.sessionStorage.userInfor);
+      api.updateCategory(row, userId.id, (res) => {
+        console.log('类目', res);
+        // this.tableData = res.data.data;
+        this.$message({
+          message: '提交成功',
+          type: 'success',
+        });
+      });
+    },
+    toggleSelection(rows) {
       if (rows) {
         rows.forEach((row) => {
           this.$refs.multipleTable.toggleRowSelection(row);
@@ -367,10 +452,10 @@ export default {
         this.$refs.multipleTable.clearSelection();
       }
     },
-    handleSelectionChange (val) {
+    handleSelectionChange(val) {
       this.multipleSelection = val;
     },
-    time () {
+    time() {
       var myDate = new Date();
 
       // 获取当前年

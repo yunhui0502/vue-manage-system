@@ -15,7 +15,7 @@
           router
         >
           <el-menu-item index="/">
-            <i class="iconfont icon-home"></i>
+            <i class="iconfont icon-shouye"></i>
             <span slot="title">首页</span>
           </el-menu-item>
           <el-menu-item index="/hf-product">
@@ -23,35 +23,35 @@
             <span slot="title">商品管理</span>
           </el-menu-item>
           <el-menu-item index="/hf-eventsManage">
-            <i class="iconfont icon-huodong"></i>
+            <i class="iconfont icon-liwu"></i>
             <span slot="title">活动管理</span>
           </el-menu-item>
           <el-menu-item index="/hf-quan">
-            <i class="iconfont icon-huodong"></i>
+            <i class="iconfont icon-wodeyouhuijuan"></i>
             <span slot="title">优惠券</span>
           </el-menu-item>
           <el-menu-item index="/hf-orderCenter">
-            <i class="iconfont el-icon-s-order"></i>
+            <i class="iconfont icon-dingdan"></i>
             <span slot="title">订单中心</span>
           </el-menu-item>
           <el-menu-item index="/hf-store">
-            <i class="iconfont el-icon-folder-opened"></i>
+            <i class="iconfont icon-dianpu"></i>
             <span slot="title">店铺管理</span>
           </el-menu-item>
           <el-menu-item index="/hf-userCenter">
-            <i class="iconfont el-icon-user-solid"></i>
+            <i class="iconfont icon-icon-safe-bluefuben"></i>
             <span slot="title">用户中心</span>
           </el-menu-item>
           <el-menu-item index="/hf-vip">
-            <i class="iconfont el-icon-user-solid"></i>
+            <i class="iconfont icon-huiyuanguanli2"></i>
             <span slot="title">会员管理</span>
           </el-menu-item>
           <el-menu-item index="/hf-file">
-            <i class="iconfont el-icon-sunny"></i>
+            <i class="iconfont icon-PhotoOutline"></i>
             <span slot="title">图片管理</span>
           </el-menu-item>
           <el-menu-item index="/set">
-            <i class="iconfont icon-set"></i>
+            <i class="iconfont icon-weibiaoti2fuzhi16"></i>
             <span slot="title">设置</span>
           </el-menu-item>
         </el-menu>

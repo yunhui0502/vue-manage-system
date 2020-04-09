@@ -17,10 +17,12 @@ function deleteProductPictrue(fileId, productId) {
 function ceateProduct(params) {
   let fd = new FormData();
   fd.append('bossId ', params.bossId);
+  fd.append('stoneId ', params.stoneId);
   fd.append('categoryId', params.categoryId);
   fd.append('hfName ', params.productName);
   fd.append('productDesc ', params.productDesc);
-  fd.append('lastModifier ', params.lastModifier);
+  // fd.append('lastModifier ', params.lastModifier);
+  fd.append('userId ', params.userId);
 
   // fd.append('requestId', params.requestId);
   // fd.append('lastModifier', params.lastModifier);

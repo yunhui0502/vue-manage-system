@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-form>
-      <el-form-item>
+      <el-form-item >
         <el-upload
           list-type="picture-card"
           ref="upload"
@@ -52,7 +52,7 @@ export default {
     },
     // 获取图片
     acquire() {
-      console.log(this.productId);
+      // console.log(this.productId);
       serviceProduct.selectProductPictures(this.productId, (res) => {
         this.fileList = [];
         for (let i = 0; i < res.data.data.length; i++) {
