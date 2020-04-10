@@ -23,6 +23,8 @@
       <div slot="header" class="clearfix">
         <span>订单扩展信息</span>
       </div>
+      <div v-for='(item,index) in detailRequestList' :key="index">
+        <div>店铺名称{{item.stoneName}}</div>
       <span style="margin-left: 20px;">商品名称:{{detail.goodName}}</span>
       <span style="margin-left: 20px;">物品名称:{{goodsName}}</span>
       <span style="margin-left: 20px;">购买数量:{{detail.purchaseQuantity}}</span>
@@ -56,6 +58,7 @@
           width="180"
         ></el-table-column>
       </el-table>
+      </div>
     <div style="display:fkex;align-items:center;margin-top:20px;" v-if="takingType==='delivery'&&detail.orderStatus==='process'&&detail.orderType==='nomalOrder'">
        <span>物流单号：</span>
        <el-input v-model="order.logisticsOrdersId" placeholder="请输入物流单号" style="width:200px;"></el-input>
@@ -108,6 +111,7 @@ import constants from '@/store/constants.js';
 export default {
   data() {
     return {
+      detailRequestList: [],
       wuliuinfor: {},
       order: {
         id: '',
@@ -210,6 +214,7 @@ export default {
     getdetail: function() {
       orderCenterService.getOrderDetail(this.id, (res) => {
         this.detail = res.data.data;
+        console.log(res);
         this.detail.orderDesc = JSON.parse(this.detail.orderDesc);
         this.hfGoodsSpecs = this.detail.orderDesc.hfGoodsSpecs;
         this.goodsName = this.detail.orderDesc.goodsName;
@@ -222,6 +227,7 @@ export default {
           console.log(res);
           this.takingType = res.data.data[0].takingType;
           this.order.googsId = res.data.data[0].goodsId;
+          this.detailRequestList = res.data.data[0].detailRequestList;
         });
         // if (this.takingType === 'delivery' && this.detail.orderStatus === 'transport' && this.detail.orderType === 'nomalOrder') {
         orderCenterService.getWuLiu(this.id, (res) => {
