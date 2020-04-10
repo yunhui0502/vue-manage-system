@@ -12,7 +12,6 @@
           :file-list="fileList"
           :on-change="imgUpload"
           :on-remove="handleRemove"
-          on-error="error"
         >
           <el-button size="small" type="primary">点击上传</el-button>
           <!-- <div slot="tip">只能上传jpg/png文件，且不超过500kb</div> -->
@@ -53,15 +52,18 @@ export default {
     // 获取图片
     acquire() {
       // console.log(this.productId);
-      serviceProduct.selectProductPictures(this.productId, (res) => {
-        this.fileList = [];
-        for (let i = 0; i < res.data.data.length; i++) {
-          let file = res.data.data[i];
-          servicegoods.getFileFileId(file.fileId, (res) => {
-            this.fileList.push({ name: file.hfName, url: res.config.url });
-          });
-        }
-      });
+      if (this.productId !== 'undefined') {
+        serviceProduct.selectProductPictures(this.productId, (res) => {
+          this.fileList = [];
+          for (let i = 0; i < res.data.data.length; i++) {
+            let file = res.data.data[i];
+            servicegoods.getFileFileId(file.fileId, (res) => {
+              this.fileList.push({ name: file.hfName, url: res.config.url });
+            });
+          }
+        });
+      }
+
     },
     imgUpload(file) {
       let fileName = file.name;
@@ -91,10 +93,10 @@ export default {
         console.log('删除成功');
       });
     },
-    error(err) {
-      console.log(err);
-      this.$message.error('图片过大');
-    },
+    // error(err) {
+    //   console.log(err);
+    //   this.$message.error('图片过大');
+    // },
   },
 };
 </script>

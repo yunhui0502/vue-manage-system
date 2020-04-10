@@ -15,6 +15,7 @@
           router
         >
           <el-menu-item index="/">
+          <!-- <img src="../img/icon_home5@2x.png" alt=""> -->
             <i class="iconfont icon-shouye"></i>
             <span slot="title">首页</span>
           </el-menu-item>

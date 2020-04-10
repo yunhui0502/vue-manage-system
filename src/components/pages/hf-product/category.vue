@@ -185,7 +185,7 @@
 
 <script>
 import api from '@/service/category.js';
-// import servicegoods from '@/service/goods.js';
+import servicegoods from '@/service/goods.js';
 import axios from 'axios';
 export default {
   data() {
@@ -261,18 +261,13 @@ export default {
   },
   methods: {
     handleClose(done) {
+      this.fileList = [];
       // this.$confirm('确认关闭？')
       //   .then((_) => {
       done();
       // });
     },
     // ----------------------------------------------图片-----------------------------------------
-    // 获取图片
-    acquire() {
-      // servicegoods.getFileFileId(, (res) => {
-      //   this.fileList.push({ name: file.hfName, url: res.config.url });
-      // });
-    },
 
     imgUpload(file) {
       let fileName = file.name;
@@ -286,11 +281,10 @@ export default {
     },
     uploadFile(file) {
       let fd = new FormData();
-      fd.append('userId', 1);
       fd.append('fileInfo', file.raw);
-      fd.append('productId', this.productId);
-      axios.post('/api/api/product/product/addProductPictrue', fd).then((res) => {
-        this.acquire();
+      fd.append('catrgoryId', this.details[0].id);
+      axios.post('/api/api/product/product/updateCategory', fd).then((res) => {
+        // this.acquire();
       });
     },
     // // 文件列表移除文件时的钩子
@@ -429,6 +423,11 @@ export default {
       this.details = [];
       this.drawer = true;
       this.details.push(row);
+      if (row.fileId !== null) {
+        servicegoods.getFileFileId(row.fileId, (res) => {
+          this.fileList.push({ url: res.config.url });
+        });
+      }
     },
 
     modification(row) {

@@ -80,7 +80,7 @@
     </el-row>
     <!-- 抽屉组件 -->
     <el-drawer
-      :title="title"
+      title="添加物品"
       :visible.sync="drawer"
       :direction="direction"
       :before-close="handleClose"
@@ -88,11 +88,11 @@
     >
       <div>
         <GoodsLncrease
+         v-if="isRouterAlive"
           @goodsId="goodsIdGetMsg"
           @func="getMsgFormSon"
           :commodityId="commodityId"
           :productName="productInfo.productName"
-          v-if="title!=='添加商品'"
         ></GoodsLncrease>
       </div>
     </el-drawer>
@@ -137,7 +137,6 @@ export default {
       Cabinet: '商品',
       commodityId: '',
       goosID: 0,
-      title: '',
       loading: false,
       drawer: false,
       isCreate: false,
@@ -237,7 +236,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         console.log(this.productInfo.id);
         if (valid) {
-          if (this.productInfo.id === undefined) {
+          if (this.productInfo.id === 'undefined') {
             console.log('添加商品', this.productInfo);
             // 添加商品
             this.loading = true;
@@ -277,16 +276,16 @@ export default {
       }
     },
     appendGoods() {
+      this.refresh();
       // 抽屉控制 添加物品
       this.drawer = true;
       this.direction = 'btt';
-      this.title = '添加物品';
     },
-    evenMore() {
-      this.drawer = true;
-      this.direction = 'rtl';
-      this.title = '添加商品';
-    },
+    // evenMore() {
+    //   this.drawer = true;
+    //   this.direction = 'rtl';
+    //   this.title = '添加商品';
+    // },
     // 下拉 事件 核销员
     pullverifier(e) {
       // console.log(e)

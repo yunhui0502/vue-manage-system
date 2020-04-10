@@ -73,11 +73,11 @@
             <el-input placeholder="请输入内容" v-model="scope.row.specValue"></el-input>
           </template>
         </el-table-column>
-        <el-table-column v-for="(item,i) in cols" :key="i" :prop="item.prop" :label="item.label">
+        <!-- <el-table-column v-for="(item,i) in cols" :key="i" :prop="item.prop" :label="item.label">
             <template slot-scope="scope">
               <input value @input="inputEvent($event)" @blur="Article(scope)" ref="abc" />
             </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column label="规格单位" width="90">
           <template slot-scope="scope">
             <el-select v-model="scope.row.specUnit" placeholder="请选择">
@@ -260,10 +260,12 @@ export default {
       console.log('方法2:直接调用调用成功');
     },
     getspecification() {
-      serviceProduct.specifies(this.commodityId, (res) => {
-        console.log(res);
-        this.specificationData = res.data.data;
-      });
+      if (this.commodityId !== '') {
+        serviceProduct.specifies(this.commodityId, (res) => {
+          console.log(res);
+          this.specificationData = res.data.data;
+        });
+      }
     },
     // 物品规格
     goodsSpecification() {
@@ -276,7 +278,7 @@ export default {
           console.log('物品规格', res);
           this.tabledata = res.data.data;
         });
-      } else {
+      } else if (this.commodityId !== '') {
         serviceProduct.specifies(this.commodityId, (res) => {
           console.log('商品规格');
           console.log('商品规格', res);
