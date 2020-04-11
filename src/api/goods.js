@@ -38,10 +38,13 @@ function deleteGoodsFile(fileId) {
 function addProduct(params) {
   let fd = new FormData();
   fd.append('productId', params.productId);
-  fd.append('cancelId', params.cancelId);
-  fd.append('claim', params.claim);
+  // fd.append('cancelId', params.cancelId);
+  // fd.append('claim', params.claim);
   // fd.append('frames', params.frames);
   fd.append('goodName', params.goodName);
+  if (params.bossId !== '') {
+    fd.append('bossId', params.bossId);
+  }
   fd.append('goodsDesc', params.goodsDesc);
   fd.append('requestId', params.requestId);
   fd.append('token', params.token);

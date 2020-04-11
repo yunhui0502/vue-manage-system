@@ -64,6 +64,7 @@
             </template>
       </el-table-column>
     </el-table>
+    <el-button @click="drawer = true" type="primary">添加物品</el-button>
 </el-card>
 </div>
 
@@ -86,9 +87,22 @@
   </span>
 </el-dialog>
 
+ <el-drawer
+      title="添加物品"
+      :visible.sync="drawer"
+      direction="btt"
+      :before-close="handleClose"
+      size="60%"
+    >
+      <div>
+        <GoodsLncrease :productName="productName" :commodityId="productid" :bossId="bossId" ></GoodsLncrease>
+      </div>
+    </el-drawer>
+
   </div>
 </template>
 <script>
+import GoodsLncrease from '../hf-product/goods/lncrease';
 // eslint-disable-next-line no-unused-vars
 import storeService from '@/service/store.js';
 // eslint-disable-next-line no-unused-vars
@@ -96,8 +110,10 @@ import constants from '@/store/constants.js';
 import serviceProduct from '@/service/product.js';
 export default {
   name: 'store',
+  components: {GoodsLncrease},
   data() {
     return {
+      drawer: false,
       updata: {
         productId: '',
         stoneId: '',
@@ -120,6 +136,8 @@ export default {
       selectDdata: [],
       listwu: [],
       productid: '',
+      bossId: '',
+      productName: '',
     };
   },
   methods: {
@@ -153,7 +171,8 @@ export default {
     },
     getproductgood: function(aaa) {
       console.log(aaa);
-      this.productid = aaa.id;
+      this.productid = aaa.id + '';
+      this.productName = aaa.productName;
       storeService.getproductgood(aaa.id, (res) => {
         console.log(res);
         this.listwu = res.data.data;
@@ -209,7 +228,8 @@ export default {
         console.log(res);
         this.list = res.data.data.list;
         this.updata.productId = this.list[0].id;
-        this.productid = this.list[0].id;
+        this.productid = this.list[0].id + '';
+        this.productName = this.list[0].productName;
         storeService.getproductgood(this.list[0].id, (res) => {
           console.log(res);
           this.listwu = res.data.data;
@@ -221,8 +241,17 @@ export default {
       storeService.getStoreid(this.id, (res) => {
         console.log(res);
         this.storeinfor = res.data.data;
+        this.bossId = res.data.data.bossId + '';
         // this.list = res.data.data.list;
       });
+    },
+    handleClose(done) {
+      storeService.getproductgood(this.productid, (res) => {
+        // console.log(res);
+        this.listwu = res.data.data;
+      });
+      done();
+
     },
   },
   mounted() {

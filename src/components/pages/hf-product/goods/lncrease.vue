@@ -26,11 +26,11 @@
             <el-input placeholder="请输入内容" v-model="scope.row.specValue"></el-input>
           </template>
         </el-table-column>
-        <el-table-column v-for="(item,i) in cols" :key="i" :prop="item.prop" :label="item.label">
+        <!-- <el-table-column v-for="(item,i) in cols" :key="i" :prop="item.prop" :label="item.label">
           <template slot-scope="scope">
             <input value @input="inputEvent($event)" @blur="Article(scope)" ref="abc" />
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column label="规格单位" width="90">
           <template slot-scope="scope">
             <el-select v-model="scope.row.specUnit" placeholder="请选择">
@@ -106,6 +106,10 @@ export default {
       type: String,
       default: '商品名字',
     },
+    bossId: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     var checkAge = (rule, value, callback) => {
@@ -180,13 +184,14 @@ export default {
       specificationData: [],
       // 添加物品
       increase: {
+        bossId: '', // 店铺id
         specValue: '',
         sellPrice: '', // 价格
         quantity: '', // 库存量
         productId: '1', // 商品id*
         categoryId: '', // 商品所属的类目id*
-        cancelId: '', // 核销Id *
-        claim: '', // 是否自提 *
+        // cancelId: '', // 核销Id *
+        // claim: '', // 是否自提 *
         // member: '', // 是否为会员商品 *
         frames: '0', // 上下架*
         goodName: '', // 物品名称*
@@ -268,6 +273,7 @@ export default {
           // 添加物品
           this.increase.productId = this.commodityId;
           this.increase.goodName = this.productName + ':' + Name;
+          this.increase.bossId = this.bossId;
           console.log(this.commodityId);
           console.log(this.increase);
           serviceGoods.addProduct(this.increase, (res) => {
