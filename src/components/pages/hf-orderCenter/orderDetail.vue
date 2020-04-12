@@ -23,60 +23,69 @@
       <div slot="header" class="clearfix">
         <span>订单扩展信息</span>
       </div>
-      <div v-for='(item,index) in detailRequestList' :key="index">
-        <div>店铺名称{{item.stoneName}}</div>
-      <span style="margin-left: 20px;">商品名称:{{detail.goodName}}</span>
-      <span style="margin-left: 20px;">物品名称:{{goodsName}}</span>
-      <span style="margin-left: 20px;">购买数量:{{detail.purchaseQuantity}}</span>
-      <el-table :data="hfGoodsSpecs" stripe style="width: 100%">
-        <el-table-column
-          align="center"
-          prop="hfName"
-          label="规格名"
-          :show-overflow-tooltip="true"
-          width="180"
-        ></el-table-column>
-        <el-table-column
-          align="center"
-          prop="hfValue"
-          label="规格值"
-          :show-overflow-tooltip="true"
-          width="180"
-        ></el-table-column>
-        <el-table-column
-          align="center"
-          prop="specType"
-          label="规格值类型"
-          :show-overflow-tooltip="true"
-          width="180"
-        ></el-table-column>
-        <el-table-column
-          align="center"
-          prop="specUnit"
-          label="规格单位"
-          :show-overflow-tooltip="true"
-          width="180"
-        ></el-table-column>
-      </el-table>
-      </div>
-    <div style="display:fkex;align-items:center;margin-top:20px;" v-if="takingType==='delivery'&&detail.orderStatus==='process'&&detail.orderType==='nomalOrder'">
-       <span>物流单号：</span>
-       <el-input v-model="order.logisticsOrdersId" placeholder="请输入物流单号" style="width:200px;"></el-input>
-        <!-- <span style="margin-left:20px;">物流公司名：</span>
-       <el-input v-model="order.logisticsCompany" placeholder="请输入物流单号" style="width:200px;"></el-input> -->
-    </div>
-    <div style="line-height:30px; display:fkex;align-items:center;margin-top:20px;font-size:12px;" v-if="takingType==='delivery'&&detail.orderStatus==='transport'&&detail.orderType==='nomalOrder'">
-     <span style="margin-bottom:10px;">物流单号：{{wuliuinfor.logisticCode}}</span>
-      <span style="margin-left:20px;margin-bottom:10px;">物流公司名：{{wuliuinfor.company}}</span>
-      <!-- <span style="margin-left:20px;">物流信息</span> -->
-      <div>物流信息:</div>
-      <div  v-for="(item,index) in wuliuinfor.traces" :key='index'>
-        <div>
-          <span>{{item.AcceptStation}}</span>
-          <span >{{item.AcceptTime}}</span>
+
+      <div v-for="(item,index) in detailRequestList" :key="index">
+        <div>店铺名称:{{item.stoneName}}</div>
+        <div v-for="(item1,index1) in item.hfOrderDetailList" :key="index1">
+          <span style="margin-left: 20px;">商品名称: {{item1.hfDesc.goodsName}}</span>
+          <!-- <span style="margin-left: 20px;">物品名称:{{item1.hfDesc.goodName}}</span> -->
+          <span style="margin-left: 40px;">购买数量: {{item1.quantity}}</span>
+          <el-table :data="item1.hfDesc.hfGoodsSpecs" stripe style="width: 100%">
+            <el-table-column
+              align="center"
+              prop="hfName"
+              label="规格名"
+              :show-overflow-tooltip="true"
+              width="180"
+            ></el-table-column>
+            <el-table-column
+              align="center"
+              prop="hfValue"
+              label="规格值"
+              :show-overflow-tooltip="true"
+              width="180"
+            ></el-table-column>
+            <el-table-column
+              align="center"
+              prop="specType"
+              label="规格值类型"
+              :show-overflow-tooltip="true"
+              width="180"
+            ></el-table-column>
+            <el-table-column
+              align="center"
+              prop="specUnit"
+              label="规格单位"
+              :show-overflow-tooltip="true"
+              width="180"
+            ></el-table-column>
+          </el-table>
         </div>
       </div>
-    </div>
+      <div
+        style="display:fkex;align-items:center;margin-top:20px;"
+        v-if="takingType==='delivery'&&detail.orderStatus==='process'&&detail.orderType==='nomalOrder'"
+      >
+        <span>物流单号：</span>
+        <el-input v-model="order.logisticsOrdersId" placeholder="请输入物流单号" style="width:200px;"></el-input>
+        <!-- <span style="margin-left:20px;">物流公司名：</span>
+        <el-input v-model="order.logisticsCompany" placeholder="请输入物流单号" style="width:200px;"></el-input>-->
+      </div>
+      <div
+        style="line-height:30px; display:fkex;align-items:center;margin-top:20px;font-size:12px;"
+        v-if="takingType==='delivery'&&detail.orderStatus==='transport'&&detail.orderType==='nomalOrder'"
+      >
+        <span style="margin-bottom:10px;">物流单号：{{wuliuinfor.logisticCode}}</span>
+        <span style="margin-left:20px;margin-bottom:10px;">物流公司名：{{wuliuinfor.company}}</span>
+        <!-- <span style="margin-left:20px;">物流信息</span> -->
+        <div>物流信息:</div>
+        <div v-for="(item,index) in wuliuinfor.traces" :key="index">
+          <div>
+            <span>{{item.AcceptStation}}</span>
+            <span>{{item.AcceptTime}}</span>
+          </div>
+        </div>
+      </div>
     </el-card>
     <div style="margin-top: 200px; display: flex;justify-content: space-around;padding:0 10%;">
       <div
@@ -145,17 +154,19 @@ export default {
         originOrderStatus: 'process',
       },
       id: '',
-      detail: {
-      },
+      detail: {},
     };
   },
   methods: {
     que: function() {
       this.order.id = this.$route.query.id;
-      if (this.takingType === 'delivery' && this.detail.orderStatus === 'process' && this.detail.orderType === 'nomalOrder') {
+      if (
+        this.takingType === 'delivery' &&
+        this.detail.orderStatus === 'process' &&
+        this.detail.orderType === 'nomalOrder'
+      ) {
         if (this.order.logisticsOrdersId === '') {
           this.$message.error('请填写物流单号');
-
         } else {
           orderCenterService.writeWuLiu(this.order, (res) => {
             if (res.data.status === constants.SUCCESS_CODE) {
@@ -165,7 +176,7 @@ export default {
               // });
               console.log(this.updata2);
               orderCenterService.upDataOrderStatus(this.updata2, (res) => {
-              // console.log(this.updata1, res);
+                // console.log(this.updata1, res);
                 if (res.data.status === constants.SUCCESS_CODE) {
                   this.$message({
                     message: '已确认',
@@ -228,6 +239,12 @@ export default {
           this.takingType = res.data.data[0].takingType;
           this.order.googsId = res.data.data[0].goodsId;
           this.detailRequestList = res.data.data[0].detailRequestList;
+          for (var i = 0;i < this.detailRequestList.length;i++) {
+            for (var j = 0;j < this.detailRequestList[i].hfOrderDetailList.length;j++) {
+              this.detailRequestList[i].hfOrderDetailList[j].hfDesc = JSON.parse(this.detailRequestList[i].hfOrderDetailList[j].hfDesc) ;
+            }
+          }
+          console.log('1', this.detailRequestList);
         });
         // if (this.takingType === 'delivery' && this.detail.orderStatus === 'transport' && this.detail.orderType === 'nomalOrder') {
         orderCenterService.getWuLiu(this.id, (res) => {
@@ -242,7 +259,6 @@ export default {
           // this.order.googsId = res.data.data[0].goodsId;
         });
         // }
-
       });
     },
     pay: function() {
