@@ -64,7 +64,10 @@ function getCatagery() {
 function selectProductPictures(productId) {
   return Axios.get('/api/api/product/product/selectProductPictures?productId=' + productId);
 }
-
+// 根据商品ID获取商品介绍图片列表和文件ID
+function selectProductIntroducePictrue(productId) {
+  return Axios.get('/api/api/product/product/selectProductIntroducePictrue?productId=' + productId);
+}
 // 商品规格
 function specifies(productId) {
   return Axios.get('/api/api/product/product/specifies?productId=' + productId);
@@ -106,4 +109,5 @@ export default {
   deleteSpecifies: deleteSpecifies,
   deleteProductPictrue: deleteProductPictrue,
   updatespec: updatespec,
+  selectProductIntroducePictrue: selectProductIntroducePictrue,
 };

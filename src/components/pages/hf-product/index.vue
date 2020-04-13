@@ -86,27 +86,15 @@ export default {
     },
 
     handleCreate(e) {
-      console.log(this.$route.query);
-      if (JSON.stringify(this.$route.query) === '{}') {
-        console.log('空');
-        this.$router.push({
-          path: '/hf-product/detail',
-        });
-      } else {
-        console.log('带参添加', this.$route.query.stoneId);
-        this.$router.push({
-          path: '/hf-product/detail',
-          query: {
-            stoneId: this.$route.query.stoneId,
-          },
-        });
-      }
+      this.$router.push({
+        path: '/hf-product/detail',
+      });
     },
     editProduct(row) {
       console.log(row);
       this.$router.push({
         path:
-          '/hf-product/detail?productId=' + row.id + '&stoneId=' + row.stoneId,
+          '/hf-product/detail?productId=' + row.id + '&stoneId=' + row.stoneId + '&stoneName=' + row.stoneName,
       });
     },
     deleteProduct(row) {

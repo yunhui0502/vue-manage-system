@@ -216,9 +216,10 @@ export default {
     Added(e) {
       let stoneId = this.stoneId;
       this.$router.push({
-        path: '/hf-product',
+        path: '/hf-product/detail',
         query: {
           stoneId: stoneId,
+          stoneName: this.storeinfor.hfName,
         },
       });
     },

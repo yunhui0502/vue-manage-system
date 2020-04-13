@@ -23,6 +23,9 @@ async function selectProductPictures(productId, handleResult) {
   product.selectProductPictures(productId).then((res) => handleResult(res));
 }
 
+async function selectProductIntroducePictrue(productId, handleResult) {
+  product.selectProductIntroducePictrue(productId).then((res) => handleResult(res));
+}
 async function deleteProductPictrue(fileId, productId, handleResult) {
   product.deleteProductPictrue(fileId, productId).then((res) => handleResult(res));
 }
@@ -69,4 +72,5 @@ export default {
   deleteSpecifies: deleteSpecifies,
   deleteProductPictrue: deleteProductPictrue,
   updatespec: updatespec,
+  selectProductIntroducePictrue: selectProductIntroducePictrue,
 };

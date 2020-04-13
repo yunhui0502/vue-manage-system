@@ -29,7 +29,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="所属店铺">
-                <el-input v-model="productInfo.stoneName" placeholder="所属店铺"></el-input>
+                <el-input disabled v-model="productInfo.stoneName" placeholder="所属店铺"></el-input>
               </el-form-item>
             </el-col>
             <el-button
@@ -108,25 +108,38 @@
       </div>
     </el-drawer>
 
-    <el-drawer
-      title="我是标题"
-      :visible.sync="introduce"
-      direction="rtl"
-      :before-close="handleClose"
-    >
-      <span>我来啦!</span>
+    <el-drawer title="我是标题" :visible.sync="introduce" direction="rtl" :before-close="handleClose">
+      <div>
+        <div>添加详情介绍图</div>
+        <div>
+          <el-upload
+            list-type="picture-card"
+            ref="upload"
+            action
+            multiple
+            :auto-upload="false"
+            :limit="20"
+            :file-list="fileList"
+            :on-change="imgUpload"
+            :on-remove="handleRemove"
+          >
+            <el-button size="small" type="primary">点击上传</el-button>
+          </el-upload>
+        </div>
+      </div>
     </el-drawer>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
 import GoodsList from '../goods/list';
 import GoodsLncrease from '../goods/lncrease';
 import ListPicture from '../list-picture';
 import listgraph from '../goods/list-graph';
 import ListSpecification from '../list-specification';
 import serviceProduct from '@/service/product.js';
-// import serviceGoods from '@/service/goods.js';
+import serviceGoods from '@/service/goods.js';
 export default {
   components: {
     GoodsList,
@@ -153,6 +166,7 @@ export default {
         // 子层级字段名
         children: 'child',
       },
+      fileList: [],
       isRouterAlive: true,
       Cabinet: '商品',
       commodityId: '',
@@ -202,6 +216,7 @@ export default {
   created() {
     console.log(this.$route.query);
     let query = this.$route.query;
+    this.productInfo.stoneName = this.$route.query.stoneName;
     this.productInfo.id = query.productId + '';
     if (typeof query.productId === 'undefined') {
       this.isCreate = true;
@@ -211,8 +226,58 @@ export default {
     // 加载类目
     this.getCatagery();
     this.getCurrent();
+    this.acquire();
   },
   methods: {
+    // ----------------------------------------图片-------------------------------------------------
+    // 获取图片
+    acquire() {
+      console.log('获取图片', this.$route.query.productId);
+      if (this.$route.query.productId === undefined) {
+        return;
+      }
+      if (this.productId !== 'undefined') {
+        serviceProduct.selectProductIntroducePictrue(this.productInfo.id, (res) => {
+          this.fileList = [];
+          for (let i = 0; i < res.data.data.length; i++) {
+            let file = res.data.data[i];
+            serviceGoods.getFileFileId(file.fileId, (res) => {
+              this.fileList.push({ name: file.hfName, url: res.config.url });
+            });
+          }
+        });
+      }
+    },
+    imgUpload(file) {
+      let fileName = file.name;
+      let regex = /(.jpg|.jpeg|.gif|.png|.bmp)$/;
+      if (regex.test(fileName.toLowerCase())) {
+        this.picUrl = URL.createObjectURL(file.raw);
+        this.uploadFile(file);
+      } else {
+        this.$message.error('请选择图片文件');
+      }
+    },
+    uploadFile(file) {
+      let fd = new FormData();
+      fd.append('userId', 1);
+      fd.append('fileInfo', file.raw);
+      fd.append('productId', this.$route.query.productId);
+      axios.post('/api/api/product/product/addProductIntroducePictrue', fd).then((res) => {
+        this.acquire();
+      });
+    },
+    // 文件列表移除文件时的钩子
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+      var num = file.url.replace(/[^0-9]/gi, '');
+      console.log('num', num);
+      serviceProduct.deleteProductPictrue(num, this.$route.query.productId, (res) => {
+        console.log('删除成功');
+      });
+    },
+    // ____________________________________________________________________________________________
+
     // 提交按钮 物品格 productSpecId
     submitPrice(scope) {
       // this.specGoods.specValue = scope.row.specValue;
@@ -300,7 +365,7 @@ export default {
             console.log('获取当前', res.data.data);
             this.productInfo.productName = res.data.data.productName;
             this.productInfo.id = res.data.data.id + '';
-            this.productInfo.stoneName = res.data.data.stoneName;
+            // this.productInfo.stoneName = res.data.data.stoneName;
             this.productInfo.categoryId = res.data.data.categoryId;
             this.productInfo.name = res.data.data.productName;
             this.productInfo.productDesc = res.data.data.productDesc;
@@ -315,6 +380,13 @@ export default {
       this.direction = 'btt';
     },
     evenMore() {
+      if (this.$route.query.productId === undefined) {
+        this.$message({
+          message: '警告，请添加商品',
+          type: 'warning',
+        });
+        return;
+      }
       this.introduce = true;
     },
     // 下拉 事件 核销员
