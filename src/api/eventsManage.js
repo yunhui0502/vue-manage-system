@@ -16,6 +16,7 @@ function seniorityBinding(params) {
   let fd = new FormData();
   fd.append('productId', params.goodsId);
   fd.append('id', params.seniorityId);
+  fd.append('instanceId', params.instanceId);
   return Axios.post('/api/api/product/hfProductActivity/intoActivityProduct', fd);
 }
 // 获取所有商品列表

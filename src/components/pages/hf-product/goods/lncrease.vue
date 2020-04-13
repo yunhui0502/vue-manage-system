@@ -106,7 +106,7 @@ export default {
       type: String,
       default: '商品名字',
     },
-    bossId: {
+    stoneId: {
       type: String,
       default: '',
     },
@@ -184,7 +184,7 @@ export default {
       specificationData: [],
       // 添加物品
       increase: {
-        bossId: '', // 店铺id
+        stoneId: '', // 店铺id
         specValue: '',
         sellPrice: '', // 价格
         quantity: '', // 库存量
@@ -273,7 +273,7 @@ export default {
           // 添加物品
           this.increase.productId = this.commodityId;
           this.increase.goodName = this.productName + ':' + Name;
-          this.increase.bossId = this.bossId;
+          this.increase.stoneId = this.stoneId;
           console.log(this.commodityId);
           console.log(this.increase);
           serviceGoods.addProduct(this.increase, (res) => {

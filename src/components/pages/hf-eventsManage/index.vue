@@ -87,6 +87,9 @@
                     <el-input placeholder="请输入内容" v-model="scope.row.inventoryCelling"></el-input>
                   </template>
                 </el-table-column>
+                <el-table-column label="店铺名称">
+                  <template slot-scope="scope">{{ scope.row.stoneName}}</template>
+                </el-table-column>
                 <el-table-column prop="address" label="操作">
                   <template slot-scope="scope">
                     <el-button type="text" @click="SettingPrice(scope.row)" size="mini">保存</el-button>
@@ -181,6 +184,9 @@
               </el-table-column>
               <el-table-column label="商品描述">
                 <template slot-scope="scope">{{ scope.row.productDesc}}</template>
+              </el-table-column>
+              <el-table-column label="店铺名称">
+                <template slot-scope="scope">{{ scope.row.stoneName}}</template>
               </el-table-column>
             </el-table>
           </el-dialog>
@@ -412,18 +418,31 @@ export default {
     onSubmit() {
       serviceEvents.seniorityBinding(this.transfedata, (res) => {
         console.log('绑定商品', res);
-        this.$message({
-          showClose: true,
-          message: '恭喜你，添加成功',
-          type: 'success',
-        });
-        serviceEvents.getActivityProductList(
-          this.transfedata.seniorityId,
-          (res) => {
-            console.log('活动商品列表信息', res);
-            this.eventsGoods = res.data.data;
-          },
-        );
+        if (res.data.data === -1) {
+          this.$message({
+            message: '警告，请勿重复添加',
+            type: 'warning',
+          });
+          // eslint-disable-next-line no-magic-numbers
+        } else if (res.data.data === -2) {
+          this.$message({
+            message: '警告，此商品已经过其他活动',
+            type: 'warning',
+          });
+        } else {
+          this.$message({
+            showClose: true,
+            message: '恭喜你，添加成功',
+            type: 'success',
+          });
+          serviceEvents.getActivityProductList(
+            this.transfedata.seniorityId,
+            (res) => {
+              console.log('活动商品列表信息', res);
+              this.eventsGoods = res.data.data;
+            },
+          );
+        }
       });
     },
     // 编辑
@@ -471,6 +490,7 @@ export default {
       let arr = val;
       for (let i = 0; i < arr.length; i++) {
         this.transfedata.goodsId = val[i].id;
+        this.transfedata.instanceId = val[i].instanceId + '';
       }
       console.log(this.transfedata.goodsId);
     },

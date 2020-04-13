@@ -21,7 +21,7 @@
             </template>
           </el-table-column>
           <el-table-column prop="activityType" label="活动类型" width="76">
-           <span>团购</span>
+            <span>团购</span>
           </el-table-column>
           <el-table-column prop="startTime" label="开始时间" width="170">
             <template slot-scope="scope">
@@ -61,10 +61,10 @@
           :select-all="dianji(selection)"
           @selection-change="eventsSelectionChange"
         >
-            <el-table-column label="序列号" type="index" width="70"></el-table-column>
+          <el-table-column label="序列号" type="index" width="70"></el-table-column>
           <!-- <el-table-column label="物品ID" width="120">
             <template slot-scope="scope">{{ scope.row.id }}</template>
-          </el-table-column> -->
+          </el-table-column>-->
           <el-table-column label="商品名字" width="120">
             <template slot-scope="scope">{{ scope.row.productName}}</template>
           </el-table-column>
@@ -83,6 +83,9 @@
               <el-input placeholder="请输入内容" v-model="scope.row.inventoryCelling"></el-input>
             </template>
           </el-table-column>
+          <el-table-column label="店铺名称">
+            <template slot-scope="scope">{{ scope.row.stoneName}}</template>
+          </el-table-column>
           <el-table-column prop="address" label="操作" show-overflow-tooltip>
             <template slot-scope="scope">
               <el-button type="text" @click="SettingPrice(scope.row)" size="mini">保存</el-button>
@@ -92,7 +95,7 @@
         </el-table>
       </el-main>
     </el-container>
-<!--
+    <!--
     <el-dialog title="所有商品" :visible.sync="dialogTableVisible">
        <el-table
             ref="multipleTable"
@@ -112,75 +115,77 @@
               <template slot-scope="scope">{{ scope.row.productDesc}}</template>
             </el-table-column>
           </el-table>
-    </el-dialog> -->
+    </el-dialog>-->
 
-       <el-dialog title="编辑" :visible.sync="editboxVisible">
-          <el-table :data="addActivities" style="width: 100%">
-            <el-table-column prop="hfName" label="活动名称">
-              <template slot-scope="scope">
-                <el-input placeholder="请输入内容" v-model="scope.row.activityName"></el-input>
-              </template>
-            </el-table-column>
-            <el-table-column prop="startTime" label="开始时间">
-              <template slot-scope="scope">
-                <el-date-picker
-                  v-model="scope.row.startTime"
-                  type="datetime"
-                  placeholder="开始时间"
-                  align="right"
-                ></el-date-picker>
-              </template>
-            </el-table-column>
-            <el-table-column prop="endTime" label="结束时间">
-              <template slot-scope="scope">
-                <el-date-picker
-                  v-model="scope.row.endTime"
-                  type="datetime"
-                  placeholder="结束时间"
-                  align="right"
-                ></el-date-picker>
-              </template>
-            </el-table-column>
-            <el-table-column prop="stopTime" label="操作">
-              <template slot-scope="scope">
-                <el-button type="danger" @click="preserveModify(scope)" size="mini">保存修改</el-button>
-                <el-button type="danger" @click="deleteEvent(scope.row.id)" size="mini">删除</el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-            <div style="margin: 6px;">给活动添加商品部分</div>
-          <el-form width="40%" :inline="true" :model="transfedata" class="demo-form-inline">
-            <el-form-item label="商品ID">
-              <el-input v-model="transfedata.goodsId" placeholder="商品ID"></el-input>
-            </el-form-item>
-            <el-form-item label="活动ID">
-              <el-input v-model="transfedata.seniorityId" placeholder="活动ID"></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="onSubmit">确定</el-button>
-            </el-form-item>
-          </el-form>
+    <el-dialog title="编辑" :visible.sync="editboxVisible">
+      <el-table :data="addActivities" style="width: 100%">
+        <el-table-column prop="hfName" label="活动名称">
+          <template slot-scope="scope">
+            <el-input placeholder="请输入内容" v-model="scope.row.activityName"></el-input>
+          </template>
+        </el-table-column>
+        <el-table-column prop="startTime" label="开始时间">
+          <template slot-scope="scope">
+            <el-date-picker
+              v-model="scope.row.startTime"
+              type="datetime"
+              placeholder="开始时间"
+              align="right"
+            ></el-date-picker>
+          </template>
+        </el-table-column>
+        <el-table-column prop="endTime" label="结束时间">
+          <template slot-scope="scope">
+            <el-date-picker
+              v-model="scope.row.endTime"
+              type="datetime"
+              placeholder="结束时间"
+              align="right"
+            ></el-date-picker>
+          </template>
+        </el-table-column>
+        <el-table-column prop="stopTime" label="操作">
+          <template slot-scope="scope">
+            <el-button type="danger" @click="preserveModify(scope)" size="mini">保存修改</el-button>
+            <el-button type="danger" @click="deleteEvent(scope.row.id)" size="mini">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div style="margin: 6px;">给活动添加商品部分</div>
+      <el-form width="40%" :inline="true" :model="transfedata" class="demo-form-inline">
+        <el-form-item label="商品ID">
+          <el-input v-model="transfedata.goodsId" placeholder="商品ID"></el-input>
+        </el-form-item>
+        <el-form-item label="活动ID">
+          <el-input v-model="transfedata.seniorityId" placeholder="活动ID"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="onSubmit">确定</el-button>
+        </el-form-item>
+      </el-form>
 
-           <el-table
-            ref="multipleTable"
-            :data="gridData"
-            tooltip-effect="dark"
-            style="width: 100%"
-            @selection-change="handleSelectionChange"
-          >
-            <el-table-column type="selection" width="55"></el-table-column>
-            <el-table-column label="商品ID">
-              <template slot-scope="scope">{{ scope.row.id}}</template>
-            </el-table-column>
-            <el-table-column label="商品名字">
-              <template slot-scope="scope">{{ scope.row.productName}}</template>
-            </el-table-column>
-            <el-table-column label="商品描述">
-              <template slot-scope="scope">{{ scope.row.productDesc}}</template>
-            </el-table-column>
-          </el-table>
-        </el-dialog>
-
+      <el-table
+        ref="multipleTable"
+        :data="gridData"
+        tooltip-effect="dark"
+        style="width: 100%"
+        @selection-change="handleSelectionChange"
+      >
+        <el-table-column type="selection" width="55"></el-table-column>
+        <el-table-column label="商品ID">
+          <template slot-scope="scope">{{ scope.row.id}}</template>
+        </el-table-column>
+        <el-table-column label="商品名字">
+          <template slot-scope="scope">{{ scope.row.productName}}</template>
+        </el-table-column>
+        <el-table-column label="商品描述">
+          <template slot-scope="scope">{{ scope.row.productDesc}}</template>
+        </el-table-column>
+        <el-table-column label="店铺名称">
+          <template slot-scope="scope">{{ scope.row.stoneName}}</template>
+        </el-table-column>
+      </el-table>
+    </el-dialog>
   </el-container>
 </template>
 
@@ -188,7 +193,6 @@
 import serviceEvents from '@/service/eventsManage.js';
 
 export default {
-
   data() {
     return {
       dialogTableVisible: false,
@@ -210,6 +214,7 @@ export default {
       transfedata: {
         goodsId: '',
         seniorityId: '',
+        instanceId: '',
 
         id: '',
         groupNum: '', // 团购人数
@@ -239,15 +244,31 @@ export default {
     onSubmit() {
       serviceEvents.seniorityBinding(this.transfedata, (res) => {
         console.log('绑定商品', res);
-        this.$message({
-          showClose: true,
-          message: '恭喜你，添加成功',
-          type: 'success',
-        });
-        serviceEvents.getActivityProductList(this.transfedata.seniorityId, (res) => {
-          console.log('活动商品列表信息', res);
-          this.eventsGoods = res.data.data;
-        });
+        if (res.data.data === -1) {
+          this.$message({
+            message: '警告，请勿重复添加',
+            type: 'warning',
+          });
+          // eslint-disable-next-line no-magic-numbers
+        } else if (res.data.data === -2) {
+          this.$message({
+            message: '警告，此商品已经过其他活动',
+            type: 'warning',
+          });
+        } else {
+          this.$message({
+            showClose: true,
+            message: '恭喜你，添加成功',
+            type: 'success',
+          });
+          serviceEvents.getActivityProductList(
+            this.transfedata.seniorityId,
+            (res) => {
+              console.log('活动商品列表信息', res);
+              this.eventsGoods = res.data.data;
+            },
+          );
+        }
       });
     },
     // 修改活动名称
@@ -401,6 +422,7 @@ export default {
       let arr = val;
       for (let i = 0; i < arr.length; i++) {
         this.transfedata.goodsId = val[i].id;
+        this.transfedata.instanceId = val[i].instanceId + '';
       }
       console.log(this.addActivities);
     },

@@ -161,10 +161,13 @@
         <el-table-column label="商品描述">
           <template slot-scope="scope">{{ scope.row.productDesc}}</template>
         </el-table-column>
+        <el-table-column label="店铺名称">
+          <template slot-scope="scope">{{ scope.row.stoneName}}</template>
+        </el-table-column>
       </el-table>
     </el-dialog>
 
-    <el-drawer title="商品分销设置" :visible.sync="drawer"  size="80%" direction="btt">
+    <el-drawer title="商品分销设置" :visible.sync="drawer" size="80%" direction="btt">
       <el-row type="flex" class="row-bg">
         <el-table
           ref="multipleTable"
@@ -190,36 +193,39 @@
       </el-row>
       <el-row type="flex" class="row-bg">
         <el-col :span="12">
-           <div></div>
-           <div>分销比例设置</div>
-           <div>
-        <el-table class="goods-table" :data="Placelist" border>
-        <el-table-column type="selection"></el-table-column>
-        <el-table-column label="分销名称"  width="90">
-          <template slot-scope="scope">
-            <el-select v-model="scope.row.name" placeholder="请选择">
-              <el-option
-                v-for="item in Types"
-                :key="item.index"
-                :label="item.name"
-                :value="item.name"
-              ></el-option>
-            </el-select>
-          </template>
-        </el-table-column>
-        <el-table-column label="分销比例">
-          <template slot-scope="scope">
-            <el-input placeholder="请输入内容" v-model="scope.row.ratio"></el-input>
-          </template>
-        </el-table-column>
-        <el-table-column label="操作">
-          <template slot-scope="scope">
-            <el-button type="text" @click="SettingPrice(scope.row)" size="mini">保存</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <el-button style="float: right;" size="mini" @click="addGoodsList()">添加分销</el-button>
-           </div>
+          <div></div>
+          <div>分销比例设置</div>
+          <div>
+            <el-table class="goods-table" :data="Placelist" border>
+              <el-table-column type="selection"></el-table-column>
+              <el-table-column label="分销名称" width="90">
+                <template slot-scope="scope">
+                  <el-select v-model="scope.row.name" placeholder="请选择">
+                    <el-option
+                      v-for="item in Types"
+                      :key="item.index"
+                      :label="item.name"
+                      :value="item.name"
+                    ></el-option>
+                  </el-select>
+                </template>
+              </el-table-column>
+              <el-table-column label="分销比例">
+                <template slot-scope="scope">
+                  <el-input placeholder="请输入内容" v-model="scope.row.ratio"></el-input>
+                </template>
+              </el-table-column>
+              <el-table-column label="店铺名称">
+                <template slot-scope="scope">{{ scope.row.stoneName}}</template>
+              </el-table-column>
+              <el-table-column label="操作">
+                <template slot-scope="scope">
+                  <el-button type="text" @click="SettingPrice(scope.row)" size="mini">保存</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+            <el-button style="float: right;" size="mini" @click="addGoodsList()">添加分销</el-button>
+          </div>
         </el-col>
         <el-col :span="12">
           <div class="grid-content bg-purple"></div>
@@ -327,11 +333,24 @@ export default {
     onSubmit() {
       serviceEvents.seniorityBinding(this.transfedata, (res) => {
         console.log('绑定商品', res);
-        this.$message({
-          showClose: true,
-          message: '恭喜你，添加成功',
-          type: 'success',
-        });
+        if (res.data.data === -1) {
+          this.$message({
+            message: '警告，请勿重复添加',
+            type: 'warning',
+          });
+          // eslint-disable-next-line no-magic-numbers
+        } else if (res.data.data === -2) {
+          this.$message({
+            message: '警告，此商品已经过其他活动',
+            type: 'warning',
+          });
+        } else {
+          this.$message({
+            showClose: true,
+            message: '恭喜你，添加成功',
+            type: 'success',
+          });
+        }
         serviceEvents.getActivityProductList(
           this.transfedata.seniorityId,
           (res) => {
@@ -364,7 +383,7 @@ export default {
       console.log(row);
       let comma = ',';
       this.transfedata.distributionRatio =
-       'name:' + row.name + comma + 'ratio:' + row.ratio;
+        'name:' + row.name + comma + 'ratio:' + row.ratio;
       console.log(this.transfedata.distributionRatio);
       console.log(this.transfedata.distributionRatio);
       serviceEvents.updateActivityProduct(this.transfedata, (res) => {
@@ -527,6 +546,7 @@ export default {
       let arr = val;
       for (let i = 0; i < arr.length; i++) {
         this.transfedata.goodsId = val[i].id;
+        this.transfedata.instanceId = val[i].instanceId + '';
       }
       console.log(this.transfedata.goodsId);
     },

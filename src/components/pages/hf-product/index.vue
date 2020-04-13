@@ -86,9 +86,21 @@ export default {
     },
 
     handleCreate(e) {
-      this.$router.push({
-        path: '/hf-product/detail',
-      });
+      console.log(this.$route.query);
+      if (JSON.stringify(this.$route.query) === '{}') {
+        console.log('空');
+        this.$router.push({
+          path: '/hf-product/detail',
+        });
+      } else {
+        console.log('带参添加', this.$route.query.stoneId);
+        this.$router.push({
+          path: '/hf-product/detail',
+          query: {
+            stoneId: this.$route.query.stoneId,
+          },
+        });
+      }
     },
     editProduct(row) {
       console.log(row);

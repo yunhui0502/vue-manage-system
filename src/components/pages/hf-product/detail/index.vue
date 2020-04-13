@@ -3,7 +3,13 @@
     <el-row>
       <el-col :span="24">
         <div class="grid-content bg-purple-dark">商品信息</div>
-        <el-form :rules="rules" ref="formName" :inline="true" :model="productInfo" class="demo-form-inline">
+        <el-form
+          :rules="rules"
+          ref="formName"
+          :inline="true"
+          :model="productInfo"
+          class="demo-form-inline"
+        >
           <el-row class="t-10">
             <el-col :span="8">
               <el-form-item label="商品名称" prop="productName">
@@ -12,20 +18,25 @@
             </el-col>
             <el-col :span="6">
               <el-form-item prop="categoryId" label="所属类目">
-                <el-cascader :options="options"
-                :children="'categories'"
-                v-model="productInfo.categoryId"
-                :props="{value: 'id', label: 'hfName' ,children:'categories'}"
-                clearable></el-cascader>
+                <el-cascader
+                  :options="options"
+                  :children="'categories'"
+                  v-model="productInfo.categoryId"
+                  :props="{value: 'id', label: 'hfName' ,children:'categories'}"
+                  clearable
+                ></el-cascader>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="所属商家">
-                <el-input v-model="productInfo.stoneName" placeholder="所属商家"></el-input>
+              <el-form-item label="所属店铺">
+                <el-input v-model="productInfo.stoneName" placeholder="所属店铺"></el-input>
               </el-form-item>
             </el-col>
-            <el-button type="primary" @click="onProductSubmit('formName')">{{isCreate ? '添加商品' : '更新商品'}}</el-button>
-            <!-- <el-button label="ltr" @click="evenMore">查看更多</el-button> -->
+            <el-button
+              type="primary"
+              @click="onProductSubmit('formName')"
+            >{{isCreate ? '添加商品' : '更新商品'}}</el-button>
+            <el-button label="ltr" @click="evenMore">添加详情图</el-button>
           </el-row>
           <el-form-item prop="productDesc" label="商品描述">
             <el-input type="textarea" style="width: 512%;" v-model="productInfo.productDesc"></el-input>
@@ -60,11 +71,11 @@
         <el-container class="t-10 radius-4">
           <el-header style="height: -1px;" class="font-neue t-10">
             {{Cabinet}}图片管理
-             <span style="margin: 0 4px">{{Cabinet}}名称：{{productInfo.name}}</span>
+            <span style="margin: 0 4px">{{Cabinet}}名称：{{productInfo.name}}</span>
           </el-header>
           <el-main>
             <list-picture v-if="detailsp" :productId="productInfo.id"></list-picture>
-            <listgraph v-if="!detailsp" :letter="letter" ></listgraph>
+            <listgraph v-if="!detailsp" :letter="letter"></listgraph>
           </el-main>
         </el-container>
         <el-container class="t-10 radius-4">
@@ -88,13 +99,22 @@
     >
       <div>
         <GoodsLncrease
-         v-if="isRouterAlive"
+          v-if="isRouterAlive"
           @goodsId="goodsIdGetMsg"
           @func="getMsgFormSon"
           :commodityId="commodityId"
           :productName="productInfo.productName"
         ></GoodsLncrease>
       </div>
+    </el-drawer>
+
+    <el-drawer
+      title="我是标题"
+      :visible.sync="introduce"
+      direction="rtl"
+      :before-close="handleClose"
+    >
+      <span>我来啦!</span>
     </el-drawer>
   </div>
 </template>
@@ -139,12 +159,13 @@ export default {
       goosID: 0,
       loading: false,
       drawer: false,
+      introduce: false, // 添加商品介绍图弹窗
       isCreate: false,
       direction: 'rtl',
       classifyData: {}, // 类目数据
       productInfo: {
         bossId: '1', // 店铺
-        stoneId: '1', // 商家
+        // stoneId: '1', // 商家
         region: '',
         productName: '',
         stoneName: '',
@@ -237,14 +258,22 @@ export default {
         console.log(this.productInfo.id);
         if (valid) {
           if (this.productInfo.id === 'undefined') {
+            if (this.$route.query.stoneId !== undefined) {
+              this.productInfo.stoneId = this.$route.query.stoneId;
+            }
             console.log('添加商品', this.productInfo);
-            // 添加商品
+            console.log('添加商品stoneId', this.$route.query.stoneId);
+            // 添加商品 undefined
             this.loading = true;
             serviceProduct.ceateProduct(this.productInfo, (res) => {
               console.log(res);
-              this.commodityId = res.data.data.productId;
+              this.commodityId = res.data.data.productId + '';
               this.$router.push({
-                path: '/hf-product/detail?productId=' + res.data.data.productId + '&stoneId=' + res.data.data.stoneId,
+                path:
+                  '/hf-product/detail?productId=' +
+                  res.data.data.productId +
+                  '&stoneId=' +
+                  res.data.data.stoneId,
               });
               location.reload();
             });
@@ -264,15 +293,19 @@ export default {
     getCurrent() {
       console.log(this.$route.query.stoneId);
       if (!this.isCreate) {
-        serviceProduct.getDetail(this.commodityId, this.$route.query.stoneId, (res) => {
-          console.log('获取当前', res.data.data);
-          this.productInfo.productName = res.data.data.productName;
-          this.productInfo.id = res.data.data.id + '';
-          this.productInfo.stoneName = res.data.data.stoneName;
-          this.productInfo.categoryId = res.data.data.categoryId;
-          this.productInfo.name = res.data.data.productName;
-          this.productInfo.productDesc = res.data.data.productDesc;
-        });
+        serviceProduct.getDetail(
+          this.commodityId,
+          this.$route.query.stoneId,
+          (res) => {
+            console.log('获取当前', res.data.data);
+            this.productInfo.productName = res.data.data.productName;
+            this.productInfo.id = res.data.data.id + '';
+            this.productInfo.stoneName = res.data.data.stoneName;
+            this.productInfo.categoryId = res.data.data.categoryId;
+            this.productInfo.name = res.data.data.productName;
+            this.productInfo.productDesc = res.data.data.productDesc;
+          },
+        );
       }
     },
     appendGoods() {
@@ -281,11 +314,9 @@ export default {
       this.drawer = true;
       this.direction = 'btt';
     },
-    // evenMore() {
-    //   this.drawer = true;
-    //   this.direction = 'rtl';
-    //   this.title = '添加商品';
-    // },
+    evenMore() {
+      this.introduce = true;
+    },
     // 下拉 事件 核销员
     pullverifier(e) {
       // console.log(e)
@@ -331,7 +362,6 @@ export default {
 .grid-content {
   border-radius: 4px;
   min-height: 36px;
-
 }
 
 .row-bg {

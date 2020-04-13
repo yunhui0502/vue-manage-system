@@ -7,7 +7,7 @@ function getProductsByBossId(bossId) {
 }
 // 获取当前商品
 function getDetail(productId, stoneId) {
-  return Axios.get('/api/api/product/hfProduct/getDetail?productId=' + productId + '&stoneId=' + stoneId);
+  return Axios.get('/api/api/product/hfProduct/getProductInfo?productId=' + productId + '&stoneId=' + stoneId);
 }
 // 删除商品图片
 function deleteProductPictrue(fileId, productId) {
@@ -17,7 +17,9 @@ function deleteProductPictrue(fileId, productId) {
 function ceateProduct(params) {
   let fd = new FormData();
   fd.append('bossId ', params.bossId);
-  fd.append('stoneId ', params.stoneId);
+  if (params.stoneId !== undefined) {
+    fd.append('stoneId ', params.stoneId);
+  }
   fd.append('categoryId', params.categoryId);
   fd.append('hfName ', params.productName);
   fd.append('productDesc ', params.productDesc);

@@ -19,6 +19,7 @@
   <el-card class="box-card" style="width:40%;">
   <div slot="header" class="clearfix">
     <span>商品列表</span>
+    <el-button style="float: right;margin-left:10px;" type="primary" @click="Added">新增店铺商品</el-button>
     <el-button style="float: right;" type="primary" @click="add = true">添加店铺商品</el-button>
   </div>
      <el-table
@@ -95,7 +96,7 @@
       size="60%"
     >
       <div>
-        <GoodsLncrease :productName="productName" :commodityId="productid" :bossId="bossId" ></GoodsLncrease>
+        <GoodsLncrease :productName="productName" :commodityId="productid" :stoneId="stoneId" ></GoodsLncrease>
       </div>
     </el-drawer>
 
@@ -136,7 +137,7 @@ export default {
       selectDdata: [],
       listwu: [],
       productid: '',
-      bossId: '',
+      stoneId: '',
       productName: '',
     };
   },
@@ -212,6 +213,15 @@ export default {
         }
       });
     },
+    Added(e) {
+      let stoneId = this.stoneId;
+      this.$router.push({
+        path: '/hf-product',
+        query: {
+          stoneId: stoneId,
+        },
+      });
+    },
     handleSelectionChange (val) {
       console.log(val);
       this.selectDdata = val;
@@ -241,7 +251,7 @@ export default {
       storeService.getStoreid(this.id, (res) => {
         console.log(res);
         this.storeinfor = res.data.data;
-        this.bossId = res.data.data.bossId + '';
+        this.stoneId = res.data.data.id + '';
         // this.list = res.data.data.list;
       });
     },
