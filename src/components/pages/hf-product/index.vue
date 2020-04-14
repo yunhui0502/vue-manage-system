@@ -26,6 +26,7 @@
               <el-table-column prop="productName" label="商品名称"></el-table-column>
               <el-table-column prop="productDesc" label="商品描述"></el-table-column>
               <el-table-column prop="categoryName" label="所属类目名称"></el-table-column>
+              <el-table-column prop="stoneName" label="所属店铺"></el-table-column>
               <el-table-column prop="createTime" label="创建时间" width="150"></el-table-column>
               <el-table-column prop="modifyTime" label="更新时间" width="150"></el-table-column>
               <el-table-column prop="lastModifier" label="最近一次操作人" width="150"></el-table-column>
