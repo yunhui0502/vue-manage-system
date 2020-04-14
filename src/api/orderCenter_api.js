@@ -7,8 +7,9 @@ function checkOrder(orderStatus) {
   return Axios.get('/api/api/order/hf-order/query?orderStatus=' + orderStatus);
 }
 function upDataOrderStatus(params) {
+  console.log(params);
   return Axios.get('/api/api/order/hf-order/modifyStatus?Id=' + params.id + '&orderCode=' + params.orderCode +
-    '&originOrderStatus=' + params.originOrderStatus + '&targetOrderStatus=' + params.targetOrderStatus);
+    '&originOrderStatus=' + params.originOrderStatus + '&targetOrderStatus=' + params.targetOrderStatus + '&stoneId=' + params.stoneId);
 }
 function getOrderType(params) {
   return Axios.get('/api/api/order/order/orderType');
@@ -27,15 +28,15 @@ function getOrderDetail1(params) {
 function writeWuLiu(params) {
   console.log(params);
   return Axios.get('/api/api/order/order/insertLogistics?ordersId=' + params.id +
-  '&logisticsOrdersId=' + params.logisticsOrdersId + '&googsId=' + params.googsId);
+  '&logisticsOrdersId=' + params.logisticsOrdersId + '&googsId=' + params.googsId + '&stoneId=' + params.stoneId);
 }
 function writeWuLiu1(params) {
   console.log(params);
   return Axios.get('/api/api/order/order/insertLogistics?ordersId=' + params.id +
     '&googsId=' + params.googsId);
 }
-function getWuLiu(orderId) {
-  return Axios.get('/api/api/order/query/logistics?orderId=' + orderId);
+function getWuLiu(params) {
+  return Axios.get('/api/api/order/query/logistics?orderId=' + params.id + '&stoneId=' + params.stoneId);
 }
 
 export default {

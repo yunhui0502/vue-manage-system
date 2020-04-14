@@ -61,32 +61,46 @@
             ></el-table-column>
           </el-table>
         </div>
+        <div
+          style="display:fkex;align-items:center;margin-top:20px;"
+          v-if="item.takingType==='delivery'&&detail.orderStatus==='process'&&detail.orderType==='nomalOrder'"
+        >
+         <!-- <div
+          style="display:fkex;align-items:center;margin-top:20px;"
+        > -->
+          <span>物流单号：</span>
+          <el-input v-model="item.logisticsOrdersId" placeholder="请输入物流单号" style="width:200px;"></el-input>
+          <!-- <el-input v-model="order.logisticsOrdersId" placeholder="请输入物流单号" style="width:200px;"></el-input> -->
+          <el-button @click="que(item,index)" style="margin-left:10px;">提交</el-button>
+        </div>
+        <el-button
+          v-if="item.takingType==='delivery'&&detail.orderStatus==='process'||detail.orderStatus==='transport'&&detail.orderType==='nomalOrder'"
+          @click="cha(item,index)"
+          style="margin-left:10px;"
+        >查询物流信息</el-button>       <div    v-if="item.takingType==='delivery'&&detail.orderStatus==='process'||detail.orderStatus==='transport'&&detail.orderType==='nomalOrder'" style="line-height:30px; display:fkex;align-items:center;margin-top:20px;font-size:12px;"
+        >
+          <span style="margin-bottom:10px;">物流单号：{{wuliuinfor.logisticCode}}</span>
+          <span style="margin-left:20px;margin-bottom:10px;">物流公司名：{{wuliuinfor.company}}</span>
+          <!-- <span style="margin-left:20px;">物流信息</span> -->
+          <div>物流信息:</div>
+          <div v-for="(item,index) in wuliuinfor.traces" :key="index">
+            <div>
+              <span>{{item.AcceptStation}}</span>
+              <span>{{item.AcceptTime}}</span>
+            </div>
+          </div>
+        </div>
       </div>
-      <div
+      <!-- <div
         style="display:fkex;align-items:center;margin-top:20px;"
         v-if="takingType==='delivery'&&detail.orderStatus==='process'&&detail.orderType==='nomalOrder'"
       >
         <span>物流单号：</span>
         <el-input v-model="order.logisticsOrdersId" placeholder="请输入物流单号" style="width:200px;"></el-input>
-        <!-- <span style="margin-left:20px;">物流公司名：</span>
-        <el-input v-model="order.logisticsCompany" placeholder="请输入物流单号" style="width:200px;"></el-input>-->
-      </div>
-      <div
-        style="line-height:30px; display:fkex;align-items:center;margin-top:20px;font-size:12px;"
-        v-if="takingType==='delivery'&&detail.orderStatus==='transport'&&detail.orderType==='nomalOrder'"
-      >
-        <span style="margin-bottom:10px;">物流单号：{{wuliuinfor.logisticCode}}</span>
-        <span style="margin-left:20px;margin-bottom:10px;">物流公司名：{{wuliuinfor.company}}</span>
-        <!-- <span style="margin-left:20px;">物流信息</span> -->
-        <div>物流信息:</div>
-        <div v-for="(item,index) in wuliuinfor.traces" :key="index">
-          <div>
-            <span>{{item.AcceptStation}}</span>
-            <span>{{item.AcceptTime}}</span>
-          </div>
-        </div>
-      </div>
+      </div>-->
+
     </el-card>
+
     <div style="margin-top: 200px; display: flex;justify-content: space-around;padding:0 10%;">
       <div
         v-if="detail.orderStatus==='payment'"
@@ -120,13 +134,18 @@ import constants from '@/store/constants.js';
 export default {
   data() {
     return {
+      orderliu: {
+        stoneId: '',
+        id: '',
+      },
       detailRequestList: [],
       wuliuinfor: {},
       order: {
+        stoneId: '',
         id: '',
         logisticsOrdersId: '',
         logisticsCompany: '',
-        googsId: '',
+        googsId: [],
       },
       input: '',
       content: {},
@@ -148,6 +167,7 @@ export default {
         originOrderStatus: 'payment',
       },
       updata2: {
+        stoneId: '',
         targetOrderStatus: 'transport',
         id: '',
         orderCode: '',
@@ -158,25 +178,56 @@ export default {
     };
   },
   methods: {
-    que: function() {
+    cha: function(item, index) {
+      console.log(this.detailRequestList);
+      this.orderliu.id = this.id;
+      this.orderliu.stoneId = item.stoneId;
+      console.log(this.orderliu);
+      orderCenterService.getWuLiu(this.orderliu, (res) => {
+        this.detailRequestList[index].show = true;
+        console.log(this.detailRequestList);
+        this.wuliuinfor = res.data.data;
+        console.log('6', this.wuliuinfor);
+        // eslint-disable-next-line no-eval
+        // this.wuliuinfor = JSON.parse(this.wuliuinfor);
+        // console.log('7', this.wuliuinfor);
+        // var obj = '{LogisticCode:'75338825465751',ShipperCode:'ZTO'}';
+        // console.log('7', obj);
+        // this.takingType = res.data.data[0].takingType;
+        // this.order.googsId = res.data.data[0].goodsId;
+      });
+    },
+    que: function(item, index) {
       this.order.id = this.$route.query.id;
       if (
-        this.takingType === 'delivery' &&
         this.detail.orderStatus === 'process' &&
         this.detail.orderType === 'nomalOrder'
       ) {
-        if (this.order.logisticsOrdersId === '') {
+        // if (this.order.logisticsOrdersId === '') {
+        //   this.$message.error('请填写物流单号');
+        // }
+        if (!item.logisticsOrdersId) {
           this.$message.error('请填写物流单号');
         } else {
+          console.log(item);
+          let arr = [];
+          for (var i = 0; i < item.hfOrderDetailList.length; i++) {
+            arr.push(item.hfOrderDetailList[i].goodsId);
+          }
+          this.order.logisticsOrdersId = item.logisticsOrdersId;
+          this.order.stoneId = item.stoneId;
+          this.updata2.stoneId = item.stoneId;
+          this.order.googsId = arr;
           orderCenterService.writeWuLiu(this.order, (res) => {
+            console.log(res);
             if (res.data.status === constants.SUCCESS_CODE) {
               // this.$message({
               //   message: '提交成功',
               //   type: 'success',
               // });
+
               console.log(this.updata2);
               orderCenterService.upDataOrderStatus(this.updata2, (res) => {
-                // console.log(this.updata1, res);
                 if (res.data.status === constants.SUCCESS_CODE) {
                   this.$message({
                     message: '已确认',
@@ -236,28 +287,20 @@ export default {
         this.updata1.originOrderStatus = this.detail.orderStatus;
         orderCenterService.getOrderDetail1(this.detail, (res) => {
           console.log(res);
+          this.detail = res.data.data[0];
           this.takingType = res.data.data[0].takingType;
           this.order.googsId = res.data.data[0].goodsId;
           this.detailRequestList = res.data.data[0].detailRequestList;
-          for (var i = 0;i < this.detailRequestList.length;i++) {
+          for (var i = 0; i < this.detailRequestList.length; i++) {
             for (var j = 0;j < this.detailRequestList[i].hfOrderDetailList.length;j++) {
-              this.detailRequestList[i].hfOrderDetailList[j].hfDesc = JSON.parse(this.detailRequestList[i].hfOrderDetailList[j].hfDesc) ;
+              this.detailRequestList[i].hfOrderDetailList[j].hfDesc = JSON.parse(this.detailRequestList[i].hfOrderDetailList[j].hfDesc);
+              // this.detailRequestList[i].show = false;
             }
           }
           console.log('1', this.detailRequestList);
         });
         // if (this.takingType === 'delivery' && this.detail.orderStatus === 'transport' && this.detail.orderType === 'nomalOrder') {
-        orderCenterService.getWuLiu(this.id, (res) => {
-          this.wuliuinfor = res.data.data;
-          console.log('6', this.wuliuinfor);
-          // eslint-disable-next-line no-eval
-          // this.wuliuinfor = JSON.parse(this.wuliuinfor);
-          // console.log('7', this.wuliuinfor);
-          // var obj = '{LogisticCode:'75338825465751',ShipperCode:'ZTO'}';
-          // console.log('7', obj);
-          // this.takingType = res.data.data[0].takingType;
-          // this.order.googsId = res.data.data[0].goodsId;
-        });
+
         // }
       });
     },
