@@ -64,6 +64,9 @@ function storeAddProduct(params) {
 function getproductgood(productId) {
   return Axios.get('/api/api/product/product/selectProductGoods?productId=' + productId);
 }
+function selectProductGoods(productId, stoneId) {
+  return Axios.get('/api/api/product/product/selectProductGoods?productId=' + productId + '&stoneId' + stoneId);
+}
 function updatagood(params) {
   console.log(params);
   let fd = new FormData();
@@ -89,4 +92,5 @@ export default {
   storeAddProduct: storeAddProduct,
   getproductgood: getproductgood,
   updatagood: updatagood,
+  selectProductGoods: selectProductGoods,
 };

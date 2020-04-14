@@ -37,6 +37,9 @@ async function storeAddProduct(params, handleResult) {
 async function getproductgood(productId, handleResult) {
   store.getproductgood(productId).then((res) => handleResult(res));
 }
+async function selectProductGoods(productId, stoneId, handleResult) {
+  store.selectProductGoods(productId, stoneId).then((res) => handleResult(res));
+}
 async function updatagood(productId, handleResult) {
   store.updatagood(productId).then((res) => handleResult(res));
 }
@@ -54,5 +57,6 @@ export default {
   getstoneproduct: getstoneproduct,
   storeAddProduct: storeAddProduct,
   getproductgood: getproductgood,
+  selectProductGoods: selectProductGoods,
   updatagood: updatagood,
 };

@@ -174,7 +174,7 @@ export default {
       console.log(aaa);
       this.productid = aaa.id + '';
       this.productName = aaa.productName;
-      storeService.getproductgood(aaa.id, (res) => {
+      storeService.selectProductGoods(aaa.id, this.stoneId, (res) => {
         console.log(res);
         this.listwu = res.data.data;
       });
