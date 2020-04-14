@@ -231,7 +231,15 @@ export default {
       this.productId = this.commodityId;
       console.log(this.commodityId);
       serviceGoods.getGoodsByProductId(this.productId, (res) => {
-        this.tableData = res.data.data;
+        let data = res.data.data;
+        for (var i = 0;i < data.length;i++) {
+          // eslint-disable-next-line no-magic-numbers
+          data[i].linePrice = data[i].linePrice / 100;
+          // eslint-disable-next-line no-magic-numbers
+          data[i].sellPrice = data[i].sellPrice / 100;
+        }
+        this.tableData = data;
+        console.log('tableData', data);
         this.loading = false;
       });
     },
@@ -252,14 +260,23 @@ export default {
       this.detailgoodsId = row.goodsId;
       this.drawer = true;
       serviceGoods.selectProductGoods(row.goodsId, this.commodityId, (res) => {
-        this.storage = res.data.data;
-        this.details = res.data.data;
+        let data = res.data.data;
+        for (var i = 0;i < data.length;i++) {
+          // eslint-disable-next-line no-magic-numbers
+          data[i].linePrice = data[i].linePrice / 100;
+          // eslint-disable-next-line no-magic-numbers
+          data[i].sellPrice = data[i].sellPrice / 100;
+        }
+        this.storage = data;
+        this.details = data;
         console.log('详情', res.data.data);
         this.acquire();
       });
     },
     // 修改提交
     modification(scope) {
+      // eslint-disable-next-line no-magic-numbers
+      scope.row.sellPrice = scope.row.sellPrice * 100;
       serviceGoods.updateGood(scope.row, (res) => {
         this.drawer = false;
       });

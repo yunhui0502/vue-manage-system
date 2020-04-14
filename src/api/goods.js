@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 /* eslint-disable require-jsdoc */
 import Axios from 'axios';
 // =============================================商品模块
@@ -57,9 +58,9 @@ function addProduct(params) {
 function setPrice (params) {
   let fd = new FormData();
   fd.append('hfGoodsId', params.hfGoodsId);
-  fd.append('sellPrice', params.sellPrice);
+  fd.append('sellPrice', params.sellPrice * 100);
   fd.append('quantity', params.quantity);
-  fd.append('linePrice', params.linePrice);
+  fd.append('linePrice', params.linePrice * 100);
   fd.append('wareHouseId', params.wareHouseId);
   return Axios.post('/api/api/product/goods/setPrice', fd);
 }

@@ -392,7 +392,8 @@ export default {
     SettingPrice(row) {
       console.log(row);
       this.transfedata.groupNum = row.groupNum;
-      this.transfedata.favoravlePrice = row.favoravlePrice;
+      // eslint-disable-next-line no-magic-numbers
+      this.transfedata.favoravlePrice = row.favoravlePrice * 100;
       this.transfedata.inventoryCelling = row.inventoryCelling;
       this.transfedata.id = row.id;
       serviceEvents.updateActivityProduct(this.transfedata, (res) => {

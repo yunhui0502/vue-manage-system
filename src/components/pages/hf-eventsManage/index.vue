@@ -458,7 +458,8 @@ export default {
       console.log(row);
       this.transfedata.discountRatio = row.discountRatio;
       this.transfedata.inventoryCelling = row.inventoryCelling;
-      this.transfedata.favoravlePrice = row.favoravlePrice;
+      // eslint-disable-next-line no-magic-numbers
+      this.transfedata.favoravlePrice = row.favoravlePrice * 100;
       this.transfedata.id = row.id;
       serviceEvents.updateActivityProduct(this.transfedata, (res) => {
         console.log('添加价格', res);
