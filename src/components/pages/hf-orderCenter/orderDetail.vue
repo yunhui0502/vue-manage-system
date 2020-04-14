@@ -61,9 +61,24 @@
             ></el-table-column>
           </el-table>
         </div>
+            <div
+ v-if="item.detailStatus==='payment' || item.detailStatus==='process'"
+        @click="cancle(item,index)"
+        style="background: #ff4040;color: #fff;padding:6px 10px ;width:90px;text-align:center; border-radius:4px;height:23px;"
+      >取消订单</div>
+           <div
+        v-if="item.detailStatus==='payment'"
+        @click="pay(item, index)"
+        style="width:90px;text-align:center;background: #409EFF;color: #fff;padding:6px 10px ;border-radius:4px;height:23px;"
+      >去支付</div>
+          <div
+          v-if="item.takingType==='selfPickUp'&&item.detailStatus==='process'&&detail.orderType==='nomalOrder'"
+          @click="que(item,index)"
+          style="background:#00bcd4;color: #fff;padding:6px 10px ;border-radius:4px;height:23px;width:66px;"
+        >确认订单</div>
         <div
           style="display:fkex;align-items:center;margin-top:20px;"
-          v-if="item.takingType==='delivery'&&detail.orderStatus==='process'&&detail.orderType==='nomalOrder'"
+          v-if="item.takingType==='delivery'&&item.detailStatus==='process'&&detail.orderType==='nomalOrder'"
         >
          <!-- <div
           style="display:fkex;align-items:center;margin-top:20px;"
@@ -74,10 +89,11 @@
           <el-button @click="que(item,index)" style="margin-left:10px;">提交</el-button>
         </div>
         <el-button
-          v-if="item.takingType==='delivery'&&detail.orderStatus==='process'||detail.orderStatus==='transport'&&detail.orderType==='nomalOrder'"
+          v-if="item.takingType==='delivery'&&(detail.orderStatus==='process'||detail.orderStatus==='transport')&&detail.orderType==='nomalOrder'"
           @click="cha(item,index)"
           style="margin-left:10px;"
-        >查询物流信息</el-button>       <div    v-if="item.takingType==='delivery'&&detail.orderStatus==='process'||detail.orderStatus==='transport'&&detail.orderType==='nomalOrder'" style="line-height:30px; display:fkex;align-items:center;margin-top:20px;font-size:12px;"
+        >查询物流信息</el-button>
+     <div  v-if="item.takingType==='delivery'&&(detail.orderStatus==='process'||detail.orderStatus==='transport')&&detail.orderType==='nomalOrder'" style="line-height:30px; display:fkex;align-items:center;margin-top:20px;font-size:12px;"
         >
           <span style="margin-bottom:10px;">物流单号：{{wuliuinfor.logisticCode}}</span>
           <span style="margin-left:20px;margin-bottom:10px;">物流公司名：{{wuliuinfor.company}}</span>
@@ -102,26 +118,12 @@
     </el-card>
 
     <div style="margin-top: 200px; display: flex;justify-content: space-around;padding:0 10%;">
-      <div
-        v-if="detail.orderStatus==='payment'"
-        @click="pay"
-        style="background: #409EFF;color: #fff;padding:6px 10px ;border-radius:4px;height:23px;"
-      >去支付</div>
+
       <div
         v-if="detail.orderStatus==='payment'"
         style="background: #40e5ff;color: #fff;padding:6px 10px ;border-radius:4px;height:23px;"
       >提醒用户</div>
-      <div
-        v-if="detail.orderStatus==='payment' || detail.orderStatus==='process'"
-        @click="cancle()"
-        style="background: #ff4040;color: #fff;padding:6px 10px ;border-radius:4px;height:23px;"
-      >取消订单</div>
       <div>
-        <div
-          v-if="detail.orderStatus==='process'"
-          @click="que()"
-          style="background:#00bcd4;color: #fff;padding:6px 10px ;border-radius:4px;height:23px;width:66px;"
-        >确认订单</div>
       </div>
       <div>联系用户：{{detail.phone}}</div>
     </div>
@@ -197,12 +199,13 @@ export default {
         // this.order.googsId = res.data.data[0].goodsId;
       });
     },
+
     que: function(item, index) {
+      console.log(item);
       this.order.id = this.$route.query.id;
       if (
         this.detail.orderStatus === 'process' &&
-        this.detail.orderType === 'nomalOrder'
-      ) {
+        this.detail.orderType === 'nomalOrder' && item.takingType === 'delivery') {
         // if (this.order.logisticsOrdersId === '') {
         //   this.$message.error('请填写物流单号');
         // }
@@ -247,30 +250,22 @@ export default {
           });
         }
       } else {
-        orderCenterService.writeWuLiu1(this.order, (res) => {
+        this.updata2.stoneId = item.stoneId;
+        console.log(this.updata2);
+        orderCenterService.upDataOrderStatus(this.updata2, (res) => {
           if (res.data.status === constants.SUCCESS_CODE) {
-            // this.$message({
-            //   message: '提交成功',
-            //   type: 'success',
-            // });
-            orderCenterService.upDataOrderStatus(this.updata2, (res) => {
-              if (res.data.status === constants.SUCCESS_CODE) {
-                this.$message({
-                  message: '已确认',
-                  type: 'success',
-                });
-                this.drawer = false;
-                this.getdetail();
-              } else {
-                this.$message.error('取消失败');
-              }
-              return false;
+            this.$message({
+              message: '已确认',
+              type: 'success',
             });
+            this.drawer = false;
+            this.getdetail();
           } else {
-            this.$message.error('提交失败');
+            this.$message.error('取消失败');
           }
-          // this.takingType = res.data.data[0].takingType;
+          return false;
         });
+
       }
     },
     getdetail: function() {
@@ -304,7 +299,8 @@ export default {
         // }
       });
     },
-    pay: function() {
+    pay: function(item, index) {
+      this.updata.stoneId = item.stoneId;
       orderCenterService.upDataOrderStatus(this.updata, (res) => {
         // console.log(this.updata, res);
         if (res.data.status === constants.SUCCESS_CODE) {
@@ -320,7 +316,8 @@ export default {
         return false;
       });
     },
-    cancle: function() {
+    cancle: function(item, index) {
+      this.updata1.stoneId = item.stoneId;
       orderCenterService.upDataOrderStatus(this.updata1, (res) => {
         // console.log(this.updata1, res);
         if (res.data.status === constants.SUCCESS_CODE) {
