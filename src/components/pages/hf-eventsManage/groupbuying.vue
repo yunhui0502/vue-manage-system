@@ -265,7 +265,12 @@ export default {
             this.transfedata.seniorityId,
             (res) => {
               console.log('活动商品列表信息', res);
-              this.eventsGoods = res.data.data;
+              let data = res.data.data;
+              for (var i = 0;i < data.length;i++) {
+                // eslint-disable-next-line no-magic-numbers
+                data[i].favoravlePrice = data[i].favoravlePrice / 100;
+              }
+              this.eventsGoods = data;
             },
           );
         }
@@ -297,7 +302,12 @@ export default {
               this.transfedata.seniorityId,
               (res) => {
                 console.log('活动商品列表信息', res);
-                this.eventsGoods = res.data.data;
+                let data = res.data.data;
+                for (var i = 0;i < data.length;i++) {
+                // eslint-disable-next-line no-magic-numbers
+                  data[i].favoravlePrice = data[i].favoravlePrice / 100;
+                }
+                this.eventsGoods = data;
               },
             );
           }
@@ -409,7 +419,12 @@ export default {
         console.log('阻止');
         serviceEvents.getActivityProductList(row.id, (res) => {
           console.log('活动商品列表信息', res);
-          this.eventsGoods = res.data.data;
+          let data = res.data.data;
+          for (var i = 0;i < data.length;i++) {
+            // eslint-disable-next-line no-magic-numbers
+            data[i].favoravlePrice = data[i].favoravlePrice / 100;
+          }
+          this.eventsGoods = data;
         });
       }
     },

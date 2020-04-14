@@ -74,7 +74,7 @@
             <span style="margin: 0 4px">{{Cabinet}}名称：{{productInfo.name}}</span>
           </el-header>
           <el-main>
-            <list-picture v-if="detailsp" :productId="productInfo.id"></list-picture>
+            <list-picture v-if="detailsp" :productId="commodityId"></list-picture>
             <listgraph v-if="!detailsp" :letter="letter"></listgraph>
           </el-main>
         </el-container>

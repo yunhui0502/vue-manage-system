@@ -43,8 +43,8 @@ function addProduct(params) {
   // fd.append('claim', params.claim);
   // fd.append('frames', params.frames);
   fd.append('goodName', params.goodName);
-  if (params.bossId !== '') {
-    fd.append('bossId', params.bossId);
+  if (params.stoneId !== '') {
+    fd.append('stoneId', params.stoneId);
   }
   fd.append('goodsDesc', params.goodsDesc);
   fd.append('requestId', params.requestId);
