@@ -52,7 +52,7 @@
           <el-table-column align="center" prop="modifyTime" label="修改时间" width="180"></el-table-column>
           <el-table-column align="center" label="操作">
             <template slot-scope="scope">
-              <el-button @click="checkDetail(scope.row)" type="text" size="small">详情</el-button>
+              <!-- <el-button @click="checkDetail(scope.row)" type="text" size="small">详情</el-button> -->
               <el-button @click="goDetail(scope.row)" type="text" size="small">订单处理</el-button>
             </template>
           </el-table-column>

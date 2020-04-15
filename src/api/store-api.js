@@ -77,7 +77,13 @@ function updatagood(params) {
   fd.append('sellPrice ', params.sellPrice);
   return Axios.post('/api/api/product/goods/updategood', fd);
 }
-
+function addStonePicture(params) {
+  console.log(params);
+  let fd = new FormData();
+  fd.append('file', params.file);
+  fd.append('stoneId', params.stoneId);
+  return Axios.post('/api/stone/addStonePicture', fd);
+}
 export default {
   addStore: addStore,
   getStore: getStore,
@@ -93,4 +99,5 @@ export default {
   getproductgood: getproductgood,
   updatagood: updatagood,
   selectProductGoods: selectProductGoods,
+  addStonePicture: addStonePicture,
 };

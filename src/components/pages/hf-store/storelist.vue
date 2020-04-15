@@ -100,7 +100,8 @@
       :visible.sync="editdrawer"
       :direction="direction"
     >
-      <el-form
+    <div style="display:flex;">
+        <el-form
         style="width:25%;"
         :model="editData"
         status-icon
@@ -127,6 +128,22 @@
           <!-- <el-button @click="resetForm('ruleForm')">重置</el-button> -->
         </el-form-item>
       </el-form>
+            <el-upload
+        style="margin-left:100px;"
+        list-type="picture-card"
+        ref="upload"
+        action
+        multiple
+        :auto-upload="false"
+        :file-list="fileList"
+        :on-change="imgUpload"
+      >
+        <el-button size="small" type="primary">点击上传</el-button>
+        <!-- <div slot="tip">只能上传jpg/png文件，且不超过500kb</div> -->
+      </el-upload>
+    </div>
+
+
     </el-drawer>
     <el-dialog
       :visible.sync="dialogVisible">
@@ -191,9 +208,11 @@
 import storeService from '@/service/store.js';
 import userCenterService from '@/service/userCenter.js';
 import constants from '@/store/constants.js';
+import axios from 'axios';
 export default {
   data() {
     return {
+      fileList: [], // 图片
       currentPage: 1, // 初始页
       pagesize: 6, // 每页的数据
       productVisible: false,
@@ -288,6 +307,26 @@ export default {
     };
   },
   methods: {
+    imgUpload(file) {
+      let fileName = file.name;
+      let regex = /(.jpg|.jpeg|.gif|.png|.bmp)$/;
+      if (regex.test(fileName.toLowerCase())) {
+        this.picUrl = URL.createObjectURL(file.raw);
+        this.uploadFile(file);
+      } else {
+        this.$message.error('请选择图片文件');
+      }
+    },
+    uploadFile(file) {
+      let fd = new FormData();
+      console.log(this.editid, file.raw);
+      fd.append('file', file.raw);
+      fd.append('stoneId', this.editid);
+      axios.post('/api/api/product/stone/addStonePicture', fd)
+        .then((res) => {
+          console.log(res);
+        });
+    },
     handleSizeChange(val) {
       this.pagesize = val;
     },

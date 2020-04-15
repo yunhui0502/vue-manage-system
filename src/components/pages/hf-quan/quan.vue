@@ -506,6 +506,10 @@ export default {
       this.formquan1.discountCouponDesc = row.discountCouponDesc;
       this.formquan1.scope = row.scope;
       this.formquan1.useLimit = JSON.parse(this.formquan1.useLimit);
+      this.formquan1.useLimit.full = this.formquan1.useLimit.full / 100;
+      if (row.discountCouponType === '1') {
+        this.formquan1.useLimit.minus = this.formquan1.useLimit.minus / 100;
+      }
       console.log(this.formquan1.useLimit);
       if (row.superposition === 1) {
         this.radiodie = '1';
@@ -522,9 +526,13 @@ export default {
         if (valid) {
           this.formquan.startTime = this.formatDate(this.formquan.startTime);
           this.formquan.stopTime = this.formatDate(this.formquan.stopTime);
+          this.formquan.useLimit.full = this.formquan.useLimit.full * 100;
+          if (this.formquan.discountCouponType === 1) {
+            this.formquan.useLimit.minus = this.formquan.useLimit.minus * 100;
+          }
           this.formquan.useLimit = JSON.stringify(this.formquan.useLimit);
           quan.addCoupon(this.formquan, (res) => {
-            // console.log(res);
+            console.log('添加优惠券', res);
             if (res.data.status === constants.SUCCESS_CODE) {
               this.$message({
                 message: '添加成功',
@@ -548,6 +556,10 @@ export default {
       //   this.formquan.stopTime = this.formquan.startTime.toLocaleString();
       this.$refs[ruleForm].validate((valid) => {
         if (valid) {
+          this.formquan1.useLimit.full = this.formquan1.useLimit.full * 100;
+          if (this.formquan1.discountCouponType === 1) {
+            this.formquan1.useLimit.minus = this.formquan1.useLimit.minus * 100;
+          }
           this.formquan1.useLimit = JSON.stringify(this.formquan1.useLimit);
           // this.formquan1.startTime = this.formatDate(this.formquan1.startTime);
           // this.formquan1.stopTime = this.formatDate(this.formquan1.stopTime);

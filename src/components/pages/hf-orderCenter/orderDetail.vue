@@ -61,7 +61,8 @@
             ></el-table-column>
           </el-table>
         </div>
-            <div
+        <div style="margin-top:20px; display:flex;align-items:center;justify-content:space-around;">
+               <div
  v-if="item.detailStatus==='payment' || item.detailStatus==='process'"
         @click="cancle(item,index)"
         style="background: #ff4040;color: #fff;padding:6px 10px ;width:90px;text-align:center; border-radius:4px;height:23px;"
@@ -76,6 +77,8 @@
           @click="que(item,index)"
           style="background:#00bcd4;color: #fff;padding:6px 10px ;border-radius:4px;height:23px;width:66px;"
         >确认订单</div>
+        </div>
+
         <div
           style="display:fkex;align-items:center;margin-top:20px;"
           v-if="item.takingType==='delivery'&&item.detailStatus==='process'&&detail.orderType==='nomalOrder'"
@@ -93,16 +96,16 @@
           @click="cha(item,index)"
           style="margin-left:10px;"
         >查询物流信息</el-button>
-     <div  v-if="item.takingType==='delivery'&&(detail.orderStatus==='process'||detail.orderStatus==='transport')&&detail.orderType==='nomalOrder'" style="line-height:30px; display:fkex;align-items:center;margin-top:20px;font-size:12px;"
+        <div  v-if="item.takingType==='delivery'&&(detail.orderStatus==='process'||detail.orderStatus==='transport')&&detail.orderType==='nomalOrder'&&item.wuliu!=0" style="line-height:30px; display:fkex;align-items:center;margin-top:20px;font-size:12px;"
         >
-          <span style="margin-bottom:10px;">物流单号：{{wuliuinfor.logisticCode}}</span>
-          <span style="margin-left:20px;margin-bottom:10px;">物流公司名：{{wuliuinfor.company}}</span>
+          <span style="margin-bottom:10px;">物流单号：{{item.wuliu.logisticCode}}</span>
+          <span style="margin-left:20px;margin-bottom:10px;">物流公司名：{{item.wuliu.company}}</span>
           <!-- <span style="margin-left:20px;">物流信息</span> -->
-          <div>物流信息:</div>
-          <div v-for="(item,index) in wuliuinfor.traces" :key="index">
+          <!-- <div>物流信息:</div> -->
+          <div v-for="(item1,index) in item.wuliu.traces" :key="index">
             <div>
-              <span>{{item.AcceptStation}}</span>
-              <span>{{item.AcceptTime}}</span>
+              <span>{{item1.AcceptStation}}</span>
+              <span>{{item1.AcceptTime}}</span>
             </div>
           </div>
         </div>
@@ -119,10 +122,10 @@
 
     <div style="margin-top: 200px; display: flex;justify-content: space-around;padding:0 10%;">
 
-      <div
+      <!-- <div
         v-if="detail.orderStatus==='payment'"
         style="background: #40e5ff;color: #fff;padding:6px 10px ;border-radius:4px;height:23px;"
-      >提醒用户</div>
+      >提醒用户</div> -->
       <div>
       </div>
       <div>联系用户：{{detail.phone}}</div>
@@ -181,15 +184,24 @@ export default {
   },
   methods: {
     cha: function(item, index) {
-      console.log(this.detailRequestList);
+      // console.log(this.detailRequestList);
       this.orderliu.id = this.id;
       this.orderliu.stoneId = item.stoneId;
-      console.log(this.orderliu);
+      // console.log(index);
+      // console.log(this.orderliu);
       orderCenterService.getWuLiu(this.orderliu, (res) => {
-        this.detailRequestList[index].show = true;
+        // this.detailRequestList[index].show = true;
+        // console.log(this.detailRequestList);
+        if (item.wuliu === '0') {
+          console.log(1);
+          this.detailRequestList[index].wuliu = res.data.data;
+
+        } else {
+          console.log(2);
+          this.detailRequestList[index].wuliu = '0';
+        }
         console.log(this.detailRequestList);
-        this.wuliuinfor = res.data.data;
-        console.log('6', this.wuliuinfor);
+        // console.log('6', this.wuliuinfor);
         // eslint-disable-next-line no-eval
         // this.wuliuinfor = JSON.parse(this.wuliuinfor);
         // console.log('7', this.wuliuinfor);
@@ -201,7 +213,7 @@ export default {
     },
 
     que: function(item, index) {
-      console.log(item);
+      // console.log(item);
       this.order.id = this.$route.query.id;
       if (
         this.detail.orderStatus === 'process' &&
@@ -212,7 +224,7 @@ export default {
         if (!item.logisticsOrdersId) {
           this.$message.error('请填写物流单号');
         } else {
-          console.log(item);
+          // console.log(item);
           let arr = [];
           for (var i = 0; i < item.hfOrderDetailList.length; i++) {
             arr.push(item.hfOrderDetailList[i].goodsId);
@@ -222,14 +234,14 @@ export default {
           this.updata2.stoneId = item.stoneId;
           this.order.googsId = arr;
           orderCenterService.writeWuLiu(this.order, (res) => {
-            console.log(res);
+            // console.log(res);
             if (res.data.status === constants.SUCCESS_CODE) {
               // this.$message({
               //   message: '提交成功',
               //   type: 'success',
               // });
 
-              console.log(this.updata2);
+              // console.log(this.updata2);
               orderCenterService.upDataOrderStatus(this.updata2, (res) => {
                 if (res.data.status === constants.SUCCESS_CODE) {
                   this.$message({
@@ -251,7 +263,7 @@ export default {
         }
       } else {
         this.updata2.stoneId = item.stoneId;
-        console.log(this.updata2);
+        // console.log(this.updata2);
         orderCenterService.upDataOrderStatus(this.updata2, (res) => {
           if (res.data.status === constants.SUCCESS_CODE) {
             this.$message({
@@ -271,7 +283,7 @@ export default {
     getdetail: function() {
       orderCenterService.getOrderDetail(this.id, (res) => {
         this.detail = res.data.data;
-        console.log(res);
+        // console.log(res);
         this.detail.orderDesc = JSON.parse(this.detail.orderDesc);
         this.hfGoodsSpecs = this.detail.orderDesc.hfGoodsSpecs;
         this.goodsName = this.detail.orderDesc.goodsName;
@@ -281,18 +293,20 @@ export default {
         this.detail.userId = this.content.id;
         this.updata1.originOrderStatus = this.detail.orderStatus;
         orderCenterService.getOrderDetail1(this.detail, (res) => {
-          console.log(res);
+          // console.log(res);
           this.detail = res.data.data[0];
+          console.log(this.detail);
           this.takingType = res.data.data[0].takingType;
           this.order.googsId = res.data.data[0].goodsId;
           this.detailRequestList = res.data.data[0].detailRequestList;
           for (var i = 0; i < this.detailRequestList.length; i++) {
+            // this.detailRequestList[i].wuliu = 1;
             for (var j = 0;j < this.detailRequestList[i].hfOrderDetailList.length;j++) {
               this.detailRequestList[i].hfOrderDetailList[j].hfDesc = JSON.parse(this.detailRequestList[i].hfOrderDetailList[j].hfDesc);
               // this.detailRequestList[i].show = false;
             }
           }
-          console.log('1', this.detailRequestList);
+          // console.log('1', this.detailRequestList);
         });
         // if (this.takingType === 'delivery' && this.detail.orderStatus === 'transport' && this.detail.orderType === 'nomalOrder') {
 
@@ -343,7 +357,7 @@ export default {
     this.zhuang = this.$route.query.zhuang;
     var content = window.sessionStorage.getItem('userInfor');
     this.content = JSON.parse(content);
-    console.log(this.id);
+    // console.log(this.id);
     this.getdetail();
     // this.getdetail1();
   },
