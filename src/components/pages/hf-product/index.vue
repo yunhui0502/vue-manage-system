@@ -80,7 +80,7 @@ export default {
   methods: {
     setProducts() {
       this.loading = true;
-      serviceProduct.getProductsByBossId((res) => {
+      serviceProduct.getProductListBoss((res) => {
         this.tableData = res.data.data.list;
         this.loading = false;
       });

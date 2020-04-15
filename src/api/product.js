@@ -5,6 +5,10 @@ import Axios from 'axios';
 function getProductsByBossId(bossId) {
   return Axios.get('/api/api/product/hfProduct/getstone?bossId=' + bossId);
 }
+// 获取商品商品管理列表
+function getProductListBoss(bossId) {
+  return Axios.get('/api/api/product/hfProduct/getProductListBoss?bossId=' + bossId);
+}
 // 获取当前商品
 function getDetail(productId, stoneId) {
   return Axios.get('/api/api/product/hfProduct/getProductInfo?productId=' + productId + '&stoneId=' + stoneId);
@@ -110,4 +114,5 @@ export default {
   deleteProductPictrue: deleteProductPictrue,
   updatespec: updatespec,
   selectProductIntroducePictrue: selectProductIntroducePictrue,
+  getProductListBoss: getProductListBoss,
 };

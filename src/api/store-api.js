@@ -65,7 +65,7 @@ function getproductgood(productId) {
   return Axios.get('/api/api/product/product/selectProductGoods?productId=' + productId);
 }
 function selectProductGoods(productId, stoneId) {
-  return Axios.get('/api/api/product/product/selectProductGoods?productId=' + productId + '&stoneId' + stoneId);
+  return Axios.get('/api/api/product/product/selectProductGoods?productId=' + productId + '&stoneId=' + stoneId);
 }
 function updatagood(params) {
   console.log(params);
