@@ -6,6 +6,10 @@ async function getProductsByBossId(handleResult) {
   product.getProductsByBossId(bossId).then((res) => handleResult(res));
 }
 
+async function getProductListBoss(handleResult) {
+  let bossId = 1;
+  product.getProductListBoss(bossId).then((res) => handleResult(res));
+}
 async function deleteById(productId, handleResult) {
   product.deleteProductById(productId).then((res) => handleResult(res));
 }
@@ -73,4 +77,5 @@ export default {
   deleteProductPictrue: deleteProductPictrue,
   updatespec: updatespec,
   selectProductIntroducePictrue: selectProductIntroducePictrue,
+  getProductListBoss: getProductListBoss,
 };
