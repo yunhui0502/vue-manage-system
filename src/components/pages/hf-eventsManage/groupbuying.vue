@@ -73,6 +73,11 @@
               <el-input placeholder="请输入内容" v-model="scope.row.favoravlePrice"></el-input>
             </template>
           </el-table-column>
+          <el-table-column prop="priceArea" label="商品价格">
+            <template slot-scope="scope">
+              <span placeholder="请输入内容">{{scope.row.priceArea}}</span>
+            </template>
+          </el-table-column>
           <el-table-column prop="groupNum" label="成团人数">
             <template slot-scope="scope">
               <el-input placeholder="请输入内容" v-model="scope.row.groupNum"></el-input>
@@ -266,9 +271,11 @@ export default {
             (res) => {
               console.log('活动商品列表信息', res);
               let data = res.data.data;
-              for (var i = 0;i < data.length;i++) {
+              for (var i = 0; i < data.length; i++) {
                 // eslint-disable-next-line no-magic-numbers
                 data[i].favoravlePrice = data[i].favoravlePrice / 100;
+                // eslint-disable-next-line no-magic-numbers
+                data[i].priceArea = data[i].priceArea / 100;
               }
               this.eventsGoods = data;
             },
@@ -303,9 +310,11 @@ export default {
               (res) => {
                 console.log('活动商品列表信息', res);
                 let data = res.data.data;
-                for (var i = 0;i < data.length;i++) {
-                // eslint-disable-next-line no-magic-numbers
+                for (var i = 0; i < data.length; i++) {
+                  // eslint-disable-next-line no-magic-numbers
                   data[i].favoravlePrice = data[i].favoravlePrice / 100;
+                  // eslint-disable-next-line no-magic-numbers
+                  data[i].priceArea = data[i].priceArea / 100;
                 }
                 this.eventsGoods = data;
               },
@@ -420,9 +429,11 @@ export default {
         serviceEvents.getActivityProductList(row.id, (res) => {
           console.log('活动商品列表信息', res);
           let data = res.data.data;
-          for (var i = 0;i < data.length;i++) {
+          for (var i = 0; i < data.length; i++) {
             // eslint-disable-next-line no-magic-numbers
             data[i].favoravlePrice = data[i].favoravlePrice / 100;
+            // eslint-disable-next-line no-magic-numbers
+            data[i].priceArea = data[i].priceArea / 100;
           }
           this.eventsGoods = data;
         });
