@@ -10,12 +10,15 @@ async function checkOrder(orderStatus, handleResult) {
 async function upDataOrderStatus(params, handleResult) {
   orderCenter.upDataOrderStatus(params).then((res) => handleResult(res));
 }
+async function upDataOrderStatus1(params, handleResult) {
+  orderCenter.upDataOrderStatus1(params).then((res) => handleResult(res));
+}
 async function getOrderType(handleResult) {
   orderCenter.getOrderType().then((res) => handleResult(res));
 }
 async function getOrderByType(params, handleResult) {
-  console.log('1');
-  console.log('1', params);
+  // console.log('1');
+  // console.log('1', params);
   orderCenter.getOrderByType(params).then((res) => handleResult(res));
 }
 async function getOrderDetail(id, handleResult) {
@@ -38,6 +41,7 @@ export default {
   checkStatus: checkStatus,
   checkOrder: checkOrder,
   upDataOrderStatus: upDataOrderStatus,
+  upDataOrderStatus1: upDataOrderStatus1,
   getOrderType: getOrderType,
   getOrderByType: getOrderByType,
   getOrderDetail: getOrderDetail,
@@ -45,4 +49,5 @@ export default {
   writeWuLiu: writeWuLiu,
   writeWuLiu1: writeWuLiu1,
   getWuLiu: getWuLiu,
+
 };

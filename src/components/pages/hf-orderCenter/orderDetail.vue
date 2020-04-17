@@ -8,9 +8,12 @@
       <span>支付人:{{detail.nickName}}</span>
       <span style="margin-left: 20px;" v-if="detail.paymentName === 'balance'">支付方式:余额支付</span>
       <span style="margin-left: 20px;" v-if="detail.paymentName === 'BalancePayment'">支付方式:余额支付</span>
+      <span style="margin-left: 20px;" v-if="detail.takingType === 'selfPickUp'">取货方式:自提</span>
+      <span style="margin-left: 20px;" v-if="detail.takingType === 'delivery'">取货方式:邮寄</span>
       <span style="margin-left: 20px;" v-if="detail.paymentName === 'wechart'">支付方式:微信支付</span>
       <span style="margin-left: 20px;">支付金额:{{detail.amount}}</span>
       <span style="margin-left: 20px;">支付时间:{{detail.modifyTime}}</span>
+
       <span style="margin-left: 20px;" v-if="detail.orderStatus === 'payment'">订单状态:待支付</span>
       <span style="margin-left: 20px;" v-if="detail.orderStatus === 'transport'">订单状态:运送中</span>
       <span style="margin-left: 20px;" v-if="detail.orderStatus === 'process'">订单状态:处理中</span>
@@ -62,17 +65,7 @@
           </el-table>
         </div>
         <div style="margin-top:20px; display:flex;align-items:center;justify-content:space-around;">
-               <div
- v-if="item.detailStatus==='payment' || item.detailStatus==='process'"
-        @click="cancle(item,index)"
-        style="background: #ff4040;color: #fff;padding:6px 10px ;width:90px;text-align:center; border-radius:4px;height:23px;"
-      >取消订单</div>
-           <div
-        v-if="item.detailStatus==='payment'"
-        @click="pay(item, index)"
-        style="width:90px;text-align:center;background: #409EFF;color: #fff;padding:6px 10px ;border-radius:4px;height:23px;"
-      >去支付</div>
-          <div
+       <div
           v-if="item.takingType==='selfPickUp'&&item.detailStatus==='process'&&detail.orderType==='nomalOrder'"
           @click="que(item,index)"
           style="background:#00bcd4;color: #fff;padding:6px 10px ;border-radius:4px;height:23px;width:66px;"
@@ -121,11 +114,26 @@
     </el-card>
 
     <div style="margin-top: 200px; display: flex;justify-content: space-around;padding:0 10%;">
-
-      <!-- <div
+                 <div
+        v-if="detail.orderStatus==='controversial'"
+        @click="agree()"
+        style="width:90px;text-align:center;background: #409EFF;color: #fff;padding:6px 10px ;border-radius:4px;height:23px;"
+      >同意申请</div>
+                 <div
         v-if="detail.orderStatus==='payment'"
-        style="background: #40e5ff;color: #fff;padding:6px 10px ;border-radius:4px;height:23px;"
-      >提醒用户</div> -->
+        @click="pay()"
+        style="width:90px;text-align:center;background: #409EFF;color: #fff;padding:6px 10px ;border-radius:4px;height:23px;"
+      >去支付</div>
+           <div
+   v-if="detail.orderStatus==='payment' || detail.orderStatus==='process'"
+        @click="cancle()"
+        style="background: #ff4040;color: #fff;padding:6px 10px ;width:90px;text-align:center; border-radius:4px;height:23px;"
+      >取消订单</div>
+                          <div
+        v-if="detail.orderStatus==='controversial'"
+        @click="noagree()"
+        style="width:90px;text-align:center;background: red;color: #fff;padding:6px 10px ;border-radius:4px;height:23px;"
+      >不同意</div>
       <div>
       </div>
       <div>联系用户：{{detail.phone}}</div>
@@ -165,6 +173,18 @@ export default {
         orderCode: '',
         originOrderStatus: 'payment',
       },
+      updatanoagree: {
+        targetOrderStatus: 'reject',
+        id: '',
+        orderCode: '',
+        originOrderStatus: 'controversial',
+      },
+      updataagree: {
+        targetOrderStatus: 'cancel',
+        id: '',
+        orderCode: '',
+        originOrderStatus: 'controversial',
+      },
       updata1: {
         targetOrderStatus: 'cancel',
         id: '',
@@ -193,14 +213,14 @@ export default {
         // this.detailRequestList[index].show = true;
         // console.log(this.detailRequestList);
         if (item.wuliu === '0') {
-          console.log(1);
+          // console.log(1);
           this.detailRequestList[index].wuliu = res.data.data;
 
         } else {
-          console.log(2);
+          // console.log(2);
           this.detailRequestList[index].wuliu = '0';
         }
-        console.log(this.detailRequestList);
+        // console.log(this.detailRequestList);
         // console.log('6', this.wuliuinfor);
         // eslint-disable-next-line no-eval
         // this.wuliuinfor = JSON.parse(this.wuliuinfor);
@@ -290,6 +310,8 @@ export default {
         this.updata.orderCode = this.detail.orderCode;
         this.updata1.orderCode = this.detail.orderCode;
         this.updata2.orderCode = this.detail.orderCode;
+        this.updataagree.orderCode = this.detail.orderCode;
+        this.updatanoagree.orderCode = this.detail.orderCode;
         this.detail.userId = this.content.id;
         this.updata1.originOrderStatus = this.detail.orderStatus;
         orderCenterService.getOrderDetail1(this.detail, (res) => {
@@ -313,9 +335,41 @@ export default {
         // }
       });
     },
-    pay: function(item, index) {
-      this.updata.stoneId = item.stoneId;
-      orderCenterService.upDataOrderStatus(this.updata, (res) => {
+    agree: function() {
+      // this.updataagree.stoneId = item.stoneId;
+      orderCenterService.upDataOrderStatus1(this.updataagree, (res) => {
+        // console.log(this.updata, res);
+        if (res.data.status === constants.SUCCESS_CODE) {
+          this.$message({
+            message: '提交成功',
+            type: 'success',
+          });
+          this.drawer = false;
+          this.getdetail();
+        } else {
+          this.$message.error('提交失败');
+        }
+      });
+    },
+    noagree: function() {
+      // this.updatanoagree.stoneId = item.stoneId;
+      orderCenterService.upDataOrderStatus1(this.updatanoagree, (res) => {
+        // console.log(this.updata, res);
+        if (res.data.status === constants.SUCCESS_CODE) {
+          this.$message({
+            message: '提交成功',
+            type: 'success',
+          });
+          this.drawer = false;
+          this.getdetail();
+        } else {
+          this.$message.error('提交失败');
+        }
+      });
+    },
+    pay: function() {
+      // this.updata.stoneId = item.stoneId;
+      orderCenterService.upDataOrderStatus1(this.updata, (res) => {
         // console.log(this.updata, res);
         if (res.data.status === constants.SUCCESS_CODE) {
           this.$message({
@@ -331,8 +385,8 @@ export default {
       });
     },
     cancle: function(item, index) {
-      this.updata1.stoneId = item.stoneId;
-      orderCenterService.upDataOrderStatus(this.updata1, (res) => {
+      // this.updata1.stoneId = item.stoneId;
+      orderCenterService.upDataOrderStatus1(this.updata1, (res) => {
         // console.log(this.updata1, res);
         if (res.data.status === constants.SUCCESS_CODE) {
           this.$message({
@@ -354,6 +408,8 @@ export default {
     this.updata.id = this.$route.query.id;
     this.updata1.id = this.$route.query.id;
     this.updata2.id = this.$route.query.id;
+    this.updatanoagree.id = this.$route.query.id;
+    this.updataagree.id = this.$route.query.id;
     this.zhuang = this.$route.query.zhuang;
     var content = window.sessionStorage.getItem('userInfor');
     this.content = JSON.parse(content);
