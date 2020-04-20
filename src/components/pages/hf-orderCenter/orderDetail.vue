@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 <template>
   <div style="padding-bottom:130px ;">
     <div>
@@ -318,6 +319,8 @@ export default {
           // console.log(res);
           this.detail = res.data.data[0];
           console.log(this.detail);
+          // eslint-disable-next-line no-magic-numbers
+          this.detail.amount = (this.detail.amount / 100).toFixed(2);
           this.takingType = res.data.data[0].takingType;
           this.order.googsId = res.data.data[0].goodsId;
           this.detailRequestList = res.data.data[0].detailRequestList;
@@ -370,7 +373,7 @@ export default {
     pay: function() {
       // this.updata.stoneId = item.stoneId;
       orderCenterService.upDataOrderStatus1(this.updata, (res) => {
-        // console.log(this.updata, res);
+        console.log(this.updata, res);
         if (res.data.status === constants.SUCCESS_CODE) {
           this.$message({
             message: '支付成功',
