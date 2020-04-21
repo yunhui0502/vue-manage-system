@@ -14,6 +14,8 @@
             :show-overflow-tooltip="true"
             width="180"
           ></el-table-column>
+           <el-table-column align="center" prop="nickName" label="支付人"></el-table-column>
+           <el-table-column align="center" prop="phone" label="手机号"></el-table-column>
           <el-table-column align="center" label="订单类型"  prop="orderType">
            <template slot-scope="scope">
              <span v-if="scope.row.orderType === 'balancePayment'">
@@ -137,7 +139,7 @@ export default {
       this.currentPage = val;
     },
     getlistByType: function(tab) {
-      console.log(tab);
+      // console.log(tab);
       this.orderTypeValue = tab.label;
       for (var i = 0; i < this.orderType.length; i++) {
         if (this.orderType[i].orderDesc === this.orderTypeValue) {
@@ -157,13 +159,13 @@ export default {
     },
     getOrderByType: function() {
       orderCenterService.getOrderType((res) => {
-        console.log(res);
+        // console.log(res);
         this.orderType = res.data.data;
       });
     },
     getOrderType: function() {
       orderCenterService.getOrderType((res) => {
-        console.log(res);
+        // console.log(res);
         this.orderType = res.data.data;
         this.activeName = this.orderType[0].orderDesc;
         this.type.orderType = this.orderType[0].orderType;
@@ -172,12 +174,12 @@ export default {
       });
     },
     updateStatus: function(aaa) {
-      console.log(aaa);
+      // console.log(aaa);
       for (var i = 0; i < this.statusData.length; i++) {
         if (this.statusData[i].hfName === aaa) {
           this.updata.targetOrderStatus = this.statusData[i].hfDesc;
           orderCenterService.upDataOrderStatus(this.updata, (res) => {
-            console.log(this.updata, res);
+            // console.log(this.updata, res);
             if (res.data.status === constants.SUCCESS_CODE) {
               this.$message({
                 message: '修改成功',
@@ -193,14 +195,14 @@ export default {
       }
     },
     getStatus: function(tab, event) {
-      console.log(tab.label);
+      // console.log(tab.label);
       this.zhuang = tab.label;
       for (var i = 0; i < this.statusData.length; i++) {
         if (this.statusData[i].hfName === tab.label) {
           console.log(this.statusData[i].hfDesc);
           this.type.orderStatus = this.statusData[i].hfDesc;
-          console.log(this.type.orderStatus);
-          console.log(this.type);
+          // console.log(this.type.orderStatus);
+          // console.log(this.type);
           orderCenterService.getOrderByType(this.type, (res) => {
             console.log(res);
             let data = res.data.data;
@@ -219,8 +221,9 @@ export default {
     },
     getStatus1: function(tab, event) {
       this.type.orderStatus = this.statusData[0].hfDesc;
-      console.log(this.type);
+      // console.log(this.type);
       orderCenterService.getOrderByType(this.type, (res) => {
+<<<<<<< HEAD
         console.log(res);
         let data = res.data.data;
         for (var i = 0; i < data.length; i++) {
@@ -229,20 +232,24 @@ export default {
           // eslint-disable-next-line no-magic-numbers
         }
         this.orderData = data;
+=======
+        // console.log(res);
+        this.orderData = res.data.data;
+>>>>>>> 2aa1fb551a00f515b690caf3db0341a5fa689a76
       });
     },
     addUser: function() {
       this.addUserVisible = true;
     },
     handleChange(file, fileList) {
-      console.log(file);
+      // console.log(file);
       userCenterService.uploadPicture(file, this.userId, (res) => {
-        console.log(res);
+        // console.log(res);
       });
     },
     addUserSubmit: function() {
       userCenterService.addUser(this.addUserForm, (res) => {
-        console.log(res);
+        // console.log(res);
         if (res.data.data === '该用户已经存在') {
           this.$message.error('该用户已经存在');
         } else {
@@ -251,13 +258,13 @@ export default {
             type: 'success',
           });
           this.addUserVisible = false;
-          this.checkUser();
+          // this.checkUser();
         }
       });
     },
     checkUser: function() {
       orderCenterService.checkStatus((res) => {
-        console.log(res.data.data);
+        // console.log(res.data.data);
         this.statusData = res.data.data;
         this.getOrderType();
       });
@@ -265,18 +272,18 @@ export default {
     upload: function(row, id) {
       this.userId = row.id;
       this.pictureVisible = true;
-      console.log(row);
+      // console.log(row);
     },
     checkDetail: function(row) {
       this.drawer = true;
       this.updata.id = row.id;
       this.updata.originOrderStatus = row.orderStatus;
       this.updata.orderCode = row.orderCode;
-      console.log(row);
+      // console.log(row);
     },
     goDetail: function(row) {
       this.id = row.id;
-      console.log(this.zhuang);
+      // console.log(this.zhuang);
       this.$router.push({
         path: '/orderDetail',
         query: {

@@ -22,7 +22,13 @@
             <span v-if="scope.row.useState===1">已结束</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" prop="discountCouponDesc" label="描述"></el-table-column>
+        <el-table-column align="center" prop="useState" label="活动" width="150">
+           <template slot-scope="scope">
+            <span v-if="scope.row.discountCouponType==='0'">满{{scope.row.useLimit.full}}元打{{scope.row.useLimit.minus}}折</span>
+            <span v-if="scope.row.discountCouponType==='1'">满{{scope.row.useLimit.full}}减{{scope.row.useLimit.minus}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column   :show-overflow-tooltip="true"    align="center" prop="discountCouponDesc" label="描述"></el-table-column>
         <el-table-column align="center" label="适用范围">
           <template slot-scope="scope">
             <span v-if="scope.row.scope==='allUser'">所有用户</span>
@@ -610,6 +616,18 @@ export default {
     getlist: function() {
       quan.getlist(this.editid, (res) => {
         console.log(res);
+        for (var i = 0;i < res.data.data.length;i++) {
+          res.data.data[i].useLimit = JSON.parse(res.data.data[i].useLimit);
+          // eslint-disable-next-line no-magic-numbers
+          res.data.data[i].useLimit.full = (res.data.data[i].useLimit.full / 100).toFixed(2);
+          if (res.data.data[i].discountCouponType === 1) {
+            // eslint-disable-next-line no-magic-numbers
+            res.data.data[i].useLimit.minus = (res.data.data[i].useLimit.minus / 100).toFixed(2);
+          } else {
+            // eslint-disable-next-line no-magic-numbers
+            res.data.data[i].useLimit.minus = res.data.data[i].useLimit.minus / 10;
+          }
+        }
         this.list = res.data.data;
       });
     },
