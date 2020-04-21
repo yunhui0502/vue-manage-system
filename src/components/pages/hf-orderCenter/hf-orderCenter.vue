@@ -223,7 +223,6 @@ export default {
       this.type.orderStatus = this.statusData[0].hfDesc;
       // console.log(this.type);
       orderCenterService.getOrderByType(this.type, (res) => {
-<<<<<<< HEAD
         console.log(res);
         let data = res.data.data;
         for (var i = 0; i < data.length; i++) {
@@ -232,10 +231,6 @@ export default {
           // eslint-disable-next-line no-magic-numbers
         }
         this.orderData = data;
-=======
-        // console.log(res);
-        this.orderData = res.data.data;
->>>>>>> 2aa1fb551a00f515b690caf3db0341a5fa689a76
       });
     },
     addUser: function() {
