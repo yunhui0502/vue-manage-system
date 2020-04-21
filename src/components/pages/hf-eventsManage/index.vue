@@ -348,9 +348,9 @@ export default {
                 let data = res.data.data;
                 for (var i = 0; i < data.length; i++) {
                   // eslint-disable-next-line no-magic-numbers
-                  data[i].favoravlePrice = data[i].favoravlePrice / 100;
+                  data[i].favoravlePrice = (data[i].favoravlePrice / 100).toFixed(2);
                   // eslint-disable-next-line no-magic-numbers
-                  data[i].priceArea = data[i].priceArea / 100;
+                  data[i].priceArea = (data[i].priceArea / 100).toFixed(2);
                 }
                 this.eventsGoods = data;
               },
@@ -454,9 +454,9 @@ export default {
               let data = res.data.data;
               for (var i = 0; i < data.length; i++) {
                 // eslint-disable-next-line no-magic-numbers
-                data[i].favoravlePrice = data[i].favoravlePrice / 100;
+                data[i].favoravlePrice = (data[i].favoravlePrice / 100).toFixed(2);
                 // eslint-disable-next-line no-magic-numbers
-                data[i].priceArea = data[i].priceArea / 100;
+                data[i].priceArea = (data[i].priceArea / 100).toFixed(2);
               }
               this.eventsGoods = data;
             },
@@ -499,9 +499,9 @@ export default {
           let data = res.data.data;
           for (var i = 0; i < data.length; i++) {
             // eslint-disable-next-line no-magic-numbers
-            data[i].favoravlePrice = data[i].favoravlePrice / 100;
+            data[i].favoravlePrice = (data[i].favoravlePrice / 100).toFixed(2);
             // eslint-disable-next-line no-magic-numbers
-            data[i].priceArea = data[i].priceArea / 100;
+            data[i].priceArea = (data[i].priceArea / 100).toFixed(2);
           }
           this.eventsGoods = data;
         });

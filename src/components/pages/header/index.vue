@@ -73,8 +73,8 @@
         </div>
       </div>
     </div>
-  <div style="display:flex;margin-top:30px;">
-    <div class="hb-3-3" style="width:30%;">
+    <div style="display:flex;margin-top:30px;">
+      <div class="hb-3-3" style="width:30%;">
         <div class="hb-3-title">
           <span class="hb-3-text">销量排行</span>
           <span class="hb-3-move">查看更多</span>
@@ -95,28 +95,28 @@
         </div>
       </div>
 
-          <div id="main1" style="margin-top: .99vw;width: 30%;height:260px;"></div>
-          <div id="main2" style="margin-top: .99vw;width: 30%;height:300px;margin-left:20px;"></div>
-  </div>
-      <div style="display:flex;">
-          <div style="width:50%;">
-            <div>销售情况</div>
-            <div id="main" style="width:100%;height:300px;"></div>
-          </div>
-          <div style="width:30%;">
-            <div style="display:flex; justify-content:space-between;">
-              <div>消息通知</div>
-              <div>查看更多</div>
-            </div>
-            <div class="scroll-wrap" style="margin-top:20px;">
-                <div class="scroll-content" :style="{ top }" @mouseenter="Stop()" @mouseleave="Up()">
-                    <p v-for="item in prizeList" :key="item.id">
-                        <a :href="item.src" style="color:#000;">{{item.name}}</a>
-                    </p>
-                </div>
-            </div>
+      <div id="main1" style="margin-top: .99vw;width: 30%;height:260px;"></div>
+      <div id="main2" style="margin-top: .99vw;width: 30%;height:300px;margin-left:20px;"></div>
+    </div>
+    <div style="display:flex;">
+      <div style="width:50%;">
+        <div>销售情况</div>
+        <div id="main" style="width:100%;height:300px;"></div>
+      </div>
+      <div style="width:30%;">
+        <div style="display:flex; justify-content:space-between;">
+          <div>消息通知</div>
+          <div>查看更多</div>
+        </div>
+        <div class="scroll-wrap" style="margin-top:20px;">
+          <div class="scroll-content" :style="{ top }" @mouseenter="Stop()" @mouseleave="Up()">
+            <p v-for="item in prizeList" :key="item.id">
+              <a :href="item.src" style="color:#000;">{{item.name}}</a>
+            </p>
           </div>
         </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -148,18 +148,26 @@ export default {
       liulan: {},
       bossId: 1,
       prizeList: [
-        { name: '城轨采购网', src: 'http://www.railunique.com', id: 1},
-        { name: '天津地铁电子采购平台', src: 'http://www.railunique.com', id: 2 },
-        { name: '南昌地铁', src: 'http://www.railunique.com', id: 3},
-        { name: '南昌地铁', src: 'http://www.railunique.com', id: 4},
+        { name: '城轨采购网', src: 'http://www.railunique.com', id: 1 },
+        {
+          name: '天津地铁电子采购平台',
+          src: 'http://www.railunique.com',
+          id: 2,
+        },
+        { name: '南昌地铁', src: 'http://www.railunique.com', id: 3 },
+        { name: '南昌地铁', src: 'http://www.railunique.com', id: 4 },
         { name: '兰州地铁招标信息', src: 'http://www.railunique.com', id: 5 },
-        { name: '西安公共资源交易中心', src: 'http://www.railunique.com', id: 6},
+        {
+          name: '西安公共资源交易中心',
+          src: 'http://www.railunique.com',
+          id: 6,
+        },
       ],
       activeIndex: 0,
       intnum: undefined,
     };
   },
-  created () {
+  created() {
     this.ScrollUp();
   },
   computed: {
@@ -215,7 +223,7 @@ export default {
         } else {
           this.activeIndex = 0;
         }
-      // eslint-disable-next-line no-magic-numbers
+        // eslint-disable-next-line no-magic-numbers
       }, 1000);
     },
     Stop() {
@@ -360,7 +368,6 @@ export default {
 }
 .scroll-content p {
   line-height: 50px;
-
 }
 
 ul,

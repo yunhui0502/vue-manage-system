@@ -144,7 +144,13 @@ export default {
           this.type.orderType = this.orderType[i].orderType;
           orderCenterService.getOrderByType(this.type, (res) => {
             console.log(res);
-            this.orderData = res.data.data;
+            let data = res.data.data;
+            for (var i = 0; i < data.length; i++) {
+              // eslint-disable-next-line no-magic-numbers
+              data[i].amount = (data[i].amount / 100).toFixed(2);
+              // eslint-disable-next-line no-magic-numbers
+            }
+            this.orderData = data;
           });
         }
       }
@@ -197,7 +203,13 @@ export default {
           console.log(this.type);
           orderCenterService.getOrderByType(this.type, (res) => {
             console.log(res);
-            this.orderData = res.data.data;
+            let data = res.data.data;
+            for (var i = 0; i < data.length; i++) {
+              // eslint-disable-next-line no-magic-numbers
+              data[i].amount = (data[i].amount / 100).toFixed(2);
+              // eslint-disable-next-line no-magic-numbers
+            }
+            this.orderData = data;
             // console.log(this.statusData[i].hfDesc);
             return false;
           });
@@ -210,7 +222,13 @@ export default {
       console.log(this.type);
       orderCenterService.getOrderByType(this.type, (res) => {
         console.log(res);
-        this.orderData = res.data.data;
+        let data = res.data.data;
+        for (var i = 0; i < data.length; i++) {
+          // eslint-disable-next-line no-magic-numbers
+          data[i].amount = (data[i].amount / 100).toFixed(2);
+          // eslint-disable-next-line no-magic-numbers
+        }
+        this.orderData = data;
       });
     },
     addUser: function() {

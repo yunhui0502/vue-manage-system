@@ -234,9 +234,9 @@ export default {
         let data = res.data.data;
         for (var i = 0;i < data.length;i++) {
           // eslint-disable-next-line no-magic-numbers
-          data[i].linePrice = data[i].linePrice / 100;
+          data[i].linePrice = (data[i].linePrice / 100).toFixed(2);
           // eslint-disable-next-line no-magic-numbers
-          data[i].sellPrice = data[i].sellPrice / 100;
+          data[i].sellPrice = (data[i].sellPrice / 100).toFixed(2);
         }
         this.tableData = data;
         console.log('tableData', data);
@@ -263,9 +263,9 @@ export default {
         let data = res.data.data;
         for (var i = 0;i < data.length;i++) {
           // eslint-disable-next-line no-magic-numbers
-          data[i].linePrice = data[i].linePrice / 100;
+          data[i].linePrice = (data[i].linePrice / 100).toFixed(2);
           // eslint-disable-next-line no-magic-numbers
-          data[i].sellPrice = data[i].sellPrice / 100;
+          data[i].sellPrice = (data[i].sellPrice / 100).toFixed(2);
         }
         this.storage = data;
         this.details = data;
