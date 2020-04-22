@@ -205,7 +205,7 @@
                       v-for="item in Types"
                       :key="item.index"
                       :label="item.name"
-                      :value="item.name"
+                      :value="item.index"
                     ></el-option>
                   </el-select>
                 </template>
@@ -310,6 +310,7 @@ export default {
         ratio: '',
         name: '',
       };
+      console.log(this.Placelist);
       this.Placelist.push(row);
     },
     // 获取商品活动类型
@@ -359,12 +360,14 @@ export default {
             let ventsGood = res.data.data;
             for (let vaents of ventsGood) {
               console.log(vaents);
-              if (typeof vaents.distributionRatio !== 'undefined') {
+              // eslint-disable-next-line valid-typeof
+              if (typeof vaents.distributionRatio !== null) {
                 vaents.distribut = JSON.parse(vaents.distributionRatio);
                 console.log(vaents.distribut);
               }
             }
             this.eventsGoods = res.data.data;
+            console.log('distribut', res.data.data.distribut);
             this.Placelist = res.data.data.distribut;
             console.log(this.Placelist);
           },
@@ -373,9 +376,11 @@ export default {
     },
     // 查看
     lookover(row) {
+      this.proportionlist = [];
       this.drawer = true;
       console.log(row);
       this.transfedata.id = row.id;
+      this.Placelist = row.distribut;
       this.proportionlist.push(row);
     },
     // 保存价格比例
@@ -387,7 +392,12 @@ export default {
       console.log(this.transfedata.distributionRatio);
       console.log(this.transfedata.distributionRatio);
       serviceEvents.updateActivityProduct(this.transfedata, (res) => {
-        console.log('保存比例', res);
+        console.log('保存比例', res.data.data);
+        if (res.data.data === '-1') {
+          console.log('错误，请按照顺序添加');
+          this.$message.error('错误，请按照顺序添加');
+        }
+
       });
     },
     // 编辑
@@ -409,7 +419,8 @@ export default {
           let ventsGood = res.data.data;
           for (let vaents of ventsGood) {
             console.log(vaents);
-            if (typeof vaents.distributionRatio !== 'undefined') {
+            // eslint-disable-next-line valid-typeof
+            if (typeof vaents.distributionRatio !== null) {
               vaents.distribut = JSON.parse(vaents.distributionRatio);
               console.log(vaents.distribut);
             }
@@ -435,18 +446,23 @@ export default {
             serviceEvents.getActivityProductList(
               this.transfedata.seniorityId,
               (res) => {
-                console.log('活动商品列表信息', res);
+                console.log('活动分销商品列表信息', res);
                 let ventsGood = res.data.data;
+                // eslint-disable-next-line no-debugger
+                // debugger;
                 for (let vaents of ventsGood) {
                   console.log(vaents);
-                  if (typeof vaents.distributionRatio !== 'undefined') {
-                    vaents.distribut = JSON.parse(vaents.distributionRatio);
-                    console.log(vaents.distribut);
-                    this.Placelist = vaents.distribut;
+                  vaents.distribut = JSON.parse(vaents.distributionRatio);
+                  console.log(vaents.distribut);
+                  this.Placelist.push(vaents.distribut);
+                }
+                this.eventsGoods = ventsGood;
+                for (var i = 0;i < this.eventsGoods.length;i++) {
+                  if (this.eventsGoods[i].distribut === null) {
+                    this.eventsGoods[i].distribut = [];
                   }
                 }
-                this.eventsGoods = res.data.data;
-                // console.log('分销查看', this.Placelist);
+                console.log('分销查看', this.eventsGoods);
               },
             );
           }

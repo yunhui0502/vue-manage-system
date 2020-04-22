@@ -91,7 +91,7 @@
           <el-table-column label="店铺名称">
             <template slot-scope="scope">{{ scope.row.stoneName}}</template>
           </el-table-column>
-          <el-table-column prop="address" label="操作" show-overflow-tooltip>
+          <el-table-column prop="address" label="操作">
             <template slot-scope="scope">
               <el-button type="text" @click="SettingPrice(scope.row)" size="mini">保存</el-button>
               <el-button type="text" @click="deleteArticle(scope.row.id)" size="mini">删除</el-button>
