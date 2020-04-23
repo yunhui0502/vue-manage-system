@@ -2,10 +2,13 @@
   <div>
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="商品管理" name="goods">
+        <el-card class="search-card">
+          <Search @parentByClick="childClick"></Search>
+        </el-card>
+
         <el-card class="box-card">
           <!-- 搜索渲染区 -->
           <div class="filter-container">
-            <Search></Search>
             <div class="letf-items" style="float: left;"></div>
             <div class="right-items" style="float: right;padding-top: 10px;">
               <el-button size="mini" @click="setProducts()" type="primary">刷新</el-button>
@@ -95,7 +98,12 @@ export default {
       console.log(row);
       this.$router.push({
         path:
-          '/hf-product/detail?productId=' + row.id + '&stoneId=' + row.stoneId + '&stoneName=' + row.stoneName,
+          '/hf-product/detail?productId=' +
+          row.id +
+          '&stoneId=' +
+          row.stoneId +
+          '&stoneName=' +
+          row.stoneName,
       });
     },
     deleteProduct(row) {
@@ -111,6 +119,9 @@ export default {
     handleClick(tab, event) {
       console.log(tab, event);
     },
+    childClick(tableData) {
+      this.tableData = tableData;
+    },
   },
 };
 </script>
@@ -122,5 +133,9 @@ export default {
 
 .clearfix {
   height: 40px;
+}
+.search-card {
+  margin: 5px;
+  margin-bottom: 25px;
 }
 </style>

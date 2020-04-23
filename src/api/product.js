@@ -6,8 +6,15 @@ function getProductsByBossId(bossId) {
   return Axios.get('/api/api/product/hfProduct/getstone?bossId=' + bossId);
 }
 // 获取商品商品管理列表
-function getProductListBoss(bossId) {
-  return Axios.get('/api/api/product/hfProduct/getProductListBoss?bossId=' + bossId);
+function getProductListBoss(bossId, category, productName) {
+  // eslint-disable-next-line no-useless-concat
+  return Axios.get('/api/api/product/hfProduct/getProductListBoss?bossId=' + bossId + '&category=' + '&productName=');
+}
+// 获取商品商品管理列表筛选
+function productNameListBos(bossId, inquire) {
+  console.log(inquire);
+  // eslint-disable-next-line no-useless-concat
+  return Axios.get('/api/api/product/hfProduct/getProductListBoss?bossId=' + bossId + '&category=' + inquire.productCategoryName + '&productName=' + inquire.goodsName);
 }
 // 获取当前商品
 function getDetail(productId, stoneId) {
@@ -115,4 +122,5 @@ export default {
   updatespec: updatespec,
   selectProductIntroducePictrue: selectProductIntroducePictrue,
   getProductListBoss: getProductListBoss,
+  productNameListBos: productNameListBos,
 };

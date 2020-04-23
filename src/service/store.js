@@ -43,7 +43,12 @@ async function selectProductGoods(productId, stoneId, handleResult) {
 async function updatagood(productId, handleResult) {
   store.updatagood(productId).then((res) => handleResult(res));
 }
-
+async function selectStoneBalance(params, handleResult) {
+  store.selectStoneBalance(params).then((res) => handleResult(res));
+}
+async function selectBalanceDetail(params, handleResult) {
+  store.selectBalanceDetail(params).then((res) => handleResult(res));
+}
 export default {
   addStore: addStore,
   getStore: getStore,
@@ -59,4 +64,6 @@ export default {
   getproductgood: getproductgood,
   selectProductGoods: selectProductGoods,
   updatagood: updatagood,
+  selectStoneBalance: selectStoneBalance,
+  selectBalanceDetail: selectBalanceDetail,
 };

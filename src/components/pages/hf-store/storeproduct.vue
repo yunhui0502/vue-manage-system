@@ -12,48 +12,177 @@
           <!-- <span style="margin-left: 20px;">{{storeinfor.hfDesc}}</span>
       <span style="margin-left: 20px;">支付时间:{{storeinfor.hfStatus}}</span>
           <span style="margin-left: 20px;">订单状态:{{zhuang}}</span>-->
-          <el-button style="float: right;" @click="Statistics(0)" type="primary">查看店铺统计信息</el-button>
         </div>
       </div>
     </el-card>
-    <div style="display:flex;">
-      <el-card class="box-card" style="width:40%;">
-        <div slot="header" class="clearfix">
-          <span>商品列表</span>
-          <el-button style="float: right;margin-left:10px;" type="primary" @click="Added">新增店铺商品</el-button>
-          <el-button style="float: right;" type="primary" @click="add = true">添加店铺商品</el-button>
+
+    <el-tabs v-model="activeName" @tab-click="handleClick">
+      <el-tab-pane label="商品管理" name="commodity">
+        <div style="display:flex;">
+          <el-card class="box-card" style="width:40%;">
+            <div slot="header" class="clearfix">
+              <span>商品列表</span>
+              <el-button style="float: right;margin-left:10px;" type="primary" @click="Added">新增店铺商品</el-button>
+              <el-button style="float: right;" type="primary" @click="add = true">添加店铺商品</el-button>
+            </div>
+            <el-table
+              :data="list"
+              stripe
+              style="width: 100%"
+              ref="table"
+              @row-click="getproductgood"
+            >
+              <el-table-column type="index" align="center" label="选择" width="50"></el-table-column>
+              <el-table-column align="center" prop="productName" label="商品名称"></el-table-column>
+              <el-table-column align="center" prop="productDesc" label="商品描述"></el-table-column>
+            </el-table>
+          </el-card>
+          <el-card class="box-card" style="width:50%;margin-left:20px;">
+            <div slot="header" class="clearfix">
+              <span>物品列表</span>
+            </div>
+            <el-table
+              :data="listwu"
+              stripe
+              style="width: 100%"
+              ref="table"
+              @row-click="getproductgood"
+            >
+              <el-table-column prop="goodsId" label="序号" width="50" align="center"></el-table-column>
+              <el-table-column prop="goodsName" label="物品名称" align="center"></el-table-column>
+              <el-table-column prop="goodsDesc" label="物品描述" align="center"></el-table-column>
+              <el-table-column prop="brandName" label="生产厂家" align="center"></el-table-column>
+              <el-table-column prop="sellPrice" label="售卖价格" align="center">
+                <template slot-scope="scope">
+                  <el-input style="text-align:center;" v-model="scope.row.sellPrice"></el-input>
+                </template>
+              </el-table-column>
+              <el-table-column prop="createTime" width="180" label="创建时间" align="center"></el-table-column>
+              <el-table-column prop="modifyTime" width="180" label="更新时间" align="center"></el-table-column>
+              <el-table-column align="center" label="操作" fixed="right">
+                <template slot-scope="scope">
+                  <el-button type="text" @click="updatagood(scope.row)">保存</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+            <el-button @click="drawer = true" type="primary">添加物品</el-button>
+          </el-card>
         </div>
-        <el-table :data="list" stripe style="width: 100%" ref="table" @row-click="getproductgood">
-          <el-table-column type="index" align="center" label="选择" width="50"></el-table-column>
-          <el-table-column align="center" prop="productName" label="商品名称"></el-table-column>
-          <el-table-column align="center" prop="productDesc" label="商品描述"></el-table-column>
-        </el-table>
-      </el-card>
-      <el-card class="box-card" style="width:50%;margin-left:20px;">
-        <div slot="header" class="clearfix">
-          <span>物品列表</span>
+      </el-tab-pane>
+
+      <el-tab-pane label="店铺数据统计" name="statsChina">
+        <div class="box">
+          <div class="leftxiao">
+            <div
+              style="display:flex;align-items:center;flex-direction:column; margin-top:20px;width:155px;"
+            >
+              <div>今日收入金额（元）</div>
+              <div style="margin-top:2px;">{{liulan.amountDay}}</div>
+            </div>
+            <div style="font-size:12px;display:flex;">
+              <div
+                style="margin-left:14px; display:flex;align-items:center;flex-direction:column; margin-top:15px;"
+              >
+                <div>支付订单数</div>
+                <i
+                  style="font-size:13px;margin-top:2px;margin-bottom:2px;"
+                >{{liulan.orderCountsDay}}</i>
+                <div style="font-size:10px;">昨日:{{liulan.orderCountsYestday}}</div>
+              </div>
+              <div
+                style="margin-left:14px;display:flex;align-items:center;flex-direction:column; margin-top:15px;"
+              >
+                <div>支付人数</div>
+                <i style="font-size:13px;margin-top:2px;margin-bottom:2px;">4</i>
+                <div style="font-size:10px;">昨日：{{liulan.paymentConutsYestday}}</div>
+              </div>
+              <div
+                style="margin-left:14px;display:flex;align-items:center;flex-direction:column; margin-top:15px;"
+              >
+                <div>浏览量</div>
+                <i style="font-size:13px;margin-top:2px;margin-bottom:2px;">6</i>
+                <div style="font-size:10px;">昨日：{{liulan.browseCountsYestday}}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="leftxiao1">
+            <div
+              style="display:flex;align-items:center;flex-direction:column; margin-top:20px;width:155px;"
+            >
+              <div>本月收入金额（元）</div>
+              <div style="margin-top:2px;">{{liulan.amountMouth}}</div>
+            </div>
+            <div style="font-size:12px;display:flex;">
+              <div
+                style="margin-left:14px; display:flex;align-items:center;flex-direction:column; margin-top:15px;"
+              >
+                <div>支付订单数</div>
+                <i
+                  style="font-size:13px;margin-top:2px;margin-bottom:2px;"
+                >{{liulan.orderCountsDay}}</i>
+                <div style="font-size:10px;">昨日{{liulan.orderConutsMouth}}</div>
+              </div>
+              <div
+                style="margin-left:14px;display:flex;align-items:center;flex-direction:column; margin-top:15px;"
+              >
+                <div>支付人数</div>
+                <i
+                  style="font-size:13px;margin-top:2px;margin-bottom:2px;"
+                >{{liulan.paymentConutsMouth}}</i>
+                <div style="font-size:10px;">昨日：{{liulan.paymentConutsYestday}}</div>
+              </div>
+              <div
+                style="margin-left:14px;display:flex;align-items:center;flex-direction:column; margin-top:15px;"
+              >
+                <div>浏览量</div>
+                <i
+                  style="font-size:13px;margin-top:2px;margin-bottom:2px;"
+                >{{liulan.browseCountsMouth}}</i>
+                <div style="font-size:10px;">昨日：{{liulan.browseCountsYestday}}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="leftxiao2">
+            <div
+              style="display:flex;align-items:center;flex-direction:column; margin-top:20px;width:155px;"
+            >
+              <div>可提现金额</div>
+              <div style="margin-top:2px;">{{check.use}}元</div>
+            </div>
+            <div style="font-size:12px;display:flex;">
+              <div
+                style="margin-left:14px; display:flex;align-items:center;flex-direction:column; margin-top:15px;"
+              >
+                <div>全部</div>
+                <i style="font-size:13px;margin-top:2px;margin-bottom:2px;">{{check.all}}元</i>
+              </div>
+              <div
+                style="margin-left:14px;display:flex;align-items:center;flex-direction:column; margin-top:15px;"
+              >
+                <div>待支付</div>
+                <i style="font-size:13px;margin-top:2px;margin-bottom:2px;">{{check.payment}}元</i>
+              </div>
+              <div
+                style="margin-left:14px;display:flex;align-items:center;flex-direction:column; margin-top:15px;"
+              >
+                <div>待处理</div>
+                <i style="font-size:13px;margin-top:2px;margin-bottom:2px;">{{check.process}}元</i>
+              </div>
+            </div>
+          </div>
         </div>
-        <el-table :data="listwu" stripe style="width: 100%" ref="table" @row-click="getproductgood">
-          <el-table-column prop="goodsId" label="序号" width="50" align="center"></el-table-column>
-          <el-table-column prop="goodsName" label="物品名称" align="center"></el-table-column>
-          <el-table-column prop="goodsDesc" label="物品描述" align="center"></el-table-column>
-          <el-table-column prop="brandName" label="生产厂家" align="center"></el-table-column>
-          <el-table-column prop="sellPrice" label="售卖价格" align="center">
-            <template slot-scope="scope">
-              <el-input style="text-align:center;" v-model="scope.row.sellPrice"></el-input>
-            </template>
-          </el-table-column>
-          <el-table-column prop="createTime" width="180" label="创建时间" align="center"></el-table-column>
-          <el-table-column prop="modifyTime" width="180" label="更新时间" align="center"></el-table-column>
-          <el-table-column align="center" label="操作" fixed="right">
-            <template slot-scope="scope">
-              <el-button type="text" @click="updatagood(scope.row)">保存</el-button>
-            </template>
-          </el-table-column>
+        <el-table :data="Details" height="250" border style="width: 34%">
+           <el-table-column
+      type="index"
+      width="50">
+    </el-table-column>
+          <el-table-column prop="createTime" label="日期" width="180"></el-table-column>
+          <el-table-column prop="actualPrice" label="金额" width="180"></el-table-column>
         </el-table>
-        <el-button @click="Shops(1)" type="primary">添加物品</el-button>
-      </el-card>
-    </div>
+      </el-tab-pane>
+    </el-tabs>
 
     <el-dialog title="店铺商品" :visible.sync="add">
       <el-table
@@ -78,86 +207,9 @@
       </span>
     </el-dialog>
 
-    <el-drawer
-      :visible.sync="drawer"
-      direction="btt"
-      :before-close="handleClose"
-      size="60%"
-    >
-      <div v-if="Stat==1">
+    <el-drawer :visible.sync="drawer" direction="btt" :before-close="handleClose" size="60%">
+      <div>
         <GoodsLncrease :productName="productName" :commodityId="productid" :stoneId="stoneId"></GoodsLncrease>
-      </div>
-
-      <div v-if="Stat==0" class="box">
-
-        <div
-          class="leftxiao"
-        >
-          <div
-            style="display:flex;align-items:center;flex-direction:column; margin-top:20px;width:155px;"
-          >
-            <div>今日收入金额（元）</div>
-            <div style="margin-top:2px;">{{liulan.amountDay}}</div>
-          </div>
-          <div style="font-size:12px;display:flex;">
-            <div
-              style="margin-left:14px; display:flex;align-items:center;flex-direction:column; margin-top:15px;"
-            >
-              <div>支付订单数</div>
-              <i style="font-size:13px;margin-top:2px;margin-bottom:2px;">{{liulan.orderCountsDay}}</i>
-              <div style="font-size:10px;">昨日:{{liulan.orderCountsYestday}}</div>
-            </div>
-            <div
-              style="margin-left:14px;display:flex;align-items:center;flex-direction:column; margin-top:15px;"
-            >
-              <div>支付人数</div>
-              <i style="font-size:13px;margin-top:2px;margin-bottom:2px;">4</i>
-              <div style="font-size:10px;">昨日：{{liulan.paymentConutsYestday}}</div>
-            </div>
-            <div
-              style="margin-left:14px;display:flex;align-items:center;flex-direction:column; margin-top:15px;"
-            >
-              <div>浏览量</div>
-              <i style="font-size:13px;margin-top:2px;margin-bottom:2px;">6</i>
-              <div style="font-size:10px;">昨日：{{liulan.browseCountsYestday}}</div>
-            </div>
-          </div>
-        </div>
-
-        <div
-          class="leftxiao1"
-        >
-          <div
-            style="display:flex;align-items:center;flex-direction:column; margin-top:20px;width:155px;"
-          >
-            <div>本月收入金额（元）</div>
-            <div style="margin-top:2px;">{{liulan.amountMouth}}</div>
-          </div>
-          <div style="font-size:12px;display:flex;">
-            <div
-              style="margin-left:14px; display:flex;align-items:center;flex-direction:column; margin-top:15px;"
-            >
-              <div>支付订单数</div>
-              <i style="font-size:13px;margin-top:2px;margin-bottom:2px;">{{liulan.orderCountsDay}}</i>
-              <div style="font-size:10px;">昨日{{liulan.orderConutsMouth}}</div>
-            </div>
-            <div
-              style="margin-left:14px;display:flex;align-items:center;flex-direction:column; margin-top:15px;"
-            >
-              <div>支付人数</div>
-              <i style="font-size:13px;margin-top:2px;margin-bottom:2px;">{{liulan.paymentConutsMouth}}</i>
-              <div style="font-size:10px;">昨日：{{liulan.paymentConutsYestday}}</div>
-            </div>
-            <div
-              style="margin-left:14px;display:flex;align-items:center;flex-direction:column; margin-top:15px;"
-            >
-              <div>浏览量</div>
-              <i style="font-size:13px;margin-top:2px;margin-bottom:2px;">{{liulan.browseCountsMouth}}</i>
-              <div style="font-size:10px;">昨日：{{liulan.browseCountsYestday}}</div>
-            </div>
-          </div>
-        </div>
-
       </div>
     </el-drawer>
   </div>
@@ -175,7 +227,7 @@ export default {
   components: { GoodsLncrease },
   data() {
     return {
-      Stat: '0',
+      activeName: 'commodity',
       liulan: {},
       drawer: false,
       updata: {
@@ -202,25 +254,54 @@ export default {
       productid: '',
       stoneId: '',
       productName: '',
+      check: [],
+      Details: [],
     };
   },
   methods: {
-    // 添加
-    Shops(e) {
-      console.log('添加', e);
-      this.Stat = e;
-      this.drawer = true;
+    Detailed() {
+      let params = {
+        stoneId: 1,
+        today: '', // 今天
+        yesterday: '', // 昨天
+        sevenDays: '', // 七天
+        month: '', // 一月 ，
+        startTime: '', // 开始时间--
+        end: '', // 结束时间
+      };
+      storeService.selectBalanceDetail(params, (res) => {
+        console.log('明细', res.data.data);
+        this.Details = res.data.data;
+      });
     },
-    // 统计
-    Statistics(e) {
-      console.log('统计', e);
-      this.Stat = e;
-      this.drawer = true;
+    selectStone() {
+      storeService.selectStoneBalance(this.$route.query.id, (res) => {
+        console.log('数据统计', res.data.data);
+        let data = res.data.data;
+        // eslint-disable-next-line no-magic-numbers
+        data.all = (data.all / 100).toFixed(2);
+        // eslint-disable-next-line no-magic-numbers
+        data.payment = (data.payment / 100).toFixed(2);
+        // eslint-disable-next-line no-magic-numbers
+        data.process = (data.process / 100).toFixed(2);
+        // eslint-disable-next-line no-magic-numbers
+        data.use = (data.use / 100).toFixed(2);
+
+        this.check = data;
+      });
+    },
+    handleClick(tab, event) {
+      console.log(tab, event);
     },
     DataByStone() {
       home.findAmountDataByStone(this.$route.query.id, (res) => {
         console.log('统计', res.data.data);
-        this.liulan = res.data.data;
+        let data = res.data.data;
+        // eslint-disable-next-line no-magic-numbers
+        data.amountMouth = (data.amountMouth / 100).toFixed(2);
+        // eslint-disable-next-line no-magic-numbers
+        data.amountDay = (data.amountDay / 100).toFixed(2);
+        this.liulan = data;
       });
     },
     updatagood: function(row) {
@@ -270,7 +351,6 @@ export default {
           // eslint-disable-next-line no-magic-numbers
         }
         this.listwu = data;
-
       });
     },
     submit: function() {
@@ -377,31 +457,43 @@ export default {
     this.getstoneproduct();
     this.DataByStone();
     this.setProducts();
+    this.selectStone();
+    this.Detailed();
   },
 };
 </script>
 <style scoped>
 .leftxiao {
   background: url(../img/21.png) no-repeat;
-  font-size:14px;
-  width:20%;
-  height:200px;
-  background-size:100%;
-  color:#fff;
-  overflow:hidden;
+  font-size: 14px;
+  width: 25%;
+  height: 200px;
+  background-size: 100%;
+  color: #fff;
+  overflow: hidden;
 }
-.leftxiao1 {
+.box .leftxiao1 {
   background: url(../img/22.png) no-repeat;
-  font-size:14px;
-  margin-left:16px;
-  width:20%;
-  height:200px;
-  background-size:100%;
-  color:#fff;
-  overflow:hidden;
+  font-size: 14px;
+  margin-left: 16px;
+  width: 25%;
+  height: 200px;
+  background-size: 100%;
+  color: #fff;
+  overflow: hidden;
+}
+.box .leftxiao2 {
+  background: url(../img/cc.png) no-repeat;
+  font-size: 14px;
+  margin-left: 16px;
+  width: 25%;
+  height: 200px;
+  background-size: 100%;
+  color: #fff;
+  overflow: hidden;
 }
 .box {
-  display:flex;
-  justify-content : center;
+  display: flex;
+  justify-content: center;
 }
 </style>
