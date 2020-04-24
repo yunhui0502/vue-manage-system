@@ -66,6 +66,10 @@ async function deleteSpecifies(productSpecId, handleResult) {
 async function updatespec(productId, handleResult) {
   product.updatespec(productId).then((res) => handleResult(res));
 }
+//  批量删除商品
+async function deleteSelectProduct(productId, handleResult) {
+  product.deleteSelectProduct(productId).then((res) => handleResult(res));
+}
 export default {
   getProductsByBossId: getProductsByBossId,
   deleteById: deleteById,
@@ -83,4 +87,5 @@ export default {
   selectProductIntroducePictrue: selectProductIntroducePictrue,
   getProductListBoss: getProductListBoss,
   productNameListBos: productNameListBos,
+  deleteSelectProduct: deleteSelectProduct,
 };

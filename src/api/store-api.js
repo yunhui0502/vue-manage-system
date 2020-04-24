@@ -89,7 +89,13 @@ function selectStoneBalance(stoneId) {
 }
 function selectBalanceDetail(params) {
   console.log(params);
-  return Axios.get('/api/api/cart/StoneBalance/selectBalanceDetail?stoneId=' + params.stoneId);
+  if (params.stateTime === undefined) {
+    params.startTime = '';
+  }
+  if (params.end === undefined) {
+    params.end = '';
+  }
+  return Axios.get('/api/api/cart/StoneBalance/selectBalanceDetail?stoneId=' + params.stoneId + '&stateTime=' + params.stateTime + '&endTime=' + params.endTime);
 }
 export default {
   addStore: addStore,

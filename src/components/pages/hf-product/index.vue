@@ -9,10 +9,14 @@
         <el-card class="box-card">
           <!-- 搜索渲染区 -->
           <div class="filter-container">
-            <div class="letf-items" style="float: left;"></div>
-            <div class="right-items" style="float: right;padding-top: 10px;">
-              <el-button size="mini" @click="setProducts()" type="primary">刷新</el-button>
-              <el-button size="mini" @click="handleCreate()" type="primary">新增商品</el-button>
+            <div class="letf-items" style="float: left;font-size: 14px;">
+              已选{{amount}}项商品
+              <el-button style="padding: 0 10px;" type="text" @click="toggleSelection()">清空</el-button>
+            </div>
+            <div class="right-items" style="float: right;padding: 10px 0;">
+              <el-button @click="setProducts()">刷新</el-button>
+              <el-button @click="handleCreate()" type="purple">新增商品</el-button>
+              <el-button @click="BatchRemove()">批量操作</el-button>
             </div>
           </div>
           <!-- 内容区 -->
@@ -20,12 +24,14 @@
             <el-table
               :data="tableData"
               v-loading="loading"
-              border
+              stripe
               style="width: 100%"
               highlight-current-row
               ref="multipleTable"
+              @selection-change="handleSelectionChange"
             >
-              <el-table-column prop="id" label="序号" width="50" align="center"></el-table-column>
+              <el-table-column type="selection" width="50"></el-table-column>
+              <el-table-column label="序号" type="index" :index="indexMethod"></el-table-column>
               <el-table-column prop="productName" label="商品名称"></el-table-column>
               <el-table-column prop="productDesc" label="商品描述"></el-table-column>
               <el-table-column prop="categoryName" label="所属类目名称"></el-table-column>
@@ -70,17 +76,29 @@ export default {
   },
   data() {
     return {
+      amount: '0',
+      indexMethod: 1,
       activeName: 'goods',
       loading: false,
       totalSize: 0,
       currpage: 1,
       tableData: [],
+      Batch: [],
     };
   },
   created() {
     this.setProducts();
   },
   methods: {
+    toggleSelection() {
+      this.amount = '0';
+      this.$refs.multipleTable.clearSelection();
+    },
+    handleSelectionChange(val) {
+      console.log('选中', val);
+      this.amount = val.length;
+      this.Batch = val;
+    },
     setProducts() {
       this.loading = true;
       serviceProduct.getProductListBoss((res) => {
@@ -113,6 +131,18 @@ export default {
         });
       });
     },
+    BatchRemove() {
+      let Delete = [];
+      for (let i = 0; i < this.Batch.length; i++) {
+        Delete.push(this.Batch[i].id);
+      }
+      console.log(Delete);
+      this.$confirm('确认删除吗？', '提示', {}).then(async () => {
+        serviceProduct.deleteSelectProduct(Delete, (res) => {
+          this.setProducts();
+        });
+      });
+    },
     handleCurrentChange(val) {
       this.currpage = val;
     },
@@ -135,7 +165,10 @@ export default {
   height: 40px;
 }
 .search-card {
-  margin: 5px;
+  margin:0 5px 5px 5px;
   margin-bottom: 25px;
+}
+.el-tabs__nav-wrap {
+  margin-bottom: -6px;
 }
 </style>

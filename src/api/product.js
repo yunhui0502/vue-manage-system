@@ -6,9 +6,9 @@ function getProductsByBossId(bossId) {
   return Axios.get('/api/api/product/hfProduct/getstone?bossId=' + bossId);
 }
 // 获取商品商品管理列表
-function getProductListBoss(bossId, category, productName) {
+function getProductListBoss(bossId) {
   // eslint-disable-next-line no-useless-concat
-  return Axios.get('/api/api/product/hfProduct/getProductListBoss?bossId=' + bossId + '&category=' + '&productName=');
+  return Axios.get('/api/api/product/hfProduct/getProductListBoss?bossId=' + bossId);
 }
 // 获取商品商品管理列表筛选
 function productNameListBos(bossId, inquire) {
@@ -61,6 +61,10 @@ function updateProduct(params) {
 // 删除商品
 function deleteProduct(productId) {
   return Axios.get('/api/api/product/product/deleteProductId?productId=' + productId);
+}
+// 批量删除商品
+function deleteSelectProduct(productId) {
+  return Axios.get('/api/api/product/product/deleteSelectProductId?productId=' + productId);
 }
 // 删除商品规格
 function deleteSpecifies(productSpecId) {
@@ -123,4 +127,5 @@ export default {
   selectProductIntroducePictrue: selectProductIntroducePictrue,
   getProductListBoss: getProductListBoss,
   productNameListBos: productNameListBos,
+  deleteSelectProduct: deleteSelectProduct,
 };

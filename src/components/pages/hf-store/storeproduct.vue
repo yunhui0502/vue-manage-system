@@ -173,13 +173,27 @@
             </div>
           </div>
         </div>
-        <el-table :data="Details" height="250" border style="width: 34%">
-           <el-table-column
-      type="index"
-      width="50">
-    </el-table-column>
+
+        <div class="block">
+          <el-date-picker
+            v-model="value2"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            type="datetimerange"
+            :picker-options="pickerOptions"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            align="right"
+          ></el-date-picker>
+          <el-button @click="Screening" type="primary">筛选</el-button>
+        </div>
+        <el-table :data="Details" height="250" border style="width: 48%">
+          <el-table-column type="index" width="50"></el-table-column>
           <el-table-column prop="createTime" label="日期" width="180"></el-table-column>
           <el-table-column prop="actualPrice" label="金额" width="180"></el-table-column>
+          <el-table-column prop="chargeOffType" label="类型" width="180">
+             <template slot-scope="scope">{{ scope.row.chargeOffType=='order'?'订单':''}}</template>
+          </el-table-column>
         </el-table>
       </el-tab-pane>
     </el-tabs>
@@ -227,6 +241,42 @@ export default {
   components: { GoodsLncrease },
   data() {
     return {
+      pickerOptions: {
+        shortcuts: [{
+          text: '最近一周',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            // eslint-disable-next-line no-magic-numbers
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+            picker.$emit('pick', [start, end]);
+          },
+        }, {
+          text: '最近一个月',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            // eslint-disable-next-line no-magic-numbers
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+            picker.$emit('pick', [start, end]);
+          },
+        }, {
+          text: '最近三个月',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            // eslint-disable-next-line no-magic-numbers
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+            picker.$emit('pick', [start, end]);
+          },
+        }],
+      },
+      value2: '',
+      params: {
+        stoneId: 2,
+        stateTime: '', // 开始时间--
+        endTime: '', // 结束时间
+      },
       activeName: 'commodity',
       liulan: {},
       drawer: false,
@@ -259,17 +309,16 @@ export default {
     };
   },
   methods: {
+    Screening () {
+      console.log(this.value2);
+      this.params.stateTime = this.value2[0];
+      this.params.endTime = this.value2[1];
+      this.params.stoneId = this.$route.query.id;
+      console.log(this.params);
+      this.Detailed();
+    },
     Detailed() {
-      let params = {
-        stoneId: 1,
-        today: '', // 今天
-        yesterday: '', // 昨天
-        sevenDays: '', // 七天
-        month: '', // 一月 ，
-        startTime: '', // 开始时间--
-        end: '', // 结束时间
-      };
-      storeService.selectBalanceDetail(params, (res) => {
+      storeService.selectBalanceDetail(this.params, (res) => {
         console.log('明细', res.data.data);
         this.Details = res.data.data;
       });

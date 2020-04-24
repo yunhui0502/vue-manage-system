@@ -1,64 +1,16 @@
 <template>
-  <div>
-    <!-- <el-collapse v-model="activeNames"> -->
-    <!-- <el-collapse-item title="搜索条件" name="0"> -->
-    <!-- <div slot="header" class="clearfix">
-      <el-menu
-        :default-active="activeIndex"
-        class="el-menu-demo"
-        mode="horizontal"
-        @select="handleSelect"
-      >
-        <el-menu-item
-          v-for="statistics in statusStatistics"
-          v-bind:key="statistics.index"
-        >{{statistics.desc}} ({{statistics.quantity}})</el-menu-item>
-      </el-menu>
-    </div>-->
-    <div class="text item">
-      <el-form :inline="true">
-        <div style="padding:25px 0 24px  44px;">
-          <el-form-item style=";margin-left: 5px;" label>
-            <el-form-item label>
-              <div>物品名称</div>
-            </el-form-item>
-            <el-input
-              v-model="inquire.goodsName"
-              style="width:257px;height:30px;border-radius:6px;outline: none; padding-left: 14px;"
-              placeholder="请输入物品名称 "
-              autocomplete="off"
-            ></el-input>
-          </el-form-item>
-
-          <el-form-item style="margin-left: 5px;" label>
-            <el-form-item label>
-              <div style>物品分类</div>
-            </el-form-item>
-            <el-input
-              style="width:257px;height:30px;border-radius:6px;outline: none; padding-left: 14px;"
-              v-model="inquire.productCategoryName"
-              placeholder="请输入要查询的类目名称"
-              autocomplete="off"
-            ></el-input>
-          </el-form-item>
-          <div style="float: right;margin-right: 260px;">
-            <el-button
-              type="primary"
-              @click="seeAbout"
-              :loading="addLoading"
-            >查询</el-button>
-            <el-button
-              type="primary"
-              @click="sou"
-              :loading="addLoading"
-            >重置</el-button>
-          </div>
-        </div>
-      </el-form>
-    </div>
-    <!-- </el-collapse-item> -->
-    <!-- </el-collapse> -->
-  </div>
+  <el-form style="padding-top:20px" label-width="100px" :inline="true"  class="demo-form-inline">
+    <el-form-item label="物品名称">
+      <el-input v-model="inquire.goodsName" placeholder="请输入物品名称"></el-input>
+    </el-form-item>
+    <el-form-item label="物品分类">
+      <el-input v-model="inquire.productCategoryName" placeholder="请输入要查询的类目名称"></el-input>
+    </el-form-item>
+    <el-form-item style="float: right;">
+      <el-button type="purple" @click="seeAbout" :loading="addLoading">查询</el-button>
+      <el-button @click="sou" :loading="addLoading">重置</el-button>
+    </el-form-item>
+  </el-form>
 </template>
 
 <script>
@@ -123,4 +75,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.el-button {
+  padding: 12px 46px;
+}
 </style>
