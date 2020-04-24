@@ -322,6 +322,10 @@ export default {
       this.inquire.level = '';
     },
     seeAbout() {
+      if (this.inquire.level === '0') {
+        console.log('0');
+        return;
+      }
       console.log(this.inquire);
       api.getCategoryByInfo(this.inquire, (res) => {
         this.tableData = res.data.data;
