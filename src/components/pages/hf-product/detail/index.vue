@@ -1,7 +1,44 @@
 <template>
   <div slot="header" class="clearfix">
+    <el-card class="box-card">
+      <div slot="header" class="clearfix">
+        <span>商品信息</span>
+      </div>
+      <el-form
+        :rules="rules"
+        ref="formName"
+        :inline="true"
+        :model="productInfo"
+        class="demo-form-inline"
+      >
+        <el-form-item label="商品名称" prop="productName">
+          <el-input v-model="productInfo.productName" placeholder="商品名称"></el-input>
+        </el-form-item>
+        <el-form-item prop="categoryId" label="所属类目">
+          <el-cascader
+            :options="options"
+            :children="'categories'"
+            v-model="productInfo.categoryId"
+            :props="{value: 'id', label: 'hfName' ,children:'categories'}"
+            clearable
+          ></el-cascader>
+        </el-form-item>
+        <el-form-item label="所属店铺">
+          <el-input disabled v-model="productInfo.stoneName" placeholder="所属店铺"></el-input>
+        </el-form-item>
+        <el-form-item prop="productDesc" label="商品描述">
+          <el-input type="textarea" style="width: 512%;" v-model="productInfo.productDesc"></el-input>
+        </el-form-item>
+        <el-button
+          type="primary"
+          @click="onProductSubmit('formName')"
+        >{{isCreate ? '添加商品' : '更新商品'}}</el-button>
+        <el-button label="ltr" @click="evenMore">添加详情图</el-button>
+      </el-form>
+    </el-card>
+
     <el-row>
-      <el-col :span="24">
+      <!-- <el-col :span="24">
         <div class="grid-content bg-purple-dark">商品信息</div>
         <el-form
           :rules="rules"
@@ -42,7 +79,7 @@
             <el-input type="textarea" style="width: 512%;" v-model="productInfo.productDesc"></el-input>
           </el-form-item>
         </el-form>
-      </el-col>
+      </el-col>-->
     </el-row>
     <el-row>
       <el-col :span="16">
@@ -237,15 +274,18 @@ export default {
         return;
       }
       if (this.productId !== 'undefined') {
-        serviceProduct.selectProductIntroducePictrue(this.productInfo.id, (res) => {
-          this.fileList = [];
-          for (let i = 0; i < res.data.data.length; i++) {
-            let file = res.data.data[i];
-            serviceGoods.getFileFileId(file.fileId, (res) => {
-              this.fileList.push({ name: file.hfName, url: res.config.url });
-            });
-          }
-        });
+        serviceProduct.selectProductIntroducePictrue(
+          this.productInfo.id,
+          (res) => {
+            this.fileList = [];
+            for (let i = 0; i < res.data.data.length; i++) {
+              let file = res.data.data[i];
+              serviceGoods.getFileFileId(file.fileId, (res) => {
+                this.fileList.push({ name: file.hfName, url: res.config.url });
+              });
+            }
+          },
+        );
       }
     },
     imgUpload(file) {
@@ -263,18 +303,24 @@ export default {
       fd.append('userId', 1);
       fd.append('fileInfo', file.raw);
       fd.append('productId', this.$route.query.productId);
-      axios.post('/api/api/product/product/addProductIntroducePictrue', fd).then((res) => {
-        this.acquire();
-      });
+      axios
+        .post('/api/api/product/product/addProductIntroducePictrue', fd)
+        .then((res) => {
+          this.acquire();
+        });
     },
     // 文件列表移除文件时的钩子
     handleRemove(file, fileList) {
       console.log(file, fileList);
       var num = file.url.replace(/[^0-9]/gi, '');
       console.log('num', num);
-      serviceProduct.deleteProductPictrue(num, this.$route.query.productId, (res) => {
-        console.log('删除成功');
-      });
+      serviceProduct.deleteProductPictrue(
+        num,
+        this.$route.query.productId,
+        (res) => {
+          console.log('删除成功');
+        },
+      );
     },
     // ____________________________________________________________________________________________
 

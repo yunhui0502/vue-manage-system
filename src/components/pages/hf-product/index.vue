@@ -33,7 +33,7 @@
               <el-table-column type="selection" width="50"></el-table-column>
               <el-table-column label="序号" type="index" :index="indexMethod"></el-table-column>
               <el-table-column prop="productName" label="商品名称"></el-table-column>
-              <el-table-column prop="productDesc" label="商品描述"></el-table-column>
+              <el-table-column prop="productDesc" label="商品描述" show-overflow-tooltip></el-table-column>
               <el-table-column prop="categoryName" label="所属类目名称"></el-table-column>
               <el-table-column prop="stoneName" label="所属店铺"></el-table-column>
               <el-table-column prop="createTime" label="创建时间" width="150"></el-table-column>

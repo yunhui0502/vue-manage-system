@@ -43,24 +43,24 @@
             <div style="overflow:hidden;margin-bottom:30px;float:right;">
               <el-button type="primary" @click="desdrawer=true">添加特权</el-button>
             </div>
-          <el-table :data="miaodata" stripe style="">
-            <el-table-column type="index" align="center" label="序号"></el-table-column>
-            <el-table-column prop="prerogative" align="center" label="特权名称"></el-table-column>
-            <el-table-column prop="levelDescribe" align="center" label="特权描述"></el-table-column>
-            <el-table-column prop="startTime" align="center" width="180" label="开始时间"></el-table-column>
-            <el-table-column prop="expireTime" align="center" width="180" label="结束时间"></el-table-column>
-            <el-table-column prop="levelDescribe" align="center" label="状态">
-              <template slot-scope="scope">
-                <span v-if="scope.row.prerogativeState==-1">不生效</span>
-                <span v-if="scope.row.prerogativeState==1">生效</span>
-              </template>
-            </el-table-column>
-            <!-- <el-table-column align="center" label="操作">
+            <el-table :data="miaodata" stripe style>
+              <el-table-column type="index" align="center" label="序号"></el-table-column>
+              <el-table-column prop="prerogative" align="center" label="特权名称"></el-table-column>
+              <el-table-column prop="levelDescribe" align="center" label="特权描述"></el-table-column>
+              <el-table-column prop="startTime" align="center" width="180" label="开始时间"></el-table-column>
+              <el-table-column prop="expireTime" align="center" width="180" label="结束时间"></el-table-column>
+              <el-table-column prop="levelDescribe" align="center" label="状态">
+                <template slot-scope="scope">
+                  <span v-if="scope.row.prerogativeState==-1">不生效</span>
+                  <span v-if="scope.row.prerogativeState==1">生效</span>
+                </template>
+              </el-table-column>
+              <!-- <el-table-column align="center" label="操作">
               <template slot-scope="scope">
                 <el-button type="text" @click="deletevip(scope.row)">删除</el-button>
               </template>
-            </el-table-column> -->
-          </el-table>
+              </el-table-column>-->
+            </el-table>
           </div>
         </div>
       </el-tab-pane>
@@ -81,10 +81,20 @@
           <el-input style="width:300px;" v-model="ruleForm3.levelDescribe" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="有效期开始时间" prop="startTime">
-          <el-date-picker   @change="uptime1"  v-model="ruleForm3.startTime" type="datetime" placeholder="选择日期时间"></el-date-picker>
+          <el-date-picker
+            @change="uptime1"
+            v-model="ruleForm3.startTime"
+            type="datetime"
+            placeholder="选择日期时间"
+          ></el-date-picker>
         </el-form-item>
         <el-form-item label="有效期结束时间" prop="expireTime">
-          <el-date-picker   @change="uptime2"  v-model="ruleForm3.expireTime" type="datetime" placeholder="选择日期时间"></el-date-picker>
+          <el-date-picker
+            @change="uptime2"
+            v-model="ruleForm3.expireTime"
+            type="datetime"
+            placeholder="选择日期时间"
+          ></el-date-picker>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm3('ruleForm3')">提交</el-button>
@@ -105,6 +115,16 @@
         </el-form-item>
         <el-form-item label="等级描述" prop="name">
           <el-input style="width:300px;" v-model="ruleForm.levelDescribe" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="等级">
+          <el-select v-model="ruleForm.level" placeholder="请选择">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
@@ -179,6 +199,16 @@ import vip from '@/service/vip.js';
 export default {
   data() {
     return {
+      options: [{
+        value: '1',
+        label: '一级',
+      }, {
+        value: '2',
+        label: '二级',
+      }, {
+        value: '3',
+        label: '三级',
+      }],
       miaodata: [],
       desdrawer: false,
       rtl: 'rtl',
@@ -263,6 +293,7 @@ export default {
       ruleForm: {
         levelDescribe: '',
         name: '',
+        level: '',
       },
       ruleForm2: {
         levelDescribe: '',
