@@ -26,6 +26,7 @@
           <el-table-column prop="startTime" label="开始时间" width="170">
             <template slot-scope="scope">
               <el-date-picker
+              value-format="yyyy-MM-dd HH:mm:ss"
                 v-model="scope.row.startTime"
                 type="datetime"
                 placeholder="开始时间"
@@ -36,6 +37,7 @@
           <el-table-column prop="endtime" label="结束时间" width="170">
             <template slot-scope="scope">
               <el-date-picker
+              value-format="yyyy-MM-dd HH:mm:ss"
                 v-model="scope.row.endTime"
                 type="datetime"
                 placeholder="结束时间"
@@ -108,6 +110,7 @@
           <template slot-scope="scope">
             <el-date-picker
               v-model="scope.row.startTime"
+              value-format="yyyy-MM-dd HH:mm:ss"
               type="datetime"
               placeholder="开始时间"
               align="right"
@@ -117,6 +120,7 @@
         <el-table-column prop="endTime" label="结束时间">
           <template slot-scope="scope">
             <el-date-picker
+            value-format="yyyy-MM-dd HH:mm:ss"
               v-model="scope.row.endTime"
               type="datetime"
               placeholder="结束时间"
@@ -513,6 +517,8 @@ export default {
     preserveModify(scope) {
       this.groupform.activityName = scope.row.activityName;
       this.groupform.id = scope.row.id;
+      this.groupform.startTime = scope.row.startTime;
+      this.groupform.endTime = scope.row.endTime;
       serviceEvents.updateProdcutActivity(this.groupform, (res) => {
         console.log('修改活动', res);
         this.$message({

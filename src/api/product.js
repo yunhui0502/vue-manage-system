@@ -24,6 +24,10 @@ function getDetail(productId, stoneId) {
 function deleteProductPictrue(fileId, productId) {
   return Axios.post('/api/api/product/product/deleteProductPictrue?fileId=' + fileId + '&productId=' + productId);
 }
+// 删除商品介绍图片
+function deletedPictrue(fileId, productId) {
+  return Axios.post('/api/api/product/product/deletedPictrue?fileId=' + fileId + '&productId=' + productId);
+}
 // 添加商品接口 lastModifier
 function ceateProduct(params) {
   let fd = new FormData();
@@ -128,4 +132,5 @@ export default {
   getProductListBoss: getProductListBoss,
   productNameListBos: productNameListBos,
   deleteSelectProduct: deleteSelectProduct,
+  deletedPictrue: deletedPictrue,
 };

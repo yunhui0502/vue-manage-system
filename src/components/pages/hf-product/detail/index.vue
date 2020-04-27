@@ -1,9 +1,10 @@
 <template>
   <div slot="header" class="clearfix">
-    <el-card class="box-card">
+    <el-card class="box-card box-form">
       <div slot="header" class="clearfix">
         <span>商品信息</span>
       </div>
+
       <el-form
         :rules="rules"
         ref="formName"
@@ -11,29 +12,40 @@
         :model="productInfo"
         class="demo-form-inline"
       >
-        <el-form-item label="商品名称" prop="productName">
-          <el-input v-model="productInfo.productName" placeholder="商品名称"></el-input>
-        </el-form-item>
-        <el-form-item prop="categoryId" label="所属类目">
-          <el-cascader
-            :options="options"
-            :children="'categories'"
-            v-model="productInfo.categoryId"
-            :props="{value: 'id', label: 'hfName' ,children:'categories'}"
-            clearable
-          ></el-cascader>
-        </el-form-item>
-        <el-form-item label="所属店铺">
-          <el-input disabled v-model="productInfo.stoneName" placeholder="所属店铺"></el-input>
-        </el-form-item>
-        <el-form-item prop="productDesc" label="商品描述">
-          <el-input type="textarea" style="width: 512%;" v-model="productInfo.productDesc"></el-input>
-        </el-form-item>
-        <el-button
-          type="primary"
-          @click="onProductSubmit('formName')"
-        >{{isCreate ? '添加商品' : '更新商品'}}</el-button>
-        <el-button label="ltr" @click="evenMore">添加详情图</el-button>
+        <el-row :gutter="20">
+
+            <el-form-item label="商品名称" prop="productName">
+              <el-input v-model="productInfo.productName" placeholder="商品名称"></el-input>
+            </el-form-item>
+            <el-form-item prop="categoryId" label="所属类目">
+              <el-cascader
+                :options="options"
+                :children="'categories'"
+                v-model="productInfo.categoryId"
+                :props="{value: 'id', label: 'hfName' ,children:'categories'}"
+                clearable
+              ></el-cascader>
+            </el-form-item>
+            <el-form-item label="所属店铺">
+              <el-input disabled v-model="productInfo.stoneName" placeholder="所属店铺"></el-input>
+            </el-form-item>
+
+        </el-row>
+
+        <el-row :gutter="20">
+          <el-col :span="15">
+            <el-form-item prop="productDesc" label="商品描述">
+              <el-input type="textarea" style="width:400px; height: 60px;" v-model="productInfo.productDesc"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-button
+              type="primary"
+              @click="onProductSubmit('formName')"
+            >{{isCreate ? '添加商品' : '更新商品'}}</el-button>
+            <el-button label="ltr" @click="evenMore">添加详情图</el-button>
+          </el-col>
+        </el-row>
       </el-form>
     </el-card>
 
@@ -314,13 +326,9 @@ export default {
       console.log(file, fileList);
       var num = file.url.replace(/[^0-9]/gi, '');
       console.log('num', num);
-      serviceProduct.deleteProductPictrue(
-        num,
-        this.$route.query.productId,
-        (res) => {
-          console.log('删除成功');
-        },
-      );
+      serviceProduct.deletedPictrue(num, this.$route.query.productId, (res) => {
+        console.log('删除成功');
+      });
     },
     // ____________________________________________________________________________________________
 
@@ -501,5 +509,11 @@ export default {
 }
 .pl-5 {
   padding-right: 5px;
+}
+.box-form  .el-form-item {
+ margin-left: 80px;
+}
+.el-textarea__inner{
+  min-height: 28.9792px; margin-top: 0px; margin-bottom: 0px; height: 92px;
 }
 </style>

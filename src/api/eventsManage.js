@@ -62,9 +62,16 @@ function updateActivityProduct(params) {
 
 // 修改活动品接口
 function updateProdcutActivity(params) {
+  console.log(params);
   let fd = new FormData();
   fd.append('activityName ', params.activityName);
   fd.append('id', params.id);
+  if (params.startTime !== undefined) {
+    fd.append('startTime', params.startTime);
+  }
+  if (params.endTime !== undefined) {
+    fd.append('endTime', params.endTime);
+  }
   return Axios.post('/api/api/product/hfProductActivity/updateProdcutActivity', fd);
 }
 // ========================================秒杀

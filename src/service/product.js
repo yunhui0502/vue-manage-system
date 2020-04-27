@@ -37,7 +37,9 @@ async function selectProductIntroducePictrue(productId, handleResult) {
 async function deleteProductPictrue(fileId, productId, handleResult) {
   product.deleteProductPictrue(fileId, productId).then((res) => handleResult(res));
 }
-
+async function deletedPictrue(fileId, productId, handleResult) {
+  product.deletedPictrue(fileId, productId).then((res) => handleResult(res));
+}
 // 获取商品规格
 async function specifies(productId, handleResult) {
   product.specifies(productId).then((res) => handleResult(res));
@@ -88,4 +90,5 @@ export default {
   getProductListBoss: getProductListBoss,
   productNameListBos: productNameListBos,
   deleteSelectProduct: deleteSelectProduct,
+  deletedPictrue: deletedPictrue,
 };

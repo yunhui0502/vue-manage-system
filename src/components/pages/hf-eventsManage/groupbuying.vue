@@ -23,9 +23,16 @@
           <el-table-column prop="activityType" label="活动类型" width="76">
             <span>团购</span>
           </el-table-column>
+          <el-table-column label="活动状态" prop="activityState">
+            <template
+              slot-scope="scope"
+              width="120"
+            >{{scope.row.activityState==1?"已结束":(scope.row.activityState==0?"进行中":"未开始")}}</template>
+          </el-table-column>
           <el-table-column prop="startTime" label="开始时间" width="170">
             <template slot-scope="scope">
               <el-date-picker
+              value-format="yyyy-MM-dd HH:mm:ss"
                 v-model="scope.row.startTime"
                 type="datetime"
                 placeholder="开始时间"
@@ -36,6 +43,7 @@
           <el-table-column prop="endtime" label="结束时间" width="170">
             <template slot-scope="scope">
               <el-date-picker
+              value-format="yyyy-MM-dd HH:mm:ss"
                 v-model="scope.row.endTime"
                 type="datetime"
                 placeholder="结束时间"
@@ -132,6 +140,7 @@
         <el-table-column prop="startTime" label="开始时间">
           <template slot-scope="scope">
             <el-date-picker
+            value-format="yyyy-MM-dd HH:mm:ss"
               v-model="scope.row.startTime"
               type="datetime"
               placeholder="开始时间"
@@ -144,6 +153,7 @@
             <el-date-picker
               v-model="scope.row.endTime"
               type="datetime"
+              value-format="yyyy-MM-dd HH:mm:ss"
               placeholder="结束时间"
               align="right"
             ></el-date-picker>
@@ -273,7 +283,9 @@ export default {
               let data = res.data.data;
               for (var i = 0; i < data.length; i++) {
                 // eslint-disable-next-line no-magic-numbers
-                data[i].favoravlePrice = (data[i].favoravlePrice / 100).toFixed(2);
+                data[i].favoravlePrice = (data[i].favoravlePrice / 100).toFixed(
+                  2,
+                );
                 // eslint-disable-next-line no-magic-numbers
                 data[i].priceArea = (data[i].priceArea / 100).toFixed(2);
               }
@@ -285,8 +297,13 @@ export default {
     },
     // 修改活动名称
     preserveModify(scope) {
+      console.log(scope);
+
       this.groupform.activityName = scope.row.activityName;
       this.groupform.id = scope.row.id;
+      this.groupform.startTime = scope.row.startTime;
+      this.groupform.endTime = scope.row.endTime;
+      console.log(this.groupform);
       serviceEvents.updateProdcutActivity(this.groupform, (res) => {
         console.log('修改活动', res);
         this.$message({
@@ -312,7 +329,9 @@ export default {
                 let data = res.data.data;
                 for (var i = 0; i < data.length; i++) {
                   // eslint-disable-next-line no-magic-numbers
-                  data[i].favoravlePrice = (data[i].favoravlePrice / 100).toFixed(2);
+                  data[i].favoravlePrice = (
+                    data[i].favoravlePrice / 100
+                  ).toFixed(2);
                   // eslint-disable-next-line no-magic-numbers
                   data[i].priceArea = (data[i].priceArea / 100).toFixed(2);
                 }
