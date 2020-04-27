@@ -31,6 +31,7 @@
                 type="datetime"
                 placeholder="开始时间"
                 align="right"
+                default-time="12:00:00"
               ></el-date-picker>
             </template>
           </el-table-column>
@@ -42,6 +43,7 @@
                 type="datetime"
                 placeholder="结束时间"
                 align="right"
+                default-time="12:00:00"
               ></el-date-picker>
             </template>
           </el-table-column>
@@ -114,6 +116,7 @@
               type="datetime"
               placeholder="开始时间"
               align="right"
+              default-time="12:00:00"
             ></el-date-picker>
           </template>
         </el-table-column>
@@ -125,6 +128,7 @@
               type="datetime"
               placeholder="结束时间"
               align="right"
+              default-time="12:00:00"
             ></el-date-picker>
           </template>
         </el-table-column>
