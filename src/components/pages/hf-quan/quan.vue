@@ -1,34 +1,52 @@
 <template>
   <div>
-    <el-card class="box-card">
+    <el-card class="search-card">
       <div slot="header" class="clearfix">
         <span>优惠券</span>
-        <el-button style="float: right;" size="small" type="primary" @click="drawer = true">添加优惠券</el-button>
       </div>
-      <el-table stripe :data="list.slice((currentPage-1)*pagesize,currentPage*pagesize)" style="width: 100%">
-         <el-table-column type="index" label="序号" align="center"></el-table-column>
+      <hfsearch labelName="优惠名称"></hfsearch>
+    </el-card>
+
+    <el-card class="box-card">
+
+        <el-button style="float: right;" size="small" type="primary" @click="drawer = true">添加优惠券</el-button>
+      <el-table
+        stripe
+        :data="list.slice((currentPage-1)*pagesize,currentPage*pagesize)"
+        style="width: 100%"
+      >
+        <el-table-column type="index" label="序号" align="center"></el-table-column>
         <el-table-column prop="id" label="id" align="center"></el-table-column>
         <el-table-column prop="discountCouponName" label="名称" align="center"></el-table-column>
         <el-table-column align="center" prop="discountCouponType" label="优惠类型">
-           <template slot-scope="scope">
+          <template slot-scope="scope">
             <span v-if="scope.row.discountCouponType==='0'">折扣</span>
             <span v-if="scope.row.discountCouponType==='1'">满减</span>
           </template>
         </el-table-column>
         <el-table-column align="center" prop="useState" label="状态">
-           <template slot-scope="scope">
-             <span v-if="scope.row.useState===-1">未开始</span>
+          <template slot-scope="scope">
+            <span v-if="scope.row.useState===-1">未开始</span>
             <span v-if="scope.row.useState===0">进行中</span>
             <span v-if="scope.row.useState===1">已结束</span>
           </template>
         </el-table-column>
         <el-table-column align="center" prop="useState" label="活动" width="150">
-           <template slot-scope="scope">
-            <span v-if="scope.row.discountCouponType==='0'">满{{scope.row.useLimit.full}}元打{{scope.row.useLimit.minus}}折</span>
-            <span v-if="scope.row.discountCouponType==='1'">满{{scope.row.useLimit.full}}减{{scope.row.useLimit.minus}}</span>
+          <template slot-scope="scope">
+            <span
+              v-if="scope.row.discountCouponType==='0'"
+            >满{{scope.row.useLimit.full}}元打{{scope.row.useLimit.minus}}折</span>
+            <span
+              v-if="scope.row.discountCouponType==='1'"
+            >满{{scope.row.useLimit.full}}减{{scope.row.useLimit.minus}}</span>
           </template>
         </el-table-column>
-        <el-table-column   :show-overflow-tooltip="true"    align="center" prop="discountCouponDesc" label="描述"></el-table-column>
+        <el-table-column
+          :show-overflow-tooltip="true"
+          align="center"
+          prop="discountCouponDesc"
+          label="描述"
+        ></el-table-column>
         <el-table-column align="center" label="适用范围">
           <template slot-scope="scope">
             <span v-if="scope.row.scope==='allUser'">所有用户</span>
@@ -43,7 +61,7 @@
         </el-table-column>
         <el-table-column align="center" prop="startTime" width="180" label="有效期开始时间"></el-table-column>
         <el-table-column align="center" width="180" prop="stopTime" label="有效期结束时间"></el-table-column>
-        <el-table-column align="center" label="操作"  fixed="right">
+        <el-table-column align="center" label="操作" fixed="right">
           <template slot-scope="scope">
             <el-button
               type="text"
@@ -54,16 +72,17 @@
           </template>
         </el-table-column>
       </el-table>
-            <el-pagination
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            style="float:right;"
-            background
-            layout="prev, pager, next"
-            :total="list.length"
-            :page-size="pagesize"
-          ></el-pagination>
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        style="float:right;"
+        background
+        layout="prev, pager, next"
+        :total="list.length"
+        :page-size="pagesize"
+      ></el-pagination>
     </el-card>
+
     <el-drawer size="55%" title="添加优惠券" :visible.sync="drawer" :direction="direction">
       <el-form
         style="margin-left:20px;"
@@ -85,7 +104,7 @@
           <el-radio v-model="formquan.useState" label="-1">未开始</el-radio>
           <el-radio v-model="formquan.useState" label="0" >进行中</el-radio>
           <el-radio v-model="formquan.useState" label="1" >已结束</el-radio>
-        </el-form-item> -->
+        </el-form-item>-->
         <el-form-item label="有效期开始时间" prop="startTime">
           <el-date-picker v-model="formquan.startTime" type="datetime" placeholder="选择日期时间"></el-date-picker>
         </el-form-item>
@@ -114,7 +133,7 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="是否可以叠加使用"  style="margin-top:20px;">
+        <el-form-item label="是否可以叠加使用" style="margin-top:20px;">
           <el-radio v-model="radio1" label="1" @change="die">是</el-radio>
           <el-radio v-model="radio1" label="2" @change="die">否</el-radio>
         </el-form-item>
@@ -167,8 +186,8 @@
         </el-form-item>
       </el-form>
     </el-drawer>
-<!-- ============================================================================================= -->
-      <el-drawer size="55%" title="修改优惠券" :visible.sync="drawer1" :direction="direction">
+    <!-- ============================================================================================= -->
+    <el-drawer size="55%" title="修改优惠券" :visible.sync="drawer1" :direction="direction">
       <el-form
         style="margin-left:20px;"
         :model="formquan1"
@@ -186,10 +205,20 @@
           <el-radio v-model="radioval" label="1" @change="zhe1">满减</el-radio>
         </el-form-item>
         <el-form-item label="有效期开始时间" prop="startTime">
-          <el-date-picker @change="uptime1"  v-model="formquan1.startTime" type="datetime" placeholder="选择日期时间"></el-date-picker>
+          <el-date-picker
+            @change="uptime1"
+            v-model="formquan1.startTime"
+            type="datetime"
+            placeholder="选择日期时间"
+          ></el-date-picker>
         </el-form-item>
         <el-form-item label="有效期结束时间" prop="stopTime">
-          <el-date-picker   @change="uptime2"  v-model="formquan1.stopTime" type="datetime" placeholder="选择日期时间"></el-date-picker>
+          <el-date-picker
+            @change="uptime2"
+            v-model="formquan1.stopTime"
+            type="datetime"
+            placeholder="选择日期时间"
+          ></el-date-picker>
         </el-form-item>
         <el-form-item label="描述" prop="discountCouponDesc" style="margin-top:20px;">
           <el-input
@@ -213,7 +242,7 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="是否可以叠加使用"  style="margin-top:20px;">
+        <el-form-item label="是否可以叠加使用" style="margin-top:20px;">
           <el-radio v-model="radiodie" label="1" @change="die1">是</el-radio>
           <el-radio v-model="radiodie" label="2" @change="die1">否</el-radio>
         </el-form-item>
@@ -274,7 +303,9 @@ import quan from '@/service/quan.js';
 import constants from '@/store/constants.js';
 // eslint-disable-next-line no-unused-vars
 // import ListPicture from './list-picture';
+import hfsearch from '../hf-eventsManage/hf-search';
 export default {
+  components: { hfsearch },
   data() {
     return {
       zhuangval: '',
@@ -519,11 +550,10 @@ export default {
       console.log(this.formquan1.useLimit);
       if (row.superposition === 1) {
         this.radiodie = '1';
-      // eslint-disable-next-line no-magic-numbers
+        // eslint-disable-next-line no-magic-numbers
       } else if (row.superposition === 2) {
         this.radiodie = '2';
       }
-
     },
     submitForm(ruleForm) {
       //   this.formquan.startTime = this.formquan.startTime.toLocaleString();
@@ -616,16 +646,21 @@ export default {
     getlist: function() {
       quan.getlist(this.editid, (res) => {
         console.log(res);
-        for (var i = 0;i < res.data.data.length;i++) {
+        for (var i = 0; i < res.data.data.length; i++) {
           res.data.data[i].useLimit = JSON.parse(res.data.data[i].useLimit);
           // eslint-disable-next-line no-magic-numbers
-          res.data.data[i].useLimit.full = (res.data.data[i].useLimit.full / 100).toFixed(2);
+          res.data.data[i].useLimit.full = (
+            res.data.data[i].useLimit.full / 100
+          ).toFixed(2);
           if (res.data.data[i].discountCouponType === 1) {
             // eslint-disable-next-line no-magic-numbers
-            res.data.data[i].useLimit.minus = (res.data.data[i].useLimit.minus / 100).toFixed(2);
+            res.data.data[i].useLimit.minus = (
+              res.data.data[i].useLimit.minus / 100
+            ).toFixed(2);
           } else {
             // eslint-disable-next-line no-magic-numbers
-            res.data.data[i].useLimit.minus = res.data.data[i].useLimit.minus / 10;
+            res.data.data[i].useLimit.minus =
+              res.data.data[i].useLimit.minus / 10;
           }
         }
         this.list = res.data.data;
@@ -649,5 +684,9 @@ export default {
 }
 .el-textarea .el-textarea__inner {
   resize: none;
+}
+.search-card {
+  margin: 0 5px 5px 5px;
+  margin-bottom: 25px;
 }
 </style>

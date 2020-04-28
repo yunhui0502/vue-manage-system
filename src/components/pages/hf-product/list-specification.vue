@@ -2,7 +2,7 @@
   <div>
     <div v-if="detailsp">
       <!-- <div>商品规格</div> -->
-      <el-table class="goods-table" :data="specificationData" border>
+      <el-table class="goods-table" :data="specificationData" stripe>
         <!-- <el-table-column type="selection"></el-table-column> -->
         <el-table-column label="规格名称" width="110">
           <template slot-scope="scope">
@@ -49,7 +49,7 @@
     </div>
     <div v-if="!detailsp" style="margin-top: 20px;">
       <!-- <div>物品规格</div> -->
-      <el-table :data="tabledata" border>
+      <el-table :data="tabledata" stripe>
         <el-table-column type="selection"></el-table-column>
         <el-table-column label="规格名称">
           <template slot-scope="scope">

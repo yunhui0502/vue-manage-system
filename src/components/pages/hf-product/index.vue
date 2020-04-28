@@ -3,7 +3,7 @@
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="商品管理" name="goods">
         <el-card class="search-card">
-          <Search @parentByClick="childClick"></Search>
+          <Search  @parentByClick="childClick"></Search>
         </el-card>
 
         <el-card class="box-card">

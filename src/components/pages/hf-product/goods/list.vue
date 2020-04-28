@@ -4,7 +4,7 @@
     <el-table
       :data="tableData"
       v-loading="loading"
-      border
+      stripe
       @row-click="rowClick"
       highlight-current-row
       ref="multipleTable"

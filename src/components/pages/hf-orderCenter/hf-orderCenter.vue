@@ -1,12 +1,90 @@
 <template>
   <div>
-    <el-tabs v-model="activeName" @tab-click="getlistByType"  style="margin-bottom:30px;">
-     <el-tab-pane  :label="item.orderDesc" v-for="item  in orderType" :key="item.orderDesc"  :name="item.orderDesc">
-    </el-tab-pane>
-  </el-tabs>
+    <el-tabs v-model="activeName" @tab-click="getlistByType">
+      <el-tab-pane
+        :label="item.orderDesc"
+        v-for="item  in orderType"
+        :key="item.orderDesc"
+        :name="item.orderDesc"
+      ></el-tab-pane>
+    </el-tabs>
+
+    <el-card class="search-card">
+      <el-form :inline="true" :model="value1" class="demo-form-inline">
+        <el-row :gutter="10">
+          <el-col :span="6">
+            <el-form-item label="订单号">
+              <el-input v-model="value" placeholder="请输入订单号"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="商品名称">
+              <el-input v-model="value" placeholder="请输入名称"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="付款方式">
+              <el-select v-model="value" placeholder="请选择">
+                <el-option label="区域一" value="shanghai"></el-option>
+                <el-option label="区域二" value="beijing"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="订单来源">
+              <el-select v-model="value" placeholder="请输入">
+                <el-option label="区域一" value="shanghai"></el-option>
+                <el-option label="区域二" value="beijing"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row :gutter="20">
+          <el-col :span="14">
+            <el-form-item label="下单时间">
+              <el-date-picker
+                v-model="value"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                type="datetimerange"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                align="right"
+                default-time="12:00:00"
+              ></el-date-picker>
+            </el-form-item>
+            <el-button>今天</el-button>
+            <el-button>昨天</el-button>
+            <el-button>近7天</el-button>
+            <el-button>昨天30天</el-button>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="订单状态">
+              <el-select v-model="value" placeholder="请输入">
+                <el-option label="区域一" value="shanghai"></el-option>
+                <el-option label="区域二" value="beijing"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="4">
+             <el-form-item>
+          <el-button type="primary">筛选</el-button>
+          <el-button >重置</el-button>
+        </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+    </el-card>
+
     <el-tabs type="border-card" @tab-click="getStatus">
       <el-tab-pane :label="item.hfName" v-for="item  in statusData" :key="item.hfName">
-        <el-table :data="orderData.slice((currentPage-1)*pagesize,currentPage*pagesize)" stripe style="width: 100%">
+        <el-table
+          :data="orderData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
+          stripe
+          style="width: 100%"
+        >
           <el-table-column
             align="center"
             prop="orderCode"
@@ -14,38 +92,24 @@
             :show-overflow-tooltip="true"
             width="180"
           ></el-table-column>
-           <el-table-column align="center" prop="nickName" label="支付人"></el-table-column>
-           <el-table-column align="center" prop="phone" label="手机号"></el-table-column>
-          <el-table-column align="center" label="订单类型"  prop="orderType">
-           <template slot-scope="scope">
-             <span v-if="scope.row.orderType === 'balancePayment'">
-              余额支付订单
-             </span>
-              <span v-if="scope.row.orderType ==='shoppingOrder'">
-               到店支付订单
-             </span>
-              <span v-if="scope.row.orderType ==='nomalOrder'">
-               普通订单
-             </span>
-             <span v-if="scope.row.orderType ==='rechargeOrder'">
-               充值订单
-             </span>
-            </template>
-          </el-table-column>
-          <el-table-column align="center"  label="支付方式">
+          <el-table-column align="center" prop="nickName" label="支付人"></el-table-column>
+          <el-table-column align="center" prop="phone" label="手机号"></el-table-column>
+          <el-table-column align="center" label="订单类型" prop="orderType">
             <template slot-scope="scope">
-             <span v-if="scope.row.paymentName === 'BalancePayment'">
-               余额支付
-             </span>
-              <span v-if="scope.row.paymentName ==='balance'">
-               余额支付
-             </span>
-              <span v-if="scope.row.paymentName ==='wechart'">
-               微信支付
-             </span>
+              <span v-if="scope.row.orderType === 'balancePayment'">余额支付订单</span>
+              <span v-if="scope.row.orderType ==='shoppingOrder'">到店支付订单</span>
+              <span v-if="scope.row.orderType ==='nomalOrder'">普通订单</span>
+              <span v-if="scope.row.orderType ==='rechargeOrder'">充值订单</span>
             </template>
           </el-table-column>
-          <el-table-column align="center"  label="订单状态" >
+          <el-table-column align="center" label="支付方式">
+            <template slot-scope="scope">
+              <span v-if="scope.row.paymentName === 'BalancePayment'">余额支付</span>
+              <span v-if="scope.row.paymentName ==='balance'">余额支付</span>
+              <span v-if="scope.row.paymentName ==='wechart'">微信支付</span>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" label="订单状态">
             <template>
               <span>{{zhuang}}</span>
             </template>
@@ -96,6 +160,7 @@ import constants from '@/store/constants.js';
 export default {
   data() {
     return {
+      value1: {},
       activeName: '',
       zhuang: '待支付',
       currentPage: 1, // 初始页
@@ -115,8 +180,7 @@ export default {
         originOrderStatus: '',
       },
       optionvalue: '',
-      options: [
-      ],
+      options: [],
       drawer: false,
       dialogVisible: false,
       userId: '',
@@ -286,7 +350,6 @@ export default {
         },
       });
     },
-
   },
   mounted() {
     this.checkUser();
@@ -338,5 +401,9 @@ export default {
 
 .clearfix:after {
   clear: both;
+}
+.search-card {
+  /* margin: 0 5px 5px 5px; */
+  margin-bottom: 25px;
 }
 </style>
