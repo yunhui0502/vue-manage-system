@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-tabs v-model="activeName" @tab-click="handleClick">
-      <el-tab-pane label="商品管理" name="goods">
+      <el-tab-pane class="a6a" label="商品管理" name="goods">
         <el-card class="search-card">
           <Search  @parentByClick="childClick"></Search>
         </el-card>
@@ -11,7 +11,7 @@
           <div class="filter-container">
             <div class="letf-items" style="float: left;font-size: 14px;">
               已选{{amount}}项商品
-              <el-button style="padding: 0 10px;" type="text" @click="toggleSelection()">清空</el-button>
+              <el-button class="ff3" style="padding: 0 10px;" type="text" @click="toggleSelection()">清空</el-button>
             </div>
             <div class="right-items" style="float: right;padding: 10px 0;">
               <el-button @click="setProducts()">刷新</el-button>
@@ -41,8 +41,8 @@
               <el-table-column prop="lastModifier" label="最近一次操作人" width="150"></el-table-column>
               <el-table-column fixed="right" label="操作" width="100">
                 <template slot-scope="scope">
-                  <el-button @click="editProduct(scope.row)" type="text" size="small">编辑</el-button>
-                  <el-button @click="deleteProduct(scope.row)" type="text" size="small">删除</el-button>
+                  <el-button class="a6a" @click="editProduct(scope.row)" type="text" size="small">编辑</el-button>
+                  <el-button class="ff3" @click="deleteProduct(scope.row)" type="text" size="small">删除</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -57,7 +57,7 @@
           </div>
         </el-card>
       </el-tab-pane>
-      <el-tab-pane label="类目管理" name="category">
+      <el-tab-pane class="a6a" label="类目管理" name="category">
         <category></category>
       </el-tab-pane>
     </el-tabs>

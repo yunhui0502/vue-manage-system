@@ -6,11 +6,9 @@
     </el-card>
 
     <el-card class="box-card">
-      <el-container>
-        <el-container>
-          <el-aside class="abc" width="46%">
-            <!-- 上传图片 -->
-            <el-button style="margin: 8px;" @click="addGoodsSpecificationList" type="primary">添加活动</el-button>
+       <div slot="header" class="clearfix">
+            <el-button class="clearfix" style="float: right;margin: 8px;" @click="addGoodsSpecificationList" type="primary">添加活动</el-button>
+          </div>
             <!-- 活动列表展示 -->
             <el-table
               ref="singleTable"
@@ -22,51 +20,26 @@
               style="width: 100%"
             >
               <el-table-column checked type="selection" width="55"></el-table-column>
-              <el-table-column label="活动名称" width="120">
-                <template slot-scope="scope">
+              <el-table-column prop="activityName"  label="活动名称" >
+                <!-- <template width="180" slot-scope="scope">
                   <el-input placeholder="请输入内容" v-model="scope.row.activityName"></el-input>
-                </template>
+                </template> -->
               </el-table-column>
-              <el-table-column label="活动类型" prop="activityType" width>
+              <el-table-column label="活动类型" prop="activityType">
                 <span>精选</span>
+              </el-table-column>
+              <el-table-column label="创建时间" prop="createTime">
+
               </el-table-column>
 
               <el-table-column prop="address" label="操作">
                 <template slot-scope="scope">
-                  <el-button type="text" @click="addGcommodity(scope)" size="mini">保存</el-button>
-                  <el-button type="text" @click="editEvent(scope.row)" size="mini">查看</el-button>
+                   <el-button type="text" @click="centerDialogVisible=true" size="mini">查看</el-button>
+                <el-button type="text" @click="editEvent(scope.row)" size="mini">编辑</el-button>
+                <el-button class="ff3" type="text" @click="deleteEvent(scope.row.id)" size="mini">删除</el-button>
                 </template>
               </el-table-column>>
             </el-table>
-          </el-aside>
-          <el-main class="qwe">
-            <!-- <el-button @click="dialogTableVisible = true" type="primary">参与活动商品管理</el-button> -->
-            <el-table
-              ref="multipleTable"
-              :data="eventsGoods"
-              tooltip-effect="dark"
-              style="width: 100%;margin-top: 30px;"
-              :select-all="dianji(selection)"
-              @selection-change="eventsSelectionChange"
-            >
-              <el-table-column label="序列号" type="index" width="70"></el-table-column>
-              <el-table-column label="活动榜名">
-                <template slot-scope="scope">{{ scope.row.productName}}</template>
-              </el-table-column>
-              <el-table-column prop="createTime" label="创建时间" show-overflow-tooltip></el-table-column>
-              <el-table-column prop="modifyTime" label="修改时间" show-overflow-tooltip></el-table-column>
-              <el-table-column label="店铺名称">
-                <template slot-scope="scope">{{ scope.row.stoneName}}</template>
-              </el-table-column>
-              <el-table-column prop="address" label="操作">
-                <template slot-scope="scope">
-                  <!-- <el-button type="text" @click="SettingPrice(scope.row)" size="mini">保存</el-button> -->
-                  <el-button type="text" @click="deleteArticle(scope.row.id)" size="mini">删除</el-button>
-                </template>
-              </el-table-column>
-            </el-table>
-          </el-main>
-        </el-container>
 
         <el-dialog title="所有商品" :visible.sync="dialogTableVisible">
           <el-table
@@ -90,14 +63,15 @@
           <el-table :data="addActivities" style="width: 100%">
             <el-table-column prop="hfName" label="活动名称">
               <template slot-scope="scope">
-                <el-input placeholder="请输入内容" v-model="scope.row.activityName"></el-input>
+                <el-input v-show="show" placeholder="请输入内容" v-model="scope.row.activityName"></el-input>
+                   <span v-show="!show">{{scope.row.activityName}}</span>
               </template>
             </el-table-column>
 
             <el-table-column prop="stopTime" label="操作">
               <template slot-scope="scope">
-                <el-button type="danger" @click="preserveModify(scope)" size="mini">保存修改</el-button>
-                <el-button type="danger" @click="deleteEvent(scope.row.id)" size="mini">删除</el-button>
+                 <el-button type="text" @click="addGcommodity(scope)" size="mini">保存</el-button>
+                  <el-button type="text" @click="modification" size="mini">修改</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -150,8 +124,44 @@
             </el-table-column>
           </el-table>
         </el-dialog>
-      </el-container>
     </el-card>
+
+    <el-dialog title="查看物品" :visible.sync="centerDialogVisible" width="60%" center>
+         <el-table
+              ref="multipleTable"
+              :data="eventsGoods"
+              tooltip-effect="dark"
+              style="width: 100%;margin-top: 30px;"
+              :select-all="dianji(selection)"
+              @selection-change="eventsSelectionChange"
+            >
+              <el-table-column label="序列号" type="index" width="70"></el-table-column>
+              <el-table-column label="活动榜名">
+                <template slot-scope="scope">{{ scope.row.productName}}</template>
+              </el-table-column>
+              <el-table-column prop="createTime" label="创建时间" show-overflow-tooltip></el-table-column>
+              <el-table-column prop="modifyTime" label="修改时间" show-overflow-tooltip></el-table-column>
+              <el-table-column label="店铺名称">
+                <template slot-scope="scope">{{ scope.row.stoneName}}</template>
+              </el-table-column>
+              <el-table-column prop="address" label="操作">
+                <template slot-scope="scope">
+                  <!-- <el-button type="text" @click="SettingPrice(scope.row)" size="mini">保存</el-button> -->
+                  <el-button
+                    class="ff3"
+                    type="text"
+                    @click="deleteArticle(scope.row.id)"
+                    size="mini"
+                  >删除</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+      <span slot="footer" class="dialog-footer">
+        <!-- <el-button @click="centerDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button> -->
+      </span>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -165,6 +175,8 @@ export default {
   components: { hfsearch },
   data() {
     return {
+      show: false,
+      centerDialogVisible: false,
       imageUrl: '',
       imageId: '', // 添加图片用的查看时给他赋值
       fileList: [], // 图片
@@ -206,6 +218,10 @@ export default {
     this.geteventType();
   },
   methods: {
+    modification() {
+      this.show = !this.show;
+      console.log('12');
+    },
     imgUpload(file) {
       let fileName = file.name;
       let regex = /(.jpg|.jpeg|.gif|.png|.bmp)$/;
@@ -249,7 +265,11 @@ export default {
         startTime: '', // 开始时间
         endTime: '', // 结束时间
       };
-      this.tableData.push(row);
+      this.show = true;
+      this.transfedata.seniorityId = '';
+      this.addActivities = [];
+      this.editboxVisible = true;
+      this.addActivities.push(row);
     },
     // 修改活动名称
     preserveModify(scope) {
@@ -318,6 +338,10 @@ export default {
         console.log('阻止');
         serviceEvents.getActivityProductList(row.id, (res) => {
           console.log('活动商品列表信息', res);
+          if (res.data.data === '还未添加信息') {
+            console.log('还未添加信息');
+            return;
+          }
           this.eventsGoods = res.data.data;
         });
       }
@@ -332,10 +356,10 @@ export default {
         console.log('精选商品', res.data);
         this.tableData = res.data.data;
         if (res.data.data.length !== 0) {
-          this.transfedata.seniorityId = res.data.data[0].id;
-          if (this.transfedata.seniorityId !== undefined) {
+          let seniorityId = res.data.data[0].id;
+          if (seniorityId !== undefined) {
             serviceEvents.getActivityProductList(
-              this.transfedata.seniorityId,
+              seniorityId,
               (res) => {
                 console.log('活动商品列表信息', res);
                 this.eventsGoods = res.data.data;
@@ -374,15 +398,25 @@ export default {
       this.groupform.endTime = scope.row.endTime;
       console.log('parathis.groupformms', this.groupform);
       console.log('保存');
-      serviceEvents.ceateInsert(this.groupform, (res) => {
-        console.log('精选', res);
-        this.$message({
-          showClose: true,
-          message: '恭喜你，添加成功',
-          type: 'success',
+
+
+      if (scope.row.id === undefined) {
+        console.log('保存');
+        serviceEvents.ceateInsert(this.groupform, (res) => {
+          console.log('精选', res);
+          this.$message({
+            showClose: true,
+            message: '恭喜你，添加成功',
+            type: 'success',
+          });
+          this.getselect();
+          this.transfedata.seniorityId = res.data.data;
         });
-        this.getselect();
-      });
+
+      } else {
+        console.log('更新');
+        this.preserveModify(scope);
+      }
       console.log('scope', scope);
     },
     // 获取所有商品

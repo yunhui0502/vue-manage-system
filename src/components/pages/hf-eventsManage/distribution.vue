@@ -6,248 +6,254 @@
     </el-card>
 
     <el-card class="box-card">
-      <el-container>
-        <el-container>
-          <el-aside class="abc" width="46%">
-            <el-button style="margin: 8px;" @click="addGoodsSpecificationList" type="primary">添加活动</el-button>
-            <!-- 活动列表展示 -->
-            <el-table
-              ref="singleTable"
-              :data="tableData"
-              highlight-current-row
-              @current-change="handleCurrentChange"
-              @row-click="rowChange"
-              @selection-change="eventsSelectionChange"
-              style="width: 100%"
-            >
-              <el-table-column checked type="selection" width="55"></el-table-column>
-              <el-table-column label="活动名称" width="120">
-                <template slot-scope="scope">
-                  <el-input placeholder="请输入内容" v-model="scope.row.activityName"></el-input>
-                </template>
-              </el-table-column>
-              <el-table-column label="活动类型" prop="activityType">
-                <span>分销</span>
-              </el-table-column>
-              <el-table-column prop="startTime" label="开始时间" width="170">
-                <template slot-scope="scope">
-                  <el-date-picker
-                    value-format="yyyy-MM-dd HH:mm:ss"
-                    v-model="scope.row.startTime"
-                    type="datetime"
-                    placeholder="开始时间"
-                    align="right"
-                    default-time="12:00:00"
-                  ></el-date-picker>
-                </template>
-              </el-table-column>
-              <el-table-column prop="endtime" label="结束时间" width="170">
-                <template slot-scope="scope">
-                  <el-date-picker
-                    value-format="yyyy-MM-dd HH:mm:ss"
-                    v-model="scope.row.endTime"
-                    type="datetime"
-                    placeholder="结束时间"
-                    align="right"
-                    default-time="12:00:00"
-                  ></el-date-picker>
-                </template>
-              </el-table-column>
-              <el-table-column prop="address" label="操作">
-                <template slot-scope="scope">
-                  <el-button type="text" @click="addGcommodity(scope)" size="mini">保存</el-button>
-                  <el-button type="text" @click="editEvent(scope.row)" size="mini">查看</el-button>
-                </template>
-              </el-table-column>>
-            </el-table>
-          </el-aside>
-          <el-main class="qwe">
-            <!-- <el-button @click="dialogTableVisible = true" type="primary">参与活动商品管理</el-button> -->
-            <el-table
-              ref="multipleTable"
-              :data="eventsGoods"
-              stripe
-              tooltip-effect="dark"
-              style="width: 100%;margin-top: 30px;"
-              :select-all="dianji(selection)"
-              @selection-change="eventsSelectionChange"
-            >
-              <el-table-column label="序列号" type="index" width="70"></el-table-column>
-              <el-table-column label="商品名称">
-                <template slot-scope="scope">{{ scope.row.productName}}</template>
-              </el-table-column>
-              <el-table-column prop="createTime" label="创建时间" show-overflow-tooltip></el-table-column>
-              <el-table-column prop="modifyTime" label="修改时间" show-overflow-tooltip></el-table-column>
-              <el-table-column prop="address" label="操作">
-                <template slot-scope="scope">
-                  <!-- <el-button type="text" @click="SettingPrice(scope.row)" size="mini">保存</el-button> -->
-                  <el-button type="text" @click="lookover(scope.row)" size="mini">查看</el-button>
-                  <el-button type="text" @click="deleteArticle(scope.row.id)" size="mini">删除</el-button>
-                </template>
-              </el-table-column>
-            </el-table>
-          </el-main>
-        </el-container>
+      <div slot="header" class="clearfix">
+        <el-button
+          class="clearfix"
+          style="float: right;margin: 8px;"
+          @click="addGoodsSpecificationList"
+          type="primary"
+        >添加活动</el-button>
+      </div>
+      <!-- 活动列表展示 -->
+      <el-table
+        ref="singleTable"
+        :data="tableData"
+        highlight-current-row
+        @current-change="handleCurrentChange"
+        @row-click="rowChange"
+        @selection-change="eventsSelectionChange"
+        style="width: 100%"
+      >
+        <el-table-column checked type="selection" width="55"></el-table-column>
+        <el-table-column prop="activityName" label="活动名称">
+        </el-table-column>
+        <el-table-column label="活动类型" prop="activityType">
+          <span>分销</span>
+        </el-table-column>
+        <el-table-column prop="startTime" label="开始时间">
+          <template slot-scope="scope">
+            <el-date-picker
+              value-format="yyyy-MM-dd HH:mm:ss"
+              v-model="scope.row.startTime"
+              type="datetime"
+              placeholder="开始时间"
+              align="right"
+              default-time="12:00:00"
+            ></el-date-picker>
+          </template>
+        </el-table-column>
+        <el-table-column prop="endtime" label="结束时间">
+          <template slot-scope="scope">
+            <el-date-picker
+              value-format="yyyy-MM-dd HH:mm:ss"
+              v-model="scope.row.endTime"
+              type="datetime"
+              placeholder="结束时间"
+              align="right"
+              default-time="12:00:00"
+            ></el-date-picker>
+          </template>
+        </el-table-column>
+        <el-table-column prop="address" label="操作">
+          <template slot-scope="scope">
+            <el-button type="text" @click="centerDialogVisible=true" size="mini">查看</el-button>
+            <el-button type="text" @click="editEvent(scope.row)" size="mini">编辑</el-button>
+            <el-button class="ff3" type="text" @click="deleteEvent(scope.row.id)" size="mini">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
 
-        <el-dialog title="所有商品" :visible.sync="dialogTableVisible">
+      <el-dialog title="所有商品" :visible.sync="dialogTableVisible">
+        <el-table
+          ref="multipleTable"
+          :data="gridData"
+          tooltip-effect="dark"
+          style="width: 100%"
+          @selection-change="handleSelectionChange"
+        >
+          <el-table-column type="selection" width="55"></el-table-column>
+          <el-table-column label="商品ID">
+            <template slot-scope="scope">{{ scope.row.id}}</template>
+          </el-table-column>
+          <el-table-column label="商品描述">
+            <template slot-scope="scope">{{ scope.row.goodsDesc}}</template>
+          </el-table-column>
+        </el-table>
+      </el-dialog>
+
+      <el-dialog title="编辑" :visible.sync="editboxVisible">
+        <el-table :data="addActivities" style="width: 100%">
+          <el-table-column prop="hfName" label="活动名称">
+            <template slot-scope="scope">
+               <el-input v-show="show" placeholder="请输入内容" v-model="scope.row.activityName"></el-input>
+                   <span v-show="!show">{{scope.row.activityName}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="startTime" label="开始时间">
+            <template slot-scope="scope">
+              <el-date-picker
+              :disabled="disabled"
+                v-model="scope.row.startTime"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                type="datetime"
+                placeholder="开始时间"
+                align="right"
+                default-time="12:00:00"
+              ></el-date-picker>
+            </template>
+          </el-table-column>
+          <el-table-column prop="endTime" label="结束时间">
+            <template slot-scope="scope">
+              <el-date-picker
+              :disabled="disabled"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                v-model="scope.row.endTime"
+                type="datetime"
+                placeholder="结束时间"
+                align="right"
+                default-time="12:00:00"
+              ></el-date-picker>
+            </template>
+          </el-table-column>
+          <el-table-column prop="stopTime" label="操作">
+            <template slot-scope="scope">
+                <el-button type="text" @click="addGcommodity(scope)" size="mini">保存</el-button>
+                <el-button type="text" @click="modification" size="mini">修改</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <div style="margin: 6px;">给活动添加商品部分</div>
+        <el-form width="40%" :inline="true" :model="transfedata" class="demo-form-inline">
+          <el-form-item label="商品ID">
+            <el-input v-model="transfedata.goodsId" placeholder="商品ID"></el-input>
+          </el-form-item>
+          <el-form-item label="活动ID">
+            <el-input v-model="transfedata.seniorityId" placeholder="活动ID"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="onSubmit">确定</el-button>
+          </el-form-item>
+        </el-form>
+
+        <el-table
+          ref="multipleTable"
+          :data="gridData"
+          tooltip-effect="dark"
+          style="width: 100%"
+          @selection-change="handleSelectionChange"
+        >
+          <el-table-column type="selection" width="55"></el-table-column>
+          <el-table-column label="商品ID">
+            <template slot-scope="scope">{{ scope.row.id}}</template>
+          </el-table-column>
+          <el-table-column label="商品名字">
+            <template slot-scope="scope">{{ scope.row.productName}}</template>
+          </el-table-column>
+          <el-table-column label="商品描述">
+            <template slot-scope="scope">{{ scope.row.productDesc}}</template>
+          </el-table-column>
+          <el-table-column label="店铺名称">
+            <template slot-scope="scope">{{ scope.row.stoneName}}</template>
+          </el-table-column>
+        </el-table>
+      </el-dialog>
+
+      <el-drawer title="商品分销设置" :visible.sync="drawer" size="80%" direction="btt">
+        <el-row type="flex" class="row-bg">
           <el-table
             ref="multipleTable"
-            :data="gridData"
+            :data="proportionlist"
+            stripe
             tooltip-effect="dark"
-            style="width: 100%"
-            @selection-change="handleSelectionChange"
+            style="width: 100%;margin-top: 30px;"
+            :select-all="dianji(selection)"
+            @selection-change="eventsSelectionChange"
           >
-            <el-table-column type="selection" width="55"></el-table-column>
-            <el-table-column label="商品ID">
-              <template slot-scope="scope">{{ scope.row.id}}</template>
-            </el-table-column>
-            <el-table-column label="商品描述">
-              <template slot-scope="scope">{{ scope.row.goodsDesc}}</template>
-            </el-table-column>
-          </el-table>
-        </el-dialog>
-
-        <el-dialog title="编辑" :visible.sync="editboxVisible">
-          <el-table :data="addActivities" style="width: 100%">
-            <el-table-column prop="hfName" label="活动名称">
-              <template slot-scope="scope">
-                <el-input placeholder="请输入内容" v-model="scope.row.activityName"></el-input>
-              </template>
-            </el-table-column>
-            <el-table-column prop="startTime" label="开始时间">
-              <template slot-scope="scope">
-                <el-date-picker
-                  v-model="scope.row.startTime"
-                  value-format="yyyy-MM-dd HH:mm:ss"
-                  type="datetime"
-                  placeholder="开始时间"
-                  align="right"
-                  default-time="12:00:00"
-                ></el-date-picker>
-              </template>
-            </el-table-column>
-            <el-table-column prop="endTime" label="结束时间">
-              <template slot-scope="scope">
-                <el-date-picker
-                  value-format="yyyy-MM-dd HH:mm:ss"
-                  v-model="scope.row.endTime"
-                  type="datetime"
-                  placeholder="结束时间"
-                  align="right"
-                  default-time="12:00:00"
-                ></el-date-picker>
-              </template>
-            </el-table-column>
-            <el-table-column prop="stopTime" label="操作">
-              <template slot-scope="scope">
-                <el-button type="danger" @click="preserveModify(scope)" size="mini">保存修改</el-button>
-                <el-button type="danger" @click="deleteEvent(scope.row.id)" size="mini">删除</el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-          <div style="margin: 6px;">给活动添加商品部分</div>
-          <el-form width="40%" :inline="true" :model="transfedata" class="demo-form-inline">
-            <el-form-item label="商品ID">
-              <el-input v-model="transfedata.goodsId" placeholder="商品ID"></el-input>
-            </el-form-item>
-            <el-form-item label="活动ID">
-              <el-input v-model="transfedata.seniorityId" placeholder="活动ID"></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="onSubmit">确定</el-button>
-            </el-form-item>
-          </el-form>
-
-          <el-table
-            ref="multipleTable"
-            :data="gridData"
-            tooltip-effect="dark"
-            style="width: 100%"
-            @selection-change="handleSelectionChange"
-          >
-            <el-table-column type="selection" width="55"></el-table-column>
-            <el-table-column label="商品ID">
-              <template slot-scope="scope">{{ scope.row.id}}</template>
-            </el-table-column>
-            <el-table-column label="商品名字">
+            <el-table-column label="序列号" type="index" width="70"></el-table-column>
+            <el-table-column label="商品名称">
               <template slot-scope="scope">{{ scope.row.productName}}</template>
             </el-table-column>
-            <el-table-column label="商品描述">
-              <template slot-scope="scope">{{ scope.row.productDesc}}</template>
-            </el-table-column>
-            <el-table-column label="店铺名称">
-              <template slot-scope="scope">{{ scope.row.stoneName}}</template>
+            <el-table-column prop="createTime" label="创建时间" show-overflow-tooltip></el-table-column>
+            <el-table-column prop="modifyTime" label="修改时间" show-overflow-tooltip></el-table-column>
+            <el-table-column prop="address" label="操作">
+              <!-- <template slot-scope="scope">
+
+              </template>-->
             </el-table-column>
           </el-table>
-        </el-dialog>
-
-        <el-drawer title="商品分销设置" :visible.sync="drawer" size="80%" direction="btt">
-          <el-row type="flex" class="row-bg">
-            <el-table
-              ref="multipleTable"
-              :data="proportionlist"
-              stripe
-              tooltip-effect="dark"
-              style="width: 100%;margin-top: 30px;"
-              :select-all="dianji(selection)"
-              @selection-change="eventsSelectionChange"
-            >
-              <el-table-column label="序列号" type="index" width="70"></el-table-column>
-              <el-table-column label="商品名称">
-                <template slot-scope="scope">{{ scope.row.productName}}</template>
-              </el-table-column>
-              <el-table-column prop="createTime" label="创建时间" show-overflow-tooltip></el-table-column>
-              <el-table-column prop="modifyTime" label="修改时间" show-overflow-tooltip></el-table-column>
-              <el-table-column prop="address" label="操作">
-                <!-- <template slot-scope="scope">
-
-                </template>-->
-              </el-table-column>
-            </el-table>
-          </el-row>
-          <el-row type="flex" class="row-bg">
-            <el-col :span="12">
-              <div></div>
-              <div>分销比例设置</div>
-              <div>
-                <el-table class="goods-table" :data="Placelist" border>
-                  <el-table-column type="selection"></el-table-column>
-                  <el-table-column label="分销名称" width="90">
-                    <template slot-scope="scope">
-                      <el-select v-model="scope.row.name" placeholder="请选择">
-                        <el-option
-                          v-for="item in Types"
-                          :key="item.index"
-                          :label="item.name"
-                          :value="item.index"
-                        ></el-option>
-                      </el-select>
-                    </template>
-                  </el-table-column>
-                  <el-table-column label="分销比例">
-                    <template slot-scope="scope">
-                      <el-input placeholder="请输入内容" v-model="scope.row.ratio"></el-input>
-                    </template>
-                  </el-table-column>
-                  <el-table-column label="店铺名称">
-                    <template slot-scope="scope">{{ scope.row.stoneName}}</template>
-                  </el-table-column>
-                  <el-table-column label="操作">
-                    <template slot-scope="scope">
-                      <el-button type="text" @click="SettingPrice(scope.row)" size="mini">保存</el-button>
-                    </template>
-                  </el-table-column>
-                </el-table>
-                <el-button style="float: right;" size="mini" @click="addGoodsList()">添加分销</el-button>
-              </div>
-            </el-col>
-            <el-col :span="12">
-              <div class="grid-content bg-purple"></div>
-            </el-col>
-          </el-row>
-        </el-drawer>
-      </el-container>
+        </el-row>
+        <el-row type="flex" class="row-bg">
+          <el-col :span="12">
+            <div></div>
+            <div>分销比例设置</div>
+            <div>
+              <el-table class="goods-table" :data="Placelist" border>
+                <el-table-column type="selection"></el-table-column>
+                <el-table-column label="分销名称" width="90">
+                  <template slot-scope="scope">
+                    <el-select v-model="scope.row.name" placeholder="请选择">
+                      <el-option
+                        v-for="item in Types"
+                        :key="item.index"
+                        :label="item.name"
+                        :value="item.index"
+                      ></el-option>
+                    </el-select>
+                  </template>
+                </el-table-column>
+                <el-table-column label="分销比例">
+                  <template slot-scope="scope">
+                    <el-input placeholder="请输入内容" v-model="scope.row.ratio"></el-input>
+                  </template>
+                </el-table-column>
+                <el-table-column label="店铺名称">
+                  <template slot-scope="scope">{{ scope.row.stoneName}}</template>
+                </el-table-column>
+                <el-table-column label="操作">
+                  <template slot-scope="scope">
+                    <el-button type="text" @click="SettingPrice(scope.row)" size="mini">保存</el-button>
+                  </template>
+                </el-table-column>
+              </el-table>
+              <el-button style="float: right;" size="mini" @click="addGoodsList()">添加分销</el-button>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple"></div>
+          </el-col>
+        </el-row>
+      </el-drawer>
     </el-card>
+
+    <el-dialog title="查看物品" :visible.sync="centerDialogVisible" width="60%" center>
+      <el-table
+        ref="multipleTable"
+        :data="eventsGoods"
+        stripe
+        tooltip-effect="dark"
+        style="width: 100%;margin-top: 30px;"
+        :select-all="dianji(selection)"
+        @selection-change="eventsSelectionChange"
+      >
+        <el-table-column label="序列号" type="index" width="70"></el-table-column>
+        <el-table-column label="商品名称">
+          <template slot-scope="scope">{{ scope.row.productName}}</template>
+        </el-table-column>
+        <el-table-column prop="createTime" label="创建时间" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="modifyTime" label="修改时间" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="address" label="操作">
+          <template slot-scope="scope">
+            <!-- <el-button type="text" @click="SettingPrice(scope.row)" size="mini">保存</el-button> -->
+            <el-button type="text" @click="lookover(scope.row)" size="mini">查看</el-button>
+            <el-button class="ff3" type="text" @click="deleteArticle(scope.row.id)" size="mini">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="centerDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -259,6 +265,9 @@ export default {
   components: { hfsearch },
   data() {
     return {
+      show: false,
+      disabled: true,
+      centerDialogVisible: false,
       Types: [
         {
           index: '1',
@@ -322,6 +331,11 @@ export default {
     this.geteventType();
   },
   methods: {
+    modification() {
+      this.disabled = !this.disabled;
+      this.show = !this.show;
+      console.log('12');
+    },
     // 添加一行分销
     addGoodsList() {
       let row = {
@@ -346,7 +360,12 @@ export default {
         startTime: '', // 开始时间
         endTime: '', // 结束时间
       };
-      this.tableData.push(row);
+      this.show = true;
+      this.disabled = false;
+      this.transfedata.seniorityId = '';
+      this.addActivities = [];
+      this.editboxVisible = true;
+      this.addActivities.push(row);
     },
     // 绑定 里的确定按钮
     onSubmit() {
@@ -427,6 +446,7 @@ export default {
     // 点击一行触发
     rowChange(row) {
       console.log(row);
+      this.eventsGoods = [];
       this.transfedata.seniorityId = row.id;
       if (row.id !== undefined) {
         console.log('阻止');
@@ -458,10 +478,10 @@ export default {
         console.log('分销商品', res.data.data);
         this.tableData = res.data.data;
         if (res.data.data.length !== 0) {
-          this.transfedata.seniorityId = res.data.data[0].id;
-          if (this.transfedata.seniorityId !== undefined) {
+          let seniorityId = res.data.data[0].id;
+          if (seniorityId !== undefined) {
             serviceEvents.getActivityProductList(
-              this.transfedata.seniorityId,
+              seniorityId,
               (res) => {
                 console.log('活动分销商品列表信息', res);
                 let ventsGood = res.data.data;
@@ -494,15 +514,24 @@ export default {
       this.groupform.endTime = scope.row.endTime;
       console.log('parathis.groupformms', this.groupform);
       console.log('保存');
-      serviceEvents.ceateInsert(this.groupform, (res) => {
-        console.log('精选', res);
-        this.$message({
-          showClose: true,
-          message: '恭喜你，添加成功',
-          type: 'success',
+
+      console.log(scope);
+      if (scope.row.id === undefined) {
+        console.log('保存');
+        serviceEvents.ceateInsert(this.groupform, (res) => {
+          console.log('精选', res);
+          this.$message({
+            showClose: true,
+            message: '恭喜你，添加成功',
+            type: 'success',
+          });
+          this.getselect();
+          this.transfedata.seniorityId = res.data.data;
         });
-        this.getselect();
-      });
+      } else {
+        console.log('更新');
+        this.preserveModify(scope);
+      }
       console.log('scope', scope);
     },
     // 获取所有商品

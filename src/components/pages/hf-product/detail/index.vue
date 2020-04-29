@@ -42,10 +42,10 @@
           </el-col>
           <el-col :span="8">
             <el-button
-              type="primary"
+              type="purple"
               @click="onProductSubmit('formName')"
-            >{{isCreate ? '添加商品' : '更新商品'}}</el-button>
-            <el-button label="ltr" @click="evenMore">添加详情图</el-button>
+            >{{isCreate ? '+ 添加商品' : '更新商品'}}</el-button>
+            <el-button label="ltr" @click="evenMore">+ 添加详情图</el-button>
           </el-col>
         </el-row>
       </el-form>
@@ -53,38 +53,37 @@
 
     <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <span>物品信息列表</span>
-        <el-button
-          @click="drawer = true"
-          round
-          size="mini"
-          style="float: right;margin-right: 8px;"
-          type="primary"
-        >添加物品</el-button>
-      </div>
-
-       <GoodsList @change="handieLetterChange" v-if="isRouterAlive" :commodityId="commodityId"></GoodsList>
-    </el-card>
-  <el-card class="box-card">
-      <div slot="header" class="clearfix">
-          <el-header style="height: -1px;" class="font-neue t-10">
-            {{Cabinet}}图片管理
-            <span style="margin: 0 4px">{{Cabinet}}名称：{{productInfo.name}}</span>
-          </el-header>
+        <el-header style="height: -1px;" class="font-neue t-10">
+          {{Cabinet}}图片管理
+          <span style="margin: 0 4px">{{Cabinet}}名称：{{productInfo.name}}</span>
+        </el-header>
       </div>
 
       <list-picture v-if="detailsp" :productId="commodityId"></list-picture>
-            <listgraph v-if="!detailsp" :letter="letter"></listgraph>
+      <listgraph v-if="!detailsp" :letter="letter"></listgraph>
     </el-card>
     <el-card class="box-card">
       <div slot="header" class="clearfix">
         <el-header style="height: 10px;" class="font-neue t-10">
-            {{Cabinet}}规格
-            <span style="margin: 0 4px">{{Cabinet}}名称：{{productInfo.name}}</span>
-          </el-header>
+          {{Cabinet}}规格
+          <span style="margin: 0 4px">{{Cabinet}}名称：{{productInfo.name}}</span>
+        </el-header>
       </div>
 
-       <list-specification :letter="letter" :goosID="goosID" :commodityId="commodityId"></list-specification>
+      <list-specification :letter="letter" :goosID="goosID" :commodityId="commodityId"></list-specification>
+    </el-card>
+
+    <el-card class="box-card">
+      <div slot="header" class="clearfix">
+        <span>物品信息列表</span>
+        <el-button
+          @click="drawer = true"
+          style="float: right;margin-right: 8px;"
+          type="purple"
+        >+ 添加物品</el-button>
+      </div>
+
+      <GoodsList @change="handieLetterChange" v-if="isRouterAlive" :commodityId="commodityId"></GoodsList>
     </el-card>
 
     <el-dialog

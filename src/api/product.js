@@ -26,7 +26,7 @@ function deleteProductPictrue(fileId, productId) {
 }
 // 删除商品介绍图片
 function deletedPictrue(fileId, productId) {
-  return Axios.post('/api/api/product/product/deletedPictrue?fileId=' + fileId + '&productId=' + productId);
+  return Axios.get('/api/api/product/product/deletedPictrue?fileId=' + fileId + '&productId=' + productId);
 }
 // 添加商品接口 lastModifier
 function ceateProduct(params) {

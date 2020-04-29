@@ -45,6 +45,7 @@
             <el-button @click="handleClicks(scope.row)" type="text" size="small">编辑</el-button>
             <el-button
               @click="deletesingle(index,scope.row)"
+              class="ff3"
               type="text"
               size="small"
               style="color: hotpink;"

@@ -19,7 +19,7 @@
       <el-table-column fixed="right" width="100" label="操作">
         <template slot-scope="scope">
           <el-button @click="editProduct(scope.row)" type="text" size="small">查看详情</el-button>
-          <el-button @click="deleteProduct(scope.row)" type="text" size="small">删除</el-button>
+          <el-button class="ff3" @click="deleteProduct(scope.row)" type="text" size="small">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -31,12 +31,43 @@
         :total="totalSize"
       ></el-pagination>
     </div>
-    <el-drawer title="物品详情" :direction="direction" :visible.sync="drawer" size="89%">
-      <div>
-        <el-table
+
+    <el-dialog title="提示" :visible.sync="drawer" width="60%" center>
+      <el-row :gutter="20">
+        <el-col :span="2">
+          <div>图片管理</div>
+        </el-col>
+        <el-col :span="20">
+          <el-form>
+            <el-form-item>
+              <el-upload
+                list-type="picture-card"
+                ref="upload"
+                action
+                multiple
+                :auto-upload="false"
+                :limit="20"
+                :file-list="fileList"
+                :on-change="imgUpload"
+                :on-remove="handleRemove"
+              >
+                <el-button size="small" type="primary">点击上传</el-button>
+                <!-- <div slot="tip">只能上传jpg/png文件，且不超过500kb</div> -->
+              </el-upload>
+            </el-form-item>
+          </el-form>
+        </el-col>
+      </el-row>
+
+      <el-row :gutter="10">
+        <el-col :span="2">
+          <div>物品管理</div>
+        </el-col>
+        <el-col :span="22">
+                  <el-table
           :data="details"
           v-loading="loading"
-          border
+          stripe
           highlight-current-row
           ref="multipleTable"
         >
@@ -72,21 +103,25 @@
             </template>
           </el-table-column>
         </el-table>
-      </div>
-      <div class="boxes">
-        <div style="flex:1;margin-top: 20px;">
+        </el-col>
+      </el-row>
+
+      <el-row :gutter="10">
+        <el-col :span="2">
           <div>仓库信息</div>
-          <el-table :data="storage" stripe style="width: 100%">
+        </el-col>
+        <el-col :span="22">
+            <el-table :data="storage" stripe style="width: 60%">
             <el-table-column prop="warehouseName" label="仓库" width="180">
               <template slot-scope="scope">
-               <el-select  style="width:80%" v-model="scope.row.warehouseId" placeholder="请选择">
-              <el-option
-                v-for="item in options"
-                :key="item.id"
-                :label="item.hfName"
-                :value="item.id"
-              ></el-option>
-            </el-select>
+                <el-select style="width:80%" v-model="scope.row.warehouseId" placeholder="请选择">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.id"
+                    :label="item.hfName"
+                    :value="item.id"
+                  ></el-option>
+                </el-select>
               </template>
             </el-table-column>
             <el-table-column prop="quantity" label="数量" width="180">
@@ -102,38 +137,27 @@
               </template>
             </el-table-column>
           </el-table>
-        </div>
-        <div style="flex:1">
-          <ListSpecification
-            ref="child"
-            details="false"
-            :interconnectedID="interconnectedID"
-            :detailgoodsId="detailgoodsId"
-          ></ListSpecification>
-        </div>
-        <div style="flex:1;margin-top: 20px;">
-          <div>图片管理</div>
-          <el-form>
-            <el-form-item>
-              <el-upload
-                list-type="picture-card"
-                ref="upload"
-                action
-                multiple
-                :auto-upload="false"
-                :limit="20"
-                :file-list="fileList"
-                :on-change="imgUpload"
-                :on-remove="handleRemove"
-              >
-                <el-button size="small" type="primary">点击上传</el-button>
-                <!-- <div slot="tip">只能上传jpg/png文件，且不超过500kb</div> -->
-              </el-upload>
-            </el-form-item>
-          </el-form>
-        </div>
-      </div>
-    </el-drawer>
+        </el-col>
+      </el-row>
+
+      <el-row :gutter="10">
+        <el-col :span="2">
+          <div>规格管理</div>
+        </el-col>
+        <el-col :span="22">
+           <ListSpecification
+          ref="child"
+          details="false"
+          :interconnectedID="interconnectedID"
+          :detailgoodsId="detailgoodsId"
+        ></ListSpecification>
+        </el-col>
+      </el-row>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="drawer = false">取 消</el-button>
+        <el-button type="primary" @click="drawer = false">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -166,7 +190,6 @@ export default {
       tableData: [],
       productId: 0,
       drawer: false, // 抽屉组件开关
-      direction: 'btt', // 控制抽屉弹出位置
       details: [],
       storage: [], // 仓库详情
       ware: {
@@ -232,7 +255,7 @@ export default {
       console.log(this.commodityId);
       serviceGoods.getGoodsByProductId(this.productId, (res) => {
         let data = res.data.data;
-        for (var i = 0;i < data.length;i++) {
+        for (var i = 0; i < data.length; i++) {
           // eslint-disable-next-line no-magic-numbers
           data[i].linePrice = (data[i].linePrice / 100).toFixed(2);
           // eslint-disable-next-line no-magic-numbers
@@ -261,7 +284,7 @@ export default {
       this.drawer = true;
       serviceGoods.selectProductGoods(row.goodsId, this.commodityId, (res) => {
         let data = res.data.data;
-        for (var i = 0;i < data.length;i++) {
+        for (var i = 0; i < data.length; i++) {
           // eslint-disable-next-line no-magic-numbers
           data[i].linePrice = (data[i].linePrice / 100).toFixed(2);
           // eslint-disable-next-line no-magic-numbers
@@ -319,6 +342,9 @@ export default {
 
 .boxes {
   display: flex;
+}
+.el-col {
+  margin-top: 20px;
 }
 </style>
 
