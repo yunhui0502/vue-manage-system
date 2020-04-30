@@ -4,7 +4,7 @@
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="秒杀活动" name="Controlkill">
         <el-card class="search-card">
-          <hfsearch labelName="活动名称"></hfsearch>
+          <hfsearch :labelType='labelType'  @parentByClick="childClick" labelName="活动名称"></hfsearch>
         </el-card>
 
         <el-card class="box-card">
@@ -38,7 +38,7 @@
                 width="120"
               >{{scope.row.activityState==1?"已结束":(scope.row.activityState==0?"进行中":"未开始")}}</template>
             </el-table-column>
-            <el-table-column prop="startTime" label="开始时间" width="170">
+            <el-table-column prop="startTime" label="开始时间">
               <template slot-scope="scope">
                 <el-date-picker
                   value-format="yyyy-MM-dd HH:mm:ss"
@@ -50,7 +50,7 @@
                 ></el-date-picker>
               </template>
             </el-table-column>
-            <el-table-column prop="endtime" label="结束时间" width="170">
+            <el-table-column prop="endtime" label="结束时间">
               <template slot-scope="scope">
                 <el-date-picker
                   v-model="scope.row.endTime"
@@ -64,7 +64,7 @@
             </el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <el-button type="text" @click="centerDialogVisible=true" size="mini">查看</el-button>
+                <el-button class="ffc" type="text" @click="centerDialogVisible=true" size="mini">查看</el-button>
                 <el-button type="text" @click="editEvent(scope.row)" size="mini">编辑</el-button>
                 <el-button class="ff3" type="text" @click="deleteEvent(scope.row.id)" size="mini">删除</el-button>
               </template>
@@ -206,18 +206,18 @@
       </el-tab-pane>
 
       <el-tab-pane label="团购商品" name="Controlgroup">
-        <groupbuying></groupbuying>
+        <groupbuying :labelType='labelType'></groupbuying>
       </el-tab-pane>
       <el-tab-pane label="精选商品" name="Controlselection">
-        <selection></selection>
+        <selection :labelType='labelType'></selection>
       </el-tab-pane>
 
       <el-tab-pane label="商品分销" name="Controldistribution">
-        <distribution></distribution>
+        <distribution :labelType='labelType'></distribution>
       </el-tab-pane>
 
       <el-tab-pane label="轮播图" name="ratationActivity">
-        <ratationPicture></ratationPicture>
+        <ratationPicture :labelType='labelType'></ratationPicture>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -240,6 +240,7 @@ export default {
   },
   data() {
     return {
+      labelType: '秒杀活动',
       show: false,
       disabled: true,
       centerDialogVisible: false,
@@ -295,6 +296,9 @@ export default {
     this.geteventType();
   },
   methods: {
+    childClick(tableData) {
+      this.tableData = tableData;
+    },
     modification() {
       this.disabled = !this.disabled;
       this.show = !this.show;
@@ -369,7 +373,7 @@ export default {
     },
     // 获取秒杀商品
     getselect() {
-      serviceEvents.select((res) => {
+      serviceEvents.select('', (res) => {
         console.log('秒杀商品', res.data.data);
         this.tableData = res.data.data;
         if (res.data.data.length !== 0) {
@@ -523,6 +527,7 @@ export default {
     handleClick(tab, event) {
       console.log(tab, event);
       console.log(tab.$options.propsData.label);
+      this.labelType = tab.$options.propsData.label;
     },
     // 点击一行触发
     rowChange(row) {

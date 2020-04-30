@@ -2,7 +2,7 @@
   <!----------------------------------团购-------------------------------------------------- -->
   <div>
     <el-card class="search-card">
-      <hfsearch labelName="活动名称"></hfsearch>
+      <hfsearch :labelType='labelType' @parentByClick="childClick" labelName="活动名称"></hfsearch>
     </el-card>
 
     <el-card class="box-card">
@@ -62,11 +62,11 @@
         </el-table-column>
         <el-table-column prop="address" label="操作">
           <template slot-scope="scope">
-                <el-button type="text" @click="centerDialogVisible=true" size="mini">查看</el-button>
+                <el-button class="ffc" type="text" @click="centerDialogVisible=true" size="mini">查看</el-button>
                 <el-button type="text" @click="editEvent(scope.row)" size="mini">编辑</el-button>
                 <el-button class="ff3" type="text" @click="deleteEvent(scope.row.id)" size="mini">删除</el-button>
           </template>
-        </el-table-column>>
+        </el-table-column>
       </el-table>
 
       <el-dialog title="编辑" :visible.sync="editboxVisible">
@@ -206,6 +206,7 @@ import serviceEvents from '@/service/eventsManage.js';
 import hfsearch from './hf-search.vue';
 export default {
   components: { hfsearch },
+  props: ['labelType'],
   data() {
     return {
       show: false,
@@ -256,6 +257,9 @@ export default {
     this.geteventType();
   },
   methods: {
+    childClick(tableData) {
+      this.tableData = tableData;
+    },
     modification() {
       this.disabled = !this.disabled;
       this.show = !this.show;
@@ -289,9 +293,7 @@ export default {
               let data = res.data.data;
               for (var i = 0; i < data.length; i++) {
                 // eslint-disable-next-line no-magic-numbers
-                data[i].favoravlePrice = (data[i].favoravlePrice / 100).toFixed(
-                  2,
-                );
+                data[i].favoravlePrice = (data[i].favoravlePrice / 100).toFixed(2);
                 // eslint-disable-next-line no-magic-numbers
                 data[i].priceArea = (data[i].priceArea / 100).toFixed(2);
               }
@@ -322,7 +324,7 @@ export default {
     },
     // 获取团购活动
     getselect() {
-      serviceEvents.groupSelete((res) => {
+      serviceEvents.groupSelete('', (res) => {
         console.log('团购商品', res.data);
         this.tableData = res.data.data;
         if (res.data.data.length !== 0) {
@@ -437,6 +439,8 @@ export default {
     // 编辑
     editEvent(row) {
       console.log(row);
+      this.show = false;
+      this.disabled = true;
       this.transfedata.seniorityId = row.id;
       this.addActivities = [];
       this.editboxVisible = true;

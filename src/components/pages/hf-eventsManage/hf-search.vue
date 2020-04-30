@@ -4,8 +4,8 @@
     <el-form-item :label="labelName">
       <el-input v-model="inquire.goodsName" placeholder="请输入物品名称"></el-input>
     </el-form-item>
-    <el-form-item label="活动类型">
-       <el-select v-model="inquire.level" placeholder="请选择">
+    <el-form-item v-if="labelName!=='活动名称'" label="优惠券类型">
+       <el-select v-model="inquire.productCategoryName" placeholder="请选择">
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -23,39 +23,40 @@
 
 <script>
 import serviceProduct from '@/service/product.js';
-
+import serviceEvents from '@/service/eventsManage.js';
 export default {
-  props: ['labelName'],
+  props: ['labelName', 'labelType', 'options'],
   data() {
     return {
       addLoading: false,
       activeIndex: '1',
       activeNames: ['1'],
-      options: [
-        {
-          value: '0',
-          label: '秒杀',
-        },
-        {
-          value: '1',
-          label: '团购',
-        },
-        {
-          value: '2',
-          label: '分销',
-        },
-        {
-          value: '3',
-          label: '精选',
-        },
-        {
-          value: '4',
-          label: '轮播图',
-        },
-      ],
+      // options: [
+      //   {
+      //     value: '0',
+      //     label: '秒杀',
+      //   },
+      //   {
+      //     value: '1',
+      //     label: '团购',
+      //   },
+      //   {
+      //     value: '2',
+      //     label: '分销',
+      //   },
+      //   {
+      //     value: '3',
+      //     label: '精选',
+      //   },
+      //   {
+      //     value: '4',
+      //     label: '轮播图',
+      //   },
+      // ],
       inquire: {
         goodsName: '', // 商品名称
         productCategoryName: '', // 类目名称
+        // bossId: '',
       },
     };
   },
@@ -75,11 +76,51 @@ export default {
       this.inquire.productCategoryName = '';
     },
     seeAbout() {
-      serviceProduct.productNameListBos(this.inquire, (res) => {
-        let tableData = res.data.data.list;
-        this.$emit('parentByClick', tableData);
-        console.log(res);
-      });
+      console.log(this.inquire.goodsName);
+      if (this.labelType === '秒杀活动') {
+        console.log('秒杀');
+        serviceEvents.select(this.inquire.goodsName, (res) => {
+          let tableData = res.data.data;
+          this.$emit('parentByClick', tableData);
+          console.log(res);
+        });
+      } else if (this.labelType === '团购商品') {
+        console.log('团购');
+        serviceEvents.groupSelete(this.inquire.goodsName, (res) => {
+          let tableData = res.data.data;
+          this.$emit('parentByClick', tableData);
+          console.log(res);
+        });
+      } else if (this.labelType === '精选商品') {
+        console.log('精选');
+        serviceEvents.seniorityfindSeniorityInfo(this.inquire.goodsName, (res) => {
+          let tableData = res.data.data;
+          this.$emit('parentByClick', tableData);
+          console.log(res);
+        });
+      } else if (this.labelType === '商品分销') {
+        console.log('分销');
+        serviceEvents.findProdcutActivity(this.inquire.goodsName, (res) => {
+          let tableData = res.data.data;
+          this.$emit('parentByClick', tableData);
+          console.log(res);
+        });
+      } else if (this.labelType === '轮播图') {
+        console.log('轮播图');
+        serviceEvents.ratationActivity(this.inquire.goodsName, (res) => {
+          let tableData = res.data.data;
+          this.$emit('parentByClick', tableData);
+          console.log(res);
+        });
+      }
+      if (this.labelName === '优惠名称') {
+        console.log('优惠名称');
+        serviceProduct.selectDiscountCoupon(this.inquire, (res) => {
+          let tableData = res.data.data;
+          this.$emit('parentByClick', tableData);
+          console.log(res);
+        });
+      }
     },
   },
 };

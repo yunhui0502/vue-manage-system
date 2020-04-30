@@ -91,6 +91,19 @@ function selectProductIntroducePictrue(productId) {
 function specifies(productId) {
   return Axios.get('/api/api/product/product/specifies?productId=' + productId);
 }
+
+// 优惠券筛选
+function selectDiscountCoupon(param) {
+  let params = {
+    DiscountCouponName: param.goodsName,
+    bossId: 1,
+  };
+  if (param.productCategoryName !== '') {
+    params.DiscountCouponType = param.productCategoryName;
+  }
+
+  return Axios.get('/api/api/product/discountCoupon/selectDiscountCoupon', {params});
+}
 // 添加商品规格
 function addSpecify (params) {
   let fd = new FormData();
@@ -133,4 +146,5 @@ export default {
   productNameListBos: productNameListBos,
   deleteSelectProduct: deleteSelectProduct,
   deletedPictrue: deletedPictrue,
+  selectDiscountCoupon: selectDiscountCoupon,
 };

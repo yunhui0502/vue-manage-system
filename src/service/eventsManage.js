@@ -2,8 +2,8 @@
 import eventsManage from '@/api/eventsManage.js';
 
 // 获取秒杀商品列表
-async function getProdcutActivityType(handleResult) {
-  eventsManage.getProdcutActivityType().then((res) => handleResult(res));
+async function getProdcutActivityType(name, handleResult) {
+  eventsManage.getProdcutActivityType(name).then((res) => handleResult(res));
 }
 // 删除活动
 async function eventsDelete(id, handleResult) {
@@ -32,8 +32,8 @@ async function updateProdcutActivity(id, handleResult) {
 // ========================================秒杀
 
 // 获取秒杀商品列表
-async function select(handleResult) {
-  eventsManage.select().then((res) => handleResult(res));
+async function select(name, handleResult) {
+  eventsManage.select(name).then((res) => handleResult(res));
 }
 
 // 获取所有商品列表
@@ -51,8 +51,8 @@ async function killupdate(params, handleResult) {
 
 // ========================================拼团
 // 获取团购商品列表
-async function groupSelete(handleResult) {
-  eventsManage.groupSelete().then((res) => handleResult(res));
+async function groupSelete(name, handleResult) {
+  eventsManage.groupSelete(name).then((res) => handleResult(res));
 }
 // 添加团购商品接口
 async function groupInsert(params, handleResult) {
@@ -68,8 +68,8 @@ async function groupDelete(params, handleResult) {
 }
 // ========================================精选
 // 查询排行相关信息
-async function seniorityfindSeniorityInfo(handleResult) {
-  eventsManage.seniorityfindSeniorityInfo().then((res) => handleResult(res));
+async function seniorityfindSeniorityInfo(name, handleResult) {
+  eventsManage.seniorityfindSeniorityInfo(name).then((res) => handleResult(res));
 }
 // 查询排行内容
 async function seniorityfindSeniorityContent(handleResult) {
@@ -90,13 +90,13 @@ async function seniorityfind(seniorityId, handleResult) {
 }
 // ========================================分销
 // 获取分销活动列表
-async function findProdcutActivity(handleResult) {
-  eventsManage.findProdcutActivity().then((res) => handleResult(res));
+async function findProdcutActivity(name, handleResult) {
+  eventsManage.findProdcutActivity(name).then((res) => handleResult(res));
 }
 // ========================================轮播图
 // 获取分销活动列表
-async function ratationActivity(handleResult) {
-  eventsManage.ratationActivity().then((res) => handleResult(res));
+async function ratationActivity(name, handleResult) {
+  eventsManage.ratationActivity(name).then((res) => handleResult(res));
 }
 export default {
   eventsDelete: eventsDelete,

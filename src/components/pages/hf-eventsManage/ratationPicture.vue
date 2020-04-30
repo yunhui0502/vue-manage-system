@@ -2,7 +2,7 @@
   <!---------------------------------- 轮播 -------------------------------------------------- -->
   <div>
     <el-card class="search-card">
-      <hfsearch labelName="活动名称"></hfsearch>
+      <hfsearch :labelType='labelType' @parentByClick="childClick"  labelName="活动名称"></hfsearch>
     </el-card>
 
     <el-card class="box-card">
@@ -35,7 +35,7 @@
         <el-table-column label="创建时间" prop="createTime"></el-table-column>
         <el-table-column prop="address" label="操作">
           <template slot-scope="scope">
-           <el-button type="text" @click="centerDialogVisible=true" size="mini">查看</el-button>
+           <el-button class="ffc" type="text" @click="centerDialogVisible=true" size="mini">查看</el-button>
             <el-button type="text" @click="editEvent(scope.row)" size="mini">编辑</el-button>
             <el-button class="ff3" type="text" @click="deleteEvent(scope.row.id)" size="mini">删除</el-button>
           </template>
@@ -170,6 +170,7 @@ import axios from 'axios';
 import hfsearch from './hf-search.vue';
 export default {
   components: { hfsearch },
+  props: ['labelType'],
   data() {
     return {
       show: false,
@@ -214,6 +215,9 @@ export default {
     this.setProducts();
   },
   methods: {
+    childClick(tableData) {
+      this.tableData = tableData;
+    },
     modification() {
       this.show = !this.show;
       console.log('12');
@@ -301,6 +305,7 @@ export default {
     // 查看编辑
     editEvent(row) {
       console.log(row);
+      this.show = false;
       this.addActivities = [];
       this.editboxVisible = true;
       this.addActivities.push(row);
@@ -330,7 +335,7 @@ export default {
     },
     // 查询排行相关信息
     getselect() {
-      serviceEvents.ratationActivity((res) => {
+      serviceEvents.ratationActivity('', (res) => {
         console.log('轮播图商品', res.data);
         this.tableData = res.data.data;
         if (res.data.data.length !== 0) {

@@ -72,6 +72,12 @@ async function updatespec(productId, handleResult) {
 async function deleteSelectProduct(productId, handleResult) {
   product.deleteSelectProduct(productId).then((res) => handleResult(res));
 }
+
+// 优惠券筛选
+async function selectDiscountCoupon(params, handleResult) {
+  product.selectDiscountCoupon(params).then((res) => handleResult(res));
+}
+
 export default {
   getProductsByBossId: getProductsByBossId,
   deleteById: deleteById,
@@ -91,4 +97,5 @@ export default {
   productNameListBos: productNameListBos,
   deleteSelectProduct: deleteSelectProduct,
   deletedPictrue: deletedPictrue,
+  selectDiscountCoupon: selectDiscountCoupon,
 };

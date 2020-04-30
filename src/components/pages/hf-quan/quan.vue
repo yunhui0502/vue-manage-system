@@ -4,7 +4,7 @@
       <div slot="header" class="clearfix">
         <span>优惠券</span>
       </div>
-      <hfsearch labelName="优惠名称"></hfsearch>
+      <hfsearch @parentByClick="childClick" :options="options" labelName="优惠名称"></hfsearch>
     </el-card>
 
     <el-card class="box-card">
@@ -320,26 +320,13 @@ export default {
       radio1: '1',
       options: [
         {
-          value: '选项1',
-          label: '黄金糕',
+          value: '0',
+          label: '折扣',
         },
         {
-          value: '选项2',
-          label: '双皮奶',
-        },
-        {
-          value: '选项3',
-          label: '蚵仔煎',
-        },
-        {
-          value: '选项4',
-          label: '龙须面',
-        },
-        {
-          value: '选项5',
-          label: '北京烤鸭',
-        },
-      ],
+          value: '1',
+          label: '满减',
+        }],
       value: '',
       direction: 'rtl',
       rules: {
@@ -443,6 +430,11 @@ export default {
     };
   },
   methods: {
+
+    childClick(tableData) {
+      this.list = tableData;
+    },
+
     uptime1: function(val) {
       console.log(val);
       this.formquan1.startTime = this.formatDate(val);
