@@ -1,94 +1,109 @@
 <template>
   <div>
-    <div style="float: left;">
-      <div>物品规格</div>
-      <el-table :data="specificationData" border>
-        <el-table-column type="selection"></el-table-column>
-        <el-table-column label="规格名称">
-          <template slot-scope="scope">
-            <el-input placeholder="请输入内容" v-model="scope.row.hfName"></el-input>
-          </template>
-        </el-table-column>
-        <el-table-column label="规格类型" width="90">
-          <template slot-scope="scope">
-            <el-select v-model="scope.row.specType" placeholder="请选择">
-              <el-option
-                v-for="item in Types"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </template>
-        </el-table-column>
-        <el-table-column label="值">
-          <template slot-scope="scope">
-            <el-input placeholder="请输入内容" v-model="scope.row.specValue"></el-input>
-          </template>
-        </el-table-column>
-        <!-- <el-table-column v-for="(item,i) in cols" :key="i" :prop="item.prop" :label="item.label">
-          <template slot-scope="scope">
-            <input value @input="inputEvent($event)" @blur="Article(scope)" ref="abc" />
-          </template>
-        </el-table-column> -->
-        <el-table-column label="规格单位" width="90">
-          <template slot-scope="scope">
-            <el-select v-model="scope.row.specUnit" placeholder="请选择">
-              <el-option
-                v-for="item in Units"
-                :key="item.specUnit"
-                :label="item.label"
-                :value="item.specUnit"
-              ></el-option>
-            </el-select>
-          </template>
-        </el-table-column>
-        <!-- <el-table-column label="操作">
-          <template slot-scope="scope">
-            <el-button type="text" style="color: rgb(24, 211, 71);" @click="submitPrice(scope)">提交</el-button>
-          </template>
-        </el-table-column> -->
-      </el-table>
+    <div style="width: 100%;">
+      <el-form
+        :rules="rules"
+        status-icon
+        ref="formName"
+        :model="specificationForm"
+        label-width="100px"
+        class="demo-ruleForm"
+      >
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item label="物品名称" prop="goodName">
+              <el-input v-model="increase.goodName" :disabled="true"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="价格" prop="sellPrice">
+              <el-input style v-model="specificationForm.sellPrice  "></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item style label="划线价格" prop="linePrice">
+              <el-input style v-model="specificationForm.linePrice  "></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item label="仓库" prop="wareHouseId">
+              <el-select v-model="specificationForm.wareHouseId" placeholder="请选择">
+                <el-option
+                  v-for="item in options"
+                  :key="item.id"
+                  :label="item.hfName"
+                  :value="item.id"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="库存" prop="quantity">
+              <el-input v-model="specificationForm.quantity"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="物品描述" prop="goodsDesc">
+              <el-input type="textarea" v-model="increase.goodsDesc"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <!-- <el-form-item  style="width:100%" label prop="brandId">
+          <el-button style="margin-left: 5px;" type="primary" @click="SubmitGoods('formName')">保存</el-button>
+        </el-form-item>-->
+      </el-form>
     </div>
 
-    <div style="float: right;width: 64%;">
-      <el-form :rules="rules" status-icon ref="formName" :inline="true" :model="specificationForm" label-width="100px" class="demo-ruleForm">
-        <el-form-item  label="物品名称" prop="goodName">
-          <el-input  v-model="increase.goodName" :disabled="true"></el-input>
-        </el-form-item>
-        <el-form-item  label="物品描述" prop="goodsDesc">
-          <el-input style="width:100%"  type="textarea" v-model="increase.goodsDesc"></el-input>
-        </el-form-item>
-        <!-- <el-form-item style="width:100%" label="提货方式">
-          <el-radio @change="takeManner" style="margin-left: 50px;" v-model="radio" label="0">快递</el-radio>
-          <el-radio @change="takeManner" v-model="radio" label="1">自取</el-radio>
-        </el-form-item> -->
-        <el-form-item style="width:40%;" label="价格" prop="sellPrice">
-          <el-input style="" v-model="specificationForm.sellPrice  "></el-input>
-        </el-form-item>
-        <el-form-item style="" label="划线价格" prop="linePrice">
-          <el-input style="" v-model="specificationForm.linePrice  "></el-input>
-        </el-form-item>
-        <el-form-item style="width:40%;margin-bottom:0;" label="仓库" prop="wareHouseId">
-          <!-- <template slot-scope="scope"> -->
-            <el-select  style="width:80%" v-model="specificationForm.wareHouseId" placeholder="请选择">
-              <el-option
-                v-for="item in options"
-                :key="item.id"
-                :label="item.hfName"
-                :value="item.id"
-              ></el-option>
-            </el-select>
-          <!-- </template> -->
-        </el-form-item>
-        <el-form-item label="库存" prop="quantity">
-          <el-input  v-model="specificationForm.quantity"></el-input>
-        </el-form-item>
-        <el-form-item style="width:100%" label prop="brandId">
-          <el-button style="margin-left: 5px;" type="primary" @click="SubmitGoods('formName')">保存</el-button>
-          <!-- <el-button type="success" style="color: #fff;" @click="dialogTableVisible = true">添加物品规格值</el-button> -->
-        </el-form-item>
-      </el-form>
+    <div>
+      <el-row :gutter="6">
+        <el-col :span="3">
+          <div>物品规格</div>
+        </el-col>
+        <el-col :span="16">
+          <el-table :header-cell-style="styleObj" :data="specificationData" stripe>
+            <el-table-column type="selection"></el-table-column>
+            <el-table-column label="规格名称">
+              <template slot-scope="scope">
+                <el-input placeholder="请输入内容" v-model="scope.row.hfName"></el-input>
+              </template>
+            </el-table-column>
+            <el-table-column label="规格类型" width="90">
+              <template slot-scope="scope">
+                <el-select v-model="scope.row.specType" placeholder="请选择">
+                  <el-option
+                    v-for="item in Types"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  ></el-option>
+                </el-select>
+              </template>
+            </el-table-column>
+            <el-table-column label="值">
+              <template slot-scope="scope">
+                <el-input placeholder="请输入内容" v-model="scope.row.specValue"></el-input>
+              </template>
+            </el-table-column>
+
+            <el-table-column label="规格单位" width="90">
+              <template slot-scope="scope">
+                <el-select v-model="scope.row.specUnit" placeholder="请选择">
+                  <el-option
+                    v-for="item in Units"
+                    :key="item.specUnit"
+                    :label="item.label"
+                    :value="item.specUnit"
+                  ></el-option>
+                </el-select>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-col>
+      </el-row>
     </div>
   </div>
 </template>
@@ -122,6 +137,10 @@ export default {
       // eslint-disable-next-line no-magic-numbers
     };
     return {
+      styleObj: {
+        background: '#F5F6FA',
+      },
+
       // 添加规格名称
       cols: [
         // { prop: 'date', label: '颜色' },
@@ -154,22 +173,28 @@ export default {
           label: '寸',
         },
       ],
-      options: [{
-        value: '选项1',
-        label: '黄金糕',
-      }, {
-        value: '选项2',
-        label: '双皮奶',
-      }, {
-        value: '选项3',
-        label: '蚵仔煎',
-      }, {
-        value: '选项4',
-        label: '龙须面',
-      }, {
-        value: '选项5',
-        label: '北京烤鸭',
-      }],
+      options: [
+        {
+          value: '选项1',
+          label: '黄金糕',
+        },
+        {
+          value: '选项2',
+          label: '双皮奶',
+        },
+        {
+          value: '选项3',
+          label: '蚵仔煎',
+        },
+        {
+          value: '选项4',
+          label: '龙须面',
+        },
+        {
+          value: '选项5',
+          label: '北京烤鸭',
+        },
+      ],
       title: '添加物品', // Drawer 抽屉标题头
       radio: '0', // 单选按钮运费部分
       ruleForm: {},
@@ -206,15 +231,9 @@ export default {
         wareHouseId: [
           { required: true, message: '请选择仓库', trigger: 'change' },
         ],
-        sellPrice: [
-          { validator: checkAge, trigger: 'blur' },
-        ],
-        linePrice: [
-          { validator: checkAge, trigger: 'blur' },
-        ],
-        quantity: [
-          { validator: checkAge, trigger: 'blur' },
-        ],
+        sellPrice: [{ validator: checkAge, trigger: 'blur' }],
+        linePrice: [{ validator: checkAge, trigger: 'blur' }],
+        quantity: [{ validator: checkAge, trigger: 'blur' }],
       },
     };
   },
@@ -265,7 +284,11 @@ export default {
             object[this.specificationData[i].id] = this.specificationData[
               i
             ].specValue;
-            Name += this.specificationData[i].hfName + ':' + this.specificationData[i].specValue + ',';
+            Name +=
+              this.specificationData[i].hfName +
+              ':' +
+              this.specificationData[i].specValue +
+              ',';
             var json = JSON.stringify(object);
           }
           console.log(json);
@@ -299,4 +322,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  .el-table__empty-block {
+    border: 1px solid #ccc;
+  }
 </style>

@@ -1,113 +1,114 @@
 <template>
   <div slot="header" class="clearfix">
-    <el-row>
-      <el-col :span="24">
-        <div class="grid-content bg-purple-dark">商品信息</div>
-        <el-form
-          :rules="rules"
-          ref="formName"
-          :inline="true"
-          :model="productInfo"
-          class="demo-form-inline"
-        >
-          <el-row class="t-10">
-            <el-col :span="8">
-              <el-form-item label="商品名称" prop="productName">
-                <el-input v-model="productInfo.productName" placeholder="商品名称"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item prop="categoryId" label="所属类目">
-                <el-cascader
-                  :options="options"
-                  :children="'categories'"
-                  v-model="productInfo.categoryId"
-                  :props="{value: 'id', label: 'hfName' ,children:'categories'}"
-                  clearable
-                ></el-cascader>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="所属店铺">
-                <el-input disabled v-model="productInfo.stoneName" placeholder="所属店铺"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-button
-              type="primary"
-              @click="onProductSubmit('formName')"
-            >{{isCreate ? '添加商品' : '更新商品'}}</el-button>
-            <el-button label="ltr" @click="evenMore">添加详情图</el-button>
-          </el-row>
-          <el-form-item prop="productDesc" label="商品描述">
-            <el-input type="textarea" style="width: 512%;" v-model="productInfo.productDesc"></el-input>
-          </el-form-item>
-        </el-form>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="16">
-        <div class="p-5"></div>
-        <div class="grid-content bg-purple">
-          物品信息列表
-          <!-- <el-button
-            size="mini"
-            round
-            style="float: right;margin-right: 2px;"
-            type="primary"
-            @click="refresh"
-          >刷新</el-button>-->
-          <el-button
-            @click="appendGoods"
-            round
-            size="mini"
-            style="float: right;margin-right: 8px;"
-            type="primary"
-          >添加物品</el-button>
-        </div>
-        <GoodsList @change="handieLetterChange" v-if="isRouterAlive" :commodityId="commodityId"></GoodsList>
-      </el-col>
-      <el-col :span="8">
-        <div class="grid-content bg-purple-light">属性设置</div>
-        <el-container class="t-10 radius-4">
-          <el-header style="height: -1px;" class="font-neue t-10">
-            {{Cabinet}}图片管理
-            <span style="margin: 0 4px">{{Cabinet}}名称：{{productInfo.name}}</span>
-          </el-header>
-          <el-main>
-            <list-picture v-if="detailsp" :productId="commodityId"></list-picture>
-            <listgraph v-if="!detailsp" :letter="letter"></listgraph>
-          </el-main>
-        </el-container>
-        <el-container class="t-10 radius-4">
-          <el-header style="height: 10px;" class="font-neue t-10">
-            {{Cabinet}}规格
-            <span style="margin: 0 4px">{{Cabinet}}名称：{{productInfo.name}}</span>
-          </el-header>
-          <el-main>
-            <list-specification :letter="letter" :goosID="goosID" :commodityId="commodityId"></list-specification>
-          </el-main>
-        </el-container>
-      </el-col>
-    </el-row>
-    <!-- 抽屉组件 -->
-    <el-drawer
-      title="添加物品"
-      :visible.sync="drawer"
-      :direction="direction"
-      :before-close="handleClose"
-      size="80%"
-    >
-      <div>
-        <GoodsLncrease
-          v-if="isRouterAlive"
-          @goodsId="goodsIdGetMsg"
-          @func="getMsgFormSon"
-          :commodityId="commodityId"
-          :productName="productInfo.productName"
-        ></GoodsLncrease>
+    <el-card class="box-card box-form">
+      <div slot="header" class="clearfix">
+        <span>商品信息</span>
       </div>
-    </el-drawer>
 
+      <el-form
+        :rules="rules"
+        ref="formName"
+        :inline="true"
+        :model="productInfo"
+        class="demo-form-inline"
+      >
+        <el-row :gutter="20">
+          <el-form-item label="商品名称" prop="productName">
+            <el-input v-model="productInfo.productName" placeholder="商品名称"></el-input>
+          </el-form-item>
+          <el-form-item prop="categoryId" label="所属类目">
+            <el-cascader
+              :options="options"
+              :children="'categories'"
+              v-model="productInfo.categoryId"
+              :props="{value: 'id', label: 'hfName' ,children:'categories'}"
+              clearable
+            ></el-cascader>
+          </el-form-item>
+          <el-form-item label="所属店铺">
+            <el-input disabled v-model="productInfo.stoneName" placeholder="所属店铺"></el-input>
+          </el-form-item>
+        </el-row>
+
+        <el-row :gutter="20">
+          <el-col :span="15">
+            <el-form-item prop="productDesc" label="商品描述">
+              <el-input
+                type="textarea"
+                style="width:400px; height: 60px;"
+                v-model="productInfo.productDesc"
+              ></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-button
+              type="purple"
+              @click="onProductSubmit('formName')"
+            >{{isCreate ? '+ 添加商品' : '更新商品'}}</el-button>
+            <el-button label="ltr" @click="evenMore">+ 添加详情图</el-button>
+          </el-col>
+        </el-row>
+      </el-form>
+    </el-card>
+
+    <el-card class="box-card">
+      <div slot="header" class="clearfix">
+        <el-header style="height: -1px;" class="font-neue t-10">
+          {{Cabinet}}图片管理
+          <span style="margin: 0 4px">{{Cabinet}}名称：{{productInfo.name}}</span>
+        </el-header>
+      </div>
+
+      <list-picture v-if="detailsp" :productId="commodityId"></list-picture>
+      <listgraph v-if="!detailsp" :letter="letter"></listgraph>
+    </el-card>
+    <el-card class="box-card">
+      <div slot="header" class="clearfix">
+        <el-header style="height: 10px;" class="font-neue t-10">
+          {{Cabinet}}规格
+          <span style="margin: 0 4px">{{Cabinet}}名称：{{productInfo.name}}</span>
+        </el-header>
+      </div>
+
+      <list-specification :letter="letter" :goosID="goosID" :commodityId="commodityId"></list-specification>
+    </el-card>
+
+    <el-card class="box-card">
+      <div slot="header" class="clearfix">
+        <span>物品信息列表</span>
+        <el-button
+          @click="drawer = true"
+          style="float: right;margin-right: 8px;"
+          type="purple"
+        >+ 添加物品</el-button>
+      </div>
+
+      <GoodsList @change="handieLetterChange" v-if="isRouterAlive" :commodityId="commodityId"></GoodsList>
+    </el-card>
+
+    <el-dialog
+      title="提示"
+      :visible.sync="drawer"
+      width="60%"
+      height="100%"
+      center
+      :before-close="handleClose"
+    >
+      <GoodsLncrease
+        ref="mychild"
+        v-if="isRouterAlive"
+        @goodsId="goodsIdGetMsg"
+        @func="getMsgFormSon"
+        :commodityId="commodityId"
+        :productName="productInfo.productName"
+      ></GoodsLncrease>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="drawer = false">取 消</el-button>
+        <el-button type="primary" @click="appendGoods">保 存</el-button>
+      </span>
+    </el-dialog>
+
+    <!-- 抽屉组件 -->
     <el-drawer title="我是标题" :visible.sync="introduce" direction="rtl" :before-close="handleClose">
       <div>
         <div>添加详情介绍图</div>
@@ -175,7 +176,6 @@ export default {
       drawer: false,
       introduce: false, // 添加商品介绍图弹窗
       isCreate: false,
-      direction: 'rtl',
       classifyData: {}, // 类目数据
       productInfo: {
         bossId: '1', // 店铺
@@ -237,15 +237,18 @@ export default {
         return;
       }
       if (this.productId !== 'undefined') {
-        serviceProduct.selectProductIntroducePictrue(this.productInfo.id, (res) => {
-          this.fileList = [];
-          for (let i = 0; i < res.data.data.length; i++) {
-            let file = res.data.data[i];
-            serviceGoods.getFileFileId(file.fileId, (res) => {
-              this.fileList.push({ name: file.hfName, url: res.config.url });
-            });
-          }
-        });
+        serviceProduct.selectProductIntroducePictrue(
+          this.productInfo.id,
+          (res) => {
+            this.fileList = [];
+            for (let i = 0; i < res.data.data.length; i++) {
+              let file = res.data.data[i];
+              serviceGoods.getFileFileId(file.fileId, (res) => {
+                this.fileList.push({ name: file.hfName, url: res.config.url });
+              });
+            }
+          },
+        );
       }
     },
     imgUpload(file) {
@@ -263,16 +266,18 @@ export default {
       fd.append('userId', 1);
       fd.append('fileInfo', file.raw);
       fd.append('productId', this.$route.query.productId);
-      axios.post('/api/api/product/product/addProductIntroducePictrue', fd).then((res) => {
-        this.acquire();
-      });
+      axios
+        .post('/api/api/product/product/addProductIntroducePictrue', fd)
+        .then((res) => {
+          this.acquire();
+        });
     },
     // 文件列表移除文件时的钩子
     handleRemove(file, fileList) {
       console.log(file, fileList);
       var num = file.url.replace(/[^0-9]/gi, '');
       console.log('num', num);
-      serviceProduct.deleteProductPictrue(num, this.$route.query.productId, (res) => {
+      serviceProduct.deletedPictrue(num, this.$route.query.productId, (res) => {
         console.log('删除成功');
       });
     },
@@ -373,11 +378,9 @@ export default {
         );
       }
     },
+    // 触发子组件方法
     appendGoods() {
-      this.refresh();
-      // 抽屉控制 添加物品
-      this.drawer = true;
-      this.direction = 'btt';
+      this.$refs.mychild.SubmitGoods('formName');
     },
     evenMore() {
       if (this.$route.query.productId === undefined) {
@@ -455,5 +458,19 @@ export default {
 }
 .pl-5 {
   padding-right: 5px;
+}
+
+.box-form {
+  margin-bottom: 20px;
+}
+
+.box-form .el-form-item {
+  margin-left: 80px;
+}
+.el-textarea__inner {
+  min-height: 28.9792px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  height: 92px;
 }
 </style>

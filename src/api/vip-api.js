@@ -6,6 +6,7 @@ function addLevel(params) {
   let fd = new FormData();
   fd.append('name', params.name);
   fd.append('levelDescribe', params.levelDescribe);
+  fd.append('level', params.level);
   return Axios.post('/api/api/user/hf-auth/addUserMemberLevel', fd);
 }
 function checkLevel() {

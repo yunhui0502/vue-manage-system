@@ -7,7 +7,14 @@ function getProductsByBossId(bossId) {
 }
 // 获取商品商品管理列表
 function getProductListBoss(bossId) {
+  // eslint-disable-next-line no-useless-concat
   return Axios.get('/api/api/product/hfProduct/getProductListBoss?bossId=' + bossId);
+}
+// 获取商品商品管理列表筛选
+function productNameListBos(bossId, inquire) {
+  console.log(inquire);
+  // eslint-disable-next-line no-useless-concat
+  return Axios.get('/api/api/product/hfProduct/getProductListBoss?bossId=' + bossId + '&category=' + inquire.productCategoryName + '&productName=' + inquire.goodsName);
 }
 // 获取当前商品
 function getDetail(productId, stoneId) {
@@ -16,6 +23,10 @@ function getDetail(productId, stoneId) {
 // 删除商品图片
 function deleteProductPictrue(fileId, productId) {
   return Axios.post('/api/api/product/product/deleteProductPictrue?fileId=' + fileId + '&productId=' + productId);
+}
+// 删除商品介绍图片
+function deletedPictrue(fileId, productId) {
+  return Axios.get('/api/api/product/product/deletedPictrue?fileId=' + fileId + '&productId=' + productId);
 }
 // 添加商品接口 lastModifier
 function ceateProduct(params) {
@@ -55,6 +66,10 @@ function updateProduct(params) {
 function deleteProduct(productId) {
   return Axios.get('/api/api/product/product/deleteProductId?productId=' + productId);
 }
+// 批量删除商品
+function deleteSelectProduct(productId) {
+  return Axios.get('/api/api/product/product/deleteSelectProductId?productId=' + productId);
+}
 // 删除商品规格
 function deleteSpecifies(productSpecId) {
   return Axios.get('/api/api/product/product/deleteSpecifies?productSpecId=' + productSpecId);
@@ -75,6 +90,19 @@ function selectProductIntroducePictrue(productId) {
 // 商品规格
 function specifies(productId) {
   return Axios.get('/api/api/product/product/specifies?productId=' + productId);
+}
+
+// 优惠券筛选
+function selectDiscountCoupon(param) {
+  let params = {
+    DiscountCouponName: param.goodsName,
+    bossId: 1,
+  };
+  if (param.productCategoryName !== '') {
+    params.DiscountCouponType = param.productCategoryName;
+  }
+
+  return Axios.get('/api/api/product/discountCoupon/selectDiscountCoupon', {params});
 }
 // 添加商品规格
 function addSpecify (params) {
@@ -115,4 +143,8 @@ export default {
   updatespec: updatespec,
   selectProductIntroducePictrue: selectProductIntroducePictrue,
   getProductListBoss: getProductListBoss,
+  productNameListBos: productNameListBos,
+  deleteSelectProduct: deleteSelectProduct,
+  deletedPictrue: deletedPictrue,
+  selectDiscountCoupon: selectDiscountCoupon,
 };

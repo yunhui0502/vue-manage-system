@@ -2,7 +2,7 @@
 
 import Axios from 'axios';
 // 添加类目
-function typeAddCategory (params, category, fileInfo) {
+function typeAddCategory (params, category) {
   let fd = new FormData();
   fd.append('levelId', params.levelId);
   fd.append('parentCategoryId', params.parentCategoryId);
@@ -11,7 +11,6 @@ function typeAddCategory (params, category, fileInfo) {
   fd.append('token', params.token);
   fd.append('userId', params.userId);
   fd.append('category', category);
-  fd.append('fileInfo', fileInfo);
   return Axios.post('/api/api/product/product/addCategory', fd);
 }
 // 修改类目
@@ -28,6 +27,9 @@ function updateCategory (params, userId) {
 function deleteCategory (categoryId) {
   return Axios.get('/api/api/product/product/deleteCategory?categoryId=' + categoryId);
 }
+function getCategoryByInfo (params) {
+  return Axios.get('/api/api/product/product/getCategoryByInfo?level=' + params.level + '&name=' + params.name);
+}
 // 获取类目列表
 function getCatagery() {
   return Axios.get('/api/api/product/product/categoryAll');
@@ -37,4 +39,5 @@ export default {
   deleteCategory: deleteCategory,
   getCatagery: getCatagery,
   updateCategory: updateCategory,
+  getCategoryByInfo: getCategoryByInfo,
 };

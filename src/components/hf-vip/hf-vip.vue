@@ -66,8 +66,9 @@
      </div>
 
      <div style="width: 100%;height:100%;background:#ffffff;">
-         <div style="width:8%;height:40px;text-align: center;line-height: 40px;background: #ffffff;color: #cccccc;border-radius: 5px;float:right;margin-right: 40px;margin-top: 50px;border: 1px solid #cccccc;">批量管理</div>
-       <div style="width:8%;height:40px;text-align: center;line-height: 40px;background: #A6A3FB;color: #ffffff;border-radius: 5px;float: right;margin-right: 20px;margin-top: 50px;" @click="dialogVisible=true">+ 添加会员</div>
+
+    <div style="width:8%;height:40px;text-align: center;line-height: 40px;background: #ffffff;color: #cccccc;border-radius: 5px;float:right;margin-right: 40px;margin-top: 50px;border: 1px solid #cccccc;">批量管理</div>
+     <div style="width:8%;height:40px;text-align: center;line-height: 40px;background: #A6A3FB;color: #ffffff;border-radius: 5px;float: right;margin-right: 20px;margin-top: 50px;" @click="dialogVisible=true">+ 添加会员</div>
 
            <el-table
               ref="multipleTable"

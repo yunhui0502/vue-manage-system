@@ -1,17 +1,30 @@
 <template>
-  <div style="width:95%;height: 95%;background: #ffffff;margin:0 auto;margin-top: 40px;">
-    <div style="width: 100%;height: 50px;border-bottom: 1px solid #cccccc;">
-      <span style="display: block;padding-top:10px;margin-left: 15px;font-size: 20px;">类目管理</span>
-    </div>
-    <div style="width: 100%;height: 100%;background:#ffffff;">
-      <!-- <div
-        style="float: right;width: 140px;height: 50px;border:1px solid #cccccc;text-align: center;line-height: 50px;color: #ffffff;border-radius: 5px;color:black;margin-right:100px;margin-top: 40px;"
-      >批量管理</div>-->
-      <div
-        style="float: right;width: 140px;height: 50px;background:#A6A3FB;text-align: center;line-height: 50px;color: #ffffff;border-radius: 5px;margin-right:100px;margin-top: 40px;"
-        @click="dialogVisible = true"
-      >+添加类目</div>
-      <br />
+  <div>
+    <el-card class="search-card">
+      <el-form style="padding-top:20px" label-width="100px" :inline="true" class="demo-form-inline">
+        <el-form-item label="类目名称">
+          <el-input v-model="inquire.name" placeholder="请输入物品名称"></el-input>
+        </el-form-item>
+        <el-form-item label="所属层级">
+          <el-select v-model="inquire.level" placeholder="请选择">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item style="float: right;">
+          <el-button type="purple" @click="seeAbout">查询</el-button>
+          <el-button @click="sou">重置</el-button>
+        </el-form-item>
+      </el-form>
+    </el-card>
+
+    <el-card class="box-card">
+      <el-button style="float: right;" @click="dialogVisible = true" type="purple">+添加类目</el-button>
+
       <el-table
         :data="tableData"
         style="width: 100%;margin-bottom: 20px;"
@@ -27,11 +40,12 @@
           >{{scope.row.level===1?'一级类目':scope.row.level===2?'二级类目':'三级类目'}}</template>
         </el-table-column>
         <el-table-column prop="date" label="创建时间" align="center" show-overflow-tooltip></el-table-column>
-        <el-table-column fixed="right" width="100" label="操作" align="center">
+        <el-table-column fixed="right" width="150" label="操作" align="center">
           <template slot-scope="scope">
             <el-button @click="handleClicks(scope.row)" type="text" size="small">编辑</el-button>
             <el-button
               @click="deletesingle(index,scope.row)"
+              class="ff3"
               type="text"
               size="small"
               style="color: hotpink;"
@@ -39,9 +53,11 @@
           </template>
         </el-table-column>
       </el-table>
+    </el-card>
+
+    <div style="width: 100%;height: 100%;background:#ffffff;">
       <div style="margin-top: 20px">
         <div class="block" style="float: right;margin-right:100px;">
-          <el-pagination :page-size="100" layout="prev, pager, next, jumper" :total="1000"></el-pagination>
           <el-dialog title="新建类目" :visible.sync="dialogVisible" width="40%">
             <el-tabs v-model="activeName" @tab-click="handleClick">
               <el-tab-pane label="新建单个类目" name="first">
@@ -82,7 +98,7 @@
                       ></el-option>
                     </el-select>
                   </div>
-                  <div v-if="controlCatalogue=='3'">
+                  <div v-if="controlCatalogue=='2'">
                     所属二级目录
                     <el-select
                       @change="threecategshijan"
@@ -118,7 +134,7 @@
                       :auto-upload="false"
                     >
                       <i class="el-icon-plus"></i>
-                    </el-upload> -->
+                    </el-upload>-->
                   </div>
                   <span slot="footer" class="dialog-footer">
                     <div style="width: 300px;height: 80px ;margin: 0 auto;">
@@ -138,13 +154,14 @@
       </div>
     </div>
 
-    <el-drawer title="修改类目" :visible.sync="drawer" direction="btt" :before-close="handleClose" size="80%">
-      <el-table
-        :data="details"
-        border
-        highlight-current-row
-        ref="multipleTable"
-      >
+    <el-drawer
+      title="修改类目"
+      :visible.sync="drawer"
+      direction="btt"
+      :before-close="handleClose"
+      size="80%"
+    >
+      <el-table :data="details" border highlight-current-row ref="multipleTable">
         <el-table-column prop="goodsId" label="序号" width="50" align="center"></el-table-column>
         <el-table-column prop="hfName" label="类目名称">
           <template slot-scope="scope">
@@ -190,6 +207,10 @@ import axios from 'axios';
 export default {
   data() {
     return {
+      inquire: {
+        name: '', // 商品名称
+        level: '', // 类目名称
+      },
       details: [], // 类目
       fileList: [], // 图片
       show: false,
@@ -243,7 +264,7 @@ export default {
           label: '二级目录',
         },
         {
-          value: '3',
+          value: '2',
           label: '三级目录',
         },
       ],
@@ -297,6 +318,21 @@ export default {
     //   });
     // },
     // --------------------------------------------------上---------------------------------------
+    sou: function() {
+      this.inquire.name = '';
+      this.inquire.level = '';
+    },
+    seeAbout() {
+      if (this.inquire.level === '0') {
+        console.log('0');
+        return;
+      }
+      console.log(this.inquire);
+      api.getCategoryByInfo(this.inquire, (res) => {
+        this.tableData = res.data.data;
+        console.log(res);
+      });
+    },
     // 删除单个商品
     deletesingle: function(index, row) {
       // console.log(row)
@@ -346,46 +382,39 @@ export default {
       if (this.controlCatalogue === '0') {
         this.time();
         this.form.requestId = Date.now();
-        api
-          .typeAddCategory(this.form, this.category, this.fileInfo)
-          .then((response) => {
-            this.dialogVisible = true;
-            this.huoqsuoy();
-            this.$message({
-              showClose: true,
-              message: '恭喜你，添加一级分类成功',
-              type: 'success',
-            });
+        api.typeAddCategory(this.form, this.category, (res) => {
+          this.dialogVisible = true;
+          this.huoqsuoy();
+          this.$message({
+            showClose: true,
+            message: '恭喜你，添加一级分类成功',
+            type: 'success',
           });
+        });
       } else if (this.controlCatalogue === '1') {
         this.time();
         this.form1.requestId = Date.now();
-        api
-          .typeAddCategory(this.form1, this.category, this.fileInfo)
-          .then((response) => {
-            this.dialogVisible = true;
-            this.huoqsuoy();
-            this.$message({
-              showClose: true,
-              message: '恭喜你，添加二级分类成功',
-              type: 'success',
-            });
+        api.typeAddCategory(this.form1, this.category, (res) => {
+          this.dialogVisible = true;
+          this.huoqsuoy();
+          this.$message({
+            showClose: true,
+            message: '恭喜你，添加二级分类成功',
+            type: 'success',
           });
-      } else if (this.controlCatalogue === '3') {
+        });
+      } else if (this.controlCatalogue === '2') {
         this.time();
         this.form2.requestId = Date.now();
-        api
-          .typeAddCategory(this.form2, this.category, this.fileInfo)
-          .then((response) => {
-            // this.$router.push({ name: 'category' });
-            this.dialogVisible = true;
-            this.huoqsuoy();
-            this.$message({
-              showClose: true,
-              message: '恭喜你，添加三级分类成功',
-              type: 'success',
-            });
+        api.typeAddCategory(this.form2, this.category, (res) => {
+          this.dialogVisible = true;
+          this.huoqsuoy();
+          this.$message({
+            showClose: true,
+            message: '恭喜你，添加三级分类成功',
+            type: 'success',
           });
+        });
       } else {
         this.$message('选择分类有错误');
       }
@@ -481,5 +510,12 @@ export default {
 <style scoped lang="less">
 .el-select {
   margin-bottom: 15px;
+}
+.search-card {
+  margin: 0 5px 5px 5px;
+  margin-bottom: 25px;
+}
+.el-button {
+  padding: 12px 46px;
 }
 </style>

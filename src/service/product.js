@@ -10,6 +10,10 @@ async function getProductListBoss(handleResult) {
   let bossId = 1;
   product.getProductListBoss(bossId).then((res) => handleResult(res));
 }
+async function productNameListBos(inquire, handleResult) {
+  let bossId = 1;
+  product.productNameListBos(bossId, inquire).then((res) => handleResult(res));
+}
 async function deleteById(productId, handleResult) {
   product.deleteProductById(productId).then((res) => handleResult(res));
 }
@@ -33,7 +37,9 @@ async function selectProductIntroducePictrue(productId, handleResult) {
 async function deleteProductPictrue(fileId, productId, handleResult) {
   product.deleteProductPictrue(fileId, productId).then((res) => handleResult(res));
 }
-
+async function deletedPictrue(fileId, productId, handleResult) {
+  product.deletedPictrue(fileId, productId).then((res) => handleResult(res));
+}
 // 获取商品规格
 async function specifies(productId, handleResult) {
   product.specifies(productId).then((res) => handleResult(res));
@@ -62,6 +68,16 @@ async function deleteSpecifies(productSpecId, handleResult) {
 async function updatespec(productId, handleResult) {
   product.updatespec(productId).then((res) => handleResult(res));
 }
+//  批量删除商品
+async function deleteSelectProduct(productId, handleResult) {
+  product.deleteSelectProduct(productId).then((res) => handleResult(res));
+}
+
+// 优惠券筛选
+async function selectDiscountCoupon(params, handleResult) {
+  product.selectDiscountCoupon(params).then((res) => handleResult(res));
+}
+
 export default {
   getProductsByBossId: getProductsByBossId,
   deleteById: deleteById,
@@ -78,4 +94,8 @@ export default {
   updatespec: updatespec,
   selectProductIntroducePictrue: selectProductIntroducePictrue,
   getProductListBoss: getProductListBoss,
+  productNameListBos: productNameListBos,
+  deleteSelectProduct: deleteSelectProduct,
+  deletedPictrue: deletedPictrue,
+  selectDiscountCoupon: selectDiscountCoupon,
 };

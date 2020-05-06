@@ -3,6 +3,9 @@ import home from '@/api/home-api.js';
 async function getstoneproduct(bossId, handleResult) {
   home.getstoneproduct(bossId).then((res) => handleResult(res));
 }
+async function findAmountDataByStone(stoneId, handleResult) {
+  home.findAmountDataByStone(stoneId).then((res) => handleResult(res));
+}
 async function getpai(bossId, handleResult) {
   home.getpai(bossId).then((res) => handleResult(res));
 }
@@ -22,5 +25,6 @@ export default {
   getorder: getorder,
   xiao: xiao,
   ke: ke,
+  findAmountDataByStone: findAmountDataByStone,
 };
 

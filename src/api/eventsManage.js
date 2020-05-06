@@ -62,16 +62,27 @@ function updateActivityProduct(params) {
 
 // 修改活动品接口
 function updateProdcutActivity(params) {
+  console.log(params);
   let fd = new FormData();
   fd.append('activityName ', params.activityName);
   fd.append('id', params.id);
+  if (params.startTime !== undefined) {
+    fd.append('startTime', params.startTime);
+  }
+  if (params.endTime !== undefined) {
+    fd.append('endTime', params.endTime);
+  }
   return Axios.post('/api/api/product/hfProductActivity/updateProdcutActivity', fd);
 }
 // ========================================秒杀
 
 // 获取秒杀商品列表
-function select() {
-  return Axios.get('/api/api/product/hfProductActivity/findProdcutActivity?activityType=seckillActivity');
+function select(name) {
+  console.log(name);
+  if (name === undefined) {
+    name = '';
+  }
+  return Axios.get('/api/api/product/hfProductActivity/findProdcutActivity?activityType=seckillActivity&name=' + name);
 }
 // 获取商品活动类型
 function getProdcutActivityType() {
@@ -111,8 +122,8 @@ function killupdate(params) {
 
 // ========================================拼团
 // 获取团购商品列表
-function groupSelete() {
-  return Axios.get('/api/api/product/hfProductActivity/findProdcutActivity?activityType=groupActivity');
+function groupSelete(name) {
+  return Axios.get('/api/api/product/hfProductActivity/findProdcutActivity?activityType=groupActivity&name=' + name);
 }
 // 单个删除秒杀商品
 function groupDelete(id) {
@@ -145,8 +156,8 @@ function groupupdate(params) {
 // ========================================精选
 
 // 查询排行相关信息
-function seniorityfindSeniorityInfo() {
-  return Axios.get('/api/api/product/hfProductActivity/findProdcutActivity?activityType=seniorityActivity');
+function seniorityfindSeniorityInfo(name) {
+  return Axios.get('/api/api/product/hfProductActivity/findProdcutActivity?activityType=seniorityActivity&name=' + name);
 }
 // 查询排行内容
 function seniorityfindSeniorityContent() {
@@ -176,13 +187,13 @@ function seniorityfind(seniorityId) {
 }
 // ========================================分销
 // 获取分销活动列表
-function findProdcutActivity() {
-  return Axios.get('/api/api/product/hfProductActivity/findProdcutActivity?activityType=distributionActivity');
+function findProdcutActivity(name) {
+  return Axios.get('/api/api/product/hfProductActivity/findProdcutActivity?activityType=distributionActivity&name=' + name);
 }
 // ========================================轮播图
 // 获取轮播图活动列表
-function ratationActivity() {
-  return Axios.get('/api/api/product/hfProductActivity/findProdcutActivity?activityType=ratationActivity');
+function ratationActivity(name) {
+  return Axios.get('/api/api/product/hfProductActivity/findProdcutActivity?activityType=ratationActivity&name=' + name);
 }
 export default {
   // 秒杀

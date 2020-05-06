@@ -169,30 +169,35 @@ export default {
       goodsName: '',
       hfGoodsSpecs: [],
       updata: {
+        payOrderId: '',
         targetOrderStatus: 'process',
         id: '',
         orderCode: '',
         originOrderStatus: 'payment',
       },
       updatanoagree: {
+        payOrderId: '',
         targetOrderStatus: 'reject',
         id: '',
         orderCode: '',
         originOrderStatus: 'controversial',
       },
       updataagree: {
+        payOrderId: '',
         targetOrderStatus: 'cancel',
         id: '',
         orderCode: '',
         originOrderStatus: 'controversial',
       },
       updata1: {
+        payOrderId: '',
         targetOrderStatus: 'cancel',
         id: '',
         orderCode: '',
         originOrderStatus: 'payment',
       },
       updata2: {
+        payOrderId: '',
         stoneId: '',
         targetOrderStatus: 'transport',
         id: '',
@@ -323,11 +328,18 @@ export default {
         this.updata2.orderCode = this.detail.orderCode;
         this.updataagree.orderCode = this.detail.orderCode;
         this.updatanoagree.orderCode = this.detail.orderCode;
+
+
         this.detail.userId = this.content.id;
         this.updata1.originOrderStatus = this.detail.orderStatus;
         orderCenterService.getOrderDetail1(this.detail, (res) => {
           // console.log(res);
           this.detail = res.data.data[0];
+          this.updata.payOrderId = this.detail.payOrderId;
+          this.updata1.payOrderId = this.detail.payOrderId;
+          this.updata2.payOrderId = this.detail.payOrderId;
+          this.updataagree.payOrderId = this.detail.payOrderId;
+          this.updatanoagree.payOrderId = this.detail.payOrderId;
           console.log(this.detail);
           // eslint-disable-next-line no-magic-numbers
           this.detail.amount = (this.detail.amount / 100).toFixed(2);
@@ -357,6 +369,7 @@ export default {
       });
     },
     agree: function() {
+      console.log(this.updataagree);
       // this.updataagree.stoneId = item.stoneId;
       orderCenterService.upDataOrderStatus1(this.updataagree, (res) => {
         // console.log(this.updata, res);

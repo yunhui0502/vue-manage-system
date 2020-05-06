@@ -3,6 +3,9 @@ import Axios from 'axios';
 function getstoneproduct(bossId) {
   return Axios.get('/api/api/product/home/findAmountData?bossId=' + bossId);
 }
+function findAmountDataByStone(stoneId) {
+  return Axios.get('/api/api/product/stone/findAmountDataByStone?stoneId=' + stoneId);
+}
 function getpai(bossId) {
   return Axios.get('/api/api/product/home/findSalesVolumeData?bossId=' + bossId);
 }
@@ -21,4 +24,5 @@ export default {
   getorder: getorder,
   xiao: xiao,
   ke: ke,
+  findAmountDataByStone: findAmountDataByStone,
 };
