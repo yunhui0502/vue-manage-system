@@ -66,20 +66,20 @@
           </el-table>
         </div>
         <div style="margin-top:20px; display:flex;align-items:center;justify-content:space-around;">
-       <div
-          v-if="item.takingType==='selfPickUp'&&item.detailStatus==='process'&&detail.orderType==='nomalOrder'"
-          @click="que(item,index)"
-          style="background:#00bcd4;color: #fff;padding:6px 10px ;border-radius:4px;height:23px;width:66px;"
-        >确认订单</div>
+          <div
+            v-if="item.takingType==='selfPickUp'&&item.detailStatus==='process'&&detail.orderType==='nomalOrder'"
+            @click="que(item,index)"
+            style="background:#00bcd4;color: #fff;padding:6px 10px ;border-radius:4px;height:23px;width:66px;"
+          >确认订单</div>
         </div>
 
         <div
           style="display:fkex;align-items:center;margin-top:20px;"
           v-if="item.takingType==='delivery'&&item.detailStatus==='process'&&detail.orderType==='nomalOrder'"
         >
-         <!-- <div
+          <!-- <div
           style="display:fkex;align-items:center;margin-top:20px;"
-        > -->
+          >-->
           <span>物流单号：</span>
           <el-input v-model="item.logisticsOrdersId" placeholder="请输入物流单号" style="width:200px;"></el-input>
           <!-- <el-input v-model="order.logisticsOrdersId" placeholder="请输入物流单号" style="width:200px;"></el-input> -->
@@ -90,7 +90,9 @@
           @click="cha(item,index)"
           style="margin-left:10px;"
         >查询物流信息</el-button>
-        <div  v-if="item.takingType==='delivery'&&(detail.orderStatus==='process'||detail.orderStatus==='transport')&&detail.orderType==='nomalOrder'&&item.wuliu!=0" style="line-height:30px; display:fkex;align-items:center;margin-top:20px;font-size:12px;"
+        <div
+          v-if="item.takingType==='delivery'&&(detail.orderStatus==='process'||detail.orderStatus==='transport')&&detail.orderType==='nomalOrder'&&item.wuliu!=0"
+          style="line-height:30px; display:fkex;align-items:center;margin-top:20px;font-size:12px;"
         >
           <span style="margin-bottom:10px;">物流单号：{{item.wuliu.logisticCode}}</span>
           <span style="margin-left:20px;margin-bottom:10px;">物流公司名：{{item.wuliu.company}}</span>
@@ -111,32 +113,30 @@
         <span>物流单号：</span>
         <el-input v-model="order.logisticsOrdersId" placeholder="请输入物流单号" style="width:200px;"></el-input>
       </div>-->
-
     </el-card>
 
     <div style="margin-top: 200px; display: flex;justify-content: space-around;padding:0 10%;">
-                 <div
+      <div
         v-if="detail.orderStatus==='controversial'"
         @click="agree()"
         style="width:90px;text-align:center;background: #409EFF;color: #fff;padding:6px 10px ;border-radius:4px;height:23px;"
       >同意申请</div>
-                 <div
+      <div
         v-if="detail.orderStatus==='payment'"
         @click="pay()"
         style="width:90px;text-align:center;background: #409EFF;color: #fff;padding:6px 10px ;border-radius:4px;height:23px;"
       >去支付</div>
-           <div
-   v-if="detail.orderStatus==='payment' || detail.orderStatus==='process'"
+      <div
+        v-if="detail.orderStatus==='payment' || detail.orderStatus==='process'"
         @click="cancle()"
         style="background: #ff4040;color: #fff;padding:6px 10px ;width:90px;text-align:center; border-radius:4px;height:23px;"
       >取消订单</div>
-                          <div
+      <div
         v-if="detail.orderStatus==='controversial'"
         @click="noagree()"
         style="width:90px;text-align:center;background: red;color: #fff;padding:6px 10px ;border-radius:4px;height:23px;"
       >不同意</div>
-      <div>
-      </div>
+      <div></div>
       <div>联系用户：{{detail.phone}}</div>
     </div>
   </div>
@@ -216,7 +216,6 @@ export default {
         if (item.wuliu === '0') {
           // console.log(1);
           this.detailRequestList[index].wuliu = res.data.data;
-
         } else {
           // console.log(2);
           this.detailRequestList[index].wuliu = '0';
@@ -238,7 +237,9 @@ export default {
       this.order.id = this.$route.query.id;
       if (
         this.detail.orderStatus === 'process' &&
-        this.detail.orderType === 'nomalOrder' && item.takingType === 'delivery') {
+        this.detail.orderType === 'nomalOrder' &&
+        item.takingType === 'delivery'
+      ) {
         // if (this.order.logisticsOrdersId === '') {
         //   this.$message.error('请填写物流单号');
         // }
@@ -264,7 +265,12 @@ export default {
 
               // console.log(this.updata2);
               orderCenterService.upDataOrderStatus(this.updata2, (res) => {
+                console.log(res);
                 if (res.data.status === constants.SUCCESS_CODE) {
+                  if (res.data.data === 'In spelling') {
+                    this.$message.error('尚未拼团成功');
+                    return false;
+                  }
                   this.$message({
                     message: '已确认',
                     type: 'success',
@@ -286,7 +292,12 @@ export default {
         this.updata2.stoneId = item.stoneId;
         // console.log(this.updata2);
         orderCenterService.upDataOrderStatus(this.updata2, (res) => {
+          console.log(res);
           if (res.data.status === constants.SUCCESS_CODE) {
+            if (res.data.data === 'In spelling') {
+              this.$message.error('尚未拼团成功');
+              return false;
+            }
             this.$message({
               message: '已确认',
               type: 'success',
@@ -298,7 +309,6 @@ export default {
           }
           return false;
         });
-
       }
     },
     getdetail: function() {
@@ -326,8 +336,16 @@ export default {
           this.detailRequestList = res.data.data[0].detailRequestList;
           for (var i = 0; i < this.detailRequestList.length; i++) {
             // this.detailRequestList[i].wuliu = 1;
-            for (var j = 0;j < this.detailRequestList[i].hfOrderDetailList.length;j++) {
-              this.detailRequestList[i].hfOrderDetailList[j].hfDesc = JSON.parse(this.detailRequestList[i].hfOrderDetailList[j].hfDesc);
+            for (
+              var j = 0;
+              j < this.detailRequestList[i].hfOrderDetailList.length;
+              j++
+            ) {
+              this.detailRequestList[i].hfOrderDetailList[
+                j
+              ].hfDesc = JSON.parse(
+                this.detailRequestList[i].hfOrderDetailList[j].hfDesc,
+              );
               // this.detailRequestList[i].show = false;
             }
           }
@@ -390,8 +408,12 @@ export default {
     cancle: function(item, index) {
       // this.updata1.stoneId = item.stoneId;
       orderCenterService.upDataOrderStatus1(this.updata1, (res) => {
-        // console.log(this.updata1, res);
+        console.log(this.updata1, res);
         if (res.data.status === constants.SUCCESS_CODE) {
+          if (res.data.data === 'In spelling') {
+            this.$message.error('尚未拼团成功');
+            return false;
+          }
           this.$message({
             message: '已取消',
             type: 'success',

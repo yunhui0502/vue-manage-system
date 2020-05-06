@@ -53,7 +53,6 @@
   </div>
 
 
-
   <div style="margin-top: 20px;">购买次数<el-input v-model="input" placeholder="请输入内容" style="width: 15%;margin-left: 105px;"></el-input>
   <span style="margin-left: 10px;">至</span><el-input v-model="input" placeholder="请输入内容" style="width: 15%;margin-left:20px;"></el-input>
   <span style="margin-left: 10px;">单价</span><el-input v-model="input" placeholder="请输入内容" style="width: 15%;margin-left:20px;"></el-input>
@@ -210,144 +209,141 @@
      </div>
 
 
-
-
-
 </div>
 
   </div>
 </template>
 
 <script>
-   export default {
-      data() {
-        return {
-          radio:2,
-           dialogVisible: false,
-          input:"",
-          value:"",
-           options: [{
-                    value: '选项1',
-                    label: '黄金糕'
-                  }, {
-                    value: '选项2',
-                    label: '双皮奶'
-                  }, {
-                    value: '选项3',
-                    label: '蚵仔煎'
-                  }, {
-                    value: '选项4',
-                    label: '龙须面'
-                  }, {
-                    value: '选项5',
-                    label: '北京烤鸭'
-                  }],
+export default {
+  data() {
+    return {
+      radio: 2,
+      dialogVisible: false,
+      input: '',
+      value: '',
+      options: [{
+        value: '选项1',
+        label: '黄金糕',
+      }, {
+        value: '选项2',
+        label: '双皮奶',
+      }, {
+        value: '选项3',
+        label: '蚵仔煎',
+      }, {
+        value: '选项4',
+        label: '龙须面',
+      }, {
+        value: '选项5',
+        label: '北京烤鸭',
+      }],
 
-          pickerOptions: {
-            shortcuts: [{
-              text: '最近一周',
-              onClick(picker) {
-                const end = new Date();
-                const start = new Date();
-                start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-                picker.$emit('pick', [start, end]);
-              }
-            }, {
-              text: '最近一个月',
-              onClick(picker) {
-                const end = new Date();
-                const start = new Date();
-                start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-                picker.$emit('pick', [start, end]);
-              }
-            }, {
-              text: '最近三个月',
-              onClick(picker) {
-                const end = new Date();
-                const start = new Date();
-                start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-                picker.$emit('pick', [start, end]);
-              }
-            }]
+      pickerOptions: {
+        shortcuts: [{
+          text: '最近一周',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+            picker.$emit('pick', [start, end]);
           },
-          value1: '',
-          value2: '',
-            tableData: [{
-                     id:1,
-                    date: '2016-05-03',
-                    name: '王小虎',
-                    sex:"男",
-                    address: '天津市西青区',
-                    dengji:"铂金会员",
-                    timeout:"2019-11-26    14:12",
-                    chengjiao:"订单 0 单   金额 0 元"
-                  }, {
-                    id:2,
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    sex:"男",
-                    address: '天津市西青区',
-                    dengji:"铂金会员",
-                    timeout:"2019-11-26    14:12",
-                    chengjiao:"订单 0 单 金额 0 元"
-                  }, {
-                    id:3,
-                    date: '2016-05-04',
-                    name: '王小虎',
-                    sex:"男",
-                      address: '天津市西青区',
-                    dengji:"铂金会员",
-                    timeout:"2019-11-26    14:12",
-                    chengjiao:"订单 0 单 金额 0 元"
-                  }, {
-                    id:4,
-                    date: '2016-05-01',
-                    name: '王小虎',
-                    sex:"男",
-                     address: '天津市西青区',
-                    dengji:"铂金会员",
-                    timeout:"2019-11-26    14:12",
-                    chengjiao:"订单 0 单 金额 0 元"
-                  }, {
-                    id:5,
-                    date: '2016-05-08',
-                    name: '王小虎',
-                    sex:"男",
-                     address: '天津市西青区',
-                    dengji:"铂金会员",
-                    timeout:"2019-11-26    14:12",
-                    chengjiao:"订单 0 单 金额 0 元"
-                  }, {
-                    id:6,
-                    date: '2016-05-06',
-                    name: '王小虎',
-                    sex:"男",
-                     address: '天津市西青区',
-                    dengji:"铂金会员",
-                    timeout:"2019-11-26    14:12",
-                    chengjiao:"订单 0 单 金额 0 元"
-                  }, {
-                    id:7,
-                    date: '2016-05-07',
-                    name: '王小虎',
-                    sex:"男",
-                      address: '天津市西青区',
-                    dengji:"铂金会员",
-                    timeout:"2019-11-26   14:12",
-                    chengjiao:"订单 0 单 金额 0 元"
-                  }],
-                   multipleSelection: []
-        };
-      },methods:{
-
-        handleSelectionChange(val) {
-                this.multipleSelection = val;
-              },
-              shaixuan(){
-                console.log("asdadsa")
-              }
-      }
+        }, {
+          text: '最近一个月',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+            picker.$emit('pick', [start, end]);
+          },
+        }, {
+          text: '最近三个月',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+            picker.$emit('pick', [start, end]);
+          },
+        }],
+      },
+      value1: '',
+      value2: '',
+      tableData: [{
+        id: 1,
+        date: '2016-05-03',
+        name: '王小虎',
+        sex: '男',
+        address: '天津市西青区',
+        dengji: '铂金会员',
+        timeout: '2019-11-26    14:12',
+        chengjiao: '订单 0 单   金额 0 元',
+      }, {
+        id: 2,
+        date: '2016-05-02',
+        name: '王小虎',
+        sex: '男',
+        address: '天津市西青区',
+        dengji: '铂金会员',
+        timeout: '2019-11-26    14:12',
+        chengjiao: '订单 0 单 金额 0 元',
+      }, {
+        id: 3,
+        date: '2016-05-04',
+        name: '王小虎',
+        sex: '男',
+        address: '天津市西青区',
+        dengji: '铂金会员',
+        timeout: '2019-11-26    14:12',
+        chengjiao: '订单 0 单 金额 0 元',
+      }, {
+        id: 4,
+        date: '2016-05-01',
+        name: '王小虎',
+        sex: '男',
+        address: '天津市西青区',
+        dengji: '铂金会员',
+        timeout: '2019-11-26    14:12',
+        chengjiao: '订单 0 单 金额 0 元',
+      }, {
+        id: 5,
+        date: '2016-05-08',
+        name: '王小虎',
+        sex: '男',
+        address: '天津市西青区',
+        dengji: '铂金会员',
+        timeout: '2019-11-26    14:12',
+        chengjiao: '订单 0 单 金额 0 元',
+      }, {
+        id: 6,
+        date: '2016-05-06',
+        name: '王小虎',
+        sex: '男',
+        address: '天津市西青区',
+        dengji: '铂金会员',
+        timeout: '2019-11-26    14:12',
+        chengjiao: '订单 0 单 金额 0 元',
+      }, {
+        id: 7,
+        date: '2016-05-07',
+        name: '王小虎',
+        sex: '男',
+        address: '天津市西青区',
+        dengji: '铂金会员',
+        timeout: '2019-11-26   14:12',
+        chengjiao: '订单 0 单 金额 0 元',
+      }],
+      multipleSelection: [],
     };
+  }, methods: {
+
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
+    },
+    shaixuan() {
+      console.log('asdadsa');
+    },
+  },
+};
 </script>
 
 <style>

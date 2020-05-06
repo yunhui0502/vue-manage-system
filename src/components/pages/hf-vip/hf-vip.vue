@@ -55,11 +55,6 @@
                 <span v-if="scope.row.prerogativeState==1">生效</span>
               </template>
             </el-table-column>
-            <!-- <el-table-column align="center" label="操作">
-              <template slot-scope="scope">
-                <el-button type="text" @click="deletevip(scope.row)">删除</el-button>
-              </template>
-            </el-table-column> -->
           </el-table>
           </div>
         </div>
@@ -113,7 +108,21 @@
     </el-drawer>
 
     <el-drawer size="50%" title="添加会员" :visible.sync="draweradd" :direction="rtl">
-      <el-form
+
+      <el-table
+        :data="userData"
+        stripe
+        height="250"
+        style="width: 100%;margin-top:30px;"
+        @selection-change="handleSelectionChange"
+        ref="table"
+        @row-click="currentChange"
+      >
+        <el-table-column type="selection" align="center" label="选择" width="50"></el-table-column>
+        <el-table-column align="center" prop="realName" label="用户名"></el-table-column>
+        <el-table-column align="center" prop="phone" label="手机号"></el-table-column>
+      </el-table>
+         <el-form
         :model="ruleForm1"
         status-icon
         :rules="rules1"
@@ -121,7 +130,7 @@
         label-width="100px"
         class="demo-ruleForm"
       >
-        <el-form-item label="等级名称" prop="levelName" style="margin-top:40px;">
+        <el-form-item label="等级名称" prop="levelName" style="margin-top:10px;">
           <el-select v-model="ruleForm1.levelName" placeholder="请选择" @change="getchang">
             <el-option
               v-for="item in levellist"
@@ -135,19 +144,6 @@
           <el-button type="primary" @click="submitForm1('ruleForm1')">提交</el-button>
         </el-form-item>
       </el-form>
-      <el-table
-        :data="userData"
-        stripe
-        height="250"
-        style="width: 100%;"
-        @selection-change="handleSelectionChange"
-        ref="table"
-        @row-click="currentChange"
-      >
-        <el-table-column type="selection" align="center" label="选择" width="50"></el-table-column>
-        <el-table-column align="center" prop="realName" label="用户名"></el-table-column>
-        <el-table-column align="center" prop="phone" label="手机号"></el-table-column>
-      </el-table>
     </el-drawer>
     <el-drawer size="70%" title="修改等级" :visible.sync="leveledit" :direction="direction">
       <el-form
@@ -165,7 +161,7 @@
           <el-input style="width:300px;" v-model="ruleForm2.levelDescribe" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitForm2('ruleForm2')">提交</el-button>
+          <el-button type="primary" style="background:#A3A0FB;"  @click="submitForm2('ruleForm2')">提交</el-button>
         </el-form-item>
       </el-form>
     </el-drawer>
@@ -564,3 +560,8 @@ export default {
   },
 };
 </script>
+<style >
+.el-button--primary.is-plain.sub2{color: #4194f6;background: none;border-color: #4194f6;}
+.el-button--primary.is-plain.sub2:active {background: #3a8ee6;border-color: #3a8ee6;color: #FFF;}
+
+</style>
