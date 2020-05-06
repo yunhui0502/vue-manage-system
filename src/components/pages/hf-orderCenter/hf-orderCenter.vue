@@ -157,6 +157,7 @@ export default {
   data() {
     return {
       sousuoinfor1: {
+        orderCode: '',
         valueset1: '',
         valueset2: '',
         valueset: '',
