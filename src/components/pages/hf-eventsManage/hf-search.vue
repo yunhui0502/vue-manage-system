@@ -4,13 +4,13 @@
     <el-form-item :label="labelName">
       <el-input v-model="inquire.goodsName" placeholder="请输入物品名称"></el-input>
     </el-form-item>
-    <el-form-item v-if="labelName!=='活动名称'" label="优惠券类型">
+    <el-form-item v-if="labelName!=='活动名称'" :label="labeltype">
        <el-select v-model="inquire.productCategoryName" placeholder="请选择">
             <el-option
               v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+              :key="item.id"
+              :label="item.hfName"
+              :value="item.id"
             ></el-option>
           </el-select>
     </el-form-item>
@@ -24,8 +24,9 @@
 <script>
 import serviceProduct from '@/service/product.js';
 import serviceEvents from '@/service/eventsManage.js';
+import quan from '@/service/quan.js';
 export default {
-  props: ['labelName', 'labelType', 'options'],
+  props: ['labelName', 'labelType', 'options', 'labeltype'],
   data() {
     return {
       addLoading: false,
@@ -77,6 +78,7 @@ export default {
     },
     seeAbout() {
       console.log(this.inquire.goodsName);
+      console.log(this.inquire.productCategoryName);
       if (this.labelType === '秒杀活动') {
         console.log('秒杀');
         serviceEvents.select(this.inquire.goodsName, (res) => {
@@ -120,6 +122,16 @@ export default {
           this.$emit('parentByClick', tableData);
           console.log(res);
         });
+      }
+      if (this.labeltype === '所在店铺') {
+        let stoneId = this.inquire.productCategoryName;
+        console.log('所在店铺');
+        quan.getliststoneId(stoneId, (res) => {
+          let tableData = res.data.data;
+          this.$emit('parentByClick', tableData);
+          console.log(res);
+        });
+
       }
     },
   },
