@@ -392,7 +392,7 @@ export default {
       console.log(aaa);
       this.productid = aaa.id + '';
       this.productName = aaa.productName;
-      storeService.selectProductGoods(aaa.id, this.stoneId, (res) => {
+      storeService.selectProductGoods(aaa.id, aaa.stoneId, (res) => {
         console.log(res);
         let data = res.data.data;
         for (var i = 0; i < data.length; i++) {

@@ -1,84 +1,81 @@
+/* eslint-disable eqeqeq */
 <template>
   <div>
-    <el-tabs v-model="activeName" @tab-click="getlistByType">
+    <!-- <el-tabs v-model="activeName" @tab-click="getlistByType">
       <el-tab-pane
         :label="item.orderDesc"
         v-for="item  in orderType"
         :key="item.orderDesc"
         :name="item.orderDesc"
       ></el-tab-pane>
-    </el-tabs>
+    </el-tabs> -->
 
     <el-card class="search-card">
-      <el-form :inline="true" :model="value1" class="demo-form-inline">
+      <el-form :inline="true" :model="sousuoinfor1" ref="ruleForms"  class="demo-form-inline">
         <el-row :gutter="10">
           <el-col :span="6">
-            <el-form-item label="订单号">
-              <el-input v-model="value" placeholder="请输入订单号"></el-input>
+            <el-form-item label="订单号"  prop="orderCode">
+              <el-input v-model="sousuoinfor1.orderCode" placeholder="请输入订单号"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <!-- <el-col :span="6">
             <el-form-item label="商品名称">
               <el-input v-model="value" placeholder="请输入名称"></el-input>
             </el-form-item>
-          </el-col>
+          </el-col> -->
+           <!-- <el-col :span="6">
+            <el-form-item label="订单状态">
+              <el-select v-model="valueset" placeholder="请选择" @change="selectstatus">
+                <el-option :label="item.hfName" v-for="item  in statusData" :key="item.hfName" :value="item.hfName"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col> -->
           <el-col :span="6">
-            <el-form-item label="付款方式">
-              <el-select v-model="value" placeholder="请选择">
-                <el-option label="区域一" value="shanghai"></el-option>
-                <el-option label="区域二" value="beijing"></el-option>
+            <el-form-item label="支付方式"  prop="valueset1">
+              <el-select v-model="sousuoinfor1.valueset1" placeholder="请选择" @change="selectmethod">
+                <el-option :label="item.name" v-for="item  in paymethod" :key="item.name" :value="item.name"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="订单来源">
-              <el-select v-model="value" placeholder="请输入">
-                <el-option label="区域一" value="shanghai"></el-option>
-                <el-option label="区域二" value="beijing"></el-option>
+            <el-form-item label="订单类型" prop="valueset2">
+              <el-select v-model="sousuoinfor1.valueset2" placeholder="请输入" @change="selecttype">
+                <el-option :label="item.orderDesc" v-for="item  in orderType" :key="item.orderDesc" :value="item.orderDesc"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
         </el-row>
 
         <el-row :gutter="20">
-          <el-col :span="14">
-            <el-form-item label="下单时间">
-              <el-date-picker
-                v-model="value"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                type="datetimerange"
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-                align="right"
-                default-time="12:00:00"
-              ></el-date-picker>
+          <el-col :span="8">
+            <el-form-item label="下单时间" prop="startTime">
+                 <el-date-picker
+                   @change="uptime1"
+                  v-model="sousuoinfor1.startTime"
+                  type="datetimerange"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期"
+                  :default-time="['12:00:00']">
+                </el-date-picker>
             </el-form-item>
-            <el-button>今天</el-button>
+            <!-- <el-button>今天</el-button>
             <el-button>昨天</el-button>
             <el-button>近7天</el-button>
-            <el-button>昨天30天</el-button>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="订单状态">
-              <el-select v-model="value" placeholder="请输入">
-                <el-option label="区域一" value="shanghai"></el-option>
-                <el-option label="区域二" value="beijing"></el-option>
-              </el-select>
-            </el-form-item>
+            <el-button>昨天30天</el-button> -->
           </el-col>
 
-          <el-col :span="4">
+
+           <el-col :span="4">
              <el-form-item>
-          <el-button type="primary">筛选</el-button>
-          <el-button >重置</el-button>
-        </el-form-item>
+            <el-button type="primary" @click="sousuo">筛选</el-button>
+            <el-button @click="resetForm('ruleForms')">重置</el-button>
+           </el-form-item>
           </el-col>
         </el-row>
       </el-form>
     </el-card>
 
-    <el-tabs type="border-card" @tab-click="getStatus">
+    <el-tabs type="border-card" @tab-click="getStatus" >
       <el-tab-pane :label="item.hfName" v-for="item  in statusData" :key="item.hfName">
         <el-table
           :data="orderData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
@@ -96,7 +93,6 @@
           <el-table-column align="center" prop="phone" label="手机号"></el-table-column>
           <el-table-column align="center" label="订单类型" prop="orderType">
             <template slot-scope="scope">
-              <span v-if="scope.row.orderType === 'balancePayment'">余额支付订单</span>
               <span v-if="scope.row.orderType ==='shoppingOrder'">到店支付订单</span>
               <span v-if="scope.row.orderType ==='nomalOrder'">普通订单</span>
               <span v-if="scope.row.orderType ==='rechargeOrder'">充值订单</span>
@@ -160,6 +156,23 @@ import constants from '@/store/constants.js';
 export default {
   data() {
     return {
+      sousuoinfor1: {
+        orderCode: '',
+        valueset1: '',
+        valueset2: '',
+        valueset: '',
+      },
+      valueset2: '',
+      valueset1: '',
+      paymethod: [{
+        method: 'wechart',
+        name: '微信支付',
+      }, {
+        method: 'balance',
+        name: '余额支付',
+      }],
+      valueset: '',
+      startTime: '',
       value1: {},
       activeName: '',
       zhuang: '待支付',
@@ -168,6 +181,14 @@ export default {
       type: {
         orderType: '',
         orderStatus: '',
+      },
+      sousuoinfor: {
+        endTime: '',
+        startTime: '',
+        orderCode: '',
+        orderType: '',
+        orderStatus: '',
+        paymentName: '',
       },
       orderTypeValue: '',
       orderType: [],
@@ -193,9 +214,100 @@ export default {
       statusData: [],
       addUserVisible: false,
       orderData: [],
+      sousuoinfortab: '',
+      sousuoinforpay: '',
     };
   },
   methods: {
+    resetForm(ruleForms) {
+      this.$refs[ruleForms].resetFields();
+    },
+    selecttype: function(tab) {
+      console.log(tab);
+      console.log(this.orderType);
+      for (var i = 0; i < this.orderType.length; i++) {
+        if (this.orderType[i].orderDesc === tab) {
+          console.log(this.orderType[i].orderType);
+          this.sousuoinfor.orderType = this.orderType[i].orderType;
+
+        }
+      }
+    },
+    selectmethod: function(tab) {
+      console.log(tab);
+      for (var i = 0; i < this.paymethod.length; i++) {
+        if (this.paymethod[i].name === tab) {
+          console.log(this.paymethod[i].method);
+          this.sousuoinfor.paymentName = this.paymethod[i].method;
+
+        }
+      }
+    },
+    selectstatus: function(tab) {
+      this.sousuoinfortab = tab;
+      for (var i = 0; i < this.statusData.length; i++) {
+        if (this.statusData[i].hfName === tab) {
+          console.log(this.statusData[i].hfDesc);
+          this.sousuoinfor.orderStatus = this.statusData[i].hfDesc;
+
+        }
+      }
+    },
+    formatTen: function(num) {
+      // eslint-disable-next-line no-magic-numbers
+      return num > 9 ? num + '' : '0' + num;
+    },
+
+    formatDate: function(date) {
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      var day = date.getDate();
+      // eslint-disable-next-line no-unused-vars
+      var hour = date.getHours();
+      // eslint-disable-next-line no-unused-vars
+      var minute = date.getMinutes();
+      // eslint-disable-next-line no-unused-vars
+      var second = date.getSeconds();
+      // eslint-disable-next-line no-undef
+      return (
+        year +
+        '-' +
+        this.formatTen(month) +
+        '-' +
+        this.formatTen(day) +
+        ' ' +
+        hour +
+        ':' +
+        minute +
+        ':' +
+        second
+      );
+    },
+    uptime1: function(val) {
+      console.log(val[0], '1', val[1]);
+      this.sousuoinfor.startTime = this.formatDate(val[0]);
+      this.sousuoinfor.endTime = this.formatDate(val[1]);
+    },
+    sousuo: function() {
+      this.sousuoinfor.orderCode = this.sousuoinfor1.orderCode;
+      console.log('1', this.type.orderStatus);
+      this.sousuoinfor.orderStatus = this.type.orderStatus ;
+      console.log(this.sousuoinfor);
+      if (this.sousuoinfortab !== '') {
+        this.zhuang = this.sousuoinfortab;
+      }
+
+      orderCenterService.sousuo(this.sousuoinfor, (res) => {
+        console.log(res);
+        let data = res.data.data;
+        for (var i = 0; i < data.length; i++) {
+          // eslint-disable-next-line no-magic-numbers
+          data[i].amount = (data[i].amount / 100).toFixed(2);
+          // eslint-disable-next-line no-magic-numbers
+        }
+        this.orderData = data;
+      });
+    },
     handleSizeChange(val) {
       this.pagesize = val;
     },

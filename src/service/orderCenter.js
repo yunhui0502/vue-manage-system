@@ -13,6 +13,8 @@ async function upDataOrderStatus(params, handleResult) {
 async function upDataOrderStatus1(params, handleResult) {
   orderCenter.upDataOrderStatus1(params).then((res) => handleResult(res));
 }
+
+
 async function getOrderType(handleResult) {
   orderCenter.getOrderType().then((res) => handleResult(res));
 }
@@ -36,7 +38,9 @@ async function writeWuLiu1(params, handleResult) {
 async function getWuLiu(orderId, handleResult) {
   orderCenter.getWuLiu(orderId).then((res) => handleResult(res));
 }
-
+async function sousuo(params, handleResult) {
+  orderCenter.sousuo(params).then((res) => handleResult(res));
+}
 export default {
   checkStatus: checkStatus,
   checkOrder: checkOrder,
@@ -49,5 +53,5 @@ export default {
   writeWuLiu: writeWuLiu,
   writeWuLiu1: writeWuLiu1,
   getWuLiu: getWuLiu,
-
+  sousuo: sousuo,
 };

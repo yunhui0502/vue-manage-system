@@ -550,12 +550,19 @@ export default {
       this.formquan1.discountCouponDesc = row.discountCouponDesc;
       this.formquan1.scope = row.scope;
       this.formquan1.useLimit = JSON.parse(this.formquan1.useLimit);
+<<<<<<< HEAD
       // eslint-disable-next-line no-magic-numbers
       this.formquan1.useLimit.full = this.formquan1.useLimit.full / 100;
       if (row.discountCouponType === '1') {
         // eslint-disable-next-line no-magic-numbers
         this.formquan1.useLimit.minus = this.formquan1.useLimit.minus / 100;
       }
+=======
+      // this.formquan1.useLimit.full = this.formquan1.useLimit.full / 100;
+      // if (row.discountCouponType === '1') {
+      //   this.formquan1.useLimit.minus = this.formquan1.useLimit.minus / 100;
+      // }
+>>>>>>> 72cc3eccdd8f24f0d97038866c121c53faf17435
       console.log(this.formquan1.useLimit);
       if (row.superposition === 1) {
         this.radiodie = '1';
@@ -612,6 +619,7 @@ export default {
           this.formquan1.useLimit = JSON.stringify(this.formquan1.useLimit);
           // this.formquan1.startTime = this.formatDate(this.formquan1.startTime);
           // this.formquan1.stopTime = this.formatDate(this.formquan1.stopTime);
+          console.log(this.formquan1);
           quan.bianCoupon(this.formquan1, (res) => {
             console.log(res);
             console.log(this.formquan1);
@@ -662,8 +670,16 @@ export default {
         for (var i = 0; i < res.data.data.length; i++) {
           res.data.data[i].useLimit = JSON.parse(res.data.data[i].useLimit);
           // eslint-disable-next-line no-magic-numbers
+<<<<<<< HEAD
           res.data.data[i].useLimit.full = (res.data.data[i].useLimit.full / 100).toFixed(2);
           if (res.data.data[i].discountCouponType === 1) {
+=======
+          res.data.data[i].useLimit.full = (
+            res.data.data[i].useLimit.full / 100
+          ).toFixed(2);
+          if (res.data.data[i].discountCouponType === '1') {
+            // console.log(res.data.data[i]);
+>>>>>>> 72cc3eccdd8f24f0d97038866c121c53faf17435
             // eslint-disable-next-line no-magic-numbers
             res.data.data[i].useLimit.minus = (res.data.data[i].useLimit.minus / 100).toFixed(2);
           } else {

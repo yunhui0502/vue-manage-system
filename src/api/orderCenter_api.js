@@ -9,12 +9,12 @@ function checkOrder(orderStatus) {
 function upDataOrderStatus(params) {
   console.log(params);
   return Axios.get('/api/api/order/hf-order/modifyStatus?Id=' + params.id + '&orderCode=' + params.orderCode +
-    '&originOrderStatus=' + params.originOrderStatus + '&targetOrderStatus=' + params.targetOrderStatus + '&stoneId=' + params.stoneId);
+    '&originOrderStatus=' + params.originOrderStatus + '&targetOrderStatus=' + params.targetOrderStatus + '&stoneId=' + params.stoneId + '&payOrderId=' + params.payOrderId);
 }
 function upDataOrderStatus1(params) {
   console.log(params);
   return Axios.get('/api/api/order/hf-order/modifyStatus?Id=' + params.id + '&orderCode=' + params.orderCode +
-    '&originOrderStatus=' + params.originOrderStatus + '&targetOrderStatus=' + params.targetOrderStatus);
+    '&originOrderStatus=' + params.originOrderStatus + '&targetOrderStatus=' + params.targetOrderStatus + '&payOrderId=' + params.payOrderId);
 }
 function getOrderType(params) {
   return Axios.get('/api/api/order/order/orderType');
@@ -30,6 +30,7 @@ function getOrderDetail1(params) {
   return Axios.get('/api/api/order/hf-order/query?orderCode=' + params.orderCode +
   '&orderStatus=' + params.orderStatus + '&orderType=' + params.orderType);
 }
+
 function writeWuLiu(params) {
   // console.log(params);
   return Axios.get('/api/api/order/order/insertLogistics?ordersId=' + params.id +
@@ -43,7 +44,11 @@ function writeWuLiu1(params) {
 function getWuLiu(params) {
   return Axios.get('/api/api/order/query/logistics?orderId=' + params.id + '&stoneId=' + params.stoneId);
 }
-
+function sousuo(params) {
+  // console.log(params);
+  return Axios.get('/api/api/order/hf-order/query?orderCode=' + params.orderCode +
+  '&orderStatus=' + params.orderStatus + '&orderType=' + params.orderType + '&startTime=' + params.startTime + '&endTime=' + params.endTime + '&startTime=' + params.startTime + '&paymentName=' + params.paymentName);
+}
 export default {
   checkStatus: checkStatus,
   checkOrder: checkOrder,
@@ -56,5 +61,5 @@ export default {
   writeWuLiu: writeWuLiu,
   writeWuLiu1: writeWuLiu1,
   getWuLiu: getWuLiu,
-
+  sousuo: sousuo,
 };
