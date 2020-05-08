@@ -1,39 +1,61 @@
 <template>
   <div>
+    <el-card class="search-card">
+      <div slot="header" class="clearfix">
+        <span>店铺列表</span>
+      </div>
+      <hfsearch labeltype="店铺状态" labelName="店铺名称"></hfsearch>
+    </el-card>
+
+    <el-card class="box-card">
+      <el-button type="primary" style="float: right;margin-bottom:10px;" @click="drawer = true">添加店铺</el-button>
+      <el-table
+        :data="storeData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
+        stripe
+        style="width: 100%"
+        @row-click="getStoreId"
+      >
+        <el-table-column align="center" prop="hfName" label="店铺名称"></el-table-column>
+        <el-table-column align="center" prop="hfDesc" label="店铺描述"></el-table-column>
+        <el-table-column align="center" prop="hfStatus" label="店铺状态">
+          <template slot-scope="scope">
+            <span v-if="scope.row.hfStatus===0">未营业</span>
+            <span v-if="scope.row.hfStatus===1">营业</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" prop="address" label="店铺位置"></el-table-column>
+        <el-table-column align="center" prop="hfDesc" label="操作">
+          <template slot-scope="scope">
+            <el-button type="text" size="small" align="center" @click="edit(scope.row.id)">编辑</el-button>
+
+            <el-button type="text" size="small" align="center" @click="dialogVisible = true">添加店铺成员</el-button>
+
+            <el-button
+              type="text"
+              size="small"
+              align="center"
+              @click="gostoreproduct(scope.row.id)"
+            >店铺商品</el-button>
+
+            <!-- <el-button  type="text" size="small" align="center" @click="getstoneproduct(scope.row.id)">店铺商品</el-button> -->
+            <!-- <el-button  type="text" size="small" align="center" @click="getstoneproduct(scope.row.id)">添加店铺商品</el-button> -->
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        style="float:right;margin-top:10px;"
+        background
+        layout="prev, pager, next"
+        :total="storeData.length"
+        :page-size="pagesize"
+      ></el-pagination>
+    </el-card>
+
     <div style="display:flex;">
-      <div style="width:50%">
-        <div style="margin-bottom:20px;">店铺列表</div>
-        <el-button type="primary" style="margin-bottom:10px;" @click="drawer = true">添加店铺</el-button>
-        <el-table :data="storeData.slice((currentPage-1)*pagesize,currentPage*pagesize)" stripe style="width: 100%" @row-click="getStoreId">
-          <el-table-column align="center" prop="hfName" label="店铺名称" ></el-table-column>
-          <el-table-column align="center" prop="hfDesc" label="店铺描述" ></el-table-column>
-          <el-table-column align="center" prop="hfStatus" label="店铺状态" >
-             <template slot-scope= "scope">
-              <span v-if="scope.row.hfStatus===0">未营业</span>
-              <span v-if="scope.row.hfStatus===1">营业</span>
-             </template >
-          </el-table-column>
-          <el-table-column align="center" prop="address" label="店铺位置" ></el-table-column>
-          <el-table-column align="center" prop="hfDesc" label="操作" width="180" >
-             <template slot-scope= "scope">
-                <el-button  type="text" size="small" align="center" @click="edit(scope.row.id)">编辑</el-button>
-                <el-button  type="text" size="small" align="center" @click="gostoreproduct(scope.row.id)">店铺商品</el-button>
-                <!-- <el-button  type="text" size="small" align="center" @click="getstoneproduct(scope.row.id)">店铺商品</el-button> -->
-                 <!-- <el-button  type="text" size="small" align="center" @click="getstoneproduct(scope.row.id)">添加店铺商品</el-button> -->
-              </template>
-          </el-table-column>
-        </el-table>
-          <el-pagination
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            style="float:right;margin-top:10px;"
-            background
-            layout="prev, pager, next"
-            :total="storeData.length"
-            :page-size="pagesize"
-          ></el-pagination>
-    </div>
-   <div style="margin-left:20px;width:50%" >
+      <div style="width:50%"></div>
+      <!-- <div style="margin-left:20px;width:50%" >
      <div style="margin-bottom:20px;" >店铺经营状态</div>
      <div style="height:100px;background:#f0f0f0;margin-bottom:10px;">
 
@@ -58,14 +80,10 @@
               </template>
       </el-table-column>
     </el-table>
-   </div>
+      </div>-->
     </div>
-    <el-drawer
-      size="70%"
-      title="添加店铺"
-      :visible.sync="drawer"
-      :direction="direction"
-    >
+
+    <el-drawer size="70%" title="添加店铺" :visible.sync="drawer" :direction="direction">
       <el-form
         style="width:25%;"
         :model="store"
@@ -76,14 +94,14 @@
         class="demo-ruleForm"
       >
         <el-form-item label="店铺名称" prop="hfName">
-          <el-input v-model="store.hfName"  autocomplete="off"></el-input>
+          <el-input v-model="store.hfName" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="店铺描述" prop="hfDesc">
-          <el-input v-model="store.hfDesc"  autocomplete="off"></el-input>
+          <el-input v-model="store.hfDesc" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="店铺状态" prop="hfStatus">
-            <el-radio v-model="radioye" label="0" @change="status">未营业</el-radio>
-            <el-radio v-model="radioye" label="1" @change="status">营业</el-radio>
+          <el-radio v-model="radioye" label="0" @change="status">未营业</el-radio>
+          <el-radio v-model="radioye" label="1" @change="status">营业</el-radio>
         </el-form-item>
         <el-form-item label="店铺位置" prop="hfStatus">
           <el-input v-model="store.address"></el-input>
@@ -94,112 +112,160 @@
         </el-form-item>
       </el-form>
     </el-drawer>
-    <el-drawer
-      size="70%"
-      title="编辑店铺"
-      :visible.sync="editdrawer"
-      :direction="direction"
-    >
-    <div style="display:flex;">
+
+    <el-dialog title="编辑店铺" :visible.sync="editdrawer" :direction="direction" center>
+      <div style="display:flex;">
         <el-form
-        style="width:25%;"
-        :model="editData"
-        status-icon
-        :rules="rules"
-        ref="ruleForm1"
-        label-width="100px"
-        class="demo-ruleForm"
-      >
-        <el-form-item label="店铺名称" prop="hfName">
-          <el-input v-model="editData.hfName"  ></el-input>
-        </el-form-item>
-        <el-form-item label="店铺描述" prop="hfDesc">
-          <el-input v-model="editData.hfDesc"  ></el-input>
-        </el-form-item>
-        <el-form-item label="店铺状态" prop="hfStatus">
+          style="width:25%;"
+          :model="editData"
+          status-icon
+          :rules="rules"
+          ref="ruleForm1"
+          label-width="100px"
+          class="demo-ruleForm"
+        >
+          <el-form-item label="店铺名称" prop="hfName">
+            <el-input v-model="editData.hfName"></el-input>
+          </el-form-item>
+          <el-form-item label="店铺描述" prop="hfDesc">
+            <el-input v-model="editData.hfDesc"></el-input>
+          </el-form-item>
+          <el-form-item label="店铺状态" prop="hfStatus">
             <el-radio v-model="radioye1" label="0" @change="status1">未营业</el-radio>
             <el-radio v-model="radioye1" label="1" @change="status1">营业</el-radio>
-        </el-form-item>
-        <el-form-item label="店铺位置" prop="hfStatus">
-          <el-input v-model="editData.address"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="submitedit('ruleForm')">提交</el-button>
-          <!-- <el-button @click="resetForm('ruleForm')">重置</el-button> -->
-        </el-form-item>
-      </el-form>
-            <el-upload
-        style="margin-left:100px;"
-        list-type="picture-card"
-        ref="upload"
-        action
-        multiple
-        :auto-upload="false"
-        :file-list="fileList"
-        :on-change="imgUpload"
-      >
-        <el-button size="small" type="primary">点击上传</el-button>
-        <!-- <div slot="tip">只能上传jpg/png文件，且不超过500kb</div> -->
-      </el-upload>
-    </div>
-
-
-    </el-drawer>
-    <el-dialog
-      :visible.sync="dialogVisible">
-        <el-table :data="userData" stripe style="width: 100%"  @selection-change="handleSelectionChange"  ref="table" @row-click="currentChange">
-          <el-table-column type=selection align="center"  label="选择" width="50"></el-table-column>
-          <el-table-column align="center" prop="nickName" label="用户名"> </el-table-column>
-          <el-table-column align="center" prop="phone" label="手机号" ></el-table-column>
-        </el-table>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="dialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="submit">确 定</el-button>
-        </span>
+          </el-form-item>
+          <el-form-item label="店铺位置" prop="hfStatus">
+            <el-input v-model="editData.address"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <!-- <el-button type="primary" @click="submitedit('ruleForm')">提交</el-button> -->
+            <!-- <el-button @click="resetForm('ruleForm')">重置</el-button> -->
+          </el-form-item>
+        </el-form>
+        <el-upload
+          style="margin-left:100px;"
+          list-type="picture-card"
+          ref="upload"
+          action
+          multiple
+          :auto-upload="false"
+          :file-list="fileList"
+          :on-change="imgUpload"
+        >
+          <el-button size="small" type="primary">点击上传</el-button>
+          <!-- <div slot="tip">只能上传jpg/png文件，且不超过500kb</div> -->
+        </el-upload>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="centerDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submitedit('ruleForm')">确 定</el-button>
+      </span>
     </el-dialog>
-    <el-drawer
-      :visible.sync="draweruser"
-      :with-header="false">
-      <template >
+
+    <!-- <el-drawer size="70%" title="编辑店铺" :visible.sync="editdrawer" :direction="direction">
+      <div style="display:flex;">
+        <el-form
+          style="width:25%;"
+          :model="editData"
+          status-icon
+          :rules="rules"
+          ref="ruleForm1"
+          label-width="100px"
+          class="demo-ruleForm"
+        >
+          <el-form-item label="店铺名称" prop="hfName">
+            <el-input v-model="editData.hfName"></el-input>
+          </el-form-item>
+          <el-form-item label="店铺描述" prop="hfDesc">
+            <el-input v-model="editData.hfDesc"></el-input>
+          </el-form-item>
+          <el-form-item label="店铺状态" prop="hfStatus">
+            <el-radio v-model="radioye1" label="0" @change="status1">未营业</el-radio>
+            <el-radio v-model="radioye1" label="1" @change="status1">营业</el-radio>
+          </el-form-item>
+          <el-form-item label="店铺位置" prop="hfStatus">
+            <el-input v-model="editData.address"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="submitedit('ruleForm')">提交</el-button>
+            <el-button @click="resetForm('ruleForm')">重置</el-button>
+          </el-form-item>
+        </el-form>
+        <el-upload
+          style="margin-left:100px;"
+          list-type="picture-card"
+          ref="upload"
+          action
+          multiple
+          :auto-upload="false"
+          :file-list="fileList"
+          :on-change="imgUpload"
+        >
+          <el-button size="small" type="primary">点击上传</el-button>
+        </el-upload>
+      </div>
+    </el-drawer> -->
+
+    <el-dialog :visible.sync="dialogVisible">
+      <el-table
+        :data="userData"
+        stripe
+        style="width: 100%"
+        @selection-change="handleSelectionChange"
+        ref="table"
+        @row-click="currentChange"
+      >
+        <el-table-column type="selection" align="center" label="选择" width="50"></el-table-column>
+        <el-table-column align="center" prop="nickName" label="用户名"></el-table-column>
+        <el-table-column align="center" prop="phone" label="手机号"></el-table-column>
+      </el-table>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submit">确 定</el-button>
+      </span>
+    </el-dialog>
+    <el-drawer :visible.sync="draweruser" :with-header="false">
+      <template>
         <div style="margin-top:100px;margin-left:30px;">
-            <div>
-              <span style="font-size:13px;margin-right:12px;">是否参与核销</span>
-              <el-radio v-model="radio" label="0" @change="changestatus">否</el-radio>
-              <el-radio v-model="radio" label="1" @change="changestatus">是</el-radio>
-            </div>
-         <div style="margin-top:40px;">
-           <span style="font-size:13px;">
-             设置成员角色：
-           </span>
-           <el-select v-model="value" placeholder="请选择" @change="roleval">
+          <div>
+            <span style="font-size:13px;margin-right:12px;">是否参与核销</span>
+            <el-radio v-model="radio" label="0" @change="changestatus">否</el-radio>
+            <el-radio v-model="radio" label="1" @change="changestatus">是</el-radio>
+          </div>
+          <div style="margin-top:40px;">
+            <span style="font-size:13px;">设置成员角色：</span>
+            <el-select v-model="value" placeholder="请选择" @change="roleval">
               <el-option
                 v-for="item in StoreRole"
                 :key="item.roleName"
                 :label="item.roleName"
-                :value="item.roleName">
-              </el-option>
+                :value="item.roleName"
+              ></el-option>
             </el-select>
           </div>
         </div>
       </template>
     </el-drawer>
     <!-- 店铺商品 -->
-    <el-dialog
-  title="店铺商品"
-  :visible.sync="productVisible"
-  width="30%"
- >
-    <el-table :data="list" stripe style="width: 100%"  @selection-change="handleSelectionChange"  ref="table" @row-click="currentChange">
-          <el-table-column type=index align="center"  label="选择" width="50"></el-table-column>
-          <el-table-column align="center" prop="productName" label="商品名称"> </el-table-column>
-          <el-table-column align="center" prop="productDesc" label="商品描述" ></el-table-column>
-          <el-table-column align="center" prop="categoryName" label="规格名称" ></el-table-column>
-    </el-table>
-  <span slot="footer" class="dialog-footer">
-    <el-button @click="productVisible = false" type="primary">关闭</el-button>
-    <!-- <el-button type="primary" @click="dialogVisible = false">确 定</el-button> -->
-  </span>
-</el-dialog>
+    <el-dialog title="店铺商品" :visible.sync="productVisible" width="30%">
+      <el-table
+        :data="list"
+        stripe
+        style="width: 100%"
+        @selection-change="handleSelectionChange"
+        ref="table"
+        @row-click="currentChange"
+      >
+        <el-table-column type="index" align="center" label="选择" width="50"></el-table-column>
+        <el-table-column align="center" prop="productName" label="商品名称"></el-table-column>
+        <el-table-column align="center" prop="productDesc" label="商品描述"></el-table-column>
+        <el-table-column align="center" prop="categoryName" label="规格名称"></el-table-column>
+      </el-table>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="productVisible = false" type="primary">关闭</el-button>
+        <!-- <el-button type="primary" @click="dialogVisible = false">确 定</el-button> -->
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -209,7 +275,9 @@ import storeService from '@/service/store.js';
 import userCenterService from '@/service/userCenter.js';
 import constants from '@/store/constants.js';
 import axios from 'axios';
+import hfsearch from '../hf-eventsManage/hf-search';
 export default {
+  components: { hfsearch },
   data() {
     return {
       fileList: [], // 图片
@@ -218,22 +286,28 @@ export default {
       productVisible: false,
       radioye1: '',
       radioye: '0',
-      options: [{
-        value: '选项1',
-        label: '黄金糕',
-      }, {
-        value: '选项2',
-        label: '双皮奶',
-      }, {
-        value: '选项3',
-        label: '蚵仔煎',
-      }, {
-        value: '选项4',
-        label: '龙须面',
-      }, {
-        value: '选项5',
-        label: '北京烤鸭',
-      }],
+      options: [
+        {
+          value: '选项1',
+          label: '黄金糕',
+        },
+        {
+          value: '选项2',
+          label: '双皮奶',
+        },
+        {
+          value: '选项3',
+          label: '蚵仔煎',
+        },
+        {
+          value: '选项4',
+          label: '龙须面',
+        },
+        {
+          value: '选项5',
+          label: '北京烤鸭',
+        },
+      ],
       value: '',
       cancle: {
         stoneId: '',
@@ -295,8 +369,7 @@ export default {
       },
       drawer: false,
       direction: 'btt',
-      storeData: [
-      ],
+      storeData: [],
       StoreRole: [],
       roledata: {
         StoreRoleId: '',
@@ -322,10 +395,9 @@ export default {
       console.log(this.editid, file.raw);
       fd.append('file', file.raw);
       fd.append('stoneId', this.editid);
-      axios.post('/api/api/product/stone/addStonePicture', fd)
-        .then((res) => {
-          console.log(res);
-        });
+      axios.post('/api/api/product/stone/addStonePicture', fd).then((res) => {
+        console.log(res);
+      });
     },
     handleSizeChange(val) {
       this.pagesize = val;
@@ -434,6 +506,7 @@ export default {
             message: '修改成功',
             type: 'success',
           });
+          this.centerDialogVisible = false;
           this.editdrawer = false;
           this.getStore();
         } else {
@@ -464,10 +537,9 @@ export default {
       });
       console.log(this.editData);
     },
-    handleSelectionChange (val) {
+    handleSelectionChange(val) {
       console.log(val);
       this.selectDdata = val;
-
     },
     // eslint-disable-next-line no-empty-function
     currentChange: function(row) {
@@ -483,7 +555,7 @@ export default {
     },
     submit: function() {
       if (this.selectDdata.length > 0) {
-        for (var i = 0;i < this.selectDdata.length;i++) {
+        for (var i = 0; i < this.selectDdata.length; i++) {
           this.persondata.ids.push(this.selectDdata[i].id);
         }
       }
@@ -504,7 +576,7 @@ export default {
         }
       });
     },
-    chooseInstance (val) {
+    chooseInstance(val) {
       if (val.length > 1) {
         this.$refs.table.clearSelection();
         this.$refs.table.toggleRowSelection(val.pop());
@@ -561,18 +633,20 @@ export default {
     this.checkUser();
     this.getStore();
   },
-
 };
 </script>
 <style >
-thead .el-table-column--selection .cell{
-    display: none;
+thead .el-table-column--selection .cell {
+  display: none;
 }
 .el-table--striped .el-table__body tr.el-table__row--striped.current-row td,
-.el-table__body tr.current-row>td {
-background-color: #9FB6CD;
+.el-table__body tr.current-row > td {
+  background-color: #9fb6cd;
 }
-.el-table--enable-row-hover .el-table__body tr:hover>td{
-background-color:  hsl(210, 32%, 71%,0.5);
+.el-table--enable-row-hover .el-table__body tr:hover > td {
+  background-color: hsl(210, 32%, 71%, 0.5);
+}
+.search-card {
+  margin-bottom: 25px;
 }
 </style>

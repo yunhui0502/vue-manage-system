@@ -4,10 +4,10 @@
       <div slot="header" class="clearfix">
         <span>店铺基本信息</span>
         <div style="margin-top:10px;">
-          <span>店铺名称:{{storeinfor.hfName}}</span>
+          <span>店铺名称:{{storeinfor.stoneName}}</span>
           <span style="margin-left: 20px;" v-if="storeinfor.hfStatus=== 0">店铺状态:营业</span>
           <span style="margin-left: 20px;" v-if="storeinfor.hfStatus === 1">店铺状态:未营业</span>
-          <span style="margin-left: 20px;">店铺描述:{{storeinfor.hfDesc}}</span>
+          <span style="margin-left: 20px;">店铺描述:{{storeinfor.stoneDesc}}</span>
           <span style="margin-left: 20px;">店铺地址:{{storeinfor.address}}</span>
           <!-- <span style="margin-left: 20px;">{{storeinfor.hfDesc}}</span>
       <span style="margin-left: 20px;">支付时间:{{storeinfor.hfStatus}}</span>
@@ -197,6 +197,79 @@
           </el-table-column>
         </el-table>
       </el-tab-pane>
+
+      <el-tab-pane label="店铺成员" name="member">
+         <el-button
+      type="primary"
+      style="float: right;margin-bottom:10px;"
+      @click="dialogVisible = true"
+    >添加店铺成员</el-button>
+    <el-table :data="Person" stripe style="width: 100%">
+      <el-table-column align="center" prop="userId" label="用户id"></el-table-column>
+      <el-table-column align="center" prop="userName" label="姓名"></el-table-column>
+      <el-table-column align="center" prop="realName" label="昵称"></el-table-column>
+      <el-table-column align="center" prop="storeRoleName" label="角色"></el-table-column>
+      <el-table-column label="是否参与核销" align="center">
+        <template slot-scope="scope">
+          <div v-if="scope.row.isCancel===1">是</div>
+          <div v-if="scope.row.isCancel===0">否</div>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" prop="userPhone" label="手机号"></el-table-column>
+      <el-table-column align="center" prop="hfDesc" label="操作">
+        <template slot-scope="scope">
+          <el-button
+            type="text"
+            size="small"
+            align="center"
+            @click="checkPersonDetail(scope.row)"
+          >查看</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <!-- 添加店铺成员弹窗 -->
+    <el-dialog :visible.sync="dialogVisible">
+      <el-table
+        :data="userData"
+        stripe
+        style="width: 100%"
+        @selection-change="handleSelectionChange"
+        ref="table"
+        @row-click="currentChange"
+      >
+        <el-table-column type="selection" align="center" label="选择" width="50"></el-table-column>
+        <el-table-column align="center" prop="nickName" label="用户名"></el-table-column>
+        <el-table-column align="center" prop="phone" label="手机号"></el-table-column>
+      </el-table>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submit">确 定</el-button>
+      </span>
+    </el-dialog>
+
+    <el-drawer :visible.sync="draweruser" :with-header="false">
+      <template>
+        <div style="margin-top:100px;margin-left:30px;">
+          <div>
+            <span style="font-size:13px;margin-right:12px;">是否参与核销</span>
+            <el-radio v-model="radio" label="0" @change="changestatus">否</el-radio>
+            <el-radio v-model="radio" label="1" @change="changestatus">是</el-radio>
+          </div>
+          <div style="margin-top:40px;">
+            <span style="font-size:13px;">设置成员角色：</span>
+            <el-select v-model="value" placeholder="请选择" @change="roleval">
+              <el-option
+                v-for="item in StoreRole"
+                :key="item.roleName"
+                :label="item.roleName"
+                :value="item.roleName"
+              ></el-option>
+            </el-select>
+          </div>
+        </div>
+      </template>
+    </el-drawer>
+      </el-tab-pane>
     </el-tabs>
 
     <el-dialog title="店铺商品" :visible.sync="add">
@@ -237,11 +310,33 @@ import storeService from '@/service/store.js';
 // eslint-disable-next-line no-unused-vars
 import constants from '@/store/constants.js';
 import serviceProduct from '@/service/product.js';
+import userCenterService from '@/service/userCenter.js';
 export default {
   name: 'store',
-  components: { GoodsLncrease },
+  components: { GoodsLncrease},
   data() {
     return {
+      persondata: {
+        stoneId: '',
+        ids: [],
+      },
+      dialogVisible: false,
+      draweruser: false,
+      Person: [],
+      userData: [],
+      StoreRole: [],
+      value: '',
+      radio: '0',
+      roledata: {
+        StoreRoleId: '',
+        userId: '',
+        storeId: '',
+      },
+      cancle: {
+        stoneId: '',
+        isCancel: '',
+        userId: '',
+      },
       pickerOptions: {
         shortcuts: [{
           text: '最近一周',
@@ -274,7 +369,7 @@ export default {
       },
       value2: '',
       params: {
-        stoneId: 2,
+        stoneId: '',
         stateTime: '', // 开始时间--
         endTime: '', // 结束时间
       },
@@ -310,6 +405,123 @@ export default {
     };
   },
   methods: {
+    // -----------------------------------------------------------------------------------------------------
+    checkPerson: function() {
+      console.log(this.$route.query.id);
+      storeService.checkPerson(this.$route.query.id, (res) => {
+        console.log(res);
+        this.Person = res.data.data;
+      });
+    },
+    checkPersonDetail: function(row) {
+      console.log(row);
+      this.radio = row.isCancel;
+      this.roledata.userId = row.userId;
+      if (row.isCancel === 0) {
+        this.radio = '0';
+      } else {
+        this.radio = '1';
+      }
+      this.roledata.storeId = this.storeId;
+      this.cancle.userId = row.userId;
+      this.draweruser = true;
+      this.getStoreRole();
+    },
+    checkUser: function() {
+      userCenterService.checkUser((res) => {
+        // console.log(res.data.data);
+        this.userData = res.data.data.list;
+      });
+    },
+    handleSelectionChange(val) {
+      console.log(val);
+      this.selectDdata = val;
+    },
+    // eslint-disable-next-line no-empty-function
+    currentChange: function(row) {
+      console.log(row);
+      // this.persondata.personid = row.id;
+      this.$refs.table.toggleRowSelection(row);
+    },
+    submit: function() {
+      console.log(this.selectDdata);
+      if (this.selectDdata.length > 0) {
+        for (var i = 0; i < this.selectDdata.length; i++) {
+          this.persondata.ids.push(this.selectDdata[i].id);
+        }
+      }
+      console.log(this.persondata);
+      this.persondata.stoneId = this.$route.query.id;
+      storeService.addPerson(this.persondata, (res) => {
+        // console.log(res);
+        if (res.data.status === constants.SUCCESS_CODE) {
+          this.$message({
+            message: '添加成功',
+            type: 'success',
+          });
+          this.dialogVisible = false;
+        } else {
+          this.$message({
+            message: '添加失败',
+            type: 'error',
+          });
+        }
+      });
+    },
+    roleval: function(qqq) {
+      console.log(qqq);
+      for (var i = 0; i < this.StoreRole.length; i++) {
+        if (this.StoreRole[i].roleName === qqq) {
+          this.roledata.StoreRoleId = this.StoreRole[i].id;
+        }
+      }
+      console.log(this.roledata);
+      storeService.updateRole(this.roledata, (res) => {
+        console.log(res);
+        if (res.data.data === 0) {
+          this.$message({
+            message: '修改成功',
+            type: 'success',
+          });
+          this.draweruser = false;
+          this.checkPerson();
+        } else {
+          this.$message({
+            message: '修改失败',
+            type: 'error',
+          });
+        }
+      });
+    },
+    changestatus: function(e) {
+      console.log(e);
+      this.cancle.isCancel = e;
+      this.cancle.stoneId = this.persondata.stoneId;
+      console.log(this.cancle);
+      storeService.isCancel(this.cancle, (res) => {
+        console.log(res);
+        if (res.data.status === constants.SUCCESS_CODE) {
+          this.$message({
+            message: '修改成功',
+            type: 'success',
+          });
+          this.draweruser = false;
+          this.checkPerson();
+        } else {
+          this.$message({
+            message: '修改失败',
+            type: 'error',
+          });
+        }
+      });
+    },
+    getStoreRole: function() {
+      storeService.getStoreRole(this.storeId, (res) => {
+        console.log(res);
+        this.StoreRole = res.data.data;
+      });
+    },
+    // -----------------------------------------------------------------------------------------------------
     Screening () {
       console.log(this.value2);
       this.params.stateTime = this.value2[0];
@@ -319,6 +531,7 @@ export default {
       this.Detailed();
     },
     Detailed() {
+      this.params.stoneId = this.$route.query.id;
       storeService.selectBalanceDetail(this.params, (res) => {
         console.log('明细', res.data.data);
         this.Details = res.data.data;
@@ -403,41 +616,41 @@ export default {
         this.listwu = data;
       });
     },
-    submit: function() {
-      // this.product.productIds = [];
-      if (this.selectDdata.length > 0) {
-        for (var i = 0; i < this.selectDdata.length; i++) {
-          this.product.productIds.push(this.selectDdata[i].id);
-        }
-      } else {
-        return false;
-      }
-      this.product.userId = this.content.id;
-      this.product.stoneId = this.id;
-      console.log(this.product);
-      storeService.storeAddProduct(this.product, (res) => {
-        console.log(res);
-        if (res.data.status === constants.SUCCESS_CODE) {
-          this.$message({
-            message: '添加成功',
-            type: 'success',
-          });
-          this.add = false;
-          this.getstoneproduct();
-          // this.product.productIds = [];
-          // this.selectDdata = [];
-        } else {
-          this.$message({
-            message: '添加失败',
-            type: 'error',
-          });
-          // this.product.productIds = [];
-          // this.selectDdata = [];
-        }
-      });
-    },
+    // submit: function() {
+    //   // this.product.productIds = [];
+    //   if (this.selectDdata.length > 0) {
+    //     for (var i = 0; i < this.selectDdata.length; i++) {
+    //       this.product.productIds.push(this.selectDdata[i].id);
+    //     }
+    //   } else {
+    //     return false;
+    //   }
+    //   this.product.userId = this.content.id;
+    //   this.product.stoneId = this.id;
+    //   console.log(this.product);
+    //   storeService.storeAddProduct(this.product, (res) => {
+    //     console.log(res);
+    //     if (res.data.status === constants.SUCCESS_CODE) {
+    //       this.$message({
+    //         message: '添加成功',
+    //         type: 'success',
+    //       });
+    //       this.add = false;
+    //       this.getstoneproduct();
+    //       // this.product.productIds = [];
+    //       // this.selectDdata = [];
+    //     } else {
+    //       this.$message({
+    //         message: '添加失败',
+    //         type: 'error',
+    //       });
+    //       // this.product.productIds = [];
+    //       // this.selectDdata = [];
+    //     }
+    //   });
+    // },
     Added(e) {
-      let stoneId = this.stoneId;
+      let stoneId = this.$route.query.id;
       this.$router.push({
         path: '/hf-product/detail',
         query: {
@@ -446,10 +659,10 @@ export default {
         },
       });
     },
-    handleSelectionChange(val) {
-      console.log(val);
-      this.selectDdata = val;
-    },
+    // handleSelectionChange(val) {
+    //   console.log(val);
+    //   this.selectDdata = val;
+    // },
     setProducts() {
       serviceProduct.getProductsByBossId((res) => {
         console.log(res);
@@ -481,7 +694,7 @@ export default {
       storeService.getStoreid(this.id, (res) => {
         console.log(res);
         this.storeinfor = res.data.data;
-        this.stoneId = res.data.data.id + '';
+        this.stoneId = this.$route.query.id + '';
         // this.list = res.data.data.list;
       });
     },
@@ -503,12 +716,15 @@ export default {
     var content = window.sessionStorage.getItem('userInfor');
     this.content = JSON.parse(content);
     this.id = this.$route.query.id;
+    this.stoneId = this.$route.query.id;
     this.getStoreid();
     this.getstoneproduct();
     this.DataByStone();
     this.setProducts();
     this.selectStone();
     this.Detailed();
+    this.checkUser();
+    this.checkPerson();
   },
 };
 </script>
