@@ -116,7 +116,7 @@
     <el-dialog title="编辑店铺" :visible.sync="editdrawer" :direction="direction" center>
       <div style="display:flex;">
         <el-form
-          style="width:25%;"
+          style="width:50%;"
           :model="editData"
           status-icon
           :rules="rules"
