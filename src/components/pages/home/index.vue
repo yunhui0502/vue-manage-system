@@ -81,11 +81,6 @@
                   <div style="float: right;margin-top: -40px;">明晚14:20</div>
                 </el-dropdown-item>
                 <br />
-                <el-dropdown-item>
-                  <div style="float: left;margin-left: 10px;margin-top: -20px;">请输入你要添加的内容</div>
-                  <div style="float: right;margin-top: -40px;">明晚14:20</div>
-                </el-dropdown-item>
-                <br />
                 <el-dropdown-item divided>
                   <img style="width: 40px;height: 40px;float: left;" src="../../img/6.jpg" />
                   <div style="float:left;margin-top:-5px;margin-left: 10px;">用户的名字</div>
@@ -114,22 +109,22 @@
 
             <el-dropdown class="user-name" trigger="click" style="margin-top:20px;">
               <span class="el-dropdown-link" style="float: left;">
-                用户昵称
+                {{content.realName}}
                 <i class="el-icon-caret-bottom"></i>
               </span>
               <div class="block">
-                <el-avatar :size="34" src="circleUrl"></el-avatar>
+                <el-avatar :size="34" :src="'https://www.tjsichuang.cn:1443/api/product/goods/getFile?fileId=' + content.fileId"></el-avatar>
               </div>
 
               <el-dropdown-menu slot="dropdown" style="margin-left:-100px;">
-                <a href="https://github.com/adminDavin" target="_blank">
-                  <el-dropdown-item>用户昵称</el-dropdown-item>
-                  <el-dropdown-item>13837774547</el-dropdown-item>
+                <a  target="_blank">
+                  <el-dropdown-item>{{content.realName}}</el-dropdown-item>
+                  <el-dropdown-item>{{content.phone}}</el-dropdown-item>
                 </a>
-                <a href="https://github.com/adminDavin/hanfu-admin-vue" target="_blank">
+                <a href="http://39.100.237.144:8080/production-sub-path/loogin" target="_blank">
                   <el-dropdown-item>官网</el-dropdown-item>
                 </a>
-                <el-dropdown-item command="loginout">切换账号</el-dropdown-item>
+                <el-dropdown-item  command="loginout"><div @click="handover">切换账号</div></el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </el-container>
@@ -144,7 +139,7 @@
 
 <script>
 // @ is an alias to /src
-
+import store from '@/store';
 export default {
   name: 'home',
   data() {
@@ -159,17 +154,23 @@ export default {
     orderform() {
       this.$router.push('/orderform');
     },
+    handover() {
+      console.log('切换');
+      store.delUser();
+      this.$router.push('/login');
+    },
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
     },
     handleClose(key, keyPath) {
       console.log(key, keyPath);
     },
+
   },
   mounted() {
     var content = window.sessionStorage.getItem('userInfor');
     this.content = JSON.parse(content);
-    console.log(this.content);
+    console.log('用户', this.content);
   },
 };
 </script>

@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 /* eslint-disable require-jsdoc */
 import Axios from 'axios';
 // =============================================商品模块
@@ -59,7 +60,7 @@ function updateProduct(params) {
     fd.append('hfName', params.productName);
     fd.append('productDesc', params.productDesc);
     fd.append('id', params.id);
-    fd.append('lastModifier', params.lastModifier);
+    fd.append('lastModifier', params.userId);
     return Axios.post('/api/api/product/product/updateProductId', fd);
 }
 // 删除商品
@@ -147,4 +148,5 @@ export default {
     deleteSelectProduct: deleteSelectProduct,
     deletedPictrue: deletedPictrue,
     selectDiscountCoupon: selectDiscountCoupon,
+    // eslint-disable-next-line eol-last
 };

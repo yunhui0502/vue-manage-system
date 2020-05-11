@@ -80,7 +80,7 @@
                             <el-form-item label="角色类型" prop="roleType">
                                 <!-- <select v-model="addForm.roleType"  style="width:200px;" >
                          <option v-for="(item,index) in roleTypeData":value="item.dictDetailValue">{{ item.dictDetailName }}</option>
-                     </select>					 -->
+                     </select>-->
                                 <el-select v-model="addForm.roleType" placeholder="请选择" clearable>
                                     <el-option v-for="item in roleTypeData" :key="item.value" :label="item.dictDetailName" :value="item.dictDetailValue"></el-option>
                                 </el-select>
@@ -163,407 +163,407 @@
 <script>
 export default {
 
-    data() {
-        return {
-            imageUrl: '',
-            tableData: [],
-            roleTypeData: [],
-            roleUserList: [],
-            userData: [],
-            roleuserSelect: [],
-            input: "",
-            curentroleid: "",
-            curentrow: null,
-            //列表Loading加载
-            listLoading: false,
-            //新增界面是否显示
-            addFormVisible: false,
-            //添加按钮Loading加载
-            addLoading: false,
-            //新增角色用户
-            addRoleUserVisible: false,
-            roletotal: 0,
-            usercount: 0,
-            roleusercount: 0,
-            currentPage: 1,
-            usercurrentPage: 1,
-            roleusercurrentPage: 1,
-            pageSize: 10,
-            //检索字段
-            s_rolename: "",
-            s_rolecode: "",
-            s_username: "",
-            //     s_roleType:"",
-            //输入框验证
-            addFormRules: {
-                roleName: [{ required: true, message: "请输入角色名称", trigger: "blur" }],
-                roleCode: [{ required: true, message: "请输入角色编码", trigger: "blur" }],
-                roleType: [{ required: true, message: "请输入角色类型", trigger: "blur" }]
+  data() {
+    return {
+      imageUrl: '',
+      tableData: [],
+      roleTypeData: [],
+      roleUserList: [],
+      userData: [],
+      roleuserSelect: [],
+      input: '',
+      curentroleid: '',
+      curentrow: null,
+      // 列表Loading加载
+      listLoading: false,
+      // 新增界面是否显示
+      addFormVisible: false,
+      // 添加按钮Loading加载
+      addLoading: false,
+      // 新增角色用户
+      addRoleUserVisible: false,
+      roletotal: 0,
+      usercount: 0,
+      roleusercount: 0,
+      currentPage: 1,
+      usercurrentPage: 1,
+      roleusercurrentPage: 1,
+      pageSize: 10,
+      // 检索字段
+      s_rolename: '',
+      s_rolecode: '',
+      s_username: '',
+      //     s_roleType:"",
+      // 输入框验证
+      addFormRules: {
+        roleName: [{ required: true, message: '请输入角色名称', trigger: 'blur' }],
+        roleCode: [{ required: true, message: '请输入角色编码', trigger: 'blur' }],
+        roleType: [{ required: true, message: '请输入角色类型', trigger: 'blur' }],
+      },
+      // 新增界面数据
+      addForm: [],
+      UserSelection: [],
+    };
+  },
+
+  methods: {
+    // 添加仓库
+    addCang: function(val) {
+      var _this = this;
+      this.$ajax({
+        method: 'post',
+        url: '/api/wareHouse/create',
+        params: {
+          bossId: 1,
+          hfDesc: 1,
+          hfName: 1,
+          hfRegion: 1,
+          requestId: 1,
+          timestamp: 1,
+          token: 1,
+          userId: 1,
+        },
+      }).then(
+        function(resultData) {
+          console.log('添加仓库', resultData);
+          // _this.tableData = resultData.data.data;
+          // _this.roletotal = resultData.data.count;
+          // _this.listLoading = false;
+        },
+        function(resultData) {
+          // _this.tableData.message = "Local Reeuest Error!";
+          console.log(resultData);
+        },
+      );
+
+
+    },
+    // 查询仓库
+    checkCang: function(val) {
+      var _this = this;
+      this.$ajax({
+        method: 'get',
+        url: '/api/wareHouse/list',
+        params: {
+          bossId: 1,
+        },
+      }).then(
+        function(resultData) {
+          console.log('查询仓库', resultData);
+          // _this.tableData = resultData.data.data;
+          // _this.roletotal = resultData.data.count;
+          // _this.listLoading = false;
+        },
+        function(resultData) {
+          // _this.tableData.message = "Local Reeuest Error!";
+          console.log(resultData);
+        },
+      );
+
+
+    },
+
+    // 添加库存
+    addKuCun: function(val) {
+      var _this = this;
+      this.$ajax({
+        method: 'post',
+        url: '/api/wareHouse/addResp',
+        params: {
+          goodsId: 1,
+          hfDesc: 1,
+          hfStatus: 1,
+          quatity: 1,
+          requestId: 1,
+          timestamp: '20181023T081324Z',
+          token: 1,
+          userId: 1,
+          wareHouseId: 1,
+        },
+      }).then(
+        function(resultData) {
+          console.log('添加库存', resultData);
+          // _this.tableData = resultData.data.data;
+          // _this.roletotal = resultData.data.count;
+          // _this.listLoading = false;
+        },
+        function(resultData) {
+          // _this.tableData.message = "Local Reeuest Error!";
+          console.log(resultData);
+        },
+      );
+
+
+    },
+    handleSelect(key, keyPath) {
+      console.log(key, keyPath);
+    },
+    indexMethod(index) {
+      return index;
+    },
+    // 获取角色列表
+    getResult: function(val) {
+      var _this = this;
+
+      // this.listLoading = true;
+
+      console.log();
+
+      this.$ajax({
+        method: 'get',
+        url: '/api/goods/byInstanceId',
+        params: {
+          instanceId: 1,
+        },
+      }).then(
+        function(resultData) {
+          console.log('1', resultData);
+          // _this.tableData = resultData.data.data;
+          // _this.roletotal = resultData.data.count;
+          // _this.listLoading = false;
+        },
+        function(resultData) {
+          // _this.tableData.message = "Local Reeuest Error!";
+          console.log(resultData);
+        },
+      );
+
+
+    },
+    handleSizeChange(val) {
+      this.pageSize = val;
+      this.getResult(1);
+
+    },
+    // 新增
+    addSubmit: function() {
+      this.$refs.addForm.validate((valid) => {
+        if (valid) {
+          this.$confirm('确认提交吗？', '提示', {}).then(() => {
+            this.addLoading = true;
+            let param = Object.assign({}, this.addForm);
+            this.$ajax({
+              method: 'post',
+              url: '/api/sysrole-api/addRole',
+              data: param,
+            }).then((res) => {
+              this.addLoading = false;
+              this.$message({
+                message: '提交成功',
+                type: 'success',
+              });
+              this.$refs.addForm.resetFields();
+              this.addFormVisible = false;
+              this.getResult(1);
+            });
+          });
+        }
+      });
+    },
+    getRoleType: function() {
+
+      var _this = this;
+      this.listLoading = true;
+      let param = new URLSearchParams();
+      param.append('code', 'PT_ROLETYPE');
+      this.$ajax({
+        method: 'post',
+        url: '/api/execute/api/sysDict/Web/searchCodeSysDictDetail',
+        data: param,
+      }).then(
+        function(resultData) {
+          _this.roleTypeData = resultData.data.data;
+          // alert(_this.roleTypeData)
+
+        },
+        function(resultData) {
+          // _this.tableData.message = "Local Reeuest Error!";
+          // console.log(resultData);
+        },
+      );
+    },
+    // 显示新增界面
+    handleAdd: function() {
+      this.addFormVisible = true;
+      this.addForm = {
+        id: 0,
+        roleName: '',
+        roleCode: '',
+        roleType: '',
+      };
+    },
+    // 显示编辑角色界面
+    enditRole: function(row) {
+      var _this = this;
+      this.listLoading = true;
+      this.addFormVisible = true;
+      let param = new URLSearchParams();
+      param.append('id', row.id);
+
+      this.$ajax({
+        method: 'post',
+        url: '/api/sysrole-api/getSysRoleByid',
+        data: param,
+      }).then(
+        function(resultData) {
+
+          _this.addForm = resultData.data.data;
+          _this.listLoading = false;
+        },
+      );
+    },
+    delRole: function(row) {
+      let param = new URLSearchParams();
+      param.append('id', row.id);
+
+      this.$ajax({
+        method: 'post',
+        url: '/api/sysrole-api/deleteSysRoleByid',
+        data: param,
+      })
+        .then(() => {
+          this.$message({
+            message: '删除成功',
+            type: 'success',
+          });
+        })
+        ['catch'](() => {
+          this.$message({
+            message: '删除失败',
+            type: 'success',
+          });
+        })
+      ;
+
+    },
+    getRoleUserList: function(val) {
+      var _this = this;
+      this.listLoading = true;
+      let param = Object.assign({}, { currentPage: val, pageSize: 10, roleId: this.curentroleid });
+      this.$ajax({
+        method: 'post',
+        url: '/api/sysrole-api/queryRoleUserList',
+        data: param,
+      }).then(
+        function(resultData) {
+
+          _this.roleUserList = resultData.data.data;
+          _this.roleusercount = resultData.data.count;
+          // alert(_this.tableData);
+          // _this.listLoading = false;
+        },
+      );
+    },
+    clickRow: function(row) {
+      this.roleuserSelect = [];
+      // var roleid=row.id;
+      var _this = this;
+      this.curentroleid = row.id;
+      this.curentrow = row;
+      _this.getRoleUserList(1);
+
+    },
+    addRoleUser: function(val) {
+      this.addRoleUserVisible = true;
+      var _this = this;
+      this.listLoading = true;
+      let param = Object.assign({}, { currentPage: val, pageSize: 10, userName: this.s_username });
+      this.$ajax({
+        method: 'post',
+        url: '/api/sysuser-api/querySysUserList',
+        data: param,
+      }).then(
+        function(resultData) {
+
+          _this.userData = resultData.data.data;
+          _this.usercount = resultData.data.count;
+          // alert(_this.tableData);
+          // _this.listLoading = false;
+        },
+      );
+
+    },
+    deleteRoleUser: function() {
+      let param = new URLSearchParams();
+      param.append('id', row.id);
+
+      this.$ajax({
+        method: 'post',
+        url: '/api/sysrole-api/deleteSysRoleUserByid',
+        data: param,
+      }).then(() => {
+        this.$message({
+          message: '删除成功',
+          type: 'success',
+        });
+      });
+
+    },
+    userSelectionChange: function(val) {
+      // alert(val);
+      this.UserSelection = val;
+    },
+    roleuserSelectChange: function(val) {
+      this.roleuserSelect = val;
+    },
+    saveUserRole: function() {
+      if (this.curentroleid == '') {
+        alert('请选择要添加的角色，单击选择行。');
+      }
+      var rows = this.UserSelection;
+      if (rows) {
+        rows.forEach((row) => {
+          var _this = this;
+          this.listLoading = true;
+          let param = Object.assign({}, { id: 0, roleId: this.curentroleid, targetId: row.id });
+          this.$ajax({
+            method: 'post',
+            url: '/api/sysrole-api/saveRoleUser',
+            data: param,
+          }).then(
+            function(resultData) {
+
             },
-            //新增界面数据
-            addForm: [],
-            UserSelection: []
-        }
+          );
+          // alert(row.id)
+        });
+      }
+      // this.$refs["addRoleUser"].resetFields();
+      this.addRoleUserVisible = false;
+      this.clickRow(this.curentrow);
+      // alert(this.UserSelection);
     },
+    deleteUserRole: function() {
+      var rows = this.roleuserSelect;
+      if (rows) {
+        rows.forEach((row) => {
+          var _this = this;
+          this.listLoading = true;
+          let param = new URLSearchParams();
+          param.append('id', row.id);
+          this.$ajax({
+            method: 'post',
+            url: '/api/sysrole-api/deleteSysRoleUserByid',
+            data: param,
+          }).then(
+            function(resultData) {
 
-    methods: {
-      // 添加仓库
-       addCang: function(val) {
-            var _this = this;
-            this.$ajax({
-                method: "post",
-                url: "/api/wareHouse/create",
-                params: {
-                 bossId:1,
-                 hfDesc:1,
-                 hfName:1,
-                 hfRegion:1,
-                 requestId:1,
-                 timestamp:1,
-                 token:1,
-                 userId:1,
-                }
-            }).then(
-                function(resultData) {
-                     console.log('添加仓库',resultData);
-                    // _this.tableData = resultData.data.data;
-                    // _this.roletotal = resultData.data.count;
-                    // _this.listLoading = false;
-                },
-                function(resultData) {
-                    // _this.tableData.message = "Local Reeuest Error!";
-                    console.log(resultData);
-                }
-                );
-
-
-        },
-        // 查询仓库
-        checkCang: function(val) {
-             var _this = this;
-             this.$ajax({
-                 method: "get",
-                 url: "/api/wareHouse/list",
-                 params: {
-                  bossId:1
-                 }
-             }).then(
-                 function(resultData) {
-                      console.log('查询仓库',resultData);
-                     // _this.tableData = resultData.data.data;
-                     // _this.roletotal = resultData.data.count;
-                     // _this.listLoading = false;
-                 },
-                 function(resultData) {
-                     // _this.tableData.message = "Local Reeuest Error!";
-                     console.log(resultData);
-                 }
-                 );
-
-
-         },
-
-         //添加库存
-        addKuCun: function(val) {
-             var _this = this;
-             this.$ajax({
-                 method: "post",
-                 url: "/api/wareHouse/addResp",
-                 params: {
-                    goodsId:1,
-                    hfDesc:1,
-                    hfStatus:1,
-                    quatity :1,
-                    requestId:1,
-                    timestamp:'20181023T081324Z',
-                    token:1,
-                    userId:1,
-                    wareHouseId:1
-                 }
-             }).then(
-                 function(resultData) {
-                      console.log('添加库存',resultData);
-                     // _this.tableData = resultData.data.data;
-                     // _this.roletotal = resultData.data.count;
-                     // _this.listLoading = false;
-                 },
-                 function(resultData) {
-                     // _this.tableData.message = "Local Reeuest Error!";
-                     console.log(resultData);
-                 }
-                 );
-
-
-         },
-        handleSelect(key, keyPath) {
-            console.log(key, keyPath);
-        },
-        indexMethod(index) {
-            return index;
-        },
-        //获取角色列表
-        getResult: function(val) {
-            var _this = this;
-
-            // this.listLoading = true;
-
-            console.log();
-
-            this.$ajax({
-                method: "get",
-                url: "/api/goods/byInstanceId",
-                params: {
-                  instanceId:1
-                }
-            }).then(
-                function(resultData) {
-                     console.log('1',resultData);
-                    // _this.tableData = resultData.data.data;
-                    // _this.roletotal = resultData.data.count;
-                    // _this.listLoading = false;
-                },
-                function(resultData) {
-                    // _this.tableData.message = "Local Reeuest Error!";
-                    console.log(resultData);
-                }
-                );
-
-
-        },
-        handleSizeChange(val) {
-            this.pageSize = val;
-            this.getResult(1);
-
-        },
-        //新增
-        addSubmit: function() {
-            this.$refs.addForm.validate(valid => {
-                if (valid) {
-                    this.$confirm("确认提交吗？", "提示", {}).then(() => {
-                        this.addLoading = true;
-                        let param = Object.assign({}, this.addForm);
-                        this.$ajax({
-                            method: "post",
-                            url: "/api/sysrole-api/addRole",
-                            data: param
-                        }).then(res => {
-                            this.addLoading = false;
-                            this.$message({
-                                message: "提交成功",
-                                type: "success"
-                            });
-                            this.$refs["addForm"].resetFields();
-                            this.addFormVisible = false;
-                            this.getResult(1);
-                        });
-                    });
-                }
-            });
-        },
-        getRoleType: function() {
-
-            var _this = this;
-            this.listLoading = true;
-            let param = new URLSearchParams();
-            param.append("code", "PT_ROLETYPE");
-            this.$ajax({
-                method: "post",
-                url: "/api/execute/api/sysDict/Web/searchCodeSysDictDetail",
-                data: param
-            }).then(
-                function(resultData) {
-                    _this.roleTypeData = resultData.data.data;
-                    //alert(_this.roleTypeData)
-
-                },
-                function(resultData) {
-                    // _this.tableData.message = "Local Reeuest Error!";
-                    //console.log(resultData);
-                }
-                );
-        },
-        //显示新增界面
-        handleAdd: function() {
-            this.addFormVisible = true;
-            this.addForm = {
-                id: 0,
-                roleName: "",
-                roleCode: "",
-                roleType: ""
-            };
-        },
-        //显示编辑角色界面
-        enditRole: function(row) {
-            var _this = this;
-            this.listLoading = true;
-            this.addFormVisible = true;
-            let param = new URLSearchParams();
-            param.append("id", row.id);
-
-            this.$ajax({
-                method: "post",
-                url: "/api/sysrole-api/getSysRoleByid",
-                data: param
-            }).then(
-                function(resultData) {
-
-                    _this.addForm = resultData.data.data;
-                    _this.listLoading = false;
-                }
-                );
-        },
-        delRole: function(row) {
-            let param = new URLSearchParams();
-            param.append("id", row.id);
-
-            this.$ajax({
-                method: "post",
-                url: "/api/sysrole-api/deleteSysRoleByid",
-                data: param
-            })
-            .then(()=>{
-                  this.$message({
-                        message: "删除成功",
-                        type: "success"
-                    });
-            })
-            .catch(()=>{
-                this.$message({
-                        message: "删除失败",
-                        type: "success"
-                    });
-            })
-            ;
-
-        },
-        getRoleUserList: function(val) {
-            var _this = this;
-            this.listLoading = true;
-            let param = Object.assign({}, { currentPage: val, pageSize: 10, roleId: this.curentroleid });
-            this.$ajax({
-                method: "post",
-                url: "/api/sysrole-api/queryRoleUserList",
-                data: param
-            }).then(
-                function(resultData) {
-
-                    _this.roleUserList = resultData.data.data;
-                    _this.roleusercount = resultData.data.count;
-                    //alert(_this.tableData);
-                    //_this.listLoading = false;
-                }
-                );
-        },
-        clickRow: function(row) {
-            this.roleuserSelect = [];
-            // var roleid=row.id;
-            var _this = this;
-            this.curentroleid = row.id;
-            this.curentrow = row;
-            _this.getRoleUserList(1)
-
-        },
-        addRoleUser: function(val) {
-            this.addRoleUserVisible = true;
-            var _this = this;
-            this.listLoading = true;
-            let param = Object.assign({}, { currentPage: val, pageSize: 10, userName: this.s_username });
-            this.$ajax({
-                method: "post",
-                url: "/api/sysuser-api/querySysUserList",
-                data: param
-            }).then(
-                function(resultData) {
-
-                    _this.userData = resultData.data.data;
-                    _this.usercount = resultData.data.count;
-                    //alert(_this.tableData);
-                    //_this.listLoading = false;
-                }
-                );
-
-        },
-        deleteRoleUser: function() {
-            let param = new URLSearchParams();
-            param.append("id", row.id);
-
-            this.$ajax({
-                method: "post",
-                url: "/api/sysrole-api/deleteSysRoleUserByid",
-                data: param
-            }).then(()=>{
-                 this.$message({
-                        message: "删除成功",
-                        type: "success"
-                    });
-            });
-
-        },
-        userSelectionChange: function(val) {
-            //alert(val);
-            this.UserSelection = val;
-        },
-        roleuserSelectChange: function(val) {
-            this.roleuserSelect = val;
-        },
-        saveUserRole: function() {
-            if (this.curentroleid == "") {
-                alert("请选择要添加的角色，单击选择行。");
-            }
-            var rows = this.UserSelection;
-            if (rows) {
-                rows.forEach(row => {
-                    var _this = this;
-                    this.listLoading = true;
-                    let param = Object.assign({}, { id: 0, roleId: this.curentroleid, targetId: row.id });
-                    this.$ajax({
-                        method: "post",
-                        url: "/api/sysrole-api/saveRoleUser",
-                        data: param
-                    }).then(
-                        function(resultData) {
-
-                        }
-                        );
-                    // alert(row.id)
-                });
-            }
-            // this.$refs["addRoleUser"].resetFields();
-            this.addRoleUserVisible = false;
-            this.clickRow(this.curentrow);
-            //alert(this.UserSelection);
-        },
-        deleteUserRole: function() {
-            var rows = this.roleuserSelect;
-            if (rows) {
-                rows.forEach(row => {
-                    var _this = this;
-                    this.listLoading = true;
-                    let param = new URLSearchParams();
-                    param.append("id", row.id);
-                    this.$ajax({
-                        method: "post",
-                        url: "/api/sysrole-api/deleteSysRoleUserByid",
-                        data: param
-                    }).then(
-                        function(resultData) {
-
-                        }
-                        );
-                });
-            }
-            this.addRoleUserVisible = false;
-            this.clickRow(this.curentrow);
-        }
+            },
+          );
+        });
+      }
+      this.addRoleUserVisible = false;
+      this.clickRow(this.curentrow);
     },
-    mounted() {
-        //获取列表
-        // this.getResult();
-        // this.getRoleType();
-        this.addCang();
-        this.checkCang();
-        this.addKuCun();
-    }
+  },
+  mounted() {
+    // 获取列表
+    // this.getResult();
+    // this.getRoleType();
+    this.addCang();
+    this.checkCang();
+    this.addKuCun();
+  },
 };
 </script>
 <style>
