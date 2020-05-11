@@ -1,143 +1,194 @@
 /* eslint-disable no-magic-numbers */
 <template>
   <div style="padding-bottom:130px ;">
-    <div>
-      <span style="font-weight: bold;">订单详情</span>
-      <span style="margin-left:10px;">订单号:{{detail.orderCode}}</span>
+    <div >
+      <div
+        style="padding-left:11.5px;font-size:16px; padding-bottom:6.5px; color:#666666;border-bottom:1px solid #E5E5E5;"
+      >订单详情</div>
+      <div
+        style="font-size:14px; color:#666; padding:5.5px 0 6px 21.5px; background:#F5F6FA;margin-top:8px;"
+      >订单号:{{detail.orderCode}}</div>
     </div>
-    <el-card class="box-card">
-      <span>支付人:{{detail.nickName}}</span>
-      <span style="margin-left: 20px;" v-if="detail.paymentName === 'balance'">支付方式:余额支付</span>
-      <span style="margin-left: 20px;" v-if="detail.paymentName === 'BalancePayment'">支付方式:余额支付</span>
-      <span style="margin-left: 20px;" v-if="detail.takingType === 'selfPickUp'">取货方式:自提</span>
-      <span style="margin-left: 20px;" v-if="detail.takingType === 'delivery'">取货方式:邮寄</span>
-      <span style="margin-left: 20px;" v-if="detail.paymentName === 'wechart'">支付方式:微信支付</span>
-      <span style="margin-left: 20px;">支付金额:{{detail.amount}}</span>
-      <span style="margin-left: 20px;">支付时间:{{detail.modifyTime}}</span>
-
-      <span style="margin-left: 20px;" v-if="detail.orderStatus === 'payment'">订单状态:待支付</span>
-      <span style="margin-left: 20px;" v-if="detail.orderStatus === 'transport'">订单状态:运送中</span>
-      <span style="margin-left: 20px;" v-if="detail.orderStatus === 'process'">订单状态:处理中</span>
-      <span style="margin-left: 20px;" v-if="detail.orderStatus === 'complete'">订单状态:已完成</span>
-      <span style="margin-left: 20px;" v-if="detail.orderStatus === 'cancel'">订单状态:已取消</span>
-      <span style="margin-left: 20px;" v-if="detail.orderStatus === 'evaluate'">订单状态:待评价</span>
-      <span style="margin-left: 20px;" v-if="detail.orderStatus === 'controversial'">订单状态:交易纠纷</span>
-    </el-card>
-    <el-card class="box-card">
-      <div slot="header" class="clearfix">
-        <span>订单扩展信息</span>
+    <div style="padding-left:30px;">
+      <div style="font-size:16px;color:#A6A3FB;font-weight:bold;margin:18px 0 8.5px 0px;">已下单</div>
+      <div
+        style="width:491.9px; display:flex;align-items:center; background:#EEEEEE;border-radius:17px;margin-left:27.5px;"
+      >
+        <div
+          style="font-size:13px; background:#A6A3FB;width:100.5px;border-radius:17px;color:#fff;display:flex;align-items:center;justify-content:center;"
+        >下单</div>
+        <div
+          style="font-size:13px; color:#666666;width:100.5px;display:flex;align-items:center;justify-content:center;"
+        >下单</div>
+        <div
+          style="font-size:13px; color:#666666;width:100.5px;display:flex;align-items:center;justify-content:center;"
+        >下单</div>
+        <div
+          style="font-size:13px; color:#666666;width:100.5px;display:flex;align-items:center;justify-content:center;"
+        >下单</div>
+        <div
+          style="font-size:13px; color:#666666;width:100.5px;display:flex;align-items:center;justify-content:center;"
+        >交易成功</div>
       </div>
+      <el-card class="box-card">
+        <span>支付人:{{detail.nickName}}</span>
+        <span style="margin-left: 20px;" v-if="detail.paymentName === 'balance'">支付方式:余额支付</span>
+        <span style="margin-left: 20px;" v-if="detail.paymentName === 'BalancePayment'">支付方式:余额支付</span>
+        <span style="margin-left: 20px;" v-if="detail.takingType === 'selfPickUp'">取货方式:自提</span>
+        <span style="margin-left: 20px;" v-if="detail.takingType === 'delivery'">取货方式:邮寄</span>
+        <span style="margin-left: 20px;" v-if="detail.paymentName === 'wechart'">支付方式:微信支付</span>
+        <span style="margin-left: 20px;">支付金额:{{detail.amount}}</span>
+        <span style="margin-left: 20px;">支付时间:{{detail.modifyTime}}</span>
 
-      <div v-for="(item,index) in detailRequestList" :key="index">
-        <div>店铺名称:{{item.stoneName}}</div>
-        <div v-for="(item1,index1) in item.hfOrderDetailList" :key="index1">
-          <span style="margin-left: 20px;">商品名称: {{item1.hfDesc.goodsName}}</span>
-          <!-- <span style="margin-left: 20px;">物品名称:{{item1.hfDesc.goodName}}</span> -->
-          <span style="margin-left: 40px;">购买数量: {{item1.quantity}}</span>
-          <el-table :data="item1.hfDesc.hfGoodsSpecs" stripe style="width: 100%">
-            <el-table-column
-              align="center"
-              prop="hfName"
-              label="规格名"
-              :show-overflow-tooltip="true"
-              width="180"
-            ></el-table-column>
-            <el-table-column
-              align="center"
-              prop="hfValue"
-              label="规格值"
-              :show-overflow-tooltip="true"
-              width="180"
-            ></el-table-column>
-            <el-table-column
-              align="center"
-              prop="specType"
-              label="规格值类型"
-              :show-overflow-tooltip="true"
-              width="180"
-            ></el-table-column>
-            <el-table-column
-              align="center"
-              prop="specUnit"
-              label="规格单位"
-              :show-overflow-tooltip="true"
-              width="180"
-            ></el-table-column>
-          </el-table>
-        </div>
-        <div style="margin-top:20px; display:flex;align-items:center;justify-content:space-around;">
+        <span style="margin-left: 20px;" v-if="detail.orderStatus === 'payment'">订单状态:待支付</span>
+        <span style="margin-left: 20px;" v-if="detail.orderStatus === 'transport'">订单状态:运送中</span>
+        <span style="margin-left: 20px;" v-if="detail.orderStatus === 'process'">订单状态:处理中</span>
+        <span style="margin-left: 20px;" v-if="detail.orderStatus === 'complete'">订单状态:已完成</span>
+        <span style="margin-left: 20px;" v-if="detail.orderStatus === 'cancel'">订单状态:已取消</span>
+        <span style="margin-left: 20px;" v-if="detail.orderStatus === 'evaluate'">订单状态:待评价</span>
+        <span style="margin-left: 20px;" v-if="detail.orderStatus === 'controversial'">订单状态:交易纠纷</span>
+      </el-card>
+      <el-card class="box-card">
+        <!-- <div slot="header" class="clearfix">
+          <span>订单扩展信息</span>
+        </div> -->
+
+        <div v-for="(item,index) in detailRequestList" :key="index">
+
+          <div style="color:#666666;border-bottom:1px solid #E5E5E5;">店铺名称:{{item.stoneName}}</div>
+
+          <div v-for="(item1,index1) in item.hfOrderDetailList" :key="index1">
+            <span style="margin-left: 20px;">商品名称: {{item1.hfDesc.goodsName}}</span>
+            <!-- <span style="margin-left: 20px;">物品名称:{{item1.hfDesc.goodName}}</span> -->
+            <span style="margin-left: 40px;">购买数量: {{item1.quantity}}</span>
+            <el-table :data="item1.hfDesc.hfGoodsSpecs" stripe style="width: 100%">
+              <el-table-column
+                align="center"
+                prop="hfName"
+                label="规格名"
+                :show-overflow-tooltip="true"
+                width="180"
+              ></el-table-column>
+              <el-table-column
+                align="center"
+                prop="hfValue"
+                label="规格值"
+                :show-overflow-tooltip="true"
+                width="180"
+              ></el-table-column>
+              <el-table-column
+                align="center"
+                prop="specType"
+                label="规格值类型"
+                :show-overflow-tooltip="true"
+                width="180"
+              ></el-table-column>
+              <el-table-column
+                align="center"
+                prop="specUnit"
+                label="规格单位"
+                :show-overflow-tooltip="true"
+                width="180"
+              ></el-table-column>
+            </el-table>
+          </div>
           <div
-            v-if="item.takingType==='selfPickUp'&&item.detailStatus==='process'&&detail.orderType==='nomalOrder'"
-            @click="que(item,index)"
-            style="background:#00bcd4;color: #fff;padding:6px 10px ;border-radius:4px;height:23px;width:66px;"
-          >确认订单</div>
-        </div>
+            style="margin-top:20px; display:flex;align-items:center;justify-content:space-around;"
+          >
+            <div
+              v-if="item.takingType==='selfPickUp'&&item.detailStatus==='process'&&detail.orderType==='nomalOrder'"
+              @click="que(item,index)"
+              style="background:#00bcd4;color: #fff;padding:6px 10px ;border-radius:4px;height:23px;width:66px;"
+            >确认订单</div>
+          </div>
 
-        <div
+          <div
+            style="display:fkex;align-items:center;margin-top:20px;"
+            v-if="item.takingType==='delivery'&&item.detailStatus==='process'&&detail.orderType==='nomalOrder'"
+          >
+            <!-- <div
           style="display:fkex;align-items:center;margin-top:20px;"
-          v-if="item.takingType==='delivery'&&item.detailStatus==='process'&&detail.orderType==='nomalOrder'"
-        >
-          <!-- <div
-          style="display:fkex;align-items:center;margin-top:20px;"
-          >-->
-          <span>物流单号：</span>
-          <el-input v-model="item.logisticsOrdersId" placeholder="请输入物流单号" style="width:200px;"></el-input>
-          <!-- <el-input v-model="order.logisticsOrdersId" placeholder="请输入物流单号" style="width:200px;"></el-input> -->
-          <el-button @click="que(item,index)" style="margin-left:10px;">提交</el-button>
-        </div>
-        <el-button
-          v-if="item.takingType==='delivery'&&(detail.orderStatus==='process'||detail.orderStatus==='transport')&&detail.orderType==='nomalOrder'"
-          @click="cha(item,index)"
-          style="margin-left:10px;"
-        >查询物流信息</el-button>
-        <div
-          v-if="item.takingType==='delivery'&&(detail.orderStatus==='process'||detail.orderStatus==='transport')&&detail.orderType==='nomalOrder'&&item.wuliu!=0"
-          style="line-height:30px; display:fkex;align-items:center;margin-top:20px;font-size:12px;"
-        >
-          <span style="margin-bottom:10px;">物流单号：{{item.wuliu.logisticCode}}</span>
-          <span style="margin-left:20px;margin-bottom:10px;">物流公司名：{{item.wuliu.company}}</span>
-          <!-- <span style="margin-left:20px;">物流信息</span> -->
-          <!-- <div>物流信息:</div> -->
-          <div v-for="(item1,index) in item.wuliu.traces" :key="index">
-            <div>
-              <span>{{item1.AcceptStation}}</span>
-              <span>{{item1.AcceptTime}}</span>
+            >-->
+            <span>物流单号：</span>
+            <el-input v-model="item.logisticsOrdersId" placeholder="请输入物流单号" style="width:200px;"></el-input>
+            <!-- <el-input v-model="order.logisticsOrdersId" placeholder="请输入物流单号" style="width:200px;"></el-input> -->
+            <el-button @click="que(item,index)" style="margin-left:10px;">提交</el-button>
+          </div>
+          <el-button
+            v-if="item.takingType==='delivery'&&(detail.orderStatus==='process'||detail.orderStatus==='transport')&&detail.orderType==='nomalOrder'"
+            @click="cha(item,index)"
+            style="margin-left:10px;"
+          >查询物流信息</el-button>
+          <div
+            v-if="item.takingType==='delivery'&&(detail.orderStatus==='process'||detail.orderStatus==='transport')&&detail.orderType==='nomalOrder'&&item.wuliu!=0"
+            style="line-height:30px; display:fkex;align-items:center;margin-top:20px;font-size:12px;"
+          >
+            <span style="margin-bottom:10px;">物流单号：{{item.wuliu.logisticCode}}</span>
+            <span style="margin-left:20px;margin-bottom:10px;">物流公司名：{{item.wuliu.company}}</span>
+            <!-- <span style="margin-left:20px;">物流信息</span> -->
+            <!-- <div>物流信息:</div> -->
+            <div v-for="(item1,index) in item.wuliu.traces" :key="index">
+              <div>
+                <span>{{item1.AcceptStation}}</span>
+                <span>{{item1.AcceptTime}}</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <!-- <div
+        <!-- <div
         style="display:fkex;align-items:center;margin-top:20px;"
         v-if="takingType==='delivery'&&detail.orderStatus==='process'&&detail.orderType==='nomalOrder'"
       >
         <span>物流单号：</span>
         <el-input v-model="order.logisticsOrdersId" placeholder="请输入物流单号" style="width:200px;"></el-input>
-      </div>-->
-    </el-card>
-
-    <div style="margin-top: 200px; display: flex;justify-content: space-around;padding:0 10%;">
-      <div
-        v-if="detail.orderStatus==='controversial'"
-        @click="agree()"
-        style="width:90px;text-align:center;background: #409EFF;color: #fff;padding:6px 10px ;border-radius:4px;height:23px;"
-      >同意申请</div>
-      <div
-        v-if="detail.orderStatus==='payment'"
-        @click="pay()"
-        style="width:90px;text-align:center;background: #409EFF;color: #fff;padding:6px 10px ;border-radius:4px;height:23px;"
-      >去支付</div>
-      <div
-        v-if="detail.orderStatus==='payment' || detail.orderStatus==='process'"
-        @click="cancle()"
-        style="background: #ff4040;color: #fff;padding:6px 10px ;width:90px;text-align:center; border-radius:4px;height:23px;"
-      >取消订单</div>
-      <div
-        v-if="detail.orderStatus==='controversial'"
-        @click="noagree()"
-        style="width:90px;text-align:center;background: red;color: #fff;padding:6px 10px ;border-radius:4px;height:23px;"
-      >不同意</div>
-      <div></div>
-      <div>联系用户：{{detail.phone}}</div>
+        </div>-->
+      </el-card>
+      <div style="color:#444;margin-top:18.5px;font-size:14px;">收货信息</div>
+      <div style="color:#666666;font-size:11px;margin-top:13px;">姓&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;名:{{detail.nickName}}</div>
+      <div style="color:#666666;font-size:11px;margin-top:8px;">联系电话：{{detail.phone}}</div>
+      <div style="color:#666666;font-size:11px;margin-top:8px;">收货地址：天津市 西青区 智慧山南塔380室</div>
+      <div style="margin-top: 50px; display: flex;justify-content: flex-end;;padding:0 10%;">
+        <div
+          v-if="detail.orderStatus==='controversial'"
+          @click="agree()"
+          style="font-size: 15px;
+    margin-right: 19px;
+    width: 80px;
+     color:#fff;
+    text-align: center;
+    background: rgb(163, 160, 251);
+    padding: 8px 0px;
+    border-radius: 4px;background: #3f47b5;"
+        >同意申请</div>
+        <div
+          v-if="detail.orderStatus==='payment'"
+          @click="pay()"
+          style="background: #A3A0FB;font-size: 15px;
+    margin-right: 19px;
+    width: 80px;
+    text-align: center;
+ color:#fff;
+    padding: 8px 0px;
+    border-radius: 4px;"
+        >去支付</div>
+        <div
+          v-if="detail.orderStatus==='payment' || detail.orderStatus==='process'"
+          @click="cancle()"
+          style=" background: #FF318A;font-size: 15px;
+    margin-right: 19px;
+    width: 80px;
+    text-align: center;
+    padding: 8px 0px;
+    color:#fff;
+    border-radius: 4px;"
+        >取消订单</div>
+        <div
+          v-if="detail.orderStatus==='controversial'"
+          @click="noagree()"
+          style="width:90px;text-align:center;background:#ff008b;color: #fff;padding:6px 0px ; color:#fff;border-radius:4px;height:23px;"
+        >拒绝申请</div>
+        <div></div>
+      </div>
     </div>
   </div>
 </template>
@@ -329,7 +380,6 @@ export default {
         this.updataagree.orderCode = this.detail.orderCode;
         this.updatanoagree.orderCode = this.detail.orderCode;
 
-
         this.detail.userId = this.content.id;
         this.updata1.originOrderStatus = this.detail.orderStatus;
         orderCenterService.getOrderDetail1(this.detail, (res) => {
@@ -478,5 +528,11 @@ export default {
 
 .box-card {
   margin-top: 30px;
+}
+main {
+  padding: 0;
+}
+.el-main {
+  padding: 0;
 }
 </style>
