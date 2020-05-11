@@ -39,6 +39,15 @@
             <i class="iconfont icon-dianpu"></i>
             <span slot="title">店铺管理</span>
           </el-menu-item>
+          <el-submenu  index="/cang">
+            <template slot="title" >
+              <i  class="iconfont icon-dianpu" ></i>
+             <span slot="title" >仓库管理</span>
+            </template>
+            <el-menu-item index="/cang">仓库</el-menu-item>
+            <el-menu-item index="/rucang">商品入库</el-menu-item>
+            <el-menu-item index="/hf-orderCenter">历史记录</el-menu-item>
+          </el-submenu>
           <el-menu-item index="/hf-userCenter">
             <i class="iconfont icon-icon-safe-bluefuben"></i>
             <span slot="title">用户中心</span>
@@ -250,4 +259,5 @@ export default {
 .el-dropdown-link {
   cursor: pointer;
 }
+
 </style>
