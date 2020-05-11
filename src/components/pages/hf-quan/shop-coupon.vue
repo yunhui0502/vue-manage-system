@@ -1,9 +1,7 @@
 <template>
   <div>
-    <el-tabs v-model="activeName" @tab-click="handleClick">
-      <el-tab-pane label="平台优惠券" name="first">
         <el-card class="search-card">
-          <hfsearch @parentByClick="childClick" :options="options" labeltype="优惠券类型" labelName="优惠名称"></hfsearch>
+          <hfsearch @parentByClick="childClick" :options="options" labeltype="所在店铺" labelName="优惠名称"></hfsearch>
         </el-card>
 
         <el-card class="box-card">
@@ -85,11 +83,6 @@
             :page-size="pagesize"
           ></el-pagination>
         </el-card>
-      </el-tab-pane>
-      <el-tab-pane label="店铺优惠券" name="second">
-        <shopCoupon></shopCoupon>
-      </el-tab-pane>
-    </el-tabs>
 
     <el-drawer size="55%" title="添加优惠券" :visible.sync="drawer" :direction="direction">
       <el-form
@@ -103,6 +96,11 @@
       >
         <el-form-item label="名称" prop="discountCouponName">
           <el-input v-model="formquan.discountCouponName" style="width:230px;" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="所属店铺">
+          <el-select v-model="formquan.stoneId" placeholder="请选择">
+            <el-option v-for="item in options" :key="item.id" :label="item.hfName" :value="item.id"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="优惠类型" prop="discountCouponType">
           <el-radio v-model="radio" label="0" @change="zhe">折扣</el-radio>
@@ -312,9 +310,9 @@ import constants from '@/store/constants.js';
 // eslint-disable-next-line no-unused-vars
 // import ListPicture from './list-picture';
 import hfsearch from '../hf-eventsManage/hf-search';
-import shopCoupon from './shop-coupon';
+import storeService from '@/service/store.js';
 export default {
-  components: { hfsearch, shopCoupon },
+  components: { hfsearch},
   data() {
     return {
       activeName: 'second',
@@ -330,14 +328,10 @@ export default {
       scopedata: [],
       radio1: '1',
       options: [
-        {
-          id: '0',
-          hfName: '折扣',
-        },
-        {
-          id: '1',
-          hfName: '满减',
-        },
+        // {
+        //   id: '0',
+        //   label: '店铺名',
+        // },
       ],
       value: '',
       direction: 'rtl',
@@ -612,7 +606,6 @@ export default {
           this.formquan1.useLimit = JSON.stringify(this.formquan1.useLimit);
           // this.formquan1.startTime = this.formatDate(this.formquan1.startTime);
           // this.formquan1.stopTime = this.formatDate(this.formquan1.stopTime);
-          console.log(this.formquan1);
           quan.bianCoupon(this.formquan1, (res) => {
             console.log(res);
             console.log(this.formquan1);
@@ -651,6 +644,12 @@ export default {
       }
       // console.log(this.formquan.superposition);
     },
+    getStore: function() {
+      storeService.getStore(this.bossid, (res) => {
+        console.log(res);
+        this.options = res.data.data;
+      });
+    },
     getScope: function() {
       quan.getScope(this.editid, (res) => {
         console.log(res);
@@ -658,7 +657,9 @@ export default {
       });
     },
     getlist: function() {
-      quan.getlist(this.editid, (res) => {
+      console.log(this.options);
+      let stoneId = 1;
+      quan.getliststoneId(stoneId, (res) => {
         console.log(res);
         for (var i = 0; i < res.data.data.length; i++) {
           res.data.data[i].useLimit = JSON.parse(res.data.data[i].useLimit);
@@ -679,6 +680,7 @@ export default {
 
   // eslint-disable-next-line no-empty-function
   mounted() {
+    this.getStore();
     this.getScope();
     this.getlist();
   },
