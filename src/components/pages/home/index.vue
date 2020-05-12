@@ -19,6 +19,10 @@
             <i class="iconfont icon-shouye"></i>
             <span slot="title">首页</span>
           </el-menu-item>
+             <el-menu-item index="hf-statistics">
+            <i class="iconfont icon-shouye"></i>
+            <span slot="title">数据统计</span>
+          </el-menu-item>
           <el-menu-item index="/hf-product">
             <i class="iconfont icon-tongji"></i>
             <span slot="title">商品管理</span>
