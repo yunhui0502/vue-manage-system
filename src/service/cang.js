@@ -19,6 +19,25 @@ async function findkulist(handleResult) {
 async function rucang(params, handleResult) {
   cang.rucang(params).then((res) => handleResult(res));
 }
+async function findcang(params, handleResult) {
+  cang.findcang(params).then((res) => handleResult(res));
+}
+async function chucang(params, handleResult) {
+  cang.chucang(params).then((res) => handleResult(res));
+}
+async function record(handleResult) {
+  cang.record().then((res) => handleResult(res));
+}
+async function dan(handleResult) {
+  cang.dan().then((res) => handleResult(res));
+}
+async function findRecord(params, handleResult) {
+  cang.findRecord(params).then((res) => handleResult(res));
+}
+async function findru(params, handleResult) {
+  cang.findru(params).then((res) => handleResult(res));
+}
+
 export default {
   addcang: addcang,
   checkcang: checkcang,
@@ -26,4 +45,10 @@ export default {
   editcang: editcang,
   findkulist: findkulist,
   rucang: rucang,
+  findcang: findcang,
+  chucang: chucang,
+  record: record,
+  dan: dan,
+  findRecord: findRecord,
+  findru: findru,
 };

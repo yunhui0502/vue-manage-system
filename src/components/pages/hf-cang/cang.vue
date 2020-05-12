@@ -184,7 +184,7 @@ export default {
   methods: {
     check: function(row) {
       this.$router.push({
-        path: '/check',
+        path: '/check?id=' + row.id,
       });
     },
     edit: function(row) {
