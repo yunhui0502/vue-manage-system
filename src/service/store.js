@@ -49,6 +49,9 @@ async function selectStoneBalance(params, handleResult) {
 async function selectBalanceDetail(params, handleResult) {
   store.selectBalanceDetail(params).then((res) => handleResult(res));
 }
+async function getStonePicture(params, handleResult) {
+  store.getStonePicture(params).then((res) => handleResult(res));
+}
 export default {
   addStore: addStore,
   getStore: getStore,
@@ -66,4 +69,5 @@ export default {
   updatagood: updatagood,
   selectStoneBalance: selectStoneBalance,
   selectBalanceDetail: selectBalanceDetail,
+  getStonePicture: getStonePicture,
 };
