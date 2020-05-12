@@ -87,7 +87,7 @@
     </el-card>
 
     <el-dialog
-      title="提示"
+      title="添加物品"
       :visible.sync="drawer"
       width="60%"
       height="100%"
@@ -109,7 +109,7 @@
     </el-dialog>
 
     <!-- 抽屉组件 -->
-    <el-drawer title="我是标题" :visible.sync="introduce" direction="rtl" :before-close="handleClose">
+    <el-dialog title="添加图片" :visible.sync="introduce" direction="rtl" :before-close="handleClose">
       <div>
         <div>添加详情介绍图</div>
         <div>
@@ -128,7 +128,7 @@
           </el-upload>
         </div>
       </div>
-    </el-drawer>
+    </el-dialog>
   </div>
 </template>
 
@@ -209,6 +209,9 @@ export default {
         ],
         categoryId: [
           { required: true, message: '请选择类目名称', trigger: 'change' },
+        ],
+        productDesc: [
+          { required: true, message: '请输入商品名称', trigger: 'blur' },
         ],
       },
     };

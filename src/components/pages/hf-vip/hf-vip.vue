@@ -2,7 +2,7 @@
   <div>
     <el-tabs type="border-card">
       <el-tab-pane label="会员列表">
-        <div style="overflow:hidden;margin-right:130px;margin-bottom:30px;">
+        <div style="overflow:hidden;margin-right:130px;">
           <el-button type="primary" style="float:right;" @click="draweradd = true">添加会员</el-button>
         </div>
         <el-table :data="manage" stripe style="width: 100%">
@@ -43,21 +43,6 @@
             <div style="overflow:hidden;margin-bottom:30px;float:right;">
               <el-button type="primary" @click="desdrawer=true">添加特权</el-button>
             </div>
-<<<<<<< HEAD
-          <el-table :data="miaodata" stripe style="">
-            <el-table-column type="index" align="center" label="序号"></el-table-column>
-            <el-table-column prop="prerogative" align="center" label="特权名称"></el-table-column>
-            <el-table-column prop="levelDescribe" align="center" label="特权描述"></el-table-column>
-            <el-table-column prop="startTime" align="center" width="180" label="开始时间"></el-table-column>
-            <el-table-column prop="expireTime" align="center" width="180" label="结束时间"></el-table-column>
-            <el-table-column prop="levelDescribe" align="center" label="状态">
-              <template slot-scope="scope">
-                <span v-if="scope.row.prerogativeState==-1">不生效</span>
-                <span v-if="scope.row.prerogativeState==1">生效</span>
-              </template>
-            </el-table-column>
-          </el-table>
-=======
             <el-table :data="miaodata" stripe style>
               <el-table-column type="index" align="center" label="序号"></el-table-column>
               <el-table-column prop="prerogative" align="center" label="特权名称"></el-table-column>
@@ -76,7 +61,6 @@
               </template>
               </el-table-column>-->
             </el-table>
->>>>>>> a842fb992582b9707cee1f05902f36ad3312ccfd
           </div>
         </div>
       </el-tab-pane>
