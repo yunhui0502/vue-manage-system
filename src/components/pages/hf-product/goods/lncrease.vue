@@ -223,7 +223,7 @@ export default {
         goodsDesc: '', // 商品描述
         requestId: '123123123', // 请求id, 发起请求的随机数, 用来判断请求是否重
         token: '11238', // 登录成功后返回的token
-        userId: '12', // 用户id
+        userId: '', // 用户id
         fileInfo1: [],
       },
       // 顶部表单验证
@@ -297,6 +297,8 @@ export default {
           this.increase.productId = this.commodityId;
           this.increase.goodName = this.productName + ':' + Name;
           this.increase.stoneId = this.stoneId;
+          let userId = JSON.parse(window.sessionStorage.userInfor);
+          this.increase.userId = userId.id;
           console.log(this.commodityId);
           console.log(this.increase);
           serviceGoods.addProduct(this.increase, (res) => {

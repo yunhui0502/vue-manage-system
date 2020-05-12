@@ -6,7 +6,7 @@
            <!-- 左区块1区 -->
            <div class="hb-1-1">
                <div class="hb-1-title">
-                   <!-- <span class="hb-1-text">预警提醒</span> -->
+                   <span class="hb-1-text">预警提醒</span>
                </div>
                <div class="hb-1-contents">
                    <ul class="hb-1-content">
@@ -440,7 +440,7 @@ ul li {
 }
 .header-first-money {
     display:block;
-    width: 162px;
+    width: 100%;
     line-height: 18px;
     font-size: 18px;
     color: #fff;

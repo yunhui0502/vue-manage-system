@@ -369,7 +369,7 @@ export default {
           (res) => {
             console.log('获取当前', res.data.data);
             this.productInfo.productName = res.data.data.productName;
-            this.productInfo.id = res.data.data.id + '';
+            this.productInfo.id = this.commodityId + '';
             // this.productInfo.stoneName = res.data.data.stoneName;
             this.productInfo.categoryId = res.data.data.categoryId;
             this.productInfo.name = res.data.data.productName;

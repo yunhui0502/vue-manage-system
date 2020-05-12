@@ -5,7 +5,8 @@
       <el-input v-model="inquire.goodsName" placeholder="请输入物品名称"></el-input>
     </el-form-item>
     <el-form-item v-if="labelName!=='活动名称'" :label="labeltype">
-       <el-select v-model="inquire.productCategoryName" placeholder="请选择">
+       <el-input v-if="labeltype=='手机号'" v-model="inquire.productCategoryName" placeholder="请输入物品名称"></el-input>
+       <el-select v-if="labeltype!=='手机号'" v-model="inquire.productCategoryName" placeholder="请选择">
             <el-option
               v-for="item in options"
               :key="item.id"
@@ -24,9 +25,10 @@
 <script>
 import serviceProduct from '@/service/product.js';
 import serviceEvents from '@/service/eventsManage.js';
+import userCenterService from '@/service/userCenter.js';
 import quan from '@/service/quan.js';
 export default {
-  props: ['labelName', 'labelType', 'options', 'labeltype'],
+  props: ['labelName', 'labelType', 'options', 'labeltype', 'identify'],
   data() {
     return {
       addLoading: false,
@@ -115,6 +117,7 @@ export default {
           console.log(res);
         });
       }
+
       if (this.labelName === '优惠名称') {
         console.log('优惠名称');
         serviceProduct.selectDiscountCoupon(this.inquire, (res) => {
@@ -133,6 +136,33 @@ export default {
         });
 
       }
+
+      if (this.labelName === '姓名') {
+        this.consumer();
+      }
+    },
+    consumer () {
+      let params = {
+        bossId: 1,
+        phone: this.inquire.productCategoryName,
+        name: this.inquire.goodsName,
+      };
+      if (this.identify === 'identify') {
+        console.log(1);
+        userCenterService.checkUsers(params, (res) => {
+          // console.log(res.data.data.list);
+          let tableData = res.data.data.list;
+          this.$emit('parentByClick', tableData);
+        });
+      }
+      if (this.identify !== 'identify') {
+        console.log(2);
+        userCenterService.checkAdmins(params, (res) => {
+          let tableData = res.data.data;
+          this.$emit('parentByClick', tableData);
+        });
+      }
+
     },
   },
 };
