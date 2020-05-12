@@ -1,7 +1,7 @@
 <template>
   <div style="background:#F0F1F6;padding-top:1px;">
         <el-card class="search-card"  style="margin-top:23px;">
-          <el-form
+            <el-form
         style="padding-top:20px"
         :model="inquire"
         label-width="100px"
@@ -56,18 +56,15 @@
               <el-table-column align="center" label="序号" type="index" :index="indexMethod"></el-table-column>
               <el-table-column align="center" prop="goodName" label="物品名称"></el-table-column>
               <el-table-column align="center" prop="goodDesc" label="物品描述" show-overflow-tooltip></el-table-column>
-              <el-table-column align="center" prop="quantity" label="入库数量"></el-table-column>
+              <el-table-column align="center" prop="quantity" label="出库数量"></el-table-column>
               <el-table-column align="center" prop="category" label="物品类目"></el-table-column>
-              <el-table-column align="center"  label="类型">
-                <template slot-scope="scope">
-                  <span>{{scope.row.typeName}}</span><span style="color:red;margin-left:2px;">{{scope.row.type=='1'?'*':''}}</span>
-                </template>
+              <el-table-column align="center" prop="warehouseName" label="所属仓库">
               </el-table-column>
               <el-table-column align="center" prop="time" label="创建时间" width="150"></el-table-column>
               <el-table-column align="center" prop="name" label="操作人" width="150"></el-table-column>
               <el-table-column fixed="right" label="操作" width="100">
                 <template slot-scope="scope">
-                  <el-button class="a6a" @click="rucang(scope.row)" type="text" size="small">入库</el-button>
+                  <el-button class="a6a" @click="chucang(scope.row)" type="text" size="small">出库</el-button>
                   <el-button class="a6a" @click="editProduct(scope.row)" type="text" size="small">拒绝入库</el-button>
                   <!-- <el-button class="ff3" @click="deleteProduct(scope.row)" type="text" size="small">删除</el-button> -->
                 </template>
@@ -75,7 +72,7 @@
             </el-table>
             <div class="block">
               <el-pagination
-                style="float:right;"
+               style="float:right;"
                 background
                 layout="prev, pager, next"
                 @current-change="handleCurrentChange"
@@ -84,14 +81,14 @@
             </div>
           </div>
         </el-card>
- <el-dialog title="物品入库" width="30%" style="height:400px;"  :visible.sync="dialogFormVisible1">
+ <el-dialog title="物品出库" width="30%" style="height:400px;"  :visible.sync="dialogFormVisible1">
   <el-form :model="form1"
          :rules="rules"
         ref="ruleForm1"
           label-width="100px"
         class="demo-ruleForm">
 
-    <el-form-item label="入库至" prop="warehouseId">
+    <el-form-item label="出库至" prop="warehouseId">
       <el-select @change="selectmethod" v-model="form1.warehouseId" placeholder="请选择仓库">
         <el-option :key="item.hfName" v-for="item in  canglist" :label="item.hfName" :value="item.hfName"></el-option>
         <!-- <el-option label="区域二" value="beijing"></el-option> -->
@@ -127,9 +124,13 @@ export default {
       inquire: {
         categoryName: '',
         goodName: '',
-        dataType: 1,
+        dataType: 0,
       },
-      content: {},
+      id: '',
+      content: {
+        categoryName: '',
+        goodName: '',
+      },
       boss: {
         bossId: 1,
       },
@@ -159,9 +160,6 @@ export default {
       Batch: [],
       canglist: [],
     };
-  },
-  created() {
-    this.setProducts();
   },
   methods: {
     sou: function() {
@@ -217,17 +215,24 @@ export default {
         console.log(this.canglist);
       });
     },
-    rucang: function(row) {
-      this.form.productId = row.productId;
-      this.form.goodId = row.goodId;
-      this.form.quantity = row.quantity;
-      this.form.typeWho = row.type;
-      this.form.bossId = row.bossId;
-      this.form.stoneId = row.stoneId;
-      this.form.id = row.id;
-      this.dialogFormVisible1 = true;
-    //   cang.getProductListBoss((res) => {
-    //   });
+    chucang: function(row) {
+      row.userId = this.content.id;
+      console.log(row);
+      cang.chucang(row, (res) => {
+        if (res.data.status === constants.SUCCESS_CODE) {
+          this.$message({
+            message: '出库成功',
+            type: 'success',
+          });
+          this.dialogFormVisible1 = false;
+          this.setProducts();
+        } else {
+          this.$message({
+            message: '出库失败',
+            type: 'error',
+          });
+        }
+      });
     },
     toggleSelection() {
       this.amount = '0';
@@ -240,7 +245,7 @@ export default {
     },
     setProducts() {
       this.loading = true;
-      cang.findkulist((res) => {
+      cang.dan((res) => {
         console.log(res);
         this.tableData = res.data.data;
         console.log(this.tableData);
@@ -298,6 +303,8 @@ export default {
     this.checkcang();
     var content = window.sessionStorage.getItem('userInfor');
     this.content = JSON.parse(content);
+    this.id = this.$route.query.id;
+    this.setProducts();
     console.log(this.content);
   },
 };

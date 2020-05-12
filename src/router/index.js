@@ -21,6 +21,11 @@ const router = new VueRouter({
     path: '/',
     component: (resolve) => require(['@/components/pages/home'], resolve),
     children: [{
+      path: '/dan',
+      name: 'dan',
+      component: (resolve) => require(['@/components/pages/hf-cang/dan'], resolve),
+    },
+    {
       path: '/rucang',
       name: 'rucang',
       component: (resolve) => require(['@/components/pages/hf-cang/rucang'], resolve),
@@ -34,6 +39,11 @@ const router = new VueRouter({
       path: '/cang',
       name: 'cang',
       component: (resolve) => require(['@/components/pages/hf-cang/cang'], resolve),
+    },
+    {
+      path: '/record',
+      name: 'record',
+      component: (resolve) => require(['@/components/pages/hf-cang/record'], resolve),
     },
 
     {
