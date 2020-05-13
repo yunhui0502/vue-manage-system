@@ -4,7 +4,7 @@
       <div slot="header" class="clearfix">
         <span>店铺列表</span>
       </div>
-      <hfsearch labeltype="店铺状态" labelName="店铺名称"></hfsearch>
+      <hfsearch @parentByClick="childClick" :options="optionsStatus" labeltype="店铺状态" labelName="店铺名称"></hfsearch>
     </el-card>
 
     <el-card class="box-card">
@@ -280,6 +280,16 @@ export default {
   components: { hfsearch },
   data() {
     return {
+      optionsStatus: [
+        {
+          id: '0',
+          hfName: '未营业',
+        },
+        {
+          id: '1',
+          hfName: '营业',
+        },
+      ],
       fileList: [], // 图片
       currentPage: 1, // 初始页
       pagesize: 6, // 每页的数据
@@ -380,6 +390,9 @@ export default {
     };
   },
   methods: {
+    childClick(tableData) {
+      this.storeData = tableData;
+    },
     imgUpload(file) {
       let fileName = file.name;
       let regex = /(.jpg|.jpeg|.gif|.png|.bmp)$/;
@@ -595,7 +608,7 @@ export default {
       });
     },
     getStore: function() {
-      storeService.getStore(this.bossid, (res) => {
+      storeService.getStore({bossid: this.bossid}, (res) => {
         console.log(res);
         this.storeData = res.data.data;
         this.storeId = this.storeData[0].id;

@@ -7,7 +7,7 @@
           <img style="width: 54px;height: 54px;vertical-align: middle;margin-left: 20px;" :src="avatarUrl" alt="">
           <span style="margin-left: 20px;"> 店铺名称:{{storeinfor.stoneName}}</span>
           <span style="margin-left: 20px;" v-if="storeinfor.hfStatus=== 0">店铺状态:营业</span>
-          <span style="margin-left: 20px;" v-if="storeinfor.hfStatus === 1">店铺状态:<txt style="color:#A6A3FB;">未营业</txt></span>
+          <span style="margin-left: 20px;" v-if="storeinfor.hfStatus === 1">店铺状态:<text style="color:#A6A3FB;">未营业</text></span>
           <span style="margin-left: 20px;">店铺描述:{{storeinfor.stoneDesc}}</span>
           <span style="margin-left: 20px;">店铺地址:{{storeinfor.address}}</span>
           <!-- <span style="margin-left: 20px;">{{storeinfor.hfDesc}}</span>
@@ -273,11 +273,11 @@
       </el-tab-pane>
     </el-tabs>
 
-    <el-dialog title="店铺商品" :visible.sync="add">
+    <el-dialog center title="店铺商品" :visible.sync="add">
       <el-table
         @selection-change="handleSelectionChange"
         :data="tableData"
-        border
+        stripe
         style="width: 100%"
         highlight-current-row
         ref="multipleTable"
@@ -540,7 +540,7 @@ export default {
       });
     },
     getStoreRole: function() {
-      storeService.getStoreRole(this.storeId, (res) => {
+      storeService.getStoreRole(this.stoneId, (res) => {
         console.log(res);
         this.StoreRole = res.data.data;
       });

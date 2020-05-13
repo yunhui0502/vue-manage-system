@@ -1,6 +1,19 @@
 /* eslint-disable indent */
 /* eslint-disable require-jsdoc */
 import Axios from 'axios';
+// http request拦截器 添加一个请求拦截器
+Axios.interceptors.request.use(function (config) {
+    // Do something before request is sent
+    var content = window.sessionStorage.getItem('userInfor');
+    let token = JSON.parse(content);
+    if (token) {
+        config.headers.userId = token.id; // 将token放到请求头发送给服务器
+        return config;
+    }
+}, function (error) {
+    // Do something with request error
+    return Promise.reject(error);
+});
 // =============================================商品模块
 // 获取商品列表
 function getProductsByBossId(bossId) {

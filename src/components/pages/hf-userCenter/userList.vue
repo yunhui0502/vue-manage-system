@@ -84,7 +84,13 @@
             stripe
             style="width: 100%"
           >
-            <el-table-column prop="nickName" label="姓名" width="180" align="center"></el-table-column>
+              <el-table-column
+      type="index"
+      label="序号"
+      >
+    </el-table-column>
+            <el-table-column prop="nickName" label="微信名称" width="180" align="center"></el-table-column>
+            <el-table-column prop="realName" label="真实名称" width="180" align="center"></el-table-column>
             <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
             <!-- <el-table-column prop="phone" label="邮箱" align="center"></el-table-column> -->
             <el-table-column prop="invitationCode" label="邀请码" align="center"></el-table-column>

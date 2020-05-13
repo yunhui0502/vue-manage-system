@@ -1,70 +1,86 @@
 <template>
   <div>
-    <el-tabs type="border-card">
-      <el-tab-pane label="会员列表">
-        <div style="overflow:hidden;margin-right:130px;">
-          <el-button type="primary" style="float:right;" @click="draweradd = true">添加会员</el-button>
-        </div>
-        <el-table :data="manage" stripe style="width: 100%">
-          <el-table-column prop="name" align="center" label="会员名"></el-table-column>
-          <el-table-column prop="phone" align="center" label="手机号"></el-table-column>
-          <el-table-column prop="levelName" align="center" label="会员等级"></el-table-column>
-          <el-table-column align="center" label="操作">
-            <template slot-scope="scope">
-              <el-button type="text" @click="deletevip(scope.row)">删除</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-      </el-tab-pane>
-      <el-tab-pane label="特权管理">
-        <div style="display:flex; ">
-          <div style="width:40%;">
-            <div style="overflow:hidden;margin-bottom:30px;float:right;">
-              <el-button type="primary" @click="drawer=true">添加等级</el-button>
+    <el-card class="box-card">
+      <el-tabs>
+        <el-tab-pane label="会员列表">
+          <el-card class="search-card">
+            <hfsearch
+              @parentByClick="childClick"
+              :options="options"
+              labeltype="手机号"
+              labelName="会员名"
+            ></hfsearch>
+          </el-card>
+
+          <el-card class="box-card">
+            <div style="overflow:hidden;margin-right:130px;">
+              <el-button type="primary" style="float:right;" @click="draweradd = true">添加会员</el-button>
             </div>
-            <el-table :data="levellist" stripe style @row-click="finddesnum">
-              <el-table-column prop="levelName" align="center" label="等级名称"></el-table-column>
-              <!-- <el-table-column prop="levelName" align="center" label="等级排序"></el-table-column> -->
-              <el-table-column prop="levelDescribe" align="center" label="等级描述"></el-table-column>
+            <el-table :data="manage" stripe style="width: 100%">
+              <el-table-column prop="name" align="center" label="会员名"></el-table-column>
+              <el-table-column prop="phone" align="center" label="手机号"></el-table-column>
+              <el-table-column prop="levelName" align="center" label="会员等级"></el-table-column>
               <el-table-column align="center" label="操作">
                 <template slot-scope="scope">
-                  <!-- <el-button type="text" @click="addmiao(scope.row)">添加等级描述</el-button> -->
-                  <el-button
-                    @click="editlevel(scope.row)"
-                    type="text"
-                    size="small"
-                    align="center"
-                  >修改</el-button>
+                  <el-button type="text" @click="deletevip(scope.row)">删除</el-button>
                 </template>
               </el-table-column>
             </el-table>
-          </div>
-          <div style="margin-left:20px;">
-            <div style="overflow:hidden;margin-bottom:30px;float:right;">
-              <el-button type="primary" @click="desdrawer=true">添加特权</el-button>
+          </el-card>
+        </el-tab-pane>
+
+        <el-tab-pane label="特权管理">
+
+          <div style="display:flex; ">
+            <div style="width:40%;">
+              <div style="overflow:hidden;margin-bottom:30px;float:right;">
+                <el-button type="primary" @click="drawer=true">添加等级</el-button>
+              </div>
+              <el-table :data="levellist" stripe style @row-click="finddesnum">
+                <el-table-column prop="levelName" align="center" label="等级名称"></el-table-column>
+                <!-- <el-table-column prop="levelName" align="center" label="等级排序"></el-table-column> -->
+                <el-table-column prop="levelDescribe" align="center" label="等级描述"></el-table-column>
+                <el-table-column align="center" label="操作">
+                  <template slot-scope="scope">
+                    <!-- <el-button type="text" @click="addmiao(scope.row)">添加等级描述</el-button> -->
+                    <el-button
+                      @click="editlevel(scope.row)"
+                      type="text"
+                      size="small"
+                      align="center"
+                    >修改</el-button>
+                  </template>
+                </el-table-column>
+              </el-table>
             </div>
-            <el-table :data="miaodata" stripe style>
-              <el-table-column type="index" align="center" label="序号"></el-table-column>
-              <el-table-column prop="prerogative" align="center" label="特权名称"></el-table-column>
-              <el-table-column prop="levelDescribe" align="center" label="特权描述"></el-table-column>
-              <el-table-column prop="startTime" align="center" width="180" label="开始时间"></el-table-column>
-              <el-table-column prop="expireTime" align="center" width="180" label="结束时间"></el-table-column>
-              <el-table-column prop="levelDescribe" align="center" label="状态">
-                <template slot-scope="scope">
-                  <span v-if="scope.row.prerogativeState==-1">不生效</span>
-                  <span v-if="scope.row.prerogativeState==1">生效</span>
-                </template>
-              </el-table-column>
-              <!-- <el-table-column align="center" label="操作">
+            <div style="margin-left:20px;">
+              <div style="overflow:hidden;margin-bottom:30px;float:right;">
+                <el-button type="primary" @click="desdrawer=true">添加特权</el-button>
+              </div>
+              <el-table :data="miaodata" stripe style>
+                <el-table-column type="index" align="center" label="序号"></el-table-column>
+                <el-table-column prop="prerogative" align="center" label="特权名称"></el-table-column>
+                <el-table-column prop="levelDescribe" align="center" label="特权描述"></el-table-column>
+                <el-table-column prop="startTime" align="center" width="180" label="开始时间"></el-table-column>
+                <el-table-column prop="expireTime" align="center" width="180" label="结束时间"></el-table-column>
+                <el-table-column prop="levelDescribe" align="center" label="状态">
+                  <template slot-scope="scope">
+                    <span v-if="scope.row.prerogativeState==-1">不生效</span>
+                    <span v-if="scope.row.prerogativeState==1">生效</span>
+                  </template>
+                </el-table-column>
+                <!-- <el-table-column align="center" label="操作">
               <template slot-scope="scope">
                 <el-button type="text" @click="deletevip(scope.row)">删除</el-button>
               </template>
-              </el-table-column>-->
-            </el-table>
+                </el-table-column>-->
+              </el-table>
+            </div>
           </div>
-        </div>
-      </el-tab-pane>
-    </el-tabs>
+        </el-tab-pane>
+      </el-tabs>
+    </el-card>
+
     <el-drawer size="70%" title="添加特权" :visible.sync="desdrawer" :direction="direction">
       <el-form
         :model="ruleForm3"
@@ -133,7 +149,6 @@
     </el-drawer>
 
     <el-drawer size="50%" title="添加会员" :visible.sync="draweradd" :direction="rtl">
-
       <el-table
         :data="userData"
         stripe
@@ -147,7 +162,7 @@
         <el-table-column align="center" prop="realName" label="用户名"></el-table-column>
         <el-table-column align="center" prop="phone" label="手机号"></el-table-column>
       </el-table>
-         <el-form
+      <el-form
         :model="ruleForm1"
         status-icon
         :rules="rules1"
@@ -186,7 +201,7 @@
           <el-input style="width:300px;" v-model="ruleForm2.levelDescribe" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" style="background:#A3A0FB;"  @click="submitForm2('ruleForm2')">提交</el-button>
+          <el-button type="primary" style="background:#A3A0FB;" @click="submitForm2('ruleForm2')">提交</el-button>
         </el-form-item>
       </el-form>
     </el-drawer>
@@ -197,19 +212,25 @@
 import userCenterService from '@/service/userCenter.js';
 import constants from '@/store/constants.js';
 import vip from '@/service/vip.js';
+import hfsearch from '../hf-eventsManage/hf-search';
 export default {
+  components: { hfsearch },
   data() {
     return {
-      options: [{
-        value: '1',
-        label: '一级',
-      }, {
-        value: '2',
-        label: '二级',
-      }, {
-        value: '3',
-        label: '三级',
-      }],
+      options: [
+        {
+          value: '1',
+          label: '一级',
+        },
+        {
+          value: '2',
+          label: '二级',
+        },
+        {
+          value: '3',
+          label: '三级',
+        },
+      ],
       miaodata: [],
       desdrawer: false,
       rtl: 'rtl',
@@ -597,7 +618,14 @@ export default {
 };
 </script>
 <style >
-.el-button--primary.is-plain.sub2{color: #4194f6;background: none;border-color: #4194f6;}
-.el-button--primary.is-plain.sub2:active {background: #3a8ee6;border-color: #3a8ee6;color: #FFF;}
-
+.el-button--primary.is-plain.sub2 {
+  color: #4194f6;
+  background: none;
+  border-color: #4194f6;
+}
+.el-button--primary.is-plain.sub2:active {
+  background: #3a8ee6;
+  border-color: #3a8ee6;
+  color: #fff;
+}
 </style>

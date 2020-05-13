@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import storeService from '@/service/store.js';
 import serviceProduct from '@/service/product.js';
 import serviceEvents from '@/service/eventsManage.js';
 import userCenterService from '@/service/userCenter.js';
@@ -118,6 +119,26 @@ export default {
         });
       }
 
+      this.judgment();
+
+      if (this.labelName === '姓名') {
+        this.consumer();
+      }
+
+      if (this.labelName === '店铺名称') {
+        let params = {
+          bossId: 1,
+          stoneType: this.inquire.productCategoryName,
+          stoneName: this.inquire.goodsName,
+        };
+        storeService.getStore(params, (res) => {
+          let tableData = res.data.data;
+          this.$emit('parentByClick', tableData);
+          console.log(res);
+        });
+      }
+    },
+    judgment() {
       if (this.labelName === '优惠名称') {
         console.log('优惠名称');
         serviceProduct.selectDiscountCoupon(this.inquire, (res) => {
@@ -135,10 +156,6 @@ export default {
           console.log(res);
         });
 
-      }
-
-      if (this.labelName === '姓名') {
-        this.consumer();
       }
     },
     consumer () {

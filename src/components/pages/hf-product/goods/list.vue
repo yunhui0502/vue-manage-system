@@ -92,8 +92,14 @@
           </el-table-column>
           <el-table-column prop="sellPrice" label="售卖价格">
             <template slot-scope="scope">
-              <el-input v-show="show" placeholder="请输入内容" v-model="scope.row.sellPrice"></el-input>
+             <el-input v-show="show" placeholder="请输入内容" v-model="scope.row.sellPrice"></el-input>
               <span v-show="!show">{{scope.row.sellPrice}}</span>
+            </template>
+          </el-table-column>
+            <el-table-column label="划线价格" prop="linePrice">
+            <template slot-scope="scope">
+              <el-input v-show="show" placeholder="请输入内容" v-model="scope.row.linePrice"></el-input>
+              <span v-show="!show">{{scope.row.linePrice}}</span>
             </template>
           </el-table-column>
           <el-table-column fixed="right" width="100" label="操作">

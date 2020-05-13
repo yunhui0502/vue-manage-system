@@ -12,7 +12,6 @@ export default {
   getUser () {
     // 获取用户信息
     const jsonStr = window.sessionStorage.getItem(KEY) || '{}';
-    // 可能没有数据  返回的null  通过null.token报错 但是{}.token 值 undefined
     return JSON.parse(jsonStr);
   },
   delUser () {

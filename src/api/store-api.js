@@ -11,8 +11,18 @@ function addStore(params) {
   fd.append('address', params.address);
   return Axios.post('/api/api/product/stone/addStone', fd);
 }
-function getStore(bossId) {
-  return Axios.get('/api/api/product/stone/byBossId?bossId=' + bossId);
+function getStore(param) {
+  console.log(param);
+  let params = {
+    bossId: 1,
+  };
+  if (param.stoneType !== '') {
+    params.stoneType = param.stoneType;
+  }
+  if (param.stoneName !== '') {
+    params.stoneName = param.stoneName;
+  }
+  return Axios.get('/api/api/product/stone/byBossId', {params});
 }
 function getStoreid(id) {
   return Axios.get('/api/api/product/stone/selectById?id=' + id);
