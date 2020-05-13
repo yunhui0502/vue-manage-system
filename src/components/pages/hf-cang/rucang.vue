@@ -1,3 +1,4 @@
+/* eslint-disable vue/no-parsing-error */
 <template>
   <div style="background:#F0F1F6;padding-top:1px;">
         <el-card class="search-card"  style="margin-top:23px;">

@@ -60,12 +60,47 @@
       <el-tab-pane class="a6a" label="类目管理" name="category">
         <category></category>
       </el-tab-pane>
+       <el-tab-pane class="a6a" label="物品审批" name="shen">
+           <el-table
+              :data="shendata"
+              v-loading="loading"
+              stripe
+              style="width: 100%"
+              highlight-current-row
+              ref="multipleTable"
+              @selection-change="handleSelectionChange"
+            >
+              <el-table-column type="selection" width="50"></el-table-column>
+              <el-table-column align="center" label="序号" type="index" :index="indexMethod"></el-table-column>
+              <el-table-column align="center" prop="goodName" label="物品名称"></el-table-column>
+              <el-table-column align="center" prop="goodDesc" label="物品描述" show-overflow-tooltip></el-table-column>
+              <el-table-column align="center" prop="quantity" label="出库数量"></el-table-column>
+              <el-table-column align="center" prop="category" label="物品类目"></el-table-column>
+              <el-table-column align="center" prop="warehouseName" label="所属仓库">
+              </el-table-column>
+              <el-table-column align="center" label="审批状态" width="150">
+                 <template slot-scope="scope">
+                  <span>{{scope.row.status==2?'未审批':'审批'}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" prop="time" label="创建时间" width="150"></el-table-column>
+              <el-table-column align="center" prop="name" label="操作人" width="150"></el-table-column>
+              <el-table-column fixed="right" label="操作" width="100">
+                <template slot-scope="scope">
+                  <el-button class="a6a" @click="chucang(scope.row)" type="text" size="small">审批</el-button>
+                  <el-button class="a6a" @click="editProduct(scope.row)" type="text" size="small">拒绝</el-button>
+                  <!-- <el-button class="ff3" @click="deleteProduct(scope.row)" type="text" size="small">删除</el-button> -->
+                </template>
+              </el-table-column>
+            </el-table>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script>
 import serviceProduct from '@/service/product.js';
+import cang from '@/service/cang.js';
 import category from '../hf-product/category';
 import Search from './search';
 
@@ -76,6 +111,10 @@ export default {
   },
   data() {
     return {
+      boss: {
+        bossId: 1,
+      },
+      shendata: [],
       amount: '0',
       indexMethod: 1,
       activeName: 'goods',
@@ -88,8 +127,16 @@ export default {
   },
   created() {
     this.setProducts();
+    this.shenlist();
   },
   methods: {
+    shenlist: function() {
+      cang.shenlist(this.boss, (res) => {
+        console.log('1', res);
+        this.shendata = res.data.data;
+        this.loading = false;
+      });
+    },
     toggleSelection() {
       this.amount = '0';
       this.$refs.multipleTable.clearSelection();

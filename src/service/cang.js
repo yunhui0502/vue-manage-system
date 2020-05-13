@@ -37,6 +37,25 @@ async function findRecord(params, handleResult) {
 async function findru(params, handleResult) {
   cang.findru(params).then((res) => handleResult(res));
 }
+async function checkgood(params, handleResult) {
+  cang.checkgood(params).then((res) => handleResult(res));
+}
+async function subapply(params, handleResult) {
+  cang.subapply(params).then((res) => handleResult(res));
+}
+
+async function findkulistone(id, handleResult) {
+  cang.findkulistone(id).then((res) => handleResult(res));
+}
+async function danone(id, handleResult) {
+  cang.danone(id).then((res) => handleResult(res));
+}
+async function recordone(id, handleResult) {
+  cang.recordone(id).then((res) => handleResult(res));
+}
+async function shenlist(params, handleResult) {
+  cang.shenlist(params).then((res) => handleResult(res));
+}
 
 export default {
   addcang: addcang,
@@ -51,4 +70,10 @@ export default {
   dan: dan,
   findRecord: findRecord,
   findru: findru,
+  checkgood: checkgood,
+  subapply: subapply,
+  findkulistone: findkulistone,
+  danone: danone,
+  recordone: recordone,
+  shenlist: shenlist,
 };

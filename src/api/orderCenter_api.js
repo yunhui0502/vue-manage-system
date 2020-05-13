@@ -45,10 +45,11 @@ function getWuLiu(params) {
   return Axios.get('/api/api/order/query/logistics?orderId=' + params.id + '&stoneId=' + params.stoneId);
 }
 function sousuo(params) {
-  // console.log(params);
+  console.log(params);
   return Axios.get('/api/api/order/hf-order/query?orderCode=' + params.orderCode +
-  '&orderStatus=' + params.orderStatus + '&orderType=' + params.orderType + '&startTime=' + params.startTime + '&endTime=' + params.endTime + '&startTime=' + params.startTime + '&paymentName=' + params.paymentName);
+  '&orderStatus=' + params.orderStatus + '&orderType=' + params.orderType + '&stateTime=' + params.startTime + '&endTime=' + params.endTime + '&paymentName=' + params.paymentName);
 }
+
 export default {
   checkStatus: checkStatus,
   checkOrder: checkOrder,
