@@ -47,7 +47,7 @@
         </el-row>
 
         <el-row :gutter="20">
-          <el-col :span="8">
+          <el-col :span="16">
             <el-form-item label="下单时间" prop="startTime">
                  <el-date-picker
                    @change="uptime1"
@@ -291,6 +291,7 @@ export default {
     sousuo: function() {
       this.sousuoinfor.orderCode = this.sousuoinfor1.orderCode;
       console.log('1', this.type.orderStatus);
+      this.sousuoinfor.orderType = this.type.orderType;
       this.sousuoinfor.orderStatus = this.type.orderStatus ;
       console.log(this.sousuoinfor);
       if (this.sousuoinfortab !== '') {

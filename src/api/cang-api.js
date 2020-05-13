@@ -58,9 +58,10 @@ function rucang(params) {
 
 function findcang(id) {
   console.log(id);
-  return Axios.get('/api/api/product/wareHouse/findGoodsByWarsehouse?wareHouseId=' + id);
+  return Axios.get('/api/api/product/wareHouse/findGoodsByWarsehouse?warehouseId=' + id);
 
 }
+
 
 function chucang(params) {
   let fd = new FormData();
@@ -98,6 +99,42 @@ function findru(params) {
   // return Axios.get('/api/api/product/wareHouse/findWarsehouseRecord?goodName=' + params.goodName + '&type=' + params.type + '&warehouseId=' + params.wareHouseId);
   return Axios.get('/api/api/product/wareHouse/findGoodsWarsehouse?categoryName=' + params.categoryName + '&dataType=' + params.dataType + '&goodName=' + params.goodName);
 }
+function checkgood(params) {
+  console.log(params);
+  // eslint-disable-next-line max-len
+  // return Axios.get('/api/api/product/wareHouse/findWarsehouseRecord?goodName=' + params.goodName + '&type=' + params.type + '&warehouseId=' + params.wareHouseId);
+  return Axios.get('/api/api/product/wareHouse/findBossGoods?bossId=' + params.bossId);
+}
+function subapply(params) {
+  let fd = new FormData();
+  console.log(params);
+  fd.append('bossId', params.bossId);
+  fd.append('goodId', params.goodId);
+  fd.append('productId', params.productId);
+  fd.append('quantity', params.quantity);
+  fd.append('userId', params.userId);
+  fd.append('warehouseId', params.warehouseId);
+
+  return Axios.post('/api/api/product/wareHouse/applyGoodsWarsehouse', fd);
+}
+function findkulistone(id) {
+  console.log('1', id);
+  return Axios.get('/api/api/product/wareHouse/findGoodsWarsehouse?dataType=1&warehouseId=' + id);
+
+}
+function danone(id) {
+
+  return Axios.get('/api/api/product/wareHouse/findGoodsWarsehouse?dataType=0&warehouseId=' + id);
+
+}
+function recordone(id) {
+  return Axios.get('/api/api/product/wareHouse/findWarsehouseRecord?warehouseId=' + id);
+
+}
+function shenlist(params) {
+  return Axios.get('/api/api/product/wareHouse/findApplyforWarehouse?bossId=' + params.bossId);
+
+}
 
 export default {
   addcang: addcang,
@@ -112,5 +149,11 @@ export default {
   dan: dan,
   findRecord: findRecord,
   findru: findru,
+  checkgood: checkgood,
+  subapply: subapply,
+  findkulistone: findkulistone,
+  danone: danone,
+  recordone: recordone,
+  shenlist: shenlist,
 };
 
