@@ -17,6 +17,10 @@ function getStore(bossId) {
 function getStoreid(id) {
   return Axios.get('/api/api/product/stone/selectById?id=' + id);
 }
+// 获取店铺图片
+function getStonePicture(storeId) {
+  return Axios.get('/api/api/product/stone/getStonePicture?type=avatar&stoneId=' + storeId);
+}
 function addPerson(params) {
   console.log(params);
   let fd = new FormData();
@@ -115,4 +119,5 @@ export default {
   addStonePicture: addStonePicture,
   selectStoneBalance: selectStoneBalance,
   selectBalanceDetail: selectBalanceDetail,
+  getStonePicture: getStonePicture,
 };

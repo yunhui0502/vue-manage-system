@@ -307,6 +307,8 @@ export default {
     // 修改仓库
     warehouse(scope) {
       console.log(scope);
+      // eslint-disable-next-line no-magic-numbers
+      scope.row.sellPrice = scope.row.sellPrice * 100;
       serviceGoods.updateGood(scope.row, (res) => {
         this.Display = false;
       });

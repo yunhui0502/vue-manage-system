@@ -4,9 +4,10 @@
       <div slot="header" class="clearfix">
         <span>店铺基本信息</span>
         <div style="margin-top:10px;">
-          <span>店铺名称:{{storeinfor.stoneName}}</span>
+          <img style="width: 54px;height: 54px;vertical-align: middle;margin-left: 20px;" :src="avatarUrl" alt="">
+          <span style="margin-left: 20px;"> 店铺名称:{{storeinfor.stoneName}}</span>
           <span style="margin-left: 20px;" v-if="storeinfor.hfStatus=== 0">店铺状态:营业</span>
-          <span style="margin-left: 20px;" v-if="storeinfor.hfStatus === 1">店铺状态:未营业</span>
+          <span style="margin-left: 20px;" v-if="storeinfor.hfStatus === 1">店铺状态:<txt style="color:#A6A3FB;">未营业</txt></span>
           <span style="margin-left: 20px;">店铺描述:{{storeinfor.stoneDesc}}</span>
           <span style="margin-left: 20px;">店铺地址:{{storeinfor.address}}</span>
           <!-- <span style="margin-left: 20px;">{{storeinfor.hfDesc}}</span>
@@ -295,11 +296,28 @@
       </span>
     </el-dialog>
 
-    <el-drawer :visible.sync="drawer" direction="btt" :before-close="handleClose" size="60%">
+ <el-dialog
+      title="添加物品"
+      :visible.sync="drawer"
+      width="60%"
+      height="100%"
+      center
+      :before-close="handleClose"
+    >
+      <GoodsLncrease
+       ref="mychild"
+       :productName="productName" :commodityId="productid" :stoneId="stoneId"
+      ></GoodsLncrease>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="drawer = false">取 消</el-button>
+        <el-button type="primary" @click="appendGoods">保 存</el-button>
+      </span>
+    </el-dialog>
+    <!-- <el-drawer :visible.sync="drawer" direction="btt" :before-close="handleClose" size="60%">
       <div>
         <GoodsLncrease :productName="productName" :commodityId="productid" :stoneId="stoneId"></GoodsLncrease>
       </div>
-    </el-drawer>
+    </el-drawer> -->
   </div>
 </template>
 <script>
@@ -311,11 +329,13 @@ import storeService from '@/service/store.js';
 import constants from '@/store/constants.js';
 import serviceProduct from '@/service/product.js';
 import userCenterService from '@/service/userCenter.js';
+import serviceGoods from '@/service/goods.js';
 export default {
   name: 'store',
   components: { GoodsLncrease},
   data() {
     return {
+      avatarUrl: '',
       persondata: {
         stoneId: '',
         ids: [],
@@ -405,6 +425,10 @@ export default {
     };
   },
   methods: {
+    // 触发子组件方法
+    appendGoods() {
+      this.$refs.mychild.SubmitGoods('formName');
+    },
     // -----------------------------------------------------------------------------------------------------
     checkPerson: function() {
       console.log(this.$route.query.id);
@@ -529,6 +553,17 @@ export default {
       this.params.stoneId = this.$route.query.id;
       console.log(this.params);
       this.Detailed();
+    },
+    // 获取店铺头像
+    getStonePicture: function() {
+      storeService.getStonePicture(this.$route.query.id, (res) => {
+        console.log('店铺头像', res);
+        // this.StoreRole = res.data.data;
+        serviceGoods.getFileFileId(res.data.data[0].id, (res) => {
+          console.log(res);
+          this.avatarUrl = res.config.url;
+        });
+      });
     },
     Detailed() {
       this.params.stoneId = this.$route.query.id;
@@ -725,6 +760,7 @@ export default {
     this.Detailed();
     this.checkUser();
     this.checkPerson();
+    this.getStonePicture();
   },
 };
 </script>

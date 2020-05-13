@@ -65,7 +65,6 @@
         </el-col>
         <el-col :span="16">
           <el-table :header-cell-style="styleObj" :data="specificationData" stripe>
-            <el-table-column type="selection"></el-table-column>
             <el-table-column label="规格名称">
               <template slot-scope="scope">
                 <el-input placeholder="请输入内容" v-model="scope.row.hfName"></el-input>
@@ -231,9 +230,12 @@ export default {
         wareHouseId: [
           { required: true, message: '请选择仓库', trigger: 'change' },
         ],
-        sellPrice: [{ validator: checkAge, trigger: 'blur' }],
-        linePrice: [{ validator: checkAge, trigger: 'blur' }],
-        quantity: [{ validator: checkAge, trigger: 'blur' }],
+        sellPrice: [{ validator: checkAge, trigger: 'blur' },
+          { required: true, message: '请输入', trigger: 'change' }],
+        linePrice: [{ validator: checkAge, trigger: 'blur' },
+          { required: true, message: '请输入', trigger: 'change' }],
+        quantity: [{ validator: checkAge, trigger: 'blur' },
+          { required: true, message: '请输入', trigger: 'change' }],
       },
     };
   },

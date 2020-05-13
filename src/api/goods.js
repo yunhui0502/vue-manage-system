@@ -67,7 +67,9 @@ function setPrice (params) {
 // 编辑物品
 function updateGood (params) {
   let fd = new FormData();
-  fd.append('brandName', params.brandName);
+  if (params.brandName !== null) {
+    fd.append('brandName', params.brandName);
+  }
   fd.append('goodName', params.goodsName);
   fd.append('goodsDesc', params.goodsDesc);
   fd.append('sellPrice', params.sellPrice);
