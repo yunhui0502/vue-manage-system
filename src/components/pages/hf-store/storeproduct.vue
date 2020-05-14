@@ -4,10 +4,17 @@
       <div slot="header" class="clearfix">
         <span>店铺基本信息</span>
         <div style="margin-top:10px;">
-          <img style="width: 54px;height: 54px;vertical-align: middle;margin-left: 20px;" :src="avatarUrl" alt="">
-          <span style="margin-left: 20px;"> 店铺名称:{{storeinfor.stoneName}}</span>
+          <img
+            style="width: 54px;height: 54px;vertical-align: middle;margin-left: 20px;"
+            :src="avatarUrl"
+            alt
+          />
+          <span style="margin-left: 20px;">店铺名称:{{storeinfor.stoneName}}</span>
           <span style="margin-left: 20px;" v-if="storeinfor.hfStatus=== 0">店铺状态:营业</span>
-          <span style="margin-left: 20px;" v-if="storeinfor.hfStatus === 1">店铺状态:<text style="color:#A6A3FB;">未营业</text></span>
+          <span style="margin-left: 20px;" v-if="storeinfor.hfStatus === 1">
+            店铺状态:
+            <text style="color:#A6A3FB;">未营业</text>
+          </span>
           <span style="margin-left: 20px;">店铺描述:{{storeinfor.stoneDesc}}</span>
           <span style="margin-left: 20px;">店铺地址:{{storeinfor.address}}</span>
           <!-- <span style="margin-left: 20px;">{{storeinfor.hfDesc}}</span>
@@ -194,86 +201,94 @@
           <el-table-column prop="createTime" label="日期" width="180"></el-table-column>
           <el-table-column prop="actualPrice" label="金额" width="180"></el-table-column>
           <el-table-column prop="chargeOffType" label="类型" width="180">
-             <template slot-scope="scope">{{ scope.row.chargeOffType=='order'?'订单':''}}</template>
+            <template slot-scope="scope">{{ scope.row.chargeOffType=='order'?'订单':''}}</template>
           </el-table-column>
         </el-table>
       </el-tab-pane>
 
       <el-tab-pane label="店铺成员" name="member">
-         <el-button
-      type="primary"
-      style="float: right;margin-bottom:10px;"
-      @click="dialogVisible = true"
-    >添加店铺成员</el-button>
-    <el-table :data="Person" stripe style="width: 100%">
-      <el-table-column align="center" prop="userId" label="用户id"></el-table-column>
-      <el-table-column align="center" prop="userName" label="姓名"></el-table-column>
-      <el-table-column align="center" prop="realName" label="昵称"></el-table-column>
-      <el-table-column align="center" prop="storeRoleName" label="角色"></el-table-column>
-      <el-table-column label="是否参与核销" align="center">
-        <template slot-scope="scope">
-          <div v-if="scope.row.isCancel===1">是</div>
-          <div v-if="scope.row.isCancel===0">否</div>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" prop="userPhone" label="手机号"></el-table-column>
-      <el-table-column align="center" prop="hfDesc" label="操作">
-        <template slot-scope="scope">
-          <el-button
-            type="text"
-            size="small"
-            align="center"
-            @click="checkPersonDetail(scope.row)"
-          >查看</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <!-- 添加店铺成员弹窗 -->
-    <el-dialog :visible.sync="dialogVisible">
-      <el-table
-        :data="userData"
-        stripe
-        style="width: 100%"
-        @selection-change="handleSelectionChange"
-        ref="table"
-        @row-click="currentChange"
-      >
-        <el-table-column type="selection" align="center" label="选择" width="50"></el-table-column>
-        <el-table-column align="center" prop="nickName" label="用户名"></el-table-column>
-        <el-table-column align="center" prop="phone" label="手机号"></el-table-column>
-      </el-table>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="submit">确 定</el-button>
-      </span>
-    </el-dialog>
+        <el-button
+          type="primary"
+          style="float: right;margin-bottom:10px;"
+          @click="dialogVisible = true"
+        >添加店铺成员</el-button>
+        <el-table :data="Person" stripe style="width: 100%">
+          <el-table-column align="center" prop="userId" label="用户id"></el-table-column>
+          <el-table-column align="center" prop="userName" label="姓名"></el-table-column>
+          <el-table-column align="center" prop="realName" label="昵称"></el-table-column>
+          <el-table-column align="center" prop="storeRoleName" label="角色"></el-table-column>
+          <el-table-column label="是否参与核销" align="center">
+            <template slot-scope="scope">
+              <div v-if="scope.row.isCancel===1">是</div>
+              <div v-if="scope.row.isCancel===0">否</div>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" prop="userPhone" label="手机号"></el-table-column>
+          <el-table-column align="center" prop="hfDesc" label="操作">
+            <template slot-scope="scope">
+              <el-button
+                type="text"
+                size="small"
+                align="center"
+                @click="checkPersonDetail(scope.row)"
+              >查看</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <!-- 添加店铺成员弹窗 -->
+        <el-dialog :visible.sync="dialogVisible">
+          <el-table
+            :data="userData"
+            stripe
+            style="width: 100%"
+            @selection-change="handleSelectionChange"
+            ref="table"
+            @row-click="currentChange"
+          >
+            <el-table-column type="selection" align="center" label="选择" width="50"></el-table-column>
+            <el-table-column align="center" prop="nickName" label="用户名"></el-table-column>
+            <el-table-column align="center" prop="phone" label="手机号"></el-table-column>
+          </el-table>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="dialogVisible = false">取 消</el-button>
+            <el-button type="primary" @click="submit">确 定</el-button>
+          </span>
+        </el-dialog>
 
-    <el-drawer :visible.sync="draweruser" :with-header="false">
-      <template>
-        <div style="margin-top:100px;margin-left:30px;">
-          <div>
-            <span style="font-size:13px;margin-right:12px;">是否参与核销</span>
-            <el-radio v-model="radio" label="0" @change="changestatus">否</el-radio>
-            <el-radio v-model="radio" label="1" @change="changestatus">是</el-radio>
-          </div>
-          <div style="margin-top:40px;">
-            <span style="font-size:13px;">设置成员角色：</span>
-            <el-select v-model="value" placeholder="请选择" @change="roleval">
-              <el-option
-                v-for="item in StoreRole"
-                :key="item.roleName"
-                :label="item.roleName"
-                :value="item.roleName"
-              ></el-option>
-            </el-select>
-          </div>
-        </div>
-      </template>
-    </el-drawer>
+        <el-drawer :visible.sync="draweruser" :with-header="false">
+          <template>
+            <div style="margin-top:100px;margin-left:30px;">
+              <div>
+                <span style="font-size:13px;margin-right:12px;">是否参与核销</span>
+                <el-radio v-model="radio" label="0" @change="changestatus">否</el-radio>
+                <el-radio v-model="radio" label="1" @change="changestatus">是</el-radio>
+              </div>
+              <div style="margin-top:40px;">
+                <span style="font-size:13px;">设置成员角色：</span>
+                <el-select v-model="value" placeholder="请选择" @change="roleval">
+                  <el-option
+                    v-for="item in StoreRole"
+                    :key="item.roleName"
+                    :label="item.roleName"
+                    :value="item.roleName"
+                  ></el-option>
+                </el-select>
+              </div>
+            </div>
+          </template>
+        </el-drawer>
       </el-tab-pane>
     </el-tabs>
 
     <el-dialog center title="店铺商品" :visible.sync="add">
+      <el-select v-model="warehouseId" @change="warehouse" placeholder="请选择">
+        <el-option
+        v-for="item in options"
+        :key="item.hfName"
+        :label="item.hfName"
+        :value="item.id"></el-option>
+      </el-select>
+
       <el-table
         @selection-change="handleSelectionChange"
         :data="tableData"
@@ -282,21 +297,30 @@
         highlight-current-row
         ref="multipleTable"
       >
-        <el-table-column type="selection" align="center" label="选择" width="50"></el-table-column>
-        <el-table-column type="index" label="序号" width="50" align="center"></el-table-column>
-        <el-table-column prop="productName" label="商品名称" align="center"></el-table-column>
-        <el-table-column prop="productDesc" label="商品描述" align="center"></el-table-column>
-        <el-table-column prop="categoryName" label="所属类目名称" align="center"></el-table-column>
-        <el-table-column prop="createTime" label="创建时间" align="center"></el-table-column>
-        <el-table-column prop="lastModifier" label="最近一次操作人" align="center"></el-table-column>
+        <el-table-column align="center" label="序号" type="index" ></el-table-column>
+        <el-table-column align="center" prop="goodName" label="物品名称"></el-table-column>
+        <el-table-column align="center" prop="goodDesc" label="物品描述" show-overflow-tooltip></el-table-column>
+        <el-table-column align="center" prop="quantity" label="物品数量"></el-table-column>
+        <el-table-column align="center" prop="category" label="物品类目"></el-table-column>
+        <el-table-column align="center" prop="category" label="申请数量">
+          <template slot-scope="scope">
+            <el-input placeholder="请输入" :min="1" type="number" v-model.number="scope.row.count"></el-input>
+          </template>
+        </el-table-column>
+        <!-- <el-table-column prop="lastModifier" label="最近一次操作人" align="center"></el-table-column> -->
+         <el-table-column fixed="right" label="操作" width="100">
+          <template slot-scope="scope">
+            <el-button class="a6a" @click="submit(scope.row)" type="primary" size="small">提交</el-button>
+          </template>
+        </el-table-column>
       </el-table>
-      <span slot="footer" class="dialog-footer">
+      <!-- <span slot="footer" class="dialog-footer">
         <el-button @click="add = false">关闭</el-button>
         <el-button type="primary" @click="submit()">确 定</el-button>
-      </span>
+      </span> -->
     </el-dialog>
 
- <el-dialog
+    <el-dialog
       title="添加物品"
       :visible.sync="drawer"
       width="60%"
@@ -305,8 +329,10 @@
       :before-close="handleClose"
     >
       <GoodsLncrease
-       ref="mychild"
-       :productName="productName" :commodityId="productid" :stoneId="stoneId"
+        ref="mychild"
+        :productName="productName"
+        :commodityId="productid"
+        :stoneId="stoneId"
       ></GoodsLncrease>
       <span slot="footer" class="dialog-footer">
         <el-button @click="drawer = false">取 消</el-button>
@@ -317,7 +343,7 @@
       <div>
         <GoodsLncrease :productName="productName" :commodityId="productid" :stoneId="stoneId"></GoodsLncrease>
       </div>
-    </el-drawer> -->
+    </el-drawer>-->
   </div>
 </template>
 <script>
@@ -330,11 +356,16 @@ import constants from '@/store/constants.js';
 import serviceProduct from '@/service/product.js';
 import userCenterService from '@/service/userCenter.js';
 import serviceGoods from '@/service/goods.js';
+import cang from '@/service/cang.js';
 export default {
   name: 'store',
-  components: { GoodsLncrease},
+  components: { GoodsLncrease },
   data() {
     return {
+      applys: {},
+      warehouseId: '',
+      options: [],
+
       avatarUrl: '',
       persondata: {
         stoneId: '',
@@ -358,34 +389,38 @@ export default {
         userId: '',
       },
       pickerOptions: {
-        shortcuts: [{
-          text: '最近一周',
-          onClick(picker) {
-            const end = new Date();
-            const start = new Date();
-            // eslint-disable-next-line no-magic-numbers
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-            picker.$emit('pick', [start, end]);
+        shortcuts: [
+          {
+            text: '最近一周',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              // eslint-disable-next-line no-magic-numbers
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit('pick', [start, end]);
+            },
           },
-        }, {
-          text: '最近一个月',
-          onClick(picker) {
-            const end = new Date();
-            const start = new Date();
-            // eslint-disable-next-line no-magic-numbers
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-            picker.$emit('pick', [start, end]);
+          {
+            text: '最近一个月',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              // eslint-disable-next-line no-magic-numbers
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              picker.$emit('pick', [start, end]);
+            },
           },
-        }, {
-          text: '最近三个月',
-          onClick(picker) {
-            const end = new Date();
-            const start = new Date();
-            // eslint-disable-next-line no-magic-numbers
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-            picker.$emit('pick', [start, end]);
+          {
+            text: '最近三个月',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              // eslint-disable-next-line no-magic-numbers
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              picker.$emit('pick', [start, end]);
+            },
           },
-        }],
+        ],
       },
       value2: '',
       params: {
@@ -425,6 +460,25 @@ export default {
     };
   },
   methods: {
+    checkcang: function() {
+      // console.log(this.boss);
+      let boss = 1;
+      cang.checkcang({bossId: boss}, (res) => {
+        console.log('仓库', res.data.data);
+        this.options = res.data.data;
+        this.warehouseId = res.data.data[0].id;
+        console.log(this.options[0].id);
+        this.warehouse();
+      });
+    },
+    warehouse() {
+      console.log('仓库ID', this.warehouseId);
+      cang.findGoodsByWarsehouse(this.warehouseId, (res) => {
+        console.log('仓库物品', res.data.data);
+        this.tableData = res.data.data;
+        // console.log(this.options);
+      });
+    },
     // 触发子组件方法
     appendGoods() {
       this.$refs.mychild.SubmitGoods('formName');
@@ -446,7 +500,7 @@ export default {
       } else {
         this.radio = '1';
       }
-      this.roledata.storeId = this.storeId;
+      this.roledata.storeId = this.stoneId;
       this.cancle.userId = row.userId;
       this.draweruser = true;
       this.getStoreRole();
@@ -467,26 +521,36 @@ export default {
       // this.persondata.personid = row.id;
       this.$refs.table.toggleRowSelection(row);
     },
-    submit: function() {
-      console.log(this.selectDdata);
-      if (this.selectDdata.length > 0) {
-        for (var i = 0; i < this.selectDdata.length; i++) {
-          this.persondata.ids.push(this.selectDdata[i].id);
-        }
+    submit: function(row) {
+      console.log(row);
+      this.applys = row;
+      if (!row.count) {
+        this.$message({
+          message: '请填写申请数量',
+          type: 'error',
+        });
+        return false;
       }
-      console.log(this.persondata);
-      this.persondata.stoneId = this.$route.query.id;
-      storeService.addPerson(this.persondata, (res) => {
-        // console.log(res);
+      this.applys.userId = this.content.id;
+      this.applys.warehouseId = this.warehouseId;
+      this.applys.stoneId = this.stoneId;
+      cang.stoneApplyGood(this.applys, (res) => {
+        console.log(res);
         if (res.data.status === constants.SUCCESS_CODE) {
-          this.$message({
-            message: '添加成功',
-            type: 'success',
-          });
-          this.dialogVisible = false;
+          if (res.data.data === 0) {
+            this.$message({
+              message: '数量不足',
+              type: 'error',
+            });
+          } else {
+            this.$message({
+              message: '申请成功',
+              type: 'success',
+            });
+          }
         } else {
           this.$message({
-            message: '添加失败',
+            message: '申请失败',
             type: 'error',
           });
         }
@@ -546,7 +610,7 @@ export default {
       });
     },
     // -----------------------------------------------------------------------------------------------------
-    Screening () {
+    Screening() {
       console.log(this.value2);
       this.params.stateTime = this.value2[0];
       this.params.endTime = this.value2[1];
@@ -691,6 +755,7 @@ export default {
         query: {
           stoneId: stoneId,
           stoneName: this.storeinfor.hfName,
+          action: 'store',
         },
       });
     },
@@ -761,6 +826,7 @@ export default {
     this.checkUser();
     this.checkPerson();
     this.getStonePicture();
+    this.checkcang();
   },
 };
 </script>

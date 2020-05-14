@@ -142,6 +142,14 @@ function updatespec(params) {
     fd.append('specUnit', params.specUnit);
     return Axios.post('/api/api/product/product/updatespec', fd);
 }
+// 商家是否同意仓库申请物品
+function bossAgreeApply(params) {
+    let fd = new FormData();
+    fd.append('applyId', params.applyId);
+    fd.append('type', params.type);
+    return Axios.post('/api/api/product/wareHouse/bossAgreeApply', fd);
+}
+
 export default {
     getProductsByBossId: getProductsByBossId,
     ceateProduct: ceateProduct,
@@ -162,4 +170,5 @@ export default {
     deletedPictrue: deletedPictrue,
     selectDiscountCoupon: selectDiscountCoupon,
     // eslint-disable-next-line eol-last
+    bossAgreeApply: bossAgreeApply,
 };

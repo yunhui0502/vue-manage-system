@@ -74,6 +74,7 @@
               <el-table-column align="center" label="序号" type="index" :index="indexMethod"></el-table-column>
               <el-table-column align="center" prop="goodName" label="物品名称"></el-table-column>
               <el-table-column align="center" prop="goodDesc" label="物品描述" show-overflow-tooltip></el-table-column>
+              <el-table-column align="center" prop="total" label="总数数量"></el-table-column>
               <el-table-column align="center" prop="quantity" label="出库数量"></el-table-column>
               <el-table-column align="center" prop="category" label="物品类目"></el-table-column>
               <el-table-column align="center" prop="warehouseName" label="所属仓库">
@@ -87,13 +88,13 @@
               <el-table-column align="center" prop="name" label="操作人" width="150"></el-table-column>
               <el-table-column fixed="right" label="操作" width="100">
                 <template slot-scope="scope">
-                  <el-button class="a6a" @click="chucang(scope.row)" type="text" size="small">审批</el-button>
-                  <el-button class="a6a" @click="editProduct(scope.row)" type="text" size="small">拒绝</el-button>
-                  <!-- <el-button class="ff3" @click="deleteProduct(scope.row)" type="text" size="small">删除</el-button> -->
+                  <el-button v-if="scope.row.status==2" class="a6a" @click="chucang(scope.row)" type="text" size="small">审批</el-button>
+                  <el-button v-if="scope.row.status==2" class="a6a" @click="refuse(scope.row)" type="text" size="small">拒绝</el-button>
+                  <el-button v-if="scope.row.status!==2" class="ff3" type="text" size="small">已审批</el-button>
                 </template>
               </el-table-column>
             </el-table>
-      </el-tab-pane>
+      </el-tab-pane>v-
     </el-tabs>
   </div>
 </template>
@@ -111,6 +112,10 @@ export default {
   },
   data() {
     return {
+      Param: {
+        applyId: '',
+        type: '',
+      },
       boss: {
         bossId: 1,
       },
@@ -130,6 +135,68 @@ export default {
     this.shenlist();
   },
   methods: {
+    chucang (row) {
+      console.log(row);
+
+      this.$confirm('是否同意此申请?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }).then(() => {
+        this.Param.type = 1;
+        this.Param.applyId = row.id;
+        serviceProduct.bossAgreeApply(this.Param, (res) => {
+
+          console.log(res);
+          if (res.data.data === 0) {
+            this.$message({
+              showClose: true,
+              message: '数量不足',
+              type: 'error',
+            });
+          } else {
+            this.$message({
+              message: '已同意',
+              type: 'success',
+            });
+          }
+          this.shenlist();
+        });
+      })
+        // eslint-disable-next-line no-unexpected-multiline
+        ['catch'](() => {
+          this.$message({
+            type: 'info',
+            message: '已取消',
+          });
+        });
+    },
+    refuse (row) {
+      console.log(row);
+
+      this.$confirm('是否拒绝此申请?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }).then(() => {
+        this.Param.type = 2;
+        this.Param.applyId = row.id;
+        serviceProduct.bossAgreeApply(this.Param, (res) => {
+          this.$message({
+            message: '已拒绝',
+            type: 'warning',
+          });
+          this.shenlist();
+        });
+      })
+        // eslint-disable-next-line no-unexpected-multiline
+        ['catch'](() => {
+          this.$message({
+            type: 'info',
+            message: '已取消',
+          });
+        });
+    },
     shenlist: function() {
       cang.shenlist(this.boss, (res) => {
         console.log('1', res);

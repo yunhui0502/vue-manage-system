@@ -56,7 +56,18 @@ async function recordone(id, handleResult) {
 async function shenlist(params, handleResult) {
   cang.shenlist(params).then((res) => handleResult(res));
 }
-
+async function findGoodsByWarsehouse(id, handleResult) {
+  cang.findGoodsByWarsehouse(id).then((res) => handleResult(res));
+}
+async function stoneApplyGood(params, handleResult) {
+  cang.stoneApplyGood(params).then((res) => handleResult(res));
+}
+async function getProductListBoss(params, handleResult) {
+  cang.getProductListBoss(params).then((res) => handleResult(res));
+}
+async function rejectGoodOutWarsehouse(params, handleResult) {
+  cang.rejectGoodOutWarsehouse(params).then((res) => handleResult(res));
+}
 export default {
   addcang: addcang,
   checkcang: checkcang,
@@ -76,4 +87,8 @@ export default {
   danone: danone,
   recordone: recordone,
   shenlist: shenlist,
+  findGoodsByWarsehouse: findGoodsByWarsehouse,
+  stoneApplyGood: stoneApplyGood,
+  getProductListBoss: getProductListBoss,
+  rejectGoodOutWarsehouse: rejectGoodOutWarsehouse,
 };

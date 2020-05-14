@@ -26,7 +26,7 @@
               <el-button   @click="resetForm('ruleForms')">重置</el-button>
             </el-form-item>
           <!-- </el-col> -->
-        </el-row>
+        <!-- </el-row> -->
       </el-form>
         </el-card>
 

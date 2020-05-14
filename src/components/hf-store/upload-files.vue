@@ -23,9 +23,9 @@ export default {
       dialogVisible: false,
       picUrl: '',
       form: {
-        files: []
+        files: [],
       },
-    }
+    };
   },
   methods: {
     uploadAction() {
@@ -34,24 +34,28 @@ export default {
     uploadFile(file) {
       let fd = new FormData();
       fd.append('goodsId', this.goods.id);
-      fd.append("username", "dd");
-      fd.append("userId", 1);
-      fd.append("requestId", "dsaaa");
-      fd.append("token", 'sss');
-      fd.append("timestamp", 'dd');
+      fd.append('username', 'dd');
+      fd.append('userId', 1);
+      fd.append('requestId', 'dsaaa');
+      fd.append('token', 'sss');
+      fd.append('timestamp', 'dd');
       fd.append('fileInfo', file.raw);
+      // eslint-disable-next-line no-undef
       axios.post('api/goods/addPicture', fd, {
-        responseType: 'arraybuffer'
-      }).then(res => {
+        responseType: 'arraybuffer',
+      }).then((res) => {
         console.log(res);
       });
     },
     initGoodsFiles() {
       console.log(this.goods.id);
-      axios.get("/api/goods/pictures", {params: {goodsId: this.goods.id}}).then((response) => {
-        if (response.status == 200 && response.data.status == 200) {
+      // eslint-disable-next-line no-undef
+      axios.get('/api/goods/pictures', {params: {goodsId: this.goods.id}}).then((response) => {
+        // eslint-disable-next-line no-magic-numbers
+        if (response.status === 200 && response.data.status === 200) {
+          // eslint-disable-next-line no-unused-vars
           let fileIds = response.data.data;
-          // for (let fileId of fileIds) {            
+          // for (let fileId of fileIds) {
           //   axios.get("/api/goods/getFile", {params: {fileId:fileId.id}}).then(
           //     (response) => {
           //       console.log(response);
@@ -61,10 +65,10 @@ export default {
           //   );
           // }
         }
-      })
+      });
     },
     onRemove(file) {
-      console.log("remove:", file);
+      console.log('remove:', file);
     },
     imgPreview(file) {
       let fileName = file.name;
@@ -79,6 +83,6 @@ export default {
   },
   mounted() {
     this.initGoodsFiles();
-  }
-}
+  },
+};
 </script>

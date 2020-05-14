@@ -346,7 +346,9 @@ export default {
                   '/hf-product/detail?productId=' +
                   res.data.data.productId +
                   '&stoneId=' +
-                  this.$route.query.stoneId,
+                  this.$route.query.stoneId +
+                  '&action=' +
+                  this.$route.query.action,
               });
               location.reload();
             });

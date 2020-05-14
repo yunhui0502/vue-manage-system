@@ -77,7 +77,10 @@ async function deleteSelectProduct(productId, handleResult) {
 async function selectDiscountCoupon(params, handleResult) {
   product.selectDiscountCoupon(params).then((res) => handleResult(res));
 }
-
+// 商家是否同意仓库申请物品
+async function bossAgreeApply(params, handleResult) {
+  product.bossAgreeApply(params).then((res) => handleResult(res));
+}
 export default {
   getProductsByBossId: getProductsByBossId,
   deleteById: deleteById,
@@ -98,4 +101,5 @@ export default {
   deleteSelectProduct: deleteSelectProduct,
   deletedPictrue: deletedPictrue,
   selectDiscountCoupon: selectDiscountCoupon,
+  bossAgreeApply: bossAgreeApply,
 };

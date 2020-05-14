@@ -29,7 +29,7 @@
              :key="item.hfName"
               v-for="item in  canglist"
               :label="item.hfName"
-              :value="item.hfName"
+              :value="item.id"
             ></el-option>
           </el-select>
         </el-form-item>

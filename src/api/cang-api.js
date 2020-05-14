@@ -20,6 +20,11 @@ function checkcang(params) {
 
 }
 
+function findGoodsByWarsehouse(id) {
+  console.log(id);
+  return Axios.get('/api/api/product/wareHouse/findGoodsByWarsehouse?warehouseId=' + id);
+
+}
 
 function delcang(wareHouseId) {
   console.log(wareHouseId);
@@ -55,13 +60,36 @@ function rucang(params) {
   fd.append('inStorgeId ', params.id);
   return Axios.post('/api/api/product/wareHouse/goodInWarsehouse', fd);
 }
+function stoneApplyGood(params) {
+  let fd = new FormData();
+  console.log(params);
+  fd.append('stoneId', params.stoneId);
+  fd.append('goodId', params.goodId);
+  fd.append('productId', params.productId);
+  fd.append('quantity', params.count);
+  fd.append('userId', params.userId);
+  fd.append('warehouseId', params.warehouseId);
+  return Axios.post('/api/api/product/wareHouse/stoneApplyGood', fd);
+}
+// function findcang(id) {
+//   console.log(id);
+//   return Axios.get('/api/api/product/wareHouse/findGoodsByWarsehouse?warehouseId=' + id);
 
-function findcang(id) {
-  console.log(id);
-  return Axios.get('/api/api/product/wareHouse/findGoodsByWarsehouse?warehouseId=' + id);
+// }
+function findcang(param) {
+  console.log(param);
+  let params = {
+    warehouseId: param.id,
+  };
+  if (param.goodName !== '') {
+    params.goodName = param.goodName;
+  }
+  if (param.categoryName !== '') {
+    params.categoryName = param.categoryName;
+  }
+  return Axios.get('/api/api/product/wareHouse/findGoodsByWarsehouse', {params});
 
 }
-
 
 function chucang(params) {
   let fd = new FormData();
@@ -111,11 +139,24 @@ function subapply(params) {
   fd.append('bossId', params.bossId);
   fd.append('goodId', params.goodId);
   fd.append('productId', params.productId);
-  fd.append('quantity', params.quantity);
+  fd.append('quantity', params.count);
   fd.append('userId', params.userId);
   fd.append('warehouseId', params.warehouseId);
 
   return Axios.post('/api/api/product/wareHouse/applyGoodsWarsehouse', fd);
+}
+function getProductListBoss(params) {
+  let fd = new FormData();
+  console.log(params);
+  fd.append('userId', params.userId);
+  fd.append('outStorageId', params.id);
+  return Axios.post('/api/api/product/wareHouse/goodOutWarsehouse', fd);
+}
+function rejectGoodOutWarsehouse(params) {
+  let fd = new FormData();
+  console.log(params);
+  fd.append('outStorageId', params.id);
+  return Axios.post('/api/api/product/wareHouse/rejectGoodOutWarsehouse', fd);
 }
 function findkulistone(id) {
   console.log('1', id);
@@ -155,5 +196,9 @@ export default {
   danone: danone,
   recordone: recordone,
   shenlist: shenlist,
+  findGoodsByWarsehouse: findGoodsByWarsehouse,
+  stoneApplyGood: stoneApplyGood,
+  getProductListBoss: getProductListBoss,
+  rejectGoodOutWarsehouse: rejectGoodOutWarsehouse,
 };
 

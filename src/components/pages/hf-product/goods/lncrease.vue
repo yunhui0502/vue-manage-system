@@ -298,10 +298,13 @@ export default {
           // 添加物品
           this.increase.productId = this.commodityId;
           this.increase.goodName = this.productName + ':' + Name;
-          this.increase.stoneId = this.stoneId;
+          if (this.$route.query.action === 'store') {
+            this.increase.stoneId = this.$route.query.stoneId;
+          }
           let userId = JSON.parse(window.sessionStorage.userInfor);
           this.increase.userId = userId.id;
           console.log(this.commodityId);
+          console.log(this.$route.query);
           console.log(this.increase);
           serviceGoods.addProduct(this.increase, (res) => {
             console.log(res);

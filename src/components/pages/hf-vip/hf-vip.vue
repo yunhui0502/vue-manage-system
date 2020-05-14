@@ -53,7 +53,6 @@
                 </el-table-column>
               </el-table>
             </div>
-<<<<<<< HEAD
             <div style="margin-left:20px;">
               <div style="overflow:hidden;margin-bottom:30px;float:right;">
                 <el-button type="primary" @click="desdrawer=true">添加特权</el-button>
@@ -77,9 +76,8 @@
                 </el-table-column>-->
               </el-table>
             </div>
-=======
-<<<<<<< HEAD
-          <el-table :data="miaodata" stripe style="">
+
+          <!-- <el-table :data="miaodata" stripe style="">
             <el-table-column type="index" align="center" label="序号"></el-table-column>
             <el-table-column prop="prerogative" align="center" label="特权名称"></el-table-column>
             <el-table-column prop="levelDescribe" align="center" label="特权描述"></el-table-column>
@@ -91,29 +89,7 @@
                 <span v-if="scope.row.prerogativeState==1">生效</span>
               </template>
             </el-table-column>
-          </el-table>
-
-=======
-            <el-table :data="miaodata" stripe style>
-              <el-table-column type="index" align="center" label="序号"></el-table-column>
-              <el-table-column prop="prerogative" align="center" label="特权名称"></el-table-column>
-              <el-table-column prop="levelDescribe" align="center" label="特权描述"></el-table-column>
-              <el-table-column prop="startTime" align="center" width="180" label="开始时间"></el-table-column>
-              <el-table-column prop="expireTime" align="center" width="180" label="结束时间"></el-table-column>
-              <el-table-column prop="levelDescribe" align="center" label="状态">
-                <template slot-scope="scope">
-                  <span v-if="scope.row.prerogativeState==-1">不生效</span>
-                  <span v-if="scope.row.prerogativeState==1">生效</span>
-                </template>
-              </el-table-column>
-              <!-- <el-table-column align="center" label="操作">
-              <template slot-scope="scope">
-                <el-button type="text" @click="deletevip(scope.row)">删除</el-button>
-              </template>
-              </el-table-column>-->
-            </el-table>
->>>>>>> d98202108a77a0af148635db769c947b68d3daa6
->>>>>>> e2eb5fbd0f8e49d99e0fe387d39ee2b591a4d94f
+          </el-table> -->
           </div>
         </el-tab-pane>
       </el-tabs>
@@ -401,6 +377,9 @@ export default {
     };
   },
   methods: {
+    childClick(tableData) {
+      this.manage = tableData;
+    },
     getchang: function(val) {
       console.log(val);
       this.ruleForm1.levelName = val;
