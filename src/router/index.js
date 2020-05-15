@@ -57,6 +57,11 @@ const router = new VueRouter({
       component: (resolve) => require(['@/components/pages/hf-vip'], resolve),
     },
     {
+      path: '/hf-privilege',
+      name: 'hf-privilege',
+      component: (resolve) => require(['@/components/pages/hf-vip/hf-privilege.vue'], resolve),
+    },
+    {
       path: '/hf-quan',
       name: 'hf-quan',
       component: (resolve) => require(['@/components/pages/hf-quan'], resolve),

@@ -1,39 +1,33 @@
 <template>
   <div>
-    <el-card class="box-card">
-      <el-tabs>
-        <el-tab-pane label="会员列表">
-          <el-card class="search-card">
-            <hfsearch
-              @parentByClick="childClick"
-              :options="options"
-              labeltype="手机号"
-              labelName="会员名"
-            ></hfsearch>
-          </el-card>
+    <el-tabs>
+      <el-tab-pane label="会员列表">
+        <el-card class="search-card">
+          <hfsearch @parentByClick="childClick" :options="options" labeltype="手机号" labelName="会员名"></hfsearch>
+        </el-card>
 
-          <el-card class="box-card">
-            <div style="overflow:hidden;margin-right:130px;">
-              <el-button type="primary" style="float:right;" @click="draweradd = true">添加会员</el-button>
-            </div>
-            <el-table :data="manage" stripe style="width: 100%">
-              <el-table-column prop="name" align="center" label="会员名"></el-table-column>
-              <el-table-column prop="phone" align="center" label="手机号"></el-table-column>
-              <el-table-column prop="levelName" align="center" label="会员等级"></el-table-column>
-              <el-table-column align="center" label="操作">
-                <template slot-scope="scope">
-                  <el-button type="text" @click="deletevip(scope.row)">删除</el-button>
-                </template>
-              </el-table-column>
-            </el-table>
-          </el-card>
-        </el-tab-pane>
+        <el-card class="box-card">
+          <div style="margin-right:120px;">
+            <el-button type="primary" style="float:right;" @click="draweradd = true">添加会员</el-button>
+          </div>
+          <el-table :data="manage" stripe style="width: 100%">
+            <el-table-column prop="name" align="center" label="会员名"></el-table-column>
+            <el-table-column prop="phone" align="center" label="手机号"></el-table-column>
+            <el-table-column prop="levelName" align="center" label="会员等级"></el-table-column>
+            <el-table-column align="center" label="操作">
+              <template slot-scope="scope">
+                <el-button type="text" @click="deletevip(scope.row)">删除</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-card>
+      </el-tab-pane>
 
-        <el-tab-pane label="特权管理">
-
-          <div style="display:flex; ">
-            <div style="width:40%;">
-              <div style="overflow:hidden;margin-bottom:30px;float:right;">
+      <el-tab-pane label="特权管理">
+        <el-card class="box-card">
+          <div >
+            <div style="width:100%;">
+              <div style="overflow:hidden;margin-bottom:30px;margin-right:120px;float:right;">
                 <el-button type="primary" @click="drawer=true">添加等级</el-button>
               </div>
               <el-table :data="levellist" stripe style @row-click="finddesnum">
@@ -49,11 +43,17 @@
                       size="small"
                       align="center"
                     >修改</el-button>
+                     <el-button
+                      @click="privilege(scope.row)"
+                      type="text"
+                      size="small"
+                      align="center"
+                    >查看</el-button>
                   </template>
                 </el-table-column>
               </el-table>
             </div>
-            <div style="margin-left:20px;">
+            <!-- <div style="margin-left:20px;">
               <div style="overflow:hidden;margin-bottom:30px;float:right;">
                 <el-button type="primary" @click="desdrawer=true">添加特权</el-button>
               </div>
@@ -69,33 +69,19 @@
                     <span v-if="scope.row.prerogativeState==1">生效</span>
                   </template>
                 </el-table-column>
-                <!-- <el-table-column align="center" label="操作">
+                <el-table-column align="center" label="操作">
               <template slot-scope="scope">
                 <el-button type="text" @click="deletevip(scope.row)">删除</el-button>
               </template>
-                </el-table-column>-->
+                </el-table-column>
               </el-table>
-            </div>
-
-          <!-- <el-table :data="miaodata" stripe style="">
-            <el-table-column type="index" align="center" label="序号"></el-table-column>
-            <el-table-column prop="prerogative" align="center" label="特权名称"></el-table-column>
-            <el-table-column prop="levelDescribe" align="center" label="特权描述"></el-table-column>
-            <el-table-column prop="startTime" align="center" width="180" label="开始时间"></el-table-column>
-            <el-table-column prop="expireTime" align="center" width="180" label="结束时间"></el-table-column>
-            <el-table-column prop="levelDescribe" align="center" label="状态">
-              <template slot-scope="scope">
-                <span v-if="scope.row.prerogativeState==-1">不生效</span>
-                <span v-if="scope.row.prerogativeState==1">生效</span>
-              </template>
-            </el-table-column>
-          </el-table> -->
+            </div> -->
           </div>
-        </el-tab-pane>
-      </el-tabs>
-    </el-card>
+        </el-card>
+      </el-tab-pane>
+    </el-tabs>
 
-    <el-drawer size="70%" title="添加特权" :visible.sync="desdrawer" :direction="direction">
+    <!-- <el-drawer size="50%" title="添加特权" :visible.sync="desdrawer" :direction="direction">
       <el-form
         :model="ruleForm3"
         status-icon
@@ -130,8 +116,9 @@
           <el-button type="primary" @click="submitForm3('ruleForm3')">提交</el-button>
         </el-form-item>
       </el-form>
-    </el-drawer>
-    <el-drawer size="70%" title="添加等级" :visible.sync="drawer" :direction="direction">
+    </el-drawer> -->
+
+    <el-dialog width="33%" title="添加等级" :visible.sync="drawer" center>
       <el-form
         :model="ruleForm"
         status-icon
@@ -157,25 +144,16 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+          <!-- <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button> -->
         </el-form-item>
       </el-form>
-    </el-drawer>
+       <span slot="footer" class="dialog-footer">
+        <el-button @click="drawer = false">取 消</el-button>
+        <el-button type="primary" @click="submitForm('ruleForm')">保 存</el-button>
+      </span>
+    </el-dialog>
 
-    <el-drawer size="50%" title="添加会员" :visible.sync="draweradd" :direction="rtl">
-      <el-table
-        :data="userData"
-        stripe
-        height="250"
-        style="width: 100%;margin-top:30px;"
-        @selection-change="handleSelectionChange"
-        ref="table"
-        @row-click="currentChange"
-      >
-        <el-table-column type="selection" align="center" label="选择" width="50"></el-table-column>
-        <el-table-column align="center" prop="realName" label="用户名"></el-table-column>
-        <el-table-column align="center" prop="phone" label="手机号"></el-table-column>
-      </el-table>
+    <el-dialog width="50%" title="添加会员" :visible.sync="draweradd" center>
       <el-form
         :model="ruleForm1"
         status-icon
@@ -195,11 +173,32 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitForm1('ruleForm1')">提交</el-button>
+          <!-- <el-button type="primary" @click="submitForm1('ruleForm1')">提交</el-button> -->
         </el-form-item>
       </el-form>
-    </el-drawer>
-    <el-drawer size="70%" title="修改等级" :visible.sync="leveledit" :direction="direction">
+
+      <el-table
+        :data="userData"
+        stripe
+        height="250"
+        style="width: 100%;margin-top:30px;"
+        @selection-change="handleSelectionChange"
+        ref="table"
+        @row-click="currentChange"
+      >
+        <el-table-column type="selection" align="center" label="选择" width="50"></el-table-column>
+        <el-table-column align="center" prop="realName" label="用户名"></el-table-column>
+        <el-table-column align="center" prop="phone" label="手机号"></el-table-column>
+      </el-table>
+
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="draweradd = false">取 消</el-button>
+        <el-button type="primary" @click="submitForm1('ruleForm1')">提 交</el-button>
+      </span>
+    </el-dialog>
+
+
+    <el-dialog width="33%" title="修改等级1" :visible.sync="leveledit" center>
       <el-form
         :model="ruleForm2"
         status-icon
@@ -215,10 +214,15 @@
           <el-input style="width:300px;" v-model="ruleForm2.levelDescribe" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" style="background:#A3A0FB;" @click="submitForm2('ruleForm2')">提交</el-button>
+          <!-- <el-button type="primary" style="background:#A3A0FB;" @click="submitForm2('ruleForm2')">提交</el-button> -->
         </el-form-item>
       </el-form>
-    </el-drawer>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="leveledit = false">取 消</el-button>
+        <el-button type="primary" @click="submitForm2('ruleForm2')">提 交</el-button>
+      </span>
+    </el-dialog>
+
   </div>
 </template>
 <script>
@@ -377,6 +381,9 @@ export default {
     };
   },
   methods: {
+    privilege() {
+      this.$router.push({path: '/hf-privilege', query: {}});
+    },
     childClick(tableData) {
       this.manage = tableData;
     },

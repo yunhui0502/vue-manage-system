@@ -94,7 +94,7 @@
                 </template>
               </el-table-column>
             </el-table>
-      </el-tab-pane>v-
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>

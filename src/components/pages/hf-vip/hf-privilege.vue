@@ -1,6 +1,10 @@
 <template>
   <div style>
-    <div style="overflow:hidden;margin-bottom:30px;float:right;">
+    <el-card class="box-card">
+  <div slot="header" class="clearfix">
+    <span>权限管理>查看</span>
+  </div>
+     <div style="overflow:hidden;margin-bottom:30px;float:right;">
       <el-button type="primary" @click="desdrawer=true">添加特权</el-button>
     </div>
     <el-table :data="miaodata" stripe style>
@@ -15,14 +19,16 @@
           <span v-if="scope.row.prerogativeState==1">生效</span>
         </template>
       </el-table-column>
-      <!-- <el-table-column align="center" label="操作">
-              <template slot-scope="scope">
-                <el-button type="text" @click="deletevip(scope.row)">删除</el-button>
-              </template>
-      </el-table-column>-->
+      <el-table-column align="center" label="操作">
+        <template slot-scope="scope">
+          <el-button type="text" @click="deletevip(scope.row)">删除</el-button>
+        </template>
+      </el-table-column>
     </el-table>
+</el-card>
 
-       <el-drawer size="70%" title="添加特权" :visible.sync="desdrawer" :direction="direction">
+
+    <el-dialog width="40%" title="添加特权" :visible.sync="desdrawer" center>
       <el-form
         :model="ruleForm3"
         status-icon
@@ -37,7 +43,7 @@
         <el-form-item label="特权描述" prop="levelDescribe">
           <el-input style="width:300px;" v-model="ruleForm3.levelDescribe" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="有效期开始时间" prop="startTime">
+        <el-form-item label="开始时间" prop="startTime">
           <el-date-picker
             @change="uptime1"
             v-model="ruleForm3.startTime"
@@ -45,7 +51,7 @@
             placeholder="选择日期时间"
           ></el-date-picker>
         </el-form-item>
-        <el-form-item label="有效期结束时间" prop="expireTime">
+        <el-form-item label="结束时间" prop="expireTime">
           <el-date-picker
             @change="uptime2"
             v-model="ruleForm3.expireTime"
@@ -54,10 +60,14 @@
           ></el-date-picker>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitForm3('ruleForm3')">提交</el-button>
+          <!-- <el-button type="primary" @click="submitForm3('ruleForm3')">提交</el-button> -->
         </el-form-item>
       </el-form>
-    </el-drawer>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="desdrawer = false">取 消</el-button>
+        <el-button type="primary" @click="submitForm3('ruleForm3')">确定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -74,6 +84,36 @@ export default {
         prerogative: '',
         levelDescribe: '',
         levelId: '',
+      },
+      rules3: {
+        prerogative: [
+          {
+            required: true,
+            message: '请输入特权名称',
+            trigger: 'blur',
+          },
+        ],
+        levelDescribe: [
+          {
+            required: true,
+            message: '请输入特权描述',
+            trigger: 'blur',
+          },
+        ],
+        startTime: [
+          {
+            required: true,
+            message: '请输入开始时间',
+            trigger: 'blur',
+          },
+        ],
+        expireTime: [
+          {
+            required: true,
+            message: '请输入结束时间',
+            trigger: 'blur',
+          },
+        ],
       },
     };
   },
@@ -169,4 +209,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.element.style {
+  width: 0;
+}
 </style>

@@ -5,7 +5,7 @@
       <el-input v-model="inquire.goodsName" placeholder="请输入物品名称"></el-input>
     </el-form-item>
     <el-form-item v-if="labelName!=='活动名称'" :label="labeltype">
-       <el-input v-if="labeltype=='手机号'" v-model="inquire.productCategoryName" placeholder="请输入物品名称"></el-input>
+       <el-input v-if="labeltype=='手机号'" v-model="inquire.productCategoryName" placeholder="请输入物品手机号"></el-input>
        <el-select v-if="labeltype!=='手机号'" v-model="inquire.productCategoryName" placeholder="请选择">
             <el-option
               v-for="item in options"
