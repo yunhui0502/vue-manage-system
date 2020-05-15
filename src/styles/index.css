@@ -68,3 +68,6 @@
   background-color: #FFFFFF;
   margin: 0;
 }
+.el-tabs__nav-scroll {
+  padding: 0 20px;
+}

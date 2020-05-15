@@ -70,7 +70,6 @@
   </div>
 
 
-
  </div><br><br><br><br>
 
 
@@ -979,7 +978,7 @@
         物流名称: <el-input placeholder="请输入内容" style="width: 20%;" v-model="Adds.logisticsOrderName"></el-input><br><br>
         物流订单号: <el-input placeholder="请输入内容" style="width: 20%;" v-model="Adds.logisticsOrdersId "></el-input><br><br>
         订单详情Id: <el-input placeholder="请输入内容" style="width: 20%;" v-model="Adds.orderDetailId "></el-input><br><br>
-        订单详情状况: <el-input placeholder="请输入内容" style="width: 20%;"v-model="Adds.orderDetailStatus "></el-input><br><br>
+        订单详情状况: <el-input placeholder="请输入内容" style="width: 20%;" v-model="Adds.orderDetailStatus "></el-input><br><br>
 
         订单类型: <el-input placeholder="请输入内容" style="width: 20%;" v-model="Adds.orderType"></el-input><br><br>
         订单id: <el-input placeholder="请输入内容" style="width: 20%;" v-model="Adds.ordersId"></el-input><br><br>
@@ -998,10 +997,6 @@
         <el-button type="primary" @click="Add()">确 定</el-button>
         </span>
         </el-dialog>
-
-
-
-
 
 
         <el-dialog
@@ -1037,7 +1032,6 @@
          <div style="margin-left: 30px;margin-top:20px;">送达时间:预计五天内送达</div>
 
 
-
         <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
@@ -1045,328 +1039,320 @@
         </el-dialog>
 
 
-
  </div>
-
 
 
 </template>
 <script>
-  import api from '@/apis/order-api.js';
-  import Axios from "axios";
-  export default {
-    data() {
-      return {
-        arr:[],
-        activeName: 'first',
-        dialogVisible:false,
-        dialogVisible1:false,
-        dialogVisible2:false,
-        textarea:"",
-        statu_s:[],
-        show:true,
-        pagesize:8,
-        currpage:1,
-        Detail:{},
-        add_s:[],
-        search:{
-          id:"1"
-        },
+import api from '@/apis/order-api.js';
+import Axios from 'axios';
+export default {
+  data() {
+    return {
+      arr: [],
+      activeName: 'first',
+      dialogVisible: false,
+      dialogVisible1: false,
+      dialogVisible2: false,
+      textarea: '',
+      statu_s: [],
+      show: true,
+      pagesize: 8,
+      currpage: 1,
+      Detail: {},
+      add_s: [],
+      search: {
+        id: '1',
+      },
 
-           Adds:{
-           amount:111,
-           // createTime:123,
-           username:"",
-           distribution:123,
-           googsId:123,
-           hfDesc :123,
-           hfMemo :123,
-           hfRemark :123,
-           hfTax :123,
-           id :123,
-           logisticsCompany :123,
-           logisticsOrderName :123,
-           logisticsOrdersId :123,
-           orderDetailId :123,
-           orderDetailStatus:123,
-           orderType :123,
-           ordersId :123,
-           payMethodName :123,
-           payMethodType :123,
-           payStatus :123,
-           purchasePrice :123,
-           purchaseQuantity :123,
-           respId :123,
-           userAddressId :123,
-           userId :1
-        },
-          tableData: [
+      Adds: {
+        amount: 111,
+        // createTime:123,
+        username: '',
+        distribution: 123,
+        googsId: 123,
+        hfDesc: 123,
+        hfMemo: 123,
+        hfRemark: 123,
+        hfTax: 123,
+        id: 123,
+        logisticsCompany: 123,
+        logisticsOrderName: 123,
+        logisticsOrdersId: 123,
+        orderDetailId: 123,
+        orderDetailStatus: 123,
+        orderType: 123,
+        ordersId: 123,
+        payMethodName: 123,
+        payMethodType: 123,
+        payStatus: 123,
+        purchasePrice: 123,
+        purchaseQuantity: 123,
+        respId: 123,
+        userAddressId: 123,
+        userId: 1,
+      },
+      tableData: [
 
-                ],
-                 options: [{
-                  value: '选项',
-                  label: '黄金糕'
-                },],
-                options1: [{
-                value1: '选项1',
-                label: '雪糕'
-                },],
-                options2: [{
-                value2: '选项1',
-                label: '冰淇淋'
-                },],
-                value: '',
-          pickerOptions: {
-          disabledDate(time) {
-            return time.getTime() > Date.now();
+      ],
+      options: [{
+        value: '选项',
+        label: '黄金糕',
+      }],
+      options1: [{
+        value1: '选项1',
+        label: '雪糕',
+      }],
+      options2: [{
+        value2: '选项1',
+        label: '冰淇淋',
+      }],
+      value: '',
+      pickerOptions: {
+        disabledDate(time) {
+          return time.getTime() > Date.now();
+        },
+        shortcuts: [{
+          text: '今天',
+          onClick(picker) {
+            picker.$emit('pick', new Date());
           },
-          shortcuts: [{
-            text: '今天',
-            onClick(picker) {
-              picker.$emit('pick', new Date());
-            }
-          }, {
-            text: '昨天',
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24);
-              picker.$emit('pick', date);
-            }
-          }, {
-            text: '一周前',
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit('pick', date);
-            }
-          }]
-        },
-        value1: '',
-        value2: '',
+        }, {
+          text: '昨天',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24);
+            picker.$emit('pick', date);
+          },
+        }, {
+          text: '一周前',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+            picker.$emit('pick', date);
+          },
+        }],
+      },
+      value1: '',
+      value2: '',
 
-        searchVal:"",
-        query:"",
+      searchVal: '',
+      query: '',
 
-        screen:{
+      screen: {
 
         // creatTime:"1",
 
-        orderId:1,
-        hfName:"1",
-        orderDetailStatus:"1",
-        payMethodType:"0",
-        },
-          zhuangtaia:{
-            id:11,
-            orderId:1
-          },
-        add:{
-        amount:1,
-        createTime:"1",
-        distribution:"1",
-        googsId:"1",
-        hfDesc:"1",
-        hfRemark :"1",
-        hfTax:"1",
-        id:"1",
-        logisticsCompany :"1",
-        logisticsOrderName:"1",
-        logisticsOrdersId:"1",
-        orderDetailStatus:"1",
-        orderType:"1",
-        ordersId :"1",
-        payMethodName:"1",
-        payStatus :"1",
-        purchasePrice :"1",
-        purchaseQuantity :"1",
-        respId :"1",
-        userAddressId:"1",
-        userId:"1"
-        }
-      };
-    },
-    created(){
-    this.zhanshi()
+        orderId: 1,
+        hfName: '1',
+        orderDetailStatus: '1',
+        payMethodType: '0',
+      },
+      zhuangtaia: {
+        id: 11,
+        orderId: 1,
+      },
+      add: {
+        amount: 1,
+        createTime: '1',
+        distribution: '1',
+        googsId: '1',
+        hfDesc: '1',
+        hfRemark: '1',
+        hfTax: '1',
+        id: '1',
+        logisticsCompany: '1',
+        logisticsOrderName: '1',
+        logisticsOrdersId: '1',
+        orderDetailStatus: '1',
+        orderType: '1',
+        ordersId: '1',
+        payMethodName: '1',
+        payStatus: '1',
+        purchasePrice: '1',
+        purchaseQuantity: '1',
+        respId: '1',
+        userAddressId: '1',
+        userId: '1',
+      },
+    };
+  },
+  created() {
+    this.zhanshi();
     // this.status()
     // this.Add()
     // this.zhuangtai()
+  },
+  methods: {
+
+    // 修改订单状态
+    // zhuangtai(){
+    //
+    // }
+    // ,
+    // 搜索订单编号
+    status() {
+      api.getstatus().then((res) => {
+        this.statu_s = res.data.data;
+        console.log(res);
+        api.updatestatus(this.zhuangtaia, this.statu_s, this.Adds).then((res) => {
+          console.log(res);
+          if (res.data.status == 200) {
+            this.arr.push({
+              hfName: this.Adds.orderDetailStatus,
+            });
+            this.$message({
+              message: '状态修改成功',
+              type: 'success',
+            });
+
+          } else {
+            this.$message({
+              message: '状态修改失败',
+              type: 'success',
+            });
+          }
+        });
+
+      });
     },
-    methods:{
+    shaixuan: function() {
+      console.log('sadasda');
+      //           api.queryorder().then(res=>{
+      //           console.log(res)
+      //           })
 
-              //修改订单状态
-               // zhuangtai(){
-               //
-               // }
-               // ,
-            //搜索订单编号
-            status(){
-              api.getstatus().then(res=>{
-                this.statu_s=res.data.data
-                console.log(res)
-                 api.updatestatus(this.zhuangtaia,this.statu_s,this.Adds).then(res=>{
-                   console.log(res)
-                    if(res.data.status==200){
-                       this.arr.push({
-                        hfName:this.Adds.orderDetailStatus
-                       })
-                          this.$message({
-                           message: '状态修改成功',
-                           type: 'success',
-                           });
-
-                    }else{
-                      this.$message({
-                       message: '状态修改失败',
-                       type: 'success',
-                       });
-                    }
-                 })
-
-              })
-            }
-            ,
-           shaixuan:function(){
-             console.log("sadasda")
-//           api.queryorder().then(res=>{
-//           console.log(res)
-//           })
-
-           }
-             ,
-            //导出
+    },
+    // 导出
 
 
-             //列表展示页
-             zhanshi(){
-               api.query().then(res=>{
-                 console.log(res.data.data)
-                 this.arr=res.data.data
-               })
-             }
-             ,
-             //确定创建订单
-             Add(){
-              api.create(this.Adds).then(res=>{
-                // console.log(res.data.status==200)
-                if(res.data.status==200){
-                  sessionStorage.setItem("Adds",this.Adds)
-                 this.arr.push({
-                   ordersId :this.Adds.ordersId,
-                   hfDesc:this.Adds.hfDesc,
-                   purchaseQuantity:this.Adds.purchaseQuantity,
-                   logisticsCompany:this.Adds.logisticsCompany,
-                   purchasePrice:this.Adds.purchasePrice,
-                   username:this.Adds.username,
-                   amount:this.Adds.amount,
-                   orderDetailStatus:this.Adds.orderDetailStatus
-                 })
-                 this.$message({
-                  message: '创建订单成功',
-                  type: 'success',
-                  });
-                 this.dialogVisible1=false
+    // 列表展示页
+    zhanshi() {
+      api.query().then((res) => {
+        console.log(res.data.data);
+        this.arr = res.data.data;
+      });
+    },
+    // 确定创建订单
+    Add() {
+      api.create(this.Adds).then((res) => {
+        // console.log(res.data.status==200)
+        if (res.data.status == 200) {
+          sessionStorage.setItem('Adds', this.Adds);
+          this.arr.push({
+            ordersId: this.Adds.ordersId,
+            hfDesc: this.Adds.hfDesc,
+            purchaseQuantity: this.Adds.purchaseQuantity,
+            logisticsCompany: this.Adds.logisticsCompany,
+            purchasePrice: this.Adds.purchasePrice,
+            username: this.Adds.username,
+            amount: this.Adds.amount,
+            orderDetailStatus: this.Adds.orderDetailStatus,
+          });
+          this.$message({
+            message: '创建订单成功',
+            type: 'success',
+          });
+          this.dialogVisible1 = false;
 
-                }else{
-                  this.$message({
-                   message: '创建订单失败',
-                   type: 'success',
-                   });
-                  this.dialogVisible1=false
-                }
+        } else {
+          this.$message({
+            message: '创建订单失败',
+            type: 'success',
+          });
+          this.dialogVisible1 = false;
+        }
 
-              })
-              // this.dialogVisible1=false
-             }
-             ,
-             handleClick(tab, event) {
-                  console.log(tab, event);
-                },
-            //创建订单
-             chuangjian(){
-              this.dialogVisible1=true
-             }
-            ,
+      });
+      // this.dialogVisible1=false
+    },
+    handleClick(tab, event) {
+      console.log(tab, event);
+    },
+    // 创建订单
+    chuangjian() {
+      this.dialogVisible1 = true;
+    },
 
-             deleteRow(index, rows) {
-                    rows.splice(index, 1);
-                  },
-          //查看订单详情
-          detail(scope){
-           
-            console.log(scope.id)
-            // this.dialogVisible=true
-            api.orderDetail(scope.id).then(res=>{
-            console.log(res.data.data)
-            this.Detail=res.data.data[0]
-            })
+    deleteRow(index, rows) {
+      rows.splice(index, 1);
+    },
+    // 查看订单详情
+    detail(scope) {
+
+      console.log(scope.id);
+      // this.dialogVisible=true
+      api.orderDetail(scope.id).then((res) => {
+        console.log(res.data.data);
+        this.Detail = res.data.data[0];
+      });
 
 
-          },
-          //修改订单
-           xiugai(row){
-             console.log(row.row.id)
-              // this.dialogVisible2=true
-              this.Adds.id=row.row.id
-           },
-           Add_s(){
-             api.update(this.Adds).then(res=>{
-              console.log(res.data)
-              if(res.data.status==200){
-                this.arr.push({
-                  ordersId :this.Adds.ordersId,
-                  hfDesc :this.Adds.hfDesc,
-                  purchaseQuantity :this.Adds.purchaseQuantity,
-                  logisticsCompany :this.Adds.logisticsCompany,
-                  purchasePrice :this.Adds.purchasePrice,
-                  username :this.Adds.username,
-                  amount :this.Adds.amount,
-                  orderDetailStatus :this.Adds.orderDetailStatus,
-                })
-                  this.$message({
-                   message: '修改订单成功',
-                   type: 'success',
-                   });
-                   this.dialogVisible2=true
-                  }else{
-                this.$message({
-                 message: '修改订单失败',
-                 type: 'success',
-                 });
-                 this.dialogVisible2=false
-              }
+    },
+    // 修改订单
+    xiugai(row) {
+      console.log(row.row.id);
+      // this.dialogVisible2=true
+      this.Adds.id = row.row.id;
+    },
+    Add_s() {
+      api.update(this.Adds).then((res) => {
+        console.log(res.data);
+        if (res.data.status == 200) {
+          this.arr.push({
+            ordersId: this.Adds.ordersId,
+            hfDesc: this.Adds.hfDesc,
+            purchaseQuantity: this.Adds.purchaseQuantity,
+            logisticsCompany: this.Adds.logisticsCompany,
+            purchasePrice: this.Adds.purchasePrice,
+            username: this.Adds.username,
+            amount: this.Adds.amount,
+            orderDetailStatus: this.Adds.orderDetailStatus,
+          });
+          this.$message({
+            message: '修改订单成功',
+            type: 'success',
+          });
+          this.dialogVisible2 = true;
+        } else {
+          this.$message({
+            message: '修改订单失败',
+            type: 'success',
+          });
+          this.dialogVisible2 = false;
+        }
 
-             })
+      });
 
-           },
+    },
 
-//              handleClose(done) {
-//
-//             },
+    //              handleClose(done) {
+    //
+    //             },
 
-              deleteRow(index, rows) {
-              rows.splice(index, 1);
-            },
-              handleSizeChange(val) {
-              console.log(`每页 ${val} 条`);
-              this.pagesize=val
+    deleteRow(index, rows) {
+      rows.splice(index, 1);
+    },
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+      this.pagesize = val;
 
-              },
-              handleCurrentChange(val) {
-              console.log(`当前页: ${val}`);
-              this.currpage=val
-              },
-               handleClose(done) {
-                      this.$confirm('确认关闭？')
-                        .then(_ => {
-                          done();
-                        })
-                        .catch(_ => {});
-                    }
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+      this.currpage = val;
+    },
+    handleClose(done) {
+      this.$confirm('确认关闭？')
+        .then((_) => {
+          done();
+        })
+        ['catch']((_) => {});
+    },
 
 
-
-    }
-  };
+  },
+};
 </script>
 <style scoped="scoped">
   div{

@@ -28,6 +28,7 @@ import serviceProduct from '@/service/product.js';
 import serviceEvents from '@/service/eventsManage.js';
 import userCenterService from '@/service/userCenter.js';
 import quan from '@/service/quan.js';
+import vip from '@/service/vip.js';
 export default {
   props: ['labelName', 'labelType', 'options', 'labeltype', 'identify'],
   data() {
@@ -142,6 +143,14 @@ export default {
       if (this.labelName === '优惠名称') {
         console.log('优惠名称');
         serviceProduct.selectDiscountCoupon(this.inquire, (res) => {
+          let tableData = res.data.data;
+          this.$emit('parentByClick', tableData);
+          console.log(res);
+        });
+      }
+      if (this.labelName === '会员名') {
+        console.log('会员名');
+        vip.findvips(this.inquire, (res) => {
           let tableData = res.data.data;
           this.$emit('parentByClick', tableData);
           console.log(res);

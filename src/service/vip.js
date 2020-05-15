@@ -13,6 +13,9 @@ async function addvip(params, handleResult) {
 async function findvip(handleResult) {
   vip.findvip().then((res) => handleResult(res));
 }
+async function findvips(params, handleResult) {
+  vip.findvips(params).then((res) => handleResult(res));
+}
 async function editLevel(params, handleResult) {
   vip.editLevel(params).then((res) => handleResult(res));
 }
@@ -35,5 +38,6 @@ export default {
   adddes: adddes,
   finddes: finddes,
   deletevip: deletevip,
+  findvips: findvips,
 };
 

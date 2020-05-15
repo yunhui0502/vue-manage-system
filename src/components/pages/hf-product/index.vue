@@ -25,6 +25,7 @@
               :data="tableData"
               v-loading="loading"
               stripe
+              align="center"
               style="width: 100%"
               highlight-current-row
               ref="multipleTable"
@@ -46,7 +47,7 @@
                 </template>
               </el-table-column>
             </el-table>
-            <div class="block">
+            <div style="float: right;" class="block">
               <el-pagination
                 background
                 layout="prev, pager, next"
@@ -279,7 +280,7 @@ export default {
   height: 40px;
 }
 .search-card {
-  margin:0 5px 5px 5px;
+  // margin:0 5px 5px 5px;
   margin-bottom: 25px;
 }
 .el-tabs__nav-wrap {

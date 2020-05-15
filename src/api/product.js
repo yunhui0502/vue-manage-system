@@ -1,13 +1,13 @@
 /* eslint-disable indent */
 /* eslint-disable require-jsdoc */
 import Axios from 'axios';
+import store from '@/store';
 // http request拦截器 添加一个请求拦截器
 Axios.interceptors.request.use(function (config) {
     // Do something before request is sent
-    var content = window.sessionStorage.getItem('userInfor');
-    let token = JSON.parse(content);
+    let token = store.getUser().token;
     if (token) {
-        config.headers.userId = token.id; // 将token放到请求头发送给服务器
+        config.headers.token = token; // 将token放到请求头发送给服务器
         return config;
     }
 }, function (error) {

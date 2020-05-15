@@ -32,7 +32,7 @@
       ></el-pagination>
     </div>
 
-    <el-dialog title="提示" :visible.sync="drawer" width="60%" center>
+    <el-dialog title="查看详情" :before-close="handleClose" :visible.sync="drawer" width="60%" center>
       <el-row :gutter="20">
         <el-col :span="2">
           <div>图片管理</div>
@@ -184,6 +184,7 @@ export default {
   },
   data() {
     return {
+      urlId: '',
       options: [], // 库存
       fileList: [],
       detailgoodsId: '',
@@ -210,6 +211,10 @@ export default {
   },
 
   methods: {
+    handleClose(done) {
+      this.fileList = [];
+      done();
+    },
     // 获取仓库
     depot() {
       serviceGoods.listWareHouse((res) => {
@@ -231,19 +236,23 @@ export default {
       let fd = new FormData();
       fd.append('userId', 1);
       fd.append('fileInfo1', file.raw);
-      fd.append('goodsId', this.details[0].goodsId);
+      fd.append('goodsId', this.urlId);
       fd.append('timestamp', '1');
       fd.append('token', '2');
       fd.append('userId', '3');
       fd.append('requestId', '2');
       axios.post('/api/api/product/goods/addPicture', fd).then((res) => {
-        this.acquire();
+        // this.acquire();
       });
     },
     // 获取图片
     acquire() {
-      console.log('图需要的ID', this.details[0].goodsId);
-      serviceGoods.picturesAll(this.details[0].goodsId, (res) => {
+      if (this.urlId === '') {
+        this.urlId = this.details[0].goodsId;
+      }
+
+      // console.log('图需要的ID', this.details[0].goodsId);
+      serviceGoods.picturesAll(this.urlId, (res) => {
         this.fileList = [];
         console.log(res);
         for (let i = 0; i < res.data.data.length; i++) {
@@ -285,9 +294,12 @@ export default {
     },
     // 详情
     editProduct(row) {
+
       console.log('row', row);
       this.detailgoodsId = row.goodsId;
       this.drawer = true;
+      this.urlId = row.goodsId;
+      this.acquire();
       serviceGoods.selectProductGoods(row.goodsId, this.commodityId, (res) => {
         let data = res.data.data;
         for (var i = 0; i < data.length; i++) {
@@ -299,7 +311,6 @@ export default {
         this.storage = data;
         this.details = data;
         console.log('详情', res.data.data);
-        this.acquire();
       });
     },
     // 修改提交

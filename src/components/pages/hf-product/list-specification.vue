@@ -26,7 +26,7 @@
             <el-input placeholder="请输入内容" v-model="scope.row.specValue"></el-input>
           </template>
         </el-table-column>
-        <el-table-column label="规格单位" width="90">
+        <el-table-column label="规格单位" width="120">
           <template slot-scope="scope">
             <el-select v-model="scope.row.specUnit" placeholder="请选择">
               <el-option
@@ -45,7 +45,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-button style="float: right;" size="mini" @click="addGoodsSpecificationList()">添加规格</el-button>
+      <el-button style="float: right;" @click="addGoodsSpecificationList()">添加规格</el-button>
     </div>
     <div v-if="!detailsp" style="margin-top: 20px;">
       <!-- <div>物品规格</div> -->
@@ -56,7 +56,7 @@
             <span placeholder="请输入内容" >{{scope.row.hfName}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="规格类型" width="90">
+        <el-table-column label="规格类型" width="120">
           <template slot-scope="scope">
             <el-select v-model="scope.row.specType" placeholder="请选择">
               <el-option

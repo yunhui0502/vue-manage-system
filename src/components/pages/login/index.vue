@@ -33,13 +33,20 @@
               <el-button @click="Sendlogin()">发送验证码</el-button>
             </el-form-item>
             <el-form-item>
+              <el-radio v-model="loginForm.type" label="boss">商家管理身份</el-radio>
+              <el-radio v-model="loginForm.type" label="stone">店铺管理身</el-radio>
+              <el-radio v-model="loginForm.type" label="warehouse">仓库管理身</el-radio>
+            </el-form-item>
+            <el-form-item>
               <el-button @click="login()" type="info" style="width:284px;">登 录</el-button>
             </el-form-item>
           </el-form>
         </div>
         <div class="div-img">
-           <router-link to='/code'><img src="~@/assets/images/ico.png" alt=""></router-link>
-          </div>
+          <router-link to="/code">
+            <img src="~@/assets/images/ico.png" alt />
+          </router-link>
+        </div>
       </el-card>
     </div>
   </div>
@@ -48,8 +55,9 @@
 <script>
 import store from '@/store';
 import constants from '@/store/constants.js';
+import log from '@/service/login.js';
 export default {
-  data () {
+  data() {
     // 定义一个校验函数
     const checkMobile = (rule, value, callback) => {
       if (!/^1[3-9]\d{9}$/.test(value)) {
@@ -66,6 +74,7 @@ export default {
         authKey: '18830709006',
         authType: '2',
         code: '',
+        type: '',
       },
       // 表单校验规则对象
       loginRules: {
@@ -80,42 +89,62 @@ export default {
       },
     };
   },
-  created () {
+  created() {
     // console.log(this.$refs.loginForm)
   },
   methods: {
     // 登录
-    login () {
+    login() {
       // 调用 validate 对整体表进行校验
       this.$refs.loginForm.validate(async (valid) => {
         console.log(this.loginRules.authKey);
         if (valid) {
-          try {
-            await this.$http
-              .post(
-                `/api/api/user/hf-auth/login?authKey=${this.loginForm.authKey}&authType=${this.loginForm.authType}&passwd=${this.loginForm.code}`,
-              )
-              .then((res) => {
-                console.log(res);
-                if (res.data.status === constants.SUCCESS_CODE) {
-                  let data = { token: 'a1b2c3d4e4fg' };
-                  store.setUser(data);
-                  window.sessionStorage.setItem('userInfor',
-                    JSON.stringify(res.data.data),
-                  );
-                  // localStorage.setItem()
-                  this.$router.push('/');
-                }
-              });
-          } catch (e) {
-            // 进行错误提示即可
-            this.$message.error('手机号或验证码错误');
-          }
+          log.login(this.loginForm, (res) => {
+            // var re = res.headers.token;
+            console.log(res);
+            console.log(res.data.data.token);
+            // console.log(re);
+            if (res.data.status === constants.SUCCESS_CODE) {
+              let data = {token: res.data.data.token};
+              store.setUser(data);
+              window.sessionStorage.setItem(
+                'userInfor',
+                JSON.stringify(res.data.data),
+              );
+              // localStorage.setItem()
+              this.$router.push('/');
+            } else {
+              this.$message.error('手机号或验证码错误');
+            }
+
+          });
+          // try {
+          //   await this.$http
+          //     .post(
+          //       `/api/api/user/hf-auth/login?authKey=${this.loginForm.authKey}&authType=${this.loginForm.authType}&passwd=${this.loginForm.code}`,
+          //     )
+          //     .then((res) => {
+          //       console.log(res);
+          //       if (res.data.status === constants.SUCCESS_CODE) {
+          //         let data = { token: 'a1b2c3d4e4fg' };
+          //         store.setUser(data);
+          //         window.sessionStorage.setItem(
+          //           'userInfor',
+          //           JSON.stringify(res.data.data),
+          //         );
+          //         // localStorage.setItem()
+          //         this.$router.push('/');
+          //       }
+          //     });
+          // } catch (e) {
+          //   // 进行错误提示即可
+          //   this.$message.error('手机号或验证码错误');
+          // }
         }
       });
     },
     // 发送验证码
-    Sendlogin () {
+    Sendlogin() {
       // 调用 validate 对整体表进行校验
       this.$refs.loginForm.validate(async (valid) => {
         console.log(1);
@@ -211,8 +240,8 @@ export default {
     height: 70px;
     margin-left: 30px;
     position: absolute;
-      right: 25px;
-      bottom: 25px;
+    right: 25px;
+    bottom: 25px;
     img {
       width: 55px;
       height: 55px;

@@ -22,6 +22,19 @@ function addvip(params) {
 function findvip() {
   return Axios.get('/api/api/user/hf-auth/findUserMember');
 }
+function findvips(param) {
+  console.log(param);
+  let params = {
+
+  };
+  if (param.productCategoryName !== '') {
+    params.phone = param.productCategoryName;
+  }
+  if (param.goodsName !== '') {
+    params.name = param.goodsName;
+  }
+  return Axios.get('/api/api/user/hf-auth/findUserMember', {params});
+}
 function editLevel(params) {
   let fd = new FormData();
   fd.append('levelDescribe', params.levelDescribe);
@@ -55,4 +68,5 @@ export default {
   adddes: adddes,
   finddes: finddes,
   deletevip: deletevip,
+  findvips: findvips,
 };

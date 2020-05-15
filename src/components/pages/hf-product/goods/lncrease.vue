@@ -70,7 +70,7 @@
                 <el-input placeholder="请输入内容" v-model="scope.row.hfName"></el-input>
               </template>
             </el-table-column>
-            <el-table-column label="规格类型" width="90">
+            <el-table-column label="规格类型" width="120">
               <template slot-scope="scope">
                 <el-select v-model="scope.row.specType" placeholder="请选择">
                   <el-option
@@ -88,7 +88,7 @@
               </template>
             </el-table-column>
 
-            <el-table-column label="规格单位" width="90">
+            <el-table-column label="规格单位" width="120">
               <template slot-scope="scope">
                 <el-select v-model="scope.row.specUnit" placeholder="请选择">
                   <el-option
@@ -127,7 +127,7 @@ export default {
   },
   data() {
     var checkAge = (rule, value, callback) => {
-      const age = /^[0-9]*$/;
+      const age = /^\d+$|^\d*\.\d+$/g;
       if (!age.test(value)) {
         callback(new Error('只能为数字'));
       } else {

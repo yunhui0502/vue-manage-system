@@ -74,7 +74,7 @@
     </el-card>
 
     <el-card class="box-card">
-      <div slot="header" class="clearfix">
+      <div slot="header" class="font-neue clearfix">
         <span>物品信息列表</span>
         <el-button
           @click="drawer = true"
@@ -458,8 +458,10 @@ export default {
 }
 
 .font-neue {
-  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
-    "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+ font-size:8px;
+font-family:Source Han Sans CN;
+font-weight:400;
+color:rgba(102,102,102,1);
 }
 .pl-5 {
   padding-right: 5px;

@@ -1,9 +1,9 @@
 <template>
   <el-form style="padding-top:20px" label-width="100px" :inline="true"  class="demo-form-inline">
-    <el-form-item label="物品名称">
+    <el-form-item label="商品名称">
       <el-input v-model="inquire.goodsName" placeholder="请输入物品名称"></el-input>
     </el-form-item>
-    <el-form-item label="物品分类">
+    <el-form-item label="类目分类">
       <el-input v-model="inquire.productCategoryName" placeholder="请输入要查询的类目名称"></el-input>
     </el-form-item>
     <el-form-item style="float: right;">

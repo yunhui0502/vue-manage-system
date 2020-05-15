@@ -154,12 +154,12 @@
       </div>
     </div>
 
-    <el-drawer
+    <el-dialog
       title="修改类目"
       :visible.sync="drawer"
       direction="btt"
       :before-close="handleClose"
-      size="80%"
+      width="50%"
     >
       <el-table :data="details" border highlight-current-row ref="multipleTable">
         <el-table-column prop="goodsId" label="序号" width="50" align="center"></el-table-column>
@@ -193,10 +193,10 @@
         :on-change="imgUpload"
         on-error="error"
       >
-        <el-button size="small" type="primary">点击上传</el-button>
+        <el-button size="mini" type="primary">点击上传</el-button>
         <!-- <div slot="tip">只能上传jpg/png文件，且不超过500kb</div> -->
       </el-upload>
-    </el-drawer>
+    </el-dialog>
   </div>
 </template>
 
@@ -512,7 +512,7 @@ export default {
   margin-bottom: 15px;
 }
 .search-card {
-  margin: 0 5px 5px 5px;
+  // margin: 0 5px 5px 5px;
   margin-bottom: 25px;
 }
 .el-button {
