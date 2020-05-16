@@ -3,7 +3,12 @@
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="平台优惠券" name="first">
         <el-card class="search-card">
-          <hfsearch @parentByClick="childClick" :options="options" labeltype="优惠券类型" labelName="优惠名称"></hfsearch>
+          <hfsearch
+            @parentByClick="childClick"
+            :options="options"
+            labeltype="优惠券类型"
+            labelName="优惠名称"
+          ></hfsearch>
         </el-card>
 
         <el-card class="box-card">
@@ -91,7 +96,7 @@
       </el-tab-pane>
     </el-tabs>
 
-    <el-drawer size="55%" title="添加优惠券" :visible.sync="drawer" :direction="direction">
+    <el-dialog title="添加优惠券" :visible.sync="drawer" width="50%" center>
       <el-form
         style="margin-left:20px;"
         :model="formquan"
@@ -190,12 +195,20 @@
           </el-main>
         </el-container>-->
         <el-form-item>
-          <el-button type="primary" size="medium" @click="submitForm('ruleForm')">提交</el-button>
+          <!-- <el-button type="primary" size="medium" @click="submitForm('ruleForm')">提交</el-button> -->
         </el-form-item>
       </el-form>
-    </el-drawer>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="drawer = false">取 消</el-button>
+        <el-button type="primary" @click="submitForm('ruleForm')">提 交</el-button>
+      </span>
+    </el-dialog>
+
+    <!-- <el-drawer size="55%" title="添加优惠券" :visible.sync="drawer" :direction="direction">
+
+    </el-drawer>-->
     <!-- ============================================================================================= -->
-    <el-drawer size="55%" title="修改优惠券" :visible.sync="drawer1" :direction="direction">
+    <el-dialog size="55%" title="修改优惠券" :visible.sync="drawer1" center>
       <el-form
         style="margin-left:20px;"
         :model="formquan1"
@@ -302,7 +315,11 @@
           <el-button type="primary" size="medium" @click="submitForm1('ruleForm1')">提交</el-button>
         </el-form-item>
       </el-form>
-    </el-drawer>
+        <span slot="footer" class="dialog-footer">
+        <el-button @click="drawer1 = false">取 消</el-button>
+        <el-button type="primary" @click="submitForm1('ruleForm1')">提 交</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -663,13 +680,19 @@ export default {
         for (var i = 0; i < res.data.data.length; i++) {
           res.data.data[i].useLimit = JSON.parse(res.data.data[i].useLimit);
           // eslint-disable-next-line no-magic-numbers
-          res.data.data[i].useLimit.full = (res.data.data[i].useLimit.full / 100).toFixed(2);
+          res.data.data[i].useLimit.full = (
+            res.data.data[i].useLimit.full / 100
+          ).toFixed(2);
           if (res.data.data[i].discountCouponType === 1) {
             // eslint-disable-next-line no-magic-numbers
-            res.data.data[i].useLimit.minus = (res.data.data[i].useLimit.minus / 100).toFixed(2);
+            res.data.data[i].useLimit.minus = (
+              res.data.data[i].useLimit.minus / 100
+            ).toFixed(2);
           } else {
             // eslint-disable-next-line no-magic-numbers
-            res.data.data[i].useLimit.minus = (res.data.data[i].useLimit.minus / 10).toFixed(2);
+            res.data.data[i].useLimit.minus = (
+              res.data.data[i].useLimit.minus / 10
+            ).toFixed(2);
           }
         }
         this.list = res.data.data;
@@ -696,7 +719,6 @@ export default {
   resize: none;
 }
 .search-card {
-  margin: 0 5px 5px 5px;
   margin-bottom: 25px;
 }
 </style>

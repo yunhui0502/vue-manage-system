@@ -4,7 +4,12 @@
       <div slot="header" class="clearfix">
         <span>店铺列表</span>
       </div>
-      <hfsearch @parentByClick="childClick" :options="optionsStatus" labeltype="店铺状态" labelName="店铺名称"></hfsearch>
+      <hfsearch
+        @parentByClick="childClick"
+        :options="optionsStatus"
+        labeltype="店铺状态"
+        labelName="店铺名称"
+      ></hfsearch>
     </el-card>
 
     <el-card class="box-card">
@@ -83,7 +88,7 @@
       </div>-->
     </div>
 
-    <el-drawer size="70%" title="添加店铺" :visible.sync="drawer" :direction="direction">
+    <el-dialog width="50%" title="添加店铺" :visible.sync="drawer" center>
       <el-form
         style="width:25%;"
         :model="store"
@@ -107,11 +112,15 @@
           <el-input v-model="store.address"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
-          <el-button @click="resetForm('ruleForm')">重置</el-button>
+          <!-- <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button> -->
+          <!-- <el-button @click="resetForm('ruleForm')">重置</el-button> -->
         </el-form-item>
       </el-form>
-    </el-drawer>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="resetForm('ruleForm')">重置</el-button>
+        <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+      </span>
+    </el-dialog>
 
     <el-dialog title="编辑店铺" :visible.sync="editdrawer" :direction="direction" center>
       <div style="display:flex;">
@@ -204,9 +213,9 @@
           <el-button size="small" type="primary">点击上传</el-button>
         </el-upload>
       </div>
-    </el-drawer> -->
+    </el-drawer>-->
 
-    <el-dialog :visible.sync="dialogVisible">
+    <el-dialog :visible.sync="dialogVisible" center>
       <el-table
         :data="userData"
         stripe
@@ -608,7 +617,7 @@ export default {
       });
     },
     getStore: function() {
-      storeService.getStore({bossid: this.bossid}, (res) => {
+      storeService.getStore({ bossid: this.bossid }, (res) => {
         console.log(res);
         this.storeData = res.data.data;
         this.storeId = this.storeData[0].id;

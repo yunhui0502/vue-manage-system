@@ -518,4 +518,7 @@ export default {
 .el-button {
   padding: 12px 46px;
 }
+.el-button[data-v-19959a27] {
+  padding: 0;
+}
 </style>

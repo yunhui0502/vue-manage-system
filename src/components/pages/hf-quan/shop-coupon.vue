@@ -1,90 +1,85 @@
 <template>
   <div>
-        <el-card class="search-card">
-          <hfsearch @parentByClick="childClick" :options="options" labeltype="所在店铺" labelName="优惠名称"></hfsearch>
-        </el-card>
+    <el-card class="search-card">
+      <hfsearch @parentByClick="childClick" :options="options" labeltype="所在店铺" labelName="优惠名称"></hfsearch>
+    </el-card>
 
-        <el-card class="box-card">
-          <el-button
-            style="float: right;"
-            size="small"
-            type="primary"
-            @click="drawer = true"
-          >+ 添加优惠券</el-button>
-          <el-table
-            stripe
-            :data="list.slice((currentPage-1)*pagesize,currentPage*pagesize)"
-            style="width: 100%"
-          >
-            <el-table-column type="index" label="序号" align="center"></el-table-column>
-            <el-table-column prop="id" label="id" align="center"></el-table-column>
-            <el-table-column prop="discountCouponName" label="名称" align="center"></el-table-column>
-            <el-table-column align="center" prop="discountCouponType" label="优惠类型">
-              <template slot-scope="scope">
-                <span v-if="scope.row.discountCouponType==='0'">折扣</span>
-                <span v-if="scope.row.discountCouponType==='1'">满减</span>
-              </template>
-            </el-table-column>
-            <el-table-column align="center" prop="useState" label="状态">
-              <template slot-scope="scope">
-                <span v-if="scope.row.useState===-1">未开始</span>
-                <span v-if="scope.row.useState===0">进行中</span>
-                <span v-if="scope.row.useState===1">已结束</span>
-              </template>
-            </el-table-column>
-            <el-table-column align="center" prop="useState" label="活动" width="150">
-              <template slot-scope="scope">
-                <span
-                  v-if="scope.row.discountCouponType==='0'"
-                >满{{scope.row.useLimit.full}}元打{{scope.row.useLimit.minus}}折</span>
-                <span
-                  v-if="scope.row.discountCouponType==='1'"
-                >满{{scope.row.useLimit.full}}减{{scope.row.useLimit.minus}}</span>
-              </template>
-            </el-table-column>
-            <el-table-column
-              :show-overflow-tooltip="true"
+    <el-card class="box-card">
+      <el-button style="float: right;" size="small" type="primary" @click="drawer = true">+ 添加优惠券</el-button>
+      <el-table
+        stripe
+        :data="list.slice((currentPage-1)*pagesize,currentPage*pagesize)"
+        style="width: 100%"
+      >
+        <el-table-column type="index" label="序号" align="center"></el-table-column>
+        <el-table-column prop="id" label="id" align="center"></el-table-column>
+        <el-table-column prop="discountCouponName" label="名称" align="center"></el-table-column>
+        <el-table-column align="center" prop="discountCouponType" label="优惠类型">
+          <template slot-scope="scope">
+            <span v-if="scope.row.discountCouponType==='0'">折扣</span>
+            <span v-if="scope.row.discountCouponType==='1'">满减</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" prop="useState" label="状态">
+          <template slot-scope="scope">
+            <span v-if="scope.row.useState===-1">未开始</span>
+            <span v-if="scope.row.useState===0">进行中</span>
+            <span v-if="scope.row.useState===1">已结束</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" prop="useState" label="活动" width="150">
+          <template slot-scope="scope">
+            <span
+              v-if="scope.row.discountCouponType==='0'"
+            >满{{scope.row.useLimit.full}}元打{{scope.row.useLimit.minus}}折</span>
+            <span
+              v-if="scope.row.discountCouponType==='1'"
+            >满{{scope.row.useLimit.full}}减{{scope.row.useLimit.minus}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          :show-overflow-tooltip="true"
+          align="center"
+          prop="discountCouponDesc"
+          label="描述"
+        ></el-table-column>
+        <el-table-column align="center" label="适用范围">
+          <template slot-scope="scope">
+            <span v-if="scope.row.scope==='allUser'">所有用户</span>
+            <span v-if="scope.row.scope==='vipUser'">会员用户</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="是否可以叠加">
+          <template slot-scope="scope">
+            <span v-if="scope.row.superposition===1">是</span>
+            <span v-if="scope.row.superposition===2">否</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" prop="startTime" width="180" label="有效期开始时间"></el-table-column>
+        <el-table-column align="center" width="180" prop="stopTime" label="有效期结束时间"></el-table-column>
+        <el-table-column align="center" label="操作" fixed="right">
+          <template slot-scope="scope">
+            <el-button
+              type="text"
+              size="small"
               align="center"
-              prop="discountCouponDesc"
-              label="描述"
-            ></el-table-column>
-            <el-table-column align="center" label="适用范围">
-              <template slot-scope="scope">
-                <span v-if="scope.row.scope==='allUser'">所有用户</span>
-                <span v-if="scope.row.scope==='vipUser'">会员用户</span>
-              </template>
-            </el-table-column>
-            <el-table-column align="center" label="是否可以叠加">
-              <template slot-scope="scope">
-                <span v-if="scope.row.superposition===1">是</span>
-                <span v-if="scope.row.superposition===2">否</span>
-              </template>
-            </el-table-column>
-            <el-table-column align="center" prop="startTime" width="180" label="有效期开始时间"></el-table-column>
-            <el-table-column align="center" width="180" prop="stopTime" label="有效期结束时间"></el-table-column>
-            <el-table-column align="center" label="操作" fixed="right">
-              <template slot-scope="scope">
-                <el-button
-                  type="text"
-                  size="small"
-                  align="center"
-                  @click="checkPersonDetail(scope.row)"
-                >修改</el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-          <el-pagination
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            style="float:right;"
-            background
-            layout="prev, pager, next"
-            :total="list.length"
-            :page-size="pagesize"
-          ></el-pagination>
-        </el-card>
+              @click="checkPersonDetail(scope.row)"
+            >修改</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        style="float:right;"
+        background
+        layout="prev, pager, next"
+        :total="list.length"
+        :page-size="pagesize"
+      ></el-pagination>
+    </el-card>
 
-    <el-drawer size="55%" title="添加优惠券" :visible.sync="drawer" :direction="direction">
+    <el-dialog title="添加优惠券" :visible.sync="drawer" width="50%" center>
       <el-form
         style="margin-left:20px;"
         :model="formquan"
@@ -188,12 +183,16 @@
           </el-main>
         </el-container>-->
         <el-form-item>
-          <el-button type="primary" size="medium" @click="submitForm('ruleForm')">提交</el-button>
+          <!-- <el-button type="primary" size="medium" @click="submitForm('ruleForm')">提交</el-button> -->
         </el-form-item>
       </el-form>
-    </el-drawer>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="drawer = false">取 消</el-button>
+        <el-button type="primary" @click="submitForm('ruleForm')">提 交</el-button>
+      </span>
+    </el-dialog>
     <!-- ============================================================================================= -->
-    <el-drawer size="55%" title="修改优惠券" :visible.sync="drawer1" :direction="direction">
+    <el-dialog width="55%" title="修改优惠券" :visible.sync="drawer1" center>
       <el-form
         style="margin-left:20px;"
         :model="formquan1"
@@ -297,10 +296,14 @@
           </el-main>
         </el-container>-->
         <el-form-item>
-          <el-button type="primary" size="medium" @click="submitForm1('ruleForm1')">提交</el-button>
+          <!-- <el-button type="primary" size="medium" @click="submitForm1('ruleForm1')">提交</el-button> -->
         </el-form-item>
       </el-form>
-    </el-drawer>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="drawer1 = false">取 消</el-button>
+        <el-button type="primary" @click="submitForm1('ruleForm1')">提 交</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -312,7 +315,7 @@ import constants from '@/store/constants.js';
 import hfsearch from '../hf-eventsManage/hf-search';
 import storeService from '@/service/store.js';
 export default {
-  components: { hfsearch},
+  components: { hfsearch },
   data() {
     return {
       activeName: 'second',
@@ -664,13 +667,19 @@ export default {
         for (var i = 0; i < res.data.data.length; i++) {
           res.data.data[i].useLimit = JSON.parse(res.data.data[i].useLimit);
           // eslint-disable-next-line no-magic-numbers
-          res.data.data[i].useLimit.full = (res.data.data[i].useLimit.full / 100).toFixed(2);
+          res.data.data[i].useLimit.full = (
+            res.data.data[i].useLimit.full / 100
+          ).toFixed(2);
           if (res.data.data[i].discountCouponType === 1) {
             // eslint-disable-next-line no-magic-numbers
-            res.data.data[i].useLimit.minus = (res.data.data[i].useLimit.minus / 100).toFixed(2);
+            res.data.data[i].useLimit.minus = (
+              res.data.data[i].useLimit.minus / 100
+            ).toFixed(2);
           } else {
             // eslint-disable-next-line no-magic-numbers
-            res.data.data[i].useLimit.minus = (res.data.data[i].useLimit.minus / 10).toFixed(2);
+            res.data.data[i].useLimit.minus = (
+              res.data.data[i].useLimit.minus / 10
+            ).toFixed(2);
           }
         }
         this.list = res.data.data;
@@ -698,7 +707,6 @@ export default {
   resize: none;
 }
 .search-card {
-  margin: 0 5px 5px 5px;
   margin-bottom: 25px;
 }
 </style>

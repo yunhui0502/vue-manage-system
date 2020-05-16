@@ -585,7 +585,6 @@ export default {
   color: #ccc;
 }
 .search-card {
-  margin: 0 5px 5px 5px;
   margin-bottom: 25px;
 }
 </style>
