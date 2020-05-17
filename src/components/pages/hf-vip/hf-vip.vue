@@ -641,7 +641,7 @@ export default {
   },
 };
 </script>
-<style >
+<style scoped>
 .el-button--primary.is-plain.sub2 {
   color: #4194f6;
   background: none;

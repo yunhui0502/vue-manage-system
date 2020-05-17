@@ -4,7 +4,7 @@
 </div>
 </template>
 
-<script>
+<script >
 import userList from './userList.vue';
 
 export default {

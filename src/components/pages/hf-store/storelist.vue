@@ -657,7 +657,7 @@ export default {
   },
 };
 </script>
-<style >
+<style scoped>
 thead .el-table-column--selection .cell {
   display: none;
 }
