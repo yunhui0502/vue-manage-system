@@ -215,10 +215,11 @@
       </div>
     </el-drawer>-->
 
-    <el-dialog :visible.sync="dialogVisible" center>
+    <el-dialog title="添加店铺成员" :visible.sync="dialogVisible" center>
       <el-table
         :data="userData"
         stripe
+        height="250"
         style="width: 100%"
         @selection-change="handleSelectionChange"
         ref="table"

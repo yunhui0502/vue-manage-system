@@ -239,10 +239,11 @@
             </el-table-column>
           </el-table>
           <!-- 添加店铺成员弹窗 -->
-          <el-dialog :visible.sync="dialogVisible">
+          <el-dialog title="添加店铺成员"  :visible.sync="dialogVisible" center>
             <el-table
               :data="userData"
               stripe
+              height="250"
               style="width: 100%"
               @selection-change="handleSelectionChange"
               ref="table"
@@ -258,7 +259,7 @@
             </span>
           </el-dialog>
 
-          <el-drawer :visible.sync="draweruser" :with-header="false">
+          <el-drawer :visible.sync="draweruser" :with-header="false" >
             <template>
               <div style="margin-top:100px;margin-left:30px;">
                 <div>
@@ -284,7 +285,7 @@
       </el-tab-pane>
     </el-tabs>
 
-    <el-dialog center title="店铺商品" :visible.sync="add">
+    <el-dialog center title="店铺商品" :visible.sync="add" >
       <el-select v-model="warehouseId" @change="warehouse" placeholder="请选择">
         <el-option v-for="item in options" :key="item.hfName" :label="item.hfName" :value="item.id"></el-option>
       </el-select>
@@ -293,6 +294,7 @@
         @selection-change="handleSelectionChange"
         :data="tableData"
         stripe
+        height="250"
         style="width: 100%"
         highlight-current-row
         ref="multipleTable"
