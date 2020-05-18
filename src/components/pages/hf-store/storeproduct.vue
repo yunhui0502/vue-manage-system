@@ -774,12 +774,12 @@ export default {
     getstoneproduct: function() {
       console.log(this.id);
       storeService.getstoneproduct(this.id, (res) => {
-        console.log(res);
+        console.log('店铺商品', res);
         this.list = res.data.data.list;
         this.updata.productId = this.list[0].id;
         this.productid = this.list[0].id + '';
         this.productName = this.list[0].productName;
-        storeService.getproductgood(this.list[0].id, (res) => {
+        storeService.selectProductGoods(this.list[0].id, this.list[0].stoneId, (res) => {
           console.log(res);
           let data = res.data.data;
           for (var i = 0; i < data.length; i++) {

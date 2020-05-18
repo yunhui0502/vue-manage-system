@@ -171,6 +171,7 @@
           <el-table-column align="center" label="序号" type="index" :index="indexMethod"></el-table-column>
           <el-table-column align="center" prop="goodName" label="物品名称"></el-table-column>
           <el-table-column align="center" prop="goodDesc" label="物品描述" show-overflow-tooltip></el-table-column>
+          <el-table-column align="center" prop="total" label="总数量"></el-table-column>
           <el-table-column align="center" prop="quantity" label="出库数量"></el-table-column>
           <el-table-column align="center" prop="status" label="状态">
             <template slot-scope="scope">
@@ -569,14 +570,22 @@ export default {
     },
     chucang: function(row) {
       console.log(row);
-      this.$confirm('确认删除吗？', '提示', {}).then(async () => {
+      this.$confirm('是否同意此申请?', '提示', {}).then(async () => {
         row.userId = this.content.id;
         cang.getProductListBoss(row, (res) => {
           if (res.data.status === constants.SUCCESS_CODE) {
-            this.$message({
-              message: '出库成功',
-              type: 'success',
-            });
+            if (res.data.data === 0) {
+              this.$message({
+                showClose: true,
+                message: '数量不足',
+                type: 'error',
+              });
+            } else {
+              this.$message({
+                message: '已同意',
+                type: 'success',
+              });
+            }
             this.danone();
           } else {
             this.$message({
