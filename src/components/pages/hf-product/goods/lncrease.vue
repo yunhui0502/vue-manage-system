@@ -313,6 +313,9 @@ export default {
             this.specificationForm.hfGoodsId = res.data.data;
             this.setPrices();
             this.$emit('goodsId', res.data.data);
+            // 关闭弹窗
+            this.$emit('shutDown', '');
+
             this.$message({
               message: '恭喜你，添加成功',
               type: 'success',

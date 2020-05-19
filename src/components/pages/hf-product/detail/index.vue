@@ -83,7 +83,7 @@
         >+ 添加物品</el-button>
       </div>
 
-      <GoodsList @change="handieLetterChange" v-if="isRouterAlive" :commodityId="commodityId"></GoodsList>
+      <GoodsList  @change="handieLetterChange" v-if="isRouterAlive" :commodityId="commodityId"></GoodsList>
     </el-card>
 
     <el-dialog
@@ -95,6 +95,7 @@
       :before-close="handleClose"
     >
       <GoodsLncrease
+      v-on:shutDown="shutDown"
         ref="mychild"
         v-if="isRouterAlive"
         @goodsId="goodsIdGetMsg"
@@ -386,6 +387,11 @@ export default {
     // 触发子组件方法
     appendGoods() {
       this.$refs.mychild.SubmitGoods('formName');
+      // this.drawer = false;
+    },
+    shutDown() {
+      this.drawer = false;
+      // this.$refs[ruleForms].resetFields();
     },
     evenMore() {
       if (this.$route.query.productId === undefined) {

@@ -35,6 +35,10 @@
   border-color: rgba(190, 188, 252, 0.938);
   background-color: #bebcfc;
 }
+.el-button--primary:focus {
+  border-color: rgba(190, 188, 252, 0.938);
+  background-color: #bebcfc;
+}
 .el-button--default {
   border-color: #A6A3FB;
 }
