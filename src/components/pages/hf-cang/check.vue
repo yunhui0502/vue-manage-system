@@ -170,6 +170,7 @@
           <el-table-column type="selection" width="50"></el-table-column>
           <el-table-column align="center" label="序号" type="index" :index="indexMethod"></el-table-column>
           <el-table-column align="center" prop="goodName" label="物品名称"></el-table-column>
+          <el-table-column align="center" prop="typeName" label="所属店铺"></el-table-column>
           <el-table-column align="center" prop="goodDesc" label="物品描述" show-overflow-tooltip></el-table-column>
           <el-table-column align="center" prop="total" label="总数量"></el-table-column>
           <el-table-column align="center" prop="quantity" label="出库数量"></el-table-column>

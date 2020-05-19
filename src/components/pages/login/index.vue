@@ -17,29 +17,49 @@
             <p style="margin:4px 0">Welcome back</p>
           </div>
           <el-form ref="loginForm" :model="loginForm" :rules="loginRules" status-icon>
-            <el-form-item prop="mobile">
-              <el-input
-                v-model="loginForm.authKey"
-                placeholder="请输入手机号"
-                style="width:284px;margin-right:10px"
-              ></el-input>
-            </el-form-item>
-            <el-form-item style="width:300px; text-align:left;" prop="code">
-              <el-input
-                v-model="loginForm.code"
-                placeholder="请输入验证码"
-                style="width:100px;margin-right:10px"
-              ></el-input>
-              <el-button @click="Sendlogin()">发送验证码</el-button>
-            </el-form-item>
-            <el-form-item>
-              <el-radio v-model="loginForm.type" label="boss">商家管理身份</el-radio>
-              <el-radio v-model="loginForm.type" label="stone">店铺管理身</el-radio>
-              <el-radio v-model="loginForm.type" label="warehouse">仓库管理身</el-radio>
-            </el-form-item>
-            <el-form-item>
-              <el-button @click="login()" type="info" style="width:284px;">登 录</el-button>
-            </el-form-item>
+            <el-row :gutter="20">
+              <el-col :span="12" :offset="6">
+                <el-form-item prop="mobile">
+                  <el-input
+                    v-model="loginForm.authKey"
+                    placeholder="请输入手机号"
+                    style="width:284px;margin-right:10px"
+                  ></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+
+            <el-row :gutter="20">
+              <el-col :span="12" :offset="6">
+                <el-form-item style="width:300px; text-align:left;" prop="code">
+                  <el-input
+                    v-model="loginForm.code"
+                    placeholder="请输入验证码"
+                    style="width:100px;margin-right:10px"
+                  ></el-input>
+                  <el-button @click="Sendlogin()">发送验证码</el-button>
+                </el-form-item>
+              </el-col>
+            </el-row>
+
+            <el-row style="margin-bottom:10px">
+              <el-col :span="8">
+                <el-radio v-model="loginForm.type" label="boss">商家管理身份</el-radio>
+              </el-col>
+              <el-col :span="8">
+                <el-radio v-model="loginForm.type" label="stone">店铺管理身</el-radio>
+              </el-col>
+              <el-col :span="8">
+                <el-radio v-model="loginForm.type" label="warehouse">仓库管理身</el-radio>
+              </el-col>
+            </el-row>
+            <el-row :gutter="20">
+              <el-col :span="12" :offset="6">
+                <el-form-item>
+                  <el-button @click="login()" type="info" style="width:284px;">登 录</el-button>
+                </el-form-item>
+              </el-col>
+            </el-row>
           </el-form>
         </div>
         <div class="div-img">
@@ -67,11 +87,11 @@ export default {
     };
     return {
       //  记住密码 单选框
-      radio: '1',
+      radio: 'boss',
       squareUrl: '',
       // 表单数据对象
       loginForm: {
-        authKey: '18830709006',
+        authKey: '',
         authType: '2',
         code: '',
         type: '',
@@ -105,7 +125,7 @@ export default {
             console.log(res.data.data.token);
             // console.log(re);
             if (res.data.status === constants.SUCCESS_CODE) {
-              let data = {token: res.data.data.token};
+              let data = { token: res.data.data.token };
               store.setUser(data);
               window.sessionStorage.setItem(
                 'userInfor',
@@ -116,7 +136,6 @@ export default {
             } else {
               this.$message.error('手机号或验证码错误');
             }
-
           });
           // try {
           //   await this.$http
@@ -171,6 +190,9 @@ export default {
 </script>
 
 <style scoped lang='less'>
+.el-col-offset-6 {
+  margin-left: 0;
+}
 .container {
   padding: 0;
   margin: 0;

@@ -14,36 +14,36 @@
           text-color="#fff"
           router
         >
-          <el-menu-item :disabled="homePage" index="/">
+          <el-menu-item v-if="homePage" index="/">
             <!-- <img src="../img/icon_home5@2x.png" alt=""> -->
             <i class="iconfont icon-shouye"></i>
             <span slot="title">首页</span>
           </el-menu-item>
-          <el-menu-item :disabled="dataStatistics" index="/hf-statistics">
+          <el-menu-item v-if="dataStatistics" index="/hf-statistics">
             <i class="iconfont icon-shouye"></i>
             <span slot="title">数据统计</span>
           </el-menu-item>
-          <el-menu-item :disabled="product" index="/hf-product">
+          <el-menu-item v-if="product" index="/hf-product">
             <i class="iconfont icon-tongji"></i>
             <span slot="title">商品管理</span>
           </el-menu-item>
-          <el-menu-item :disabled="activity" index="/hf-eventsManage">
+          <el-menu-item v-if="activity" index="/hf-eventsManage">
             <i class="iconfont icon-liwu"></i>
             <span slot="title">活动管理</span>
           </el-menu-item>
-          <el-menu-item :disabled="discountCoupon" index="/hf-quan">
+          <el-menu-item v-if="discountCoupon" index="/hf-quan">
             <i class="iconfont icon-wodeyouhuijuan"></i>
             <span slot="title">优惠券</span>
           </el-menu-item>
-          <el-menu-item :disabled="order" index="/hf-orderCenter">
+          <el-menu-item v-if="order" index="/hf-orderCenter">
             <i class="iconfont icon-dingdan"></i>
             <span slot="title">订单中心</span>
           </el-menu-item>
-          <el-menu-item :disabled="stone" index="/hf-store">
+          <el-menu-item v-if="stone" index="/hf-store">
             <i class="iconfont icon-dianpu"></i>
             <span slot="title">店铺管理</span>
           </el-menu-item>
-          <el-submenu :disabled="warehouse" index="/cang">
+          <el-submenu v-if="warehouse" index="/cang">
             <template slot="title">
               <i class="iconfont icon-dianpu"></i>
               <span slot="title">仓库管理</span>
@@ -53,19 +53,19 @@
             <el-menu-item index="/dan">出货单</el-menu-item>
             <el-menu-item index="/record">历史记录</el-menu-item>
           </el-submenu>
-          <el-menu-item :disabled="user" index="/hf-userCenter">
+          <el-menu-item v-if="user" index="/hf-userCenter">
             <i class="iconfont icon-icon-safe-bluefuben"></i>
             <span slot="title">用户中心</span>
           </el-menu-item>
-          <el-menu-item :disabled="vip" index="/hf-vip">
+          <el-menu-item v-if="vip" index="/hf-vip">
             <i class="iconfont icon-huiyuanguanli2"></i>
             <span slot="title">会员管理</span>
           </el-menu-item>
-          <el-menu-item :disabled="picture" index="/hf-file">
+          <el-menu-item v-if="picture" index="/hf-file">
             <i class="iconfont icon-PhotoOutline"></i>
             <span slot="title">图片管理</span>
           </el-menu-item>
-          <el-menu-item :disabled="set" index="/set">
+          <el-menu-item v-if="set" index="/set">
             <i class="iconfont icon-weibiaoti2fuzhi16"></i>
             <span slot="title">设置</span>
           </el-menu-item>
@@ -165,18 +165,18 @@ export default {
     return {
       isShow: false,
       content: {},
-      homePage: false, // 首页
-      dataStatistics: false, // 数据统计
-      product: false, // 商品管理
-      activity: false, // 活动管理
-      discountCoupon: false, // 优惠券
-      order: false, // 订单中心
-      stone: false, // 店铺管理
-      user: false, // 用户中心
-      vip: false, // 会员管理
-      warehouse: false, // 仓库管理
-      picture: false, // 图片管理
-      set: false, // 设置
+      homePage: true, // 首页
+      dataStatistics: true, // 数据统计
+      product: true, // 商品管理
+      activity: true, // 活动管理
+      discountCoupon: true, // 优惠券
+      order: true, // 订单中心
+      stone: true, // 店铺管理t
+      user: true, // 用户中心
+      vip: true, // 会员管理
+      warehouse: true, // 仓库管理
+      picture: true, // 图片管理
+      set: true, // 设置
     };
   },
   methods: {
@@ -201,46 +201,46 @@ export default {
     Privilege() {
       console.log(1);
       if (this.content.modelCode.homePage !== 'homePage') {
-        this.homePage = true;
+        this.homePage = false;
         console.log('首页', this.homePage);
       } if (this.content.modelCode.dataStatistics !== 'dataStatistics') {
-        this.dataStatistics = true;
+        this.dataStatistics = false;
         console.log('数据统计', this.dataStatistics);
       }
       if (this.content.modelCode.set !== 'set') {
-        this.set = true;
+        this.set = false;
         console.log('设置', this.set);
       }
       if (this.content.modelCode.picture !== 'picture') {
-        this.picture = true;
+        this.picture = false;
         console.log('图片管理', this.picture);
       }
       if (this.content.modelCode.warehouse !== 'warehouse') {
-        this.warehouse = true;
+        this.warehouse = false;
         console.log('仓库管理', this.warehouse);
       }
       if (this.content.modelCode.vip !== 'vip') {
-        this.vip = true;
+        this.vip = false;
         console.log('会员管理', this.vip);
       }
       if (this.content.modelCode.user !== 'user') {
-        this.user = true;
+        this.user = false;
         console.log('用户中心', this.user);
       }
       if (this.content.modelCode.stone !== 'stone') {
-        this.stone = true;
+        this.stone = false;
         console.log('店铺管理', this.stone);
       }
       if (this.content.modelCode.discountCoupon !== 'discountCoupon') {
-        this.discountCoupon = true;
+        this.discountCoupon = false;
         console.log('优惠卷', this.discountCoupon);
       }
       if (this.content.modelCode.activity !== 'activity') {
-        this.activity = true;
+        this.activity = false;
         console.log('活动管理', this.activity);
       }
       if (this.content.modelCode.product !== 'product') {
-        this.product = true;
+        this.product = false;
         console.log('商品管理', this.product);
       }
     },
