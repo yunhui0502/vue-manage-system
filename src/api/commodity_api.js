@@ -1,5 +1,5 @@
 /* eslint-disable require-jsdoc */
-import Axios from 'axios';
+import Axios from './index';
 // =============================================商品模块
 // 获取商品列表
 function getProductList () {

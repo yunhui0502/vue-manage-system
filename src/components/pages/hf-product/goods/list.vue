@@ -105,7 +105,7 @@
           </el-table-column>
           <el-table-column fixed="right" width="100" label="操作">
             <template slot-scope="scope">
-              <el-button type="text" size="small" @click="show =true">编辑</el-button>
+              <el-button type="text" size="small" @click="show =!show">编辑</el-button>
               <el-button @click="modification(scope)" type="text" size="small">提交</el-button>
             </template>
           </el-table-column>
@@ -290,8 +290,8 @@ export default {
     // 点击物品列表行触发
     rowClick(e) {
       console.log('三级连动', e.goodsId);
-      this.interconnectedID = e.goodsId;
-      this.$emit('change', e.goodsId + '');
+      // this.interconnectedID = e.goodsId;
+      // this.$emit('change', e.goodsId + '');
     },
     // 详情
     editProduct(row) {
@@ -320,6 +320,7 @@ export default {
       // eslint-disable-next-line no-magic-numbers
       row.sellPrice = row.sellPrice * 100;
       serviceGoods.updateGood(row, (res) => {
+        this.show = !this.show;
         this.setProducts();
       });
     },

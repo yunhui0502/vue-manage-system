@@ -23,7 +23,10 @@
     </el-card>
 
     <el-card class="box-card">
-      <el-button style="float: right;" @click="dialogVisible = true" type="purple">+添加类目</el-button>
+      <div slot="header" class="clearfix">
+        <!-- <span>卡片名称</span> -->
+        <el-button style="float: right;" @click="dialogVisible = true" type="purple">+添加类目</el-button>
+      </div>
 
       <el-table
         :data="tableData"
@@ -40,7 +43,7 @@
           >{{scope.row.level===1?'一级类目':scope.row.level===2?'二级类目':'三级类目'}}</template>
         </el-table-column>
         <el-table-column prop="date" label="创建时间" align="center" show-overflow-tooltip></el-table-column>
-        <el-table-column fixed="right" width="150" label="操作" align="center">
+        <el-table-column fixed="right" width="120" label="操作" align="center">
           <template slot-scope="scope">
             <el-button @click="handleClicks(scope.row)" type="text" size="small">编辑</el-button>
             <el-button
@@ -48,7 +51,6 @@
               class="ff3"
               type="text"
               size="small"
-              style="color: hotpink;"
             >删除</el-button>
           </template>
         </el-table-column>
@@ -515,9 +517,9 @@ export default {
   // margin: 0 5px 5px 5px;
   margin-bottom: 25px;
 }
-.el-button {
-  padding: 12px 46px;
-}
+// .el-button {
+//   padding: 12px 46px;
+// }
 .el-button[data-v-19959a27] {
   padding: 0;
 }

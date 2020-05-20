@@ -2,7 +2,7 @@
   <div slot="header" class="clearfix">
     <el-card class="box-card box-form">
       <div slot="header" class="clearfix">
-        <span>商品信息</span>
+        <span class="box-form">商品信息</span>
       </div>
 
       <el-form
@@ -64,7 +64,7 @@
         <el-header style="height: 10px;" class="font-neue t-10">
           {{Cabinet}}规格
           <span style="margin: 0 4px">{{Cabinet}}名称：{{productInfo.name}}</span>
-          <el-button type="purple" style="float: right;" @click="addGoodsSpecificationList()">添加规格</el-button>
+          <el-button type="purple" style="float: right;" @click="addGoodsSpecificationList()">+ 添加规格</el-button>
         </el-header>
       </div>
 
@@ -466,10 +466,9 @@ export default {
 }
 
 .font-neue {
- font-size:8px;
-font-family:Source Han Sans CN;
-font-weight:400;
-color:rgba(102,102,102,1);
+ font-size:18px;
+font-weight:500;
+color: #303133
 }
 .pl-5 {
   padding-right: 5px;
@@ -487,5 +486,8 @@ color:rgba(102,102,102,1);
   margin-top: 0px;
   margin-bottom: 0px;
   height: 92px;
+}
+.el-header {
+  padding: 0;
 }
 </style>

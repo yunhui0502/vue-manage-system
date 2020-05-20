@@ -6,12 +6,13 @@
         <!-- <el-table-column type="selection"></el-table-column> -->
         <el-table-column label="规格名称" width="110">
           <template slot-scope="scope">
-            <el-input placeholder="请输入内容" v-model="scope.row.hfName"></el-input>
+            <el-input v-show="!scope.row.show" placeholder="请输入内容" v-model="scope.row.hfName"></el-input>
+            <span v-show="scope.row.show">{{scope.row.hfName}}</span>
           </template>
         </el-table-column>
         <el-table-column label="规格类型" width="90">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.specType" placeholder="请选择">
+            <el-select :disabled="scope.row.show" v-model="scope.row.specType" placeholder="请选择">
               <el-option
                 v-for="item in Types"
                 :key="item.value"
@@ -23,12 +24,13 @@
         </el-table-column>
         <el-table-column label="默认值">
           <template slot-scope="scope">
-            <el-input placeholder="请输入内容" v-model="scope.row.specValue"></el-input>
+            <el-input v-show="!scope.row.show" placeholder="请输入内容" v-model="scope.row.specValue"></el-input>
+            <span v-show="scope.row.show">{{scope.row.specValue}}</span>
           </template>
         </el-table-column>
         <el-table-column label="规格单位" width="120">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.specUnit" placeholder="请选择">
+            <el-select :disabled="scope.row.show"  v-model="scope.row.specUnit" placeholder="请选择">
               <el-option
                 v-for="item in Units"
                 :key="item.specUnit"
@@ -40,6 +42,7 @@
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
+            <el-button type="text" size="small" @click="compile(scope.row)">编辑</el-button>
             <el-button  type="text" @click="save(scope)">保存</el-button>
             <el-button class="ff3"  type="text" style="color: red;" @click="deleteEvent(scope.row.id)">删除</el-button>
           </template>
@@ -57,7 +60,7 @@
         </el-table-column>
         <el-table-column label="规格类型" width="120">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.specType" placeholder="请选择">
+            <el-select disabled v-model="scope.row.specType" placeholder="请选择">
               <el-option
                 v-for="item in Types"
                 :key="item.value"
@@ -69,7 +72,8 @@
         </el-table-column>
         <el-table-column label="值">
           <template slot-scope="scope">
-            <el-input placeholder="请输入内容" v-model="scope.row.specValue"></el-input>
+            <el-input v-show="scope.row.show" placeholder="请输入内容" v-model="scope.row.specValue"></el-input>
+            <span v-show="!scope.row.show">{{scope.row.specValue}}</span>
           </template>
         </el-table-column>
         <!-- <el-table-column v-for="(item,i) in cols" :key="i" :prop="item.prop" :label="item.label">
@@ -79,7 +83,7 @@
         </el-table-column> -->
         <el-table-column label="规格单位" width="90">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.specUnit" placeholder="请选择">
+            <el-select disabled v-model="scope.row.specUnit" placeholder="请选择">
               <el-option
                 v-for="item in Units"
                 :key="item.specUnit"
@@ -91,7 +95,8 @@
         </el-table-column>
         <el-table-column label="操作" width="180">
           <template slot-scope="scope">
-            <el-button type="text" style="color: rgb(24, 211, 71);" @click="submitPrice(scope)">更新</el-button>
+            <el-button type="text" style="color: rgb(24, 211, 71);" @click="scope.row.show=!scope.row.show">编辑</el-button>
+            <el-button type="text" style="color: rgb(24, 211, 71);" @click="submitPrice(scope)">保存</el-button>
             <!-- <el-button type="text" style="color: rgb(218, 18, 28);" @click="deletion(scope)">删除</el-button> -->
           </template>
         </el-table-column>
@@ -132,6 +137,7 @@ export default {
   },
   data() {
     return {
+      show: false,
       detailsp: true,
       specificationData: [], // 准备 删除
       // 添加物品规格 展示数据
@@ -168,6 +174,7 @@ export default {
         userId: '',
         // 更新用的
         productSpecId: '',
+        specName: '',
       },
       Types: [
         {
@@ -237,6 +244,10 @@ export default {
     });// 设置接收父组件的方法
   },
   methods: {
+    compile(row) {
+      // console.log(row);
+      row.show = !row.show;
+    },
     // 删除商品规格
     deleteEvent(id) {
       this.$confirm('此操作将会删除该活动, 是否继续?', '提示', {}).then(() => {
@@ -292,6 +303,7 @@ export default {
         hfName: '',
         specType: '',
         specUnit: '',
+        show: false,
       };
       this.specificationData.push(row);
     },
@@ -322,6 +334,7 @@ export default {
             message: '添加商品规格成功',
             type: 'success',
           });
+          scope.row.show = !scope.row.show;
           this.getspecification();
           serviceProduct.specifies(this.specification.productId, (res) => {
             console.log('获取规格ID', res);
@@ -337,15 +350,18 @@ export default {
         });
       } else {
         console.log('更新');
-        this.specification.hfName = scope.row.hfName;
+        this.specification.specName = scope.row.hfName;
         this.specification.productSpecId = scope.row.id;
         this.specification.specUnit = scope.row.specUnit;
         this.specification.productId = this.commodityId;
+        this.specification.specValue = scope.row.specValue;
         serviceProduct.updatespec(this.specification, () => {
           this.$message({
             message: '更新商品规格成功',
             type: 'success',
           });
+          scope.row.show = !scope.row.show;
+
         });
       }
     },

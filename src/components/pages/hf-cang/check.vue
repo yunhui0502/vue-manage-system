@@ -181,12 +181,12 @@
           </el-table-column>
           <el-table-column align="center" prop="category" label="物品类目"></el-table-column>
           <el-table-column align="center" prop="warehouseName" label="所属仓库"></el-table-column>
-          <el-table-column align="center" prop="time" label="创建时间" width="150"></el-table-column>
-          <el-table-column align="center" prop="name" label="操作人" width="150"></el-table-column>
-          <el-table-column fixed="right" label="操作" width="100">
+          <el-table-column align="center" prop="time" label="创建时间" ></el-table-column>
+          <el-table-column align="center" prop="name" label="操作人" ></el-table-column>
+          <el-table-column fixed="right" label="操作">
             <template slot-scope="scope">
               <el-button v-if="scope.row.status==1" class="a6a" @click="chucang(scope.row)" type="text" size="small">出库</el-button>
-              <el-button v-if="scope.row.status==1" class="a6a" @click="editProduct(scope.row)" type="text" size="small">拒绝入库</el-button>
+              <el-button v-if="scope.row.status==1" class="a6a" @click="editProduct(scope.row)" type="text" size="small">拒绝</el-button>
               <!-- <el-button class="ff3" @click="deleteProduct(scope.row)" type="text" size="small">删除</el-button> -->
               <el-button v-if="scope.row.status!==1" class="ff3" type="text" size="small">已审批</el-button>
             </template>

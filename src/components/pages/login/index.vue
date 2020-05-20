@@ -19,7 +19,7 @@
           <el-form ref="loginForm" :model="loginForm" :rules="loginRules" status-icon>
             <el-row :gutter="20">
               <el-col :span="12" :offset="6">
-                <el-form-item prop="mobile">
+                <el-form-item prop="authKey">
                   <el-input
                     v-model="loginForm.authKey"
                     placeholder="请输入手机号"
@@ -76,6 +76,7 @@
 import store from '@/store';
 import constants from '@/store/constants.js';
 import log from '@/service/login.js';
+import axios from 'axios';
 export default {
   data() {
     // 定义一个校验函数
@@ -91,7 +92,7 @@ export default {
       squareUrl: '',
       // 表单数据对象
       loginForm: {
-        authKey: '',
+        authKey: '18830709006',
         authType: '2',
         code: '',
         type: '',
@@ -99,12 +100,12 @@ export default {
       // 表单校验规则对象
       loginRules: {
         authKey: [
-          { required: true, message: '请输入手机号', trigger: 'blur' },
+          { required: true, message: '请输入手机号', trigger: 'change' },
           { validator: checkMobile, trigger: 'change' },
         ],
-        passwd: [
-          { required: true, message: '请输入验证码', trigger: 'blur' },
-          { len: 4, message: '验证码长度4位', trigger: 'blur' },
+        code: [
+          { required: true, message: '请输入验证码', trigger: ['blur', 'change'] },
+          { len: 4, message: '验证码长度4位', trigger: ['blur', 'change']},
         ],
       },
     };
@@ -123,6 +124,9 @@ export default {
             // var re = res.headers.token;
             console.log(res);
             console.log(res.data.data.token);
+            if (res.data.data === '验证码不正确') {
+              this.$message.error('验证码输入错误');
+            }
             // console.log(re);
             if (res.data.status === constants.SUCCESS_CODE) {
               let data = { token: res.data.data.token };
@@ -165,25 +169,23 @@ export default {
     // 发送验证码
     Sendlogin() {
       // 调用 validate 对整体表进行校验
-      this.$refs.loginForm.validate(async (valid) => {
-        console.log(1);
-        if (valid) {
-          console.log(valid);
-          try {
-            // eslint-disable-next-line no-unused-vars
-            await this.$http
-              .get('/api/api/user/user/code?phone=' + this.loginForm.authKey)
-              .then((res) => {
-                this.loginForm.code = res.data.data;
-              });
-            // this.$router.push('/')
-          } catch (e) {
-            // 进行错误提示即可
-            this.$message.error('手机号或验证码错误1');
-            console.log(e);
-          }
-        }
-      });
+      // if (!/^1[3-9]\d{9}$/.test(value)) {
+      //   return callback(new Error('手机号不合法'));
+      // }
+      console.log(this.loginForm.authKey === /^1[3-9]\d{9}$/);
+      let patrn = /^1[3-9]\d{9}$/;
+      if (patrn.exec(this.loginForm.authKey)) {
+        // eslint-disable-next-line no-unused-vars
+        axios
+          .get('/api/api/user/user/code?phone=' + this.loginForm.authKey)
+          .then((res) => {
+            // this.loginForm.code = res.data.data;
+          });
+        this.$router.push('/');
+      } else {
+        return false;
+      }
+
     },
   },
 };

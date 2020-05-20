@@ -1,5 +1,5 @@
 /* eslint-disable require-jsdoc */
-import Axios from 'axios';
+import Axios from './index';
 function checkStatus(state) {
   return Axios.get('/api/api/order/order/status');
 }
@@ -46,8 +46,7 @@ function getWuLiu(params) {
 }
 function sousuo(params) {
   console.log(params);
-  return Axios.get('/api/api/order/hf-order/query?orderCode=' + params.orderCode +
-  '&orderStatus=' + params.orderStatus + '&orderType=' + params.orderType + '&stateTime=' + params.startTime + '&endTime=' + params.endTime + '&paymentName=' + params.paymentName);
+  return Axios.get('/api/api/order/hf-order/query?orderCode=' + params.orderCode + '&orderStatus=' + params.orderStatus + '&orderType=' + params.orderType + '&stateTime=' + params.startTime + '&endTime=' + params.endTime + '&paymentName=' + params.paymentName + '&productName=' + params.productName);
 }
 
 export default {

@@ -1,5 +1,5 @@
 
-import Axios from 'axios';
+import Axios from './index';
 // 查询
 // eslint-disable-next-line require-jsdoc
 function login (params) {

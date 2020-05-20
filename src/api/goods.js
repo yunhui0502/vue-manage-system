@@ -1,6 +1,6 @@
 /* eslint-disable no-magic-numbers */
 /* eslint-disable require-jsdoc */
-import Axios from 'axios';
+import Axios from './index';
 // =============================================商品模块
 
 function getGoodsByProductId(productId) {

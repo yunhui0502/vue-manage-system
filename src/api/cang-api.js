@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable require-jsdoc */
-import Axios from 'axios';
+import Axios from './index';
 
 function addcang(params) {
   let fd = new FormData();

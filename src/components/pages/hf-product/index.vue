@@ -3,22 +3,26 @@
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane class="a6a" label="商品管理" name="goods">
         <el-card class="search-card">
-          <Search  @parentByClick="childClick"></Search>
+          <Search @parentByClick="childClick"></Search>
         </el-card>
 
         <el-card class="box-card">
           <!-- 搜索渲染区 -->
-          <div class="filter-container">
-            <div class="letf-items" style="float: left;font-size: 14px;">
-              已选{{amount}}项商品
-              <el-button class="ff3" style="padding: 0 10px;" type="text" @click="toggleSelection()">清空</el-button>
+            <div slot="header" class="clearfix">
+              <span>已选{{amount}}项商品
+              <el-button
+                class="ff3"
+                style="padding: 10px 10px;"
+                type="text"
+                @click="toggleSelection()"
+              >清空</el-button></span>
+              <div style="float: right;">
+                <el-button @click="setProducts()">刷新</el-button>
+                <el-button @click="handleCreate()" type="purple">新增商品</el-button>
+                <el-button @click="BatchRemove()">批量操作</el-button>
+              </div>
             </div>
-            <div class="right-items" style="float: right;padding: 10px 0;">
-              <el-button @click="setProducts()">刷新</el-button>
-              <el-button @click="handleCreate()" type="purple">新增商品</el-button>
-              <el-button @click="BatchRemove()">批量操作</el-button>
-            </div>
-          </div>
+
           <!-- 内容区 -->
           <div class="text item">
             <el-table
@@ -43,7 +47,12 @@
               <el-table-column fixed="right" label="操作" width="100">
                 <template slot-scope="scope">
                   <el-button class="a6a" @click="editProduct(scope.row)" type="text" size="small">编辑</el-button>
-                  <el-button class="ff3" @click="deleteProduct(scope.row)" type="text" size="small">删除</el-button>
+                  <el-button
+                    class="ff3"
+                    @click="deleteProduct(scope.row)"
+                    type="text"
+                    size="small"
+                  >删除</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -61,40 +70,51 @@
       <el-tab-pane class="a6a" label="类目管理" name="category">
         <category></category>
       </el-tab-pane>
-       <el-tab-pane class="a6a" label="物品审批" name="shen">
-           <el-table
-              :data="shendata"
-              v-loading="loading"
-              stripe
-              style="width: 100%"
-              highlight-current-row
-              ref="multipleTable"
-              @selection-change="handleSelectionChange"
-            >
-              <el-table-column type="selection" width="50"></el-table-column>
-              <el-table-column align="center" label="序号" type="index" :index="indexMethod"></el-table-column>
-              <el-table-column align="center" prop="goodName" label="物品名称"></el-table-column>
-              <el-table-column align="center" prop="goodDesc" label="物品描述" show-overflow-tooltip></el-table-column>
-              <el-table-column align="center" prop="total" label="总数数量"></el-table-column>
-              <el-table-column align="center" prop="quantity" label="出库数量"></el-table-column>
-              <el-table-column align="center" prop="category" label="物品类目"></el-table-column>
-              <el-table-column align="center" prop="warehouseName" label="所属仓库">
-              </el-table-column>
-              <el-table-column align="center" label="审批状态" width="150">
-                 <template slot-scope="scope">
-                  <span>{{scope.row.status==2?'未审批':'审批'}}</span>
-                </template>
-              </el-table-column>
-              <el-table-column align="center" prop="time" label="创建时间" width="150"></el-table-column>
-              <el-table-column align="center" prop="name" label="操作人" width="150"></el-table-column>
-              <el-table-column fixed="right" label="操作" width="100">
-                <template slot-scope="scope">
-                  <el-button v-if="scope.row.status==2" class="a6a" @click="chucang(scope.row)" type="text" size="small">审批</el-button>
-                  <el-button v-if="scope.row.status==2" class="a6a" @click="refuse(scope.row)" type="text" size="small">拒绝</el-button>
-                  <el-button v-if="scope.row.status!==2" class="ff3" type="text" size="small">已审批</el-button>
-                </template>
-              </el-table-column>
-            </el-table>
+      <el-tab-pane class="a6a" label="物品审批" name="shen">
+        <el-table
+          :data="shendata"
+          v-loading="loading"
+          stripe
+          style="width: 100%"
+          highlight-current-row
+
+          @selection-change="handleSelectionChange"
+        >
+          <el-table-column type="selection" width="50"></el-table-column>
+          <el-table-column align="center" label="序号" type="index" :index="indexMethod"></el-table-column>
+          <el-table-column align="center" prop="goodName" label="物品名称"></el-table-column>
+          <el-table-column align="center" prop="goodDesc" label="物品描述" show-overflow-tooltip></el-table-column>
+          <el-table-column align="center" prop="total" label="总数数量"></el-table-column>
+          <el-table-column align="center" prop="quantity" label="出库数量"></el-table-column>
+          <el-table-column align="center" prop="category" label="物品类目"></el-table-column>
+          <el-table-column align="center" prop="warehouseName" label="所属仓库"></el-table-column>
+          <el-table-column align="center" label="审批状态" width="150">
+            <template slot-scope="scope">
+              <span>{{scope.row.status==2?'未审批':'审批'}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" prop="time" label="创建时间" width="150"></el-table-column>
+          <el-table-column align="center" prop="name" label="操作人" width="150"></el-table-column>
+          <el-table-column fixed="right" label="操作" width="100">
+            <template slot-scope="scope">
+              <el-button
+                v-if="scope.row.status==2"
+                class="a6a"
+                @click="chucang(scope.row)"
+                type="text"
+                size="small"
+              >审批</el-button>
+              <el-button
+                v-if="scope.row.status==2"
+                class="a6a"
+                @click="refuse(scope.row)"
+                type="text"
+                size="small"
+              >拒绝</el-button>
+              <el-button v-if="scope.row.status!==2" class="ff3" type="text" size="small">已审批</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -136,62 +156,67 @@ export default {
     this.shenlist();
   },
   methods: {
-    chucang (row) {
+    chucang(row) {
       console.log(row);
 
       this.$confirm('是否同意此申请?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning',
-      }).then(() => {
-        this.Param.type = 1;
-        this.Param.applyId = row.id;
-        serviceProduct.bossAgreeApply(this.Param, (res) => {
-
-          console.log(res);
-          if (res.data.data === 0) {
-            this.$message({
-              showClose: true,
-              message: '数量不足',
-              type: 'error',
-            });
-          } else {
-            this.$message({
-              message: '已同意',
-              type: 'success',
-            });
-          }
-          this.shenlist();
-        });
       })
-        // eslint-disable-next-line no-unexpected-multiline
-        ['catch'](() => {
+        .then(() => {
+          this.Param.type = 1;
+          this.Param.applyId = row.id;
+          serviceProduct.bossAgreeApply(this.Param, (res) => {
+            console.log(res);
+            if (res.data.data === 0) {
+              this.$message({
+                showClose: true,
+                message: '数量不足',
+                type: 'error',
+              });
+            } else {
+              this.$message({
+                message: '已同意',
+                type: 'success',
+              });
+            }
+            this.shenlist();
+          });
+        })
+        [
+          // eslint-disable-next-line no-unexpected-multiline
+          'catch'
+        ](() => {
           this.$message({
             type: 'info',
             message: '已取消',
           });
         });
     },
-    refuse (row) {
+    refuse(row) {
       console.log(row);
 
       this.$confirm('是否拒绝此申请?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning',
-      }).then(() => {
-        this.Param.type = 2;
-        this.Param.applyId = row.id;
-        serviceProduct.bossAgreeApply(this.Param, (res) => {
-          this.$message({
-            message: '已拒绝',
-            type: 'warning',
-          });
-          this.shenlist();
-        });
       })
-        // eslint-disable-next-line no-unexpected-multiline
-        ['catch'](() => {
+        .then(() => {
+          this.Param.type = 2;
+          this.Param.applyId = row.id;
+          serviceProduct.bossAgreeApply(this.Param, (res) => {
+            this.$message({
+              message: '已拒绝',
+              type: 'warning',
+            });
+            this.shenlist();
+          });
+        })
+        [
+          // eslint-disable-next-line no-unexpected-multiline
+          'catch'
+        ](() => {
           this.$message({
             type: 'info',
             message: '已取消',

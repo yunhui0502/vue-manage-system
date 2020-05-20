@@ -8,128 +8,270 @@
         :key="item.orderDesc"
         :name="item.orderDesc"
       ></el-tab-pane>
-    </el-tabs> -->
-
-    <el-card class="search-card">
-      <el-form :inline="true" :model="sousuoinfor1" ref="ruleForms"  class="demo-form-inline">
-        <el-row :gutter="10">
-          <el-col :span="6">
-            <el-form-item label="订单号"  prop="orderCode">
-              <el-input v-model="sousuoinfor1.orderCode" placeholder="请输入订单号"></el-input>
-            </el-form-item>
-          </el-col>
-          <!-- <el-col :span="6">
-            <el-form-item label="商品名称">
-              <el-input v-model="value" placeholder="请输入名称"></el-input>
-            </el-form-item>
-          </el-col> -->
-           <!-- <el-col :span="6">
+    </el-tabs>-->
+    <el-tabs v-model="activeName" @tab-click="handleClick">
+      <el-tab-pane label="普通订单" name="nomalOrder">
+        <el-card class="search-card">
+          <el-form :inline="true" :model="sousuoinfor1" ref="ruleForms" class="demo-form-inline">
+            <el-row :gutter="10">
+              <el-col :span="6">
+                <el-form-item label="订单号" prop="orderCode">
+                  <el-input v-model="sousuoinfor1.orderCode" placeholder="请输入订单号"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="商品名称">
+                  <el-input v-model="sousuoinfor1.productName" placeholder="请输入名称"></el-input>
+                </el-form-item>
+              </el-col>
+              <!-- <el-col :span="6">
             <el-form-item label="订单状态">
               <el-select v-model="valueset" placeholder="请选择" @change="selectstatus">
                 <el-option :label="item.hfName" v-for="item  in statusData" :key="item.hfName" :value="item.hfName"></el-option>
               </el-select>
             </el-form-item>
-          </el-col> -->
-          <el-col :span="6">
-            <el-form-item label="支付方式"  prop="valueset1">
-              <el-select v-model="sousuoinfor1.valueset1" placeholder="请选择" @change="selectmethod">
-                <el-option :label="item.name" v-for="item  in paymethod" :key="item.name" :value="item.name"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="订单类型" prop="valueset2">
+              </el-col>-->
+              <el-col :span="6">
+                <el-form-item label="支付方式" prop="valueset1">
+                  <el-select
+                    v-model="sousuoinfor1.valueset1"
+                    placeholder="请选择"
+                    @change="selectmethod"
+                  >
+                    <el-option
+                      :label="item.name"
+                      v-for="item  in paymethod"
+                      :key="item.name"
+                      :value="item.name"
+                    ></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-button type="primary" @click="sousuo">筛选</el-button>
+                <el-button @click="resetForm('ruleForms')">重置</el-button>
+                <!-- <el-form-item label="订单类型" prop="valueset2">
               <el-select v-model="sousuoinfor1.valueset2" placeholder="请输入" @change="selecttype">
                 <el-option :label="item.orderDesc" v-for="item  in orderType" :key="item.orderDesc" :value="item.orderDesc"></el-option>
               </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
+                </el-form-item>-->
+              </el-col>
+            </el-row>
 
-        <el-row :gutter="20">
-          <el-col :span="16">
-            <el-form-item label="下单时间" prop="startTime">
-                 <el-date-picker
-                   @change="uptime1"
-                  v-model="sousuoinfor1.startTime"
-                  type="datetimerange"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期"
-                  :default-time="['12:00:00']">
-                </el-date-picker>
-            </el-form-item>
-            <!-- <el-button>今天</el-button>
+            <el-row :gutter="20">
+              <el-col :span="16">
+                <el-form-item label="下单时间" prop="startTime">
+                  <el-date-picker
+                    @change="uptime1"
+                    v-model="sousuoinfor1.startTime"
+                    type="datetimerange"
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期"
+                    :default-time="['12:00:00']"
+                  ></el-date-picker>
+                </el-form-item>
+                <!-- <el-button>今天</el-button>
             <el-button>昨天</el-button>
             <el-button>近7天</el-button>
-            <el-button>昨天30天</el-button> -->
-          </el-col>
+                <el-button>昨天30天</el-button>-->
+              </el-col>
 
-
-           <el-col :span="4">
+              <!-- <el-col :span="4">
              <el-form-item>
             <el-button type="primary" @click="sousuo">筛选</el-button>
             <el-button @click="resetForm('ruleForms')">重置</el-button>
            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form>
-    </el-card>
+              </el-col>-->
+            </el-row>
+          </el-form>
+        </el-card>
 
-    <el-tabs type="border-card" @tab-click="getStatus" >
-      <el-tab-pane :label="item.hfName" v-for="item  in statusData" :key="item.hfName">
-        <el-table
-          :data="orderData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
-          stripe
-          style="width: 100%"
-        >
-          <el-table-column
-            align="center"
-            prop="orderCode"
-            label="订单号"
-            :show-overflow-tooltip="true"
-            width="180"
-          ></el-table-column>
-          <el-table-column align="center" prop="nickName" label="支付人"></el-table-column>
-          <el-table-column align="center" prop="phone" label="手机号"></el-table-column>
-          <el-table-column align="center" label="订单类型" prop="orderType">
-            <template slot-scope="scope">
-              <span v-if="scope.row.orderType ==='shoppingOrder'">到店支付订单</span>
-              <span v-if="scope.row.orderType ==='nomalOrder'">普通订单</span>
-              <span v-if="scope.row.orderType ==='rechargeOrder'">充值订单</span>
-            </template>
-          </el-table-column>
-          <el-table-column align="center" label="支付方式">
-            <template slot-scope="scope">
-              <span v-if="scope.row.paymentName === 'BalancePayment'">余额支付</span>
-              <span v-if="scope.row.paymentName ==='balance'">余额支付</span>
-              <span v-if="scope.row.paymentName ==='wechart'">微信支付</span>
-            </template>
-          </el-table-column>
-          <el-table-column align="center" label="订单状态">
-            <template>
-              <span>{{zhuang}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column align="center" prop="amount" label="支付金额"></el-table-column>
-          <el-table-column align="center" prop="modifyTime" label="修改时间" width="180"></el-table-column>
-          <el-table-column align="center" label="操作">
-            <template slot-scope="scope">
-              <!-- <el-button @click="checkDetail(scope.row)" type="text" size="small">详情</el-button> -->
-              <el-button @click="goDetail(scope.row)" type="text" size="small">订单处理</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-        <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          style="float:right;"
-          background
-          layout="prev, pager, next"
-          :total="orderData.length"
-          :page-size="pagesize"
-        ></el-pagination>
+        <el-tabs type="border-card" @tab-click="getStatus">
+          <el-tab-pane :label="item.hfName" v-for="item  in statusData" :key="item.hfName">
+            <el-table
+              :data="orderData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
+              stripe
+              style="width: 100%"
+            >
+              <el-table-column
+                align="center"
+                prop="orderCode"
+                label="订单号"
+                :show-overflow-tooltip="true"
+                width="180"
+              ></el-table-column>
+              <el-table-column align="center" prop="nickName" label="支付人"></el-table-column>
+              <el-table-column align="center" prop="phone" label="手机号"></el-table-column>
+              <el-table-column align="center" label="订单类型" prop="orderType">
+                <template slot-scope="scope">
+                  <span v-if="scope.row.orderType ==='shoppingOrder'">到店支付订单</span>
+                  <span v-if="scope.row.orderType ==='nomalOrder'">普通订单</span>
+                  <span v-if="scope.row.orderType ==='rechargeOrder'">充值订单</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="支付方式">
+                <template slot-scope="scope">
+                  <span v-if="scope.row.paymentName === 'BalancePayment'">余额支付</span>
+                  <span v-if="scope.row.paymentName ==='balance'">余额支付</span>
+                  <span v-if="scope.row.paymentName ==='wechart'">微信支付</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="订单状态">
+                <template>
+                  <span>{{zhuang}}</span>
+                  <!-- <span>{{zhuang}}</span> -->
+                </template>
+              </el-table-column>
+              <el-table-column align="center" prop="amount" label="支付金额"></el-table-column>
+              <el-table-column align="center" prop="modifyTime" label="修改时间" width="180"></el-table-column>
+              <el-table-column align="center" label="操作">
+                <template slot-scope="scope">
+                  <!-- <el-button @click="checkDetail(scope.row)" type="text" size="small">详情</el-button> -->
+                  <el-button @click="goDetail(scope.row)" type="text" size="small">订单处理</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+            <el-pagination
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              style="float:right;"
+              background
+              layout="prev, pager, next"
+              :total="orderData.length"
+              :page-size="pagesize"
+            ></el-pagination>
+          </el-tab-pane>
+        </el-tabs>
       </el-tab-pane>
+
+      <el-tab-pane label="充值订单" name="rechargeOrder">
+        <el-card class="search-card">
+          <el-form :inline="true" :model="sousuoinfor1" ref="ruleForms" class="demo-form-inline">
+            <el-row :gutter="10">
+              <el-col :span="6">
+                <el-form-item label="订单号" prop="orderCode">
+                  <el-input v-model="sousuoinfor1.orderCode" placeholder="请输入订单号"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="商品名称">
+                  <el-input v-model="sousuoinfor1.productName" placeholder="请输入名称"></el-input>
+                </el-form-item>
+              </el-col>
+              <!-- <el-col :span="6">
+            <el-form-item label="订单状态">
+              <el-select v-model="valueset" placeholder="请选择" @change="selectstatus">
+                <el-option :label="item.hfName" v-for="item  in statusData" :key="item.hfName" :value="item.hfName"></el-option>
+              </el-select>
+            </el-form-item>
+              </el-col>-->
+              <el-col :span="6">
+                <el-form-item label="支付方式" prop="valueset1">
+                  <el-select
+                    v-model="sousuoinfor1.valueset1"
+                    placeholder="请选择"
+                    @change="selectmethod"
+                  >
+                    <el-option
+                      :label="item.name"
+                      v-for="item  in paymethod"
+                      :key="item.name"
+                      :value="item.name"
+                    ></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-button type="primary" @click="sousuo">筛选</el-button>
+                <el-button @click="resetForm('ruleForms')">重置</el-button>
+                <!-- <el-form-item label="订单类型" prop="valueset2">
+              <el-select v-model="sousuoinfor1.valueset2" placeholder="请输入" @change="selecttype">
+                <el-option :label="item.orderDesc" v-for="item  in orderType" :key="item.orderDesc" :value="item.orderDesc"></el-option>
+              </el-select>
+                </el-form-item>-->
+              </el-col>
+            </el-row>
+
+            <el-row :gutter="20">
+              <el-col :span="16">
+                <el-form-item label="下单时间" prop="startTime">
+                  <el-date-picker
+                    @change="uptime1"
+                    v-model="sousuoinfor1.startTime"
+                    type="datetimerange"
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期"
+                    :default-time="['12:00:00']"
+                  ></el-date-picker>
+                </el-form-item>
+                <!-- <el-button>今天</el-button>
+            <el-button>昨天</el-button>
+            <el-button>近7天</el-button>
+                <el-button>昨天30天</el-button>-->
+              </el-col>
+
+              <!-- <el-col :span="4">
+             <el-form-item>
+            <el-button type="primary" @click="sousuo">筛选</el-button>
+            <el-button @click="resetForm('ruleForms')">重置</el-button>
+           </el-form-item>
+              </el-col>-->
+            </el-row>
+          </el-form>
+        </el-card>
+
+        <el-tabs type="border-card" @tab-click="getStatus">
+          <el-tab-pane :label="item.hfName" v-for="item  in statusData" :key="item.hfName">
+            <el-table
+              :data="orderData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
+              stripe
+              style="width: 100%"
+            >
+              <el-table-column
+                align="center"
+                prop="orderCode"
+                label="订单号"
+                :show-overflow-tooltip="true"
+                width="180"
+              ></el-table-column>
+              <el-table-column align="center" prop="nickName" label="支付人"></el-table-column>
+              <el-table-column align="center" prop="phone" label="手机号"></el-table-column>
+              <el-table-column align="center" label="订单类型" prop="orderType">
+                <template slot-scope="scope">
+                  <span v-if="scope.row.orderType ==='shoppingOrder'">到店支付订单</span>
+                  <span v-if="scope.row.orderType ==='nomalOrder'">普通订单</span>
+                  <span v-if="scope.row.orderType ==='rechargeOrder'">充值订单</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="支付方式">
+                <template slot-scope="scope">
+                  <span v-if="scope.row.paymentName === 'BalancePayment'">余额支付</span>
+                  <span v-if="scope.row.paymentName ==='balance'">余额支付</span>
+                  <span v-if="scope.row.paymentName ==='wechart'">微信支付</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="订单状态">
+                <template>
+                  <span>{{zhuang}}</span>
+                  <!-- <span>{{zhuang}}</span> -->
+                </template>
+              </el-table-column>
+              <el-table-column align="center" prop="amount" label="支付金额"></el-table-column>
+              <el-table-column align="center" prop="modifyTime" label="修改时间" width="180"></el-table-column>
+              <el-table-column align="center" label="操作">
+                <template slot-scope="scope">
+                  <!-- <el-button @click="checkDetail(scope.row)" type="text" size="small">详情</el-button> -->
+                  <el-button @click="goDetail(scope.row)" type="text" size="small">订单处理</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+          </el-tab-pane>
+        </el-tabs>
+      </el-tab-pane>
+
+      <el-tab-pane label="到店支付订单" name="shoppingOrder">订单</el-tab-pane>
     </el-tabs>
+
     <el-drawer :visible.sync="drawer">
       <span style="margin-left:20px;font-size:14px;color:#666;">修改订单状态</span>
       <el-select
@@ -161,20 +303,24 @@ export default {
         valueset1: '',
         valueset2: '',
         valueset: '',
+        productName: '',
       },
       valueset2: '',
       valueset1: '',
-      paymethod: [{
-        method: 'wechart',
-        name: '微信支付',
-      }, {
-        method: 'balance',
-        name: '余额支付',
-      }],
+      paymethod: [
+        {
+          method: 'wechart',
+          name: '微信支付',
+        },
+        {
+          method: 'balance',
+          name: '余额支付',
+        },
+      ],
       valueset: '',
       startTime: '',
       value1: {},
-      activeName: '',
+      activeName: 'nomalOrder',
       zhuang: '待支付',
       currentPage: 1, // 初始页
       pagesize: 10, // 每页的数据
@@ -189,6 +335,7 @@ export default {
         orderType: '',
         orderStatus: '',
         paymentName: '',
+        productName: '',
       },
       orderTypeValue: '',
       orderType: [],
@@ -229,7 +376,6 @@ export default {
         if (this.orderType[i].orderDesc === tab) {
           console.log(this.orderType[i].orderType);
           this.sousuoinfor.orderType = this.orderType[i].orderType;
-
         }
       }
     },
@@ -239,7 +385,6 @@ export default {
         if (this.paymethod[i].name === tab) {
           console.log(this.paymethod[i].method);
           this.sousuoinfor.paymentName = this.paymethod[i].method;
-
         }
       }
     },
@@ -249,7 +394,6 @@ export default {
         if (this.statusData[i].hfName === tab) {
           console.log(this.statusData[i].hfDesc);
           this.sousuoinfor.orderStatus = this.statusData[i].hfDesc;
-
         }
       }
     },
@@ -292,7 +436,8 @@ export default {
       this.sousuoinfor.orderCode = this.sousuoinfor1.orderCode;
       console.log('1', this.type.orderStatus);
       this.sousuoinfor.orderType = this.type.orderType;
-      this.sousuoinfor.orderStatus = this.type.orderStatus ;
+      this.sousuoinfor.orderStatus = this.type.orderStatus;
+      this.sousuoinfor.productName = this.sousuoinfor1.productName;
       console.log(this.sousuoinfor);
       if (this.sousuoinfortab !== '') {
         this.zhuang = this.sousuoinfortab;
@@ -344,7 +489,7 @@ export default {
       orderCenterService.getOrderType((res) => {
         // console.log(res);
         this.orderType = res.data.data;
-        this.activeName = this.orderType[0].orderDesc;
+        // this.activeName = this.orderType[0].orderDesc;
         this.type.orderType = this.orderType[0].orderType;
         this.type.orderStatus = res.data.data[0].hfDesc;
         this.getStatus1();
@@ -379,7 +524,7 @@ export default {
           console.log(this.statusData[i].hfDesc);
           this.type.orderStatus = this.statusData[i].hfDesc;
           // console.log(this.type.orderStatus);
-          // console.log(this.type);
+          console.log(this.type);
           orderCenterService.getOrderByType(this.type, (res) => {
             console.log(res);
             let data = res.data.data;
@@ -462,6 +607,11 @@ export default {
           id: row.id,
         },
       });
+    },
+    handleClick(tab, event) {
+      console.log(tab, event);
+      console.log(tab.name);
+      // this.type.orderType = tab.name;
     },
   },
   mounted() {

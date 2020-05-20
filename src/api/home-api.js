@@ -1,5 +1,5 @@
 /* eslint-disable require-jsdoc */
-import Axios from 'axios';
+import Axios from './index';
 function getstoneproduct(bossId) {
   return Axios.get('/api/api/product/home/findAmountData?bossId=' + bossId);
 }

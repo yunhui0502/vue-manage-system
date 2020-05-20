@@ -1,19 +1,19 @@
 /* eslint-disable indent */
 /* eslint-disable require-jsdoc */
-import Axios from 'axios';
-import store from '@/store';
+import Axios from './index';
+// import store from '@/store';
 // http request拦截器 添加一个请求拦截器
-Axios.interceptors.request.use(function (config) {
-    // Do something before request is sent
-    let token = store.getUser().token;
-    if (token) {
-        config.headers.token = token; // 将token放到请求头发送给服务器
-        return config;
-    }
-}, function (error) {
-    // Do something with request error
-    return Promise.reject(error);
-});
+// Axios.interceptors.request.use(function (config) {
+//     // Do something before request is sent
+//     let token = store.getUser().token;
+//     if (token) {
+//         config.headers.token = token; // 将token放到请求头发送给服务器
+//         return config;
+//     }
+// }, function (error) {
+//     // Do something with request error
+//     return Promise.reject(error);
+// });
 // =============================================商品模块
 // 获取商品列表
 function getProductsByBossId(bossId) {
@@ -135,10 +135,11 @@ function addSpecify(params) {
 // 修改商品规格
 function updatespec(params) {
     let fd = new FormData();
-    fd.append('hfName', params.hfName);
+    fd.append('specName', params.specName);
     fd.append('productId', params.productId);
     fd.append('productSpecId', params.productSpecId);
     fd.append('specType', params.specType);
+    fd.append('specValue', params.specValue);
     fd.append('specUnit', params.specUnit);
     return Axios.post('/api/api/product/product/updatespec', fd);
 }

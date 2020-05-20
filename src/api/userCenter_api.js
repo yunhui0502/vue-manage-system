@@ -1,6 +1,6 @@
 /* eslint-disable indent */
 /* eslint-disable require-jsdoc */
-import Axios from 'axios';
+import Axios from './index';
 // 添加后台管理员
 function addUser(params) {
     let fd = new FormData();

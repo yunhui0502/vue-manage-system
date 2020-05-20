@@ -43,7 +43,7 @@
             <i class="iconfont icon-dianpu"></i>
             <span slot="title">店铺管理</span>
           </el-menu-item>
-          <el-menu-item v-if="stone" index="/cang">
+          <el-menu-item v-if="warehouse" index="/cang">
             <i class="iconfont icon-shangpinkucuncangkudunhuojiya"></i>
             <span slot="title">仓库管理</span>
           </el-menu-item>
@@ -175,7 +175,7 @@ export default {
       activity: true, // 活动管理
       discountCoupon: true, // 优惠券
       order: true, // 订单中心
-      stone: true, // 店铺管理t
+      stone: true, // 店铺管理
       user: true, // 用户中心
       vip: true, // 会员管理
       warehouse: true, // 仓库管理
@@ -246,6 +246,10 @@ export default {
       if (this.content.modelCode.product !== 'product') {
         this.product = false;
         console.log('商品管理', this.product);
+      }
+      if (this.content.modelCode.order !== 'order') {
+        this.order = false;
+        console.log('订单管理', this.order);
       }
     },
   },

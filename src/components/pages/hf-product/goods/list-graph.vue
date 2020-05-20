@@ -38,10 +38,11 @@ export default {
   },
   watch: {
     letter () {
-      if (this.letter) {
-        console.log('三级连动图片触发', this.letter);
-        this.acquire();
-      }
+
+      // if (this.letter) {
+      console.log('三级连动图片触发', this.letter);
+      //   this.acquire();
+      // }
     },
   },
   computed: {
