@@ -25,6 +25,7 @@
     </el-table>
     <div class="block">
       <el-pagination
+      style="float: right;"
         background
         layout="prev, pager, next"
         @current-change="handleCurrentChange"
@@ -112,7 +113,7 @@
         </el-col>
       </el-row>
 
-      <el-row :gutter="10">
+      <!-- <el-row :gutter="10">
         <el-col :span="2">
           <div>仓库信息</div>
         </el-col>
@@ -144,7 +145,7 @@
             </el-table-column>
           </el-table>
         </el-col>
-      </el-row>
+      </el-row> -->
 
       <el-row :gutter="10">
         <el-col :span="2">
@@ -315,21 +316,22 @@ export default {
     },
     // 修改提交
     modification(scope) {
+      let row = JSON.parse(JSON.stringify(scope.row));
       // eslint-disable-next-line no-magic-numbers
-      scope.row.sellPrice = scope.row.sellPrice * 100;
-      serviceGoods.updateGood(scope.row, (res) => {
-        this.drawer = false;
+      row.sellPrice = row.sellPrice * 100;
+      serviceGoods.updateGood(row, (res) => {
+        this.setProducts();
       });
     },
     // 修改仓库
-    warehouse(scope) {
-      console.log(scope);
-      // eslint-disable-next-line no-magic-numbers
-      scope.row.sellPrice = scope.row.sellPrice * 100;
-      serviceGoods.updateGood(scope.row, (res) => {
-        this.Display = false;
-      });
-    },
+    // warehouse(scope) {
+    //   console.log(scope);
+    //   // eslint-disable-next-line no-magic-numbers
+    //   scope.row.sellPrice = scope.row.sellPrice * 100;
+    //   serviceGoods.updateGood(scope.row, (res) => {
+    //     this.Display = false;
+    //   });
+    // },
     deleteProduct(row) {
       this.$confirm('确认删除吗？', '提示', {}).then(async () => {
         serviceGoods.deleteById(row.goodsId, (res) => {

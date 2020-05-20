@@ -206,8 +206,8 @@ export default {
       });
     },
     toggleSelection() {
-      this.amount = '0';
       this.$refs.multipleTable.clearSelection();
+      this.amount = '0';
     },
     handleSelectionChange(val) {
       console.log('选中', val);

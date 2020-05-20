@@ -45,7 +45,6 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-button style="float: right;" @click="addGoodsSpecificationList()">添加规格</el-button>
     </div>
     <div v-if="!detailsp" style="margin-top: 20px;">
       <!-- <div>物品规格</div> -->

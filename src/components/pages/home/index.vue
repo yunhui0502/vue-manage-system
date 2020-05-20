@@ -20,7 +20,7 @@
             <span slot="title">首页</span>
           </el-menu-item>
           <el-menu-item v-if="dataStatistics" index="/hf-statistics">
-            <i class="iconfont icon-shouye"></i>
+            <i class="iconfont icon-shujutongji"></i>
             <span slot="title">数据统计</span>
           </el-menu-item>
           <el-menu-item v-if="product" index="/hf-product">
@@ -43,7 +43,11 @@
             <i class="iconfont icon-dianpu"></i>
             <span slot="title">店铺管理</span>
           </el-menu-item>
-          <el-submenu v-if="warehouse" index="/cang">
+          <el-menu-item v-if="stone" index="/cang">
+            <i class="iconfont icon-shangpinkucuncangkudunhuojiya"></i>
+            <span slot="title">仓库管理</span>
+          </el-menu-item>
+          <!-- <el-submenu v-if="warehouse" index="/cang">
             <template slot="title">
               <i class="iconfont icon-dianpu"></i>
               <span slot="title">仓库管理</span>
@@ -52,7 +56,7 @@
             <el-menu-item index="/rucang">进货单</el-menu-item>
             <el-menu-item index="/dan">出货单</el-menu-item>
             <el-menu-item index="/record">历史记录</el-menu-item>
-          </el-submenu>
+          </el-submenu> -->
           <el-menu-item v-if="user" index="/hf-userCenter">
             <i class="iconfont icon-icon-safe-bluefuben"></i>
             <span slot="title">用户中心</span>

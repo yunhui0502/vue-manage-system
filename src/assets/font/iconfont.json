@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1028365",
+      "name": "数据统计",
+      "font_class": "shujutongji",
+      "unicode": "e637",
+      "unicode_decimal": 58935
+    },
+    {
+      "icon_id": "5238512",
+      "name": "仓库",
+      "font_class": "shangpinkucuncangkudunhuojiya",
+      "unicode": "e620",
+      "unicode_decimal": 58912
+    },
+    {
       "icon_id": "435987",
       "name": "我的优惠卷",
       "font_class": "wodeyouhuijuan",

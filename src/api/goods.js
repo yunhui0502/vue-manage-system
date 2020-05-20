@@ -74,9 +74,9 @@ function updateGood (params) {
   fd.append('goodsDesc', params.goodsDesc);
   fd.append('sellPrice', params.sellPrice);
   fd.append('id', params.goodsId);
-  if (params.warehouseId !== '') {
-    fd.append('warehouseId', params.warehouseId);
-  }
+  // if (params.warehouseId !== '') {
+  //   fd.append('warehouseId', params.warehouseId);
+  // }
   if (params.quantity !== '') {
     fd.append('quantity', params.quantity);
   }

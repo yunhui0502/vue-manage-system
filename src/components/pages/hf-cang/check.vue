@@ -258,6 +258,7 @@
         >
           <el-table-column align="center" label="序号" type="index" :index="indexMethod"></el-table-column>
           <el-table-column align="center" prop="goodName" label="物品名称"></el-table-column>
+          <el-table-column align="center" prop="typeName" label="所属店铺"></el-table-column>
           <el-table-column align="center" prop="goodDesc" label="物品描述" show-overflow-tooltip></el-table-column>
           <el-table-column align="center" prop="quantity" label="入库/出库数量">
             <template slot-scope="scope">

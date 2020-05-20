@@ -28,10 +28,14 @@
           <el-form-item label="所属店铺">
             <el-input disabled v-model="productInfo.stoneName" placeholder="所属店铺"></el-input>
           </el-form-item>
+                <el-button
+              type="purple"
+              @click="onProductSubmit('formName')"
+            >{{isCreate ? '+ 添加商品' : '更新商品'}}</el-button>
+            <el-button label="ltr" @click="evenMore">+ 添加详情图</el-button>
         </el-row>
 
         <el-row :gutter="20">
-          <el-col :span="15">
             <el-form-item prop="productDesc" label="商品描述">
               <el-input
                 type="textarea"
@@ -39,19 +43,11 @@
                 v-model="productInfo.productDesc"
               ></el-input>
             </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-button
-              type="purple"
-              @click="onProductSubmit('formName')"
-            >{{isCreate ? '+ 添加商品' : '更新商品'}}</el-button>
-            <el-button label="ltr" @click="evenMore">+ 添加详情图</el-button>
-          </el-col>
         </el-row>
       </el-form>
     </el-card>
 
-    <el-card class="box-card">
+    <el-card class="box-card box-form">
       <div slot="header" class="clearfix">
         <el-header style="height: -1px;" class="font-neue t-10">
           {{Cabinet}}图片管理
@@ -62,18 +58,20 @@
       <list-picture v-if="detailsp" :productId="commodityId"></list-picture>
       <listgraph v-if="!detailsp" :letter="letter"></listgraph>
     </el-card>
-    <el-card class="box-card">
+
+    <el-card class="box-card box-form">
       <div slot="header" class="clearfix">
         <el-header style="height: 10px;" class="font-neue t-10">
           {{Cabinet}}规格
           <span style="margin: 0 4px">{{Cabinet}}名称：{{productInfo.name}}</span>
+          <el-button type="purple" style="float: right;" @click="addGoodsSpecificationList()">添加规格</el-button>
         </el-header>
       </div>
 
-      <list-specification :letter="letter" :goosID="goosID" :commodityId="commodityId"></list-specification>
+      <list-specification ref="specif" :letter="letter" :goosID="goosID" :commodityId="commodityId"></list-specification>
     </el-card>
 
-    <el-card class="box-card">
+    <el-card class="box-card box-form">
       <div slot="header" class="font-neue clearfix">
         <span>物品信息列表</span>
         <el-button
@@ -95,7 +93,7 @@
       :before-close="handleClose"
     >
       <GoodsLncrease
-      v-on:shutDown="shutDown"
+      @shutDown="refresh"
         ref="mychild"
         v-if="isRouterAlive"
         @goodsId="goodsIdGetMsg"
@@ -233,6 +231,9 @@ export default {
     this.acquire();
   },
   methods: {
+    addGoodsSpecificationList() {
+      this.$refs.specif.addGoodsSpecificationList();
+    },
     // ----------------------------------------图片-------------------------------------------------
     // 获取图片
     acquire() {
@@ -387,7 +388,7 @@ export default {
     // 触发子组件方法
     appendGoods() {
       this.$refs.mychild.SubmitGoods('formName');
-      // this.drawer = false;
+      // this.refresh();
     },
     shutDown() {
       this.drawer = false;
@@ -409,6 +410,7 @@ export default {
       this.ruleForm1.cancelId = e;
     },
     refresh() {
+      this.shutDown();
       this.isRouterAlive = false;
       this.$nextTick(() => (this.isRouterAlive = true));
     },
