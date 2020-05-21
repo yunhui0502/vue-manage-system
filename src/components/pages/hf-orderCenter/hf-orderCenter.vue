@@ -19,11 +19,6 @@
                   <el-input v-model="sousuoinfor1.orderCode" placeholder="请输入订单号"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
-                <el-form-item label="商品名称">
-                  <el-input v-model="sousuoinfor1.productName" placeholder="请输入名称"></el-input>
-                </el-form-item>
-              </el-col>
               <!-- <el-col :span="6">
             <el-form-item label="订单状态">
               <el-select v-model="valueset" placeholder="请选择" @change="selectstatus">
@@ -117,9 +112,9 @@
                 </template>
               </el-table-column>
               <el-table-column align="center" label="订单状态">
-                <template>
-                  <span>{{zhuang}}</span>
+                <template slot-scope="scope">
                   <!-- <span>{{zhuang}}</span> -->
+                  <span>{{scope.row.Status}}</span>
                 </template>
               </el-table-column>
               <el-table-column align="center" prop="amount" label="支付金额"></el-table-column>
@@ -153,9 +148,124 @@
                   <el-input v-model="sousuoinfor1.orderCode" placeholder="请输入订单号"></el-input>
                 </el-form-item>
               </el-col>
+              <!-- <el-col :span="6">
+            <el-form-item label="订单状态">
+              <el-select v-model="valueset" placeholder="请选择" @change="selectstatus">
+                <el-option :label="item.hfName" v-for="item  in statusData" :key="item.hfName" :value="item.hfName"></el-option>
+              </el-select>
+            </el-form-item>
+              </el-col>-->
               <el-col :span="6">
-                <el-form-item label="商品名称">
-                  <el-input v-model="sousuoinfor1.productName" placeholder="请输入名称"></el-input>
+                <el-form-item label="支付方式" prop="valueset1">
+                  <el-select
+                    v-model="sousuoinfor1.valueset1"
+                    placeholder="请选择"
+                    @change="selectmethod"
+                  >
+                    <el-option
+                      :label="item.name"
+                      v-for="item  in paymethod"
+                      :key="item.name"
+                      :value="item.name"
+                    ></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-button type="primary" @click="sousuo">筛选</el-button>
+                <el-button @click="resetForm('ruleForms')">重置</el-button>
+                <!-- <el-form-item label="订单类型" prop="valueset2">
+              <el-select v-model="sousuoinfor1.valueset2" placeholder="请输入" @change="selecttype">
+                <el-option :label="item.orderDesc" v-for="item  in orderType" :key="item.orderDesc" :value="item.orderDesc"></el-option>
+              </el-select>
+                </el-form-item>-->
+              </el-col>
+            </el-row>
+
+            <el-row :gutter="20">
+              <el-col :span="16">
+                <el-form-item label="下单时间" prop="startTime">
+                  <el-date-picker
+                    @change="uptime1"
+                    v-model="sousuoinfor1.startTime"
+                    type="datetimerange"
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期"
+                    :default-time="['12:00:00']"
+                  ></el-date-picker>
+                </el-form-item>
+                <!-- <el-button>今天</el-button>
+            <el-button>昨天</el-button>
+            <el-button>近7天</el-button>
+                <el-button>昨天30天</el-button>-->
+              </el-col>
+
+              <!-- <el-col :span="4">
+             <el-form-item>
+            <el-button type="primary" @click="sousuo">筛选</el-button>
+            <el-button @click="resetForm('ruleForms')">重置</el-button>
+           </el-form-item>
+              </el-col>-->
+            </el-row>
+          </el-form>
+        </el-card>
+
+        <el-tabs type="border-card" @tab-click="getStatus">
+          <el-tab-pane :label="item.hfName" v-for="item  in recharge" :key="item.hfName">
+            <el-table
+              :data="orderData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
+              stripe
+              style="width: 100%"
+            >
+              <el-table-column
+                align="center"
+                prop="orderCode"
+                label="订单号"
+                :show-overflow-tooltip="true"
+                width="180"
+              ></el-table-column>
+              <el-table-column align="center" prop="nickName" label="支付人"></el-table-column>
+              <el-table-column align="center" prop="phone" label="手机号"></el-table-column>
+              <el-table-column align="center" label="订单类型" prop="orderType">
+                <template slot-scope="scope">
+                  <span v-if="scope.row.orderType ==='shoppingOrder'">到店支付订单</span>
+                  <span v-if="scope.row.orderType ==='nomalOrder'">普通订单</span>
+                  <span v-if="scope.row.orderType ==='rechargeOrder'">充值订单</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="支付方式">
+                <template slot-scope="scope">
+                  <span v-if="scope.row.paymentName === 'BalancePayment'">余额支付</span>
+                  <span v-if="scope.row.paymentName ==='balance'">余额支付</span>
+                  <span v-if="scope.row.paymentName ==='wechart'">微信支付</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="订单状态">
+                <template slot-scope="scope">
+                  <!-- <span>{{zhuang}}</span> -->
+                  <span>{{scope.row.Status}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" prop="amount" label="支付金额"></el-table-column>
+              <el-table-column align="center" prop="modifyTime" label="修改时间" width="180"></el-table-column>
+              <el-table-column align="center" label="操作">
+                <template slot-scope="scope">
+                  <!-- <el-button @click="checkDetail(scope.row)" type="text" size="small">详情</el-button> -->
+                  <el-button @click="goDetail(scope.row)" type="text" size="small">订单处理</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+          </el-tab-pane>
+        </el-tabs>
+      </el-tab-pane>
+
+      <el-tab-pane label="到店支付订单" name="shoppingOrder">
+        <el-card class="search-card">
+          <el-form :inline="true" :model="sousuoinfor1" ref="ruleForms" class="demo-form-inline">
+            <el-row :gutter="10">
+              <el-col :span="6">
+                <el-form-item label="订单号" prop="orderCode">
+                  <el-input v-model="sousuoinfor1.orderCode" placeholder="请输入订单号"></el-input>
                 </el-form-item>
               </el-col>
               <!-- <el-col :span="6">
@@ -221,7 +331,7 @@
         </el-card>
 
         <el-tabs type="border-card" @tab-click="getStatus">
-          <el-tab-pane :label="item.hfName" v-for="item  in statusData" :key="item.hfName">
+          <el-tab-pane :label="item.hfName" v-for="item  in recharge" :key="item.hfName">
             <el-table
               :data="orderData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
               stripe
@@ -249,11 +359,11 @@
                   <span v-if="scope.row.paymentName ==='balance'">余额支付</span>
                   <span v-if="scope.row.paymentName ==='wechart'">微信支付</span>
                 </template>
-              </el-table-column>
+              </el-table-column>Status
               <el-table-column align="center" label="订单状态">
-                <template>
-                  <span>{{zhuang}}</span>
+                <template slot-scope="scope">
                   <!-- <span>{{zhuang}}</span> -->
+                  <span>{{scope.row.Status}}</span>
                 </template>
               </el-table-column>
               <el-table-column align="center" prop="amount" label="支付金额"></el-table-column>
@@ -268,9 +378,15 @@
           </el-tab-pane>
         </el-tabs>
       </el-tab-pane>
-
-      <el-tab-pane label="到店支付订单" name="shoppingOrder">订单</el-tab-pane>
     </el-tabs>
+
+    <el-dialog title="订单详情" :visible.sync="centerDialogVisible" width="50%">
+      <order-detail v-if="isRouterAlive" :id="id"> </order-detail>
+      <!-- <span slot="footer" class="dialog-footer">
+        <el-button @click="centerDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
+      </span> -->
+    </el-dialog>
 
     <el-drawer :visible.sync="drawer">
       <span style="margin-left:20px;font-size:14px;color:#666;">修改订单状态</span>
@@ -295,15 +411,26 @@
 import orderCenterService from '@/service/orderCenter.js';
 import userCenterService from '@/service/userCenter.js';
 import constants from '@/store/constants.js';
+import orderDetail from './orderDetail';
 export default {
+  components: {
+    orderDetail,
+  },
   data() {
     return {
+      isRouterAlive: true,
+      centerDialogVisible: false,
+      recharge: [
+        { hfName: '全部', hfStatus: 1, hfDesc: 'all' },
+        { hfName: '待支付', hfStatus: 1, hfDesc: 'payment' },
+        { hfName: '已完成', hfStatus: 1, hfDesc: 'complete' },
+        { hfName: '已取消', hfStatus: 1, hfDesc: 'cancel' },
+      ],
       sousuoinfor1: {
         orderCode: '',
         valueset1: '',
         valueset2: '',
         valueset: '',
-        productName: '',
       },
       valueset2: '',
       valueset1: '',
@@ -335,7 +462,6 @@ export default {
         orderType: '',
         orderStatus: '',
         paymentName: '',
-        productName: '',
       },
       orderTypeValue: '',
       orderType: [],
@@ -366,6 +492,40 @@ export default {
     };
   },
   methods: {
+    getOrderByTypes() {
+      orderCenterService.getOrderByType(this.type, (res) => {
+        console.log(res);
+        let data = res.data.data;
+        for (var i = 0; i < data.length; i++) {
+          // eslint-disable-next-line no-magic-numbers
+          data[i].amount = (data[i].amount / 100).toFixed(2);
+          // eslint-disable-next-line no-magic-numbers
+        }
+        data.map((item) => {
+          // console.log(item);
+          item.Status =
+            item.orderStatus === 'payment'
+              ? '待支付'
+              : item.orderStatus === 'transport'
+                ? '运送中'
+                : item.orderStatus === 'process'
+                  ? '处理中'
+                  : item.orderStatus === 'complete'
+                    ? '已完成'
+                    : item.orderStatus === 'cancel'
+                      ? '已取消'
+                      : item.orderStatus === 'evaluate'
+                        ? '待评价'
+                        : item.orderStatus === 'controversial'
+                          ? '交易纠纷'
+                          : '异常';
+          // item.Status = item.orderStatus === 'cancel' ? '已取消' : '1';
+        });
+
+        console.log(data);
+        this.orderData = data;
+      });
+    },
     resetForm(ruleForms) {
       this.$refs[ruleForms].resetFields();
     },
@@ -437,7 +597,6 @@ export default {
       console.log('1', this.type.orderStatus);
       this.sousuoinfor.orderType = this.type.orderType;
       this.sousuoinfor.orderStatus = this.type.orderStatus;
-      this.sousuoinfor.productName = this.sousuoinfor1.productName;
       console.log(this.sousuoinfor);
       if (this.sousuoinfortab !== '') {
         this.zhuang = this.sousuoinfortab;
@@ -466,16 +625,17 @@ export default {
       for (var i = 0; i < this.orderType.length; i++) {
         if (this.orderType[i].orderDesc === this.orderTypeValue) {
           this.type.orderType = this.orderType[i].orderType;
-          orderCenterService.getOrderByType(this.type, (res) => {
-            console.log(res);
-            let data = res.data.data;
-            for (var i = 0; i < data.length; i++) {
-              // eslint-disable-next-line no-magic-numbers
-              data[i].amount = (data[i].amount / 100).toFixed(2);
-              // eslint-disable-next-line no-magic-numbers
-            }
-            this.orderData = data;
-          });
+          this.getOrderByTypes();
+          // orderCenterService.getOrderByType(this.type, (res) => {
+          //   console.log(res);
+          //   let data = res.data.data;
+          //   for (var i = 0; i < data.length; i++) {
+          //     // eslint-disable-next-line no-magic-numbers
+          //     data[i].amount = (data[i].amount / 100).toFixed(2);
+          //     // eslint-disable-next-line no-magic-numbers
+          //   }
+          //   this.orderData = data;
+          // });
         }
       }
     },
@@ -525,18 +685,19 @@ export default {
           this.type.orderStatus = this.statusData[i].hfDesc;
           // console.log(this.type.orderStatus);
           console.log(this.type);
-          orderCenterService.getOrderByType(this.type, (res) => {
-            console.log(res);
-            let data = res.data.data;
-            for (var i = 0; i < data.length; i++) {
-              // eslint-disable-next-line no-magic-numbers
-              data[i].amount = (data[i].amount / 100).toFixed(2);
-              // eslint-disable-next-line no-magic-numbers
-            }
-            this.orderData = data;
-            // console.log(this.statusData[i].hfDesc);
-            return false;
-          });
+          this.getOrderByTypes();
+          // orderCenterService.getOrderByType(this.type, (res) => {
+          //   console.log(res);
+          //   let data = res.data.data;
+          //   for (var i = 0; i < data.length; i++) {
+          //     // eslint-disable-next-line no-magic-numbers
+          //     data[i].amount = (data[i].amount / 100).toFixed(2);
+          //     // eslint-disable-next-line no-magic-numbers
+          //   }
+          //   this.orderData = data;
+          //   // console.log(this.statusData[i].hfDesc);
+          //   return false;
+          // });
         }
       }
       this.orderData = [];
@@ -544,16 +705,7 @@ export default {
     getStatus1: function(tab, event) {
       this.type.orderStatus = this.statusData[0].hfDesc;
       // console.log(this.type);
-      orderCenterService.getOrderByType(this.type, (res) => {
-        console.log(res);
-        let data = res.data.data;
-        for (var i = 0; i < data.length; i++) {
-          // eslint-disable-next-line no-magic-numbers
-          data[i].amount = (data[i].amount / 100).toFixed(2);
-          // eslint-disable-next-line no-magic-numbers
-        }
-        this.orderData = data;
-      });
+      this.getOrderByTypes();
     },
     addUser: function() {
       this.addUserVisible = true;
@@ -600,18 +752,25 @@ export default {
     },
     goDetail: function(row) {
       this.id = row.id;
-      // console.log(this.zhuang);
-      this.$router.push({
-        path: '/orderDetail',
-        query: {
-          id: row.id,
-        },
-      });
+      this.refresh();
+      this.centerDialogVisible = true;
+      // // console.log(this.zhuang);
+      // this.$router.push({
+      //   path: '/orderDetail',
+      //   query: {
+      //     id: row.id,
+      //   },
+      // });
     },
     handleClick(tab, event) {
       console.log(tab, event);
       console.log(tab.name);
-      // this.type.orderType = tab.name;
+      this.type.orderType = tab.name;
+      this.getStatus1();
+    },
+    refresh() {
+      this.isRouterAlive = false;
+      this.$nextTick(() => (this.isRouterAlive = true));
     },
   },
   mounted() {

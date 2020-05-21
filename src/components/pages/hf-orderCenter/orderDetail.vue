@@ -1,36 +1,33 @@
 /* eslint-disable no-magic-numbers */
 <template>
-  <div style="padding-bottom:130px ;">
-    <div >
+  <div style="padding-bottom:130px;background:#fff;">
+    <div>
       <div
         style="font-weight:bold; padding-left:11.5px;font-size:16px; padding-bottom:6.5px; color:#666666;border-bottom:1px solid #E5E5E5;"
-      >订单详情</div>
+      >订单详情{{id}}</div>
       <div
         style="font-size:14px; color:#666; padding:5.5px 0 6px 21.5px; background:#F5F6FA;margin-top:8px;"
-      ><span> 订单号:{{detail.orderCode}}</span><span style="margin-left:16.5px;"> 店铺名称:{{detail.stoneName}}</span><span style="margin-left:16.5px;"> 支付人:{{detail.nickName}}</span><span style="margin-left:16.5px;"> 联系方式:{{detail.phone}}</span>  </div>
+      >
+        <span>订单号:{{detail.orderCode}}</span>
+        <span style="margin-left:16.5px;">店铺名称:{{detail.stoneName}}</span>
+        <span style="margin-left:16.5px;">支付人:{{detail.nickName}}</span>
+        <span style="margin-left:16.5px;">联系方式:{{detail.phone}}</span>
+      </div>
     </div>
-     <div style="padding-left:30px;">
-      <!--<div style="font-size:16px;color:#A6A3FB;font-weight:bold;margin:18px 0 8.5px 0px;">已下单</div>
+    <div style="padding-left:30px;border-radius: 17px;">
+      <div style="font-size:16px;color:#A6A3FB;font-weight:bold;margin:18px 0 8.5px 0px;">已下单</div>
       <div
         style="width:491.9px; display:flex;align-items:center; background:#EEEEEE;border-radius:17px;margin-left:27.5px;"
       >
         <div
-          style="font-size:13px; background:#A6A3FB;width:100.5px;border-radius:17px;color:#fff;display:flex;align-items:center;justify-content:center;"
-        >下单</div>
-        <div
-          style="font-size:13px; color:#666666;width:100.5px;display:flex;align-items:center;justify-content:center;"
-        >下单</div>
-        <div
-          style="font-size:13px; color:#666666;width:100.5px;display:flex;align-items:center;justify-content:center;"
-        >下单</div>
-        <div
-          style="font-size:13px; color:#666666;width:100.5px;display:flex;align-items:center;justify-content:center;"
-        >下单</div>
-        <div
-          style="font-size:13px; color:#666666;width:100.5px;display:flex;align-items:center;justify-content:center;"
-        >交易成功</div>
-      </div> -->
-      <!-- <el-card class="box-card">
+          v-for="( item,index)  in list"
+          :key="index"
+          :class="activeindex==index ?'active':'statusBar'"
+        >{{item.title}}</div>
+      </div>
+    </div>
+
+    <!-- <el-card class="box-card">
         <span>支付人:{{detail.nickName}}</span>
         <span style="margin-left: 20px;" v-if="detail.paymentName === 'balance'">支付方式:余额支付</span>
         <span style="margin-left: 20px;" v-if="detail.paymentName === 'BalancePayment'">支付方式:余额支付</span>
@@ -47,97 +44,63 @@
         <span style="margin-left: 20px;" v-if="detail.orderStatus === 'cancel'">订单状态:已取消</span>
         <span style="margin-left: 20px;" v-if="detail.orderStatus === 'evaluate'">订单状态:待评价</span>
         <span style="margin-left: 20px;" v-if="detail.orderStatus === 'controversial'">订单状态:交易纠纷</span>
-      </el-card> -->
-      <el-card class="box-card">
-        <!-- <div slot="header" class="clearfix">
+    </el-card>-->
+
+    <el-card class="box-card">
+      <!-- <div slot="header" class="clearfix">
           <span>订单扩展信息</span>
-        </div> -->
-         <el-table :data="hfOrderDetailList" stripe style="width: 100%">
-               <el-table-column
-                align="center"
-                prop="hfName"
-                label="物品图片"
-                :show-overflow-tooltip="true"
-              >
-                  <template slot-scope="scope">
-                    <img style="width:70px;" :src="'https://www.tjsichuang.cn:1443/api/product/goods/getFile?fileId=' + scope.row.hfDesc.fileIds[0]" alt="">
-                </template>
-               </el-table-column>
-              <el-table-column
-                align="center"
-                prop="hfName"
-                label="商品名称"
-                :show-overflow-tooltip="true"
+      </div>-->
+      <el-table :data="hfOrderDetailList" stripe style="width: 100%">
+        <el-table-column align="center" prop="hfName" label="物品图片" :show-overflow-tooltip="true">
+          <template slot-scope="scope">
+            <img
+              style="width:70px;"
+              :src="'https://www.tjsichuang.cn:1443/api/product/goods/getFile?fileId=' + scope.row.hfDesc.fileIds[0]"
+              alt
+            />
+          </template>
+        </el-table-column>
+        <el-table-column align="center" prop="hfName" label="商品名称" :show-overflow-tooltip="true">
+          <template slot-scope="scope">
+            <span>{{scope.row.hfDesc.goodsName}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" prop="hfName" label="规格" :show-overflow-tooltip="true">
+          <template slot-scope="scope">
+            <span
+              v-for="item in scope.row.hfDesc.hfGoodsSpecs"
+              :key="item.hfValue"
+            >{{item.hfValue}}{{item.specUnit}} /</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" prop="hfName" label="价格" :show-overflow-tooltip="true">
+          <template slot-scope="scope">
+            <span style="color:#A6A3FB;">¥{{scope.row.sellPrice}} x {{scope.row.quantity}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" prop="hfName" label="支付方式" :show-overflow-tooltip="true">
+          <template slot-scope="scope">
+            <span>{{scope.row.takingType=='selfPickUp'?'自提':'配送'}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="支付时间" :show-overflow-tooltip="true">
+          <template>
+            <span>{{detail.modifyTime}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="订单状态" :show-overflow-tooltip="true">
+          <template>
+            <span style="color:#FF318A;" v-if="detail.orderStatus === 'payment'">待支付</span>
+            <span style="color:#FF318A;" v-if="detail.orderStatus === 'transport'">运送中</span>
+            <span style="color:#FF318A;" v-if="detail.orderStatus === 'process'">处理中</span>
+            <span style="color:#FF318A;" v-if="detail.orderStatus === 'complete'">已完成</span>
+            <span style="color:#FF318A;" v-if="detail.orderStatus === 'cancel'">已取消</span>
+            <span style="color:#FF318A;" v-if="detail.orderStatus === 'evaluate'">待评价</span>
+            <span style="color:#FF318A;" v-if="detail.orderStatus === 'controversial'">交易纠纷</span>
+          </template>
+        </el-table-column>
 
-              >
-                  <template slot-scope="scope">
-              <span >{{scope.row.hfDesc.goodsName}}</span>
-                </template>
-              </el-table-column>
-                <el-table-column
-                align="center"
-                prop="hfName"
-                label="规格"
-                :show-overflow-tooltip="true"
-
-              >
-                <template slot-scope="scope">
-                <span  v-for="item in scope.row.hfDesc.hfGoodsSpecs" :key="item.hfValue"> {{item.hfValue}}{{item.specUnit}} /</span>
-                </template>
-              </el-table-column>
-                <el-table-column
-                align="center"
-                prop="hfName"
-                label="价格"
-                :show-overflow-tooltip="true"
-
-              >
-                  <template slot-scope="scope">
-                  <span  style="color:#A6A3FB;">¥{{scope.row.sellPrice}} x {{scope.row.quantity}}</span>
-                </template>
-              </el-table-column>
-              <el-table-column
-                align="center"
-                prop="hfName"
-                label="支付方式"
-                :show-overflow-tooltip="true"
-
-              >
-                  <template slot-scope="scope">
-              <span >{{scope.row.takingType=='selfPickUp'?'自提':'配送'}}</span>
-                </template>
-              </el-table-column>
-                     <el-table-column
-                align="center"
-                label="支付时间"
-                :show-overflow-tooltip="true"
-
-              >
-                  <template>
-                       <span  >{{detail.modifyTime}}</span>
-
-                </template>
-
-              </el-table-column>
-               <el-table-column
-                align="center"
-                label="订单状态"
-                :show-overflow-tooltip="true"
-
-              >
-                  <template>
-                    <span style="color:#FF318A;" v-if="detail.orderStatus === 'payment'">待支付</span>
-                    <span style="color:#FF318A;" v-if="detail.orderStatus === 'transport'">运送中</span>
-                    <span style="color:#FF318A;" v-if="detail.orderStatus === 'process'">处理中</span>
-                    <span style="color:#FF318A;" v-if="detail.orderStatus === 'complete'">已完成</span>
-                    <span style="color:#FF318A;" v-if="detail.orderStatus === 'cancel'">已取消</span>
-                    <span style="color:#FF318A;" v-if="detail.orderStatus === 'evaluate'">待评价</span>
-                    <span style="color:#FF318A;" v-if="detail.orderStatus === 'controversial'">交易纠纷</span>
-                </template>
-
-              </el-table-column>
-
-              <!-- <el-table-column
+        <!-- <el-table-column
                 align="center"
                 prop="hfValue"
                 label="规格值"
@@ -157,10 +120,10 @@
                 label="规格单位"
                 :show-overflow-tooltip="true"
                 width="180"
-              ></el-table-column> -->
-            </el-table>
-        <div v-for="(item,index) in detailRequestList" :key="index">
-          <!-- <div v-for="(item1,index1) in item.hfOrderDetailList" :key="index1">
+        ></el-table-column>-->
+      </el-table>
+      <div v-for="(item,index) in detailRequestList" :key="index">
+        <!-- <div v-for="(item1,index1) in item.hfOrderDetailList" :key="index1">
             <span style="margin-left: 20px;">商品名称: {{item1.hfDesc.goodsName}}</span>
             <span style="margin-left: 40px;">购买数量: {{item1.quantity}}</span>
             <span style="margin-left: 40px;">购买数量: {{item1.quantity}}</span>
@@ -194,8 +157,8 @@
                 width="180"
               ></el-table-column>
             </el-table>
-          </div> -->
-          <div
+        </div>-->
+        <!-- <div
             style="margin-top:20px; display:flex;align-items:center;justify-content:space-around;"
           >
             <div
@@ -203,61 +166,78 @@
               @click="que(item,index)"
               style="background:#00bcd4;color: #fff;padding:6px 10px ;border-radius:4px;height:23px;width:66px;"
             >确认订单</div>
-          </div>
+        </div>-->
 
-          <div
-            style="display:fkex;align-items:center;margin-top:20px;"
-            v-if="item.takingType==='delivery'&&item.detailStatus==='process'&&detail.orderType==='nomalOrder'"
-          >
-            <!-- <div
+        <div
           style="display:fkex;align-items:center;margin-top:20px;"
-            >-->
-            <span>物流单号：</span>
-            <el-input v-model="item.logisticsOrdersId" placeholder="请输入物流单号" style="width:200px;"></el-input>
-            <!-- <el-input v-model="order.logisticsOrdersId" placeholder="请输入物流单号" style="width:200px;"></el-input> -->
-            <el-button @click="que(item,index)" style="margin-left:10px;">提交</el-button>
-          </div>
-          <el-button
-            v-if="item.takingType==='delivery'&&(detail.orderStatus==='transport')&&detail.orderType==='nomalOrder'"
-            @click="cha(item,index)"
-            style="margin-left:10px;"
-          >查询物流信息</el-button>
-          <div
-            v-if="item.takingType==='delivery'&&(detail.orderStatus==='process'||detail.orderStatus==='transport')&&detail.orderType==='nomalOrder'&&item.wuliu!=0"
-            style="line-height:30px; display:fkex;align-items:center;margin-top:20px;font-size:12px;"
-          >
-            <span style="margin-bottom:10px;">物流单号：{{item.wuliu.logisticCode}}</span>
-            <span style="margin-left:20px;margin-bottom:10px;">物流公司名：{{item.wuliu.company}}</span>
-            <!-- <span style="margin-left:20px;">物流信息</span> -->
-            <!-- <div>物流信息:</div> -->
-            <div v-for="(item1,index) in item.wuliu.traces" :key="index">
-              <div>
-                <span>{{item1.AcceptStation}}</span>
-                <span>{{item1.AcceptTime}}</span>
-              </div>
+          v-if="item.takingType==='delivery'&&item.detailStatus==='process'&&detail.orderType==='nomalOrder'"
+        >
+          <!-- <div
+          style="display:fkex;align-items:center;margin-top:20px;"
+          >-->
+          <span>物流单号：</span>
+          <el-input v-model="item.logisticsOrdersId" placeholder="请输入物流单号" style="width:200px;"></el-input>
+          <!-- <el-input v-model="order.logisticsOrdersId" placeholder="请输入物流单号" style="width:200px;"></el-input> -->
+          <el-button @click="que(item,index)" style="margin-left:10px;">提交</el-button>
+        </div>
+        <el-button
+          v-if="item.takingType==='delivery'&&(detail.orderStatus==='transport')&&detail.orderType==='nomalOrder'"
+          @click="cha(item,index)"
+          style="margin-left:10px;"
+        >查询物流信息</el-button>
+        <div
+          v-if="item.takingType==='delivery'&&(detail.orderStatus==='process'||detail.orderStatus==='transport')&&detail.orderType==='nomalOrder'&&item.wuliu!=0"
+          style="line-height:30px; display:fkex;align-items:center;margin-top:20px;font-size:12px;"
+        >
+          <span style="margin-bottom:10px;">物流单号：{{item.wuliu.logisticCode}}</span>
+          <span style="margin-left:20px;margin-bottom:10px;">物流公司名：{{item.wuliu.company}}</span>
+          <!-- <span style="margin-left:20px;">物流信息</span> -->
+          <!-- <div>物流信息:</div> -->
+          <div v-for="(item1,index) in item.wuliu.traces" :key="index">
+            <div>
+              <span>{{item1.AcceptStation}}</span>
+              <span>{{item1.AcceptTime}}</span>
             </div>
           </div>
         </div>
-        <!-- <div
+      </div>
+      <!-- <div
         style="display:fkex;align-items:center;margin-top:20px;"
         v-if="takingType==='delivery'&&detail.orderStatus==='process'&&detail.orderType==='nomalOrder'"
       >
         <span>物流单号：</span>
         <el-input v-model="order.logisticsOrdersId" placeholder="请输入物流单号" style="width:200px;"></el-input>
-        </div>-->
-      </el-card>
-      <div  v-if="detail.takingType == 'delivery'">
-          <div style="color:#444;margin-top:18.5px;font-size:14px;">收货信息</div>
-          <div style="color:#666666;font-size:11px;margin-top:13px;" v-if="detail.takingType != 'delivery'">姓&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;名:{{detail.nickName}}</div>
-          <div style="color:#666666;font-size:11px;margin-top:13px;" v-if="detail.takingType == 'delivery'">姓&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;名:{{detail.contact}}</div>
-          <div style="color:#666666;font-size:11px;margin-top:8px;">联系电话：{{detail.phone}}</div>
-          <div style="color:#666666;font-size:11px;margin-top:8px;" v-if="detail.takingType == 'delivery'">收货地址：{{detail.address}}</div>
-      </div>
+      </div>-->
+    </el-card>
+    <div v-if="detail.takingType == 'delivery'">
+      <div style="color:#444;margin-top:18.5px;font-size:14px;">收货信息</div>
+      <div
+        style="color:#666666;font-size:11px;margin-top:13px;"
+        v-if="detail.takingType != 'delivery'"
+      >姓&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;名:{{detail.nickName}}</div>
+      <div
+        style="color:#666666;font-size:11px;margin-top:13px;"
+        v-if="detail.takingType == 'delivery'"
+      >姓&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;名:{{detail.contact}}</div>
+      <div style="color:#666666;font-size:11px;margin-top:8px;">联系电话：{{detail.phone}}</div>
+      <div
+        style="color:#666666;font-size:11px;margin-top:8px;"
+        v-if="detail.takingType == 'delivery'"
+      >收货地址：{{detail.address}}</div>
+    </div>
     <div style="margin-top: 50px; display: flex;justify-content: flex-end;;padding:0 10%;">
+      <div  v-for="(item,index) in detailRequestList" :key="index">
         <div
-          v-if="detail.orderStatus==='controversial'"
-          @click="agree()"
-          style="font-size: 15px;
+          v-if="item.takingType==='selfPickUp'&&item.detailStatus==='process'&&detail.orderType==='nomalOrder'"
+          @click="que(item,index)"
+          style="margin-right: 19px;background:#00bcd4;color: #fff;padding:6px 10px ;border-radius:4px;height:23px;width:66px;"
+        >确认订单</div>
+      </div>
+
+      <div
+        v-if="detail.orderStatus==='controversial'"
+        @click="agree()"
+        style="font-size: 15px;
     margin-right: 19px;
     width: 80px;
      color:#fff;
@@ -265,36 +245,35 @@
     background: rgb(163, 160, 251);
     padding: 8px 0px;
     border-radius: 4px;background: #3f47b5;"
-        >同意申请</div>
-        <div
-          v-if="detail.orderStatus==='payment'"
-          @click="pay()"
-          style="background: #A3A0FB;font-size: 15px;
+      >同意申请</div>
+      <div
+        v-if="detail.orderStatus==='payment'"
+        @click="pay()"
+        style="background: #A3A0FB;font-size: 15px;
     margin-right: 19px;
     width: 80px;
     text-align: center;
  color:#fff;
     padding: 8px 0px;
     border-radius: 4px;"
-        >去支付</div>
-        <div
-          v-if="detail.orderStatus==='payment' || detail.orderStatus==='process'"
-          @click="cancle()"
-          style=" background: #FF318A;font-size: 15px;
+      >去支付</div>
+      <div
+        v-if="detail.orderStatus==='payment' || detail.orderStatus==='process'"
+        @click="cancle()"
+        style=" background: #FF318A;font-size: 15px;
     margin-right: 19px;
     width: 80px;
     text-align: center;
     padding: 8px 0px;
     color:#fff;
     border-radius: 4px;"
-        >取消订单</div>
-        <div
-          v-if="detail.orderStatus==='controversial'"
-          @click="noagree()"
-          style="width:90px;text-align:center;background:#ff008b;color: #fff;padding:6px 0px ; color:#fff;border-radius:4px;height:23px;"
-        >拒绝申请</div>
-        <div></div>
-      </div>
+      >取消订单</div>
+      <div
+        v-if="detail.orderStatus==='controversial'"
+        @click="noagree()"
+        style="width:90px;text-align:center;background:#ff008b;color: #fff;padding:6px 0px ; color:#fff;border-radius:4px;height:23px;"
+      >拒绝申请</div>
+      <div></div>
     </div>
   </div>
 </template>
@@ -303,8 +282,16 @@
 import orderCenterService from '@/service/orderCenter.js';
 import constants from '@/store/constants.js';
 export default {
+  props: ['id'],
   data() {
     return {
+      activeindex: '0',
+      list: [
+        { title: '下单' },
+        { title: '付款' },
+        { title: '配置' },
+        { title: '出库' },
+      ],
       orderliu: {
         stoneId: '',
         id: '',
@@ -362,7 +349,6 @@ export default {
         orderCode: '',
         originOrderStatus: 'process',
       },
-      id: '',
       detail: {},
     };
   },
@@ -397,7 +383,7 @@ export default {
 
     que: function(item, index) {
       // console.log(item);
-      this.order.id = this.$route.query.id;
+      // this.order.id = this.$route.query.id;
       if (
         this.detail.orderStatus === 'process' &&
         this.detail.orderType === 'nomalOrder' &&
@@ -477,7 +463,7 @@ export default {
     getdetail: function() {
       orderCenterService.getOrderDetail(this.id, (res) => {
         this.detail = res.data.data;
-        // console.log(res);
+        console.log(res);
         this.detail.orderDesc = JSON.parse(this.detail.orderDesc);
         this.hfGoodsSpecs = this.detail.orderDesc.hfGoodsSpecs;
         this.goodsName = this.detail.orderDesc.goodsName;
@@ -516,7 +502,11 @@ export default {
               ].hfDesc = JSON.parse(
                 this.detailRequestList[i].hfOrderDetailList[j].hfDesc,
               );
-              this.detailRequestList[i].hfOrderDetailList[j].sellPrice = (this.detailRequestList[i].hfOrderDetailList[j].sellPrice / 100).toFixed(2);
+              this.detailRequestList[i].hfOrderDetailList[j].sellPrice = (
+                // eslint-disable-next-line no-magic-numbers
+                this.detailRequestList[i].hfOrderDetailList[j].sellPrice / 100
+              // eslint-disable-next-line no-magic-numbers
+              ).toFixed(2);
               // this.detailRequestList[i].show = false;
             }
           }
@@ -602,7 +592,7 @@ export default {
   },
 
   mounted() {
-    this.id = this.$route.query.id;
+    // this.id = this.$route.query.id;
     this.updata.id = this.$route.query.id;
     this.updata1.id = this.$route.query.id;
     this.updata2.id = this.$route.query.id;
@@ -644,5 +634,25 @@ main {
 }
 .el-main {
   padding: 0;
+}
+.statusBar {
+  font-size: 13px;
+  color: #666666;
+  width: 100.5px;
+  height: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.active {
+  height: 30px;
+  font-size: 15px;
+  background: #a6a3fb;
+  width: 100.5px;
+  border-radius: 17px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

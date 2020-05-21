@@ -46,7 +46,9 @@ function getWuLiu(params) {
 }
 function sousuo(params) {
   console.log(params);
-  return Axios.get('/api/api/order/hf-order/query?orderCode=' + params.orderCode + '&orderStatus=' + params.orderStatus + '&orderType=' + params.orderType + '&stateTime=' + params.startTime + '&endTime=' + params.endTime + '&paymentName=' + params.paymentName + '&productName=' + params.productName);
+  return Axios.get('/api/api/order/hf-order/query?orderCode=' + params.orderCode +
+   '&orderStatus=' + params.orderStatus + '&orderType=' + params.orderType +
+   '&stateTime=' + params.startTime + '&endTime=' + params.endTime + '&paymentName=' + params.paymentName + '&productName=' + params.productName);
 }
 
 export default {

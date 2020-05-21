@@ -182,6 +182,7 @@ export default {
         });
       }
       if (this.identify !== 'identify') {
+        // eslint-disable-next-line no-magic-numbers
         console.log(2);
         userCenterService.checkAdmins(params, (res) => {
           let tableData = res.data.data;

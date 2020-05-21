@@ -37,7 +37,7 @@
                     placeholder="请输入验证码"
                     style="width:100px;margin-right:10px"
                   ></el-input>
-                  <el-button @click="Sendlogin()">发送验证码</el-button>
+                  <el-button :disabled="disabled" @click="Sendlogin()">{{btntxt}}</el-button>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -86,8 +86,18 @@ export default {
       }
       callback();
     };
+    const validateCode = (rule, value, callback) => {
+      if (!/^[1-9]\d{3}$/.test(value)) {
+        return callback(new Error('验证码长度4位数'));
+      }
+      callback();
+    };
     return {
+      timer: '',
+      disabled: false,
+      time: 0,
       //  记住密码 单选框
+      btntxt: '获取验证码',
       radio: 'boss',
       squareUrl: '',
       // 表单数据对象
@@ -105,7 +115,7 @@ export default {
         ],
         code: [
           { required: true, message: '请输入验证码', trigger: ['blur', 'change'] },
-          { len: 4, message: '验证码长度4位', trigger: ['blur', 'change']},
+          {validator: validateCode, trigger: ['blur', 'change']},
         ],
       },
     };
@@ -179,7 +189,10 @@ export default {
         axios
           .get('/api/api/user/user/code?phone=' + this.loginForm.authKey)
           .then((res) => {
-            // this.loginForm.code = res.data.data;
+            this.loginForm.code = res.data.data;
+            this.time = 60;
+            this.disabled = true;
+            this.validateBtn();
           });
         this.$router.push('/');
       } else {
@@ -187,6 +200,28 @@ export default {
       }
 
     },
+    validateBtn() {
+      // 倒计时
+      let time = 60;
+      this.timer = setInterval(() => {
+        console.log(1);
+        if (time === 0) {
+          clearInterval(this.timer);
+          this.disabled = false;
+          this.btntxt = '获取验证码';
+        } else {
+          this.btntxt = time + '秒后重试';
+          this.disabled = true;
+          time--;
+        }
+      // eslint-disable-next-line no-magic-numbers
+      }, 1000);
+    },
+  },
+  destroyed() {
+    if (this.timer) { // 如果定时器在运行则关闭
+      clearInterval(this.timer);
+    }
   },
 };
 </script>
