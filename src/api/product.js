@@ -115,7 +115,9 @@ function selectDiscountCoupon(param) {
     if (param.productCategoryName !== '') {
         params.DiscountCouponType = param.productCategoryName;
     }
-
+    if (param.stoneId !== '') {
+        params.stoneId = param.stoneId;
+    }
     return Axios.get('/api/api/product/discountCoupon/selectDiscountCoupon', { params });
 }
 // 添加商品规格

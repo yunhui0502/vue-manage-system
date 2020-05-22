@@ -165,6 +165,10 @@ export default {
     this.setProducts();
   },
   methods: {
+    resetForm(ruleForms) {
+      this.$refs[ruleForms].resetFields();
+      this.setProducts();
+    },
     sou: function() {
 
       cang.findru(this.inquire, (res) => {

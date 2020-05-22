@@ -297,7 +297,12 @@ export default {
   },
   methods: {
     childClick(tableData) {
-      this.tableData = tableData;
+      if (tableData === -1) {
+        this.getselect();
+      } else {
+        this.tableData = tableData;
+      }
+
     },
     modification() {
       this.disabled = !this.disabled;

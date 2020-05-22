@@ -145,8 +145,12 @@ router.beforeEach((to, from, next) => {
   // if (!store.getUser().token) return next('/login')
   // // 3. 其他情况 放行
   // next()
+  console.log('路由', store.getUser());
   if (to.path !== '/loogin' && !store.getUser().token) {
     return next('/loogin');
+  }
+  if (to.path === '/hf-store' && store.getUser().identity === 'stone') {
+    return next('/hf-storeproduct?id=' + store.getUser().id);
   }
   next();
 });

@@ -323,6 +323,7 @@ export default {
     sou: function() {
       this.inquire.name = '';
       this.inquire.level = '';
+      this.huoqsuoy();
     },
     seeAbout() {
       if (this.inquire.level === '0') {

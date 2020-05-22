@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-tabs v-model="activeName" @tab-click="handleClick">
-      <el-tab-pane label="平台优惠券" name="first">
+      <el-tab-pane v-if="identity=='boss'" label="平台优惠券" name="first">
         <el-card class="search-card">
           <hfsearch
             @parentByClick="childClick"
@@ -330,10 +330,12 @@ import constants from '@/store/constants.js';
 // import ListPicture from './list-picture';
 import hfsearch from '../hf-eventsManage/hf-search';
 import shopCoupon from './shop-coupon';
+import store from '@/store';
 export default {
   components: { hfsearch, shopCoupon },
   data() {
     return {
+      identity: '',
       activeName: 'second',
       bossid: 1,
       zhuangval: '',
@@ -464,7 +466,11 @@ export default {
       console.log(tab, event);
     },
     childClick(tableData) {
-      this.list = tableData;
+      if (tableData === -1) {
+        this.getlist();
+      } else {
+        this.list = tableData;
+      }
     },
 
     uptime1: function(val) {
@@ -681,17 +687,21 @@ export default {
           res.data.data[i].useLimit = JSON.parse(res.data.data[i].useLimit);
           // eslint-disable-next-line no-magic-numbers
           res.data.data[i].useLimit.full = (
+          // eslint-disable-next-line no-magic-numbers
             res.data.data[i].useLimit.full / 100
+          // eslint-disable-next-line no-magic-numbers
           ).toFixed(2);
           if (res.data.data[i].discountCouponType === 1) {
-            // eslint-disable-next-line no-magic-numbers
             res.data.data[i].useLimit.minus = (
+            // eslint-disable-next-line no-magic-numbers
               res.data.data[i].useLimit.minus / 100
+            // eslint-disable-next-line no-magic-numbers
             ).toFixed(2);
           } else {
-            // eslint-disable-next-line no-magic-numbers
             res.data.data[i].useLimit.minus = (
+            // eslint-disable-next-line no-magic-numbers
               res.data.data[i].useLimit.minus / 10
+            // eslint-disable-next-line no-magic-numbers
             ).toFixed(2);
           }
         }
@@ -702,6 +712,7 @@ export default {
 
   // eslint-disable-next-line no-empty-function
   mounted() {
+    this.identity = store.getUser().identity;
     this.getScope();
     this.getlist();
   },

@@ -385,7 +385,11 @@ export default {
       this.$router.push({path: '/hf-privilege', query: {}});
     },
     childClick(tableData) {
-      this.manage = tableData;
+      if (tableData === -1) {
+        this.findvip();
+      } else {
+        this.manage = tableData;
+      }
     },
     getchang: function(val) {
       console.log(val);

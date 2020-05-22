@@ -444,7 +444,12 @@ export default {
       console.log(tab, event);
     },
     childClick(tableData) {
-      this.list = tableData;
+      if (tableData === -1) {
+        this.getlist();
+      } else {
+        this.list = tableData;
+      }
+
     },
 
     uptime1: function(val) {
@@ -666,19 +671,25 @@ export default {
         console.log(res);
         for (var i = 0; i < res.data.data.length; i++) {
           res.data.data[i].useLimit = JSON.parse(res.data.data[i].useLimit);
-          // eslint-disable-next-line no-magic-numbers
+
           res.data.data[i].useLimit.full = (
+            // eslint-disable-next-line no-magic-numbers
             res.data.data[i].useLimit.full / 100
+          // eslint-disable-next-line no-magic-numbers
           ).toFixed(2);
           if (res.data.data[i].discountCouponType === 1) {
-            // eslint-disable-next-line no-magic-numbers
+
             res.data.data[i].useLimit.minus = (
+            // eslint-disable-next-line no-magic-numbers
               res.data.data[i].useLimit.minus / 100
+            // eslint-disable-next-line no-magic-numbers
             ).toFixed(2);
           } else {
             // eslint-disable-next-line no-magic-numbers
             res.data.data[i].useLimit.minus = (
+            // eslint-disable-next-line no-magic-numbers
               res.data.data[i].useLimit.minus / 10
+            // eslint-disable-next-line no-magic-numbers
             ).toFixed(2);
           }
         }

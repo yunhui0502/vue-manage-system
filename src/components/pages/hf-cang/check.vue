@@ -181,12 +181,24 @@
           </el-table-column>
           <el-table-column align="center" prop="category" label="物品类目"></el-table-column>
           <el-table-column align="center" prop="warehouseName" label="所属仓库"></el-table-column>
-          <el-table-column align="center" prop="time" label="创建时间" ></el-table-column>
-          <el-table-column align="center" prop="name" label="操作人" ></el-table-column>
+          <el-table-column align="center" prop="time" label="创建时间"></el-table-column>
+          <el-table-column align="center" prop="name" label="操作人"></el-table-column>
           <el-table-column fixed="right" label="操作">
             <template slot-scope="scope">
-              <el-button v-if="scope.row.status==1" class="a6a" @click="chucang(scope.row)" type="text" size="small">出库</el-button>
-              <el-button v-if="scope.row.status==1" class="a6a" @click="editProduct(scope.row)" type="text" size="small">拒绝</el-button>
+              <el-button
+                v-if="scope.row.status==1"
+                class="a6a"
+                @click="chucang(scope.row)"
+                type="text"
+                size="small"
+              >出库</el-button>
+              <el-button
+                v-if="scope.row.status==1"
+                class="a6a"
+                @click="editProduct(scope.row)"
+                type="text"
+                size="small"
+              >拒绝</el-button>
               <!-- <el-button class="ff3" @click="deleteProduct(scope.row)" type="text" size="small">删除</el-button> -->
               <el-button v-if="scope.row.status!==1" class="ff3" type="text" size="small">已审批</el-button>
             </template>
@@ -202,48 +214,46 @@
           class="demo-form-inline"
           ref="ruleForms"
         >
-          <el-form-item label="物品名称" prop="goodName">
-            <el-input v-model="inquire.goodName" placeholder="请输入物品名称"></el-input>
-          </el-form-item>
-          <el-form-item label="入库/出库" prop="type1">
-            <el-select v-model="inquire.type1" placeholder="请输入">
-              <el-option
-                :label="item.typename"
-                v-for="item  in type"
-                :key="item.typename"
-                :value="item.typename"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="仓库" prop="valueset2">
-            <el-select v-model="inquire.valueset2" placeholder="请选择">
-              <el-option
-                :key="item.hfName"
-                v-for="item in  canglist"
-                :label="item.hfName"
-                :value="item.hfName"
-              ></el-option>
-            </el-select>
-          </el-form-item>
           <el-row :gutter="20">
-            <el-col :span="16">
-              <el-form-item label="时间" prop="startTime" label-width="79px">
-                <el-date-picker
-                  @change="uptime1"
-                  v-model="inquire.startTime"
-                  type="datetimerange"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期"
-                  :default-time="['12:00:00']"
-                ></el-date-picker>
-              </el-form-item>
-            </el-col>
-            <el-col :span="4">
-              <el-form-item style="float: right;">
-                <el-button type="purple" @click="filter">查询</el-button>
-                <el-button @click="resetForm('ruleForms')">重置</el-button>
-              </el-form-item>
-            </el-col>
+            <el-form-item label="物品名称" prop="goodName">
+              <el-input v-model="inquire.goodName" placeholder="请输入物品名称"></el-input>
+            </el-form-item>
+            <el-form-item label="入库/出库" prop="type1">
+              <el-select v-model="inquire.type1" placeholder="请输入">
+                <el-option
+                  :label="item.typename"
+                  v-for="item  in type"
+                  :key="item.typename"
+                  :value="item.typename"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="仓库" prop="valueset2">
+              <el-select v-model="inquire.valueset2" placeholder="请选择">
+                <el-option
+                  :key="item.hfName"
+                  v-for="item in  canglist"
+                  :label="item.hfName"
+                  :value="item.hfName"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item style="float: right;">
+              <el-button type="purple" @click="filter">查询</el-button>
+              <el-button @click="resetForm('ruleForms')">重置</el-button>
+            </el-form-item>
+          </el-row>
+          <el-row :gutter="20">
+            <el-form-item label="时间" prop="startTime" >
+              <el-date-picker
+                @change="uptime1"
+                v-model="inquire.startTime"
+                type="datetimerange"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                :default-time="['12:00:00']"
+              ></el-date-picker>
+            </el-form-item>
           </el-row>
         </el-form>
 
@@ -402,6 +412,10 @@ export default {
     resetForm(ruleForms) {
       // this.addRuleForm = Object.assign({}, undefined);// 重置表单
       this.$refs[ruleForms].resetFields();
+      this.setProducts();
+      this.findkulistone();
+      this.danone();
+      this.filter();
     },
     formatTen: function(num) {
       // eslint-disable-next-line no-magic-numbers
@@ -597,7 +611,6 @@ export default {
           }
         });
       });
-
     },
     toggleSelection() {
       this.amount = '0';

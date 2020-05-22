@@ -14,19 +14,12 @@
         <el-card class="search-card">
           <el-form :inline="true" :model="sousuoinfor1" ref="ruleForms" class="demo-form-inline">
             <el-row :gutter="10">
-              <el-col :span="6">
+              <el-col :xs="3" :sm="3" :md="3" :lg="6" :xl="8">
                 <el-form-item label="订单号" prop="orderCode">
                   <el-input v-model="sousuoinfor1.orderCode" placeholder="请输入订单号"></el-input>
                 </el-form-item>
               </el-col>
-              <!-- <el-col :span="6">
-            <el-form-item label="订单状态">
-              <el-select v-model="valueset" placeholder="请选择" @change="selectstatus">
-                <el-option :label="item.hfName" v-for="item  in statusData" :key="item.hfName" :value="item.hfName"></el-option>
-              </el-select>
-            </el-form-item>
-              </el-col>-->
-              <el-col :span="6">
+              <el-col :xs="3" :sm="4" :md="5" :lg="6" :xl="8">
                 <el-form-item label="支付方式" prop="valueset1">
                   <el-select
                     v-model="sousuoinfor1.valueset1"
@@ -42,19 +35,7 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
-                <el-button type="primary" @click="sousuo">筛选</el-button>
-                <el-button @click="resetForm('ruleForms')">重置</el-button>
-                <!-- <el-form-item label="订单类型" prop="valueset2">
-              <el-select v-model="sousuoinfor1.valueset2" placeholder="请输入" @change="selecttype">
-                <el-option :label="item.orderDesc" v-for="item  in orderType" :key="item.orderDesc" :value="item.orderDesc"></el-option>
-              </el-select>
-                </el-form-item>-->
-              </el-col>
-            </el-row>
-
-            <el-row :gutter="20">
-              <el-col :span="16">
+              <el-col :xs="5" :sm="6" :md="7" :lg="8" :xl="10">
                 <el-form-item label="下单时间" prop="startTime">
                   <el-date-picker
                     @change="uptime1"
@@ -65,18 +46,11 @@
                     :default-time="['12:00:00']"
                   ></el-date-picker>
                 </el-form-item>
-                <!-- <el-button>今天</el-button>
-            <el-button>昨天</el-button>
-            <el-button>近7天</el-button>
-                <el-button>昨天30天</el-button>-->
               </el-col>
-
-              <!-- <el-col :span="4">
-             <el-form-item>
-            <el-button type="primary" @click="sousuo">筛选</el-button>
-            <el-button @click="resetForm('ruleForms')">重置</el-button>
-           </el-form-item>
-              </el-col>-->
+              <el-col :xs="4" :sm="4" :md="4" :lg="4" :xl="4">
+                <el-button type="primary" @click="sousuo">筛选</el-button>
+                <el-button @click="resetForm('ruleForms')">重置</el-button>
+              </el-col>
             </el-row>
           </el-form>
         </el-card>
@@ -143,19 +117,12 @@
         <el-card class="search-card">
           <el-form :inline="true" :model="sousuoinfor1" ref="ruleForms" class="demo-form-inline">
             <el-row :gutter="10">
-              <el-col :span="6">
+              <el-col :xs="3" :sm="3" :md="3" :lg="6" :xl="8">
                 <el-form-item label="订单号" prop="orderCode">
                   <el-input v-model="sousuoinfor1.orderCode" placeholder="请输入订单号"></el-input>
                 </el-form-item>
               </el-col>
-              <!-- <el-col :span="6">
-            <el-form-item label="订单状态">
-              <el-select v-model="valueset" placeholder="请选择" @change="selectstatus">
-                <el-option :label="item.hfName" v-for="item  in statusData" :key="item.hfName" :value="item.hfName"></el-option>
-              </el-select>
-            </el-form-item>
-              </el-col>-->
-              <el-col :span="6">
+              <el-col :xs="3" :sm="4" :md="5" :lg="6" :xl="8">
                 <el-form-item label="支付方式" prop="valueset1">
                   <el-select
                     v-model="sousuoinfor1.valueset1"
@@ -171,19 +138,7 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
-                <el-button type="primary" @click="sousuo">筛选</el-button>
-                <el-button @click="resetForm('ruleForms')">重置</el-button>
-                <!-- <el-form-item label="订单类型" prop="valueset2">
-              <el-select v-model="sousuoinfor1.valueset2" placeholder="请输入" @change="selecttype">
-                <el-option :label="item.orderDesc" v-for="item  in orderType" :key="item.orderDesc" :value="item.orderDesc"></el-option>
-              </el-select>
-                </el-form-item>-->
-              </el-col>
-            </el-row>
-
-            <el-row :gutter="20">
-              <el-col :span="16">
+              <el-col :xs="5" :sm="6" :md="7" :lg="8" :xl="10">
                 <el-form-item label="下单时间" prop="startTime">
                   <el-date-picker
                     @change="uptime1"
@@ -194,18 +149,11 @@
                     :default-time="['12:00:00']"
                   ></el-date-picker>
                 </el-form-item>
-                <!-- <el-button>今天</el-button>
-            <el-button>昨天</el-button>
-            <el-button>近7天</el-button>
-                <el-button>昨天30天</el-button>-->
               </el-col>
-
-              <!-- <el-col :span="4">
-             <el-form-item>
-            <el-button type="primary" @click="sousuo">筛选</el-button>
-            <el-button @click="resetForm('ruleForms')">重置</el-button>
-           </el-form-item>
-              </el-col>-->
+              <el-col :xs="4" :sm="4" :md="4" :lg="4" :xl="4">
+                <el-button type="primary" @click="sousuo">筛选</el-button>
+                <el-button @click="resetForm('ruleForms')">重置</el-button>
+              </el-col>
             </el-row>
           </el-form>
         </el-card>
@@ -263,19 +211,12 @@
         <el-card class="search-card">
           <el-form :inline="true" :model="sousuoinfor1" ref="ruleForms" class="demo-form-inline">
             <el-row :gutter="10">
-              <el-col :span="6">
+              <el-col :xs="3" :sm="3" :md="3" :lg="6" :xl="8">
                 <el-form-item label="订单号" prop="orderCode">
                   <el-input v-model="sousuoinfor1.orderCode" placeholder="请输入订单号"></el-input>
                 </el-form-item>
               </el-col>
-              <!-- <el-col :span="6">
-            <el-form-item label="订单状态">
-              <el-select v-model="valueset" placeholder="请选择" @change="selectstatus">
-                <el-option :label="item.hfName" v-for="item  in statusData" :key="item.hfName" :value="item.hfName"></el-option>
-              </el-select>
-            </el-form-item>
-              </el-col>-->
-              <el-col :span="6">
+              <el-col :xs="3" :sm="4" :md="5" :lg="6" :xl="8">
                 <el-form-item label="支付方式" prop="valueset1">
                   <el-select
                     v-model="sousuoinfor1.valueset1"
@@ -291,19 +232,7 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
-                <el-button type="primary" @click="sousuo">筛选</el-button>
-                <el-button @click="resetForm('ruleForms')">重置</el-button>
-                <!-- <el-form-item label="订单类型" prop="valueset2">
-              <el-select v-model="sousuoinfor1.valueset2" placeholder="请输入" @change="selecttype">
-                <el-option :label="item.orderDesc" v-for="item  in orderType" :key="item.orderDesc" :value="item.orderDesc"></el-option>
-              </el-select>
-                </el-form-item>-->
-              </el-col>
-            </el-row>
-
-            <el-row :gutter="20">
-              <el-col :span="16">
+              <el-col :xs="5" :sm="6" :md="7" :lg="8" :xl="10">
                 <el-form-item label="下单时间" prop="startTime">
                   <el-date-picker
                     @change="uptime1"
@@ -314,18 +243,11 @@
                     :default-time="['12:00:00']"
                   ></el-date-picker>
                 </el-form-item>
-                <!-- <el-button>今天</el-button>
-            <el-button>昨天</el-button>
-            <el-button>近7天</el-button>
-                <el-button>昨天30天</el-button>-->
               </el-col>
-
-              <!-- <el-col :span="4">
-             <el-form-item>
-            <el-button type="primary" @click="sousuo">筛选</el-button>
-            <el-button @click="resetForm('ruleForms')">重置</el-button>
-           </el-form-item>
-              </el-col>-->
+              <el-col :xs="4" :sm="4" :md="4" :lg="4" :xl="4">
+                <el-button type="primary" @click="sousuo">筛选</el-button>
+                <el-button @click="resetForm('ruleForms')">重置</el-button>
+              </el-col>
             </el-row>
           </el-form>
         </el-card>
@@ -381,11 +303,11 @@
     </el-tabs>
 
     <el-dialog title="订单详情" :visible.sync="centerDialogVisible" width="50%">
-      <order-detail v-if="isRouterAlive" :id="id"> </order-detail>
+      <order-detail v-if="isRouterAlive" :id="id"></order-detail>
       <!-- <span slot="footer" class="dialog-footer">
         <el-button @click="centerDialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
-      </span> -->
+      </span>-->
     </el-dialog>
 
     <el-drawer :visible.sync="drawer">
@@ -528,6 +450,7 @@ export default {
     },
     resetForm(ruleForms) {
       this.$refs[ruleForms].resetFields();
+      this.getOrderByTypes();
     },
     selecttype: function(tab) {
       console.log(tab);

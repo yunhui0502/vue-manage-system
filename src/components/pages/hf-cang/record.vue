@@ -186,6 +186,7 @@ export default {
     resetForm(ruleForms) {
       this.inquire = this.inquire1;
       this.$refs[ruleForms].resetFields();
+      this.setProducts();
     },
     formatTen: function(num) {
       // eslint-disable-next-line no-magic-numbers

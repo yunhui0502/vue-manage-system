@@ -139,7 +139,7 @@ export default {
             }
             // console.log(re);
             if (res.data.status === constants.SUCCESS_CODE) {
-              let data = { token: res.data.data.token };
+              let data = res.data.data;
               store.setUser(data);
               window.sessionStorage.setItem(
                 'userInfor',

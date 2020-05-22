@@ -62,6 +62,8 @@ export default {
     sou: function() {
       this.inquire.goodsName = '';
       this.inquire.productCategoryName = '';
+      let tableData = -1;
+      this.$emit('parentByClick', tableData);
     },
     seeAbout() {
       serviceProduct.productNameListBos(this.inquire, (res) => {

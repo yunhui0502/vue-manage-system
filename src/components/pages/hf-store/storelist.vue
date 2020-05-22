@@ -401,7 +401,11 @@ export default {
   },
   methods: {
     childClick(tableData) {
-      this.storeData = tableData;
+      if (tableData === -1) {
+        this.getStore();
+      } else {
+        this.storeData = tableData;
+      }
     },
     imgUpload(file) {
       let fileName = file.name;

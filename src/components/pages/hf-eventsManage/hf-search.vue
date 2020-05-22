@@ -27,7 +27,7 @@ import storeService from '@/service/store.js';
 import serviceProduct from '@/service/product.js';
 import serviceEvents from '@/service/eventsManage.js';
 import userCenterService from '@/service/userCenter.js';
-import quan from '@/service/quan.js';
+// import quan from '@/service/quan.js';
 import vip from '@/service/vip.js';
 export default {
   props: ['labelName', 'labelType', 'options', 'labeltype', 'identify'],
@@ -79,6 +79,8 @@ export default {
     sou: function() {
       this.inquire.goodsName = '';
       this.inquire.productCategoryName = '';
+      let tableData = -1;
+      this.$emit('parentByClick', tableData);
     },
     seeAbout() {
       console.log(this.inquire.goodsName);
@@ -142,6 +144,9 @@ export default {
     judgment() {
       if (this.labelName === '优惠名称') {
         console.log('优惠名称');
+        if (this.labeltype === '所在店铺') {
+          this.inquire.stoneId = this.inquire.productCategoryName;
+        }
         serviceProduct.selectDiscountCoupon(this.inquire, (res) => {
           let tableData = res.data.data;
           this.$emit('parentByClick', tableData);
@@ -156,16 +161,16 @@ export default {
           console.log(res);
         });
       }
-      if (this.labeltype === '所在店铺') {
-        let stoneId = this.inquire.productCategoryName;
-        console.log('所在店铺');
-        quan.getliststoneId(stoneId, (res) => {
-          let tableData = res.data.data;
-          this.$emit('parentByClick', tableData);
-          console.log(res);
-        });
+      // if (this.labeltype === '所在店铺') {
+      //   let stoneId = this.inquire.productCategoryName;
+      //   console.log('所在店铺');
+      //   quan.getliststoneId(stoneId, (res) => {
+      //     let tableData = res.data.data;
+      //     this.$emit('parentByClick', tableData);
+      //     console.log(res);
+      //   });
 
-      }
+      // }
     },
     consumer () {
       let params = {

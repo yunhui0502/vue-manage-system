@@ -184,8 +184,8 @@ export default {
             this.shenlist();
           });
         })
+        // eslint-disable-next-line no-unexpected-multiline
         [
-          // eslint-disable-next-line no-unexpected-multiline
           'catch'
         ](() => {
           this.$message({
@@ -213,8 +213,8 @@ export default {
             this.shenlist();
           });
         })
+        // eslint-disable-next-line no-unexpected-multiline
         [
-          // eslint-disable-next-line no-unexpected-multiline
           'catch'
         ](() => {
           this.$message({
@@ -290,7 +290,11 @@ export default {
       console.log(tab, event);
     },
     childClick(tableData) {
-      this.tableData = tableData;
+      if (tableData === -1) {
+        this.setProducts();
+      } else {
+        this.tableData = tableData;
+      }
     },
   },
 };

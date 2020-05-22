@@ -149,10 +149,18 @@ export default {
   },
   methods: {
     childClick(tableData) {
-      this.Admindata = tableData;
+      if (tableData === -1) {
+        this.checkAdmin();
+      } else {
+        this.Admindata = tableData;
+      }
     },
     childClick2(tableData) {
-      this.userData = tableData;
+      if (tableData === -1) {
+        this.checkUser();
+      } else {
+        this.userData = tableData;
+      }
     },
     bossinfor: function() {
       userCenterService.bossinfor(this.bossid, (res) => {
