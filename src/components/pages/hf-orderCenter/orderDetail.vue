@@ -291,6 +291,7 @@ export default {
         { title: '付款' },
         { title: '配置' },
         { title: '出库' },
+        { title: '交易成功' },
       ],
       orderliu: {
         stoneId: '',
@@ -382,8 +383,9 @@ export default {
     },
 
     que: function(item, index) {
-      // console.log(item);
-      // this.order.id = this.$route.query.id;
+      console.log(item);
+      console.log(this.id);
+      this.order.id = this.id;
       if (
         this.detail.orderStatus === 'process' &&
         this.detail.orderType === 'nomalOrder' &&
@@ -593,11 +595,11 @@ export default {
 
   mounted() {
     // this.id = this.$route.query.id;
-    this.updata.id = this.$route.query.id;
-    this.updata1.id = this.$route.query.id;
-    this.updata2.id = this.$route.query.id;
-    this.updatanoagree.id = this.$route.query.id;
-    this.updataagree.id = this.$route.query.id;
+    this.updata.id = this.id;
+    this.updata1.id = this.id;
+    this.updata2.id = this.id;
+    this.updatanoagree.id = this.id;
+    this.updataagree.id = this.id;
     this.zhuang = this.$route.query.zhuang;
     var content = window.sessionStorage.getItem('userInfor');
     this.content = JSON.parse(content);
