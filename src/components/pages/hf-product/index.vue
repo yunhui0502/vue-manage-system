@@ -58,7 +58,6 @@
             </el-table>
             <div style="float: right;" class="block">
               <el-pagination
-                background
                 layout="prev, pager, next"
                 @current-change="handleCurrentChange"
                 :total="totalSize"
