@@ -586,7 +586,7 @@ export default {
     changestatus: function(e) {
       console.log(e);
       this.cancle.isCancel = e;
-      this.cancle.stoneId = this.persondata.stoneId;
+      this.cancle.stoneId = this.$route.query.id;
       console.log(this.cancle);
       storeService.isCancel(this.cancle, (res) => {
         console.log(res);

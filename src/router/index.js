@@ -13,6 +13,11 @@ const router = new VueRouter({
     component: (resolve) => require(['@/components/pages/login'], resolve),
   },
   {
+    path: '/user-list',
+    name: 'user-list',
+    component: (resolve) => require(['@/components/pages/login/user-list.vue'], resolve),
+  },
+  {
     path: '/code',
     name: 'code',
     component: (resolve) => require(['@/components/pages/login/code'], resolve),
@@ -150,7 +155,7 @@ router.beforeEach((to, from, next) => {
     return next('/loogin');
   }
   if (to.path === '/hf-store' && store.getUser().identity === 'stone') {
-    return next('/hf-storeproduct?id=' + store.getUser().id);
+    return next('/hf-storeproduct?id=' + store.getUser().BSid);
   }
   next();
 });

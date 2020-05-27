@@ -73,6 +73,10 @@
             <i class="iconfont icon-weibiaoti2fuzhi16"></i>
             <span slot="title">设置</span>
           </el-menu-item>
+          <el-menu-item index="/user-list">
+            <i class="iconfont icon-weibiaoti2fuzhi16"></i>
+            <span slot="title">账号添加</span>
+          </el-menu-item>
         </el-menu>
       </el-col>
     </el-aside>
