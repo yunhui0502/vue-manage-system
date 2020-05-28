@@ -70,7 +70,7 @@
       </el-card>
     </div>
 
-    <!-- <el-dialog title :visible.sync="dialogFormVisible">
+    <el-dialog title :visible.sync="dialogFormVisible">
       <el-card shadow="never" class="box-card">
         <div slot="header" class="clearfix">
           <span v-if="dataList.identity=='boss'">管理员</span>
@@ -90,11 +90,11 @@
             </el-select>
           </el-form-item>
           <el-form-item>
-            <el-button @click="token()" type="info" style="width:284px;">确 定</el-button>
+            <el-button @click="determine()" type="info" style="width:284px;">确 定</el-button>
           </el-form-item>
         </el-form>
       </el-card>
-    </el-dialog> -->
+    </el-dialog>
   </div>
 </template>
 
@@ -125,7 +125,7 @@ export default {
         merId: '',
         userId: '',
       },
-      dialogFormVisible: true,
+      dialogFormVisible: false,
       timer: '',
       disabled: false,
       time: 0,
@@ -185,7 +185,8 @@ export default {
                 JSON.stringify(res.data.data),
               );
               // localStorage.setItem()
-              this.$router.push('/');
+              this.dialogFormVisible = true;
+              // this.$router.push('/');
             } else {
               this.$message.error('手机号或验证码错误');
             }
@@ -233,7 +234,7 @@ export default {
             this.disabled = true;
             this.validateBtn();
           });
-        this.$router.push('/');
+        // this.$router.push('/');
       } else {
         return false;
       }
@@ -255,19 +256,24 @@ export default {
         // eslint-disable-next-line no-magic-numbers
       }, 1000);
     },
+    determine() {
+      this.form.type = this.dataList.identity;
+      this.form.userId = this.dataList.id;
+      log.token(this.form, (res) => {
+        console.log(res);
+        let data = store.getUser();
+        data.token = res.data.data.token;
+        store.setUser(data);
+        this.$router.push('/');
+      });
+    },
+
   },
   destroyed() {
     if (this.timer) {
       // 如果定时器在运行则关闭
       clearInterval(this.timer);
     }
-  },
-  token() {
-    this.form.type = this.dataList.identity;
-    this.form.userId = this.dataList.id;
-    log.login(this.form, (res) => {
-      console.log(res);
-    });
   },
 };
 </script>
