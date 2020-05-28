@@ -79,8 +79,31 @@
         </div>
 
         <el-form :model="dataList">
-          <el-form-item label>
-            <el-select v-model="form.merId" placeholder="请选择">
+          <!-- boss -->
+          <el-form-item v-if="dataList.identity=='boss'" label>
+            <el-select v-model="form.merId" placeholder="请选择boss">
+              <el-option
+                v-for="item in dataList.List"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+          <!-- 店铺 -->
+          <el-form-item v-if="dataList.identity=='stone'" label>
+            <el-select v-model="form.merId" placeholder="请选择店铺">
+              <el-option
+                v-for="item in dataList.List"
+                :key="item.id"
+                :label="item.hfName"
+                :value="item.id"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+          <!-- 仓库 -->
+          <el-form-item v-if="dataList.identity=='warehouse'" label>
+            <el-select v-model="form.merId" placeholder="请选择仓库">
               <el-option
                 v-for="item in dataList.List"
                 :key="item.id"
@@ -267,7 +290,6 @@ export default {
         this.$router.push('/');
       });
     },
-
   },
   destroyed() {
     if (this.timer) {
