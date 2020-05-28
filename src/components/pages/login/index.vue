@@ -70,23 +70,31 @@
       </el-card>
     </div>
 
-    <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
-      <el-form :model="form">
-        <el-form-item label="活动名称" :label-width="formLabelWidth">
-          <el-input v-model="form.name" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="活动区域" :label-width="formLabelWidth">
-          <el-select v-model="form.region" placeholder="请选择活动区域">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
-          </el-select>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
-      </div>
-    </el-dialog>
+    <!-- <el-dialog title :visible.sync="dialogFormVisible">
+      <el-card shadow="never" class="box-card">
+        <div slot="header" class="clearfix">
+          <span v-if="dataList.identity=='boss'">管理员</span>
+          <span v-if="dataList.identity=='stone'">选择店铺</span>
+          <span v-if="dataList.identity=='warehouse'">选择仓库</span>
+        </div>
+
+        <el-form :model="dataList">
+          <el-form-item label>
+            <el-select v-model="form.merId" placeholder="请选择">
+              <el-option
+                v-for="item in dataList.List"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item>
+            <el-button @click="token()" type="info" style="width:284px;">确 定</el-button>
+          </el-form-item>
+        </el-form>
+      </el-card>
+    </el-dialog> -->
   </div>
 </template>
 
@@ -111,6 +119,13 @@ export default {
       callback();
     };
     return {
+      dataList: '',
+      form: {
+        type: '',
+        merId: '',
+        userId: '',
+      },
+      dialogFormVisible: true,
       timer: '',
       disabled: false,
       time: 0,
@@ -143,7 +158,8 @@ export default {
     };
   },
   created() {
-    // console.log(this.$refs.loginForm)
+    this.dataList = store.getUser();
+    console.log(this.dataList);
   },
   methods: {
     // 登录
@@ -161,6 +177,7 @@ export default {
             }
             // console.log(re);
             if (res.data.status === constants.SUCCESS_CODE) {
+              this.dataList = res.data.data;
               let data = res.data.data;
               store.setUser(data);
               window.sessionStorage.setItem(
@@ -244,6 +261,13 @@ export default {
       // 如果定时器在运行则关闭
       clearInterval(this.timer);
     }
+  },
+  token() {
+    this.form.type = this.dataList.identity;
+    this.form.userId = this.dataList.id;
+    log.login(this.form, (res) => {
+      console.log(res);
+    });
   },
 };
 </script>
