@@ -124,6 +124,7 @@ import serviceProduct from '@/service/product.js';
 import cang from '@/service/cang.js';
 import category from '../hf-product/category';
 import Search from './search';
+import store from '@/store';
 
 export default {
   components: {
@@ -136,9 +137,7 @@ export default {
         applyId: '',
         type: '',
       },
-      boss: {
-        bossId: 1,
-      },
+
       shendata: [],
       amount: '0',
       indexMethod: 1,
@@ -223,7 +222,11 @@ export default {
         });
     },
     shenlist: function() {
-      cang.shenlist(this.boss, (res) => {
+      let boss = {
+        bossId: store.getUser().BSid,
+      };
+      console.log('boss.bossId', boss.bossId);
+      cang.shenlist(boss, (res) => {
         console.log('1', res);
         this.shendata = res.data.data;
         this.loading = false;

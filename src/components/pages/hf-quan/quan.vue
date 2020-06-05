@@ -337,7 +337,7 @@ export default {
     return {
       identity: '',
       activeName: 'second',
-      bossid: 1,
+      bossId: '',
       zhuangval: '',
       currentPage: 1, // 初始页
       pagesize: 10, // 每页的数据
@@ -421,7 +421,7 @@ export default {
         stoneId: '',
         useState: '-1',
         discountCouponDesc: '',
-        bossId: 1,
+        bossId: '',
         useLimit: {
           full: '',
           minus: '',
@@ -435,7 +435,7 @@ export default {
       formquan1: {
         useState: '-1',
         id: '',
-        bossId: 1,
+        bossId: '',
         useLimit: {
           full: '',
           minus: '',
@@ -713,6 +713,9 @@ export default {
   // eslint-disable-next-line no-empty-function
   mounted() {
     this.identity = store.getUser().identity;
+    this.bossId = store.getUser().BSid;
+    this.formquan.bossId = store.getUser().BSid;
+    this.formquan1.bossId = store.getUser().BSid;
     this.getScope();
     this.getlist();
   },

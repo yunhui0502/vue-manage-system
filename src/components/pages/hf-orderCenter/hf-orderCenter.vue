@@ -537,6 +537,7 @@ export default {
       });
     },
     handleSizeChange(val) {
+      console.log(val);
       this.pagesize = val;
     },
     handleCurrentChange(val) {

@@ -140,6 +140,7 @@ import listgraph from '../goods/list-graph';
 import ListSpecification from '../list-specification';
 import serviceProduct from '@/service/product.js';
 import serviceGoods from '@/service/goods.js';
+import store from '@/store';
 export default {
   components: {
     GoodsList,
@@ -229,6 +230,7 @@ export default {
     this.getCatagery();
     this.getCurrent();
     this.acquire();
+    this.productInfo.bossId = store.getUser().BSid;
   },
   methods: {
     addGoodsSpecificationList() {

@@ -314,6 +314,7 @@ import constants from '@/store/constants.js';
 // import ListPicture from './list-picture';
 import hfsearch from '../hf-eventsManage/hf-search';
 import storeService from '@/service/store.js';
+import store from '@/store';
 export default {
   components: { hfsearch },
   data() {
@@ -653,7 +654,8 @@ export default {
       // console.log(this.formquan.superposition);
     },
     getStore: function() {
-      storeService.getStore(this.bossid, (res) => {
+      let bossid = store.getUser().BSid;
+      storeService.getStore(bossid, (res) => {
         console.log(res);
         this.options = res.data.data;
       });
@@ -703,6 +705,8 @@ export default {
     this.getStore();
     this.getScope();
     this.getlist();
+    this.formquan.bossId = store.getUser().BSid;
+    this.formquan1.bossId = store.getUser().BSid;
   },
 };
 </script>

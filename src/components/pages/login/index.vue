@@ -249,8 +249,12 @@ export default {
       let patrn = /^1[3-9]\d{9}$/;
       if (patrn.exec(this.loginForm.authKey)) {
         // eslint-disable-next-line no-unused-vars
+        let fd = new FormData();
+        fd.append('phone', this.loginForm.authKey);
+        fd.append('type', 'login');
+
         axios
-          .get('/api/api/user/user/code?phone=' + this.loginForm.authKey)
+          .post('/api/api/user/user/code', fd)
           .then((res) => {
             this.loginForm.code = res.data.data;
             this.time = 60;

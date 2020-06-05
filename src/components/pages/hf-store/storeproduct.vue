@@ -239,13 +239,13 @@
             </el-table-column>
           </el-table>
           <!-- 添加店铺成员弹窗 -->
-          <el-dialog title="添加店铺成员"  :visible.sync="dialogVisible" center>
+          <el-dialog title="添加店铺成员" :visible.sync="dialogVisible" center>
             <el-table
               :data="userData"
               stripe
               height="250"
               style="width: 100%"
-              @selection-change="handleSelectionChange"
+              @selection-change="handleSelectionChange2"
               ref="table"
               @row-click="currentChange"
             >
@@ -259,9 +259,8 @@
             </span>
           </el-dialog>
 
-          <el-drawer :visible.sync="draweruser" :with-header="false" >
-            <template>
-              <div style="margin-top:100px;margin-left:30px;">
+          <el-dialog title="查看" width="40%"  :visible.sync="draweruser" :with-header="false">
+              <div class="p20" style="margin: 0 auto; ">
                 <div>
                   <span style="font-size:13px;margin-right:12px;">是否参与核销</span>
                   <el-radio v-model="radio" label="0" @change="changestatus">否</el-radio>
@@ -279,13 +278,12 @@
                   </el-select>
                 </div>
               </div>
-            </template>
-          </el-drawer>
+          </el-dialog>
         </el-card>
       </el-tab-pane>
     </el-tabs>
 
-    <el-dialog center title="店铺商品" :visible.sync="add" >
+    <el-dialog center title="店铺商品" :visible.sync="add">
       <el-select v-model="warehouseId" @change="warehouse" placeholder="请选择">
         <el-option v-for="item in options" :key="item.hfName" :label="item.hfName" :value="item.id"></el-option>
       </el-select>
@@ -312,7 +310,7 @@
         <!-- <el-table-column prop="lastModifier" label="最近一次操作人" align="center"></el-table-column> -->
         <el-table-column fixed="right" label="操作" width="100">
           <template slot-scope="scope">
-            <el-button class="a6a" @click="submit(scope.row)" type="primary" size="small">提交</el-button>
+            <el-button class="a6a" @click="apply(scope.row)" type="primary" size="small">提交</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -355,7 +353,7 @@ import home from '@/service/home.js';
 import storeService from '@/service/store.js';
 // eslint-disable-next-line no-unused-vars
 import constants from '@/store/constants.js';
-import serviceProduct from '@/service/product.js';
+// import serviceProduct from '@/service/product.js';
 import userCenterService from '@/service/userCenter.js';
 import serviceGoods from '@/service/goods.js';
 import cang from '@/service/cang.js';
@@ -443,7 +441,7 @@ export default {
       storeinfor: {},
       content: {},
       product: {
-        productIds: [],
+        ids: [],
         stoneId: '',
         userId: '',
       },
@@ -517,13 +515,17 @@ export default {
       console.log(val);
       this.selectDdata = val;
     },
+    handleSelectionChange2(val) {
+      console.log(val);
+      this.selectDdata = val;
+    },
     // eslint-disable-next-line no-empty-function
     currentChange: function(row) {
       console.log(row);
       // this.persondata.personid = row.id;
       this.$refs.table.toggleRowSelection(row);
     },
-    submit: function(row) {
+    apply: function(row) {
       console.log(row);
       this.applys = row;
       if (!row.count) {
@@ -717,39 +719,40 @@ export default {
         this.listwu = data;
       });
     },
-    // submit: function() {
-    //   // this.product.productIds = [];
-    //   if (this.selectDdata.length > 0) {
-    //     for (var i = 0; i < this.selectDdata.length; i++) {
-    //       this.product.productIds.push(this.selectDdata[i].id);
-    //     }
-    //   } else {
-    //     return false;
-    //   }
-    //   this.product.userId = this.content.id;
-    //   this.product.stoneId = this.id;
-    //   console.log(this.product);
-    //   storeService.storeAddProduct(this.product, (res) => {
-    //     console.log(res);
-    //     if (res.data.status === constants.SUCCESS_CODE) {
-    //       this.$message({
-    //         message: '添加成功',
-    //         type: 'success',
-    //       });
-    //       this.add = false;
-    //       this.getstoneproduct();
-    //       // this.product.productIds = [];
-    //       // this.selectDdata = [];
-    //     } else {
-    //       this.$message({
-    //         message: '添加失败',
-    //         type: 'error',
-    //       });
-    //       // this.product.productIds = [];
-    //       // this.selectDdata = [];
-    //     }
-    //   });
-    // },
+    submit: function() {
+      // this.product.productIds = [];
+      if (this.selectDdata.length > 0) {
+        for (var i = 0; i < this.selectDdata.length; i++) {
+          this.product.ids.push(this.selectDdata[i].id);
+        }
+      } else {
+        return false;
+      }
+      this.product.userId = this.content.id;
+      this.product.stoneId = this.id;
+      console.log(this.product);
+      storeService.addPerson(this.product, (res) => {
+        console.log(res);
+        if (res.data.status === constants.SUCCESS_CODE) {
+          this.$message({
+            message: '添加成功',
+            type: 'success',
+          });
+          this.add = false;
+          // this.getstoneproduct();
+          this.checkPerson();
+          // this.product.productIds = [];
+          this.selectDdata = [];
+        } else {
+          this.$message({
+            message: '添加失败',
+            type: 'error',
+          });
+          // this.product.productIds = [];
+          this.selectDdata = [];
+        }
+      });
+    },
     Added(e) {
       let stoneId = this.$route.query.id;
       this.$router.push({
@@ -766,10 +769,10 @@ export default {
     //   this.selectDdata = val;
     // },
     setProducts() {
-      serviceProduct.getProductsByBossId((res) => {
-        console.log(res);
-        this.tableData = res.data.data.list;
-      });
+      // serviceProduct.getProductsByBossId((res) => {
+      //   console.log(res);
+      //   this.tableData = res.data.data.list;
+      // });
     },
     getstoneproduct: function() {
       console.log(this.id);
@@ -779,16 +782,20 @@ export default {
         this.updata.productId = this.list[0].id;
         this.productid = this.list[0].id + '';
         this.productName = this.list[0].productName;
-        storeService.selectProductGoods(this.list[0].id, this.list[0].stoneId, (res) => {
-          console.log(res);
-          let data = res.data.data;
-          for (var i = 0; i < data.length; i++) {
-            // eslint-disable-next-line no-magic-numbers
-            data[i].sellPrice = (data[i].sellPrice / 100).toFixed(2);
-            // eslint-disable-next-line no-magic-numbers
-          }
-          this.listwu = data;
-        });
+        storeService.selectProductGoods(
+          this.list[0].id,
+          this.list[0].stoneId,
+          (res) => {
+            console.log(res);
+            let data = res.data.data;
+            for (var i = 0; i < data.length; i++) {
+              // eslint-disable-next-line no-magic-numbers
+              data[i].sellPrice = (data[i].sellPrice / 100).toFixed(2);
+              // eslint-disable-next-line no-magic-numbers
+            }
+            this.listwu = data;
+          },
+        );
       });
     },
     getStoreid: function() {
@@ -865,5 +872,9 @@ export default {
 .box {
   display: flex;
   justify-content: center;
+}
+.p20 {
+  margin: 0 auto;
+  width: 400px;
 }
 </style>
