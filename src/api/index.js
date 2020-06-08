@@ -34,6 +34,15 @@ axios.interceptors.response.use((res) => res, (err) => {
     // 4. 跳转登录
     router.push('/login');
   }
+  // eslint-disable-next-line no-magic-numbers
+  if (status === 403) {
+    // this.$message({
+    //   message: '警告哦，这是一条警告消息',
+    //   type: 'warning',
+    // });
+    // 4. 跳转登录
+    router.push('/set');
+  }
   return Promise.reject(err);
 });
 

@@ -56,7 +56,7 @@
             <el-menu-item index="/rucang">进货单</el-menu-item>
             <el-menu-item index="/dan">出货单</el-menu-item>
             <el-menu-item index="/record">历史记录</el-menu-item>
-          </el-submenu> -->
+          </el-submenu>-->
           <el-menu-item v-if="user" index="/hf-userCenter">
             <i class="iconfont icon-icon-safe-bluefuben"></i>
             <span slot="title">用户中心</span>
@@ -72,6 +72,10 @@
           <el-menu-item v-if="set" index="/set">
             <i class="iconfont icon-weibiaoti2fuzhi16"></i>
             <span slot="title">设置</span>
+          </el-menu-item>
+          <el-menu-item  index="/jurisdiction">
+            <i class="iconfont icon-shangpinkucuncangkudunhuojiya"></i>
+            <span slot="title">权限管理</span>
           </el-menu-item>
           <el-menu-item index="/user-list">
             <i class="iconfont icon-weibiaoti2fuzhi16"></i>
@@ -156,6 +160,16 @@
             </el-dropdown>
           </el-container>
         </el-container>
+        <!-- ------------------------------------切换店铺------------------------------------------------- -->
+          <el-select @change="determine" v-model="form.merId" placeholder="请选择要切换的店铺">
+            <el-option
+              v-for="item in dataList.List"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+            ></el-option>
+          </el-select>
+        <!-- ------------------------------------------------------------------------------------------------ -->
       </el-header>
       <el-main>
         <router-view></router-view>
@@ -167,10 +181,17 @@
 <script>
 // @ is an alias to /src
 import store from '@/store';
+import log from '@/service/login.js';
 export default {
   name: 'home',
   data() {
     return {
+      form: {
+        type: '',
+        merId: '',
+        userId: '',
+      },
+      dataList: '',
       isShow: false,
       content: {},
       homePage: true, // 首页
@@ -187,7 +208,22 @@ export default {
       set: true, // 设置
     };
   },
+  created() {
+    this.dataList = store.getUser();
+    console.log(this.dataList);
+  },
   methods: {
+    determine() {
+      this.form.type = this.dataList.identity;
+      this.form.userId = this.dataList.id;
+      log.token(this.form, (res) => {
+        console.log(res);
+        let data = store.getUser();
+        data.token = res.data.data.token;
+        store.setUser(data);
+        this.$router.push('/');
+      });
+    },
     goUpdte: function() {
       this.$router.push('/update');
     },
@@ -211,7 +247,8 @@ export default {
       if (this.content.modelCode.homePage !== 'homePage') {
         this.homePage = false;
         console.log('首页', this.homePage);
-      } if (this.content.modelCode.dataStatistics !== 'dataStatistics') {
+      }
+      if (this.content.modelCode.dataStatistics !== 'dataStatistics') {
         this.dataStatistics = false;
         console.log('数据统计', this.dataStatistics);
       }

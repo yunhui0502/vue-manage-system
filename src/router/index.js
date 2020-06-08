@@ -13,11 +13,6 @@ const router = new VueRouter({
     component: (resolve) => require(['@/components/pages/login'], resolve),
   },
   {
-    path: '/user-list',
-    name: 'user-list',
-    component: (resolve) => require(['@/components/pages/login/user-list.vue'], resolve),
-  },
-  {
     path: '/code',
     name: 'code',
     component: (resolve) => require(['@/components/pages/login/code'], resolve),
@@ -130,6 +125,16 @@ const router = new VueRouter({
       path: 'hf-statistics',
       name: 'hf-statistics',
       component: (resolve) => require(['@/components/pages/hf-statistics'], resolve),
+    },
+    {
+      path: '/user-list',
+      name: 'user-list',
+      component: (resolve) => require(['@/components/pages/login/user-list.vue'], resolve),
+    },
+    {
+      path: '/jurisdiction',
+      name: 'jurisdiction',
+      component: (resolve) => require(['@/components/pages/jurisdiction'], resolve),
     },
     ],
   },
