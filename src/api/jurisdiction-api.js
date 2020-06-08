@@ -17,17 +17,17 @@ function roleAddModel (params) {
   return Axios.get('/api/api/user/jurisdiction/roleAddModel', {params});
 }
 // 取消模块
-function roleDeleteJurisdiction (params) {
+function roleDeleteModel (params) {
   console.log(params);
   let fd = new FormData();
-  fd.append('JurisdictionIds', params.JurisdictionIds);
+  fd.append('modelId', params.modelId);
   fd.append('roleId', params.roleId);
-  return Axios.post('/api/api/user/jurisdiction/roleDeleteJurisdiction', fd);
+  return Axios.post('/api/api/user/jurisdiction/roleDeleteModel', fd);
 }
 export default {
   selectRole: selectRole,
   findAdminHasModel: findAdminHasModel,
   findAdminHasJusInModel: findAdminHasJusInModel,
   roleAddModel: roleAddModel,
-  roleDeleteJurisdiction: roleDeleteJurisdiction,
+  roleDeleteModel: roleDeleteModel,
 };

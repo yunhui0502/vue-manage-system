@@ -173,13 +173,12 @@ export default {
     handleCheckedCitiesChange3(value) {
       console.log('handleCheckedCitiesChange3', value);
       let params = {
-        JurisdictionIds: value,
+        modelId: value,
         roleId: this.formInline.rId,
       };
-      juris.roleDeleteJurisdiction(params, (res) => {
+      juris.roleDeleteModel(params, (res) => {
         console.log('取消模块', res);
-        this.cities2 = res.data.data;
-        this.cityOptions2 = res.data.data;
+
       });
     },
     handleCheckedCitiesChange(value) {
@@ -214,15 +213,15 @@ export default {
           }
         });
 
-        // juris.roleAddModel(selected, (res) => {
-        //   console.log('绑定模块', res);
-        //   let data = res.data.data;
-        //   this.checkedCities2 = [];
-        //   for (var i = 0;i < data.length;i++) {
-        //     this.checkedCities2.push(data[i].id);
-        //   // console.log(data[i].id);
-        //   }
-        // });
+        juris.roleAddModel(selected, (res) => {
+          console.log('绑定模块', res);
+          let data = res.data.data;
+          this.checkedCities2 = [];
+          for (var i = 0;i < data.length;i++) {
+            this.checkedCities2.push(data[i].id);
+          // console.log(data[i].id);
+          }
+        });
       }
       this.checkAll = checkedCount === this.cities.length;
       this.isIndeterminate =

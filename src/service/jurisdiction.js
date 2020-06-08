@@ -14,8 +14,8 @@ async function findAdminHasJusInModel(params, handleResult) {
 async function roleAddModel(params, handleResult) {
   api.roleAddModel(params).then((res) => handleResult(res));
 }
-async function roleDeleteJurisdiction(params, handleResult) {
-  api.roleDeleteJurisdiction(params).then((res) => handleResult(res));
+async function roleDeleteModel(params, handleResult) {
+  api.roleDeleteModel(params).then((res) => handleResult(res));
 }
 
 export default {
@@ -23,6 +23,6 @@ export default {
   findAdminHasModel: findAdminHasModel,
   findAdminHasJusInModel: findAdminHasJusInModel,
   roleAddModel: roleAddModel,
-  roleDeleteJurisdiction: roleDeleteJurisdiction,
+  roleDeleteModel: roleDeleteModel,
 };
 
