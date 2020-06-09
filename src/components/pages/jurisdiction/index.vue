@@ -34,6 +34,7 @@
             </el-form-item>
             <el-form-item>
               <el-button @click="centerDialogVisible = true" type="primary">添加角色</el-button>
+              <!-- <router-link to="/about">About</router-link> -->
             </el-form-item>
           </el-form>
 
@@ -148,6 +149,7 @@ export default {
         roleName: '',
         roleCode: '',
         userId: '',
+        accountId: '',
       },
       centerDialogVisible: false,
       activeI: '', // 控制多选文字点击颜色
@@ -185,13 +187,15 @@ export default {
         console.log('this.RoleCodeList', this.RoleCodeList);
       });
     },
-    // 添加角色
+    // 添加角色 accountId
     addRoles () {
       this.form.userId = store.getUser().id;
+      this.form.accountId = store.getUser().accountId;
       juris.addRole(this.form, (res) => {
         console.log(res);
         this.centerDialogVisible = false;
       });
+      this.determine();
     },
     determine2() {
       let params = {
@@ -209,7 +213,8 @@ export default {
       });
     },
     determine() {
-      juris.selectRole((res) => {
+      let id = store.getUser().accountId;
+      juris.selectAccountRole(id, (res) => {
         console.log('角色', res);
         this.roleList = res.data.data;
       });

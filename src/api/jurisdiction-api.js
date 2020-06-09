@@ -1,8 +1,8 @@
 /* eslint-disable require-jsdoc */
 import Axios from './index';
 
-function selectRole () {
-  return Axios.get('/api/api/user/jurisdiction/selectRole');
+function selectAccountRole (id) {
+  return Axios.get('/api/api/user/jurisdiction/selectAccountRole?id=' + id);
 }
 function findAdminHasModel (params) {
   console.log(params);
@@ -52,11 +52,12 @@ function addRole (params) {
   fd.append('roleCode', params.roleCode);
   fd.append('roleName', params.roleName);
   fd.append('userId', params.userId);
+  fd.append('accountId', params.accountId);
   return Axios.post('/api/api/user/jurisdiction/addRole', fd);
 }
 
 export default {
-  selectRole: selectRole,
+  selectAccountRole: selectAccountRole,
   findAdminHasModel: findAdminHasModel,
   findAdminHasJusInModel: findAdminHasJusInModel,
   roleAddModel: roleAddModel,

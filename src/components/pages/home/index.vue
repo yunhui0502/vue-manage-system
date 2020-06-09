@@ -6,6 +6,7 @@
           <h5 align="center">后台管理系统</h5>
         </div>
         <el-menu
+          v-if="isShow"
           :default-active="$route.path"
           class="el-menu-vertical-demo"
           @open="handleOpen"
@@ -221,8 +222,10 @@ export default {
         console.log(res);
         let data = store.getUser();
         data.token = res.data.data.token;
+        data.modelCode = res.data.data.model;
         store.setUser(data);
-        this.$router.push('/');
+        this.$router.go(0);
+        // this.$router.push('/');
       });
     },
     goUpdte: function() {
@@ -245,6 +248,10 @@ export default {
     // eslint-disable-next-line complexity
     Privilege() {
       console.log(1);
+      if (this.content.modelCode === null) {
+        return;
+      }
+
       if (this.content.modelCode.homePage !== 'homePage') {
         this.homePage = false;
         console.log('首页', this.homePage);
@@ -308,6 +315,10 @@ export default {
 
     this.content = store.getUser();
     console.log('用户', this.content);
+    if (this.content.modelCode !== null) {
+      console.log('全部隐藏');
+      this.isShow = true;
+    }
     this.Privilege();
   },
 };
