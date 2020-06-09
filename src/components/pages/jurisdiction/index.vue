@@ -24,16 +24,16 @@
             </el-form-item>
             <el-form-item label="当前角色">
               <el-select @change="determine2" v-model="formInline.rId" placeholder="请选择">
-               <el-option
-                v-for="item in roleList"
-                :key="item.id"
-                :label="item.roleName"
-                :value="item.id"
-              ></el-option>
+                <el-option
+                  v-for="item in roleList"
+                  :key="item.id"
+                  :label="item.roleName"
+                  :value="item.id"
+                ></el-option>
               </el-select>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary">添加角色</el-button>
+              <el-button @click="centerDialogVisible = true" type="primary">添加角色</el-button>
             </el-form-item>
           </el-form>
 
@@ -49,7 +49,23 @@
               >全选</el-checkbox>
               <div style="margin: 15px 0;"></div>
               <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
-                <el-checkbox  @change="handleCheckedCitiesChange3(city.id)" border v-for="city in cities" :label="city.id" :key="city.id">{{city.hfModel}}</el-checkbox>
+                <el-checkbox
+                  v-for="(item,i) in cities"
+                  :label="item.id"
+                  :key="item.id"
+                  @change="((val,$event)=>changePort(val,$event,item.id))"
+                  class="ckbox-border"
+                >
+                  <!-- {{item.c_operation_port_name}} -->
+                  <p
+                    @click.prevent="lookChoice(item,i)"
+                    :class="activeI==i?'active':''"
+                    style="line-height:10px;"
+                  >{{item.hfModel}}</p>
+                </el-checkbox>
+                <!-- <el-checkbox  @change="handleCheckedCitiesChange3(city.id)"
+                border v-for="city in cities" :label="city.id"
+                :key="city.id">{{city.hfModel}}</el-checkbox>-->
               </el-checkbox-group>
             </el-col>
           </el-row>
@@ -66,13 +82,44 @@
               >全选</el-checkbox>
               <div style="margin: 15px 0;"></div>
               <el-checkbox-group v-model="checkedCities2" @change="handleCheckedCitiesChange2">
-                <el-checkbox border v-for="city in cities2" :label="city.id" :key="city.id">{{city.jurisdictionName}}</el-checkbox>
+                <el-checkbox
+                  class="ckbox-border"
+                  v-for="city in cities2"
+                  :label="city.id"
+                  :key="city.id"
+                  @change="((val,$event)=>changePort2(val,$event,city.id))"
+                >
+                  <p style="line-height:10px;">{{city.jurisdictionName}}</p>
+                </el-checkbox>
               </el-checkbox-group>
             </el-col>
           </el-row>
-           <!-- <el-button style="display:block;margin:0 auto" type="primary" plain>保存</el-button> -->
+          <!-- <el-button style="display:block;margin:0 auto" type="primary" plain>保存</el-button> -->
         </el-card>
       </el-tab-pane>
+      <!-- ------------弹窗--------------- -->
+      <el-dialog title="添加角色" :visible.sync="centerDialogVisible" width="30%" center>
+        <el-form  ref="form" :model="form" label-width="80px">
+          <el-form-item label="角色名称">
+            <el-input v-model="form.roleName" placeholder="请输入"></el-input>
+          </el-form-item>
+          <el-form-item label="活动区域">
+            <el-select v-model="form.roleCode" placeholder="请选则">
+               <el-option
+                v-for="(item,i) in RoleCodeList"
+                :key="i"
+                :label="item.email"
+                :value="item.email"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="centerDialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="addRoles">保 存</el-button>
+        </span>
+      </el-dialog>
+
       <!-- -------------------------------------------------------------------------------------------------------------- -->
       <el-tab-pane label="客服管理" name="third">
         <el-card class="box-card">
@@ -96,7 +143,16 @@ export default {
   name: '',
   data() {
     return {
+      RoleCodeList: '',
+      form: {
+        roleName: '',
+        roleCode: '',
+        userId: '',
+      },
+      centerDialogVisible: false,
+      activeI: '', // 控制多选文字点击颜色
       Selected: [],
+      Selected2: [],
       roleList: [], // 角色列表
       activeName: 'second',
       checkAll: false,
@@ -116,16 +172,28 @@ export default {
       },
     };
   },
-  created () {
+  created() {
     this.determine();
     this.findAdminHasModel();
+    this.selectRoleCode();
   },
   methods: {
-    enter (e) {
-      console.log('进入', e);
+    selectRoleCode () {
+      juris.selectRoleCode((res) => {
+        let data = res.data.data;
+        this.RoleCodeList = data.map((item) => ({email: item}));
+        console.log('this.RoleCodeList', this.RoleCodeList);
+      });
+    },
+    // 添加角色
+    addRoles () {
+      this.form.userId = store.getUser().id;
+      juris.addRole(this.form, (res) => {
+        console.log(res);
+        this.centerDialogVisible = false;
+      });
     },
     determine2() {
-
       let params = {
         id: store.getUser().accountId,
         rId: this.formInline.rId,
@@ -134,7 +202,7 @@ export default {
         console.log('角色下已选择模块', res.data.data);
         let data = res.data.data;
         this.checkedCities = [];
-        for (var i = 0;i < data.length;i++) {
+        for (var i = 0; i < data.length; i++) {
           this.checkedCities.push(data[i].id);
           // console.log(data[i].id);
         }
@@ -146,9 +214,9 @@ export default {
         this.roleList = res.data.data;
       });
     },
-    findAdminHasModel () {
+    findAdminHasModel() {
       let id = store.getUser().accountId;
-      juris.findAdminHasModel({id: id}, (res) => {
+      juris.findAdminHasModel({ id: id }, (res) => {
         console.log('模块', res);
         this.cities = res.data.data;
         this.cityOptions = res.data.data;
@@ -162,7 +230,7 @@ export default {
 
       if (val) {
         let data = this.cityOptions;
-        for (var i = 0;i < data.length;i++) {
+        for (var i = 0; i < data.length; i++) {
           this.Selected.push(data[i].id);
           // console.log(data[i].id);
         }
@@ -170,24 +238,51 @@ export default {
       this.checkedCities = val ? this.Selected : [];
       this.isIndeterminate = false;
     },
-    handleCheckedCitiesChange3(value) {
-      console.log('handleCheckedCitiesChange3', value);
-      let params = {
-        modelId: value,
-        roleId: this.formInline.rId,
-      };
-      juris.roleDeleteModel(params, (res) => {
-        console.log('取消模块', res);
-
-      });
+    // 点击复选框执行
+    changePort(val, $event, id) {
+      console.log('changePort', val, $event, id);
+      if (val) {
+        let selected = {
+          modelId: id,
+          id: store.getUser().accountId,
+          rId: this.formInline.rId,
+          roleId: this.formInline.rId, // 绑定模块
+        };
+        juris.roleAddModel(selected, (res) => {
+          console.log('绑定模块', res);
+          this.$message({
+            showClose: true,
+            message: '绑定模块成功',
+            type: 'success',
+          });
+          let data = res.data.data;
+          this.checkedCities2 = [];
+          for (var i = 0; i < data.length; i++) {
+            this.checkedCities2.push(data[i].id);
+            // console.log(data[i].id);
+          }
+        });
+      } else {
+        let params = {
+          modelId: id,
+          roleId: this.formInline.rId,
+        };
+        juris.roleDeleteModel(params, (res) => {
+          console.log('取消模块', res);
+          this.$message({
+            showClose: true,
+            message: '模块已取消',
+            type: 'warning',
+          });
+        });
+      }
     },
-    handleCheckedCitiesChange(value) {
-      console.log(value);
-      let checkedCount = value.length;
-      let i = value.length - 1;
-      // console.log(i);
+    // 多选点击文字执行
+    lookChoice(item, i) {
+      console.log(item, i);
+      this.activeI = i;
       let params = {
-        modelId: value[i],
+        modelId: item.id,
         id: store.getUser().accountId,
       };
       juris.findAdminHasJusInModel(params, (res) => {
@@ -195,42 +290,74 @@ export default {
         this.cities2 = res.data.data;
         this.cityOptions2 = res.data.data;
       });
-
       if (this.formInline.rId !== '') {
         let selected = {
-          modelId: value[i],
+          modelId: item.id,
           id: store.getUser().accountId,
           rId: this.formInline.rId,
-          roleId: this.formInline.rId, // 绑定模块
         };
         juris.findAdminHasJusInModel(selected, (res) => {
           console.log('模块下选中的权限', res);
           let data = res.data.data;
           this.checkedCities2 = [];
-          for (var i = 0;i < data.length;i++) {
+          for (var i = 0; i < data.length; i++) {
             this.checkedCities2.push(data[i].id);
-          // console.log(data[i].id);
-          }
-        });
-
-        juris.roleAddModel(selected, (res) => {
-          console.log('绑定模块', res);
-          let data = res.data.data;
-          this.checkedCities2 = [];
-          for (var i = 0;i < data.length;i++) {
-            this.checkedCities2.push(data[i].id);
-          // console.log(data[i].id);
+            // console.log(data[i].id);
           }
         });
       }
+    },
+    handleCheckedCitiesChange(value) {
+      console.log(value);
+      let checkedCount = value.length;
       this.checkAll = checkedCount === this.cities.length;
       this.isIndeterminate =
         checkedCount > 0 && checkedCount < this.cities.length;
     },
+    // 点击复选框执行
+    changePort2(val, $event, id) {
+      console.log('changePort2', val, $event, id);
+      if (val) {
+        let selected = {
+          JurisdictionIds: id,
+          roleId: this.formInline.rId, // 绑定模块
+        };
+        juris.roleAddJurisdiction(selected, (res) => {
+          console.log('绑定模块下的小模块', res);
+          this.$message({
+            showClose: true,
+            message: '绑定模块成功',
+            type: 'success',
+          });
+        });
+      } else {
+        let params = {
+          JurisdictionIds: id,
+          roleId: this.formInline.rId,
+        };
+        juris.roleDeleteJurisdiction(params, (res) => {
+          console.log('取消模块', res);
+          this.$message({
+            showClose: true,
+            message: '模块已取消',
+            type: 'warning',
+          });
+        });
+      }
+    },
     handleCheckAllChange2(val) {
-      this.checkedCities2 = val ? this.cityOptions2 : [];
+      if (val) {
+        this.Selected2 = [];
+        let data = this.cityOptions2;
+        for (var i = 0; i < data.length; i++) {
+          this.Selected2.push(data[i].id);
+          // console.log(data[i].id);
+        }
+      }
+      this.checkedCities2 = val ? this.Selected2 : [];
       this.isIndeterminate2 = false;
     },
+
     handleCheckedCitiesChange2(value) {
       console.log(value);
       let checkedCount = value.length;
@@ -246,5 +373,12 @@ export default {
 /deep/.is-bordered {
   margin-left: 0 !important;
   margin-bottom: 40px;
+}
+.active {
+  color: rgb(0, 255, 0);
+}
+.el-checkbox.is-bordered {
+  padding: 0px 10px 0px 10px;
+  height: 50px;
 }
 </style>

@@ -73,7 +73,7 @@
             <i class="iconfont icon-weibiaoti2fuzhi16"></i>
             <span slot="title">设置</span>
           </el-menu-item>
-          <el-menu-item  index="/jurisdiction">
+          <el-menu-item v-if="jurisdiction" index="/jurisdiction">
             <i class="iconfont icon-shangpinkucuncangkudunhuojiya"></i>
             <span slot="title">权限管理</span>
           </el-menu-item>
@@ -206,6 +206,7 @@ export default {
       warehouse: true, // 仓库管理
       picture: true, // 图片管理
       set: true, // 设置
+      jurisdiction: true, // 权限管理
     };
   },
   created() {
@@ -292,14 +293,21 @@ export default {
         this.order = false;
         console.log('订单管理', this.order);
       }
+      if (this.content.modelCode.jurisdiction !== 'jurisdiction') {
+        this.jurisdiction = false;
+        console.log('权限管理', this.jurisdiction);
+      }
     },
   },
 
   mounted() {
-    var content = window.sessionStorage.getItem('userInfor');
-    this.content = JSON.parse(content);
-    console.log('用户', this.content);
+    // var content = window.sessionStorage.getItem('userInfor');
+    // this.content = JSON.parse(content);
+    // console.log('用户', this.content);
     // console.log('用户', this.content.modelCode.homePage);
+
+    this.content = store.getUser();
+    console.log('用户', this.content);
     this.Privilege();
   },
 };

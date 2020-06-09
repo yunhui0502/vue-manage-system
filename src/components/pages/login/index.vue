@@ -142,6 +142,7 @@ export default {
       callback();
     };
     return {
+
       dataList: '',
       form: {
         type: '',
@@ -158,7 +159,7 @@ export default {
       squareUrl: '',
       // 表单数据对象
       loginForm: {
-        authKey: '18830709006',
+        authKey: '17612219746',
         authType: '2',
         code: '',
         type: '',
@@ -290,6 +291,7 @@ export default {
         console.log(res);
         let data = store.getUser();
         data.token = res.data.data.token;
+        data.modelCode = res.data.data.model;
         store.setUser(data);
         this.$router.push('/');
       });

@@ -17,12 +17,27 @@ async function roleAddModel(params, handleResult) {
 async function roleDeleteModel(params, handleResult) {
   api.roleDeleteModel(params).then((res) => handleResult(res));
 }
-
+async function roleAddJurisdiction(params, handleResult) {
+  api.roleAddJurisdiction(params).then((res) => handleResult(res));
+}
+async function roleDeleteJurisdiction(params, handleResult) {
+  api.roleDeleteJurisdiction(params).then((res) => handleResult(res));
+}
+async function addRole(params, handleResult) {
+  api.addRole(params).then((res) => handleResult(res));
+}
+async function selectRoleCode(handleResult) {
+  api.selectRoleCode().then((res) => handleResult(res));
+}
 export default {
   selectRole: selectRole,
   findAdminHasModel: findAdminHasModel,
   findAdminHasJusInModel: findAdminHasJusInModel,
   roleAddModel: roleAddModel,
   roleDeleteModel: roleDeleteModel,
+  roleAddJurisdiction: roleAddJurisdiction,
+  roleDeleteJurisdiction: roleDeleteJurisdiction,
+  addRole: addRole,
+  selectRoleCode: selectRoleCode,
 };
 
