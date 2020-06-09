@@ -224,8 +224,8 @@ export default {
         data.token = res.data.data.token;
         data.modelCode = res.data.data.model;
         store.setUser(data);
-        this.$router.go(0);
-        // this.$router.push('/');
+        this.$router.push('/');
+        location.reload();
       });
     },
     goUpdte: function() {

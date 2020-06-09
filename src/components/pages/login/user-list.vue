@@ -20,7 +20,13 @@
             </el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <el-button size="mini" :disabled="scope.row.isDeleted=='0'" type="text" @click="handleEdit(scope.$index, scope.row)">下线</el-button>
+                <el-button
+                  size="mini"
+                  :disabled="scope.row.isDeleted=='0'"
+                  type="text"
+                  @click="handleEdit(scope.$index, scope.row)"
+                >下线</el-button>
+                <el-button size="mini" type="text" @click="binding(scope.$index, scope.row)">绑定</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -63,12 +69,35 @@
         </el-card>
       </el-tab-pane>
     </el-tabs>
+
+    <el-dialog title="绑定" :visible.sync="centerDialogVisible" width="30%" center>
+      <el-table
+        ref="multipleTable"
+        :data="tablelist"
+        tooltip-effect="dark"
+        style="width: 100%"
+        @selection-change="handleSelectionChange"
+      >
+        <el-table-column type="selection" width="55"></el-table-column>
+        <!-- <el-table-column label="日期" width="120">
+          <template slot-scope="scope">{{ scope.row.date }}</template>
+        </el-table-column> -->
+        <el-table-column prop="roleName" label="名称" width="120"></el-table-column>
+        <el-table-column prop="roleType" label="类型" show-overflow-tooltip></el-table-column>
+      </el-table>
+
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="centerDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="preserve">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import store from '@/store';
 import api from '@/service/hf-auth-api.js';
+import juris from '@/service/jurisdiction.js';
 export default {
   data() {
     var validatePass = (rule, value, callback) => {
@@ -88,8 +117,14 @@ export default {
       callback();
     };
     return {
+      centerDialogVisible: false,
+      tablelist: [],
       BSid: '',
       type: '',
+      formInline: {
+        id: '',
+        roleId: [],
+      },
       ruleForm: {
         name: '',
         pass: '',
@@ -120,6 +155,36 @@ export default {
     };
   },
   methods: {
+    handleSelectionChange(val) {
+      console.log(val);
+      this.formInline.roleId = [];
+      for (var i = 0;i < val.length;i++) {
+        this.formInline.roleId.push(val[i].id);
+      }
+      console.log(this.formInline.roleId);
+    },
+    binding(index, row) {
+      console.log(row);
+      this.centerDialogVisible = true;
+      this.formInline.id = row.id;
+    },
+    preserve () {
+      juris.addUserRole(this.formInline, (res) => {
+        this.centerDialogVisible = false;
+        this.$message({
+          message: '绑定成功',
+          type: 'success',
+        });
+      });
+    },
+    // 获取角色
+    determine() {
+      let id = store.getUser().accountId;
+      juris.selectAccountRole(id, (res) => {
+        console.log('角色', res);
+        this.tablelist = res.data.data;
+      });
+    },
     handleEdit(index, row) {
       console.log(index, row);
       api.deleteAccount(row, (res) => {
@@ -161,6 +226,7 @@ export default {
   created() {
     this.takestore();
     this.selectAccount();
+    this.determine();
   },
 };
 </script>

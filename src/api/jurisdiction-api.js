@@ -55,6 +55,14 @@ function addRole (params) {
   fd.append('accountId', params.accountId);
   return Axios.post('/api/api/user/jurisdiction/addRole', fd);
 }
+// 给账号绑定角色
+function addUserRole (params) {
+  console.log(params);
+  let fd = new FormData();
+  fd.append('id', params.id);
+  fd.append('roleId', params.roleId);
+  return Axios.post('/api/api/user/jurisdiction/addUserRole', fd);
+}
 
 export default {
   selectAccountRole: selectAccountRole,
@@ -66,4 +74,5 @@ export default {
   roleDeleteJurisdiction: roleDeleteJurisdiction,
   addRole: addRole,
   selectRoleCode: selectRoleCode,
+  addUserRole: addUserRole,
 };

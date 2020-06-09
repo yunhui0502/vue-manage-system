@@ -136,6 +136,11 @@ const router = new VueRouter({
       name: 'jurisdiction',
       component: (resolve) => require(['@/components/pages/jurisdiction'], resolve),
     },
+    {
+      path: '/access',
+      name: 'access',
+      component: (resolve) => require(['@/components/pages/no-access'], resolve),
+    },
     ],
   },
   {
@@ -155,6 +160,10 @@ router.beforeEach((to, from, next) => {
   // if (!store.getUser().token) return next('/login')
   // // 3. 其他情况 放行
   // next()
+  console.log(to);
+  if (to.path === '/' && store.getUser().modelCode === null) {
+    return next('/access');
+  }
   console.log('路由', store.getUser());
   if (to.path !== '/loogin' && !store.getUser().token) {
     return next('/loogin');

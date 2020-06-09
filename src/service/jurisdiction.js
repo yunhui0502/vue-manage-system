@@ -29,6 +29,9 @@ async function addRole(params, handleResult) {
 async function selectRoleCode(handleResult) {
   api.selectRoleCode().then((res) => handleResult(res));
 }
+async function addUserRole(params, handleResult) {
+  api.addUserRole(params).then((res) => handleResult(res));
+}
 export default {
   selectAccountRole: selectAccountRole,
   findAdminHasModel: findAdminHasModel,
@@ -39,5 +42,6 @@ export default {
   roleDeleteJurisdiction: roleDeleteJurisdiction,
   addRole: addRole,
   selectRoleCode: selectRoleCode,
+  addUserRole: addUserRole,
 };
 
