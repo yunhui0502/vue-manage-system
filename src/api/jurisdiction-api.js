@@ -1,8 +1,9 @@
 /* eslint-disable require-jsdoc */
 import Axios from './index';
 
-function selectAccountRole (id) {
-  return Axios.get('/api/api/user/jurisdiction/selectAccountRole?id=' + id);
+function selectAccountRole (params) {
+  console.log(params);
+  return Axios.get('/api/api/user/jurisdiction/selectAccountRole', {params});
 }
 function findAdminHasModel (params) {
   console.log(params);

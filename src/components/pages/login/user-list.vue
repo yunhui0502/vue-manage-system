@@ -35,6 +35,7 @@
 
       <el-tab-pane label="新增子账户" name="third">
         <el-card class="box-card">
+
           <div slot="header" class="clearfix">
             <span>新增子账户信息</span>
           </div>
@@ -66,6 +67,7 @@
               <el-button @click="resetForm('ruleForm')">重置</el-button>
             </el-form-item>
           </el-form>
+
         </el-card>
       </el-tab-pane>
     </el-tabs>

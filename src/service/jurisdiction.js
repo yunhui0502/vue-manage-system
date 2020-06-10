@@ -2,8 +2,8 @@
 import api from '@/api/jurisdiction-api.js';
 
 
-async function selectAccountRole(id, handleResult) {
-  api.selectAccountRole(id).then((res) => handleResult(res));
+async function selectAccountRole(params, handleResult) {
+  api.selectAccountRole(params).then((res) => handleResult(res));
 }
 async function findAdminHasModel(id, handleResult) {
   api.findAdminHasModel(id).then((res) => handleResult(res));
