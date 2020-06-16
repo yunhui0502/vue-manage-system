@@ -8,6 +8,12 @@
   border-color: rgba(190, 188, 252, 0.938);
   background-color: #bebcfc;
 }
+.clearfix {
+  font-size: 11px;
+  font-family: Source Han Sans CN;
+  font-weight: 400;
+  color: #666666;
+}
 .ff3 {
   color: #FF318A !important;
 }

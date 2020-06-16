@@ -78,9 +78,9 @@
             <i class="iconfont icon-shangpinkucuncangkudunhuojiya"></i>
             <span slot="title">权限管理</span>
           </el-menu-item>
-          <el-menu-item index="/user-list">
+          <el-menu-item index="/news">
             <i class="iconfont icon-weibiaoti2fuzhi16"></i>
-            <span slot="title">账号添加</span>
+            <span slot="title">消息</span>
           </el-menu-item>
         </el-menu>
       </el-col>

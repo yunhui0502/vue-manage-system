@@ -32,6 +32,12 @@ async function selectRoleCode(handleResult) {
 async function addUserRole(params, handleResult) {
   api.addUserRole(params).then((res) => handleResult(res));
 }
+async function deleteUserRole(params, handleResult) {
+  api.deleteUserRole(params).then((res) => handleResult(res));
+}
+async function getListWaOrStore(type, handleResult) {
+  api.getListWaOrStore(type).then((res) => handleResult(res));
+}
 export default {
   selectAccountRole: selectAccountRole,
   findAdminHasModel: findAdminHasModel,
@@ -43,5 +49,7 @@ export default {
   addRole: addRole,
   selectRoleCode: selectRoleCode,
   addUserRole: addUserRole,
+  deleteUserRole: deleteUserRole,
+  getListWaOrStore: getListWaOrStore,
 };
 

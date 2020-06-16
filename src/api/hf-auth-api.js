@@ -10,6 +10,7 @@ function addSup(params) {
   fd.append('authType', params.authType);
   fd.append('type', params.type);
   fd.append('BSid', params.BSid);
+  fd.append('merchantId', params.id);
   return Axios.post('/api/api/user/hf-auth/addSup', fd);
 }
 

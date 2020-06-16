@@ -141,6 +141,21 @@ const router = new VueRouter({
       name: 'access',
       component: (resolve) => require(['@/components/pages/no-access'], resolve),
     },
+    {
+      path: '/news/phone',
+      name: 'phone',
+      component: (resolve) => require(['@/components/pages/hf-news/news.vue'], resolve),
+    },
+    {
+      path: '/news',
+      name: 'news',
+      component: (resolve) => require(['@/components/pages/hf-news'], resolve),
+    },
+    {
+      path: '/news/email',
+      name: 'email',
+      component: (resolve) => require(['@/components/pages/hf-news/e-mail.vue'], resolve),
+    },
     ],
   },
   {

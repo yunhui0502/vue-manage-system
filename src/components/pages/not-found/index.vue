@@ -1,6 +1,6 @@
 <template>
     <div class="error-page">
-        <span class="error-text">抱歉您没有权限····</span>
+        <span class="error-text">开发中····</span>
     </div>
 </template>
 

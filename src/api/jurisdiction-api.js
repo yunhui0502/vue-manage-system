@@ -64,7 +64,18 @@ function addUserRole (params) {
   fd.append('roleId', params.roleId);
   return Axios.post('/api/api/user/jurisdiction/addUserRole', fd);
 }
-
+// 给账号解除绑定角色
+function deleteUserRole (params) {
+  console.log(params);
+  let fd = new FormData();
+  fd.append('id', params.id);
+  fd.append('roleId', params.roleId);
+  return Axios.post('/api/api/user/jurisdiction/deleteUserRole', fd);
+}
+function getListWaOrStore (type) {
+  console.log(type);
+  return Axios.get('/api/api/user/jurisdiction/getListWaOrStore?type=' + type);
+}
 export default {
   selectAccountRole: selectAccountRole,
   findAdminHasModel: findAdminHasModel,
@@ -76,4 +87,6 @@ export default {
   addRole: addRole,
   selectRoleCode: selectRoleCode,
   addUserRole: addUserRole,
+  deleteUserRole: deleteUserRole,
+  getListWaOrStore: getListWaOrStore,
 };

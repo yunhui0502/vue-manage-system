@@ -115,6 +115,7 @@
       <!-- ------------------------------------------------------------------------------------------------------- -->
       <el-tab-pane label="成员管理" name="member">
         <el-card class="box-card">
+          <el-button type="primary" @click="accountVisible = true" style="float:right">添加账号</el-button>
           <el-table :data="tableData" border style="width: 100%">
             <el-table-column prop="accountCode" label="手机号"></el-table-column>
             <el-table-column prop="accountRole" label="账号类型">
@@ -164,17 +165,72 @@
           v-model="value"
           :data="tablelist"
           :titles="['可选', '已经添加']"
+          :button-texts="['移除', '添加']"
           @change="handleSelectionChange"
+          @right-check-change="righSelectionChange"
           :props="{
           label: 'roleName',
           key: 'id',
         }"
         ></el-transfer>
+      </el-dialog>
 
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="bindingVisible = false">取 消</el-button>
-          <el-button type="primary" @click="preserve">确 定</el-button>
-        </span>
+      <el-dialog title="新增子账户信息" :visible.sync="accountVisible" width="30%" center>
+        <el-form
+          :model="ruleForm"
+          :rules="rules"
+          ref="ruleForm"
+          label-width="80px"
+          label-position="left"
+          class="demo-ruleForm"
+        >
+          <!-- <el-form-item label="用户昵称" prop="name">
+              <el-input v-model="ruleForm.name"></el-input>
+          </el-form-item>-->
+          <!-- <el-form-item label="密码" prop="pass">
+              <el-input v-model="ruleForm.pass"></el-input>
+          </el-form-item>-->
+          <el-form-item label="手机号" prop="authKey">
+            <el-input v-model="ruleForm.authKey"></el-input>
+          </el-form-item>
+          <el-form-item label="账户属性" prop="type">
+            <el-radio-group v-model="ruleForm.type">
+              <el-radio
+                @change="radiochange"
+                v-model="ruleForm.type"
+                v-for="(item,i) in RoleCodeList"
+                :key="i"
+                :label="item.email"
+              >{{item.email}}</el-radio>
+              <!-- <el-radio v-model="ruleForm.type" label="stone">店铺管理员</el-radio>
+              <el-radio v-model="ruleForm.type" label="warehouse">仓库管理</el-radio>-->
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
+            <el-button @click="resetForm('ruleForm')">重置</el-button>
+          </el-form-item>
+        </el-form>
+
+        <el-dialog width="30%" title="选择店铺" :visible.sync="innerVisible" append-to-body>
+          <el-form :model="ruleForm">
+            <!-- 店铺 -->
+            <el-form-item label>
+              <el-select v-model="ruleForm.id" placeholder="请选择店铺">
+                <el-option
+                  v-for="item in formselectList"
+                  :key="item.id"
+                  :label="item.hfName"
+                  :value="item.id"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-form>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="innerVisible = false">取 消</el-button>
+            <el-button type="primary" @click="innerVisible = false">确 定</el-button>
+          </span>
+        </el-dialog>
       </el-dialog>
       <!-- -------------------------------------------------------------------------------------------------------------- -->
       <el-tab-pane label="客服管理" name="third">
@@ -199,7 +255,30 @@ import juris from '@/service/jurisdiction.js';
 export default {
   name: '',
   data() {
+    // ------------------添加账号------------------------
+    var validatePass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入密码'));
+      } else {
+        if (this.ruleForm.checkPass !== '') {
+          this.$refs.ruleForm.validateField('checkPass');
+        }
+        callback();
+      }
+    };
+    const checkMobile = (rule, value, callback) => {
+      if (!/^1[3-9]\d{9}$/.test(value)) {
+        return callback(new Error('手机号不合法'));
+      }
+      callback();
+    };
+    // ------------------------------------------
     return {
+      // --------添加账号内置弹窗---------
+      formselectList: [],
+      // -------------------------------
+      innerVisible: false,
+      accountVisible: false,
       bindingVisible: false,
       tableData: [],
       defaultProps: {
@@ -240,6 +319,7 @@ export default {
         pass: '',
         authKey: '',
         delivery: false,
+        id: '',
 
         LastUser: '', // 添加人id
         authType: '2', // 鉴权方式, 1:用户登录, 2:手机号登录
@@ -253,6 +333,23 @@ export default {
       tablelist: [],
       value: [],
       // -----------------------------------------------------------------------------
+      // ------------------------------添加账号-----------------------------------------------
+
+      rules: {
+        name: [
+          { required: true, message: '请输入活动名称', trigger: 'blur' },
+          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' },
+        ],
+        type: [
+          { required: true, message: '请选择活动区域', trigger: 'change' },
+        ],
+        pass: [{ validator: validatePass, trigger: 'blur' }],
+        authKey: [
+          { required: true, message: '请输入手机号', trigger: 'change' },
+          { validator: checkMobile, trigger: 'change' },
+        ],
+      },
+      // -----------------------------------------------------------------------------
     };
   },
   created() {
@@ -265,22 +362,72 @@ export default {
     this.selectAccount();
   },
   methods: {
-
     // --------------------------------------------成员管理----------------------------------------------
-    handleSelectionChange(val) {
-      console.log(val);
-      this.formroleId.roleId = [];
-      for (var i = 0; i < val.length; i++) {
-        this.formroleId.roleId.push(val[i].id);
-      }
-      console.log(this.formroleId.roleId);
-      juris.addUserRole(this.formroleId, (res) => {
-        this.bindingVisible = false;
-        this.$message({
-          message: '绑定成功',
-          type: 'success',
-        });
+    // --------------------添加账号---------------------------
+
+    submitForm(formName) {
+      console.log(this.ruleForm);
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          api.addSup(this.ruleForm, (res) => {
+            console.log(res.data.data);
+            this.accountVisible = false;
+          });
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
       });
+    },
+    // 单选 事件
+    radiochange(e) {
+      console.log(e);
+      let identity = store.getUser().identity;
+      if (identity === 'boss') {
+        if (e === 'stone') {
+          juris.getListWaOrStore(e, (res) => {
+            console.log(res);
+            this.formselectList = res.data.data;
+            this.innerVisible = true;
+          });
+        }
+      }
+    },
+    // 内置下拉框
+    // optionchange (e) {
+    //   console.log(e);
+    // },
+    // -----------------------------------------------
+
+    handleSelectionChange(val, direction, movedKeys) {
+      console.log(val, direction, movedKeys);
+      this.formroleId.roleId = [];
+      for (var i = 0; i < movedKeys.length; i++) {
+        this.formroleId.roleId.push(movedKeys[i]);
+      }
+      if (direction === 'right') {
+        console.log('添加');
+        console.log(this.formroleId.roleId);
+        juris.addUserRole(this.formroleId, (res) => {
+          this.bindingVisible = false;
+          this.$message({
+            message: '绑定成功',
+            type: 'success',
+          });
+        });
+      } else {
+        console.log('移除');
+        juris.deleteUserRole(this.formroleId, (res) => {
+          this.bindingVisible = false;
+          this.$message({
+            message: '移除绑定',
+            type: 'success',
+          });
+        });
+      }
+    },
+    righSelectionChange(val) {
+      console.log(val);
     },
     selectAccount() {
       api.selectAccount((res) => {
@@ -321,7 +468,6 @@ export default {
         for (var i = 0; i < data.length; i++) {
           this.value.push(data[i].id);
         }
-
       });
     },
     preserve() {
@@ -366,6 +512,7 @@ export default {
       this.form.accountId = store.getUser().accountId;
       juris.addRole(this.form, (res) => {
         console.log(res);
+        this.determine();
         this.centerDialogVisible = false;
       });
       this.determine();
@@ -375,13 +522,12 @@ export default {
     // },
     determine() {
       let id = store.getUser().accountId;
-      juris.selectAccountRole({id: id}, (res) => {
+      juris.selectAccountRole({ id: id }, (res) => {
         console.log('角色', res);
         this.roleList = res.data.data;
       });
     },
     determine2() {
-
       let params = {
         id: store.getUser().accountId,
         type: 1,
