@@ -53,6 +53,7 @@ export default {
   methods: {
     clicklabel (e) {
       console.log(e);
+
       this.form.content = this.form.content + e.name + ':' + e.paramName;
     },
     addTemplateMessage () {
