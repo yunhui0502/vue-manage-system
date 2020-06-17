@@ -22,6 +22,10 @@ function addTemplateMessage(params) {
   fd.append('content', params.content);
   fd.append('contentType', params.contentType);
   fd.append('messageType', params.messageType);
+
+  if (params.subject !== '') {
+    fd.append('subject', params.subject);
+  }
   return Axios.post('/api/api/user/user/addTemplateMessage', fd);
 }
 export default {

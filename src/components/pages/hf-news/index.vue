@@ -125,7 +125,7 @@ export default {
       if (e === '手机短信') {
         this.$router.push({ path: '/news/phone', query: {Type: Type} });
       } else if (e === '电子邮件') {
-        this.$router.push({ path: '/news/email' });
+        this.$router.push({ path: '/news/email', query: {Type: Type} });
       } else {
         this.$router.push({ path: '*' });
       }
