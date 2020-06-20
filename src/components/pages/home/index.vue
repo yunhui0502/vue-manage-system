@@ -142,7 +142,7 @@
               <div class="block">
                 <el-avatar
                   :size="34"
-                  :src="'https://www.tjsichuang.cn:1443/api/product/goods/getFile?fileId=' + content.fileId"
+                  :src="'/api/api/product/goods/getFile?fileId=' + content.fileId"
                 ></el-avatar>
               </div>
 

@@ -81,7 +81,7 @@ module.exports = {
     proxy: {
       '/api': {
         // target: 'http://192.168.1.104:9095/', // 本地模拟数据服务器
-        target: 'https://www.tjsichuang.cn:1443', // 远程服务器
+        target: '/api', // 远程服务器
         changeOrigin: true,
         pathRewrite: {
           '^/api': '', // 去掉接口地址中的api字符串

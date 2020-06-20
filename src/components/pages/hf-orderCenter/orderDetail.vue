@@ -55,7 +55,7 @@
           <template slot-scope="scope">
             <img
               style="width:70px;"
-              :src="'https://www.tjsichuang.cn:1443/api/product/goods/getFile?fileId=' + scope.row.hfDesc.fileIds[0]"
+              :src="'/api/api/product/goods/getFile?fileId=' + scope.row.hfDesc.fileIds[0]"
               alt
             />
           </template>

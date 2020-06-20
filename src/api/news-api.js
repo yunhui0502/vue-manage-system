@@ -28,10 +28,21 @@ function addTemplateMessage(params) {
   }
   return Axios.post('/api/api/user/user/addTemplateMessage', fd);
 }
+function addAnnouncement(params) {
+  let fd = new FormData();
+  fd.append('content', params.content);
+  fd.append('userId ', params.userId);
+  return Axios.post('/api/api/product/home/addAnnouncement', fd);
+}
+function getAnnouncement() {
+  return Axios.get('/api/api/product/home/getAnnouncement');
+}
 export default {
   getMessageContent: getMessageContent,
   getMessageContentType: getMessageContentType,
   updateIsUse: updateIsUse,
   getTemplateParam: getTemplateParam,
   addTemplateMessage: addTemplateMessage,
+  addAnnouncement: addAnnouncement,
+  getAnnouncement: getAnnouncement,
 };

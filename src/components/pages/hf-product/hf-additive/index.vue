@@ -526,7 +526,7 @@ export default {
     test () {
       // this.$http
       //   .get(
-      //     'https://www.tjsichuang.cn:1443/api/product/product/specifies?productId=83'
+      //     '/api/api/product/product/specifies?productId=83'
       //   )
       //   .then(res => {
       //     this.tabledatas = res.data.data

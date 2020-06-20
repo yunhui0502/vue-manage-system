@@ -16,11 +16,19 @@ async function getTemplateParam(params, handleResult) {
 async function addTemplateMessage(params, handleResult) {
   news.addTemplateMessage(params).then((res) => handleResult(res));
 }
+async function addAnnouncement(params, handleResult) {
+  news.addAnnouncement(params).then((res) => handleResult(res));
+}
+async function getAnnouncement(handleResult) {
+  news.getAnnouncement().then((res) => handleResult(res));
+}
 export default {
   getMessageContent: getMessageContent,
   getMessageContentType: getMessageContentType,
   updateIsUse: updateIsUse,
   getTemplateParam: getTemplateParam,
   addTemplateMessage: addTemplateMessage,
+  addAnnouncement: addAnnouncement,
+  getAnnouncement: getAnnouncement,
 };
 
