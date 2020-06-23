@@ -16,6 +16,7 @@
     "echarts": "^4.6.0",
     "element-ui": "^2.13.0",
     "file-saver": "^2.0.2",
+    "http-proxy": "^1.18.1",
     "json-bigint": "^0.3.0",
     "lib-flexible": "^0.3.2",
     "postcss-aspect-ratio-mini": "^1.0.1",
@@ -31,7 +32,9 @@
     "wangeditor": "^3.1.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.10.3",
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
+    "@babel/preset-env": "^7.10.3",
     "@vue/cli-plugin-babel": "^4.2.3",
     "@vue/cli-plugin-eslint": "^4.2.3",
     "@vue/cli-plugin-router": "^4.2.3",
@@ -50,6 +53,7 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "eslint-plugin-vue": "^6.2.2",
+    "http-proxy-middleware": "^1.0.4",
     "less": "^3.11.1",
     "less-loader": "^5.0.0",
     "lint-staged": "^10.0.8",

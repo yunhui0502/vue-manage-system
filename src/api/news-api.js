@@ -37,6 +37,12 @@ function addAnnouncement(params) {
 function getAnnouncement() {
   return Axios.get('/api/api/product/home/getAnnouncement');
 }
+function getMessageInstanceList(params) {
+  return Axios.get('/api/api/user/user/getMessageInstanceList', {params});
+}
+function updateMessageInstance(params) {
+  return Axios.get('/api/api/user/user/updateMessageInstance', {params});
+}
 export default {
   getMessageContent: getMessageContent,
   getMessageContentType: getMessageContentType,
@@ -45,4 +51,6 @@ export default {
   addTemplateMessage: addTemplateMessage,
   addAnnouncement: addAnnouncement,
   getAnnouncement: getAnnouncement,
+  getMessageInstanceList: getMessageInstanceList,
+  updateMessageInstance: updateMessageInstance,
 };

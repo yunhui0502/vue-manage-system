@@ -73,7 +73,7 @@ module.exports = {
   devServer: {
     // host: '172.26.16.96',
     host: 'localhost',
-    port: 8080, // 端口号
+    port: 8880, // 端口号
     https: false,
     open: true, // 配置自动启动浏览器
 
@@ -81,7 +81,7 @@ module.exports = {
     proxy: {
       '/api': {
         // target: 'http://192.168.1.104:9095/', // 本地模拟数据服务器
-        target: '/api', // 远程服务器
+        target: 'https://www.tjsichuang.cn:1443', // 远程服务器
         changeOrigin: true,
         pathRewrite: {
           '^/api': '', // 去掉接口地址中的api字符串

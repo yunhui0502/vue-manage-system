@@ -22,6 +22,12 @@ async function addAnnouncement(params, handleResult) {
 async function getAnnouncement(handleResult) {
   news.getAnnouncement().then((res) => handleResult(res));
 }
+async function getMessageInstanceList(params, handleResult) {
+  news.getMessageInstanceList(params).then((res) => handleResult(res));
+}
+async function updateMessageInstance(params, handleResult) {
+  news.updateMessageInstance(params).then((res) => handleResult(res));
+}
 export default {
   getMessageContent: getMessageContent,
   getMessageContentType: getMessageContentType,
@@ -30,5 +36,7 @@ export default {
   addTemplateMessage: addTemplateMessage,
   addAnnouncement: addAnnouncement,
   getAnnouncement: getAnnouncement,
+  getMessageInstanceList: getMessageInstanceList,
+  updateMessageInstance: updateMessageInstance,
 };
 
