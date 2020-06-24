@@ -28,6 +28,9 @@ async function getMessageInstanceList(params, handleResult) {
 async function updateMessageInstance(params, handleResult) {
   news.updateMessageInstance(params).then((res) => handleResult(res));
 }
+async function getRefuse(id, handleResult) {
+  news.getRefuse(id).then((res) => handleResult(res));
+}
 export default {
   getMessageContent: getMessageContent,
   getMessageContentType: getMessageContentType,
@@ -38,5 +41,6 @@ export default {
   getAnnouncement: getAnnouncement,
   getMessageInstanceList: getMessageInstanceList,
   updateMessageInstance: updateMessageInstance,
+  getRefuse: getRefuse,
 };
 

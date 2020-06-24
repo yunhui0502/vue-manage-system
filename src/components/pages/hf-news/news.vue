@@ -22,7 +22,7 @@
             @click="open(scope.row)"
             type="text"
             size="small"
-          >拒绝</el-button>
+          >已拒绝，点击查看原因</el-button>
         </template>
       </el-table-column>
 
@@ -35,6 +35,7 @@
             size="small"
           >选择</el-button>
           <el-button v-if="scope.row.isDeleted==1" type="text" size="small">已选择</el-button>
+          <!-- <el-button v-if="scope.row.status==3" type="text" size="small">已选择</el-button> -->
         </template>
       </el-table-column>
     </el-table>
@@ -94,15 +95,19 @@ export default {
   },
   methods: {
     open(row) {
-      this.$alert('这是一段内容', '拒绝原因', {
+      news.getRefuse(row.id, (res) => {
+        console.log(res.data.data);
+        this.$alert(`${res.data.data.refuseReason}`, '拒绝原因', {
         // confirmButtonText: '确定',
-        callback: (action) => {
-          this.$message({
-            type: 'info',
-            message: `action: ${action}`,
-          });
-        },
+          callback: (action) => {
+            this.$message({
+              type: 'info',
+              message: `action: ${action}`,
+            });
+          },
+        });
       });
+
     },
     handleClick(row) {
       console.log(row.status);

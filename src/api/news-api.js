@@ -43,6 +43,9 @@ function getMessageInstanceList(params) {
 function updateMessageInstance(params) {
   return Axios.get('/api/api/user/user/updateMessageInstance', {params});
 }
+function getRefuse(id) {
+  return Axios.get('/api/api/user/user/getRefuse?id=' + id);
+}
 export default {
   getMessageContent: getMessageContent,
   getMessageContentType: getMessageContentType,
@@ -53,4 +56,5 @@ export default {
   getAnnouncement: getAnnouncement,
   getMessageInstanceList: getMessageInstanceList,
   updateMessageInstance: updateMessageInstance,
+  getRefuse: getRefuse,
 };
