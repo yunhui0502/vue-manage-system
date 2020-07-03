@@ -555,6 +555,13 @@ export default {
           console.log('角色下已选择模块', res.data.data);
           let data = res.data.data;
           this.checkedCities = [];
+          if (data === null) {
+            // console.log(12);
+            this.$nextTick(() => {
+              this.$refs.rightsTree.setCheckedKeys(this.checkedCities);
+            });
+            return;
+          }
           for (var i = 0; i < data.length; i++) {
             this.checkedCities.push(data[i].hfModel);
             // console.log(data[i].id);
