@@ -12,6 +12,7 @@
           <div style="display:flex;">
             <div style="width: 20%;border-right: 1px solid #ccc;margin-right: 10px;">
               <el-tree
+                default-expand-all
                 :data="roleList"
                 highlight-current
                 :props="defaultProps"
@@ -25,7 +26,7 @@
               </div>
 
               <div style="width: 90%;">
-                <el-row :gutter="20">
+                <!-- <el-row :gutter="20">
                   <el-col :span="2">
                     <h5 style="margin-block-end:0;margin-block-start:0; ">模块</h5>
                   </el-col>
@@ -44,20 +45,16 @@
                         @change="((val,$event)=>changePort(val,$event,item.id))"
                         class="ckbox-border"
                       >
-                        <!-- {{item.c_operation_port_name}} -->
                         <p
                           @click.prevent="lookChoice(item,i)"
                           :class="activeI==i?'active':''"
                           style="line-height:10px;"
                         >{{item.hfModel}}</p>
                       </el-checkbox>
-                      <!-- <el-checkbox  @change="handleCheckedCitiesChange3(city.id)"
-                border v-for="city in cities" :label="city.id"
-                      :key="city.id">{{city.hfModel}}</el-checkbox>-->
                     </el-checkbox-group>
                   </el-col>
                 </el-row>
-                <!-- 模块下的权限 -->
+                模块下的权限
                 <el-row :gutter="20">
                   <el-col :span="2">
                     <h5 style="margin-block-end:0;margin-block-start:0; ">权限</h5>
@@ -84,7 +81,20 @@
                       </el-checkbox>
                     </el-checkbox-group>
                   </el-col>
-                </el-row>
+                </el-row>-->
+                <el-tree
+                  ref="rightsTree"
+                  check-strictly
+                  @check="changePort"
+                  empty-text="暂无数据"
+                  :expand-on-click-node="false"
+                  :props="defaultProps2"
+                  :load="loadNode"
+                  node-key="hfModel"
+                  :default-checked-keys="checkedCities"
+                  lazy
+                  show-checkbox
+                ></el-tree>
               </div>
             </div>
           </div>
@@ -274,6 +284,12 @@ export default {
     };
     // ------------------------------------------
     return {
+      defaultProps2: {
+        id: 'id',
+        label: 'hfModel',
+        children: 'children',
+        isLeaf: 'leaf',
+      },
       // --------添加账号内置弹窗---------
       formselectList: [],
       // -------------------------------
@@ -362,6 +378,53 @@ export default {
     this.selectAccount();
   },
   methods: {
+    check (nodes) {
+      console.log('nodes', nodes);
+    },
+    loadNode(node, resolve) {
+      console.log('node, resolve', node, resolve);
+
+      // 如果是顶级的父节点
+      if (node.level === 0) {
+        // 查找顶级对象
+        let id = store.getUser().accountId;
+        juris.findAdminHasModel({ id: id }, (res) => {
+          if (res.data.data) {
+            return resolve(res.data.data);
+          } else {
+            this.$message.error(res.Msg);
+          }
+        });
+      } else {
+        this.lookChoice(node.data);
+        // 根据父节点id找寻下一级的所有节点
+        let params = {
+          modelId: node.data.id,
+          id: store.getUser().accountId,
+        };
+        juris.findAdminHasJusInModel(params, (res) => {
+          if (res.data.data) {
+            let data = res.data.data;
+            for (var i = 0; i < data.length; i++) {
+              console.log(data[i]);
+              data[i].hfModel = data[i].jurisdictionName;
+              data[i].leaf = true;
+            }
+            return resolve(data);
+          } else {
+            this.$message.error(res.Msg);
+          }
+        });
+      }
+    },
+    remove(node, data) {
+      console.log('node', node, data);
+      // const parent = node.parent;
+      // const children = parent.data.children || parent.data;
+      // const index = children.findIndex(d => d.id === data.id);
+      // children.splice(index, 1);
+    },
+
     // --------------------------------------------成员管理----------------------------------------------
     // --------------------添加账号---------------------------
 
@@ -493,9 +556,12 @@ export default {
           let data = res.data.data;
           this.checkedCities = [];
           for (var i = 0; i < data.length; i++) {
-            this.checkedCities.push(data[i].id);
+            this.checkedCities.push(data[i].hfModel);
             // console.log(data[i].id);
           }
+          this.$nextTick(() => {
+            this.$refs.rightsTree.setCheckedKeys(this.checkedCities);
+          });
         });
       }
     },
@@ -562,11 +628,11 @@ export default {
       this.isIndeterminate = false;
     },
     // 点击复选框执行
-    changePort(val, $event, id) {
-      console.log('changePort', val, $event, id);
-      if (val) {
+    changePort(data, e) {
+      console.log('changePort', data, e);
+      if (e.checkedKeys.includes(data.hfModel)) {
         let selected = {
-          modelId: id,
+          modelId: data.id,
           id: store.getUser().accountId,
           rId: this.formInline.rId,
           roleId: this.formInline.rId, // 绑定模块
@@ -587,7 +653,7 @@ export default {
         });
       } else {
         let params = {
-          modelId: id,
+          modelId: data.id,
           roleId: this.formInline.rId,
         };
         juris.roleDeleteModel(params, (res) => {
@@ -601,20 +667,19 @@ export default {
       }
     },
     // 多选点击文字执行
-    lookChoice(item, i) {
-      console.log(item, i);
+    lookChoice(item) {
+      console.log(item);
       console.log('cities', this.cities);
-      this.activeI = i;
-      let params = {
-        modelId: item.id,
-        id: store.getUser().accountId,
-      };
-      juris.findAdminHasJusInModel(params, (res) => {
-        console.log('模块下权限', res);
-        console.log('cities[1]', this.cities[i]);
-        this.cities2 = res.data.data;
-        this.cityOptions2 = res.data.data;
-      });
+      // this.activeI = i;
+      // let params = {
+      //   modelId: item.id,
+      //   id: store.getUser().accountId,
+      // };
+      // juris.findAdminHasJusInModel(params, (res) => {
+      //   console.log('模块下权限', res);
+      //   console.log('cities[1]', this.cities[i]);
+      //   this.cities2 = res.data.data;
+      // });
       if (this.formInline.rId !== '') {
         let selected = {
           modelId: item.id,
@@ -625,7 +690,7 @@ export default {
           console.log('模块下选中的权限', res);
           let data = res.data.data;
           for (var i = 0; i < data.length; i++) {
-            this.checkedCities2.push(data[i].id);
+            this.checkedCities.push(data[i].jurisdictionName);
             // console.log(data[i].id);
           }
         });
@@ -717,6 +782,21 @@ export default {
   }
   .el-checkbox .el-checkbox__inner {
     display: inline-block;
+  }
+}
+.el-tree-node__content {
+  line-height: 50px;
+  .custom-tree-node {
+    width: 100%;
+    display: block;
+    .fl {
+      float: left;
+      line-height: 31px;
+    }
+    .fr {
+      float: right;
+      margin-right: 50px;
+    }
   }
 }
 </style>

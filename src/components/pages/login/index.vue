@@ -291,6 +291,7 @@ export default {
         console.log(res);
         let data = store.getUser();
         data.token = res.data.data.token;
+        data.accountId = res.data.data.accountId;
         data.modelCode = res.data.data.model;
         store.setUser(data);
         this.$router.push('/');
