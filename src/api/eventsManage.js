@@ -65,11 +65,12 @@ function updateProdcutActivity(params) {
   console.log(params);
   let fd = new FormData();
   fd.append('activityName ', params.activityName);
+  fd.append('activityDesc ', params.activityDesc);
   fd.append('id', params.id);
-  if (params.startTime !== undefined) {
+  if (params.startTime !== undefined && params.startTime !== null) {
     fd.append('startTime', params.startTime);
   }
-  if (params.endTime !== undefined) {
+  if (params.endTime !== undefined && params.endTime !== null) {
     fd.append('endTime', params.endTime);
   }
   return Axios.post('/api/api/product/hfProductActivity/updateProdcutActivity', fd);
@@ -85,7 +86,7 @@ function select(name) {
   return Axios.get('/api/api/product/hfProductActivity/findProdcutActivity?activityType=seckillActivity&name=' + name);
 }
 // 获取商品活动类型
-function getProdcutActivityType() {
+function getProdcutActivityType(name) {
   return Axios.get('/api/api/product/hfProductActivity/getProdcutActivityType');
 }
 
@@ -93,6 +94,7 @@ function getProdcutActivityType() {
 function ceateInsert(params) {
   let fd = new FormData();
   fd.append('activityName', params.activityName);
+  fd.append('activityDesc', params.activityDesc);
   fd.append('activityType', params.activityType);
 
   if (params.startTime !== '') {
@@ -195,6 +197,34 @@ function findProdcutActivity(name) {
 function ratationActivity(name) {
   return Axios.get('/api/api/product/hfProductActivity/findProdcutActivity?activityType=ratationActivity&name=' + name);
 }
+// ========================分类导航===========================
+// 添加图标绑定链接 /goods/deleteIconAndUrl
+// function addIconAndUrl(params) {
+//   let fd = new FormData();
+//   fd.append('bossId', params.bossId);
+//   fd.append('iconName', params.iconName);
+//   fd.append('url', params.url);
+//   return Axios.post('/api/api/product/goods/addIconAndUrl', fd);
+// }
+// 获取l分类导航列表
+function selectIconAndUrl(bossId) {
+  return Axios.get('/api/api/product/goods/selectIconAndUrl?bossId=' + bossId);
+}
+// 单个删除分类导航
+function deleteIconAndUrl(params) {
+  let fd = new FormData();
+  fd.append('id', params.id);
+  return Axios.post('/api/api/product/goods/deleteIconAndUrl', fd);
+}
+// 修改图标绑定链接 /goods/deleteIconAndUrl
+function updateIconAndUrl(params) {
+  let fd = new FormData();
+  fd.append('id', params.id);
+  fd.append('iconName', params.iconName);
+  fd.append('url', params.url);
+  return Axios.post('/api/api/product/goods/updateIconAndUrl', fd);
+}
+// ==========================================================
 export default {
   // 秒杀
   select: select,
@@ -225,5 +255,10 @@ export default {
 
   // 轮播图
   ratationActivity: ratationActivity,
+
+
+  selectIconAndUrl: selectIconAndUrl,
+  deleteIconAndUrl: deleteIconAndUrl,
+  updateIconAndUrl: updateIconAndUrl,
 };
 

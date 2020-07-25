@@ -315,6 +315,7 @@ export default {
       roleList: [], // 角色列表
       activeName: 'second',
       checkAll: false,
+      // eslint-disable-next-line quotes
       checkedCities: [],
       cityOptions: '',
       cities: '',
@@ -410,6 +411,7 @@ export default {
               data[i].hfModel = data[i].jurisdictionName;
               data[i].leaf = true;
             }
+            // eslint-disable-next-line no-magic-numbers
             return resolve(data);
           } else {
             this.$message.error(res.Msg);
@@ -700,6 +702,7 @@ export default {
             this.checkedCities.push(data[i].jurisdictionName);
             // console.log(data[i].id);
           }
+          console.log('模块下选中的权限data', this.checkedCities);
         });
       }
     },

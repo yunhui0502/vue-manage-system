@@ -219,6 +219,10 @@
       <el-tab-pane label="轮播图" name="ratationActivity">
         <ratationPicture :labelType='labelType'></ratationPicture>
       </el-tab-pane>
+
+       <el-tab-pane label="分类导航" name="shoppingguide">
+        <shoppingguide></shoppingguide>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -230,6 +234,7 @@ import selection from './selection.vue';
 import distribution from './distribution.vue';
 import ratationPicture from './ratationPicture.vue';
 import hfsearch from './hf-search.vue';
+import shoppingguide from './shopping-guide.vue';
 export default {
   components: {
     groupbuying,
@@ -237,6 +242,7 @@ export default {
     distribution,
     ratationPicture,
     hfsearch,
+    shoppingguide,
   },
   data() {
     return {
@@ -326,7 +332,7 @@ export default {
     },
     // 获取商品活动类型
     geteventType() {
-      serviceEvents.getProdcutActivityType((res) => {
+      serviceEvents.getProdcutActivityType('', (res) => {
         console.log('获取商品活动类型', res.data.data);
         this.options = res.data.data;
       });

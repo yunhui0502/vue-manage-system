@@ -25,6 +25,7 @@
                   <el-input placeholder="请输入内容" v-model="scope.row.activityName"></el-input>
                 </template> -->
               </el-table-column>
+              <el-table-column label="活动描述" prop="activityDesc"></el-table-column>
               <el-table-column label="活动类型" prop="activityType">
                 <span>精选</span>
               </el-table-column>
@@ -67,7 +68,12 @@
                    <span v-show="!show">{{scope.row.activityName}}</span>
               </template>
             </el-table-column>
-
+             <el-table-column prop="activityDesc" label="活动描述">
+              <template slot-scope="scope">
+                <el-input v-show="show" placeholder="请输入内容" v-model="scope.row.activityDesc "></el-input>
+                   <span v-show="!show">{{scope.row.activityDesc }}</span>
+              </template>
+            </el-table-column>
             <el-table-column prop="stopTime" label="操作">
               <template slot-scope="scope">
                  <el-button type="text" @click="addGcommodity(scope)" size="mini">保存</el-button>
@@ -188,6 +194,7 @@ export default {
       // 添加精选
       groupform: {
         activityName: '', // 活动名称
+        activityDesc: '',
         activityType: 'seniorityActivity', // 活动类型
         // startTime: '', // 开始时间
         // endTime: '', // 结束时间
@@ -260,7 +267,7 @@ export default {
     },
     // 获取商品活动类型
     geteventType() {
-      serviceEvents.getProdcutActivityType((res) => {
+      serviceEvents.getProdcutActivityType('', (res) => {
         console.log('获取商品活动类型', res.data.data);
         this.options = res.data.data;
       });
@@ -282,6 +289,7 @@ export default {
     // 修改活动名称
     preserveModify(scope) {
       this.groupform.activityName = scope.row.activityName;
+      this.groupform.activityDesc = scope.row.activityDesc;
       this.groupform.id = scope.row.id;
       serviceEvents.updateProdcutActivity(this.groupform, (res) => {
         console.log('修改活动', res);
@@ -402,6 +410,7 @@ export default {
     //  添加排行相关信息 timestamp  repertory
     addGcommodity(scope) {
       this.groupform.activityName = scope.row.activityName;
+      this.groupform.activityDesc = scope.row.activityDesc;
       // this.groupform.activityType = scope.row.activityType;
       this.groupform.startTime = scope.row.startTime;
       this.groupform.endTime = scope.row.endTime;

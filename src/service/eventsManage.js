@@ -98,6 +98,18 @@ async function findProdcutActivity(name, handleResult) {
 async function ratationActivity(name, handleResult) {
   eventsManage.ratationActivity(name).then((res) => handleResult(res));
 }
+// ========================分类导航===========================
+async function selectIconAndUrl(bossId, handleResult) {
+  eventsManage.selectIconAndUrl(bossId).then((res) => handleResult(res));
+}
+async function deleteIconAndUrl(bossId, handleResult) {
+  eventsManage.deleteIconAndUrl(bossId).then((res) => handleResult(res));
+}
+async function updateIconAndUrl(bossId, handleResult) {
+  eventsManage.updateIconAndUrl(bossId).then((res) => handleResult(res));
+}
+// ===================================================
+
 export default {
   eventsDelete: eventsDelete,
   // 秒杀
@@ -129,4 +141,9 @@ export default {
 
   // 轮播图
   ratationActivity: ratationActivity,
+
+
+  selectIconAndUrl: selectIconAndUrl,
+  deleteIconAndUrl: deleteIconAndUrl,
+  updateIconAndUrl: updateIconAndUrl,
 };

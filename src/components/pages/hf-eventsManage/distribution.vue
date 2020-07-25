@@ -356,7 +356,7 @@ export default {
     },
     // 获取商品活动类型
     geteventType() {
-      serviceEvents.getProdcutActivityType((res) => {
+      serviceEvents.getProdcutActivityType('', (res) => {
         console.log('获取商品活动类型', res.data.data);
         this.options = res.data.data;
       });
