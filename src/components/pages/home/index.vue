@@ -15,6 +15,7 @@
           text-color="#fff"
           router
         >
+
           <el-menu-item v-if="homePage" index="/">
             <!-- <img src="../img/icon_home5@2x.png" alt=""> -->
             <i class="iconfont icon-shouye"></i>
