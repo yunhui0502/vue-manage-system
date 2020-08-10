@@ -80,4 +80,7 @@ export default {
 .el-button {
   padding: 12px 46px;
 }
+// /deep/.el-form-item__label {
+//   font-size: 16px;
+// }
 </style>

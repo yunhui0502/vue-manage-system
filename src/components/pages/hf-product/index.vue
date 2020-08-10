@@ -9,9 +9,9 @@
         <el-card class="box-card">
           <!-- 搜索渲染区 -->
             <div slot="header" class="clearfix">
-              <span>已选{{amount}}项商品
+              <span class="little">已选{{amount}}项商品
               <el-button
-                class="ff3"
+                class="ff3 little"
                 style="padding: 10px 10px;"
                 type="text"
                 @click="toggleSelection()"
@@ -309,6 +309,7 @@ export default {
 
 .clearfix {
   height: 40px;
+  line-height: 40px;
 }
 .search-card {
   // margin:0 5px 5px 5px;

@@ -325,6 +325,9 @@ export default {
 };
 </script>
 <style scoped lang='less'>
+// /deep/.el-menu-item.is-active {
+//     background-color: #4B4B6D;
+// }
 .my-container {
   width: 100%;
   height: 100%;
