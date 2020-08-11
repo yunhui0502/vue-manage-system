@@ -17,9 +17,9 @@
                 @click="toggleSelection()"
               >清空</el-button></span>
               <div style="float: right;">
-                <el-button @click="setProducts()">刷新</el-button>
-                <el-button @click="handleCreate()" type="purple">新增商品</el-button>
-                <el-button @click="BatchRemove()">批量操作</el-button>
+                <el-button class="unification" @click="setProducts()">刷新</el-button>
+                <el-button class="unification" @click="handleCreate()" type="purple">新增商品</el-button>
+                <el-button class="unification" @click="BatchRemove()">批量操作</el-button>
               </div>
             </div>
 
@@ -39,10 +39,10 @@
               <el-table-column label="序号" type="index" :index="indexMethod"></el-table-column>
               <el-table-column prop="productName" label="商品名称"></el-table-column>
               <el-table-column prop="productDesc" label="商品描述" show-overflow-tooltip></el-table-column>
-              <el-table-column prop="categoryName" label="所属类目名称"></el-table-column>
+              <el-table-column prop="categoryName" label="所属类目名称" width="150"></el-table-column>
               <el-table-column prop="stoneName" label="所属店铺"></el-table-column>
-              <el-table-column prop="createTime" label="创建时间" width="150"></el-table-column>
-              <el-table-column prop="modifyTime" label="更新时间" width="150"></el-table-column>
+              <el-table-column prop="createTime" label="创建时间"  show-overflow-tooltip></el-table-column>
+              <el-table-column prop="modifyTime" label="更新时间"  show-overflow-tooltip></el-table-column>
               <el-table-column prop="lastModifier" label="最近一次操作人" width="150"></el-table-column>
               <el-table-column fixed="right" label="操作" width="100">
                 <template slot-scope="scope">

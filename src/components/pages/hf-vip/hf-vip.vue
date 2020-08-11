@@ -8,7 +8,7 @@
 
         <el-card class="box-card">
           <div style="margin-right:120px;">
-            <el-button type="primary" style="float:right;" @click="draweradd = true">添加会员</el-button>
+            <el-button class="unification" type="primary" style="float:right;" @click="draweradd = true">添加会员</el-button>
           </div>
           <el-table :data="manage" stripe style="width: 100%">
             <el-table-column prop="name" align="center" label="会员名"></el-table-column>
@@ -28,7 +28,7 @@
           <div >
             <div style="width:100%;">
               <div style="overflow:hidden;margin-bottom:30px;margin-right:120px;float:right;">
-                <el-button type="primary" @click="drawer=true">添加等级</el-button>
+                <el-button class="unification" type="primary" @click="drawer=true">添加等级</el-button>
               </div>
               <el-table :data="levellist" stripe style @row-click="finddesnum">
                 <el-table-column prop="levelName" align="center" label="等级名称"></el-table-column>

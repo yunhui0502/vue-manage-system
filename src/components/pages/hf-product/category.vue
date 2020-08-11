@@ -16,8 +16,8 @@
           </el-select>
         </el-form-item>
         <el-form-item style="float: right;">
-          <el-button type="purple" @click="seeAbout">查询</el-button>
-          <el-button @click="sou">重置</el-button>
+          <el-button class="unification" type="purple" @click="seeAbout">查询</el-button>
+          <el-button class="unification" @click="sou">重置</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -25,14 +25,14 @@
     <el-card class="box-card">
       <div slot="header" class="clearfix">
         <!-- <span>卡片名称</span> -->
-        <el-button style="float: right;" @click="dialogVisible = true" type="purple">+添加类目</el-button>
+        <el-button class="unification" style="float: right;" @click="dialogVisible = true" type="purple">+添加类目</el-button>
       </div>
 
       <el-table
         :data="tableData"
         style="width: 100%;margin-bottom: 20px;"
         row-key="id"
-        border
+        stripe
         :tree-props="{children: 'categories', hasChildren: 'hasChildren'}"
       >
         <el-table-column prop="id" label="类目ID" width="180"></el-table-column>

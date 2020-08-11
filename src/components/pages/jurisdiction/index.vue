@@ -13,6 +13,7 @@
             <div style="width: 20%;border-right: 1px solid #ccc;margin-right: 10px;">
               <el-tree
                 default-expand-all
+                :render-content="renderContent1"
                 :data="roleList"
                 highlight-current
                 :props="defaultProps"
@@ -26,75 +27,19 @@
               </div>
 
               <div style="width: 90%;">
-                <!-- <el-row :gutter="20">
-                  <el-col :span="2">
-                    <h5 style="margin-block-end:0;margin-block-start:0; ">模块</h5>
-                  </el-col>
-                  <el-col :span="16">
-                    <el-checkbox
-                      :indeterminate="isIndeterminate"
-                      v-model="checkAll"
-                      @change="handleCheckAllChange"
-                    >全选</el-checkbox>
-                    <div style="margin: 15px 0;"></div>
-                    <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
-                      <el-checkbox
-                        v-for="(item,i) in cities"
-                        :label="item.id"
-                        :key="item.id"
-                        @change="((val,$event)=>changePort(val,$event,item.id))"
-                        class="ckbox-border"
-                      >
-                        <p
-                          @click.prevent="lookChoice(item,i)"
-                          :class="activeI==i?'active':''"
-                          style="line-height:10px;"
-                        >{{item.hfModel}}</p>
-                      </el-checkbox>
-                    </el-checkbox-group>
-                  </el-col>
-                </el-row>
-                模块下的权限
-                <el-row :gutter="20">
-                  <el-col :span="2">
-                    <h5 style="margin-block-end:0;margin-block-start:0; ">权限</h5>
-                  </el-col>
-                  <el-col :span="16">
-                    <el-checkbox
-                      :indeterminate="isIndeterminate2"
-                      v-model="checkAll2"
-                      @change="handleCheckAllChange2"
-                    >全选</el-checkbox>
-                    <div style="margin: 15px 0;"></div>
-                    <el-checkbox-group
-                      v-model="checkedCities2"
-                      @change="handleCheckedCitiesChange2"
-                    >
-                      <el-checkbox
-                        class="ckbox-border"
-                        v-for="city in cities2"
-                        :label="city.id"
-                        :key="city.id"
-                        @change="((val,$event)=>changePort2(val,$event,city.id))"
-                      >
-                        <p style="line-height:10px;">{{city.jurisdictionName}}</p>
-                      </el-checkbox>
-                    </el-checkbox-group>
-                  </el-col>
-                </el-row>-->
+
                 <el-tree
-                  ref="rightsTree"
-                  check-strictly
-                  @check="changePort"
-                  empty-text="暂无数据"
-                  :expand-on-click-node="false"
-                  :props="defaultProps2"
-                  :load="loadNode"
-                  node-key="hfModel"
-                  :default-checked-keys="checkedCities"
-                  lazy
-                  show-checkbox
-                ></el-tree>
+            class="el-tree"
+            :data="routeList"
+            @check="changePort"
+            check-strictly
+            :render-content="renderContent"
+            show-checkbox
+            node-key="jurisdictionName"
+            ref="rightsTree"
+            @node-expand="handleExpand"
+            :props="defaultProps2"
+          ></el-tree>
               </div>
             </div>
           </div>
@@ -155,22 +100,6 @@
       </el-tab-pane>
 
       <el-dialog title="绑定" :visible.sync="bindingVisible" width="40%" center>
-        <!-- <el-table
-        ref="multipleTable"
-        :data="tablelist"
-        tooltip-effect="dark"
-        style="width: 100%"
-        @selection-change="handleSelectionChange"
-        >-->
-        <!-- <el-table-column type="selection" width="55"></el-table-column> -->
-        <!-- <el-table-column label="日期" width="120">
-          <template slot-scope="scope">{{ scope.row.date }}</template>
-        </el-table-column>-->
-        <!-- <el-table-column prop="roleName" label="名称" width="120"></el-table-column>
-        <el-table-column prop="roleType" label="类型" show-overflow-tooltip></el-table-column>
-        </el-table>-->
-        <!-- <el-tree :data="tablelist" :props="defaultProps" @node-click="handleSelectionChange"></el-tree> -->
-
         <el-transfer
           v-model="value"
           :data="tablelist"
@@ -285,11 +214,10 @@ export default {
     // ------------------------------------------
     return {
       defaultProps2: {
-        id: 'id',
-        label: 'hfModel',
-        children: 'children',
-        isLeaf: 'leaf',
+        children: 'list',
+        label: 'jurisdictionName',
       },
+      routeList: [],
       // --------添加账号内置弹窗---------
       formselectList: [],
       // -------------------------------
@@ -313,6 +241,7 @@ export default {
       Selected: [],
       Selected2: [],
       roleList: [], // 角色列表
+      juList: [],
       activeName: 'second',
       checkAll: false,
       // eslint-disable-next-line quotes
@@ -371,54 +300,106 @@ export default {
   },
   created() {
     this.determine();
-    this.determine2();
+    // this.determine2();
     this.findAdminHasModel();
     this.selectRoleCode();
-
+    this.findAdminHasModelAndJus();
     this.takestore();
     this.selectAccount();
+    this.changeCss();
   },
+
   methods: {
+    handleExpand() { // 节点被展开时触发的事件
+      // 因为该函数执行在renderContent函数之前，所以得加this.$nextTick()
+      this.$nextTick(() => {
+        console.log('113213123123123');
+        this.changeCss();
+      });
+    },
+    changeCss() {
+      console.log('4444444444444444444444');
+      var levelName = document.getElementsByClassName('foo'); // levelname是上面的最底层节点的名字
+      for (var i = 0; i < levelName.length; i++) {
+        // cssFloat 兼容 ie6-8  styleFloat 兼容ie9及标准浏览器
+        levelName[i].parentNode.style.cssFloat = 'left'; // 最底层的节点，包括多选框和名字都让他左浮动
+        levelName[i].parentNode.style.styleFloat = 'left';
+        levelName[i].parentNode.onmouseover = function() {
+          this.style.backgroundColor = '#fff';
+        };
+      }
+    },
+    renderContent(h, { node, data, store }) {// 树节点的内容区的渲染 Function
+      console.log('5555555555555555555');
+      let classname = '';
+      var nodeLevel = 2;
+      // 由于项目中有三级菜单也有四级级菜单，就要在此做出判断
+      if (node.level === nodeLevel) {
+        classname = 'foo';
+      }
+      // if (node.level === 3 && node.childNodes.length === 0) {
+      //   classname = "foo";
+      // }
+      return h(
+        'p',
+        {
+          class: classname,
+        },
+        node.label,
+      );
+    },
+    renderContent1(h, { node, data, store }) {// 树节点的内容区的渲染 Function
+      console.log('5555555555555555555');
+      let classname = '';
+      return h(
+        'p',
+        {
+          class: classname,
+        },
+        node.label,
+      );
+    },
+
     check (nodes) {
       console.log('nodes', nodes);
     },
-    loadNode(node, resolve) {
-      console.log('node, resolve', node, resolve);
+    // loadNode(node, resolve) {
+    //   console.log('node, resolve', node, resolve);
 
-      // 如果是顶级的父节点
-      if (node.level === 0) {
-        // 查找顶级对象
-        let id = store.getUser().accountId;
-        juris.findAdminHasModel({ id: id }, (res) => {
-          if (res.data.data) {
-            return resolve(res.data.data);
-          } else {
-            this.$message.error(res.Msg);
-          }
-        });
-      } else {
-        this.lookChoice(node.data);
-        // 根据父节点id找寻下一级的所有节点
-        let params = {
-          modelId: node.data.id,
-          id: store.getUser().accountId,
-        };
-        juris.findAdminHasJusInModel(params, (res) => {
-          if (res.data.data) {
-            let data = res.data.data;
-            for (var i = 0; i < data.length; i++) {
-              console.log(data[i]);
-              data[i].hfModel = data[i].jurisdictionName;
-              data[i].leaf = true;
-            }
-            // eslint-disable-next-line no-magic-numbers
-            return resolve(data);
-          } else {
-            this.$message.error(res.Msg);
-          }
-        });
-      }
-    },
+    //   // 如果是顶级的父节点
+    //   if (node.level === 0) {
+    //     // 查找顶级对象
+    //     let id = store.getUser().accountId;
+    //     juris.findAdminHasModel({ id: id }, (res) => {
+    //       if (res.data.data) {
+    //         return resolve(res.data.data);
+    //       } else {
+    //         this.$message.error(res.Msg);
+    //       }
+    //     });
+    //   } else {
+    //     this.lookChoice(node.data);
+    //     // 根据父节点id找寻下一级的所有节点
+    //     let params = {
+    //       modelId: node.data.id,
+    //       id: store.getUser().accountId,
+    //     };
+    //     juris.findAdminHasJusInModel(params, (res) => {
+    //       if (res.data.data) {
+    //         let data = res.data.data;
+    //         for (var i = 0; i < data.length; i++) {
+    //           console.log(data[i]);
+    //           data[i].hfModel = data[i].jurisdictionName;
+    //           data[i].leaf = true;
+    //         }
+    //         // eslint-disable-next-line no-magic-numbers
+    //         return resolve(data);
+    //       } else {
+    //         this.$message.error(res.Msg);
+    //       }
+    //     });
+    //   }
+    // },
     remove(node, data) {
       console.log('node', node, data);
       // const parent = node.parent;
@@ -519,12 +500,12 @@ export default {
     },
 
     binding(index, row) {
-      console.log(row);
+      console.log('row', row);
       this.bindingVisible = true;
       this.formroleId.id = row.id;
       let params = {
         id: row.id,
-        type: 1,
+        type: 'boss',
       };
       juris.selectAccountRole(params, (res) => {
         console.log('获取弹窗已选角色', res);
@@ -533,6 +514,14 @@ export default {
         for (var i = 0; i < data.length; i++) {
           this.value.push(data[i].id);
         }
+      });
+      params = {
+        id: store.getUser().accountId,
+        type: row.accountType,
+      };
+      juris.selectAccountRole(params, (res) => {
+        let data = res.data.data;
+        this.tablelist = data;
       });
     },
     preserve() {
@@ -549,27 +538,28 @@ export default {
       console.log(data);
       if (data.id !== undefined) {
         let params = {
-          id: store.getUser().accountId,
+          // id: store.getUser().accountId,
           rId: data.id,
         };
         this.formInline.rId = data.id;
-        juris.findAdminHasModel(params, (res) => {
+        juris.findRoleModelAndJ(params, (res) => {
           console.log('角色下已选择模块', res.data.data);
           let data = res.data.data;
-          this.checkedCities = [];
-          if (data === null) {
-            // console.log(12);
-            this.$nextTick(() => {
-              this.$refs.rightsTree.setCheckedKeys(this.checkedCities);
-            });
-            return;
-          }
-          for (var i = 0; i < data.length; i++) {
-            this.checkedCities.push(data[i].hfModel);
-            // console.log(data[i].id);
-          }
+          // this.checkedCities = [];
+          // if (data === null) {
+          //   // console.log(12);
+          //   this.$nextTick(() => {
+          //     this.$refs.rightsTree.setCheckedKeys(this.checkedCities);
+          //   });
+          //   return;
+          // }
+          // for (var i = 0; i < data.length; i++) {
+          //   this.checkedCities.push(data[i].hfModel);
+          //   // console.log(data[i].id);
+          // }
+          // console.log(this.checkedCities);
           this.$nextTick(() => {
-            this.$refs.rightsTree.setCheckedKeys(this.checkedCities);
+            this.$refs.rightsTree.setCheckedKeys(data);
           });
         });
       }
@@ -620,6 +610,13 @@ export default {
         this.cityOptions = res.data.data;
       });
     },
+    findAdminHasModelAndJus() {
+      let id = store.getUser().accountId;
+      juris.findAdminHasModelAndJus({ id: id }, (res) => {
+        console.log('模块', res.data.data);
+        this.routeList = res.data.data;
+      });
+    },
     handleClick(tab, event) {
       console.log(tab, event);
     },
@@ -639,41 +636,80 @@ export default {
     // 点击复选框执行
     changePort(data, e) {
       console.log('changePort', data, e);
-      if (e.checkedKeys.includes(data.hfModel)) {
-        let selected = {
-          modelId: data.id,
-          id: store.getUser().accountId,
-          rId: this.formInline.rId,
-          roleId: this.formInline.rId, // 绑定模块
-        };
-        juris.roleAddModel(selected, (res) => {
-          console.log('绑定模块', res);
-          this.$message({
-            showClose: true,
-            message: '绑定模块成功',
-            type: 'success',
+      console.log(data.list);
+      console.log(data.list === undefined);
+      if (data.list === undefined) {
+        if (e.checkedKeys.includes(data.jurisdictionName)) {
+          let selected = {
+            JurisdictionIds: [data.id],
+            roleId: this.formInline.rId,
+          };
+          juris.roleAddJurisdiction(selected, (res) => {
+            console.log('绑定权限', res);
+            this.$message({
+              showClose: true,
+              message: '绑定权限成功',
+              type: 'success',
+            });
+          // let data = res.data.data;
+          // this.checkedCities2 = [];
+          // for (var i = 0; i < data.length; i++) {
+          //   this.checkedCities2.push(data[i].id);
+          //   // console.log(data[i].id);
+          // }
           });
-          let data = res.data.data;
-          this.checkedCities2 = [];
-          for (var i = 0; i < data.length; i++) {
-            this.checkedCities2.push(data[i].id);
-            // console.log(data[i].id);
-          }
-        });
+        } else {
+          let params = {
+            JurisdictionIds: [data.id],
+            roleId: this.formInline.rId,
+          };
+          juris.roleDeleteJurisdiction(params, (res) => {
+            console.log('取消权限', res);
+            this.$message({
+              showClose: true,
+              message: '权限已取消',
+              type: 'warning',
+            });
+          });
+        }
       } else {
-        let params = {
-          modelId: data.id,
-          roleId: this.formInline.rId,
-        };
-        juris.roleDeleteModel(params, (res) => {
-          console.log('取消模块', res);
-          this.$message({
-            showClose: true,
-            message: '模块已取消',
-            type: 'warning',
+        if (e.checkedKeys.includes(data.jurisdictionName)) {
+          let selected = {
+            modelId: data.id,
+            id: store.getUser().accountId,
+            rId: this.formInline.rId,
+            roleId: this.formInline.rId, // 绑定模块
+          };
+          juris.roleAddModel(selected, (res) => {
+            console.log('绑定模块', res);
+            this.$message({
+              showClose: true,
+              message: '绑定模块成功',
+              type: 'success',
+            });
+          // let data = res.data.data;
+          // this.checkedCities2 = [];
+          // for (var i = 0; i < data.length; i++) {
+          //   this.checkedCities2.push(data[i].id);
+          //   // console.log(data[i].id);
+          // }
           });
-        });
+        } else {
+          let params = {
+            modelId: data.id,
+            roleId: this.formInline.rId,
+          };
+          juris.roleDeleteModel(params, (res) => {
+            console.log('取消模块', res);
+            this.$message({
+              showClose: true,
+              message: '模块已取消',
+              type: 'warning',
+            });
+          });
+        }
       }
+
     },
     // 多选点击文字执行
     lookChoice(item) {
@@ -768,7 +804,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 /deep/.is-bordered {
   margin-left: 0 !important;
   margin-bottom: 40px;
@@ -809,4 +845,11 @@ export default {
     }
   }
 }
+// .el-tree--highlight-current .el-tree-node.is-current>.el-tree-node__content {
+//     background-color: chocolate;
+// }
+// .el-tree-node>.el-tree-node__children {
+//     overflow: hidden;
+//     background-color: chocolate;
+// }
 </style>

@@ -2,38 +2,42 @@
 <template>
   <div>
     <el-card class="search-card">
-      <div style="border-bottom: 1px solid #E5E5E5;padding-bottom:5px;">
+      <!-- <div style="border-bottom: 1px solid #E5E5E5;padding-bottom:5px;">
         <span
           style=" padding: 0 10px 5px 10px;border-bottom: 2px solid  #A3A0FB;color:#A3A0FB;font-size:14px;"
         >仓库管理</span>
-      </div>
-      <div
-        @click="dialogFormVisible = true"
-        style="color:#fff;font-size:14px;
+      </div>-->
+      <el-tabs v-model="activeName" @tab-click="handleClick">
+        <el-tab-pane label="仓库管理" name="first">
+          <div
+            @click="dialogFormVisible = true"
+            style="color:#fff;font-size:14px;
         justify-content:center; background:#A6A3FB;border-radius: 4px;margin-top: 14px;font-size: 12px;float:right;    width: 89px;height: 28px;display:flex;align-items:center;"
-      >+添加仓库</div>
-      <el-table :data="canglist" stripe style="width: 100%">
-        <el-table-column prop="hfName" label="仓库名称" align="center"></el-table-column>
-        <el-table-column prop="hfRegion" label="仓库地址" align="center"></el-table-column>
-        <el-table-column prop="lastModifier" label="操作人" align="center"></el-table-column>
-        <el-table-column label="创建时间" align="center">
-          <template slot-scope="scope">
-            <span>{{scope.row.createTime[0]+'-'+scope.row.createTime[1]+'-'+scope.row.createTime[2]+' '+' '+scope.row.createTime[3]+':'+scope.row.createTime[4]+':'+scope.row.createTime[5]}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="更新时间" align="center">
-          <template slot-scope="scope">
-            <span>{{scope.row.modifyTime[0]+'-'+scope.row.modifyTime[1]+'-'+scope.row.modifyTime[2]+' '+' '+scope.row.modifyTime[3]+':'+scope.row.createTime[4]+':'+scope.row.modifyTime[5]}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="操作" align="center">
-          <template slot-scope="scope">
-            <span @click="check(scope.row)" style="color:#FFCE26;">查看</span>
-            <span @click="edit(scope.row)" style="color:#A6A3FB;margin-left:10px;">编辑</span>
-            <span @click="del(scope.row.id)" style="color:#FF318A;margin-left:10px;">删除</span>
-          </template>
-        </el-table-column>
-      </el-table>
+          >+添加仓库</div>
+          <el-table :data="canglist" stripe style="width: 100%">
+            <el-table-column prop="hfName" label="仓库名称" align="center"></el-table-column>
+            <el-table-column prop="hfRegion" label="仓库地址" align="center"></el-table-column>
+            <el-table-column prop="lastModifier" label="操作人" align="center"></el-table-column>
+            <el-table-column label="创建时间" align="center">
+              <template slot-scope="scope">
+                <span>{{scope.row.createTime[0]+'-'+scope.row.createTime[1]+'-'+scope.row.createTime[2]+' '+' '+scope.row.createTime[3]+':'+scope.row.createTime[4]+':'+scope.row.createTime[5]}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="更新时间" align="center">
+              <template slot-scope="scope">
+                <span>{{scope.row.modifyTime[0]+'-'+scope.row.modifyTime[1]+'-'+scope.row.modifyTime[2]+' '+' '+scope.row.modifyTime[3]+':'+scope.row.createTime[4]+':'+scope.row.modifyTime[5]}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="操作" align="center">
+              <template slot-scope="scope">
+                <span @click="check(scope.row)" style="color:#FFCE26;">查看</span>
+                <span @click="edit(scope.row)" style="color:#A6A3FB;margin-left:10px;">编辑</span>
+                <span @click="del(scope.row.id)" style="color:#FF318A;margin-left:10px;">删除</span>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-tab-pane>
+      </el-tabs>
     </el-card>
 
     <el-dialog title="添加仓库" :visible.sync="dialogFormVisible">
@@ -108,6 +112,7 @@ export default {
   name: 'store',
   data() {
     return {
+      activeName: 'first',
       dialogFormVisible1: false,
       boss: {
         bossId: 1,
@@ -159,17 +164,17 @@ export default {
     };
   },
   methods: {
-    check: function(row) {
+    check: function (row) {
       this.$router.push({
         path: '/check?id=' + row.id,
       });
     },
-    edit: function(row) {
+    edit: function (row) {
       this.dialogFormVisible1 = true;
       console.log(row);
       this.form1 = row;
     },
-    del: function(id) {
+    del: function (id) {
       cang.delcang(id, (res) => {
         if (res.data.status === constants.SUCCESS_CODE) {
           this.$message({
@@ -186,7 +191,7 @@ export default {
         }
       });
     },
-    submit1: function(ruleForm1) {
+    submit1: function (ruleForm1) {
       this.form1.userId = this.content.id;
       this.$refs[ruleForm1].validate((valid) => {
         if (valid) {
@@ -209,7 +214,7 @@ export default {
         }
       });
     },
-    submit: function(ruleForm) {
+    submit: function (ruleForm) {
       this.form.userId = this.content.id;
       this.$refs[ruleForm].validate((valid) => {
         if (valid) {
@@ -232,7 +237,7 @@ export default {
         }
       });
     },
-    checkcang: function() {
+    checkcang: function () {
       console.log(this.boss);
       cang.checkcang(this.boss, (res) => {
         console.log(res);

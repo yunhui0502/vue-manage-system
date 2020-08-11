@@ -13,13 +13,13 @@
       <el-tab-pane label="普通订单" name="nomalOrder">
         <el-card class="search-card">
           <el-form :inline="true" :model="sousuoinfor1" ref="ruleForms" class="demo-form-inline">
-            <el-row :gutter="10">
-              <el-col :xs="3" :sm="3" :md="3" :lg="6" :xl="8">
+            <el-row :gutter="12">
+              <el-col :xs="6" :sm="8" :md="10" :lg="9" :xl="11">
                 <el-form-item label="订单号" prop="orderCode">
                   <el-input v-model="sousuoinfor1.orderCode" placeholder="请输入订单号"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :xs="3" :sm="4" :md="5" :lg="6" :xl="8">
+              <el-col :xs="6" :sm="6" :md="7" :lg="9" :xl="11">
                 <el-form-item label="支付方式" prop="valueset1">
                   <el-select
                     v-model="sousuoinfor1.valueset1"
@@ -35,7 +35,14 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :xs="5" :sm="6" :md="7" :lg="8" :xl="10">
+
+              <el-col :xs="4" :sm="5" :md="5" :lg="6" :xl="8">
+                <el-button  type="primary" @click="sousuo">筛选</el-button>
+                <el-button  @click="resetForm('ruleForms')">重置</el-button>
+              </el-col>
+            </el-row>
+            <el-row :gutter="8">
+              <el-col >
                 <el-form-item label="下单时间" prop="startTime">
                   <el-date-picker
                     @change="uptime1"
@@ -46,10 +53,6 @@
                     :default-time="['12:00:00']"
                   ></el-date-picker>
                 </el-form-item>
-              </el-col>
-              <el-col :xs="4" :sm="4" :md="4" :lg="4" :xl="4">
-                <el-button type="primary" @click="sousuo">筛选</el-button>
-                <el-button @click="resetForm('ruleForms')">重置</el-button>
               </el-col>
             </el-row>
           </el-form>

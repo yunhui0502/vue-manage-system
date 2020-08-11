@@ -2,7 +2,7 @@
   <div>
     <el-card class="search-card">
       <div slot="header" class="clearfix">
-        <span>店铺列表</span>
+        <span class="centre">店铺列表</span>
       </div>
       <hfsearch
         @parentByClick="childClick"
@@ -13,7 +13,7 @@
     </el-card>
 
     <el-card class="box-card">
-      <el-button type="primary" style="float: right;margin-bottom:10px;" @click="drawer = true">添加店铺</el-button>
+      <el-button class="unification" type="primary" style="float: right;margin-bottom:10px;" @click="drawer = true">添加店铺</el-button>
       <el-table
         :data="storeData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
         stripe

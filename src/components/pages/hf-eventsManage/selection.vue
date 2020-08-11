@@ -7,7 +7,7 @@
 
     <el-card class="box-card">
        <div slot="header" class="clearfix">
-            <el-button class="clearfix" style="float: right;margin: 8px;" @click="addGoodsSpecificationList" type="primary">添加活动</el-button>
+            <el-button class="clearfix unification" style="float: right;margin: 8px;" @click="addGoodsSpecificationList" type="primary">添加活动</el-button>
           </div>
             <!-- 活动列表展示 -->
             <el-table

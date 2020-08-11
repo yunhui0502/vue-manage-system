@@ -76,6 +76,14 @@ function getListWaOrStore (type) {
   console.log(type);
   return Axios.get('/api/api/user/jurisdiction/getListWaOrStore?type=' + type);
 }
+function findAdminHasModelAndJus (params) {
+  console.log(params);
+  return Axios.get('/api/api/user/jurisdiction/findAdminHasModelAndJus', {params});
+}
+function findRoleModelAndJ (params) {
+  console.log(params);
+  return Axios.get('/api/api/user/jurisdiction/findRoleModelAndJ', {params});
+}
 export default {
   selectAccountRole: selectAccountRole,
   findAdminHasModel: findAdminHasModel,
@@ -89,4 +97,6 @@ export default {
   addUserRole: addUserRole,
   deleteUserRole: deleteUserRole,
   getListWaOrStore: getListWaOrStore,
+  findAdminHasModelAndJus: findAdminHasModelAndJus,
+  findRoleModelAndJ: findRoleModelAndJ,
 };

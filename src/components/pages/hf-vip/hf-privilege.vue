@@ -5,7 +5,7 @@
     <span>权限管理>查看</span>
   </div>
      <div style="overflow:hidden;margin-bottom:30px;float:right;">
-      <el-button type="primary" @click="desdrawer=true">添加特权</el-button>
+      <el-button class="unification" type="primary" @click="desdrawer=true">添加特权</el-button>
     </div>
     <el-table :data="miaodata" stripe style>
       <el-table-column type="index" align="center" label="序号"></el-table-column>

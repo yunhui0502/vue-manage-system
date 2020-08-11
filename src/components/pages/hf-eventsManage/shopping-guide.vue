@@ -4,6 +4,7 @@
       <div slot="header">
         <el-button
           style="float: right;margin: 8px;"
+          class="unification"
           @click="addGoodsSpecificationList"
           type="primary"
         >添加活动</el-button>

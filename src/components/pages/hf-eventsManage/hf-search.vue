@@ -16,8 +16,8 @@
           </el-select>
     </el-form-item>
     <el-form-item style="float: right;">
-      <el-button type="purple" @click="seeAbout" :loading="addLoading">查询</el-button>
-      <el-button @click="sou" :loading="addLoading">重置</el-button>
+      <el-button class="unification" type="purple" @click="seeAbout" :loading="addLoading">查询</el-button>
+      <el-button class="unification" @click="sou" :loading="addLoading">重置</el-button>
     </el-form-item>
   </el-form>
 </template>

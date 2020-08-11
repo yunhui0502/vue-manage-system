@@ -8,7 +8,7 @@
     <el-card class="box-card">
       <div slot="header" class="clearfix">
         <el-button
-          class="clearfix"
+          class="clearfix unification"
           style="float: right;margin: 8px;"
           @click="addGoodsSpecificationList"
           type="primary"

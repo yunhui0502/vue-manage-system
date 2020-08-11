@@ -14,6 +14,7 @@
         <el-card class="box-card">
           <el-button
             style="float: right;"
+            class="unification"
             size="small"
             type="primary"
             @click="drawer = true"

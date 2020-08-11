@@ -31,7 +31,7 @@
             <span>↑</span>
           </div>
         </div>
-        <div style="width: 23%;height: 200px;background: paleturquoise;margin-right:30px;">
+        <div style="width: 23%;height: 658px;margin-right:30px;">
           <img src="../img/22.png" style="width: 100%;height: 200px;" />
           <div style="margin-top: -150px;margin-left: 30px;color: #ffffff;">本日新增会员</div>
           <div style="margin-left: 40px;font-size: 22px;color: #ffffff;margin-top: 15px;">2468 人</div>
@@ -59,7 +59,7 @@
           <br />
           <div style="width: 100%;height: 250px;" id="main1"></div>
         </div>
-        <div style="width:23%;height:520px;background:#ffffff;margin-right: 30px; ">
+        <div style="width:23%;height:631px;background:#ffffff;margin-right: 30px; ">
           <div
             style="width: 100%;height: 50px;line-height: 50px;border-bottom: 1px solid #cccccc;margin-left: 20px;"
           >地域消费情况</div>
@@ -68,7 +68,7 @@
               src="../img/16.png"
               style="width: 100%;height:200px;margin: 0 auto;margin-left: 30px;"
             />
-            <img
+            <!-- <img
               src="../img/33.png"
               style="z-index: 9999;margin-left: 200px;margin-top: -130px;position: absolute;"
             />
@@ -91,7 +91,7 @@
             <img
               src="../img/66.png"
               style="z-index: 9999;margin-left: 300px;margin-top: -80px;position: absolute;"
-            />
+            />-->
             <div style="width: 100%;height: 30px;background: #ffffff;">
               <div style="width: 50%;height: 30px;float: left">
                 <img
@@ -160,7 +160,7 @@
                 />
                 <div style="float: left;margin-top:4px;margin-left: 20px;">上海</div>
               </div>
-              <div style="width: 50%;height: 30px ;float: left;">
+              <div style="width: 50%;height: 20px;float: left;">
                 <div style="float: right;margin-right: 40px;">￥29，192</div>
               </div>
             </div>
@@ -168,14 +168,12 @@
         </div>
       </div>
 
-
-      <el-card style="width: 58.792vw;" class="box-card">
+      <el-card style="width: 58.990vw;" class="box-card">
         <div slot="header" class="clearfix">
           <span>转化率统计</span>
         </div>
-          <div style="width: 100%;height: 250px;" id="maine"></div>
+        <div style="width: 100%;height: 250px;" id="maine"></div>
       </el-card>
-
     </div>
   </div>
 </template>
@@ -185,7 +183,7 @@ import echarts from 'echarts';
 export default {
   data: () => ({}),
   methods: {
-    admins () {
+    admins() {
       var myChart1 = echarts.init(document.getElementById('main1'));
       var option = {
         legend: {},
@@ -210,7 +208,7 @@ export default {
       };
       myChart1.setOption(option);
     },
-    admin () {
+    admin() {
       var myChart = echarts.init(document.getElementById('main'));
       var option = {
         tooltip: {
@@ -259,17 +257,28 @@ export default {
       };
       myChart.setOption(option);
     },
-    admine () {
+    admine() {
       var myChart = echarts.init(document.getElementById('maine'));
       var option = {
         tooltip: {
           trigger: 'axis',
-          axisPointer: { // 坐标轴指示器，坐标轴触发有效
+          axisPointer: {
+            // 坐标轴指示器，坐标轴触发有效
             type: 'shadow', // 默认为直线，可选为：'line' | 'shadow'
           },
         },
         legend: {
-          data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎', '百度', '谷歌', '必应', '其他'],
+          data: [
+            '直接访问',
+            '邮件营销',
+            '联盟广告',
+            '视频广告',
+            '搜索引擎',
+            '百度',
+            '谷歌',
+            '必应',
+            '其他',
+          ],
         },
         grid: {
           left: '3%',
@@ -325,9 +334,7 @@ export default {
               lineStyle: {
                 type: 'dashed',
               },
-              data: [
-                [{type: 'min'}, {type: 'max'}],
-              ],
+              data: [[{ type: 'min' }, { type: 'max' }]],
             },
           },
           {
@@ -365,7 +372,7 @@ export default {
       myChart.setOption(option);
     },
   },
-  mounted () {
+  mounted() {
     this.admin();
     this.admine();
     this.admins();
@@ -385,7 +392,7 @@ div {
 }
 .el-card {
   margin-left: 32px;
-  margin-top:15px ;
+  margin-top: 15px;
   width: 1340px;
 }
 </style>

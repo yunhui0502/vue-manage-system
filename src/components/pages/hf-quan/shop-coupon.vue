@@ -5,7 +5,7 @@
     </el-card>
 
     <el-card class="box-card">
-      <el-button style="float: right;" size="small" type="primary" @click="drawer = true">+ 添加优惠券</el-button>
+      <el-button class="unification" style="float: right;" size="small" type="primary" @click="drawer = true">+ 添加优惠券</el-button>
       <el-table
         stripe
         :data="list.slice((currentPage-1)*pagesize,currentPage*pagesize)"

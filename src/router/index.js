@@ -139,7 +139,7 @@ const router = new VueRouter({
     {
       path: '/access',
       name: 'access',
-      component: (resolve) => require(['@/components/pages/no-access'], resolve),
+      component: (resolve) => require(['@/components/pages/no-access/index.vue'], resolve),
     },
     {
       path: '/news/phone',
@@ -155,6 +155,11 @@ const router = new VueRouter({
       path: '/news/email',
       name: 'email',
       component: (resolve) => require(['@/components/pages/hf-news/e-mail.vue'], resolve),
+    },
+    {
+      path: '/set',
+      name: 'set',
+      component: (resolve) => require(['@/components/pages/not-found'], resolve),
     },
     ],
   },

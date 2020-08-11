@@ -41,7 +41,7 @@ axios.interceptors.response.use((res) => res, (err) => {
     //   type: 'warning',
     // });
     // 4. 跳转登录
-    router.push('/set');
+    router.push('/access');
   }
   return Promise.reject(err);
 });

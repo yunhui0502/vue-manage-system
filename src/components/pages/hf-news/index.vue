@@ -2,7 +2,7 @@
   <div>
     <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <span>消息提醒</span>
+        <span class="centre">消息提醒</span>
       </div>
       <el-table :data="tableData" stripe style="width: 100%">
         <el-table-column prop="Type" label="消息类型"></el-table-column>

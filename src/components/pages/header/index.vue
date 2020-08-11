@@ -351,7 +351,7 @@ ul li {
 /*  左区块2区 */
 .hb-2-2 {
     width: 100%;
-    height: 260px;
+    height: 318px;
     background: #fff;
     margin-top: 16px;
 }
