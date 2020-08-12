@@ -14,12 +14,12 @@
         <el-card class="search-card">
           <el-form :inline="true" :model="sousuoinfor1" ref="ruleForms" class="demo-form-inline">
             <el-row :gutter="12">
-              <el-col :xs="6" :sm="8" :md="10" :lg="9" :xl="9">
+              <el-col :xs="6" :sm="8" :md="10" :lg="8" :xl="9">
                 <el-form-item label="订单号" prop="orderCode">
                   <el-input v-model="sousuoinfor1.orderCode" placeholder="请输入订单号"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :xs="6" :sm="6" :md="7" :lg="9" :xl="9">
+              <el-col :xs="6" :sm="6" :md="7" :lg="8" :xl="9">
                 <el-form-item label="支付方式" prop="valueset1">
                   <el-select
                     v-model="sousuoinfor1.valueset1"
