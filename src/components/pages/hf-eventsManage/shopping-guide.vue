@@ -2,12 +2,14 @@
   <div>
     <el-card class="box-card">
       <div slot="header">
-        <el-button
-          style="float: right;margin: 8px;"
-          class="unification"
-          @click="addGoodsSpecificationList"
-          type="primary"
-        >添加活动</el-button>
+        <div class="button">
+          <el-button
+            style="float: right;margin: 8px;"
+            class="unification"
+            @click="addGoodsSpecificationList"
+            type="primary"
+          >添动</el-button>
+        </div>
       </div>
 
       <el-table
@@ -21,9 +23,9 @@
           <!-- <template slot-scope="scope">
           </template>-->
         </el-table-column>
-        <el-table-column label="活动类型" prop="activityType" width>
+        <el-table-column label="图片" prop="activityType"  width="128">
           <template slot-scope="scope">
-            <img :src="'/api/api/product/goods/getFile?fileId='+scope.row.fileId"/>
+            <img class="img" style="max-height: 128px;max-width: 128px" :src="'/api/api/product/goods/getFile?fileId='+scope.row.fileId"/>
           </template>
         </el-table-column>
         <el-table-column label="创建时间" prop="createTime"></el-table-column>
@@ -188,5 +190,16 @@ export default {
 .upload {
   padding: 10px;
   text-align: center;
+}
+.cell {
+  width: 128px;
+  height: 128px;
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
+.button {
+  height: 60px;
 }
 </style>
