@@ -7,6 +7,7 @@ function addLevel(params) {
   fd.append('name', params.name);
   fd.append('levelDescribe', params.levelDescribe);
   fd.append('level', params.level);
+  fd.append('bossId', params.bossId);
   return Axios.post('/api/api/user/hf-auth/addUserMemberLevel', fd);
 }
 function checkLevel() {
@@ -58,7 +59,12 @@ function finddes(levelId) {
 function deletevip(id) {
   return Axios.get('/api/api/user/hf-auth/deleteUserMember?id=' + id);
 }
-
+function deleteUserMemberLevel(id) {
+  return Axios.get('/api/api/user/hf-auth/deleteUserMemberLevel?id=' + id);
+}
+function deleteMemberLevelDescribe(id) {
+  return Axios.get('/api/api/user/hf-auth/deleteMemberLevelDescribe?id=' + id);
+}
 export default {
   addLevel: addLevel,
   checkLevel: checkLevel,
@@ -69,4 +75,6 @@ export default {
   finddes: finddes,
   deletevip: deletevip,
   findvips: findvips,
+  deleteUserMemberLevel: deleteUserMemberLevel,
+  deleteMemberLevelDescribe: deleteMemberLevelDescribe,
 };

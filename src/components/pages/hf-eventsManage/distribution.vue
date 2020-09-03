@@ -31,7 +31,7 @@
           <span>分销</span>
         </el-table-column>
         <el-table-column prop="startTime" label="开始时间">
-          <template slot-scope="scope">
+          <!-- <template slot-scope="scope">
             <el-date-picker
               value-format="yyyy-MM-dd HH:mm:ss"
               v-model="scope.row.startTime"
@@ -40,10 +40,10 @@
               align="right"
               default-time="12:00:00"
             ></el-date-picker>
-          </template>
+          </template> -->
         </el-table-column>
-        <el-table-column prop="endtime" label="结束时间">
-          <template slot-scope="scope">
+        <el-table-column prop="endTime" label="结束时间">
+          <!-- <template slot-scope="scope">
             <el-date-picker
               value-format="yyyy-MM-dd HH:mm:ss"
               v-model="scope.row.endTime"
@@ -52,7 +52,7 @@
               align="right"
               default-time="12:00:00"
             ></el-date-picker>
-          </template>
+          </template> -->
         </el-table-column>
         <el-table-column prop="address" label="操作">
           <template slot-scope="scope">

@@ -161,6 +161,11 @@ const router = new VueRouter({
       name: 'set',
       component: (resolve) => require(['@/components/pages/not-found'], resolve),
     },
+    {
+      path: '/home-statistics',
+      name: 'home-statistics',
+      component: (resolve) => require(['@/components/pages/home-statistics'], resolve),
+    },
     ],
   },
   {

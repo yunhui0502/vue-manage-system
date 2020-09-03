@@ -49,6 +49,10 @@
                       size="small"
                       align="center"
                     >查看</el-button>
+                    <el-button type="text"
+                      size="small"
+                      align="center"
+                      @click="deleteEstate(scope.row)">删除</el-button>
                   </template>
                 </el-table-column>
               </el-table>
@@ -230,6 +234,7 @@
 import userCenterService from '@/service/userCenter.js';
 import constants from '@/store/constants.js';
 import vip from '@/service/vip.js';
+import store from '@/store';
 import hfsearch from '../hf-eventsManage/hf-search';
 export default {
   components: { hfsearch },
@@ -334,16 +339,19 @@ export default {
         levelDescribe: '',
         name: '',
         level: '',
+        bossId: '1',
       },
       ruleForm2: {
         levelDescribe: '',
         name: '',
         id: '',
+        bossId: '1',
       },
       ruleForm1: {
         levelName: '',
         levelId: '',
         userId: [],
+        bossId: '1',
       },
       ruleForm3: {
         expireTime: '',
@@ -351,6 +359,7 @@ export default {
         prerogative: '',
         levelDescribe: '',
         levelId: '',
+        bossId: '1',
       },
       drawer: false,
       direction: 'btt',
@@ -381,6 +390,13 @@ export default {
     };
   },
   methods: {
+    deleteEstate (row) {
+      console.log(row);
+      vip.deleteUserMemberLevel(row.id, (res) => {
+        console.log(res);
+        this.getlevel();
+      });
+    },
     privilege() {
       this.$router.push({path: '/hf-privilege', query: {}});
     },
@@ -588,6 +604,7 @@ export default {
       this.$refs[ruleForm].validate((valid) => {
         if (valid) {
           console.log(this.ruleForm);
+          this.ruleForm.bossId = store.getUser().BSid;
           vip.addLevel(this.ruleForm, (res) => {
             console.log(res);
             // eslint-disable-next-line no-magic-numbers

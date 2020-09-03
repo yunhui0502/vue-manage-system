@@ -30,7 +30,7 @@
           <div class="box">
             <div class="leftxiao">
               <div
-                style="display:flex;align-items:center;flex-direction:column; margin-top:20px;width:155px;"
+                style="display:flex;align-items:center;flex-direction:column; margin-top:20px;width:130px;"
               >
                 <div>今日收入金额（元）</div>
                 <div style="margin-top:2px;">{{liulan.amountDay}}</div>
@@ -64,7 +64,7 @@
 
             <div class="leftxiao1">
               <div
-                style="display:flex;align-items:center;flex-direction:column; margin-top:20px;width:155px;"
+                style="display:flex;align-items:center;flex-direction:column; margin-top:20px;width:130px;"
               >
                 <div>本月收入金额（元）</div>
                 <div style="margin-top:2px;">{{liulan.amountMouth}}</div>
@@ -101,11 +101,14 @@
             </div>
 
             <div class="leftxiao2">
-              <div
-                style="display:flex;align-items:center;flex-direction:column; margin-top:20px;width:155px;"
-              >
-                <div>可提现金额</div>
-                <div style="margin-top:2px;">{{check.use}}元</div>
+              <div style="display:flex;justify-content:space-between;">
+                <div
+                  style="display:flex;display:flex;align-items:center;flex-direction:column;margin-top:20px;width:90px;"
+                >
+                  <div>可提现金额</div>
+                  <div style="margin-top:2px;">{{check.use}}元</div>
+                </div>
+                <el-button size="mini" style="color: #67C23A;" type="text" round>提现</el-button>
               </div>
               <div style="font-size:12px;display:flex;">
                 <div
@@ -130,7 +133,7 @@
             </div>
           </div>
 
-          <div class="block">
+          <div class="block" >
             <el-date-picker
               v-model="value2"
               value-format="yyyy-MM-dd HH:mm:ss"
@@ -144,11 +147,20 @@
             ></el-date-picker>
             <el-button @click="Screening" type="primary">筛选</el-button>
           </div>
-          <el-table :data="Details" height="250" border style="width: 48%">
-            <el-table-column type="index" width="50"></el-table-column>
-            <el-table-column prop="createTime" label="日期" width="180"></el-table-column>
-            <el-table-column prop="actualPrice" label="金额" width="180"></el-table-column>
-            <el-table-column prop="chargeOffType" label="类型" width="180">
+          <el-table
+            :header-cell-style="{'text-align':'center'}"
+            :data="Details"
+            height="250"
+            border
+            style="width: 100%"
+            :cell-style="{'text-align':'center'}"
+          >
+            <el-table-column type="index"></el-table-column>
+            <el-table-column prop="createTime" label="日期"></el-table-column>
+            <el-table-column prop="actualPrice" label="金额">
+              <template slot-scope="scope">{{ scope.row.chargeOffType=='order'?' + ':' - '}} {{scope.row.actualPrice}}</template>
+            </el-table-column>
+            <el-table-column prop="chargeOffType" label="类型">
               <template slot-scope="scope">{{ scope.row.chargeOffType=='order'?'订单':''}}</template>
             </el-table-column>
           </el-table>
@@ -259,25 +271,25 @@
             </span>
           </el-dialog>
 
-          <el-dialog title="查看" width="40%"  :visible.sync="draweruser" :with-header="false">
-              <div class="p20" style="margin: 0 auto; ">
-                <div>
-                  <span style="font-size:13px;margin-right:12px;">是否参与核销</span>
-                  <el-radio v-model="radio" label="0" @change="changestatus">否</el-radio>
-                  <el-radio v-model="radio" label="1" @change="changestatus">是</el-radio>
-                </div>
-                <div style="margin-top:40px;">
-                  <span style="font-size:13px;">设置成员角色：</span>
-                  <el-select v-model="value" placeholder="请选择" @change="roleval">
-                    <el-option
-                      v-for="item in StoreRole"
-                      :key="item.roleName"
-                      :label="item.roleName"
-                      :value="item.roleName"
-                    ></el-option>
-                  </el-select>
-                </div>
+          <el-dialog title="查看" width="40%" :visible.sync="draweruser" :with-header="false">
+            <div class="p20" style="margin: 0 auto; ">
+              <div>
+                <span style="font-size:13px;margin-right:12px;">是否参与核销</span>
+                <el-radio v-model="radio" label="0" @change="changestatus">否</el-radio>
+                <el-radio v-model="radio" label="1" @change="changestatus">是</el-radio>
               </div>
+              <div style="margin-top:40px;">
+                <span style="font-size:13px;">设置成员角色：</span>
+                <el-select v-model="value" placeholder="请选择" @change="roleval">
+                  <el-option
+                    v-for="item in StoreRole"
+                    :key="item.roleName"
+                    :label="item.roleName"
+                    :value="item.roleName"
+                  ></el-option>
+                </el-select>
+              </div>
+            </div>
           </el-dialog>
         </el-card>
       </el-tab-pane>
@@ -460,7 +472,7 @@ export default {
     };
   },
   methods: {
-    checkcang: function() {
+    checkcang: function () {
       // console.log(this.boss);
       let boss = 1;
       cang.checkcang({ bossId: boss }, (res) => {
@@ -484,14 +496,14 @@ export default {
       this.$refs.mychild.SubmitGoods('formName');
     },
     // -----------------------------------------------------------------------------------------------------
-    checkPerson: function() {
+    checkPerson: function () {
       console.log(this.$route.query.id);
       storeService.checkPerson(this.$route.query.id, (res) => {
         console.log(res);
         this.Person = res.data.data;
       });
     },
-    checkPersonDetail: function(row) {
+    checkPersonDetail: function (row) {
       console.log(row);
       this.radio = row.isCancel;
       this.roledata.userId = row.userId;
@@ -505,7 +517,7 @@ export default {
       this.draweruser = true;
       this.getStoreRole();
     },
-    checkUser: function() {
+    checkUser: function () {
       userCenterService.checkUser((res) => {
         // console.log(res.data.data);
         this.userData = res.data.data.list;
@@ -520,12 +532,12 @@ export default {
       this.selectDdata = val;
     },
     // eslint-disable-next-line no-empty-function
-    currentChange: function(row) {
+    currentChange: function (row) {
       console.log(row);
       // this.persondata.personid = row.id;
       this.$refs.table.toggleRowSelection(row);
     },
-    apply: function(row) {
+    apply: function (row) {
       console.log(row);
       this.applys = row;
       if (!row.count) {
@@ -560,7 +572,7 @@ export default {
         }
       });
     },
-    roleval: function(qqq) {
+    roleval: function (qqq) {
       console.log(qqq);
       for (var i = 0; i < this.StoreRole.length; i++) {
         if (this.StoreRole[i].roleName === qqq) {
@@ -585,7 +597,7 @@ export default {
         }
       });
     },
-    changestatus: function(e) {
+    changestatus: function (e) {
       console.log(e);
       this.cancle.isCancel = e;
       this.cancle.stoneId = this.$route.query.id;
@@ -607,7 +619,7 @@ export default {
         }
       });
     },
-    getStoreRole: function() {
+    getStoreRole: function () {
       storeService.getStoreRole(this.stoneId, (res) => {
         console.log(res);
         this.StoreRole = res.data.data;
@@ -623,7 +635,7 @@ export default {
       this.Detailed();
     },
     // 获取店铺头像
-    getStonePicture: function() {
+    getStonePicture: function () {
       storeService.getStonePicture(this.$route.query.id, (res) => {
         console.log('店铺头像', res);
         // this.StoreRole = res.data.data;
@@ -670,7 +682,7 @@ export default {
         this.liulan = data;
       });
     },
-    updatagood: function(row) {
+    updatagood: function (row) {
       console.log(row);
       this.updata.stoneId = this.$route.query.id;
       this.updata.userId = this.content.id;
@@ -704,7 +716,7 @@ export default {
         }
       });
     },
-    getproductgood: function(aaa) {
+    getproductgood: function (aaa) {
       console.log(aaa);
       this.productid = aaa.id + '';
       this.productName = aaa.productName;
@@ -719,7 +731,7 @@ export default {
         this.listwu = data;
       });
     },
-    submit: function() {
+    submit: function () {
       // this.product.productIds = [];
       if (this.selectDdata.length > 0) {
         for (var i = 0; i < this.selectDdata.length; i++) {
@@ -774,7 +786,7 @@ export default {
       //   this.tableData = res.data.data.list;
       // });
     },
-    getstoneproduct: function() {
+    getstoneproduct: function () {
       console.log(this.id);
       storeService.getstoneproduct(this.id, (res) => {
         console.log('店铺商品', res);
@@ -798,7 +810,7 @@ export default {
         );
       });
     },
-    getStoreid: function() {
+    getStoreid: function () {
       console.log(this.id);
       storeService.getStoreid(this.id, (res) => {
         console.log(res);
@@ -839,7 +851,7 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style scoped  lang="less">
 .leftxiao {
   background: url(../img/21.png) no-repeat;
   font-size: 14px;
@@ -876,5 +888,12 @@ export default {
 .p20 {
   margin: 0 auto;
   width: 400px;
+}
+.block {
+  float: right;
+  margin: 20px;
+  .el-button {
+    margin-left: 20px;
+  }
 }
 </style>

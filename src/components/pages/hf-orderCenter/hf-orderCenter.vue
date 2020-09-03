@@ -305,7 +305,7 @@
       </el-tab-pane>
     </el-tabs>
 
-    <el-dialog title="订单详情" :visible.sync="centerDialogVisible" width="50%">
+    <el-dialog title="订单详情" :visible.sync="centerDialogVisible" width="80%">
       <order-detail v-if="isRouterAlive" :id="id"></order-detail>
       <!-- <span slot="footer" class="dialog-footer">
         <el-button @click="centerDialogVisible = false">取 消</el-button>

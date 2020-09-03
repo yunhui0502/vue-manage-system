@@ -3,7 +3,7 @@
     <el-aside width="200px">
       <el-col :span="12">
         <div class="my-h5">
-          <h5 align="center">后台管理系统</h5>
+          <h3 align="center">后台管理系统</h3>
         </div>
         <el-menu
           v-if="isShow"
@@ -335,10 +335,10 @@ export default {
   position: absolute;
   left: 0;
   top: 0;
-  h5 {
-    font-size: 18px;
-    font-family: SourceHanSansCN;
-    font-weight: bold;
+  h3 {
+    // font-size: 18px;
+    // font-family: SourceHanSansCN;
+    // font-weight: bold;
     color: rgba(255, 255, 255, 1);
   }
   .el-aside {

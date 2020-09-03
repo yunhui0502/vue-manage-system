@@ -1,23 +1,19 @@
 /* eslint-disable no-magic-numbers */
 <template>
-  <div style="padding-bottom:130px;background:#fff;">
-    <div>
-      <div
-        style="font-weight:bold; padding-left:11.5px;font-size:16px; padding-bottom:6.5px; color:#666666;border-bottom:1px solid #E5E5E5;"
-      >订单详情{{id}}</div>
-      <div
-        style="font-size:14px; color:#666; padding:5.5px 0 6px 21.5px; background:#F5F6FA;margin-top:8px;"
+  <div style="padding-left: 20px;padding-bottom:10px;background:#fff;">
+
+    <div style="border-radius: 17px;">
+          <div
+       class="orderParticulars"
       >
         <span>订单号:{{detail.orderCode}}</span>
         <span style="margin-left:16.5px;">店铺名称:{{detail.stoneName}}</span>
         <span style="margin-left:16.5px;">支付人:{{detail.nickName}}</span>
         <span style="margin-left:16.5px;">联系方式:{{detail.phone}}</span>
       </div>
-    </div>
-    <div style="padding-left:30px;border-radius: 17px;">
       <div style="font-size:16px;color:#A6A3FB;font-weight:bold;margin:18px 0 8.5px 0px;">已下单</div>
       <div
-        style="width:491.9px; display:flex;align-items:center; background:#EEEEEE;border-radius:17px;margin-left:27.5px;"
+        style="width:491.9px; display:flex;align-items:center; background:#EEEEEE;border-radius:17px;"
       >
         <div
           v-for="( item,index)  in list"
@@ -183,7 +179,7 @@
         <el-button
           v-if="item.takingType==='delivery'&&(detail.orderStatus==='transport')&&detail.orderType==='nomalOrder'"
           @click="cha(item,index)"
-          style="margin-left:10px;"
+          style="margin:10px;float:right"
         >查询物流信息</el-button>
         <div
           v-if="item.takingType==='delivery'&&(detail.orderStatus==='process'||detail.orderStatus==='transport')&&detail.orderType==='nomalOrder'&&item.wuliu!=0"
@@ -287,11 +283,12 @@ export default {
     return {
       activeindex: '0',
       list: [
-        { title: '下单' },
-        { title: '付款' },
-        { title: '配置' },
-        { title: '出库' },
+        { title: '待支付' },
+        { title: '处理中' },
+        { title: '运送中' },
+        { title: '待评价' },
         { title: '交易成功' },
+        { title: '其他' },
       ],
       orderliu: {
         stoneId: '',
@@ -512,6 +509,19 @@ export default {
               // this.detailRequestList[i].show = false;
             }
           }
+          if (this.detail.orderStatus === 'payment') {
+            this.activeindex = '0';
+          } else if (this.detail.orderStatus === 'process') {
+            this.activeindex = '1';
+          } else if (this.detail.orderStatus === 'transport') {
+            this.activeindex = '2';
+          } else if (this.detail.orderStatus === 'evaluate') {
+            this.activeindex = '3';
+          } else if (this.detail.orderStatus === 'complete') {
+            this.activeindex = '4';
+          } else {
+            this.activeindex = '5';
+          }
           this.hfOrderDetailList = this.detailRequestList[0].hfOrderDetailList;
           // console.log('1', this.detailRequestList);
         });
@@ -610,6 +620,17 @@ export default {
 };
 </script>
 <style scoped>
+.orderParticulars {
+  /* font-weight:bold; */
+  font-size: 12px;
+  /* transform:scale(0.9); */
+  font-family: Source Han Sans CN;
+  font-weight: 400;
+  color: #656565;
+  padding:10px 0 6px 21.5px;
+  background:#F5F6FA;
+  margin-top:8px;
+}
 .text {
   font-size: 14px;
 }

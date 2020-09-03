@@ -28,7 +28,12 @@ async function finddes(levelId, handleResult) {
 async function deletevip(id, handleResult) {
   vip.deletevip(id).then((res) => handleResult(res));
 }
-
+async function deleteUserMemberLevel(id, handleResult) {
+  vip.deleteUserMemberLevel(id).then((res) => handleResult(res));
+}
+async function deleteMemberLevelDescribe(id, handleResult) {
+  vip.deleteUserMemberLevel(id).then((res) => handleResult(res));
+}
 export default {
   addLevel: addLevel,
   checkLevel: checkLevel,
@@ -39,5 +44,7 @@ export default {
   finddes: finddes,
   deletevip: deletevip,
   findvips: findvips,
+  deleteUserMemberLevel: deleteUserMemberLevel,
+  deleteMemberLevelDescribe: deleteMemberLevelDescribe,
 };
 

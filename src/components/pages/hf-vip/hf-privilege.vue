@@ -118,6 +118,13 @@ export default {
     };
   },
   methods: {
+    deletevip (row) {
+      console.log(row);
+      vip.deleteMemberLevelDescribe(row.levelId, (res) => {
+        console.log(res);
+        this.checkLevel();
+      });
+    },
     formatTen: function(num) {
       // eslint-disable-next-line no-magic-numbers
       return num > 9 ? num + '' : '0' + num;

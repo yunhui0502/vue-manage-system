@@ -39,19 +39,19 @@
               >{{scope.row.activityState==1?"已结束":(scope.row.activityState==0?"进行中":"未开始")}}</template>
             </el-table-column>
             <el-table-column prop="startTime" label="开始时间">
-              <template slot-scope="scope">
-                <el-date-picker
+              <!-- <template slot-scope="scope"> -->
+                <!-- <el-date-picker
                   value-format="yyyy-MM-dd HH:mm:ss"
                   v-model="scope.row.startTime"
                   type="datetime"
                   placeholder="开始时间"
                   align="right"
                   default-time="12:00:00"
-                ></el-date-picker>
-              </template>
+                ></el-date-picker> -->
+              <!-- </template> -->
             </el-table-column>
-            <el-table-column prop="endtime" label="结束时间">
-              <template slot-scope="scope">
+            <el-table-column prop="endTime" label="结束时间">
+              <!-- <template slot-scope="scope">
                 <el-date-picker
                   v-model="scope.row.endTime"
                   type="datetime"
@@ -60,7 +60,7 @@
                   align="right"
                   default-time="12:00:00"
                 ></el-date-picker>
-              </template>
+              </template> -->
             </el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">

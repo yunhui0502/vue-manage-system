@@ -12,7 +12,7 @@
         style="width: 100%"
       >
         <el-table-column type="index" label="序号" align="center"></el-table-column>
-        <el-table-column prop="id" label="id" align="center"></el-table-column>
+        <!-- <el-table-column prop="id" label="id" align="center"></el-table-column> -->
         <el-table-column prop="discountCouponName" label="名称" align="center"></el-table-column>
         <el-table-column prop="platform" label="使用范围" align="center"></el-table-column>
         <el-table-column align="center" prop="discountCouponType" label="优惠类型">
