@@ -108,7 +108,13 @@
                   <div>可提现金额</div>
                   <div style="margin-top:2px;">{{check.use}}元</div>
                 </div>
-                <el-button size="mini" style="color: #67C23A;" type="text" round>提现</el-button>
+                <el-button
+                  size="mini"
+                  @click="dialogFormVisible = true"
+                  style="color: #67C23A;"
+                  type="text"
+                  round
+                >提现</el-button>
               </div>
               <div style="font-size:12px;display:flex;">
                 <div
@@ -133,7 +139,7 @@
             </div>
           </div>
 
-          <div class="block" >
+          <div class="block">
             <el-date-picker
               v-model="value2"
               value-format="yyyy-MM-dd HH:mm:ss"
@@ -158,7 +164,9 @@
             <el-table-column type="index"></el-table-column>
             <el-table-column prop="createTime" label="日期"></el-table-column>
             <el-table-column prop="actualPrice" label="金额">
-              <template slot-scope="scope">{{ scope.row.chargeOffType=='order'?' + ':' - '}} {{scope.row.actualPrice}}</template>
+              <template
+                slot-scope="scope"
+              >{{ scope.row.chargeOffType=='order'?' + ':' - '}} {{scope.row.actualPrice}}</template>
             </el-table-column>
             <el-table-column prop="chargeOffType" label="类型">
               <template slot-scope="scope">{{ scope.row.chargeOffType=='order'?'订单':''}}</template>
@@ -332,6 +340,35 @@
       </span>-->
     </el-dialog>
 
+    <el-dialog title="申请提现" width="40%" center :visible.sync="dialogFormVisible">
+      <el-form :model="form">
+        <el-form-item label="提现账号" >
+          <el-input class="account" v-model="form.account"></el-input>
+        </el-form-item>
+        <el-form-item label="提现金额" >
+          <el-input class="account" v-model="form.money"></el-input>
+        </el-form-item>
+        <el-form-item label="区款方式" >
+          <el-select v-model="form.methodId" placeholder="请选择活动区域">
+            <el-option
+              v-for="item in dataList"
+              :key="item.id"
+              :label="item.withdrawalWayName"
+              :value="item.id"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+
+        <el-form-item label=" 名称 " >
+          <el-input class="account" v-model="form.name"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="withdrawalApply">确 定</el-button>
+      </div>
+    </el-dialog>
+
     <el-dialog
       title="添加物品"
       :visible.sync="drawer"
@@ -359,6 +396,8 @@
   </div>
 </template>
 <script>
+import cart from '@/service/cart.js';
+import store from '@/store';
 import GoodsLncrease from '../hf-product/goods/lncrease';
 import home from '@/service/home.js';
 // eslint-disable-next-line no-unused-vars
@@ -374,6 +413,15 @@ export default {
   components: { GoodsLncrease },
   data() {
     return {
+      dataList: '',
+      form: {
+        stoneId: '', // 商家id
+        account: '', // 申请账号
+        methodId: '', // 取款方式id
+        money: '', // 申请金额
+        userId: '', // 用户id
+        name: '', // 名称
+      },
       applys: {},
       warehouseId: '',
       options: [],
@@ -383,6 +431,7 @@ export default {
         stoneId: '',
         ids: [],
       },
+      dialogFormVisible: false,
       dialogVisible: false,
       draweruser: false,
       Person: [],
@@ -472,6 +521,25 @@ export default {
     };
   },
   methods: {
+
+    withdrawalApply () {
+      this.form.stoneId = this.stoneId;
+      this.form.userId = store.getUser().id;
+      cart.withdrawalApply(this.form, (res) => {
+        this.dialogFormVisible = false;
+        console.log(res);
+        this.SelectMethod();
+      });
+    },
+    SelectMethod () {
+      let bossId = store.getUser().BSid;
+      cart.SelectMethod(bossId, (res) => {
+        console.log('提款列表', res.data.data);
+        this.dataList = res.data.data;
+      });
+    },
+
+    // --------------------------------------------------------
     checkcang: function () {
       // console.log(this.boss);
       let boss = 1;
@@ -848,10 +916,14 @@ export default {
     this.checkPerson();
     this.getStonePicture();
     this.checkcang();
+    this.SelectMethod();
   },
 };
 </script>
 <style scoped  lang="less">
+.account  {
+  width: 320px;
+}
 .leftxiao {
   background: url(../img/21.png) no-repeat;
   font-size: 14px;
@@ -870,6 +942,7 @@ export default {
   background-size: 100%;
   color: #fff;
   overflow: hidden;
+
 }
 .box .leftxiao2 {
   background: url(../img/cc.png) no-repeat;

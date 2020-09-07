@@ -1,69 +1,93 @@
 <template>
   <div>
-    <el-card class="search-card">
-      <div slot="header" class="clearfix">
-        <span class="centre">店铺列表</span>
-      </div>
-      <hfsearch
-        @parentByClick="childClick"
-        :options="optionsStatus"
-        labeltype="店铺状态"
-        labelName="店铺名称"
-      ></hfsearch>
-    </el-card>
+    <el-tabs v-model="activeName" @tab-click="handleClick">
+      <el-tab-pane label="店铺列表" name="first">
+        <el-card class="search-card">
+          <hfsearch
+            @parentByClick="childClick"
+            :options="optionsStatus"
+            labeltype="店铺状态"
+            labelName="店铺名称"
+          ></hfsearch>
+        </el-card>
 
-    <el-card class="box-card">
-      <el-button class="unification" type="primary" style="float: right;margin-bottom:10px;" @click="drawer = true">添加店铺</el-button>
-      <el-table
-        :data="storeData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
-        stripe
-        style="width: 100%"
-        @row-click="getStoreId"
-      >
-        <el-table-column align="center" prop="hfName" label="店铺名称"></el-table-column>
-        <el-table-column align="center" prop="hfDesc" label="店铺描述"></el-table-column>
-        <el-table-column align="center" prop="hfStatus" label="店铺状态">
-          <template slot-scope="scope">
-            <span v-if="scope.row.hfStatus===0">未营业</span>
-            <span v-if="scope.row.hfStatus===1">营业</span>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" prop="address" label="店铺位置"></el-table-column>
-        <el-table-column align="center" prop="hfDesc" label="操作">
-          <template slot-scope="scope">
-            <el-button type="text" size="small" align="center" @click="edit(scope.row.id)">编辑</el-button>
+        <el-card class="box-card">
+          <el-button
+            class="unification"
+            type="primary"
+            style="float: right;margin-bottom:10px;"
+            @click="drawer = true"
+          >添加店铺</el-button>
+          <el-table
+            :data="storeData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
+            stripe
+            style="width: 100%"
+            @row-click="getStoreId"
+          >
+            <el-table-column align="center" prop="hfName" label="店铺名称"></el-table-column>
+            <el-table-column align="center" prop="hfDesc" label="店铺描述"></el-table-column>
+            <el-table-column align="center" prop="hfStatus" label="店铺状态">
+              <template slot-scope="scope">
+                <span v-if="scope.row.hfStatus===0">未营业</span>
+                <span v-if="scope.row.hfStatus===1">营业</span>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" prop="address" label="店铺位置"></el-table-column>
+            <el-table-column align="center" prop="hfDesc" label="操作">
+              <template slot-scope="scope">
+                <el-button type="text" size="small" align="center" @click="edit(scope.row.id)">编辑</el-button>
 
-            <el-button type="text" size="small" align="center" @click="dialogVisible = true">添加店铺成员</el-button>
+                <el-button
+                  type="text"
+                  size="small"
+                  align="center"
+                  @click="dialogVisible = true"
+                >添加店铺成员</el-button>
 
-            <el-button
-              type="text"
-              size="small"
-              align="center"
-              @click="gostoreproduct(scope.row.id)"
-            >店铺商品</el-button>
+                <el-button
+                  type="text"
+                  size="small"
+                  align="center"
+                  @click="gostoreproduct(scope.row.id)"
+                >店铺商品</el-button>
 
-            <!-- <el-button  type="text" size="small" align="center" @click="getstoneproduct(scope.row.id)">店铺商品</el-button> -->
-            <!-- <el-button  type="text" size="small" align="center" @click="getstoneproduct(scope.row.id)">添加店铺商品</el-button> -->
-          </template>
-        </el-table-column>
-      </el-table>
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        style="float:right;margin-top:10px;"
-        background
-        layout="prev, pager, next"
-        :total="storeData.length"
-        :page-size="pagesize"
-      ></el-pagination>
-    </el-card>
+                <!-- <el-button  type="text" size="small" align="center" @click="getstoneproduct(scope.row.id)">店铺商品</el-button> -->
+                <!-- <el-button  type="text" size="small" align="center" @click="getstoneproduct(scope.row.id)">添加店铺商品</el-button> -->
+              </template>
+            </el-table-column>
+          </el-table>
+          <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            style="float:right;margin-top:10px;"
+            background
+            layout="prev, pager, next"
+            :total="storeData.length"
+            :page-size="pagesize"
+          ></el-pagination>
+        </el-card>
+      </el-tab-pane>
+      <el-tab-pane label="提现审核" name="second">
+        <el-card class="search-card">
+          <hfsearch
+            @parentByClick="childClick"
+            :options="optionsStatus"
+            labeltype="提交审核"
+            labelName="提交状态"
+          ></hfsearch>
+        </el-card>
+        <el-card class="box-card">
+          <hfaudit></hfaudit>
+        </el-card>
 
-    <div style="display:flex;">
-      <div style="width:50%"></div>
+      </el-tab-pane>
+    </el-tabs>
+
+    <!-- <div style="display:flex;"> -->
+      <!-- <div style="width:50%"></div> -->
       <!-- <div style="margin-left:20px;width:50%" >
      <div style="margin-bottom:20px;" >店铺经营状态</div>
      <div style="height:100px;background:#f0f0f0;margin-bottom:10px;">
-
      </div>
     <div style="margin-bottom:20px;" >店铺成员</div>
      <el-button type="primary" style="margin-bottom:10px;background:#ff0099;border-color:#ff0099;"  @click="dialogVisible = true">添加店铺成员</el-button>
@@ -86,7 +110,7 @@
       </el-table-column>
     </el-table>
       </div>-->
-    </div>
+    <!-- </div> -->
 
     <el-dialog width="50%" title="添加店铺" :visible.sync="drawer" center>
       <el-form
@@ -286,10 +310,12 @@ import userCenterService from '@/service/userCenter.js';
 import constants from '@/store/constants.js';
 import axios from 'axios';
 import hfsearch from '../hf-eventsManage/hf-search';
+import hfaudit from './hf-audit.vue';
 export default {
-  components: { hfsearch },
+  components: { hfsearch, hfaudit },
   data() {
     return {
+      activeName: 'first',
       optionsStatus: [
         {
           id: '0',
@@ -400,6 +426,9 @@ export default {
     };
   },
   methods: {
+    handleClick(tab, event) {
+      console.log(tab, event);
+    },
     childClick(tableData) {
       if (tableData === -1) {
         this.getStore();
@@ -432,7 +461,7 @@ export default {
     handleCurrentChange(val) {
       this.currentPage = val;
     },
-    gostoreproduct: function(id) {
+    gostoreproduct: function (id) {
       this.$router.push({
         path: '/hf-storeproduct',
         query: {
@@ -440,7 +469,7 @@ export default {
         },
       });
     },
-    status1: function(e) {
+    status1: function (e) {
       console.log(e);
       if (e === '0') {
         this.editData.hfStatus = 0;
@@ -449,7 +478,7 @@ export default {
       }
       console.log(this.editData);
     },
-    status: function(e) {
+    status: function (e) {
       console.log(e);
       if (e === '0') {
         this.store.status = 0;
@@ -458,7 +487,7 @@ export default {
       }
       console.log(this.store.status);
     },
-    roleval: function(qqq) {
+    roleval: function (qqq) {
       console.log(qqq);
       for (var i = 0; i < this.StoreRole.length; i++) {
         if (this.StoreRole[i].roleName === qqq) {
@@ -483,13 +512,13 @@ export default {
         }
       });
     },
-    getStoreRole: function() {
+    getStoreRole: function () {
       storeService.getStoreRole(this.storeId, (res) => {
         console.log(res);
         this.StoreRole = res.data.data;
       });
     },
-    changestatus: function(e) {
+    changestatus: function (e) {
       console.log(e);
       this.cancle.isCancel = e;
       this.cancle.stoneId = this.persondata.stoneId;
@@ -511,7 +540,7 @@ export default {
         }
       });
     },
-    checkPersonDetail: function(row) {
+    checkPersonDetail: function (row) {
       console.log(row);
       this.radio = row.isCancel;
       this.roledata.userId = row.userId;
@@ -525,7 +554,7 @@ export default {
       this.draweruser = true;
       this.getStoreRole();
     },
-    submitedit: function() {
+    submitedit: function () {
       storeService.updataStore(this.editData, (res) => {
         console.log(res);
         if (res.data.status === constants.SUCCESS_CODE) {
@@ -544,7 +573,7 @@ export default {
         }
       });
     },
-    edit: function(id) {
+    edit: function (id) {
       console.log(id);
       this.editid = id;
       this.editData.stoneId = id;
@@ -569,18 +598,18 @@ export default {
       this.selectDdata = val;
     },
     // eslint-disable-next-line no-empty-function
-    currentChange: function(row) {
+    currentChange: function (row) {
       console.log(row);
       // this.persondata.personid = row.id;
       this.$refs.table.toggleRowSelection(row);
     },
-    getStoreId: function(row) {
+    getStoreId: function (row) {
       // console.log(row);
       this.storeId = row.id;
       this.persondata.stoneId = row.id;
       this.checkPerson();
     },
-    submit: function() {
+    submit: function () {
       if (this.selectDdata.length > 0) {
         for (var i = 0; i < this.selectDdata.length; i++) {
           this.persondata.ids.push(this.selectDdata[i].id);
@@ -609,19 +638,19 @@ export default {
         this.$refs.table.toggleRowSelection(val.pop());
       }
     },
-    checkPerson: function() {
+    checkPerson: function () {
       storeService.checkPerson(this.storeId, (res) => {
         console.log(res);
         this.Person = res.data.data;
       });
     },
-    checkUser: function() {
+    checkUser: function () {
       userCenterService.checkUser((res) => {
         // console.log(res.data.data);
         this.userData = res.data.data.list;
       });
     },
-    getStore: function() {
+    getStore: function () {
       storeService.getStore({ bossid: this.bossid }, (res) => {
         console.log(res);
         this.storeData = res.data.data;

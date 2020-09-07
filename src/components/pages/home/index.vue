@@ -21,7 +21,8 @@
             <i class="iconfont icon-shouye"></i>
             <span slot="title">首页</span>
           </el-menu-item>
-          <el-menu-item v-if="dataStatistics" index="/hf-statistics">
+          <!-- <el-menu-item v-if="dataStatistics" index="/hf-statistics">-->
+          <el-menu-item v-if="dataStatistics" index="/home-statistics">
             <i class="iconfont icon-shujutongji"></i>
             <span slot="title">数据统计</span>
           </el-menu-item>
