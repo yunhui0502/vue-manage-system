@@ -121,12 +121,12 @@ export default new Router({
                     path: '/403',
                     component: () => import(/* webpackChunkName: "403" */ '../components/page/403.vue'),
                     meta: { title: '403' }
-                },
-                {
-                    path: '/donate',
-                    component: () => import(/* webpackChunkName: "donate" */ '../components/page/Donate.vue'),
-                    meta: { title: '支持作者' }
                 }
+                // {
+                //     path: '/donate',
+                //     component: () => import(/* webpackChunkName: "donate" */ '../components/page/Donate.vue'),
+                //     meta: { title: '支持作者' }
+                // }
             ]
         },
         {
