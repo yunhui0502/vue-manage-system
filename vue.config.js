@@ -71,7 +71,7 @@ module.exports = {
   },
   // 所有 webpack-dev-server 的选项都支持。
   devServer: {
-    host: '172.26.16.96',
+    // host: '172.26.16.96',
     // host: 'localhost',
     port: 8080, // 端口号
     https: false,
