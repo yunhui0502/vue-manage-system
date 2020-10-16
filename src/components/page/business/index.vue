@@ -1,7 +1,9 @@
 <template>
     <div>
+      
         <div class="head">
             <span @click="Tab(0)" class="head-item" :class="tabindex == 0 ? 'on' : ''">商家商品</span>
+            <span @click="Tab(4)" class="head-item" :class="tabindex == 4 ? 'on' : ''">商家分类</span>
             <span @click="Tab(1)" class="head-item" :class="tabindex == 1 ? 'on' : ''">商家商品订单</span>
             <span @click="Tab(2)" class="head-item" :class="tabindex == 2 ? 'on' : ''">入驻商户</span>
             <span @click="Tab(3)" class="head-item" :class="tabindex == 3 ? 'on' : ''">待审核</span>
@@ -121,11 +123,24 @@
                 </div>
             </div>
         </el-card>
+         <div v-if="tabindex == 4">
+            <category></category>
+        </div>
+        <div v-if="tabindex == 2">
+            <settled></settled>
+        </div>
+        <div v-if="tabindex == 3">
+            <audit></audit>
+        </div>
     </div>
 </template>
 
 <script>
 import tinymce from '@/components/common/tinymce.vue';
+
+import category from './components/Item-category.vue';
+import settled from './components/Settled.vue';
+import audit from './components/audit.vue';
 
 import api from '@/service/product.js';
 import userApi from '@/service/user-api.js';
@@ -133,7 +148,10 @@ import userApi from '@/service/user-api.js';
 export default {
     name: '',
     components: {
-        tinymce
+        tinymce,
+        category,
+        settled,
+        audit
     },
     data() {
         return {
@@ -261,12 +279,15 @@ export default {
         // 获取列表
         selectProduct() {
             api.selectProduct({ showType: 'coupon' }, res => {
-                this.tableData = res.data.data.list;
+                this.tableData = res.data.data;
                 console.log(res);
             });
         },
         Tab(e) {
             this.tabindex = e;
+            // if(e==2) {
+            //     this.
+            // }
         },
         // 获取三级分类
         gitClassify() {

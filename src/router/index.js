@@ -30,6 +30,11 @@ export default new Router({
                     meta: { title: '子站点管理' }
                 },
                 {
+                    path: '/embody',
+                    component: () => import(/* webpackChunkName: "dashboard" */ '../components/page/embody'),
+                    meta: { title: '提现管理' }
+                },
+                {
                     path: '/classify',
                     component: () => import(/* webpackChunkName: "dashboard" */ '../components/page/classify'),
                     meta: { title: '用户商品管理' }

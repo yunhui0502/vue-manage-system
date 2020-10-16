@@ -23,12 +23,14 @@
 </template>
 
 <script>
+import api from '@/service/user-api.js';
+
 export default {
     data: function() {
         return {
             param: {
-                username: 'admin',
-                password: '123123'
+                username: 'shihao1',
+                password: '123456'
             },
             rules: {
                 username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
@@ -40,9 +42,15 @@ export default {
         submitForm() {
             this.$refs.login.validate(valid => {
                 if (valid) {
+                    api.Login(this.param,(res)=>{
+                        console.log(res)
                     this.$message.success('登录成功');
-                    localStorage.setItem('ms_username', this.param.username);
+                    localStorage.setItem('LoginType', res.data.data.LoginType);
+                    localStorage.setItem('token', res.data.data.token);
+                    localStorage.setItem('userId', res.data.data.userId);
                     this.$router.push('/');
+                    })
+
                 } else {
                     this.$message.error('请输入账号和密码');
                     console.log('error submit!!');

@@ -19,11 +19,27 @@ async function deleteSon(params,handleResult) {
 async function updateSon(params,handleResult) {
     product.updateSon(params).then(res => handleResult(res));
 }
+async function authenticationList(handleResult) {
+    product.authenticationList().then(res => handleResult(res));
+}
+async function authenticationDispose(params,handleResult) {
+    product.authenticationDispose(params).then(res => handleResult(res));
+}
+async function enterStoreDelete(params,handleResult) {
+    product.enterStoreDelete(params).then(res => handleResult(res));
+}
+async function Login(params,handleResult) {
+    product.Login(params).then(res => handleResult(res));
+}
 export default {
     enterStoreList: enterStoreList,
     ListSon: ListSon,
     colleges: colleges,
     addSon: addSon,
     deleteSon: deleteSon,
-    updateSon: updateSon
+    updateSon: updateSon,
+    authenticationList:authenticationList,
+    authenticationDispose:authenticationDispose,
+    enterStoreDelete:enterStoreDelete,
+    Login:Login
 };

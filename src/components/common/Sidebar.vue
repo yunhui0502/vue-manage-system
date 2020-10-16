@@ -76,6 +76,11 @@ export default {
                     index: 'integral',
                     title: '积分管理'
                 },
+                {
+                    icon: 'el-icon-lx-calendar',
+                    index: 'embody',
+                    title: '提现管理'
+                },
 
                 // {
                 //     icon: 'el-icon-lx-cascades',

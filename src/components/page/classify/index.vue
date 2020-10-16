@@ -3,7 +3,7 @@
         <div class="head">
             <span @click="Tab(0)" class="head-item" :class="tabindex == 0 ? 'on' : ''">用户分类</span>
             <span @click="Tab(1)" class="head-item" :class="tabindex == 1 ? 'on' : ''">商品列表</span>
-            <span @click="Tab(2)" class="head-item" :class="tabindex == 2 ? 'on' : ''">商家分类</span>
+            <!-- <span @click="Tab(2)" class="head-item" :class="tabindex == 2 ? 'on' : ''">商家分类</span> -->
         </div>
 
         <el-card class="box-card" v-if="tabindex == 0">
@@ -19,6 +19,7 @@
 
             <div class="text item">
                 <el-table
+                v-if="tabindex == 0"
                     :data="tableData"
                     style="width: 100%;"
                     row-key="id"
@@ -38,7 +39,7 @@
                         </template>
                     </el-table-column>
                     <el-table-column prop="date" label="创建时间" align="center" show-overflow-tooltip></el-table-column>
-                    <el-table-column fixed="right" width="120" label="操作" align="center">
+                    <el-table-column fixed="right" width="120" label="操作" align="center" v-if="tabindex == 0">
                         <template slot-scope="scope">
                             <el-button @click="handlexClick(scope.row)" type="text" size="small">编辑</el-button>
                             <el-button type="text" @click="deletes(scope.row.id)" class="text-red" size="small">删除</el-button>
@@ -108,50 +109,20 @@
             </div>
         </el-dialog>
 
-        <el-card class="box-card " v-if="tabindex == 1">
-            <div slot="header" class="clearfix">
-                <el-breadcrumb separator-class="el-icon-arrow-right">
-                    <el-breadcrumb-item>商家管理</el-breadcrumb-item>
-                    <el-breadcrumb-item>商家订单</el-breadcrumb-item>
-                </el-breadcrumb>
-            </div>
-            <div class="text item">
-                <el-table :data="tableData" stripe style="width: 100%">
-                    <el-table-column prop="date" label="订单号"> </el-table-column>
-                    <el-table-column prop="name" label="商家名称"> </el-table-column>
-                    <el-table-column prop="name" label="商家商品"> </el-table-column>
-                    <el-table-column prop="name" label="买家"> </el-table-column>
-                    <el-table-column prop="name" label="购买数量"> </el-table-column>
-                    <el-table-column prop="name" label="价格"> </el-table-column>
-                </el-table>
-                <div class="block">
-                    <el-pagination
-                        background
-                        @size-change="handleSizeChange"
-                        @current-change="handleCurrentChange"
-                        :current-page.sync="currentPage3"
-                        :page-size="100"
-                        layout="prev, pager, next, jumper"
-                        :total="1000"
-                    >
-                    </el-pagination>
-                </div>
-            </div>
-        </el-card>
 
-        <div v-if="tabindex == 2">
-            <category></category>
+        <div v-if="tabindex == 1">
+            <product></product>
         </div>
     </div>
 </template>
 
 <script>
 import api from '@/service/product.js';
-import category from './Item-category.vue';
+import product from './product.vue';
 export default {
     name: '',
     components: {
-        category
+        product
     },
     data() {
         return {

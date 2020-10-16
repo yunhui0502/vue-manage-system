@@ -3,7 +3,7 @@
 // import Axios from './index';
 import Axios from 'axios';
 
-let product = 'http://39.100.237.144:7002/product';
+let product = 'https://www.tjsichuang.cn:1443/second/product';
 // let product = 'http://192.168.1.128:7002/product';'
 // =============================================商品模块
 
