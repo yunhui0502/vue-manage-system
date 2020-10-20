@@ -45,6 +45,16 @@ export default new Router({
                     meta: { title: '积分管理' }
                 },
                 {
+                    path: '/orders',
+                    component: () => import(/* webpackChunkName: "dashboard" */ '../components/page/users-orders'),
+                    meta: { title: '用户订单管理' }
+                },
+                {
+                    path: '/customer',
+                    component: () => import(/* webpackChunkName: "dashboard" */ '../components/page/customer'),
+                    meta: { title: '用户管理' }
+                },
+                {
                     path: '/dashboard',
                     component: () => import(/* webpackChunkName: "dashboard" */ '../components/page/Dashboard.vue'),
                     meta: { title: '系统首页' }

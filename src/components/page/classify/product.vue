@@ -9,19 +9,24 @@
             </div>
 
             <div class="text item">
-               <el-table  :data="tableData" stripe style="width: 100%">
-                    <el-table-column prop="date" label="所属用户"> </el-table-column>
-                    <el-table-column prop="name" label="用户商品"> </el-table-column>
-                    <el-table-column prop="name" label="所在学校"> </el-table-column>
-                    <el-table-column prop="name" label="价格"> </el-table-column>
-                    <el-table-column prop="name" label="分类"> </el-table-column>
-                    <el-table-column prop="name" label="发布时间"> </el-table-column>
-                    <el-table-column prop="name" label="图片">
-                          <template slot-scope="scope">
-                            <img class="fileurl" :src="scope.row.fileId" alt="" />
+                <el-table
+                    :data="tableData"
+                    style="width: 100%;"
+                    stripe
+                >
+                    <!-- <el-table-column type="index" label="序号" :index="indexMethod"></el-table-column> -->
+                    <el-table-column prop="nickName" label="所属用户"> </el-table-column>
+                    <el-table-column prop="productName" label="用户商品" align="center"></el-table-column>
+                    <el-table-column prop="colleges" label="所在学校" align="center"></el-table-column>
+                    <el-table-column prop="price" label="价格" align="center"></el-table-column>
+                    <el-table-column prop="productCategory" label="分类" align="center"></el-table-column>
+                    <el-table-column prop="createTime" label="发布时间" align="center"></el-table-column>
+                    <el-table-column label="图片">
+                        <template slot-scope="scope">
+                            <img class="fileurl" :src="scope.row.file" alt="" />
                         </template>
                     </el-table-column>
-                     <el-table-column fixed="right" width="120" label="操作" align="center">
+                    <el-table-column fixed="right" width="120" label="操作" align="center">
                         <template slot-scope="scope">
                             <el-button type="text" @click="deletes(scope.row.id)" class="text-red" size="small">删除</el-button>
                         </template>
@@ -41,24 +46,29 @@
                 </div>
             </div>
         </el-card>
+
     </div>
 </template>
 
 <script>
 import api from '@/service/product.js';
+import store from '@/store';
+
 export default {
     name: '',
     data() {
         return {
+            tabindex: 0,
             tableData: [],
-            currentPage3: 5
+            currentPage3: 5,
+            formLabelWidth: '120px'
         };
     },
     created() {
-        // this.categoryList();
+        this.selectProduct();
     },
     methods: {
- 
+
         deletes(id) {
             console.log(id);
 
@@ -69,15 +79,15 @@ export default {
             })
                 .then(() => {
                     let params = {
-                        categoryId: id
+                        productId: id
                     };
-                    api.deleteCategory(params, res => {
+                    api.deleteProduct(params, res => {
                         console.log(res);
                         this.$message({
                             message: '删除成功',
                             type: 'success'
                         });
-                        this.categoryList();
+                        this.selectProduct();
                     });
                 })
                 .catch(() => {
@@ -87,63 +97,17 @@ export default {
                     });
                 });
         },
-        // 获取全部分类
-        categoryList() {
+        // 获取用户商品
+        selectProduct() {
             let params = {
-                categoryType: 'store'
+                showType: 'product', //商品类型
+                // storeId: '2', //店铺id
             };
-            api.categoryList(params, res => {
+            api.selectProduct(params, res => {
                 this.tableData = res.data.data;
-                console.log('分类', res);
+                console.log('获取用户商品', res);
             });
         },
-
-        // 添加分类
-        addCategory() {
-            console.log(this.formData.categoryId);
-            if (this.formData.categoryId == undefined) {
-                console.log('添加');
-                api.addCategory(this.formData, res => {
-                    console.log(res);
-                    this.dialogFormVisible = false;
-                });
-            } else {
-                console.log('修改');
-                api.updateCategory(this.formData, res => {
-                    console.log(res);
-                    this.dialogFormVisible = false;
-                });
-            }
-        },
-        // 一级 下拉触发事件
-        categshijan(e) {
-            e--;
-            console.log(e);
-            let params = {
-                categoryType: 'store',
-                levelId: e
-            };
-            api.category(params, res => {
-                this.onecatalogues = res.data.data;
-                console.log('二级分类', res);
-            });
-        },
-        indexMethod(index) {
-            return index * 2;
-        },
-        // ----------------------------------------------------------------------
-        handleRemove(file, fileList) {
-            console.log(file, fileList);
-        },
-        handlePictureCardPreview(file) {
-            this.dialogImageUrl = file.url;
-            this.dialogVisible = true;
-        },
-        handleSuccess(esponse, file, fileList) {
-            console.log('esponse', esponse), console.log('file', file), console.log('fileList', fileList);
-            this.formData.fileId = esponse.data;
-        },
-        // ----------------------------------------------------------------------
         handleSizeChange(val) {
             console.log(`每页 ${val} 条`);
         },

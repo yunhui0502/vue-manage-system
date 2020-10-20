@@ -6,7 +6,7 @@
             <div slot="header" class="clearfix">
                 <el-breadcrumb separator-class="el-icon-arrow-right">
                     <el-breadcrumb-item>商家管理</el-breadcrumb-item>
-                    <el-breadcrumb-item>商家商品</el-breadcrumb-item>
+                    <el-breadcrumb-item>用户提现列表</el-breadcrumb-item>
                 </el-breadcrumb>
             </div>
 
@@ -66,7 +66,7 @@ export default {
               // 同意
         handleClick(row) {
             console.log(row);
-              let params = {
+            let params = {
                 WithdrawalId: row.secondWithdrawal,
                 originalType: 'check',
                 type: 'complete',
@@ -96,11 +96,15 @@ export default {
                 });
             });
         },
-
-        // 查看提现列表
+ 
+        // 查看提现列表 realityMoney
         selectWithdrawal() {
             api.selectWithdrawal('user', res => {
                 this.tableData = res.data.data;
+                this.tableData.forEach(item => {
+                    //  value = 
+                    item.realityMoney =parseFloat(item.realityMoney/100).toFixed(2) 
+                })
                 console.log('查看提现列表',res);
             });
         },

@@ -63,6 +63,10 @@ function Login(params) {
     fd.append('username', params.username);
     return Axios.post(user + '/BossLogin/Login', fd);
 }
+// 学生认证列表
+function UserList(IsAuthentication) {
+    return Axios.get(user + '/MiniLoginController/UserList?IsAuthentication='+IsAuthentication );
+}
 export default {
     enterStoreList: enterStoreList,
     ListSon: ListSon,
@@ -73,5 +77,6 @@ export default {
     authenticationList:authenticationList,
     authenticationDispose:authenticationDispose,
     enterStoreDelete:enterStoreDelete,
-    Login:Login
+    Login:Login,
+    UserList:UserList
 };

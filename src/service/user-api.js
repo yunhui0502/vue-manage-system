@@ -31,6 +31,9 @@ async function enterStoreDelete(params,handleResult) {
 async function Login(params,handleResult) {
     product.Login(params).then(res => handleResult(res));
 }
+async function UserList(params,handleResult) {
+    product.UserList(params).then(res => handleResult(res));
+}
 export default {
     enterStoreList: enterStoreList,
     ListSon: ListSon,
@@ -41,5 +44,6 @@ export default {
     authenticationList:authenticationList,
     authenticationDispose:authenticationDispose,
     enterStoreDelete:enterStoreDelete,
-    Login:Login
+    Login:Login,
+    UserList:UserList
 };

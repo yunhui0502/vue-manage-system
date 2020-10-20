@@ -5,7 +5,7 @@
             <div slot="header" class="clearfix">
                 <el-breadcrumb separator-class="el-icon-arrow-right">
                     <el-breadcrumb-item>商家管理</el-breadcrumb-item>
-                    <el-breadcrumb-item>商家商品</el-breadcrumb-item>
+                    <el-breadcrumb-item>入驻审核</el-breadcrumb-item>
                 </el-breadcrumb>
 
             </div>
@@ -57,10 +57,8 @@ export default {
 
     data() {
         return {
-    
             tableData: [],
             currentPage3:5,
-    
         };
     },
     created() {

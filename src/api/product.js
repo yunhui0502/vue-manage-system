@@ -69,6 +69,7 @@ function updateProduct(params) {
     fd.append('productDesc ', params.productDesc);
     fd.append('productName ', params.productName);
     fd.append('productId ', params.id);
+    fd.append('sellPrice ', params.sellPrice);
     fd.append('showType ', params.showType);
     fd.append('storeId ', params.storeId);
     return Axios.post(product + '/SecondProduct/updateProduct', fd);

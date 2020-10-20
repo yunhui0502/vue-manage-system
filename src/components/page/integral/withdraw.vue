@@ -4,7 +4,7 @@
             <div slot="header" class="clearfix">
                 <el-breadcrumb separator-class="el-icon-arrow-right">
                     <el-breadcrumb-item>商家管理</el-breadcrumb-item>
-                    <el-breadcrumb-item>商家分类</el-breadcrumb-item>
+                    <el-breadcrumb-item>提现资质</el-breadcrumb-item>
                 </el-breadcrumb>
                 <el-button @click="dialogFormVisible = true" style="float: right; padding: 3px 0" class="text-black" type="text"
                     >+ 新建资质商品</el-button

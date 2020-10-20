@@ -10,7 +10,7 @@
             <div slot="header" class="clearfix">
                 <el-breadcrumb separator-class="el-icon-arrow-right">
                     <el-breadcrumb-item>商家管理</el-breadcrumb-item>
-                    <el-breadcrumb-item>商家商品</el-breadcrumb-item>
+                    <el-breadcrumb-item>站点提现列表</el-breadcrumb-item>
                 </el-breadcrumb>
             </div>
 
@@ -115,6 +115,9 @@ export default {
         selectWithdrawal() {
             api.selectWithdrawal('store', res => {
                 this.tableData = res.data.data;
+                  this.tableData.forEach(item => {
+                    item.realityMoney =parseFloat(item.realityMoney/100).toFixed(2) 
+                })
                 console.log('查看提现列表',res);
             });
         },

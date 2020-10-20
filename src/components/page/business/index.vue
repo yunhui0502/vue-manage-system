@@ -76,7 +76,7 @@
                     <el-input v-model="formData.goodsResp" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="商品价格" :label-width="formLabelWidth">
-                    <el-input v-model="formData.sellPrice" autocomplete="off"></el-input>
+                    <el-input v-model="sellPrice" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="商家" :label-width="formLabelWidth">
                     <el-select v-model="formData.storeId" placeholder="请选择活动区域">
@@ -93,36 +93,9 @@
             </div>
         </el-dialog>
 
-        <el-card class="box-card " v-if="tabindex == 1">
-            <div slot="header" class="clearfix">
-                <el-breadcrumb separator-class="el-icon-arrow-right">
-                    <el-breadcrumb-item>商家管理</el-breadcrumb-item>
-                    <el-breadcrumb-item>商家订单</el-breadcrumb-item>
-                </el-breadcrumb>
-            </div>
-            <div class="text item">
-                <el-table :data="tableData" stripe style="width: 100%">
-                    <el-table-column prop="date" label="订单号"> </el-table-column>
-                    <el-table-column prop="name" label="商家名称"> </el-table-column>
-                    <el-table-column prop="name" label="商家商品"> </el-table-column>
-                    <el-table-column prop="name" label="买家"> </el-table-column>
-                    <el-table-column prop="name" label="购买数量"> </el-table-column>
-                    <el-table-column prop="name" label="价格"> </el-table-column>
-                </el-table>
-                <div class="block">
-                    <el-pagination
-                        background
-                        @size-change="handleSizeChange"
-                        @current-change="handleCurrentChange"
-                        :current-page.sync="currentPage3"
-                        :page-size="100"
-                        layout="prev, pager, next, jumper"
-                        :total="1000"
-                    >
-                    </el-pagination>
-                </div>
-            </div>
-        </el-card>
+        <div v-if="tabindex == 1">
+            <order></order>
+        </div>
          <div v-if="tabindex == 4">
             <category></category>
         </div>
@@ -141,6 +114,7 @@ import tinymce from '@/components/common/tinymce.vue';
 import category from './components/Item-category.vue';
 import settled from './components/Settled.vue';
 import audit from './components/audit.vue';
+import order from './components/order.vue';
 
 import api from '@/service/product.js';
 import userApi from '@/service/user-api.js';
@@ -151,7 +125,8 @@ export default {
         tinymce,
         category,
         settled,
-        audit
+        audit,
+        order
     },
     data() {
         return {
@@ -160,6 +135,7 @@ export default {
             },
             tertiaryClassify: [], //三级分类列表
             content: '', //富文本
+            sellPrice:'',
             formData: {
                 categoryId: '0', //类目
                 file: [],
@@ -196,7 +172,6 @@ export default {
             setTimeout(() => {
                 this.$refs.blc.setData('');
             }, 10);
-
             this.formData = {
                 categoryId: '0', //类目
                 file: [],
@@ -215,7 +190,7 @@ export default {
             this.title = '编辑商品';
             this.dialogFormVisible = true;
             this.formData = row;
-            this.formData.sellPrice = row.price;
+            this.sellPrice = row.price;
             console.log(row);
             setTimeout(() => {
                 this.$refs.blc.setData(row.productDesc);
@@ -256,6 +231,7 @@ export default {
             if (this.title == '添加商品') {
                 console.log('添加商品');
                 this.formData.productDesc = this.$refs.blc.release();
+                this.formData.sellPrice = this.sellPrice;
                 api.addProduct(this.formData, res => {
                     console.log(res);
                     this.dialogFormVisible = false;
@@ -263,9 +239,12 @@ export default {
             } else {
                 console.log('编辑商品');
                 this.formData.productDesc = this.$refs.blc.release();
+                this.formData.sellPrice = this.sellPrice;
+                console.log(this.formData)
                 api.updateProduct(this.formData, res => {
                     console.log(res);
                     this.dialogFormVisible = false;
+                    this.selectProduct()
                 });
             }
         },

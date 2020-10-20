@@ -51,13 +51,13 @@ export default {
                     index: 'dashboard',
                     title: '系统首页'
                 },
+                // {
+                //     icon: 'el-icon-lx-settings',
+                //     index: 'settings',
+                //     title: '基础设置'
+                // },
                 {
-                    icon: 'el-icon-lx-settings',
-                    index: 'settings',
-                    title: '基础设置'
-                },
-                {
-                    icon: 'el-icon-lx-shop',
+                    icon: 'el-icon-lx-location',
                     index: 'sonManage',
                     title: '子站点管理'
                 },
@@ -67,19 +67,29 @@ export default {
                     title: '商品管理'
                 },
                 {
-                    icon: 'el-icon-lx-calendar',
+                    icon: 'el-icon-lx-goods',
+                    index: 'integral',
+                    title: '积分管理'
+                },
+                {
+                    icon: 'el-icon-lx-recharge',
+                    index: 'embody',
+                    title: '提现管理'
+                },
+                {
+                    icon: 'el-icon-lx-friendadd',
+                    index: 'customer',
+                    title: '用户管理'
+                },
+                {
+                    icon: 'el-icon-lx-present',
                     index: 'classify',
                     title: '用户商品管理'
                 },
                 {
                     icon: 'el-icon-lx-calendar',
-                    index: 'integral',
-                    title: '积分管理'
-                },
-                {
-                    icon: 'el-icon-lx-calendar',
-                    index: 'embody',
-                    title: '提现管理'
+                    index: 'orders',
+                    title: '用户订单管理'
                 },
 
                 // {
@@ -151,21 +161,21 @@ export default {
                 //     index: 'i18n',
                 //     title: '国际化功能'
                 // },
-                {
-                    icon: 'el-icon-lx-warn',
-                    index: '7',
-                    title: '错误处理',
-                    subs: [
-                        {
-                            index: 'permission',
-                            title: '权限测试'
-                        },
-                        {
-                            index: '404',
-                            title: '404页面'
-                        }
-                    ]
-                }
+                // {
+                //     icon: 'el-icon-lx-warn',
+                //     index: '7',
+                //     title: '错误处理',
+                //     subs: [
+                //         {
+                //             index: 'permission',
+                //             title: '权限测试'
+                //         },
+                //         {
+                //             index: '404',
+                //             title: '404页面'
+                //         }
+                //     ]
+                // }
                 // {
                 //     icon: 'el-icon-lx-redpacket_fill',
                 //     index: '/donate',

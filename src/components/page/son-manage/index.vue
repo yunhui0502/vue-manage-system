@@ -78,7 +78,7 @@
             <div slot="header" class="clearfix">
                 <el-breadcrumb separator-class="el-icon-arrow-right">
                     <el-breadcrumb-item>商家管理</el-breadcrumb-item>
-                    <el-breadcrumb-item>积分商品</el-breadcrumb-item>
+                    <el-breadcrumb-item>添加站点</el-breadcrumb-item>
                 </el-breadcrumb>
             </div>
             <div class="text item">
