@@ -15,8 +15,30 @@ function authenticationDispose(params) {
     fd.append('sonId', params.sonId);
     return Axios.post(user + '/MiniLoginController/authenticationDispose', fd);
 }
-
+//每月收入图标
+function backendData() {
+    return Axios.get(order + '/Statistics/backendData?sonId=0');
+}
+//订单统计
+function orderStatistics() {
+    return Axios.get(order + '/Statistics/orderStatistics');
+}
+//用户统计
+function userStatistics() {
+    return Axios.get(order + '/Statistics/userStatistics');
+}
+// //用户统计
+// function userStatistics() {
+//     return Axios.get(order + '/Statistics/userStatistics');
+// }
+// //用户统计
+// function userStatistics() {
+//     return Axios.get(order + '/Statistics/userStatistics');
+// }
 export default {
     selectOrder: selectOrder,
     authenticationDispose: authenticationDispose,
+    backendData:backendData,
+    orderStatistics:orderStatistics,
+    userStatistics:userStatistics
 };

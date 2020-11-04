@@ -51,11 +51,11 @@ export default {
                     index: 'dashboard',
                     title: '系统首页'
                 },
-                // {
-                //     icon: 'el-icon-lx-settings',
-                //     index: 'settings',
-                //     title: '基础设置'
-                // },
+                {
+                    icon: 'el-icon-lx-settings',
+                    index: 'settings',
+                    title: '基础设置'
+                },
                 {
                     icon: 'el-icon-lx-location',
                     index: 'sonManage',

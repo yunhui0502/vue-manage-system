@@ -1,17 +1,12 @@
 <template>
-  <!-- -----------------------------------------------------提现----------------------------------------------------------------- -->
+  <!-- -----------------------------------------------------站点----------------------------------------------------------------- -->
     <div>
-        <div class="head">
-            <span @click="Tab(0)" class="head-item" :class="tabindex == 0 ? 'on' : ''">商家提现列表</span>
-            <span @click="Tab(1)" class="head-item" :class="tabindex == 1 ? 'on' : ''">用户提现列表</span>
-            <span @click="Tab(2)" class="head-item" :class="tabindex == 2 ? 'on' : ''">站点提现列表</span>
-        </div>
 
-        <el-card class="box-card" v-if="tabindex == 0">
+        <el-card class="box-card">
             <div slot="header" class="clearfix">
                 <el-breadcrumb separator-class="el-icon-arrow-right">
                     <el-breadcrumb-item>商家管理</el-breadcrumb-item>
-                    <el-breadcrumb-item>商家提现列表</el-breadcrumb-item>
+                    <el-breadcrumb-item>站点提现列表</el-breadcrumb-item>
                 </el-breadcrumb>
             </div>
 
@@ -44,29 +39,15 @@
             </div>
          </el-card>
 
-        <div v-if="tabindex == 1">
-            <user></user>
-        </div>
-        
-        <div v-if="tabindex == 2">
-            <site></site>
-        </div>
-
     </div>
 </template>
 
 <script>
-
 import api from '@/service/payment-api.js';
-import user from './componets/user.vue';
-import site from './componets/site.vue';
+
 
 export default {
   name: '',
-  components: {
-        user,
-        site
-    },
     data() {
         return {
             tabindex: 0,
@@ -85,11 +66,11 @@ export default {
               // 同意
         handleClick(row) {
             console.log(row);
-              let params = {
+            let params = {
                 WithdrawalId: row.secondWithdrawal,
                 originalType: 'check',
                 type: 'complete',
-                userId: localStorage.getItem('userId')
+                userId: '2'
             };
             api.disposeWithdrawalApply(params, (res) => {
                 console.log(res);
@@ -97,7 +78,6 @@ export default {
                     message: '已同意',
                     type: 'success'
                 });
-                this.selectWithdrawal()
             });
         },
          // 拒绝
@@ -106,7 +86,7 @@ export default {
                 WithdrawalId: row.secondWithdrawal,
                 originalType: 'check',
                 type: 'cancel',
-                userId: localStorage.getItem('userId')
+                userId: '2'
             };
             api.disposeWithdrawalApply(params, (res) => {
                 console.log(res);
@@ -114,20 +94,21 @@ export default {
                     message: '已拒绝',
                     type: 'success'
                 });
-                this.selectWithdrawal()
             });
         },
-
-        // 查看提现列表
+ 
+        // 查看提现列表 realityMoney
         selectWithdrawal() {
-            api.selectWithdrawal('store', res => {
+            api.selectWithdrawal('son', res => {
                 this.tableData = res.data.data;
-                  this.tableData.forEach(item => {
+                this.tableData.forEach(item => {
+                    //  value = 
                     item.realityMoney =parseFloat(item.realityMoney/100).toFixed(2) 
                 })
                 console.log('查看提现列表',res);
             });
         },
+        // -----------------------------------------------------------------------------------------------------------------------------------
         handleSizeChange(val) {
             console.log(`每页 ${val} 条`);
         },

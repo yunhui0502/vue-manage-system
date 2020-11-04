@@ -1,6 +1,5 @@
 <template>
     <div>
-      
         <div class="head">
             <span @click="Tab(0)" class="head-item" :class="tabindex == 0 ? 'on' : ''">商家商品</span>
             <span @click="Tab(4)" class="head-item" :class="tabindex == 4 ? 'on' : ''">商家分类</span>
@@ -54,7 +53,7 @@
                 </el-form-item>
                 <el-form-item label="商品照片" :label-width="formLabelWidth">
                     <el-upload
-                        action="http://39.100.237.144:7004/user/File/fileUpLoad"
+                        action="https://www.tjsichuang.cn:1443/second/user/File/fileUpLoad"
                         list-type="picture-card"
                         name="file"
                         :on-preview="handlePictureCardPreview"
@@ -85,7 +84,7 @@
                 </el-form-item>
             </el-form>
             <!-- 富文本 -->
-            <tinymce @fatherMethod="fatherMethod" style="margin: 10px;" ref="blc" :id="'tinymceBzlc'"></tinymce>
+            <tinymce @fatherMethod="fatherMethod" style="margin: 10px" ref="blc" :id="'tinymceBzlc'"></tinymce>
 
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -96,7 +95,7 @@
         <div v-if="tabindex == 1">
             <order></order>
         </div>
-         <div v-if="tabindex == 4">
+        <div v-if="tabindex == 4">
             <category></category>
         </div>
         <div v-if="tabindex == 2">
@@ -135,7 +134,7 @@ export default {
             },
             tertiaryClassify: [], //三级分类列表
             content: '', //富文本
-            sellPrice:'',
+            sellPrice: '',
             formData: {
                 categoryId: '0', //类目
                 file: [],
@@ -186,6 +185,42 @@ export default {
                 storeId: '' // 店铺id
             };
         },
+        // 鼠标移入图片
+        mouseoverImg() {
+            if (this.$refs.img.src === this.uploadImage) {
+                // this.$refs.imgDelete.style.display = 'none'
+            } else {
+                // this.$refs.imgDelete.style.display = 'block'
+            }
+        },
+        // 鼠标移出图片
+        mouseoutImg() {
+            // this.$refs.imgDelete.style.display = 'none'
+        },
+        deleteImg2(e) {
+            console.log(e);
+
+            this.$confirm('是否删除该照片?', '删除', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            })
+                .then(() => {
+                    api.deleteRatation(e.id, (res) => {
+                        this.getRatation();
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                    });
+                })
+                .catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+        },
         handleClick(row) {
             this.title = '编辑商品';
             this.dialogFormVisible = true;
@@ -210,7 +245,7 @@ export default {
                     let params = {
                         productId: id
                     };
-                    api.deleteProduct(params, res => {
+                    api.deleteProduct(params, (res) => {
                         console.log(res);
                         this.$message({
                             message: '删除成功',
@@ -232,7 +267,7 @@ export default {
                 console.log('添加商品');
                 this.formData.productDesc = this.$refs.blc.release();
                 this.formData.sellPrice = this.sellPrice;
-                api.addProduct(this.formData, res => {
+                api.addProduct(this.formData, (res) => {
                     console.log(res);
                     this.dialogFormVisible = false;
                 });
@@ -240,24 +275,24 @@ export default {
                 console.log('编辑商品');
                 this.formData.productDesc = this.$refs.blc.release();
                 this.formData.sellPrice = this.sellPrice;
-                console.log(this.formData)
-                api.updateProduct(this.formData, res => {
+                console.log(this.formData);
+                api.updateProduct(this.formData, (res) => {
                     console.log(res);
                     this.dialogFormVisible = false;
-                    this.selectProduct()
+                    this.selectProduct();
                 });
             }
         },
         // 获取商家
         enterStoreList() {
-            userApi.enterStoreList(res => {
+            userApi.enterStoreList((res) => {
                 this.options = res.data.data;
                 console.log(res);
             });
         },
         // 获取列表
         selectProduct() {
-            api.selectProduct({ showType: 'coupon' }, res => {
+            api.selectProduct({ showType: 'coupon' }, (res) => {
                 this.tableData = res.data.data;
                 console.log(res);
             });
@@ -274,7 +309,7 @@ export default {
                 categoryType: 'store',
                 levelId: '2'
             };
-            api.category(params, res => {
+            api.category(params, (res) => {
                 this.tertiaryClassify = res.data.data;
                 this.formData.categoryId = res.data.data[0].id;
                 console.log('三级分类', res);

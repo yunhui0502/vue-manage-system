@@ -67,6 +67,62 @@ function Login(params) {
 function UserList(IsAuthentication) {
     return Axios.get(user + '/MiniLoginController/UserList?IsAuthentication='+IsAuthentication );
 }
+// 每个子站点交易金额
+function sonTransactionAmount() {
+    return Axios.get(user + '/SonLogin/sonTransactionAmount');
+}
+// 添加商家基础信息
+function AddBasics(params) {
+    let fd = new FormData();
+    fd.append('newUserIntegral', params.newUserIntegral);
+    fd.append('service', params.service);
+    fd.append('slideshow', params.slideshow);
+    fd.append('sonWithdrawalCommission', params.sonWithdrawalCommission);
+    fd.append('storeWithdrawalCommission', params.storeWithdrawalCommission);
+    fd.append('userWithdrawalCommission', params.userWithdrawalCommission);
+    fd.append('weChat', params.weChat);
+    return Axios.post(user + '/BossLogin/AddBasics', fd);
+}
+// 查询轮播图
+function select() {
+    return Axios.get(user + '/BossLogin/select?type=homepage');
+}
+// 删除首页轮播图
+function deleted(params) {
+    let fd = new FormData();
+    fd.append('file', params.file);
+    fd.append('type', params.type);
+    return Axios.post(user + '/BossLogin/deleted', fd);
+}
+// 保存消息
+function addMessage(params) {
+    let fd = new FormData();
+    fd.append('file', params.file);
+    fd.append('headline', params.headline);
+    fd.append('secondDesc', params.secondDesc);
+    return Axios.post(user + '/Message/addMessage', fd);
+}
+// 删除消息
+function deletedMessage(params) {
+    let fd = new FormData();
+    fd.append('id', params.id);
+    return Axios.post(user + '/Message/deletedMessage', fd);
+}
+// 查询小程序消息
+function selectMiniMessage() {
+    return Axios.get(user + '/Message/selectMiniMessage');
+}
+// 消息修改
+function updateMessage(params) {
+    let fd = new FormData();
+    if (params.file){
+     fd.append('file', params.file );
+    }
+    fd.append('headline', params.headline);
+    fd.append('id', params.id);
+    fd.append('secondDesc', params.secondDesc);
+    return Axios.post(user + '/Message/updateMessage', fd);
+}
 export default {
     enterStoreList: enterStoreList,
     ListSon: ListSon,
@@ -78,5 +134,13 @@ export default {
     authenticationDispose:authenticationDispose,
     enterStoreDelete:enterStoreDelete,
     Login:Login,
-    UserList:UserList
+    UserList:UserList,
+    sonTransactionAmount:sonTransactionAmount,
+    AddBasics:AddBasics,
+    select:select,
+    deleted:deleted,
+    addMessage:addMessage,
+    selectMiniMessage:selectMiniMessage,
+    deletedMessage:deletedMessage,
+    updateMessage:updateMessage
 };

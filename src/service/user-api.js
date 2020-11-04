@@ -34,6 +34,30 @@ async function Login(params,handleResult) {
 async function UserList(params,handleResult) {
     product.UserList(params).then(res => handleResult(res));
 }
+async function sonTransactionAmount(handleResult) {
+    product.sonTransactionAmount().then(res => handleResult(res));
+}
+async function AddBasics(params,handleResult) {
+    product.AddBasics(params).then(res => handleResult(res));
+}
+async function select(handleResult) {
+    product.select().then(res => handleResult(res));
+}
+async function deleted(params,handleResult) {
+    product.deleted(params).then(res => handleResult(res));
+}
+async function addMessage(params,handleResult) {
+    product.addMessage(params).then(res => handleResult(res));
+}
+async function selectMiniMessage(handleResult) {
+    product.selectMiniMessage().then(res => handleResult(res));
+}
+async function deletedMessage(params,handleResult) {
+    product.deletedMessage(params).then(res => handleResult(res));
+}
+async function updateMessage(params,handleResult) {
+    product.updateMessage(params).then(res => handleResult(res));
+}
 export default {
     enterStoreList: enterStoreList,
     ListSon: ListSon,
@@ -45,5 +69,13 @@ export default {
     authenticationDispose:authenticationDispose,
     enterStoreDelete:enterStoreDelete,
     Login:Login,
-    UserList:UserList
+    UserList:UserList,
+    sonTransactionAmount:sonTransactionAmount,
+    AddBasics:AddBasics,
+    select:select,
+    deleted:deleted,
+    addMessage:addMessage,
+    selectMiniMessage:selectMiniMessage,
+    deletedMessage:deletedMessage,
+    updateMessage:updateMessage
 };

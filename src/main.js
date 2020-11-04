@@ -16,6 +16,7 @@ import './assets/skins/ui/oxide/skin.css';
 
 Vue.config.productionTip = false;
 Vue.prototype.$tinymce = Tinymce;
+
 Vue.use(VueI18n);
 Vue.use(ElementUI, {
     size: 'small'
