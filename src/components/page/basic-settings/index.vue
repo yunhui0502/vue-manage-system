@@ -15,36 +15,39 @@
             </div>
             <div class="text item">
                 <el-form ref="form" :model="form" label-width="140px">
-                    <el-form-item style="" label="首页轮播图">
-                        <el-upload
-                            action="https://www.tjsichuang.cn:1443/second/user/File/fileUpLoad"
-                            list-type="picture-card"
-                            name="file"
-                            :on-preview="handlePictureCardPreview"
-                            :on-success="handleSuccess"
-                            :on-remove="handleRemove"
-                        >
-                            <i class="el-icon-plus"></i>
-                        </el-upload>
-                        <el-dialog :visible.sync="dialogVisible">
-                            <img width="100%" :src="dialogImageUrl" alt />
-                        </el-dialog>
-                        <div class="personal">
-                            <div class="content">
-                                <!-- 1.标题及图像说明 -->
-                                <!-- 2.图像区域 -->
-                                <div class="content-image">
-                                    <div v-for="(item, i) in tableDataUrl2" :key="i" class="upload-photo">
-                                        <li v-on:mouseover="mouseoverImg()" v-on:mouseout="mouseoutImg()">
-                                            <img ref="img" :src="item.file" />
-                                            <div ref="imgDelete" class="delete-img">
-                                                <i class="el-icon-delete" @click="deleteImg2(item)"></i>
-                                            </div>
-                                        </li>
+                        <el-form-item style="" label="首页轮播图">
+                            <el-upload
+                                action="http://swcloud.tjsichuang.cn:1444/second/user/File/fileUpLoad"
+                                list-type="picture-card"
+                                name="file"
+                                :on-preview="handlePictureCardPreview"
+                                :on-success="handleSuccess"
+                                :on-remove="handleRemove"
+                            >
+                                <i class="el-icon-plus"></i>
+                            </el-upload>
+                            <el-dialog :visible.sync="dialogVisible">
+                                <img width="100%" :src="dialogImageUrl" alt />
+                            </el-dialog>
+                            <div class="personal">
+                                <div class="content">
+                                    <!-- 1.标题及图像说明 -->
+                                    <!-- 2.图像区域 -->
+                                    <div class="content-image">
+                                        <div v-for="(item, i) in tableDataUrl2" :key="i" class="upload-photo">
+                                            <li v-on:mouseover="mouseoverImg()" v-on:mouseout="mouseoutImg()">
+                                                <img ref="img" :src="item.file" />
+                                                <div ref="imgDelete" class="delete-img">
+                                                    <i class="el-icon-delete" @click="deleteImg2(item)"></i>
+                                                </div>
+                                            </li>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </el-form-item>
+                   <el-form-item>
+                        <el-button style="float: right;margin-right:30px;margin-top:30px;" @click="AddBasics"  type="primary">确定</el-button>
                     </el-form-item>
                     <!-- <el-form-item label="平台客服">
                         <el-upload
@@ -65,6 +68,9 @@
                     <el-form-item label="客服微信">
                         <el-input v-model="form.weChat"></el-input>
                     </el-form-item>
+                    <el-form-item>
+                        <el-button style="float: right;margin-right:30px;margin-top:30px;" @click="AddBasics"  type="primary">确定</el-button>
+                    </el-form-item>
                     <el-form-item label="新用户学生认证">
                         <el-input v-model="form.newUserIntegral"></el-input>
                         <span>积分</span>
@@ -82,7 +88,7 @@
                         <span>%</span>
                     </el-form-item>
                     <el-form-item>
-                        <el-button @click="AddBasics" type="primary">确定</el-button>
+                        <el-button style="float: right;margin-right:30px;margin-top:30px;" @click="AddBasics" type="primary">确定</el-button>
                     </el-form-item>
                 </el-form>
             </div>
@@ -147,14 +153,14 @@ export default {
         return {
             tableDataUrl2: '',
             tabindex: 0,
-            fileList: ['https://www.tjsichuang.cn:1443/second/user/File/getPicture?id=213'],
+            fileList: [],
             dialogImageUrl: '',
             dialogVisible: false,
             websocket: '',
             form: {
                 newUserIntegral: '', //新用户认证加的积分
                 service: '', //客服
-                slideshow: ['https://www.tjsichuang.cn:1443/second/user/File/getPicture?id=213'], //轮播图
+                slideshow: [], //轮播图
                 sonWithdrawalCommission: '', //子站点提现手续费率
                 storeWithdrawalCommission: '', //商家提现手续费率
                 userWithdrawalCommission: '', //用户提现手续费率

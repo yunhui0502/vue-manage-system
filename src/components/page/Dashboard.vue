@@ -1,6 +1,12 @@
 <template>
     <div style="padding: 46px;">
-       <div class="sumClass">
+      
+
+       <div class="details">
+           
+           
+        <div style="width: 74.6%;">
+             <div class="sumClass">
            <div class="userClass">
                <h5>用户总数</h5>
                <div class="amount-box">
@@ -25,16 +31,13 @@
            <div class="userClass">
                <h5>收入总额</h5>
                <div class="amount-box">
-                   <div class="amount">{{orderData.total}}</div>
+                   <div class="amount">{{numFilter(orderData.total/100)}}</div>
                    <img src="../../assets/img/yh.png" alt="">
                </div>
            </div>
       
        </div>
-
-       <div class="details">
-           <!-- 详情统计 -->
-        <div style="width: 74.6%;">
+<!-- 详情统计 -->
             <div class="details-box">
                 <div class="item">
                     <h5>用户详情</h5>
@@ -137,6 +140,11 @@ export default {
 
     },
     methods: {
+        numFilter(value) {
+			// 截取当前数据到小数点后两位
+			let realVal = parseFloat(value).toFixed(2)
+			return realVal
+		},
         // 表格数据
         backendData () {
             orderApi.backendData((res)=>{
@@ -237,10 +245,10 @@ export default {
     .sumClass {
         display:flex;
         justify-content: space-between;
-        margin-top: 47px;
+        // margin-top: 47px;
         .userClass {
             padding: 16px 30px;
-            width: 26%;
+            width: 25%;
             background: #FFFFFF;
             box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.02);
             border: 1px solid #FFFFFF;
@@ -266,6 +274,7 @@ export default {
         .details-box {
             display:flex;
             justify-content: space-between;
+            margin-top: 16px;
             .item {
                 width: 45.8%;
                 background: #FFFFFF;
@@ -313,7 +322,7 @@ export default {
     .content {
         padding: 19px 14px;
         width: 24%;
-        height: 650px;
+        height: 804px;
         background: #FFFFFF;
         box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.02);
         border-radius: 4px;

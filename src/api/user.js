@@ -1,6 +1,6 @@
 import Axios from 'axios';
 
-let user = 'https://www.tjsichuang.cn:1443/second/user';
+let user = 'http://swcloud.tjsichuang.cn:1444/second/user';
 // =============================================商品模块
 //入驻商家列表
 function enterStoreList() {
@@ -20,6 +20,8 @@ function addSon(params) {
     fd.append('password', params.password);
     fd.append('userId', params.userId);
     fd.append('username', params.username);
+    fd.append('service', params.service);
+    fd.append('weChat', params.weChat);
     return Axios.post(user + '/SonLogin/addSon', fd);
 }
 // 删除子站点
@@ -73,14 +75,29 @@ function sonTransactionAmount() {
 }
 // 添加商家基础信息
 function AddBasics(params) {
+    console.log(params)
     let fd = new FormData();
-    fd.append('newUserIntegral', params.newUserIntegral);
-    fd.append('service', params.service);
-    fd.append('slideshow', params.slideshow);
-    fd.append('sonWithdrawalCommission', params.sonWithdrawalCommission);
-    fd.append('storeWithdrawalCommission', params.storeWithdrawalCommission);
-    fd.append('userWithdrawalCommission', params.userWithdrawalCommission);
-    fd.append('weChat', params.weChat);
+    if (params.newUserIntegral!='') {
+        fd.append('newUserIntegral', params.newUserIntegral);
+    }
+    if (params.service!='') {
+        fd.append('service', params.service);
+    }
+    if (params.slideshow.length != 0) {
+        fd.append('slideshow', params.slideshow);
+    }
+    if (params.sonWithdrawalCommission!='') {
+        fd.append('sonWithdrawalCommission', params.sonWithdrawalCommission);
+    }
+    if (params.storeWithdrawalCommission!='') {
+        fd.append('storeWithdrawalCommission', params.storeWithdrawalCommission);
+    }
+    if (params.userWithdrawalCommission!='') {
+        fd.append('userWithdrawalCommission', params.userWithdrawalCommission);
+    }
+    if (params.weChat!='') {
+        fd.append('weChat', params.weChat);
+    }
     return Axios.post(user + '/BossLogin/AddBasics', fd);
 }
 // 查询轮播图
@@ -123,6 +140,10 @@ function updateMessage(params) {
     fd.append('secondDesc', params.secondDesc);
     return Axios.post(user + '/Message/updateMessage', fd);
 }
+// 商家查询
+function selectBoss() {
+    return Axios.get(user + 'BossLogin/selectBoss');
+}
 export default {
     enterStoreList: enterStoreList,
     ListSon: ListSon,
@@ -142,5 +163,6 @@ export default {
     addMessage:addMessage,
     selectMiniMessage:selectMiniMessage,
     deletedMessage:deletedMessage,
-    updateMessage:updateMessage
+    updateMessage:updateMessage,
+    selectBoss:selectBoss
 };

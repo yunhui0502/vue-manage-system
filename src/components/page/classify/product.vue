@@ -105,6 +105,9 @@ export default {
             };
             api.selectProduct(params, res => {
                 this.tableData = res.data.data;
+                   this.tableData.forEach(item => {
+                    item.price =parseFloat(item.price/100).toFixed(2) 
+                })
                 console.log('获取用户商品', res);
             });
         },

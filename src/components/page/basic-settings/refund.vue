@@ -33,7 +33,7 @@
                     <el-form ref="form" :model="form" label-width="60px">
                         <el-form-item style="" label="展示图">
                             <el-upload
-                                action="https://www.tjsichuang.cn:1443/second/user/File/fileUpLoad"
+                                action="http://swcloud.tjsichuang.cn:1444/second/user/File/fileUpLoad"
                                 list-type="picture-card"
                                 ref="upload"
                                 name="file"
@@ -54,8 +54,8 @@
                     <tinymce @fatherMethod="fatherMethod" style="margin: 10px" ref="blc" :id="'tinymceBzlc'"></tinymce>
                 </div>
             </div>
-            <el-button @click="send" style="display: block; margin: 0 auto" type="info">确定</el-button>
-            <!-- <el-button @click="addMessage" style="display: block; margin: 0 auto" type="info">确定</el-button> -->
+            <!-- <el-button @click="send" style="display: block; margin: 0 auto" type="info">确定</el-button> -->
+            <el-button @click="addMessage" style="display: block; margin: 0 auto" type="info">确定</el-button>
         </el-card>
     </div>
 </template>
@@ -79,7 +79,7 @@ export default {
             dialogImageUrl: '',
             form: {
                 file: '',
-                headline: '测试2',
+                headline: '',
                 secondDesc: '',
                 img: false
             }
@@ -199,6 +199,11 @@ export default {
                 userApi.addMessage(this.form, (res) => {
                     this.send();
                     console.log(res);
+                    this.compile = false;
+                    this.form = { file: '', headline: '', secondDesc: '', img: true };
+                    setTimeout(() => {
+                        this.$refs.blc.setData('');
+                    }, 10);
                     this.$refs.upload.clearFiles();
                 });
             }

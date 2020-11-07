@@ -63,7 +63,7 @@
                     </el-dialog>
                 </el-form-item>
                 <el-form-item label="提现额度" :label-width="formLabelWidth">
-                    <el-input v-model="formData.limit" autocomplete="off"></el-input>
+                    <el-input v-model="limit" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="兑换积分" :label-width="formLabelWidth">
                     <el-input v-model="formData.sellPrice" autocomplete="off"></el-input>
@@ -93,6 +93,7 @@ export default {
             onecatalogues: [],
             // 判断一级目录选择的东西控制2 3 目录显示隐藏
             controlCatalogue: '0',
+            limit:'',
             formData: {
                 file1: '',
                 productName: '',
@@ -129,7 +130,7 @@ export default {
             this.formData.productName = row.integralName;
             this.formData.quantity = row.integralQuantity;
             this.formData.sellPrice = row.integralNeed;
-            this.formData.limit = row.exemptCommission;
+            this.limit = parseFloat(row.exemptCommission/100).toFixed(2);
             // this.formData.storeId = row.storeId;
             this.dialogFormVisible = true;
         },
@@ -173,6 +174,8 @@ export default {
 
         // 添加分类
         addIntegralProduct() {
+            this.formData.limit = this.limit * 100;
+
             console.log(this.formData.integralId);
             if (this.formData.integralId == undefined) {
                 console.log('添加');

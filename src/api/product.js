@@ -1,9 +1,10 @@
 /* eslint-disable no-magic-numbers */
 /* eslint-disable require-jsdoc */
-// import Axios from './index';
-import Axios from 'axios';
+// import Axios from './index'; 
+import Axios from 'axios'; 
 
-let product = 'https://www.tjsichuang.cn:1443/second/product';
+// let product = 'https://www.tjsichuang.cn:1443/second/product';
+let product = 'http://swcloud.tjsichuang.cn:1444/second/product';
 // let product = 'http://192.168.1.128:7002/product';'
 // =============================================商品模块
 

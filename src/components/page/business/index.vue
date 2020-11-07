@@ -53,7 +53,7 @@
                 </el-form-item>
                 <el-form-item label="商品照片" :label-width="formLabelWidth">
                     <el-upload
-                        action="https://www.tjsichuang.cn:1443/second/user/File/fileUpLoad"
+                        action="http://swcloud.tjsichuang.cn:1444/second/user/File/fileUpLoad"
                         list-type="picture-card"
                         name="file"
                         :on-preview="handlePictureCardPreview"
@@ -266,7 +266,7 @@ export default {
             if (this.title == '添加商品') {
                 console.log('添加商品');
                 this.formData.productDesc = this.$refs.blc.release();
-                this.formData.sellPrice = this.sellPrice;
+                this.formData.sellPrice = this.sellPrice * 100;
                 api.addProduct(this.formData, (res) => {
                     console.log(res);
                     this.dialogFormVisible = false;
@@ -274,7 +274,7 @@ export default {
             } else {
                 console.log('编辑商品');
                 this.formData.productDesc = this.$refs.blc.release();
-                this.formData.sellPrice = this.sellPrice;
+                this.formData.sellPrice = this.sellPrice * 100;
                 console.log(this.formData);
                 api.updateProduct(this.formData, (res) => {
                     console.log(res);
@@ -294,6 +294,9 @@ export default {
         selectProduct() {
             api.selectProduct({ showType: 'coupon' }, (res) => {
                 this.tableData = res.data.data;
+                this.tableData.forEach(item => { 
+                    item.price =  parseFloat(item.price/100).toFixed(2) 
+                })
                 console.log(res);
             });
         },

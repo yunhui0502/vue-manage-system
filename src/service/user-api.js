@@ -58,6 +58,9 @@ async function deletedMessage(params,handleResult) {
 async function updateMessage(params,handleResult) {
     product.updateMessage(params).then(res => handleResult(res));
 }
+async function selectBoss(params,handleResult) {
+    product.selectBoss(params).then(res => handleResult(res));
+}
 export default {
     enterStoreList: enterStoreList,
     ListSon: ListSon,
@@ -77,5 +80,6 @@ export default {
     addMessage:addMessage,
     selectMiniMessage:selectMiniMessage,
     deletedMessage:deletedMessage,
-    updateMessage:updateMessage
+    updateMessage:updateMessage,
+    selectBoss:selectBoss
 };

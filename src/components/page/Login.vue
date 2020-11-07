@@ -29,7 +29,7 @@ export default {
     data: function() {
         return {
             param: {
-                username: 'shihao1',
+                username: 'admin',
                 password: '123456'
             },
             rules: {
@@ -48,6 +48,7 @@ export default {
                     localStorage.setItem('LoginType', res.data.data.LoginType);
                     localStorage.setItem('token', res.data.data.token);
                     localStorage.setItem('userId', res.data.data.userId);
+                    localStorage.setItem('name', res.data.data.name);
                     this.$router.push('/');
                     })
 

@@ -1,6 +1,6 @@
 import Axios from 'axios';
 
-let payment = 'https://www.tjsichuang.cn:1443/second/payment';
+let payment = 'http://swcloud.tjsichuang.cn:1444/second/payment';
 // =============================================商品模块
 //入驻商家列表
 function selectWithdrawal(source) {
