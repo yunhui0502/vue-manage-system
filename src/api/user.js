@@ -33,7 +33,9 @@ function deleteSon(params) {
 // 删除子站点
 function updateSon(params) {
     let fd = new FormData();
-    fd.append('collegoryId', params.collegoryId);
+    if(params.collegoryId != -1) {
+        fd.append('collegoryId', params.collegoryId);
+    }
     fd.append('name', params.name);
     fd.append('password', params.password);
     fd.append('sonId', params.sonId);

@@ -147,6 +147,7 @@ export default {
     data() {
         return {
             value: true,
+            collegoryId:'',
             form: {
                 collegoryId: '', //学校id
                 file: '', //file
@@ -215,13 +216,18 @@ export default {
          handlexClick(row) {
             console.log(row);
             this.form1.collegoryId = row.collegoryId;
+            this.collegoryId = row.collegoryId;
             this.form1.name = row.sonName;
+            this.form1.username = row.userName;
             this.form1.sonId = row.id;
             this.dialogFormVisible = true;
         },
         // 添加积分商品
         addIntegralProduct() {
             console.log('修改');
+            if(this.form1.collegoryId == this.collegoryId) {
+                this.form1.collegoryId == -1 
+            }
             userApi.updateSon(this.form1, (res) => {
                 console.log(res);
                 this.dialogFormVisible = false;
