@@ -33,7 +33,7 @@
                     <el-form ref="form" :model="form" label-width="60px">
                         <el-form-item style="" label="展示图">
                             <el-upload
-                                action="http://swcloud.tjsichuang.cn:1444/second/user/File/fileUpLoad"
+                                action="https://swcloud.tjsichuang.cn:1444/second/user/File/fileUpLoad"
                                 list-type="picture-card"
                                 ref="upload"
                                 name="file"
@@ -91,7 +91,7 @@ export default {
     },
     methods: {
         websocket() {
-            this.websocket = new WebSocket('wss://www.tjsichuang.cn:1443/second/user/websocket/' + localStorage.getItem('userId'));
+            this.websocket = new WebSocket('wss://swcloud.tjsichuang.cn:1444/second/user/websocket/' + localStorage.getItem('userId'));
             //连接发生错误的回调方法
             this.websocket.onerror = function () {
                 console.log('WebSocket连接发生错误');

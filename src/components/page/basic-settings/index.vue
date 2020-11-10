@@ -17,7 +17,7 @@
                 <el-form ref="form" :model="form" label-width="140px">
                         <el-form-item style="" label="首页轮播图">
                             <el-upload
-                                action="http://swcloud.tjsichuang.cn:1444/second/user/File/fileUpLoad"
+                                action="https://swcloud.tjsichuang.cn:1444/second/user/File/fileUpLoad"
                                 list-type="picture-card"
                                 name="file"
                                 :on-preview="handlePictureCardPreview"

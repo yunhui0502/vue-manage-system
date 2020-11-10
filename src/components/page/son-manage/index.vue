@@ -85,7 +85,7 @@
                 <el-form ref="form" :model="form" label-width="140px">
                     <el-form-item label="站点logo">
                         <el-upload
-                            action="http://39.100.237.144:7004/user/File/fileUpLoad"
+                            action="https://swcloud.tjsichuang.cn:1444/second/user/File/fileUpLoad"
                             list-type="picture-card"
                             :on-preview="handlePictureCardPreview"
                             :on-success="handleSuccess"

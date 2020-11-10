@@ -68,7 +68,7 @@
                 </el-form-item>
                 <el-form-item label="图片" :label-width="formLabelWidth">
                     <el-upload
-                        action="http://39.100.237.144:7004/user/File/fileUpLoad"
+                        action="https://swcloud.tjsichuang.cn:1444/second/user/File/fileUpLoad"
                         list-type="picture-card"
                         name="file"
                         :limit="1"

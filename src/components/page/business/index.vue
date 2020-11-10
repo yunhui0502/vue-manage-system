@@ -53,7 +53,7 @@
                 </el-form-item>
                 <el-form-item label="商品照片" :label-width="formLabelWidth">
                     <el-upload
-                        action="http://swcloud.tjsichuang.cn:1444/second/user/File/fileUpLoad"
+                        action="https://swcloud.tjsichuang.cn:1444/second/user/File/fileUpLoad"
                         list-type="picture-card"
                         name="file"
                         :on-preview="handlePictureCardPreview"
@@ -136,7 +136,7 @@ export default {
             content: '', //富文本
             sellPrice: '',
             formData: {
-                categoryId: '0', //类目
+                categoryId: 86, //类目
                 file: [],
                 goodsResp: '', //库存
                 isPutaway: '0', //是否上架
