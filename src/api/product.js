@@ -73,6 +73,8 @@ function updateProduct(params) {
     fd.append('sellPrice ', params.sellPrice);
     fd.append('showType ', params.showType);
     fd.append('storeId ', params.storeId);
+    fd.append('categoryId', params.categoryId);
+    fd.append('file1', params.file1);
     return Axios.post(product + '/SecondProduct/updateProduct', fd);
 }
 // 添加积分商品

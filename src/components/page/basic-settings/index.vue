@@ -47,7 +47,7 @@
                             </div>
                         </el-form-item>
                    <el-form-item>
-                        <el-button style="float: right;margin-right:30px;margin-top:30px;" @click="AddBasics"  type="primary">确定</el-button>
+                        <el-button style="float: right;margin-right:30px;margin-top:30px;" @click="AddBasicsimg"  type="primary">确定</el-button>
                     </el-form-item>
                     <!-- <el-form-item label="平台客服">
                         <el-upload
@@ -151,6 +151,7 @@ export default {
     },
     data() {
         return {
+            selectData:'',
             tableDataUrl2: '',
             tabindex: 0,
             fileList: [],
@@ -170,8 +171,20 @@ export default {
     },
     created() {
         this.select();
+        this.selectBoss();
     },
     methods: {
+        selectBoss () {
+            userApi.selectBoss((res) => {
+                console.log('selectBoss',res);
+                this.form.newUserIntegral = res.data.data.newUserIntegral
+                this.form.service = res.data.data.service
+                this.form.sonWithdrawalCommission = res.data.data.sonWithdrawalCommission
+                this.form.storeWithdrawalCommission = res.data.data.storeWithdrawalCommission
+                this.form.userWithdrawalCommission = res.data.data.userWithdrawalCommission
+                this.form.weChat = res.data.data.weChat
+            });
+        },
         select() {
             userApi.select((res) => {
                 console.log(res);
@@ -219,6 +232,11 @@ export default {
         },
         AddBasics() {
             userApi.AddBasics(this.form, (res) => {
+                console.log(res);
+            });
+        },
+        AddBasicsimg () {
+            userApi.AddBasicsimg(this.form.slideshow, (res) => {
                 console.log(res);
             });
         },

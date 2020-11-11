@@ -1,5 +1,5 @@
 import Axios from 'axios';
-
+import Qs from 'qs'
 let user = 'https://swcloud.tjsichuang.cn:1444/second/user';
 // =============================================商品模块
 //入驻商家列表
@@ -21,7 +21,7 @@ function addSon(params) {
     fd.append('userId', params.userId);
     fd.append('username', params.username);
     fd.append('service', params.service);
-    fd.append('weChat', params.weChat);
+    fd.append('weChat', params.WeChat);
     return Axios.post(user + '/SonLogin/addSon', fd);
 }
 // 删除子站点
@@ -30,7 +30,7 @@ function deleteSon(params) {
     fd.append('id', params.id);
     return Axios.post(user + '/SonLogin/deleteSon', fd);
 }
-// 删除子站点
+// 修改子站点
 function updateSon(params) {
     let fd = new FormData();
     if(params.collegoryId != -1) {
@@ -102,6 +102,11 @@ function AddBasics(params) {
     }
     return Axios.post(user + '/BossLogin/AddBasics', fd);
 }
+// 添加商家基础信息
+function AddBasicsimg(params) {
+    Qs.stringify({ slideshow: params }, { arrayFormat: 'repeat' })//使用qs的{ arrayFormat: 'repeat'}
+    return Axios.post(user + '/BossLogin/AddBasics', params);
+}
 // 查询轮播图
 function select() {
     return Axios.get(user + '/BossLogin/select?type=homepage');
@@ -142,9 +147,16 @@ function updateMessage(params) {
     fd.append('secondDesc', params.secondDesc);
     return Axios.post(user + '/Message/updateMessage', fd);
 }
+
 // 商家查询
 function selectBoss() {
-    return Axios.get(user + 'BossLogin/selectBoss');
+    return Axios.get(user + '/BossLogin/selectBoss');
+}
+// 发送公告消息
+function announcement(params) {
+    let fd = new FormData();
+    fd.append('message', params.message);
+    return Axios.post(user + '/Message/announcement', fd);
 }
 export default {
     enterStoreList: enterStoreList,
@@ -166,5 +178,7 @@ export default {
     selectMiniMessage:selectMiniMessage,
     deletedMessage:deletedMessage,
     updateMessage:updateMessage,
-    selectBoss:selectBoss
+    selectBoss:selectBoss,
+    announcement:announcement,
+    AddBasicsimg:AddBasicsimg
 };

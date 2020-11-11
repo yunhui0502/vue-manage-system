@@ -87,56 +87,15 @@ export default {
     },
     created() {
         this.selectMiniMessage();
-        this.websocket();
     },
     methods: {
-        websocket() {
-            this.websocket = new WebSocket('wss://swcloud.tjsichuang.cn:1444/second/user/websocket/' + localStorage.getItem('userId'));
-            //连接发生错误的回调方法
-            this.websocket.onerror = function () {
-                console.log('WebSocket连接发生错误');
-            };
-
-            //连接成功建立的回调方法
-            this.websocket.onopen = function () {
-                 console.log('WebSocket连接成功');
-            };
-
-            //接收到消息的回调方法
-            this.websocket.onmessage = function (event) {
-                 console.log(event.data);
-            };
-
-            //连接关闭的回调方法
-            this.websocket.onclose = function () {
-                 console.log('WebSocket连接关闭');
-            };
-
-            //监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
-            // this.window.onbeforeunload = function () {
-            //     closeWebSocket();
-            // };
-        },
-        closeWebSocket() {
-        websocket.close();
-             },
+     
         send() {
-            let fon = {
-                userId: localStorage.getItem('userId'),
-                byUserId: 0,
-                type: 'group',
-                message: {
-                    userId: localStorage.getItem('userId'),
-                    byUserId: 0,
-                    message: this.form.headline,
-                    type: 'Announcement',
-                    time: '2020-9-9 00:00:00'
-                }
-            };
-            let arr = [];
-            arr.push(fon);
-            this.websocket.send(JSON.stringify(arr));
-            console.log(JSON.stringify(arr));
+      
+             userApi.announcement({message:this.form.headline}, (res) => {
+                 console.log(res)
+             });
+     
         },
         updateMessage(item) {
             this.compile = true;

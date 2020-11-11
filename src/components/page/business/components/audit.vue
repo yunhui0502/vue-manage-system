@@ -22,7 +22,7 @@
                             <img class="fileurl" :src="scope.row.secondPictures" alt="" />
                         </template>
                     </el-table-column>
-                    <el-table-column prop="sellNumber" label="申请时间"> </el-table-column>
+                    <el-table-column prop="createDate" label="申请时间"> </el-table-column>
                     <el-table-column prop="address" label="操作">
                         <template slot-scope="scope">
                             <el-button @click="handleClick(scope.row)" type="text" size="small">同意</el-button>

@@ -209,6 +209,7 @@ export default {
         addSon() {
             console.log(1);
             console.log(this.form);
+            this.form.userId = localStorage.getItem('userId')
             userApi.addSon(this.form, (res) => {
                 console.log(res);
             });

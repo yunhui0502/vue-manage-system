@@ -174,7 +174,7 @@ export default {
 
         // 添加分类
         addIntegralProduct() {
-            this.formData.limit = this.limit * 100;
+            this.formData.limit = this.limit * 10000/100;
 
             console.log(this.formData.integralId);
             if (this.formData.integralId == undefined) {

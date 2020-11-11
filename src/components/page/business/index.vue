@@ -67,7 +67,7 @@
                     </el-dialog>
                 </el-form-item>
                 <el-form-item label="分类" :label-width="formLabelWidth">
-                    <el-select v-model="formData.categoryId" placeholder="请选择活动区域">
+                    <el-select v-model="categoryId" placeholder="请选择活动区域">
                         <el-option v-for="item in tertiaryClassify" :key="item.id" :label="item.secondName" :value="item.id"></el-option>
                     </el-select>
                 </el-form-item>
@@ -135,9 +135,11 @@ export default {
             tertiaryClassify: [], //三级分类列表
             content: '', //富文本
             sellPrice: '',
+            categoryId: 0,
             formData: {
                 categoryId: 86, //类目
                 file: [],
+                file1: '',
                 goodsResp: '', //库存
                 isPutaway: '0', //是否上架
                 // linePrice: '200', //划线价格
@@ -226,6 +228,7 @@ export default {
             this.dialogFormVisible = true;
             this.formData = row;
             this.sellPrice = row.price;
+            this.categoryId = row.productCategoryId;
             console.log(row);
             setTimeout(() => {
                 this.$refs.blc.setData(row.productDesc);
@@ -266,7 +269,8 @@ export default {
             if (this.title == '添加商品') {
                 console.log('添加商品');
                 this.formData.productDesc = this.$refs.blc.release();
-                this.formData.sellPrice = this.sellPrice * 100;
+                this.formData.sellPrice = this.sellPrice * 10000/100;
+                this.formData.categoryId = this.categoryId;
                 api.addProduct(this.formData, (res) => {
                     console.log(res);
                     this.dialogFormVisible = false;
@@ -274,7 +278,8 @@ export default {
             } else {
                 console.log('编辑商品');
                 this.formData.productDesc = this.$refs.blc.release();
-                this.formData.sellPrice = this.sellPrice * 100;
+                this.formData.sellPrice = this.sellPrice * 10000/100;
+                this.formData.categoryId = this.categoryId;
                 console.log(this.formData);
                 api.updateProduct(this.formData, (res) => {
                     console.log(res);
@@ -314,7 +319,7 @@ export default {
             };
             api.category(params, (res) => {
                 this.tertiaryClassify = res.data.data;
-                this.formData.categoryId = res.data.data[0].id;
+                // this.formData.categoryId = res.data.data[0].id;
                 console.log('三级分类', res);
             });
         },
@@ -324,7 +329,7 @@ export default {
         },
         handleSuccess(esponse, file, fileList) {
             console.log('esponse', esponse), console.log('file', file), console.log('fileList', fileList);
-            this.formData.file = esponse.data;
+            this.formData.file1 = esponse.data;
         },
         handlePictureCardPreview(file) {
             this.dialogImageUrl = file.url;
