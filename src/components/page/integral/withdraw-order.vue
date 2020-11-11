@@ -56,7 +56,7 @@ export default {
     methods: {
         selectIntegralOrder  () {
             let params = {
-                lntegralType:'withdraw',
+                IntegralType:'withdraw',
             }
             api.selectIntegralRecord(params,(res) => {
                 console.log('提现订单', res);
