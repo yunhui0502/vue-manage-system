@@ -13,7 +13,7 @@
                 </el-breadcrumb>
             </div>
             <div class="text item">
-                <el-table :data="tableData" stripe style="width: 100%">
+                <el-table :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)" stripe style="width: 100%">
                     <el-table-column prop="userId" label="用户ID"> </el-table-column>
                     <el-table-column prop="name" label="头像">
                         <template slot-scope="scope">
@@ -29,10 +29,10 @@
                         background
                         @size-change="handleSizeChange"
                         @current-change="handleCurrentChange"
-                        :current-page.sync="currentPage3"
-                        :page-size="100"
+                        :current-page.sync="currentPage"
+                        :page-size="pagesize"
                         layout="prev, pager, next, jumper"
-                        :total="1000"
+                        :total="tableData.length"
                     >
                     </el-pagination>
                 </div>
@@ -48,7 +48,7 @@
             </div>
 
             <div class="text item">
-                <el-table :data="options" stripe style="width: 100%">
+                <el-table :data="options.slice((currentPage-1)*pagesize,currentPage*pagesize)" stripe style="width: 100%">
                     <el-table-column prop="userId" label="用户ID"> </el-table-column>
                     <el-table-column prop="productName" label="头像">
                         <template slot-scope="scope">
@@ -67,12 +67,12 @@
                 <div class="block">
                     <el-pagination
                         background
-                        @size-change="handleSizeChange"
-                        @current-change="handleCurrentChange"
-                        :current-page.sync="currentPage3"
-                        :page-size="100"
+                        @size-change="handleSizeChange2"
+                        @current-change="handleCurrentChange2"
+                        :current-page.sync="currentPage2"
+                        :page-size="pagesize2"
                         layout="prev, pager, next, jumper"
-                        :total="1000"
+                        :total="options.length"
                     >
                     </el-pagination>
                 </div>
@@ -95,7 +95,10 @@ export default {
             options: [],
             tableData: [],
             tabindex: 0,
-            currentPage3: 5,
+            currentPage: 1,
+            pagesize:10,
+            currentPage2: 1,
+            pagesize2:10,
             formLabelWidth: '120px',
             title: '添加商品'
         };
@@ -127,9 +130,19 @@ export default {
         // ----------------------------------------------------------------------
         handleSizeChange(val) {
             console.log(`每页 ${val} 条`);
+            this.pagesize = val;
         },
         handleCurrentChange(val) {
             console.log(`当前页: ${val}`);
+             this.currentPage = val;
+        },
+        handleSizeChange2(val) {
+            console.log(`每页 ${val} 条`);
+            this.pagesize2 = val;
+        },
+        handleCurrentChange2(val) {
+            console.log(`当前页: ${val}`);
+             this.currentPage2 = val;
         }
     }
 };

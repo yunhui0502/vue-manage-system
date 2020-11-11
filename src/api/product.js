@@ -41,7 +41,7 @@ function updateCategory(params) {
 function addProduct(params) {
     let fd = new FormData();
     fd.append('categoryId', params.categoryId);
-    fd.append('file1', params.file);
+    fd.append('file1', params.file1);
     fd.append('goodsResp', params.goodsResp);
     fd.append('isPutaway', params.isPutaway);
     fd.append('productDesc', params.productDesc);

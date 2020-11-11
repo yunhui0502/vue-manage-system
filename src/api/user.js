@@ -108,8 +108,8 @@ function AddBasicsimg(params) {
     return Axios.post(user + '/BossLogin/AddBasics', params);
 }
 // 查询轮播图
-function select() {
-    return Axios.get(user + '/BossLogin/select?type=homepage');
+function select(type) {
+    return Axios.get(user + '/BossLogin/select?type='+type);
 }
 // 删除首页轮播图
 function deleted(params) {
@@ -158,6 +158,13 @@ function announcement(params) {
     fd.append('message', params.message);
     return Axios.post(user + '/Message/announcement', fd);
 }
+// 添加广告图
+function advertising(params) {
+    let fd = new FormData();
+    fd.append('slideshow', params.slideshow);
+    fd.append('type', params.type);
+    return Axios.post(user + '/BossLogin/advertising', fd);
+}
 export default {
     enterStoreList: enterStoreList,
     ListSon: ListSon,
@@ -180,5 +187,6 @@ export default {
     updateMessage:updateMessage,
     selectBoss:selectBoss,
     announcement:announcement,
-    AddBasicsimg:AddBasicsimg
+    AddBasicsimg:AddBasicsimg,
+    advertising:advertising
 };

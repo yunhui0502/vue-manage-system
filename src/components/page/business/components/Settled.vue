@@ -11,7 +11,7 @@
             </div>
 
             <div class="text item">
-                <el-table :data="tableData" stripe style="width: 100%">
+                <el-table :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)" stripe style="width: 100%">
                     <el-table-column prop="storeId" label="用户ID"> </el-table-column>
                     <el-table-column prop="nickName" label="用户昵称"> </el-table-column>
                     <el-table-column prop="storeName" label="商家名称"> </el-table-column>
@@ -34,10 +34,10 @@
                         background
                         @size-change="handleSizeChange"
                         @current-change="handleCurrentChange"
-                        :current-page.sync="currentPage3"
-                        :page-size="100"
+                        :current-page.sync="currentPage"
+                        :page-size="pagesize"
                         layout="prev, pager, next, jumper"
-                        :total="1000"
+                        :total="tableData.length"
                     >
                 </el-pagination>
             </div>
@@ -58,7 +58,8 @@ export default {
         return {
     
             tableData: [],
-            currentPage3: 5,
+            currentPage: 1,
+            pagesize:10,
     
         };
     },
@@ -116,9 +117,11 @@ export default {
         // ----------------------------------------------------------------------
         handleSizeChange(val) {
             console.log(`每页 ${val} 条`);
+            this.pagesize = val;
         },
         handleCurrentChange(val) {
             console.log(`当前页: ${val}`);
+            this.currentPage = val;
         }
     }
 };

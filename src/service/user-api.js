@@ -40,8 +40,8 @@ async function sonTransactionAmount(handleResult) {
 async function AddBasics(params,handleResult) {
     product.AddBasics(params).then(res => handleResult(res));
 }
-async function select(handleResult) {
-    product.select().then(res => handleResult(res));
+async function select(type,handleResult) {
+    product.select(type).then(res => handleResult(res));
 }
 async function deleted(params,handleResult) {
     product.deleted(params).then(res => handleResult(res));
@@ -64,6 +64,9 @@ async function selectBoss(handleResult) {
 async function AddBasicsimg(params,handleResult) {
     product.AddBasicsimg(params).then(res => handleResult(res));
 }
+async function advertising(params,handleResult) {
+    product.advertising(params).then(res => handleResult(res));
+}
 export default {
     enterStoreList: enterStoreList,
     ListSon: ListSon,
@@ -85,5 +88,6 @@ export default {
     deletedMessage:deletedMessage,
     updateMessage:updateMessage,
     selectBoss:selectBoss,
-    AddBasicsimg:AddBasicsimg
+    AddBasicsimg:AddBasicsimg,
+    advertising:advertising
 };

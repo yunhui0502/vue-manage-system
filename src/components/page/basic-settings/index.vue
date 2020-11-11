@@ -15,39 +15,41 @@
             </div>
             <div class="text item">
                 <el-form ref="form" :model="form" label-width="140px">
-                        <el-form-item style="" label="首页轮播图">
-                            <el-upload
-                                action="https://swcloud.tjsichuang.cn:1444/second/user/File/fileUpLoad"
-                                list-type="picture-card"
-                                name="file"
-                                :on-preview="handlePictureCardPreview"
-                                :on-success="handleSuccess"
-                                :on-remove="handleRemove"
-                            >
-                                <i class="el-icon-plus"></i>
-                            </el-upload>
-                            <el-dialog :visible.sync="dialogVisible">
-                                <img width="100%" :src="dialogImageUrl" alt />
-                            </el-dialog>
-                            <div class="personal">
-                                <div class="content">
-                                    <!-- 1.标题及图像说明 -->
-                                    <!-- 2.图像区域 -->
-                                    <div class="content-image">
-                                        <div v-for="(item, i) in tableDataUrl2" :key="i" class="upload-photo">
-                                            <li v-on:mouseover="mouseoverImg()" v-on:mouseout="mouseoutImg()">
-                                                <img ref="img" :src="item.file" />
-                                                <div ref="imgDelete" class="delete-img">
-                                                    <i class="el-icon-delete" @click="deleteImg2(item)"></i>
-                                                </div>
-                                            </li>
-                                        </div>
+                    <el-form-item style="" label="首页轮播图">
+                        <el-upload
+                            action="https://swcloud.tjsichuang.cn:1444/second/user/File/fileUpLoad"
+                            list-type="picture-card"
+                            name="file"
+                            :on-preview="handlePictureCardPreview"
+                            :on-success="handleSuccess"
+                            :on-remove="handleRemove"
+                        >
+                            <i class="el-icon-plus"></i>
+                        </el-upload>
+                        <el-dialog :visible.sync="dialogVisible">
+                            <img width="100%" :src="dialogImageUrl" alt />
+                        </el-dialog>
+                        <div class="personal">
+                            <div class="content">
+                                <!-- 1.标题及图像说明 -->
+                                <!-- 2.图像区域 -->
+                                <div class="content-image">
+                                    <div v-for="(item, i) in tableDataUrl2" :key="i" class="upload-photo">
+                                        <li v-on:mouseover="mouseoverImg()" v-on:mouseout="mouseoutImg()">
+                                            <img ref="img" :src="item.file" />
+                                            <div ref="imgDelete" class="delete-img">
+                                                <i class="el-icon-delete" @click="deleteImg2(item)"></i>
+                                            </div>
+                                        </li>
                                     </div>
                                 </div>
                             </div>
-                        </el-form-item>
-                   <el-form-item>
-                        <el-button style="float: right;margin-right:30px;margin-top:30px;" @click="AddBasicsimg"  type="primary">确定</el-button>
+                        </div>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button style="float: right; margin-right: 30px; margin-top: 30px" @click="AddBasics" type="primary"
+                            >确定</el-button
+                        >
                     </el-form-item>
                     <!-- <el-form-item label="平台客服">
                         <el-upload
@@ -69,7 +71,9 @@
                         <el-input v-model="form.weChat"></el-input>
                     </el-form-item>
                     <el-form-item>
-                        <el-button style="float: right;margin-right:30px;margin-top:30px;" @click="AddBasics"  type="primary">确定</el-button>
+                        <el-button style="float: right; margin-right: 30px; margin-top: 30px" @click="AddBasics" type="primary"
+                            >保存</el-button
+                        >
                     </el-form-item>
                     <el-form-item label="新用户学生认证">
                         <el-input v-model="form.newUserIntegral"></el-input>
@@ -88,8 +92,80 @@
                         <span>%</span>
                     </el-form-item>
                     <el-form-item>
-                        <el-button style="float: right;margin-right:30px;margin-top:30px;" @click="AddBasics" type="primary">确定</el-button>
+                        <el-button style="float: right; margin-right: 30px; margin-top: 30px" @click="AddBasics" type="primary"
+                            >保存</el-button>
                     </el-form-item>
+                </el-form>
+
+                <el-form ref="form" :model="form" label-width="140px">
+                    <el-form-item label="首页广告图">
+                        <el-upload
+                            action="https://swcloud.tjsichuang.cn:1444/second/user/File/fileUpLoad"
+                            list-type="picture-card"
+                            name="file"
+                            :on-preview="handlePictureCardPreview"
+                            :on-success="HomeAdvertising"
+                            :on-remove="handleRemove"
+                        >
+                            <i class="el-icon-plus"></i>
+                        </el-upload>
+                        <el-dialog :visible.sync="dialogVisible">
+                            <img width="100%" :src="dialogImageUrl" alt />
+                        </el-dialog>
+                        <div class="personal">
+                            <div class="content">
+                                <!-- 1.标题及图像说明 -->
+                                <!-- 2.图像区域 -->
+                                <div class="content-image">
+                                    <div style="height: 180px;" class="upload-photo">
+                                        <li v-on:mouseover="mouseoverImg()" v-on:mouseout="mouseoutImg()">
+                                            <img style="width: 500px;height: 180px" ref="img" :src="advertisingUrl" />
+                                            
+                                        </li>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button style="float: right; margin-right: 30px; margin-top: 30px" @click="homeAdd" type="primary"
+                            >确定</el-button>
+                    </el-form-item>
+
+                    <el-form-item label="分类页广告图">
+                        <el-upload
+                            action="https://swcloud.tjsichuang.cn:1444/second/user/File/fileUpLoad"
+                            list-type="picture-card"
+                            name="file"
+                            :on-preview="handlePictureCardPreview"
+                            :on-success="classifyAdvertising"
+                            :on-remove="handleRemove"
+                        >
+                            <i class="el-icon-plus"></i>
+                        </el-upload>
+                        <el-dialog :visible.sync="dialogVisible">
+                            <img width="100%" :src="dialogImageUrl" alt />
+                        </el-dialog>
+                        <div class="personal">
+                            <div class="content">
+                                <!-- 1.标题及图像说明 -->
+                                <!-- 2.图像区域 -->
+                                <div class="content-image">
+                                    <div style="height: 180px;" class="upload-photo">
+                                        <li v-on:mouseover="mouseoverImg()" v-on:mouseout="mouseoutImg()">
+                                            <img style="width: 500px;height: 180px" ref="img" :src="advertisingUrl2" />
+                                        </li>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </el-form-item>
+
+                    <el-form-item>
+                        <el-button style="float: right; margin-right: 30px; margin-top: 30px" @click="classifyAdd" type="primary"
+                            >确定</el-button>
+                    </el-form-item>
+
                 </el-form>
             </div>
         </el-card>
@@ -143,6 +219,7 @@
 
 <script>
 import userApi from '@/service/user-api.js';
+import api from '@/service/product.js';
 import refund from './refund.vue';
 export default {
     name: '',
@@ -151,8 +228,10 @@ export default {
     },
     data() {
         return {
-            selectData:'',
+            selectData: '',
             tableDataUrl2: '',
+            advertisingUrl: '',
+            advertisingUrl2:'',
             tabindex: 0,
             fileList: [],
             dialogImageUrl: '',
@@ -166,27 +245,62 @@ export default {
                 storeWithdrawalCommission: '', //商家提现手续费率
                 userWithdrawalCommission: '', //用户提现手续费率
                 weChat: '' //微信
+            },
+            advertising: {
+                slideshow:'',
+                type:''
             }
         };
     },
     created() {
         this.select();
         this.selectBoss();
+        this.classifyBoss();
+        this.homeBoss();
     },
     methods: {
-        selectBoss () {
+     
+        classifyAdd() {
+            this.advertising.type = 'category'
+            userApi.advertising(this.advertising,(res) => {
+                console.log('advertising', res);
+                this.advertising.slideshow = ''
+            })
+        },
+        homeAdd() {
+            this.advertising.type = 'advertising'
+            userApi.advertising(this.advertising,(res) => {
+                console.log('advertising', res);
+                this.advertising.slideshow = ''
+            })
+        },
+        homeBoss() {
+            userApi.select('advertising',(res) => {
+                console.log('首页广告', res.data.data[0].file);
+                this.advertisingUrl = res.data.data[0].file
+            });
+        },
+        
+        classifyBoss() {
+            userApi.select('category',(res) => {
+                console.log('分类广告', res);
+                this.advertisingUrl2 = res.data.data[0].file
+            });
+        },
+
+        selectBoss() {
             userApi.selectBoss((res) => {
-                console.log('selectBoss',res);
-                this.form.newUserIntegral = res.data.data.newUserIntegral
-                this.form.service = res.data.data.service
-                this.form.sonWithdrawalCommission = res.data.data.sonWithdrawalCommission
-                this.form.storeWithdrawalCommission = res.data.data.storeWithdrawalCommission
-                this.form.userWithdrawalCommission = res.data.data.userWithdrawalCommission
-                this.form.weChat = res.data.data.weChat
+                console.log('selectBoss', res);
+                this.form.newUserIntegral = res.data.data.newUserIntegral;
+                this.form.service = res.data.data.service;
+                this.form.sonWithdrawalCommission = res.data.data.sonWithdrawalCommission;
+                this.form.storeWithdrawalCommission = res.data.data.storeWithdrawalCommission;
+                this.form.userWithdrawalCommission = res.data.data.userWithdrawalCommission;
+                this.form.weChat = res.data.data.weChat;
             });
         },
         select() {
-            userApi.select((res) => {
+            userApi.select('homepage',(res) => {
                 console.log(res);
                 this.tableDataUrl2 = res.data.data;
             });
@@ -235,7 +349,7 @@ export default {
                 console.log(res);
             });
         },
-        AddBasicsimg () {
+        AddBasicsimg() {
             userApi.AddBasicsimg(this.form.slideshow, (res) => {
                 console.log(res);
             });
@@ -255,11 +369,19 @@ export default {
 
         // -----------------第2个上传--------------------
         // handleRemove(file, fileList) {
-        //     console.log(file, fileList);
+        //     console.log(file, fileList); 
         // },
         handleSuccess(esponse, file, fileList) {
             console.log('esponse', esponse), console.log('file', file), console.log('fileList', fileList);
             this.form.slideshow.push(esponse.data);
+        },
+        HomeAdvertising(esponse, file, fileList) {
+            console.log('esponse', esponse), console.log('file', file), console.log('fileList', fileList);
+            this.advertising.slideshow = esponse.data;
+        },
+         classifyAdvertising(esponse, file, fileList) {
+            console.log('esponse', esponse), console.log('file', file), console.log('fileList', fileList);
+            this.advertising.slideshow = esponse.data;
         },
         handlePreview(file) {
             console.log(file);

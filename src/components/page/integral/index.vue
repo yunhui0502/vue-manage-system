@@ -17,7 +17,7 @@
             </div>
 
             <div class="text item">
-                <el-table :data="tableData" style="width: 100%;" stripe>
+                <el-table :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)" style="width: 100%;" stripe>
                     <!-- <el-table-column type="index" label="序号" :index="indexMethod"></el-table-column> -->
                     <el-table-column prop="integralName" label="商品名称 "> </el-table-column>
                     <el-table-column prop="integralNeed" label="兑换积分 "> </el-table-column>
@@ -37,10 +37,10 @@
                         background
                         @size-change="handleSizeChange"
                         @current-change="handleCurrentChange"
-                        :current-page.sync="currentPage3"
-                        :page-size="100"
+                        :current-page.sync="currentPage"
+                        :page-size="pagesize"
                         layout="prev, pager, next, jumper"
-                        :total="1000"
+                        :total="tableData.length"
                     >
                     </el-pagination>
                 </div>
@@ -86,72 +86,17 @@
             </div>
         </el-dialog>
 
-        <el-card class="box-card " v-if="tabindex == 1">
-            <div slot="header" class="clearfix">
-                <el-breadcrumb separator-class="el-icon-arrow-right">
-                    <el-breadcrumb-item>商家管理</el-breadcrumb-item>
-                    <el-breadcrumb-item>积分商品订单</el-breadcrumb-item>
-                </el-breadcrumb>
-            </div>
-            <div class="text item">
-                <el-table :data="integralOrderData" stripe style="width: 100%">
-                    <el-table-column prop="integralId" label="订单号"> </el-table-column>
-                    <el-table-column prop="integralName" label="积分商品"> </el-table-column>
-                    <el-table-column prop="userName" label="兑换用户"> </el-table-column>
-                    <el-table-column label="购买数量"> 1 </el-table-column>
-                    <el-table-column prop="integralNeed" label="兑换积分"> </el-table-column>
-                    <!-- <el-table-column prop="integralNeed" label="兑换积分"> </el-table-column> -->
-                    <el-table-column prop="integralType" label="状态"></el-table-column>
-                </el-table>
-                <div class="block">
-                    <el-pagination
-                        background
-                        @size-change="handleSizeChange"
-                        @current-change="handleCurrentChange"
-                        :current-page.sync="currentPage3"
-                        :page-size="100"
-                        layout="prev, pager, next, jumper"
-                        :total="1000"
-                    >
-                    </el-pagination>
-                </div>
-            </div>
-        </el-card>
+         <div v-if="tabindex == 1">
+            <integral-order></integral-order>
+        </div>
 
         <div v-if="tabindex == 2">
             <withdraw></withdraw>
         </div>
 
-        <el-card class="box-card " v-if="tabindex == 3">
-            <div slot="header" class="clearfix">
-                <el-breadcrumb separator-class="el-icon-arrow-right">
-                    <el-breadcrumb-item>商家管理</el-breadcrumb-item>
-                    <el-breadcrumb-item>提现资质订单</el-breadcrumb-item>
-                </el-breadcrumb>
-            </div>
-            <div class="text item">
-                <el-table :data="tableDataEmbody" stripe style="width: 100%">
-                    <el-table-column prop="date" label="订单号"> </el-table-column>
-                    <el-table-column prop="name" label="商家商品"> </el-table-column>
-                    <el-table-column prop="name" label="兑换用户"> </el-table-column>
-                    <el-table-column prop="name" label="购买数量"> </el-table-column>
-                    <el-table-column prop="name" label="兑换积分"> </el-table-column>
-                    <el-table-column prop="name" label="状态"> </el-table-column>
-                </el-table>
-                <div class="block">
-                    <el-pagination
-                        background
-                        @size-change="handleSizeChange"
-                        @current-change="handleCurrentChange"
-                        :current-page.sync="currentPage3"
-                        :page-size="100"
-                        layout="prev, pager, next, jumper"
-                        :total="1000"
-                    >
-                    </el-pagination>
-                </div>
-            </div>
-        </el-card>
+        <div v-if="tabindex == 3">
+            <withdraw-order></withdraw-order>
+        </div>
     </div>
 </template>
 
@@ -160,10 +105,14 @@ import api from '@/service/product.js';
 import userApi from '@/service/user-api.js';
 
 import withdraw from './withdraw.vue';
+import integralOrder from './integral-order.vue';
+import withdrawOrder from './withdraw-order.vue';
 export default {
     name: '',
     components: {
-        withdraw
+        withdraw,
+        integralOrder,
+        withdrawOrder
     },
     data() {
         return {
@@ -182,17 +131,15 @@ export default {
             dialogImageUrl: '',
             dialogVisible: false,
             tableData: [],
-            tableDataEmbody: [],
-            integralOrderData: [],
             dialogFormVisible: false,
-            currentPage3: 5,
+            currentPage: 1,
+            pagesize:10,
             formLabelWidth: '120px'
         };
     },
     created() {
         this.selectIntegralProduct();
         this.enterStoreList();
-        this.selectIntegralRecord();
     },
     methods: {
         add() {
@@ -207,12 +154,7 @@ export default {
                 type: 'product'
             };
         },
-        selectIntegralRecord() {
-            api.selectIntegralRecord({ IntegralType: 'product' }, res => {
-                this.integralOrderData = res.data.data;
-                console.log(res);
-            });
-        },
+      
         // 获取商家
         enterStoreList() {
             userApi.enterStoreList(res => {
@@ -307,9 +249,11 @@ export default {
         // ----------------------------------------------------------------------
         handleSizeChange(val) {
             console.log(`每页 ${val} 条`);
+            this.pagesize = val;
         },
         handleCurrentChange(val) {
             console.log(`当前页: ${val}`);
+            this.currentPage = val;
         }
     }
 };

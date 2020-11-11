@@ -18,7 +18,7 @@
             </div>
 
             <div class="text item">
-                <el-table :data="tableData" stripe style="width: 100%">
+                <el-table :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)" stripe style="width: 100%">
                     <el-table-column prop="nickName" label="商家名称"> </el-table-column>
                     <el-table-column prop="productName" label="商家商品"> </el-table-column>
                     <el-table-column prop="price" label="价格"> </el-table-column>
@@ -36,10 +36,10 @@
                         background
                         @size-change="handleSizeChange"
                         @current-change="handleCurrentChange"
-                        :current-page.sync="currentPage3"
-                        :page-size="100"
+                        :current-page.sync="currentPage"
+                        :page-size="pagesize"
                         layout="prev, pager, next, jumper"
-                        :total="1000"
+                        :total="tableData.length"
                     >
                     </el-pagination>
                 </div>
@@ -56,6 +56,7 @@
                         action="https://swcloud.tjsichuang.cn:1444/second/user/File/fileUpLoad"
                         list-type="picture-card"
                         name="file"
+                        ref="upload"
                         :on-preview="handlePictureCardPreview"
                         :on-success="handleSuccess"
                         :on-remove="handleRemove"
@@ -135,7 +136,7 @@ export default {
             tertiaryClassify: [], //三级分类列表
             content: '', //富文本
             sellPrice: '',
-            categoryId: 0,
+            categoryId: '',
             formData: {
                 categoryId: 86, //类目
                 file: [],
@@ -156,7 +157,8 @@ export default {
             options: [],
             tableData: [],
             dialogFormVisible: false,
-            currentPage3: 5,
+            currentPage: 1,
+            pagesize:10,
             formLabelWidth: '120px',
             title: '添加商品'
         };
@@ -174,7 +176,7 @@ export default {
                 this.$refs.blc.setData('');
             }, 10);
             this.formData = {
-                categoryId: '0', //类目
+                categoryId: '', //类目
                 file: [],
                 goodsResp: '', //库存
                 isPutaway: '0', //是否上架
@@ -264,16 +266,38 @@ export default {
                     });
                 });
         },
-        // 添加商品
+        // 添加商品 
         addProduct() {
             if (this.title == '添加商品') {
                 console.log('添加商品');
+                if(this.categoryId == ''){
+                    this.$message({
+                        message: '请选择类目',
+                        type: 'warning'
+                    });
+                    return 
+                }
+                if(this.sellPrice == ''){
+                    this.$message({
+                        message: '请输入价格',
+                        type: 'warning'
+                    });
+                    return
+                }
+                 if(this.formData.storeId == ''){
+                    this.$message({
+                        message: '请选择商家',
+                        type: 'warning'
+                    });
+                    return
+                }
                 this.formData.productDesc = this.$refs.blc.release();
                 this.formData.sellPrice = this.sellPrice * 10000/100;
                 this.formData.categoryId = this.categoryId;
                 api.addProduct(this.formData, (res) => {
                     console.log(res);
                     this.dialogFormVisible = false;
+                    this.$refs.upload.clearFiles();
                 });
             } else {
                 console.log('编辑商品');
@@ -284,6 +308,7 @@ export default {
                 api.updateProduct(this.formData, (res) => {
                     console.log(res);
                     this.dialogFormVisible = false;
+                    this.$refs.upload.clearFiles();
                     this.selectProduct();
                 });
             }
@@ -338,9 +363,11 @@ export default {
         // ----------------------------------------------------------------------
         handleSizeChange(val) {
             console.log(`每页 ${val} 条`);
+            this.pagesize = val;
         },
         handleCurrentChange(val) {
             console.log(`当前页: ${val}`);
+            this.currentPage = val;
         }
     }
 };

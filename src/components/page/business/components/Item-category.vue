@@ -13,7 +13,7 @@
 
             <div class="text item">
                 <el-table
-                    :data="tableData"
+                    :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
                     style="width: 100%;"
                     row-key="id"
                     stripe
@@ -44,10 +44,10 @@
                         background
                         @size-change="handleSizeChange"
                         @current-change="handleCurrentChange"
-                        :current-page.sync="currentPage3"
-                        :page-size="100"
+                        :current-page.sync="currentPage"
+                        :page-size="pagesize"
                         layout="prev, pager, next, jumper"
-                        :total="1000"
+                        :total="tableData.length"
                     >
                     </el-pagination>
                 </div>
@@ -55,7 +55,7 @@
         </el-card>
 
         <el-dialog title="分类" :visible.sync="dialogFormVisible">
-            <el-form :model="formData">
+            <el-form ref="form" :model="formData">
                 <el-form-item label="分类名称" :label-width="formLabelWidth">
                     <el-input v-model="formData.categoryName" autocomplete="off"></el-input>
                 </el-form-item>
@@ -63,6 +63,7 @@
                     <el-upload
                         action="http://39.100.237.144:7004/user/File/fileUpLoad"
                         list-type="picture-card"
+                        ref="upload"
                         name="file"
                         :limit="1"
                         :on-preview="handlePictureCardPreview"
@@ -139,7 +140,8 @@ export default {
             dialogVisible: false,
             tableData: [],
             dialogFormVisible: false,
-            currentPage3: 5,
+            currentPage: 1,
+            pagesize:10,
             formLabelWidth: '120px'
         };
     },
@@ -201,12 +203,16 @@ export default {
                 api.addCategory(this.formData, res => {
                     console.log(res);
                     this.dialogFormVisible = false;
+                    this.$refs.upload.clearFiles();
+                    this.formData.categoryName = '';
                 });
             } else {
                 console.log('修改');
                 api.updateCategory(this.formData, res => {
                     console.log(res);
                     this.dialogFormVisible = false;
+                    this.$refs.upload.clearFiles();
+                    this.formData.categoryName = '';
                 });
             }
         },
@@ -241,9 +247,11 @@ export default {
         // ----------------------------------------------------------------------
         handleSizeChange(val) {
             console.log(`每页 ${val} 条`);
+            this.pagesize = val;
         },
         handleCurrentChange(val) {
             console.log(`当前页: ${val}`);
+            this.currentPage = val;
         }
     }
 };

@@ -20,7 +20,7 @@
             <div class="text item">
                 <el-table
                 v-if="tabindex == 0"
-                    :data="tableData"
+                    :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
                     style="width: 100%;"
                     row-key="id"
                     stripe
@@ -51,10 +51,10 @@
                         background
                         @size-change="handleSizeChange"
                         @current-change="handleCurrentChange"
-                        :current-page.sync="currentPage3"
-                        :page-size="100"
+                        :current-page.sync="currentPage"
+                        :page-size="pagesize"
                         layout="prev, pager, next, jumper"
-                        :total="1000"
+                        :total="tableData.length"
                     >
                     </el-pagination>
                 </div>
@@ -156,7 +156,8 @@ export default {
             dialogVisible: false,
             tableData: [],
             dialogFormVisible: false,
-            currentPage3: 5,
+            currentPage: 1,
+            pagesize:10,
             formLabelWidth: '120px'
         };
     },
@@ -261,9 +262,11 @@ export default {
         // ----------------------------------------------------------------------
         handleSizeChange(val) {
             console.log(`每页 ${val} 条`);
+            this.pagesize = val;
         },
         handleCurrentChange(val) {
             console.log(`当前页: ${val}`);
+            this.currentPage = val;
         }
     }
 };
