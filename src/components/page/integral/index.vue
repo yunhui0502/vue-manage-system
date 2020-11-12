@@ -48,8 +48,8 @@
         </el-card>
 
         <el-dialog title="商品编辑" :visible.sync="dialogFormVisible">
-            <el-form :model="formData">
-                <el-form-item label="商品名称" :label-width="formLabelWidth">
+            <el-form ref="ruleForm" :model="formData">
+                <el-form-item label="商品名称" prop="productName" :label-width="formLabelWidth">
                     <el-input v-model="formData.productName" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="商品照片" :label-width="formLabelWidth">
@@ -57,6 +57,7 @@
                         action="http://39.100.237.144:7004/user/File/fileUpLoad"
                         list-type="picture-card"
                         name="file"
+                        ref="upload"
                         :limit="1"
                         :on-preview="handlePictureCardPreview"
                         :on-success="handleSuccess"
@@ -68,13 +69,13 @@
                         <img width="100%" :src="dialogImageUrl" alt />
                     </el-dialog>
                 </el-form-item>
-                <el-form-item label="商品库存" :label-width="formLabelWidth">
+                <el-form-item prop="sellPrice" label="商品库存" :label-width="formLabelWidth">
                     <el-input v-model="formData.quantity" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="兑换积分" :label-width="formLabelWidth">
+                <el-form-item  prop="sellPrice" label="兑换积分" :label-width="formLabelWidth">
                     <el-input v-model="formData.sellPrice" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="商家" :label-width="formLabelWidth">
+                <el-form-item  prop="storeId" label="商家" :label-width="formLabelWidth">
                     <el-select v-model="formData.storeId" placeholder="请选择活动区域">
                         <el-option v-for="item in options" :key="item.storeId" :label="item.nickName" :value="item.storeId"></el-option>
                     </el-select>
@@ -209,7 +210,13 @@ export default {
                 console.log('积分商品', res);
             });
         },
-
+           resetForm(formData) {
+            console.log(this.$refs[formData].resetFields())
+            this.$refs[formData].resetFields();
+            this.categoryId = ''
+            this.sellPrice = ''
+            this.$refs.upload.clearFiles();
+        },
         // 添加积分商品
         addIntegralProduct() {
             console.log(this.formData.integralId);
@@ -218,12 +225,16 @@ export default {
                 api.addIntegralProduct(this.formData, res => {
                     console.log(res);
                     this.dialogFormVisible = false;
+                    this.selectIntegralProduct();
+                    this.resetForm('ruleForm')
                 });
             } else {
                 console.log('修改');
                 api.updateIntegralProduct(this.formData, res => {
                     console.log(res);
                     this.dialogFormVisible = false;
+                    this.selectIntegralProduct();
+                    this.resetForm('ruleForm')
                 });
             }
         },

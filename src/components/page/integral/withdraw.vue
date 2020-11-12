@@ -42,8 +42,8 @@
         </el-card>
 
         <el-dialog title="商品" :visible.sync="dialogFormVisible">
-            <el-form :model="formData">
-                <el-form-item label="商品名称" :label-width="formLabelWidth">
+            <el-form ref="ruleForm" :model="formData">
+                <el-form-item label="商品名称" prop="productName" :label-width="formLabelWidth">
                     <el-input v-model="formData.productName" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="商品照片" :label-width="formLabelWidth">
@@ -51,6 +51,7 @@
                         action="https://swcloud.tjsichuang.cn:1444/second/user/File/fileUpLoad"
                         list-type="picture-card"
                         name="file"
+                        ref="upload"
                         :limit="1"
                         :on-preview="handlePictureCardPreview"
                         :on-success="handleSuccess"
@@ -62,13 +63,13 @@
                         <img width="100%" :src="dialogImageUrl" alt />
                     </el-dialog>
                 </el-form-item>
-                <el-form-item label="提现额度" :label-width="formLabelWidth">
-                    <el-input v-model="limit" autocomplete="off"></el-input>
+                <el-form-item prop="limit2" label="提现额度" :label-width="formLabelWidth">
+                    <el-input v-model="formData.limit2" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="兑换积分" :label-width="formLabelWidth">
+                <el-form-item prop="sellPrice" label="兑换积分" :label-width="formLabelWidth">
                     <el-input v-model="formData.sellPrice" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="库存" :label-width="formLabelWidth">
+                <el-form-item label="库存" prop="quantity" :label-width="formLabelWidth">
                     <el-input v-model="formData.quantity" autocomplete="off"></el-input>
                 </el-form-item>
             </el-form>
@@ -93,11 +94,11 @@ export default {
             onecatalogues: [],
             // 判断一级目录选择的东西控制2 3 目录显示隐藏
             controlCatalogue: '0',
-            limit:'',
             formData: {
                 file1: '',
                 productName: '',
                 limit: '',
+                limit2: '',
                 quantity: '',
                 sellPrice: '',
                 storeId: '',
@@ -118,6 +119,10 @@ export default {
         this.enterStoreList();
     },
     methods: {
+        resetForm(formData) {
+            this.$refs[formData].resetFields();
+            this.$refs.upload.clearFiles();
+        },
         // 获取商家
         enterStoreList() {
             userApi.enterStoreList(res => {
@@ -131,7 +136,7 @@ export default {
             this.formData.productName = row.integralName;
             this.formData.quantity = row.integralQuantity;
             this.formData.sellPrice = row.integralNeed;
-            this.limit = parseFloat(row.exemptCommission/100).toFixed(2);
+            this.formData.limit2 = parseFloat(row.exemptCommission/100).toFixed(2);
             // this.formData.storeId = row.storeId;
             this.dialogFormVisible = true;
         },
@@ -175,7 +180,7 @@ export default {
 
         // 添加分类
         addIntegralProduct() {
-            this.formData.limit = this.limit * 10000/100;
+            this.formData.limit = this.formData.limit2 * 10000/100;
 
             console.log(this.formData.integralId);
             if (this.formData.integralId == undefined) {
@@ -184,6 +189,7 @@ export default {
                     console.log(res);
                     this.dialogFormVisible = false;
                     this.selectIntegralProduct();
+                    this.resetForm('ruleForm')
 
                 });
             } else {
@@ -192,6 +198,7 @@ export default {
                     console.log(res);
                     this.dialogFormVisible = false;
                     this.selectIntegralProduct();
+                    this.resetForm('ruleForm')
 
                 });
             }

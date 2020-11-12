@@ -47,11 +47,11 @@
         </el-card>
 
         <el-dialog title="站点编辑" :visible.sync="dialogFormVisible">
-            <el-form :model="formData">
-                <el-form-item label="站点名称" :label-width="formLabelWidth">
+            <el-form ref="ruleForm" :model="formData">
+                <el-form-item prop="name" label="站点名称" :label-width="formLabelWidth">
                     <el-input v-model="form1.name" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="站点地址" :label-width="formLabelWidth">
+                <el-form-item label="站点地址" prop="collegoryId" :label-width="formLabelWidth">
                     <el-select v-model="form1.collegoryId" placeholder="请选择活动区域">
                         <el-option
                             v-for="item in options"
@@ -61,10 +61,10 @@
                         ></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="管理员账号" :label-width="formLabelWidth">
+                <el-form-item label="管理员账号" prop="username" :label-width="formLabelWidth">
                     <el-input v-model="form1.username" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="管理员密码" :label-width="formLabelWidth">
+                <el-form-item label="管理员密码" prop="password" :label-width="formLabelWidth">
                     <el-input v-model="form1.password" autocomplete="off"></el-input>
                 </el-form-item>
             </el-form>
@@ -82,11 +82,12 @@
                 </el-breadcrumb>
             </div>
             <div class="text item">
-                <el-form ref="form" :model="form" label-width="140px">
+                <el-form ref="ruleForm" :model="form" label-width="140px">
                     <el-form-item label="站点logo">
                         <el-upload
                             action="https://swcloud.tjsichuang.cn:1444/second/user/File/fileUpLoad"
                             list-type="picture-card"
+                            ref="upload"
                             :on-preview="handlePictureCardPreview"
                             :on-success="handleSuccess"
                             :on-remove="handleRemove"
@@ -97,10 +98,10 @@
                             <img width="100%" :src="dialogImageUrl" alt />
                         </el-dialog>
                     </el-form-item>
-                    <el-form-item label="站点名称">
+                    <el-form-item  prop="name" label="站点名称">
                         <el-input v-model="form.name"></el-input>
                     </el-form-item>
-                    <el-form-item label="站点地址">
+                    <el-form-item prop="collegoryId" label="站点地址">
                         <el-select v-model="form.collegoryId" placeholder="请选择活动区域">
                             <el-option
                                 v-for="item in options"
@@ -113,16 +114,16 @@
                     <!-- <el-form-item label="站点地址">
                         <el-input v-model="form.name"></el-input>
                     </el-form-item> -->
-                    <el-form-item label="管理员账号">
+                    <el-form-item prop="username" label="管理员账号">
                         <el-input v-model="form.username"></el-input>
                     </el-form-item>
-                    <el-form-item label="管理员密码">
+                    <el-form-item prop="password" label="管理员密码">
                         <el-input v-model="form.password"></el-input>
                     </el-form-item>
-                    <el-form-item label="站点客服">
+                    <el-form-item prop="service" label="站点客服">
                         <el-input v-model="form.service"></el-input>
                     </el-form-item>
-                    <el-form-item label="客服微信">
+                    <el-form-item prop="WeChat" label="客服微信">
                         <el-input v-model="form.WeChat"></el-input>
                     </el-form-item>
                     <el-form-item>
@@ -193,6 +194,10 @@ export default {
         // this.selectIntegralRecord();
     },
     methods: {
+        resetForm(formData) {
+            this.$refs[formData].resetFields();
+            this.$refs.upload.clearFiles();
+        },
         // 子站点列表
         ListSon() {
             userApi.ListSon((res) => {
@@ -213,6 +218,11 @@ export default {
             this.form.userId = localStorage.getItem('userId')
             userApi.addSon(this.form, (res) => {
                 console.log(res);
+                 this.$message({
+                    message: '添加成功',
+                    type: 'success'
+                    });
+                this.resetForm('ruleForm')
             });
         },
          handlexClick(row) {

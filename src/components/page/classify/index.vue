@@ -62,8 +62,8 @@
         </el-card>
 
         <el-dialog title="分类" :visible.sync="dialogFormVisible">
-            <el-form :model="formData">
-                <el-form-item label="分类名称" :label-width="formLabelWidth">
+            <el-form ref="ruleForm" :model="formData">
+                <el-form-item prop="categoryName" label="分类名称" :label-width="formLabelWidth">
                     <el-input v-model="formData.categoryName" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="图片" :label-width="formLabelWidth">
@@ -71,6 +71,7 @@
                         action="https://swcloud.tjsichuang.cn:1444/second/user/File/fileUpLoad"
                         list-type="picture-card"
                         name="file"
+                        ref="upload"
                         :limit="1"
                         :on-preview="handlePictureCardPreview"
                         :on-success="handleSuccess"
@@ -85,7 +86,7 @@
                 <!-- <el-form-item label="级别" :label-width="formLabelWidth">
                     <el-input v-model="formData.sellPrice" autocomplete="off"></el-input>
                 </el-form-item> -->
-                <el-form-item label="等级" :label-width="formLabelWidth">
+                <el-form-item label="等级" prop="levelId" :label-width="formLabelWidth">
                     <el-select @change="categshijan" v-model="formData.levelId" placeholder="请选择" style="margin-left: 38px;">
                         <el-option
                             change="categshijan"
@@ -97,7 +98,7 @@
                     </el-select>
                 </el-form-item>
 
-                <el-form-item label="所属分类" :label-width="formLabelWidth">
+                <el-form-item label="所属分类" prop="parentCategoryId" :label-width="formLabelWidth">
                     <el-select v-model="formData.parentCategoryId" placeholder="请选择一级目录" style="margin-left: 38px;">
                         <el-option v-for="item in onecatalogues" :key="item.id" :label="item.secondName" :value="item.id"></el-option>
                     </el-select>
@@ -165,6 +166,10 @@ export default {
         this.categoryList();
     },
     methods: {
+         resetForm(formData) {
+            this.$refs[formData].resetFields();
+            this.$refs.upload.clearFiles();
+        },
         handlexClick(row) {
             console.log(row);
             this.formData.categoryId = row.id;
@@ -219,12 +224,14 @@ export default {
                 api.addCategory(this.formData, res => {
                     console.log(res);
                     this.dialogFormVisible = false;
+                    this.resetForm('ruleForm')
                 });
             } else {
                 console.log('修改');
                 api.updateCategory(this.formData, res => {
                     console.log(res);
                     this.dialogFormVisible = false;
+                    this.resetForm('ruleForm')
                 });
             }
         },

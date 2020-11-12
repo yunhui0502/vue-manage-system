@@ -47,8 +47,8 @@
         </el-card>
 
         <el-dialog :title="title" :visible.sync="dialogFormVisible">
-            <el-form :model="formData">
-                <el-form-item label="商品名称" :label-width="formLabelWidth">
+            <el-form  ref="ruleForm" :model="formData">
+                <el-form-item label="商品名称" prop="productName" :label-width="formLabelWidth">
                     <el-input v-model="formData.productName" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="商品照片" :label-width="formLabelWidth">
@@ -57,6 +57,7 @@
                         list-type="picture-card"
                         name="file"
                         ref="upload"
+                        :file-list="fileList"
                         :on-preview="handlePictureCardPreview"
                         :on-success="handleSuccess"
                         :on-remove="handleRemove"
@@ -67,18 +68,18 @@
                         <img width="100%" :src="dialogImageUrl" alt />
                     </el-dialog>
                 </el-form-item>
-                <el-form-item label="分类" :label-width="formLabelWidth">
+                <el-form-item label="分类" prop="categoryId" :label-width="formLabelWidth">
                     <el-select v-model="categoryId" placeholder="请选择活动区域">
                         <el-option v-for="item in tertiaryClassify" :key="item.id" :label="item.secondName" :value="item.id"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item v-if="title !== '编辑商品'" label="商品库存" :label-width="formLabelWidth">
+                <el-form-item v-if="title !== '编辑商品'" prop="goodsResp" label="商品库存" :label-width="formLabelWidth">
                     <el-input v-model="formData.goodsResp" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="商品价格" :label-width="formLabelWidth">
+                <el-form-item label="商品价格" prop="sellPrice" :label-width="formLabelWidth">
                     <el-input v-model="sellPrice" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="商家" :label-width="formLabelWidth">
+                <el-form-item label="商家" prop="storeId" :label-width="formLabelWidth">
                     <el-select v-model="formData.storeId" placeholder="请选择活动区域">
                         <el-option v-for="item in options" :key="item.storeId" :label="item.nickName" :value="item.storeId"></el-option>
                     </el-select>
@@ -137,6 +138,7 @@ export default {
             content: '', //富文本
             sellPrice: '',
             categoryId: '',
+            fileList: [],
             formData: {
                 categoryId: 86, //类目
                 file: [],
@@ -169,6 +171,13 @@ export default {
         this.selectProduct();
     },
     methods: {
+        resetForm(formData) {
+            console.log(this.$refs[formData].resetFields())
+            this.$refs[formData].resetFields();
+            this.categoryId = ''
+            this.sellPrice = ''
+            this.$refs.upload.clearFiles();
+        },
         add() {
             this.dialogFormVisible = true;
             this.title = '添加商品';
@@ -183,7 +192,7 @@ export default {
                 // linePrice: '200', //划线价格
                 productDesc: '', //富文本
                 productName: '', //商品名字
-                sellPrice: '100', //售卖价格
+                sellPrice: '', //售卖价格
                 showType: 'coupon', //商品类型
                 storeType: 'store',
                 storeId: '' // 店铺id
@@ -228,8 +237,10 @@ export default {
         handleClick(row) {
             this.title = '编辑商品';
             this.dialogFormVisible = true;
+            this.fileList = [];
             this.formData = row;
             this.sellPrice = row.price;
+            this.fileList.push({url:row.file });
             this.categoryId = row.productCategoryId;
             console.log(row);
             setTimeout(() => {
@@ -296,8 +307,9 @@ export default {
                 this.formData.categoryId = this.categoryId;
                 api.addProduct(this.formData, (res) => {
                     console.log(res);
+                    this.selectProduct();
                     this.dialogFormVisible = false;
-                    this.$refs.upload.clearFiles();
+                    this.resetForm('ruleForm')
                 });
             } else {
                 console.log('编辑商品');

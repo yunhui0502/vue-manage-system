@@ -55,8 +55,8 @@
         </el-card>
 
         <el-dialog title="分类" :visible.sync="dialogFormVisible">
-            <el-form ref="form" :model="formData">
-                <el-form-item label="分类名称" :label-width="formLabelWidth">
+            <el-form ref="ruleForm" :model="formData">
+                <el-form-item label="分类名称" prop="categoryName" :label-width="formLabelWidth">
                     <el-input v-model="formData.categoryName" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="图片" :label-width="formLabelWidth">
@@ -79,7 +79,7 @@
                 <!-- <el-form-item label="级别" :label-width="formLabelWidth">
                     <el-input v-model="formData.sellPrice" autocomplete="off"></el-input>
                 </el-form-item> -->
-                <el-form-item label="等级" :label-width="formLabelWidth">
+                <el-form-item label="等级" prop="levelId" :label-width="formLabelWidth">
                     <el-select @change="categshijan" v-model="formData.levelId" placeholder="请选择" style="margin-left: 38px;">
                         <el-option
                             change="categshijan"
@@ -92,7 +92,7 @@
                 </el-form-item>
 
                 <el-form-item label="所属分类" :label-width="formLabelWidth">
-                    <el-select v-model="formData.parentCategoryId" placeholder="请选择一级目录" style="margin-left: 38px;">
+                    <el-select prop="parentCategoryId" v-model="formData.parentCategoryId" placeholder="请选择一级目录" style="margin-left: 38px;">
                         <el-option v-for="item in onecatalogues" :key="item.id" :label="item.secondName" :value="item.id"></el-option>
                     </el-select>
                 </el-form-item>
@@ -149,6 +149,11 @@ export default {
         this.categoryList();
     },
     methods: {
+        resetForm(formData) {
+            console.log(this.$refs[formData].resetFields())
+            this.$refs[formData].resetFields();
+            this.$refs.upload.clearFiles();
+        },
         handlexClick(row) {
             console.log(row);
             this.formData.categoryId = row.id;
@@ -203,16 +208,16 @@ export default {
                 api.addCategory(this.formData, res => {
                     console.log(res);
                     this.dialogFormVisible = false;
-                    this.$refs.upload.clearFiles();
-                    this.formData.categoryName = '';
+                    // this.formData.categoryName = '';
+                    this.resetForm('ruleForm')
                 });
             } else {
                 console.log('修改');
                 api.updateCategory(this.formData, res => {
                     console.log(res);
                     this.dialogFormVisible = false;
-                    this.$refs.upload.clearFiles();
-                    this.formData.categoryName = '';
+                    // this.formData.categoryName = '';
+                    this.resetForm('ruleForm')
                 });
             }
         },

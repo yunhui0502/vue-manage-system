@@ -67,6 +67,9 @@ async function AddBasicsimg(params,handleResult) {
 async function advertising(params,handleResult) {
     product.advertising(params).then(res => handleResult(res));
 }
+async function announcement(params,handleResult) {
+    product.announcement(params).then(res => handleResult(res));
+}
 export default {
     enterStoreList: enterStoreList,
     ListSon: ListSon,
@@ -89,5 +92,6 @@ export default {
     updateMessage:updateMessage,
     selectBoss:selectBoss,
     AddBasicsimg:AddBasicsimg,
-    advertising:advertising
+    advertising:advertising,
+    announcement:announcement
 };

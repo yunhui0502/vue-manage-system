@@ -91,8 +91,21 @@ export default {
     methods: {
      
         send() {
-      
-             userApi.announcement({message:this.form.headline}, (res) => {
+       let fon= {
+					userId: 0,
+					byUserId: 0,
+					type: 'group',
+					message:{
+						userId: 0,
+						byUserId: 0,
+						message: this.form.headline,
+						type: 'Announcement',
+						time:'2020-9-9 00:00:00',
+					}
+                }
+                let arr = []
+				arr.push(fon)
+             userApi.announcement({message:JSON.stringify(arr)}, (res) => {
                  console.log(res)
              });
      
