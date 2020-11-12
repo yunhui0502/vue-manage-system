@@ -108,7 +108,7 @@ export default {
             dialogVisible: false,
             tableData: [],
             dialogFormVisible: false,
-            currentPage: 5,
+            currentPage: 1,
             pagesize:10,
             formLabelWidth: '120px'
         };
