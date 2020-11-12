@@ -19,8 +19,9 @@
                     <el-table-column prop="phone" label="联系方式"> </el-table-column>
                     <el-table-column label="营业执照">
                         <template slot-scope="scope">
-                            <img class="fileurl" :src="scope.row.fileId" alt="" />
+                            <img v-for="(item,i) in scope.row.file" :key="i" class="fileurl" :src="item" alt="" />
                         </template>
+                        
                     </el-table-column>
                     <el-table-column prop="address" label="操作">
                         <template slot-scope="scope">
@@ -79,7 +80,7 @@ export default {
                     let params = {
                         storeId: id
                     };
-                    api.enterStoreDelete(params, res => {
+                    userApi.enterStoreDelete(params, res => {
                         console.log(res);
                         this.$message({
                             message: '删除成功',

@@ -332,9 +332,11 @@ export default {
         },
         Tab(e) {
             this.tabindex = e;
-            // if(e==2) {
-            //     this.
-            // }
+            if(e==0) {
+                this.gitClassify();
+                this.enterStoreList();
+                this.selectProduct();
+            }
         },
         // 获取三级分类
         gitClassify() {
