@@ -17,11 +17,11 @@
                     <el-table-column prop="userId" label="用户ID"> </el-table-column>
                     <el-table-column prop="name" label="头像">
                         <template slot-scope="scope">
-                            <img class="fileurl" :src="scope.row.fileId" alt="" />
+                            <img class="fileurl" :src="scope.row.userFIle" alt="" />
                         </template>
                     </el-table-column>
                     <el-table-column prop="nickName" label="用户昵称"> </el-table-column>
-                    <el-table-column prop="phone" label="联系方式"> </el-table-column>
+                    <el-table-column prop="phone" label="学号"> </el-table-column>
                     <el-table-column prop="createTime" label="提交时间"> </el-table-column>
                 </el-table>
                 <div class="block">
@@ -52,14 +52,14 @@
                     <el-table-column prop="userId" label="用户ID"> </el-table-column>
                     <el-table-column prop="productName" label="头像">
                         <template slot-scope="scope">
-                            <img class="fileurl" :src="scope.row.fileId" alt="" />
+                            <img class="fileurl" :src="scope.row.userFIle" alt="" />
                         </template>
                     </el-table-column>
                     <el-table-column prop="nickName" label="用户昵称"> </el-table-column>
                     <el-table-column prop="college" label="认证学校"> </el-table-column>
                     <el-table-column prop="productNum" label="发布商品数量"> </el-table-column>
                     <el-table-column prop="buyProductNum" label="购买商品数量"> </el-table-column>
-                    <el-table-column prop="phone" label="联系方式"> </el-table-column>
+                    <el-table-column prop="phone" label="学号"> </el-table-column>
                     <el-table-column prop="createTime" label="注册时间"> </el-table-column>
                     <el-table-column prop="income" label="收入流水"> </el-table-column>
                     <el-table-column prop="expend" label="支出流水"> </el-table-column>

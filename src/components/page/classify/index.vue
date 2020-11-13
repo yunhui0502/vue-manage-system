@@ -225,6 +225,7 @@ export default {
                     console.log(res);
                     this.dialogFormVisible = false;
                     this.resetForm('ruleForm')
+                    this.categoryList();
                 });
             } else {
                 console.log('修改');
@@ -232,6 +233,7 @@ export default {
                     console.log(res);
                     this.dialogFormVisible = false;
                     this.resetForm('ruleForm')
+                    this.categoryList();
                 });
             }
         },

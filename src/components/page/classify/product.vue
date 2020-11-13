@@ -102,6 +102,7 @@ export default {
         selectProduct() {
             let params = {
                 showType: 'product', //商品类型
+                putaway:'0',
                 // storeId: '2', //店铺id
             };
             api.selectProduct(params, res => {

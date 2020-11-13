@@ -210,6 +210,8 @@ export default {
                     this.dialogFormVisible = false;
                     // this.formData.categoryName = '';
                     this.resetForm('ruleForm')
+                     this.categoryList();
+
                 });
             } else {
                 console.log('修改');
@@ -218,6 +220,7 @@ export default {
                     this.dialogFormVisible = false;
                     // this.formData.categoryName = '';
                     this.resetForm('ruleForm')
+                    this.categoryList();
                 });
             }
         },
