@@ -19,11 +19,11 @@
                     <!-- <el-table-column type="index" label="序号" :index="indexMethod"></el-table-column> -->
                     <el-table-column prop="sonName" label="站点名称 "> </el-table-column>
                     <el-table-column prop="collegoryName" label="站点地址 "> </el-table-column>
-                    <el-table-column prop="integralQuantity" label="站点状态">
+                    <!-- <el-table-column prop="integralQuantity" label="站点状态">
                         <el-switch v-model="value" active-color="#343434" inactive-color="#DCDCDC"></el-switch>
-                    </el-table-column>
+                    </el-table-column> -->
                     <el-table-column prop="createTime" label="站点创建时间" align="center" show-overflow-tooltip></el-table-column>
-                    <el-table-column fixed="right" width="120" label="操作" align="center">
+                    <el-table-column fixed="right" label="操作" align="center">
                         <template slot-scope="scope">
                             <el-button @click="handlexClick(scope.row)" type="text" size="small">编辑</el-button>
                             <el-button type="text" @click="deletes(scope.row.id)" class="text-red" size="small">删除</el-button>
