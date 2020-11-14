@@ -167,13 +167,17 @@ export default {
                     });
                 });
         },
-        // 获取提现资质商品
+        // 获取提现资质商品 exemptCommission
         selectIntegralProduct() {
             let params = {
                 IntegralType: 'withdraw'
             };
             api.selectIntegralProduct(params, res => {
-                this.tableData = res.data.data;
+                let tableData = res.data.data;
+                tableData.forEach(item => {
+                    item.exemptCommission = parseFloat(item.exemptCommission/100).toFixed(2) 
+                })
+                this.tableData = tableData
                 console.log('提现资质', res);
             });
         },

@@ -187,7 +187,7 @@ export default {
                 console.log('每个子站点交易金额',res)
                 this.tableData = res.data.data
                 this.tableData.forEach(item=>{
-                    item.money = item.money / 100
+                    item.money =  parseFloat(item.money/100).toFixed(2)
                 })
             })
         },
