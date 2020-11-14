@@ -186,6 +186,9 @@ export default {
             userApi.sonTransactionAmount((res)=>{
                 console.log('每个子站点交易金额',res)
                 this.tableData = res.data.data
+                this.tableData.forEach(item=>{
+                    item.money = item.money / 100
+                })
             })
         },
         //     //用户统计
