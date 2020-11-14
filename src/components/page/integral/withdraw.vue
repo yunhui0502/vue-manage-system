@@ -136,7 +136,7 @@ export default {
             this.formData.productName = row.integralName;
             this.formData.quantity = row.integralQuantity;
             this.formData.sellPrice = row.integralNeed;
-            this.formData.limit2 = parseFloat(row.exemptCommission/100).toFixed(2);
+            this.formData.limit2 = row.exemptCommission;
             // this.formData.storeId = row.storeId;
             this.dialogFormVisible = true;
         },
@@ -175,7 +175,7 @@ export default {
             api.selectIntegralProduct(params, res => {
                 let tableData = res.data.data;
                 tableData.forEach(item => {
-                    item.exemptCommission = parseFloat(item.exemptCommission/100).toFixed(2) 
+                    item.exemptCommission = parseFloat(item.exemptCommission/100).toFixed(2)
                 })
                 this.tableData = tableData
                 console.log('提现资质', res);
