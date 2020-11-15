@@ -48,7 +48,7 @@
             </div>
 
             <div class="text item">
-                <el-table :data="options.slice((currentPage-1)*pagesize,currentPage*pagesize)" stripe style="width: 100%">
+                <el-table :data="options.slice((currentPage2-1)*pagesize2,currentPage2*pagesize)" stripe style="width: 100%">
                     <el-table-column prop="userId" label="用户ID"> </el-table-column>
                     <el-table-column prop="productName" label="头像">
                         <template slot-scope="scope">

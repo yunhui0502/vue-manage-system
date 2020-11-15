@@ -19,7 +19,10 @@
                     <el-table-column prop="phone" label="联系方式"> </el-table-column>
                     <el-table-column label="营业执照">
                         <template slot-scope="scope">
-                            <img v-for="(item,i) in scope.row.file" :key="i" class="fileurl" :src="item" alt="" />
+                            <div v-viewer>
+                                <img v-for="(item,i) in scope.row.file"  style="cursor:pointer" :key="i" class="fileurl" :src="item" alt="" />
+                            </div>
+                            
                         </template>
                         
                     </el-table-column>

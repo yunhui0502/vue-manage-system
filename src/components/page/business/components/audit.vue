@@ -19,7 +19,9 @@
                     <el-table-column prop="storePhone" label="联系方式"> </el-table-column>
                     <el-table-column label="营业执照">
                         <template slot-scope="scope">
-                            <img class="fileurl" :src="scope.row.secondPictures" alt="" />
+                              <div v-viewer>
+                                    <img class="fileurl"  style="cursor:pointer" :src="scope.row.secondPictures" alt="" />
+                              </div>
                         </template>
                     </el-table-column>
                     <el-table-column prop="createDate" label="申请时间"> </el-table-column>
