@@ -5,7 +5,7 @@
        <div class="details">
            
            
-        <div style="width: 74.6%;">
+        <div style="width: 70.6%;">
              <div class="sumClass">
            <div class="userClass">
                <h5>用户总数</h5>
@@ -107,6 +107,10 @@
                 <el-table-column
                 prop="money"
                 label="金额">
+                </el-table-column>
+                <el-table-column
+                prop="userNum"
+                label="认证人数">
                 </el-table-column>
             </el-table>
         </div>
@@ -324,7 +328,7 @@ export default {
     }
     .content {
         padding: 19px 14px;
-        width: 24%;
+        width: 28.4%;
         height: 804px;
         background: #FFFFFF;
         box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.02);
