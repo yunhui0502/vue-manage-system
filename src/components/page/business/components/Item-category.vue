@@ -6,7 +6,7 @@
                     <el-breadcrumb-item>商家管理</el-breadcrumb-item>
                     <el-breadcrumb-item>商家分类</el-breadcrumb-item>
                 </el-breadcrumb>
-                <el-button @click="dialogFormVisible = true" style="float: right; padding: 3px 0" class="text-black" type="text"
+                <el-button @click="addClassify" style="float: right; padding: 3px 0" class="text-black" type="text"
                     >+ 添加分类</el-button
                 >
             </div>
@@ -79,7 +79,7 @@
                 <!-- <el-form-item label="级别" :label-width="formLabelWidth">
                     <el-input v-model="formData.sellPrice" autocomplete="off"></el-input>
                 </el-form-item> -->
-                <el-form-item label="等级" prop="levelId" :label-width="formLabelWidth">
+                <el-form-item v-if="Classify" label="等级" prop="levelId" :label-width="formLabelWidth">
                     <el-select @change="categshijan" v-model="formData.levelId" placeholder="请选择" style="margin-left: 38px;">
                         <el-option
                             change="categshijan"
@@ -91,7 +91,7 @@
                     </el-select>
                 </el-form-item>
 
-                <el-form-item label="所属分类" :label-width="formLabelWidth">
+                <el-form-item v-if="Classify" label="所属分类" :label-width="formLabelWidth">
                     <el-select prop="parentCategoryId" v-model="formData.parentCategoryId" placeholder="请选择一级目录" style="margin-left: 38px;">
                         <el-option v-for="item in onecatalogues" :key="item.id" :label="item.secondName" :value="item.id"></el-option>
                     </el-select>
@@ -125,6 +125,7 @@ export default {
                     label: '三级目录'
                 }
             ],
+            Classify:true,
             // 所属目录
             onecatalogues: [],
             // 判断一级目录选择的东西控制2 3 目录显示隐藏
@@ -149,9 +150,22 @@ export default {
         this.categoryList();
     },
     methods: {
+        addClassify () {
+            this.dialogFormVisible = true
+            this.Classify= true
+            this.formData.fileId = []
+            this.formData.parentCategoryId = ''
+            this.formData.levelId = '0'
+            this.formData.categoryName = ''
+
+        },
         resetForm(formData) {
             console.log(this.$refs[formData].resetFields())
             this.$refs[formData].resetFields();
+            this.formData.fileId = []
+            this.formData.parentCategoryId = ''
+            this.formData.levelId = '0'
+            this.formData.categoryName = ''
             this.$refs.upload.clearFiles();
         },
         handlexClick(row) {
@@ -159,6 +173,7 @@ export default {
             this.formData.categoryId = row.id;
             this.formData.categoryName = row.name;
 
+            this.Classify= false;
             this.dialogFormVisible = true;
         },
         deletes(id) {
@@ -174,7 +189,7 @@ export default {
                         categoryId: id
                     };
                     api.deleteCategory(params, res => {
-                        console.log(res);
+                        console.log('删除',res);
                         this.$message({
                             message: '删除成功',
                             type: 'success'

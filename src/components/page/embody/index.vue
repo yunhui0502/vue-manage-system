@@ -24,8 +24,16 @@
                     <el-table-column prop="createTime" label="申请时间"> </el-table-column>
                     <el-table-column prop="address" label="操作">
                         <template slot-scope="scope">
-                            <el-button @click="handleClick(scope.row)" type="text" size="small">同意</el-button>
-                            <el-button type="text" @click="deleteProduct(scope.row)" class="text-red" size="small">拒绝</el-button>
+                            <div v-if="scope.row.state =='check'">
+                                <el-button @click="handleClick(scope.row)" type="text" size="small">同意</el-button>
+                                <el-button type="text" @click="deleteProduct(scope.row)" class="text-red" size="small">拒绝</el-button>
+                            </div>
+                            <div v-if="scope.row.state =='complete'">
+                                <el-button type="text" size="small">已同意</el-button>
+                            </div>
+                            <div v-if="scope.row.state =='cancel'">
+                                <el-button type="text" size="small">已拒绝</el-button>
+                            </div>
                         </template>
                     </el-table-column>
                 </el-table>

@@ -1,7 +1,6 @@
 <template>
-  <!-- -----------------------------------------------------站点----------------------------------------------------------------- -->
+    <!-- -----------------------------------------------------站点----------------------------------------------------------------- -->
     <div>
-
         <el-card class="box-card">
             <div slot="header" class="clearfix">
                 <el-breadcrumb separator-class="el-icon-arrow-right">
@@ -11,7 +10,7 @@
             </div>
 
             <div class="text item">
-                 <el-table :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)" stripe style="width: 100%">
+                <el-table :data="tableData.slice((currentPage - 1) * pagesize, currentPage * pagesize)" stripe style="width: 100%">
                     <el-table-column prop="name" label="站点名称"> </el-table-column>
                     <el-table-column prop="realityMoney" label="提现金额"> </el-table-column>
                     <el-table-column prop="withdrawalMethod" label="提现方式"> </el-table-column>
@@ -19,8 +18,16 @@
                     <el-table-column prop="createTime" label="申请时间"> </el-table-column>
                     <el-table-column prop="address" label="操作">
                         <template slot-scope="scope">
-                            <el-button @click="handleClick(scope.row)" type="text" size="small">同意</el-button>
-                            <el-button type="text" @click="deleteProduct(scope.row)" class="text-red" size="small">拒绝</el-button>
+                            <div v-if="scope.row.state == 'check'">
+                                <el-button @click="handleClick(scope.row)" type="text" size="small">同意</el-button>
+                                <el-button type="text" @click="deleteProduct(scope.row)" class="text-red" size="small">拒绝</el-button>
+                            </div>
+                            <div v-if="scope.row.state == 'complete'">
+                                <el-button type="text" size="small">已同意</el-button>
+                            </div>
+                            <div v-if="scope.row.state == 'cancel'">
+                                <el-button type="text" size="small">已拒绝</el-button>
+                            </div>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -34,27 +41,24 @@
                         layout="prev, pager, next, jumper"
                         :total="tableData.length"
                     >
-                </el-pagination>
+                    </el-pagination>
                 </div>
             </div>
-         </el-card>
-
+        </el-card>
     </div>
 </template>
 
 <script>
 import api from '@/service/payment-api.js';
 
-
 export default {
-  name: '',
+    name: '',
     data() {
         return {
             tabindex: 0,
             tableData: [],
-            currentPage:1,
-            pagesize:10
-    
+            currentPage: 1,
+            pagesize: 10
         };
     },
     created() {
@@ -64,7 +68,7 @@ export default {
         Tab(e) {
             this.tabindex = e;
         },
-              // 同意
+        // 同意
         handleClick(row) {
             console.log(row);
             let params = {
@@ -81,7 +85,7 @@ export default {
                 });
             });
         },
-         // 拒绝
+        // 拒绝
         deleteProduct(row) {
             let params = {
                 WithdrawalId: row.secondWithdrawal,
@@ -97,16 +101,16 @@ export default {
                 });
             });
         },
- 
+
         // 查看提现列表 realityMoney
         selectWithdrawal() {
-            api.selectWithdrawal('son', res => {
+            api.selectWithdrawal('son', (res) => {
                 this.tableData = res.data.data;
-                this.tableData.forEach(item => {
-                    //  value = 
-                    item.realityMoney =parseFloat(item.realityMoney/100).toFixed(2) 
-                })
-                console.log('查看提现列表',res);
+                this.tableData.forEach((item) => {
+                    //  value =
+                    item.realityMoney = parseFloat(item.realityMoney / 100).toFixed(2);
+                });
+                console.log('查看提现列表', res);
             });
         },
         // -----------------------------------------------------------------------------------------------------------------------------------
