@@ -111,7 +111,12 @@ export default {
         // 学生认证
         selectProduct() {
             userApi.UserList(0, (res) => {
-                this.options = res.data.data;
+                 let options = res.data.data;
+                options.forEach(item=>{
+                    item.income = parseFloat(item.income/100).toFixed(2)
+                    item.expend = parseFloat(item.expend/100).toFixed(2)
+                })
+                this.options = options
                 console.log('学生认证',res);
             });
         },
