@@ -99,7 +99,8 @@ export default {
 						userId: 0,
 						byUserId: 0,
 						message: this.form.headline,
-						type: 'Announcement',
+                        type: 'Announcement',
+                        newpm:true,
 						time:'2020-9-9 00:00:00',
 					}
                 }
