@@ -385,6 +385,8 @@ export default {
       if (this.controlCatalogue === '0') {
         this.time();
         this.form.requestId = Date.now();
+        // console.log(this.form);
+        // console.log(this.category);
         api.typeAddCategory(this.form, this.category, (res) => {
           this.dialogVisible = true;
           this.huoqsuoy();

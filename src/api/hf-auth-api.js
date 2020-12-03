@@ -14,8 +14,8 @@ function addSup(params) {
   return Axios.post('/api/api/user/hf-auth/addSup', fd);
 }
 
-function selectAccount() {
-  return Axios.get('/api/api/user/jurisdiction/selectAccount');
+function selectAccount(params) {
+  return Axios.get('/api/api/user/jurisdiction/selectAccount', { params: { ...params } });
 }
 
 function deleteAccount(params) {

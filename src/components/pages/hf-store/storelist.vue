@@ -112,14 +112,14 @@
       </div>-->
     <!-- </div> -->
 
-    <el-dialog width="50%" title="添加店铺" :visible.sync="drawer" center>
+    <el-dialog width="40%" title="添加店铺" :visible.sync="drawer" center>
       <el-form
-        style="width:25%;"
+        style="width:70%;"
         :model="store"
         status-icon
         :rules="rules"
         ref="ruleForm"
-        label-width="100px"
+        label-width="160px"
         class="demo-ruleForm"
       >
         <el-form-item label="店铺名称" prop="hfName">
@@ -128,12 +128,15 @@
         <el-form-item label="店铺描述" prop="hfDesc">
           <el-input v-model="store.hfDesc" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="店铺状态" prop="hfStatus">
+        <el-form-item label="店铺状态" prop="radioye">
           <el-radio v-model="radioye" label="0" @change="status">未营业</el-radio>
           <el-radio v-model="radioye" label="1" @change="status">营业</el-radio>
         </el-form-item>
-        <el-form-item label="店铺位置" prop="hfStatus">
+        <el-form-item label="店铺位置" prop="address">
           <el-input v-model="store.address"></el-input>
+        </el-form-item>
+        <el-form-item label="手机号" prop="phone">
+          <el-input v-model="store.phone"></el-input>
         </el-form-item>
         <el-form-item>
           <!-- <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button> -->
@@ -404,6 +407,7 @@ export default {
         hfStatus: 0,
         userId: '',
         address: '',
+        phone: '',
       },
       editData: {
         stoneId: '',

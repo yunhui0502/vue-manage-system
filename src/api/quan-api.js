@@ -2,6 +2,9 @@
 /* eslint-disable indent */
 /* eslint-disable require-jsdoc */
 import Axios from './index';
+import axios from 'axios';
+import store from '@/store';
+
 
 function addCoupon(params) {
     console.log(params);
@@ -47,11 +50,12 @@ function getScope() {
 }
 
 function getlist() {
-    return Axios.get('/api/api/product/discountCoupon/selectDiscountCoupon?bossId=1');
+    let bossId = store.getUser().BSid;
+    return Axios.get('/api/api/product/discountCoupon/selectDiscountCoupon?bossId=' + bossId);
 }
 
 function getliststoneId(stoneId) {
-    return Axios.get('/api/api/product/discountCoupon/selectDiscountCoupon?stoneId=' + stoneId);
+    return axios.get('/api/api/product/discountCoupon/selectDiscountCoupon?stoneId=' + stoneId);
 }
 export default {
     addCoupon: addCoupon,

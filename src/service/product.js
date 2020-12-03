@@ -81,6 +81,14 @@ async function selectDiscountCoupon(params, handleResult) {
 async function bossAgreeApply(params, handleResult) {
   product.bossAgreeApply(params).then((res) => handleResult(res));
 }
+// 获取商品商品管理列表2
+async function getProductListBos(bossId, handleResult) {
+  product.getProductListBos(bossId).then((res) => handleResult(res));
+}
+// 店铺添加商品
+async function addStoneProduct(params, handleResult) {
+  product.addStoneProduct(params).then((res) => handleResult(res));
+}
 export default {
   getProductsByBossId: getProductsByBossId,
   deleteById: deleteById,
@@ -102,4 +110,6 @@ export default {
   deletedPictrue: deletedPictrue,
   selectDiscountCoupon: selectDiscountCoupon,
   bossAgreeApply: bossAgreeApply,
+  getProductListBos: getProductListBos,
+  addStoneProduct: addStoneProduct,
 };

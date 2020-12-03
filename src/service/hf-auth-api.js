@@ -4,8 +4,8 @@ import api from '@/api/hf-auth-api.js';
 async function addSup(params, handleResult) {
   api.addSup(params).then((res) => handleResult(res));
 }
-async function selectAccount(handleResult) {
-  api.selectAccount().then((res) => handleResult(res));
+async function selectAccount(params, handleResult) {
+  api.selectAccount(params).then((res) => handleResult(res));
 }
 
 async function deleteAccount(params, handleResult) {

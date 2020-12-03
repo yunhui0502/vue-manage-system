@@ -9,6 +9,7 @@ function addStore(params) {
   fd.append('hfStatus', params.hfStatus);
   fd.append('userId', params.userId);
   fd.append('address', params.address);
+  fd.append('phone', params.phone);
   return Axios.post('/api/api/product/stone/addStone', fd);
 }
 function getStore(param) {

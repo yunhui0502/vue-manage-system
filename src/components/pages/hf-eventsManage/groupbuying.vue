@@ -234,7 +234,7 @@ export default {
         instanceId: '',
 
         id: '',
-        groupNum: '', // 团购人数
+        groupNum: '2', // 团购人数
         favoravlePrice: '', // 优惠价格
         timestamp: '2', // 当前时间
         token: '1',

@@ -6,6 +6,7 @@ import store from '@/store';
 import router from '@/router';
 // 2. 请求头 token
 axios.defaults.headers.token = store.getUser().token;
+axios.defaults.headers.bossId = store.getUser().bossId;
 
 
 // 修改配置  加token

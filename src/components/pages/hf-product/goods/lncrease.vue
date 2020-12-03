@@ -28,7 +28,7 @@
         </el-row>
 
         <el-row :gutter="20">
-          <el-col :span="8">
+          <!-- <el-col :span="8">
             <el-form-item label="仓库" prop="wareHouseId">
               <el-select v-model="specificationForm.wareHouseId" placeholder="请选择">
                 <el-option
@@ -39,7 +39,7 @@
                 ></el-option>
               </el-select>
             </el-form-item>
-          </el-col>
+          </el-col> -->
           <el-col :span="8">
             <el-form-item label="库存" prop="quantity">
               <el-input v-model="specificationForm.quantity"></el-input>
@@ -227,9 +227,9 @@ export default {
       },
       // 顶部表单验证
       rules: {
-        wareHouseId: [
-          { required: true, message: '请选择仓库', trigger: 'change' },
-        ],
+        // wareHouseId: [
+        //   { required: true, message: '请选择仓库', trigger: 'change' },
+        // ],
         sellPrice: [{ validator: checkAge, trigger: 'blur' },
           { required: true, message: '请输入', trigger: 'change' }],
         linePrice: [{ validator: checkAge, trigger: 'blur' },

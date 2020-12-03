@@ -1,22 +1,35 @@
 <template>
   <div>
-    <el-card class="box-card" style="margin-bottom:20px;">
+    <el-card class="box-card" style="margin-bottom: 20px">
       <div slot="header" class="clearfix">
         <span>店铺基本信息</span>
-        <div style="margin-top:10px;">
+        <div style="margin-top: 10px">
           <img
-            style="width: 54px;height: 54px;vertical-align: middle;margin-left: 20px;"
+            style="
+              width: 54px;
+              height: 54px;
+              vertical-align: middle;
+              margin-left: 20px;
+            "
             :src="avatarUrl"
             alt
           />
-          <span style="margin-left: 20px;">店铺名称:{{storeinfor.stoneName}}</span>
-          <span style="margin-left: 20px;" v-if="storeinfor.hfStatus=== 0">店铺状态:营业</span>
-          <span style="margin-left: 20px;" v-if="storeinfor.hfStatus === 1">
+          <span style="margin-left: 20px"
+            >店铺名称:{{ storeinfor.stoneName }}</span
+          >
+          <span style="margin-left: 20px" v-if="storeinfor.hfStatus === 0"
+            >店铺状态:营业</span
+          >
+          <span style="margin-left: 20px" v-if="storeinfor.hfStatus === 1">
             店铺状态:
-            <text style="color:#A6A3FB;">未营业</text>
+            <text style="color: #a6a3fb">未营业</text>
           </span>
-          <span style="margin-left: 20px;">店铺描述:{{storeinfor.stoneDesc}}</span>
-          <span style="margin-left: 20px;">店铺地址:{{storeinfor.address}}</span>
+          <span style="margin-left: 20px"
+            >店铺描述:{{ storeinfor.stoneDesc }}</span
+          >
+          <span style="margin-left: 20px"
+            >店铺地址:{{ storeinfor.address }}</span
+          >
           <!-- <span style="margin-left: 20px;">{{storeinfor.hfDesc}}</span>
       <span style="margin-left: 20px;">支付时间:{{storeinfor.hfStatus}}</span>
           <span style="margin-left: 20px;">订单状态:{{zhuang}}</span>-->
@@ -30,110 +43,215 @@
           <div class="box">
             <div class="leftxiao">
               <div
-                style="display:flex;align-items:center;flex-direction:column; margin-top:20px;width:130px;"
+                style="
+                  display: flex;
+                  align-items: center;
+                  flex-direction: column;
+                  margin-top: 20px;
+                  width: 130px;
+                "
               >
                 <div>今日收入金额（元）</div>
-                <div style="margin-top:2px;">{{liulan.amountDay}}</div>
+                <div style="margin-top: 2px">{{ liulan.amountDay }}</div>
               </div>
-              <div style="font-size:12px;display:flex;">
+              <div style="font-size: 12px; display: flex">
                 <div
-                  style="margin-left:14px; display:flex;align-items:center;flex-direction:column; margin-top:15px;"
+                  style="
+                    margin-left: 14px;
+                    display: flex;
+                    align-items: center;
+                    flex-direction: column;
+                    margin-top: 15px;
+                  "
                 >
                   <div>支付订单数</div>
                   <i
-                    style="font-size:13px;margin-top:2px;margin-bottom:2px;"
-                  >{{liulan.orderCountsDay}}</i>
-                  <div style="font-size:10px;">昨日:{{liulan.orderCountsYestday}}</div>
+                    style="font-size: 13px; margin-top: 2px; margin-bottom: 2px"
+                    >{{ liulan.orderCountsDay }}</i
+                  >
+                  <div style="font-size: 10px">
+                    昨日:{{ liulan.orderCountsYestday }}
+                  </div>
                 </div>
                 <div
-                  style="margin-left:14px;display:flex;align-items:center;flex-direction:column; margin-top:15px;"
+                  style="
+                    margin-left: 14px;
+                    display: flex;
+                    align-items: center;
+                    flex-direction: column;
+                    margin-top: 15px;
+                  "
                 >
                   <div>支付人数</div>
-                  <i style="font-size:13px;margin-top:2px;margin-bottom:2px;">4</i>
-                  <div style="font-size:10px;">昨日：{{liulan.paymentConutsYestday}}</div>
+                  <i
+                    style="font-size: 13px; margin-top: 2px; margin-bottom: 2px"
+                    >4</i
+                  >
+                  <div style="font-size: 10px">
+                    昨日：{{ liulan.paymentConutsYestday }}
+                  </div>
                 </div>
                 <div
-                  style="margin-left:14px;display:flex;align-items:center;flex-direction:column; margin-top:15px;"
+                  style="
+                    margin-left: 14px;
+                    display: flex;
+                    align-items: center;
+                    flex-direction: column;
+                    margin-top: 15px;
+                  "
                 >
                   <div>浏览量</div>
-                  <i style="font-size:13px;margin-top:2px;margin-bottom:2px;">6</i>
-                  <div style="font-size:10px;">昨日：{{liulan.browseCountsYestday}}</div>
+                  <i
+                    style="font-size: 13px; margin-top: 2px; margin-bottom: 2px"
+                    >6</i
+                  >
+                  <div style="font-size: 10px">
+                    昨日：{{ liulan.browseCountsYestday }}
+                  </div>
                 </div>
               </div>
             </div>
 
             <div class="leftxiao1">
               <div
-                style="display:flex;align-items:center;flex-direction:column; margin-top:20px;width:130px;"
+                style="
+                  display: flex;
+                  align-items: center;
+                  flex-direction: column;
+                  margin-top: 20px;
+                  width: 130px;
+                "
               >
                 <div>本月收入金额（元）</div>
-                <div style="margin-top:2px;">{{liulan.amountMouth}}</div>
+                <div style="margin-top: 2px">{{ liulan.amountMouth }}</div>
               </div>
-              <div style="font-size:12px;display:flex;">
+              <div style="font-size: 12px; display: flex">
                 <div
-                  style="margin-left:14px; display:flex;align-items:center;flex-direction:column; margin-top:15px;"
+                  style="
+                    margin-left: 14px;
+                    display: flex;
+                    align-items: center;
+                    flex-direction: column;
+                    margin-top: 15px;
+                  "
                 >
                   <div>支付订单数</div>
                   <i
-                    style="font-size:13px;margin-top:2px;margin-bottom:2px;"
-                  >{{liulan.orderCountsDay}}</i>
-                  <div style="font-size:10px;">昨日{{liulan.orderConutsMouth}}</div>
+                    style="font-size: 13px; margin-top: 2px; margin-bottom: 2px"
+                    >{{ liulan.orderCountsDay }}</i
+                  >
+                  <div style="font-size: 10px">
+                    昨日{{ liulan.orderConutsMouth }}
+                  </div>
                 </div>
                 <div
-                  style="margin-left:14px;display:flex;align-items:center;flex-direction:column; margin-top:15px;"
+                  style="
+                    margin-left: 14px;
+                    display: flex;
+                    align-items: center;
+                    flex-direction: column;
+                    margin-top: 15px;
+                  "
                 >
                   <div>支付人数</div>
                   <i
-                    style="font-size:13px;margin-top:2px;margin-bottom:2px;"
-                  >{{liulan.paymentConutsMouth}}</i>
-                  <div style="font-size:10px;">昨日：{{liulan.paymentConutsYestday}}</div>
+                    style="font-size: 13px; margin-top: 2px; margin-bottom: 2px"
+                    >{{ liulan.paymentConutsMouth }}</i
+                  >
+                  <div style="font-size: 10px">
+                    昨日：{{ liulan.paymentConutsYestday }}
+                  </div>
                 </div>
                 <div
-                  style="margin-left:14px;display:flex;align-items:center;flex-direction:column; margin-top:15px;"
+                  style="
+                    margin-left: 14px;
+                    display: flex;
+                    align-items: center;
+                    flex-direction: column;
+                    margin-top: 15px;
+                  "
                 >
                   <div>浏览量</div>
                   <i
-                    style="font-size:13px;margin-top:2px;margin-bottom:2px;"
-                  >{{liulan.browseCountsMouth}}</i>
-                  <div style="font-size:10px;">昨日：{{liulan.browseCountsYestday}}</div>
+                    style="font-size: 13px; margin-top: 2px; margin-bottom: 2px"
+                    >{{ liulan.browseCountsMouth }}</i
+                  >
+                  <div style="font-size: 10px">
+                    昨日：{{ liulan.browseCountsYestday }}
+                  </div>
                 </div>
               </div>
             </div>
 
             <div class="leftxiao2">
-              <div style="display:flex;justify-content:space-between;">
+              <div style="display: flex; justify-content: space-between">
                 <div
-                  style="display:flex;display:flex;align-items:center;flex-direction:column;margin-top:20px;width:90px;"
+                  style="
+                    display: flex;
+                    display: flex;
+                    align-items: center;
+                    flex-direction: column;
+                    margin-top: 20px;
+                    width: 90px;
+                  "
                 >
                   <div>可提现金额</div>
-                  <div style="margin-top:2px;">{{check.use}}元</div>
+                  <div style="margin-top: 2px">{{ check.use }}元</div>
                 </div>
                 <el-button
                   size="mini"
                   @click="dialogFormVisible = true"
-                  style="color: #67C23A;"
+                  style="color: #67c23a"
                   type="text"
                   round
-                >提现</el-button>
+                  >提现</el-button
+                >
               </div>
-              <div style="font-size:12px;display:flex;">
+              <div style="font-size: 12px; display: flex">
                 <div
-                  style="margin-left:14px; display:flex;align-items:center;flex-direction:column; margin-top:15px;"
+                  style="
+                    margin-left: 14px;
+                    display: flex;
+                    align-items: center;
+                    flex-direction: column;
+                    margin-top: 15px;
+                  "
                 >
                   <div>全部</div>
-                  <i style="font-size:13px;margin-top:2px;margin-bottom:2px;">{{check.all}}元</i>
+                  <i
+                    style="font-size: 13px; margin-top: 2px; margin-bottom: 2px"
+                    >{{ check.all }}元</i
+                  >
                 </div>
                 <div
-                  style="margin-left:14px;display:flex;align-items:center;flex-direction:column; margin-top:15px;"
+                  style="
+                    margin-left: 14px;
+                    display: flex;
+                    align-items: center;
+                    flex-direction: column;
+                    margin-top: 15px;
+                  "
                 >
                   <div>待支付</div>
-                  <i style="font-size:13px;margin-top:2px;margin-bottom:2px;">{{check.payment}}元</i>
+                  <i
+                    style="font-size: 13px; margin-top: 2px; margin-bottom: 2px"
+                    >{{ check.payment }}元</i
+                  >
                 </div>
                 <div
-                  style="margin-left:14px;display:flex;align-items:center;flex-direction:column; margin-top:15px;"
+                  style="
+                    margin-left: 14px;
+                    display: flex;
+                    align-items: center;
+                    flex-direction: column;
+                    margin-top: 15px;
+                  "
                 >
                   <div>待处理</div>
-                  <i style="font-size:13px;margin-top:2px;margin-bottom:2px;">{{check.process}}元</i>
+                  <i
+                    style="font-size: 13px; margin-top: 2px; margin-bottom: 2px"
+                    >{{ check.process }}元</i
+                  >
                 </div>
               </div>
             </div>
@@ -154,34 +272,44 @@
             <el-button @click="Screening" type="primary">筛选</el-button>
           </div>
           <el-table
-            :header-cell-style="{'text-align':'center'}"
+            :header-cell-style="{ 'text-align': 'center' }"
             :data="Details"
             height="250"
             border
             style="width: 100%"
-            :cell-style="{'text-align':'center'}"
+            :cell-style="{ 'text-align': 'center' }"
           >
             <el-table-column type="index"></el-table-column>
             <el-table-column prop="createTime" label="日期"></el-table-column>
             <el-table-column prop="actualPrice" label="金额">
-              <template
-                slot-scope="scope"
-              >{{ scope.row.chargeOffType=='order'?' + ':' - '}} {{scope.row.actualPrice}}</template>
+              <template slot-scope="scope"
+                >{{ scope.row.chargeOffType == "order" ? " + " : " - " }}
+                {{ scope.row.actualPrice }}</template
+              >
             </el-table-column>
             <el-table-column prop="chargeOffType" label="类型">
-              <template slot-scope="scope">{{ scope.row.chargeOffType=='order'?'订单':''}}</template>
+              <template slot-scope="scope">{{
+                scope.row.chargeOffType == "order" ? "订单" : ""
+              }}</template>
             </el-table-column>
           </el-table>
         </el-card>
       </el-tab-pane>
 
       <el-tab-pane label="商品管理" name="commodity">
-        <div style="display:flex;">
-          <el-card class="box-card" style="width:40%;">
+        <div style="display: flex">
+          <el-card class="box-card" style="width: 40%">
             <div slot="header" class="clearfix">
               <span>商品列表</span>
-              <el-button style="float: right;margin-left:10px;" type="primary" @click="Added">新增店铺商品</el-button>
-              <el-button style="float: right;" type="primary" @click="add = true">添加店铺商品</el-button>
+              <el-button
+                style="float: right; margin-left: 10px"
+                type="primary"
+                @click="Added"
+                >新增店铺商品</el-button
+              >
+              <el-button style="float: right" type="primary" @click="add = true"
+                >添加店铺商品</el-button
+              >
             </div>
             <el-table
               :data="list"
@@ -190,12 +318,25 @@
               ref="table"
               @row-click="getproductgood"
             >
-              <el-table-column type="index" align="center" label="选择" width="50"></el-table-column>
-              <el-table-column align="center" prop="productName" label="商品名称"></el-table-column>
-              <el-table-column align="center" prop="productDesc" label="商品描述"></el-table-column>
+              <el-table-column
+                type="index"
+                align="center"
+                label="选择"
+                width="50"
+              ></el-table-column>
+              <el-table-column
+                align="center"
+                prop="productName"
+                label="商品名称"
+              ></el-table-column>
+              <el-table-column
+                align="center"
+                prop="productDesc"
+                label="商品描述"
+              ></el-table-column>
             </el-table>
           </el-card>
-          <el-card class="box-card" style="width:50%;margin-left:20px;">
+          <el-card class="box-card" style="width: 50%; margin-left: 20px">
             <div slot="header" class="clearfix">
               <span>物品列表</span>
             </div>
@@ -206,24 +347,58 @@
               ref="table"
               @row-click="getproductgood"
             >
-              <el-table-column prop="goodsId" label="序号" width="50" align="center"></el-table-column>
-              <el-table-column prop="goodsName" label="物品名称" align="center"></el-table-column>
-              <el-table-column prop="goodsDesc" label="物品描述" align="center"></el-table-column>
-              <el-table-column prop="brandName" label="生产厂家" align="center"></el-table-column>
+              <el-table-column
+                prop="goodsId"
+                label="序号"
+                width="50"
+                align="center"
+              ></el-table-column>
+              <el-table-column
+                prop="goodsName"
+                label="物品名称"
+                align="center"
+              ></el-table-column>
+              <el-table-column
+                prop="goodsDesc"
+                label="物品描述"
+                align="center"
+              ></el-table-column>
+              <el-table-column
+                prop="brandName"
+                label="生产厂家"
+                align="center"
+              ></el-table-column>
               <el-table-column prop="sellPrice" label="售卖价格" align="center">
                 <template slot-scope="scope">
-                  <el-input style="text-align:center;" v-model="scope.row.sellPrice"></el-input>
+                  <el-input
+                    style="text-align: center"
+                    v-model="scope.row.sellPrice"
+                  ></el-input>
                 </template>
               </el-table-column>
-              <el-table-column prop="createTime" width="180" label="创建时间" align="center"></el-table-column>
-              <el-table-column prop="modifyTime" width="180" label="更新时间" align="center"></el-table-column>
+              <el-table-column
+                prop="createTime"
+                width="180"
+                label="创建时间"
+                align="center"
+              ></el-table-column>
+              <el-table-column
+                prop="modifyTime"
+                width="180"
+                label="更新时间"
+                align="center"
+              ></el-table-column>
               <el-table-column align="center" label="操作" fixed="right">
                 <template slot-scope="scope">
-                  <el-button type="text" @click="updatagood(scope.row)">保存</el-button>
+                  <el-button type="text" @click="updatagood(scope.row)"
+                    >保存</el-button
+                  >
                 </template>
               </el-table-column>
             </el-table>
-            <el-button @click="drawer = true" type="primary">添加物品</el-button>
+            <el-button @click="drawer = true" type="primary"
+              >添加物品</el-button
+            >
           </el-card>
         </div>
       </el-tab-pane>
@@ -232,21 +407,42 @@
         <el-card class="box-card">
           <el-button
             type="primary"
-            style="float: right;margin-bottom:10px;"
+            style="float: right; margin-bottom: 10px"
             @click="dialogVisible = true"
-          >添加店铺成员</el-button>
+            >添加店铺成员</el-button
+          >
           <el-table :data="Person" stripe style="width: 100%">
-            <el-table-column align="center" prop="userId" label="用户id"></el-table-column>
-            <el-table-column align="center" prop="userName" label="姓名"></el-table-column>
-            <el-table-column align="center" prop="realName" label="昵称"></el-table-column>
-            <el-table-column align="center" prop="storeRoleName" label="角色"></el-table-column>
+            <el-table-column
+              align="center"
+              prop="userId"
+              label="用户id"
+            ></el-table-column>
+            <el-table-column
+              align="center"
+              prop="userName"
+              label="姓名"
+            ></el-table-column>
+            <el-table-column
+              align="center"
+              prop="realName"
+              label="昵称"
+            ></el-table-column>
+            <el-table-column
+              align="center"
+              prop="storeRoleName"
+              label="角色"
+            ></el-table-column>
             <el-table-column label="是否参与核销" align="center">
               <template slot-scope="scope">
-                <div v-if="scope.row.isCancel===1">是</div>
-                <div v-if="scope.row.isCancel===0">否</div>
+                <div v-if="scope.row.isCancel === 1">是</div>
+                <div v-if="scope.row.isCancel === 0">否</div>
               </template>
             </el-table-column>
-            <el-table-column align="center" prop="userPhone" label="手机号"></el-table-column>
+            <el-table-column
+              align="center"
+              prop="userPhone"
+              label="手机号"
+            ></el-table-column>
             <el-table-column align="center" prop="hfDesc" label="操作">
               <template slot-scope="scope">
                 <el-button
@@ -254,7 +450,8 @@
                   size="small"
                   align="center"
                   @click="checkPersonDetail(scope.row)"
-                >查看</el-button>
+                  >查看</el-button
+                >
               </template>
             </el-table-column>
           </el-table>
@@ -269,9 +466,22 @@
               ref="table"
               @row-click="currentChange"
             >
-              <el-table-column type="selection" align="center" label="选择" width="50"></el-table-column>
-              <el-table-column align="center" prop="nickName" label="用户名"></el-table-column>
-              <el-table-column align="center" prop="phone" label="手机号"></el-table-column>
+              <el-table-column
+                type="selection"
+                align="center"
+                label="选择"
+                width="50"
+              ></el-table-column>
+              <el-table-column
+                align="center"
+                prop="nickName"
+                label="用户名"
+              ></el-table-column>
+              <el-table-column
+                align="center"
+                prop="phone"
+                label="手机号"
+              ></el-table-column>
             </el-table>
             <span slot="footer" class="dialog-footer">
               <el-button @click="dialogVisible = false">取 消</el-button>
@@ -279,16 +489,31 @@
             </span>
           </el-dialog>
 
-          <el-dialog title="查看" width="40%" :visible.sync="draweruser" :with-header="false">
-            <div class="p20" style="margin: 0 auto; ">
+          <el-dialog
+            title="查看"
+            width="40%"
+            :visible.sync="draweruser"
+            :with-header="false"
+          >
+            <div class="p20" style="margin: 0 auto">
               <div>
-                <span style="font-size:13px;margin-right:12px;">是否参与核销</span>
-                <el-radio v-model="radio" label="0" @change="changestatus">否</el-radio>
-                <el-radio v-model="radio" label="1" @change="changestatus">是</el-radio>
+                <span style="font-size: 13px; margin-right: 12px"
+                  >是否参与核销</span
+                >
+                <el-radio v-model="radio" label="0" @change="changestatus"
+                  >否</el-radio
+                >
+                <el-radio v-model="radio" label="1" @change="changestatus"
+                  >是</el-radio
+                >
               </div>
-              <div style="margin-top:40px;">
-                <span style="font-size:13px;">设置成员角色：</span>
-                <el-select v-model="value" placeholder="请选择" @change="roleval">
+              <div style="margin-top: 40px">
+                <span style="font-size: 13px">设置成员角色：</span>
+                <el-select
+                  v-model="value3"
+                  placeholder="请选择"
+                  @change="roleval"
+                >
                   <el-option
                     v-for="item in StoreRole"
                     :key="item.roleName"
@@ -301,12 +526,147 @@
           </el-dialog>
         </el-card>
       </el-tab-pane>
+      <el-tab-pane label="账号管理" name="account">
+        <el-card class="box-card">
+          <el-button
+            type="primary"
+            @click="Visible = true"
+            style="float: right"
+            >添加账号</el-button
+          >
+          <el-table :data="tableData2" border style="width: 100%">
+            <el-table-column
+              prop="accountCode"
+              label="手机号"
+            ></el-table-column>
+            <el-table-column prop="accountRole" label="账号类型">
+              <template slot-scope="scope">
+                <div>
+                  {{
+                    scope.row.accountRole == "Super Admin"
+                      ? "超管账号"
+                      : "普通账号"
+                  }}
+                </div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="accountType" label="类型"></el-table-column>
+            <el-table-column prop="isDeleted" label="状态">
+              <template slot-scope="scope">
+                <div>{{ scope.row.isDeleted == "2" ? "在线" : "离线" }}</div>
+              </template>
+            </el-table-column>
+            <el-table-column label="操作">
+              <template slot-scope="scope">
+                <el-button
+                  size="mini"
+                  :disabled="scope.row.isDeleted == '0'"
+                  type="text"
+                  @click="handleEdit(scope.$index, scope.row)"
+                  >下线</el-button
+                >
+                <el-button
+                  size="mini"
+                  type="text"
+                  @click="binding(scope.$index, scope.row)"
+                  >绑定</el-button
+                >
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-card>
+      </el-tab-pane>
     </el-tabs>
 
+    <el-dialog
+      title="新增子账户信息"
+      :visible.sync="Visible"
+      width="30%"
+      center
+    >
+      <el-form
+        :model="ruleForm"
+        :rules="rules"
+        ref="ruleForm"
+        label-width="80px"
+        label-position="left"
+        class="demo-ruleForm"
+      >
+        <!-- <el-form-item label="用户昵称" prop="name">
+              <el-input v-model="ruleForm.name"></el-input>
+          </el-form-item>-->
+        <!-- <el-form-item label="密码" prop="pass">
+              <el-input v-model="ruleForm.pass"></el-input>
+          </el-form-item>-->
+        <el-form-item label="手机号" prop="authKey">
+          <el-input v-model="ruleForm.authKey"></el-input>
+        </el-form-item>
+        <!-- <el-form-item label="账户属性" prop="type">
+          <el-radio-group v-model="ruleForm.type">
+            <el-radio
+              @change="radiochange"
+              v-model="ruleForm.type"
+              v-for="(item, i) in RoleCodeList"
+              :key="i"
+              :label="item.email"
+              >{{ item.email }}</el-radio
+            >
+          </el-radio-group>
+        </el-form-item> -->
+        <el-form-item>
+          <el-button type="primary" @click="submitForm('ruleForm')"
+            >立即创建</el-button
+          >
+          <el-button @click="resetForm('ruleForm')">重置</el-button>
+        </el-form-item>
+      </el-form>
+
+      <!-- <el-dialog
+        width="30%"
+        title="选择店铺"
+        :visible.sync="innerVisible"
+        append-to-body
+      >
+        <el-form :model="ruleForm">
+          店铺
+          <el-form-item label>
+            <el-select v-model="ruleForm.id" placeholder="请选择店铺">
+              <el-option
+                v-for="item in formselectList"
+                :key="item.id"
+                :label="item.hfName"
+                :value="item.id"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="innerVisible = false">取 消</el-button>
+          <el-button type="primary" @click="innerVisible = false"
+            >确 定</el-button
+          >
+        </span>
+      </el-dialog> -->
+    </el-dialog>
+    <el-dialog title="绑定" :visible.sync="bindingVisible" width="40%" center>
+      <el-transfer
+        v-model="value"
+        :data="tablelist"
+        :titles="['可选', '已经添加']"
+        :button-texts="['移除', '添加']"
+        @change="handleSelectionChange3"
+        @right-check-change="righSelectionChange"
+        :props="{
+          label: 'roleName',
+          key: 'id',
+        }"
+      ></el-transfer>
+    </el-dialog>
+
     <el-dialog center title="店铺商品" :visible.sync="add">
-      <el-select v-model="warehouseId" @change="warehouse" placeholder="请选择">
+      <!-- <el-select v-model="warehouseId" @change="warehouse" placeholder="请选择">
         <el-option v-for="item in options" :key="item.hfName" :label="item.hfName" :value="item.id"></el-option>
-      </el-select>
+      </el-select> -->
 
       <el-table
         @selection-change="handleSelectionChange"
@@ -317,20 +677,43 @@
         highlight-current-row
         ref="multipleTable"
       >
-        <el-table-column align="center" label="序号" type="index"></el-table-column>
-        <el-table-column align="center" prop="goodName" label="物品名称"></el-table-column>
-        <el-table-column align="center" prop="goodDesc" label="物品描述" show-overflow-tooltip></el-table-column>
-        <el-table-column align="center" prop="quantity" label="物品数量"></el-table-column>
-        <el-table-column align="center" prop="category" label="物品类目"></el-table-column>
-        <el-table-column align="center" prop="category" label="申请数量">
+        <el-table-column
+          align="center"
+          label="序号"
+          type="index"
+        ></el-table-column>
+        <el-table-column
+          align="center"
+          prop="productName"
+          label="物品名称"
+        ></el-table-column>
+        <el-table-column
+          align="center"
+          prop="productDesc"
+          label="物品描述"
+          show-overflow-tooltip
+        ></el-table-column>
+        <!-- <el-table-column align="center" prop="quantity" label="物品数量"></el-table-column> -->
+        <el-table-column
+          align="center"
+          prop="categoryName"
+          label="物品类目"
+        ></el-table-column>
+        <!-- <el-table-column align="center" prop="category" label="申请数量">
           <template slot-scope="scope">
             <el-input placeholder="请输入" :min="1" type="number" v-model.number="scope.row.count"></el-input>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <!-- <el-table-column prop="lastModifier" label="最近一次操作人" align="center"></el-table-column> -->
         <el-table-column fixed="right" label="操作" width="100">
           <template slot-scope="scope">
-            <el-button class="a6a" @click="apply(scope.row)" type="primary" size="small">提交</el-button>
+            <el-button
+              class="a6a"
+              @click="apply(scope.row)"
+              type="primary"
+              size="small"
+              >添加</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -340,15 +723,20 @@
       </span>-->
     </el-dialog>
 
-    <el-dialog title="申请提现" width="40%" center :visible.sync="dialogFormVisible">
+    <el-dialog
+      title="申请提现"
+      width="40%"
+      center
+      :visible.sync="dialogFormVisible"
+    >
       <el-form :model="form">
-        <el-form-item label="提现账号" >
+        <el-form-item label="提现账号">
           <el-input class="account" v-model="form.account"></el-input>
         </el-form-item>
-        <el-form-item label="提现金额" >
+        <el-form-item label="提现金额">
           <el-input class="account" v-model="form.money"></el-input>
         </el-form-item>
-        <el-form-item label="区款方式" >
+        <el-form-item label="区款方式">
           <el-select v-model="form.methodId" placeholder="请选择活动区域">
             <el-option
               v-for="item in dataList"
@@ -359,7 +747,7 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label=" 名称 " >
+        <el-form-item label=" 名称 ">
           <el-input class="account" v-model="form.name"></el-input>
         </el-form-item>
       </el-form>
@@ -396,7 +784,10 @@
   </div>
 </template>
 <script>
+import juris from '@/service/jurisdiction.js';
+import api from '@/service/hf-auth-api.js';
 import cart from '@/service/cart.js';
+import product from '@/service/product.js';
 import store from '@/store';
 import GoodsLncrease from '../hf-product/goods/lncrease';
 import home from '@/service/home.js';
@@ -407,12 +798,68 @@ import constants from '@/store/constants.js';
 // import serviceProduct from '@/service/product.js';
 import userCenterService from '@/service/userCenter.js';
 import serviceGoods from '@/service/goods.js';
-import cang from '@/service/cang.js';
+// import cang from '@/service/cang.js';
 export default {
   name: 'store',
   components: { GoodsLncrease },
   data() {
+    // ------------------添加账号------------------------
+    var validatePass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入密码'));
+      } else {
+        if (this.ruleForm.checkPass !== '') {
+          this.$refs.ruleForm.validateField('checkPass');
+        }
+        callback();
+      }
+    };
+    const checkMobile = (rule, value, callback) => {
+      if (!/^1[3-9]\d{9}$/.test(value)) {
+        return callback(new Error('手机号不合法'));
+      }
+      callback();
+    };
+    // ------------------------------------------
     return {
+      rules: {
+        name: [
+          { required: true, message: '请输入活动名称', trigger: 'blur' },
+          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' },
+        ],
+        pass: [{ validator: validatePass, trigger: 'blur' }],
+        authKey: [
+          { required: true, message: '请输入手机号', trigger: 'change' },
+          { validator: checkMobile, trigger: 'change' },
+        ],
+      },
+      // --------添加账号内置弹窗---------
+      formselectList: [],
+      // -------------------------------
+      tablelist: [],
+      RoleCodeList: [],
+      formroleId: {
+        id: '',
+        roleId: [],
+      },
+      value: [],
+      innerVisible: false,
+      Visible: false,
+      bindingVisible: false,
+      tableData2: [],
+      ruleForm: {
+        name: '',
+        pass: '',
+        authKey: '',
+        delivery: false,
+        id: '',
+
+        LastUser: '', // 添加人id
+        authType: '2', // 鉴权方式, 1:用户登录, 2:手机号登录
+        type: 'stone',
+        BSid: '',
+      },
+
       dataList: '',
       form: {
         stoneId: '', // 商家id
@@ -437,7 +884,7 @@ export default {
       Person: [],
       userData: [],
       StoreRole: [],
-      value: '',
+      value3: '',
       radio: '0',
       roledata: {
         StoreRoleId: '',
@@ -521,8 +968,112 @@ export default {
     };
   },
   methods: {
+    // --------------------添加账号---------------------------
 
-    withdrawalApply () {
+    submitForm(formName) {
+      console.log(this.ruleForm);
+      this.ruleForm.id = this.stoneId;
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          api.addSup(this.ruleForm, (res) => {
+            console.log(res.data.data);
+            this.accountVisible = false;
+          });
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+    },
+    // -----------------------------------------------
+    // 单选 事件
+    radiochange(e) {
+      console.log(e);
+      let identity = store.getUser().identity;
+      if (identity === 'boss') {
+        if (e === 'stone') {
+          juris.getListWaOrStore(e, (res) => {
+            console.log(res);
+            this.formselectList = res.data.data;
+            this.innerVisible = true;
+          });
+        }
+      }
+    },
+    selectRoleCode() {
+      juris.selectRoleCode((res) => {
+        let data = res.data.data;
+        this.RoleCodeList = data.map((item) => ({ email: item }));
+        console.log('this.RoleCodeList', this.RoleCodeList);
+      });
+    },
+    righSelectionChange(val) {
+      console.log(val);
+    },
+    handleSelectionChange3(val, direction, movedKeys) {
+      console.log(val, direction, movedKeys);
+      this.formroleId.roleId = [];
+      for (var i = 0; i < movedKeys.length; i++) {
+        this.formroleId.roleId.push(movedKeys[i]);
+      }
+      if (direction === 'right') {
+        console.log('添加');
+        console.log(this.formroleId.roleId);
+        juris.addUserRole(this.formroleId, (res) => {
+          this.bindingVisible = false;
+          this.$message({
+            message: '绑定成功',
+            type: 'success',
+          });
+        });
+      } else {
+        console.log('移除');
+        juris.deleteUserRole(this.formroleId, (res) => {
+          this.bindingVisible = false;
+          this.$message({
+            message: '移除绑定',
+            type: 'success',
+          });
+        });
+      }
+    },
+    binding(index, row) {
+      console.log('row', row);
+      this.bindingVisible = true;
+      this.formroleId.id = row.id;
+      let params = {
+        id: row.id,
+        type: 'boss',
+      };
+      juris.selectAccountRole(params, (res) => {
+        console.log('获取弹窗已选角色', res);
+        let data = res.data.data;
+        this.value = [];
+        for (var i = 0; i < data.length; i++) {
+          this.value.push(data[i].id);
+        }
+      });
+      params = {
+        id: store.getUser().accountId,
+        type: row.accountType,
+      };
+      juris.selectAccountRole(params, (res) => {
+        let data = res.data.data;
+        this.tablelist = data;
+      });
+    },
+    handleEdit(index, row) {
+      console.log(index, row);
+      api.deleteAccount(row, (res) => {
+        this.$message({
+          message: '下线成功',
+          type: 'success',
+        });
+        this.selectAccount();
+      });
+    },
+
+    withdrawalApply() {
       this.form.stoneId = this.stoneId;
       this.form.userId = store.getUser().id;
       cart.withdrawalApply(this.form, (res) => {
@@ -531,31 +1082,45 @@ export default {
         this.SelectMethod();
       });
     },
-    SelectMethod () {
+    SelectMethod() {
       let bossId = store.getUser().BSid;
       cart.SelectMethod(bossId, (res) => {
         console.log('提款列表', res.data.data);
         this.dataList = res.data.data;
       });
     },
-
-    // --------------------------------------------------------
-    checkcang: function () {
-      // console.log(this.boss);
-      let boss = 1;
-      cang.checkcang({ bossId: boss }, (res) => {
-        console.log('仓库', res.data.data);
-        this.options = res.data.data;
-        this.warehouseId = res.data.data[0].id;
-        console.log(this.options[0].id);
-        this.warehouse();
+    selectAccount() {
+      api.selectAccount({storeId: this.stoneId}, (res) => {
+        console.log(res);
+        this.tableData2 = res.data.data;
       });
     },
-    warehouse() {
-      console.log('仓库ID', this.warehouseId);
-      cang.findGoodsByWarsehouse(this.warehouseId, (res) => {
-        console.log('仓库物品', res.data.data);
-        this.tableData = res.data.data;
+    // --------------------------------------------------------
+    // ------------------------------带仓库获取仓库 和获取仓库下的商品--------------------------------------
+    // checkcang: function () {
+    //   // console.log(this.boss);
+    //   let boss = 1;
+    //   cang.checkcang({ bossId: boss }, (res) => {
+    //     console.log('仓库', res.data.data);
+    //     this.options = res.data.data;
+    //     this.warehouseId = res.data.data[0].id;
+    //     console.log(this.options[0].id);
+    //     this.warehouse();
+    //   });
+    // },
+    // warehouse() {
+    //   cang.findGoodsByWarsehouse(this.warehouseId, (res) => {
+    //     console.log('仓库物品', res.data.data);
+    //     this.tableData = res.data.data;
+    //     // console.log(this.options);
+    //   });
+    // },
+    // --------------------------------------------------------------------
+    getProductListBos() {
+      let bossId = store.getUser().BSid;
+      product.getProductListBos(bossId, (res) => {
+        console.log('物品列表', res.data.data);
+        this.tableData = res.data.data.list;
         // console.log(this.options);
       });
     },
@@ -605,36 +1170,63 @@ export default {
       // this.persondata.personid = row.id;
       this.$refs.table.toggleRowSelection(row);
     },
-    apply: function (row) {
-      console.log(row);
-      this.applys = row;
-      if (!row.count) {
-        this.$message({
-          message: '请填写申请数量',
-          type: 'error',
-        });
-        return false;
-      }
-      this.applys.userId = this.content.id;
-      this.applys.warehouseId = this.warehouseId;
-      this.applys.stoneId = this.stoneId;
-      cang.stoneApplyGood(this.applys, (res) => {
-        console.log(res);
-        if (res.data.status === constants.SUCCESS_CODE) {
-          if (res.data.data === 0) {
-            this.$message({
-              message: '数量不足',
-              type: 'error',
-            });
-          } else {
-            this.$message({
-              message: '申请成功',
-              type: 'success',
-            });
-          }
+    // ----------------------------以前仓库添加物品逻辑------------------------------------
+
+    // apply: function (row) {
+    // console.log(row);
+    // this.applys = row;
+    // if (!row.count) {
+    //   this.$message({
+    //     message: '请填写申请数量',
+    //     type: 'error',
+    //   });
+    //   return false;
+    // }
+    // this.applys.userId = this.content.id;
+    // this.applys.warehouseId = this.warehouseId;
+    // this.applys.stoneId = this.stoneId;
+    // cang.stoneApplyGood(this.applys, (res) => {
+    //   console.log(res);
+    //   if (res.data.status === constants.SUCCESS_CODE) {
+    //     if (res.data.data === 0) {
+    //       this.$message({
+    //         message: '数量不足',
+    //         type: 'error',
+    //       });
+    //     } else {
+    //       this.$message({
+    //         message: '申请成功',
+    //         type: 'success',
+    //       });
+    //     }
+    //   } else {
+    //     this.$message({
+    //       message: '申请失败',
+    //       type: 'error',
+    //     });
+    //   }
+    // });
+    // },
+    // ----------------------------------------------------------------
+    apply(item) {
+      console.log(item);
+      let params = {
+        productIds: item.id,
+        stoneId: this.stoneId,
+        userId: store.getUser().id,
+      };
+      product.addStoneProduct(params, (res) => {
+        console.log();
+        // eslint-disable-next-line no-magic-numbers
+        if (res.status === 200) {
+          this.$message({
+            message: '添加成功',
+            type: 'success',
+          });
+          this.getstoneproduct();
         } else {
           this.$message({
-            message: '申请失败',
+            message: '错误',
             type: 'error',
           });
         }
@@ -874,7 +1466,7 @@ export default {
               // eslint-disable-next-line no-magic-numbers
             }
             this.listwu = data;
-          },
+          }
         );
       });
     },
@@ -915,13 +1507,16 @@ export default {
     this.checkUser();
     this.checkPerson();
     this.getStonePicture();
-    this.checkcang();
+    // this.checkcang();
     this.SelectMethod();
+    this.getProductListBos();
+    this.selectAccount();
+    this.selectRoleCode();
   },
 };
 </script>
 <style scoped  lang="less">
-.account  {
+.account {
   width: 320px;
 }
 .leftxiao {
@@ -942,7 +1537,6 @@ export default {
   background-size: 100%;
   color: #fff;
   overflow: hidden;
-
 }
 .box .leftxiao2 {
   background: url(../img/cc.png) no-repeat;

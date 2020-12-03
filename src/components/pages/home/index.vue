@@ -46,10 +46,10 @@
             <i class="iconfont icon-dianpu"></i>
             <span slot="title">店铺管理</span>
           </el-menu-item>
-          <el-menu-item v-if="warehouse" index="/cang">
+          <!-- <el-menu-item v-if="warehouse" index="/cang">
             <i class="iconfont icon-shangpinkucuncangkudunhuojiya"></i>
             <span slot="title">仓库管理</span>
-          </el-menu-item>
+          </el-menu-item> -->
           <!-- <el-submenu v-if="warehouse" index="/cang">
             <template slot="title">
               <i class="iconfont icon-dianpu"></i>

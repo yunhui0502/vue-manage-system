@@ -9,8 +9,14 @@
       <!-- ---------------------------------------------------------------------------------------------------------------- -->
       <el-tab-pane label="角色管理" name="second">
         <el-card class="box-card">
-          <div style="display:flex;">
-            <div style="width: 20%;border-right: 1px solid #ccc;margin-right: 10px;">
+          <div style="display: flex">
+            <div
+              style="
+                width: 20%;
+                border-right: 1px solid #ccc;
+                margin-right: 10px;
+              "
+            >
               <el-tree
                 default-expand-all
                 :render-content="renderContent1"
@@ -21,32 +27,43 @@
               ></el-tree>
             </div>
 
-            <div style="width: 100%;">
-              <div style="position:relative;float:right;Z-index：66;width: 10%;">
-                <el-button size="small" @click="centerDialogVisible = true" type="primary">添加角色</el-button>
+            <div style="width: 100%">
+              <div
+                style="position:relative;float:right;Z-index：66;width: 10%;"
+              >
+                <el-button
+                  size="small"
+                  @click="centerDialogVisible = true"
+                  type="primary"
+                  >添加角色</el-button
+                >
               </div>
 
-              <div style="width: 90%;">
-
+              <div style="width: 90%">
                 <el-tree
-            class="el-tree"
-            :data="routeList"
-            @check="changePort"
-            check-strictly
-            :render-content="renderContent"
-            show-checkbox
-            node-key="jurisdictionName"
-            ref="rightsTree"
-            @node-expand="handleExpand"
-            :props="defaultProps2"
-          ></el-tree>
+                  class="el-tree"
+                  :data="routeList"
+                  @check="changePort"
+                  check-strictly
+                  :render-content="renderContent"
+                  show-checkbox
+                  node-key="jurisdictionName"
+                  ref="rightsTree"
+                  @node-expand="handleExpand"
+                  :props="defaultProps2"
+                ></el-tree>
               </div>
             </div>
           </div>
         </el-card>
       </el-tab-pane>
       <!-- ------------弹窗--------------- -->
-      <el-dialog title="添加角色" :visible.sync="centerDialogVisible" width="30%" center>
+      <el-dialog
+        title="添加角色"
+        :visible.sync="centerDialogVisible"
+        width="30%"
+        center
+      >
         <el-form ref="form" :model="form" label-width="80px">
           <el-form-item label="角色名称">
             <el-input v-model="form.roleName" placeholder="请输入"></el-input>
@@ -54,7 +71,7 @@
           <el-form-item label="所属位置">
             <el-select v-model="form.roleCode" placeholder="请选则">
               <el-option
-                v-for="(item,i) in RoleCodeList"
+                v-for="(item, i) in RoleCodeList"
                 :key="i"
                 :label="item.email"
                 :value="item.email"
@@ -70,29 +87,44 @@
       <!-- ------------------------------------------------------------------------------------------------------- -->
       <el-tab-pane label="成员管理" name="member">
         <el-card class="box-card">
-          <el-button type="primary" @click="accountVisible = true" style="float:right">添加账号</el-button>
+          <!-- <el-button type="primary" @click="accountVisible = true" style="float:right">添加账号</el-button> -->
           <el-table :data="tableData" border style="width: 100%">
-            <el-table-column prop="accountCode" label="手机号"></el-table-column>
+            <el-table-column
+              prop="accountCode"
+              label="手机号"
+            ></el-table-column>
             <el-table-column prop="accountRole" label="账号类型">
               <template slot-scope="scope">
-                <div>{{scope.row.accountRole=='Super Admin'?'超管账号':'普通账号'}}</div>
+                <div>
+                  {{
+                    scope.row.accountRole == "Super Admin"
+                      ? "超管账号"
+                      : "普通账号"
+                  }}
+                </div>
               </template>
             </el-table-column>
             <el-table-column prop="accountType" label="类型"></el-table-column>
             <el-table-column prop="isDeleted" label="状态">
               <template slot-scope="scope">
-                <div>{{scope.row.isDeleted=='2'?'在线':'离线'}}</div>
+                <div>{{ scope.row.isDeleted == "2" ? "在线" : "离线" }}</div>
               </template>
             </el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
                 <el-button
                   size="mini"
-                  :disabled="scope.row.isDeleted=='0'"
+                  :disabled="scope.row.isDeleted == '0'"
                   type="text"
                   @click="handleEdit(scope.$index, scope.row)"
-                >下线</el-button>
-                <el-button size="mini" type="text" @click="binding(scope.$index, scope.row)">绑定</el-button>
+                  >下线</el-button
+                >
+                <el-button
+                  size="mini"
+                  type="text"
+                  @click="binding(scope.$index, scope.row)"
+                  >绑定</el-button
+                >
               </template>
             </el-table-column>
           </el-table>
@@ -108,13 +140,18 @@
           @change="handleSelectionChange"
           @right-check-change="righSelectionChange"
           :props="{
-          label: 'roleName',
-          key: 'id',
-        }"
+            label: 'roleName',
+            key: 'id',
+          }"
         ></el-transfer>
       </el-dialog>
 
-      <el-dialog title="新增子账户信息" :visible.sync="accountVisible" width="30%" center>
+      <el-dialog
+        title="新增子账户信息"
+        :visible.sync="accountVisible"
+        width="30%"
+        center
+      >
         <el-form
           :model="ruleForm"
           :rules="rules"
@@ -137,21 +174,29 @@
               <el-radio
                 @change="radiochange"
                 v-model="ruleForm.type"
-                v-for="(item,i) in RoleCodeList"
+                v-for="(item, i) in RoleCodeList"
                 :key="i"
                 :label="item.email"
-              >{{item.email}}</el-radio>
+                >{{ item.email }}</el-radio
+              >
               <!-- <el-radio v-model="ruleForm.type" label="stone">店铺管理员</el-radio>
               <el-radio v-model="ruleForm.type" label="warehouse">仓库管理</el-radio>-->
             </el-radio-group>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
+            <el-button type="primary" @click="submitForm('ruleForm')"
+              >立即创建</el-button
+            >
             <el-button @click="resetForm('ruleForm')">重置</el-button>
           </el-form-item>
         </el-form>
 
-        <el-dialog width="30%" title="选择店铺" :visible.sync="innerVisible" append-to-body>
+        <el-dialog
+          width="30%"
+          title="选择店铺"
+          :visible.sync="innerVisible"
+          append-to-body
+        >
           <el-form :model="ruleForm">
             <!-- 店铺 -->
             <el-form-item label>
@@ -167,7 +212,9 @@
           </el-form>
           <span slot="footer" class="dialog-footer">
             <el-button @click="innerVisible = false">取 消</el-button>
-            <el-button type="primary" @click="innerVisible = false">确 定</el-button>
+            <el-button type="primary" @click="innerVisible = false"
+              >确 定</el-button
+            >
           </span>
         </el-dialog>
       </el-dialog>
@@ -310,7 +357,8 @@ export default {
   },
 
   methods: {
-    handleExpand() { // 节点被展开时触发的事件
+    handleExpand() {
+      // 节点被展开时触发的事件
       // 因为该函数执行在renderContent函数之前，所以得加this.$nextTick()
       this.$nextTick(() => {
         console.log('113213123123123');
@@ -324,12 +372,13 @@ export default {
         // cssFloat 兼容 ie6-8  styleFloat 兼容ie9及标准浏览器
         levelName[i].parentNode.style.cssFloat = 'left'; // 最底层的节点，包括多选框和名字都让他左浮动
         levelName[i].parentNode.style.styleFloat = 'left';
-        levelName[i].parentNode.onmouseover = function() {
+        levelName[i].parentNode.onmouseover = function () {
           this.style.backgroundColor = '#fff';
         };
       }
     },
-    renderContent(h, { node, data, store }) {// 树节点的内容区的渲染 Function
+    renderContent(h, { node, data, store }) {
+      // 树节点的内容区的渲染 Function
       console.log('5555555555555555555');
       let classname = '';
       var nodeLevel = 2;
@@ -345,10 +394,11 @@ export default {
         {
           class: classname,
         },
-        node.label,
+        node.label
       );
     },
-    renderContent1(h, { node, data, store }) {// 树节点的内容区的渲染 Function
+    renderContent1(h, { node, data, store }) {
+      // 树节点的内容区的渲染 Function
       console.log('5555555555555555555');
       let classname = '';
       return h(
@@ -356,11 +406,11 @@ export default {
         {
           class: classname,
         },
-        node.label,
+        node.label
       );
     },
 
-    check (nodes) {
+    check(nodes) {
       console.log('nodes', nodes);
     },
     // loadNode(node, resolve) {
@@ -476,7 +526,16 @@ export default {
       console.log(val);
     },
     selectAccount() {
-      api.selectAccount((res) => {
+      let data = store.getUser();
+      let Object = {
+        storeId: data.BSid,
+      };
+      if (data.identity === 'boss') {
+        Object = Object = {
+          bossId: data.BSid,
+        };
+      }
+      api.selectAccount(Object, (res) => {
         console.log(res);
         this.tableData = res.data.data;
       });
@@ -561,6 +620,13 @@ export default {
           this.$nextTick(() => {
             this.$refs.rightsTree.setCheckedKeys(data);
           });
+        });
+        params = {
+          id: store.getUser().accountId,
+          roleType: data.roleType,
+        };
+        juris.findAdminHasModelAndJus(params, (res) => {
+          this.routeList = res.data.data;
         });
       }
     },
@@ -651,12 +717,12 @@ export default {
               message: '绑定权限成功',
               type: 'success',
             });
-          // let data = res.data.data;
-          // this.checkedCities2 = [];
-          // for (var i = 0; i < data.length; i++) {
-          //   this.checkedCities2.push(data[i].id);
-          //   // console.log(data[i].id);
-          // }
+            // let data = res.data.data;
+            // this.checkedCities2 = [];
+            // for (var i = 0; i < data.length; i++) {
+            //   this.checkedCities2.push(data[i].id);
+            //   // console.log(data[i].id);
+            // }
           });
         } else {
           let params = {
@@ -687,12 +753,12 @@ export default {
               message: '绑定模块成功',
               type: 'success',
             });
-          // let data = res.data.data;
-          // this.checkedCities2 = [];
-          // for (var i = 0; i < data.length; i++) {
-          //   this.checkedCities2.push(data[i].id);
-          //   // console.log(data[i].id);
-          // }
+            // let data = res.data.data;
+            // this.checkedCities2 = [];
+            // for (var i = 0; i < data.length; i++) {
+            //   this.checkedCities2.push(data[i].id);
+            //   // console.log(data[i].id);
+            // }
           });
         } else {
           let params = {
@@ -709,7 +775,6 @@ export default {
           });
         }
       }
-
     },
     // 多选点击文字执行
     lookChoice(item) {

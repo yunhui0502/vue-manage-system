@@ -23,6 +23,10 @@ function getProductsByBossId(bossId) {
 function getProductListBoss(bossId) {
     // eslint-disable-next-line no-useless-concat
     return Axios.get('/api/api/product/hfProduct/getProductListBoss?bossId=' + bossId);
+}// 获取商品商品管理列表2
+function getProductListBos(bossId) {
+    // eslint-disable-next-line no-useless-concat
+    return Axios.get('/api/api/product/hfProduct/getProductListBoss?bossId=' + bossId + '&isBoss=0');
 }
 // 获取商品商品管理列表筛选
 function productNameListBos(bossId, inquire) {
@@ -152,7 +156,14 @@ function bossAgreeApply(params) {
     fd.append('type', params.type);
     return Axios.post('/api/api/product/wareHouse/bossAgreeApply', fd);
 }
-
+// 店铺添加商品
+function addStoneProduct(params) {
+    let fd = new FormData();
+    fd.append('productIds', params.productIds);
+    fd.append('stoneId', params.stoneId);
+    fd.append('userId', params.userId);
+    return Axios.post('/api/api/product//hfProduct/addStoneProduct', fd);
+}
 export default {
     getProductsByBossId: getProductsByBossId,
     ceateProduct: ceateProduct,
@@ -174,4 +185,6 @@ export default {
     selectDiscountCoupon: selectDiscountCoupon,
     // eslint-disable-next-line eol-last
     bossAgreeApply: bossAgreeApply,
+    getProductListBos: getProductListBos,
+    addStoneProduct: addStoneProduct,
 };
