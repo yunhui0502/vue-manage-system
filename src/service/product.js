@@ -44,6 +44,18 @@ async function updateIntegralProduct(params, handleResult) {
 async function selectIntegralRecord(params, handleResult) {
     product.selectIntegralRecord(params).then(res => handleResult(res));
 }
+async function selectVideoProduct(handleResult) {
+    product.selectVideoProduct().then(res => handleResult(res));
+}
+async function addVideoProduct(params, handleResult) {
+    product.addVideoProduct(params).then(res => handleResult(res));
+}
+async function updateVideoProduct(params, handleResult) {
+    product.updateVideoProduct(params).then(res => handleResult(res));
+}
+async function deleteVideoProduct(params, handleResult) {
+    product.deleteVideoProduct(params).then(res => handleResult(res));
+}
 export default {
     addCategory: addCategory,
     category: category,
@@ -58,5 +70,9 @@ export default {
     selectIntegralProduct: selectIntegralProduct,
     deleteIntegralProduct: deleteIntegralProduct,
     updateIntegralProduct: updateIntegralProduct,
-    selectIntegralRecord: selectIntegralRecord
+    selectIntegralRecord: selectIntegralRecord,
+    selectVideoProduct: selectVideoProduct,
+    addVideoProduct: addVideoProduct,
+    updateVideoProduct: updateVideoProduct,
+    deleteVideoProduct: deleteVideoProduct,
 };

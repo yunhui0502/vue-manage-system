@@ -16,7 +16,25 @@ function disposeWithdrawalApply(params) {
     return Axios.post(payment + '/Withdrawal/disposeWithdrawalApply', fd);
 }
 
+function refundVideo(params) {
+    let fd = new FormData();
+    fd.append('outTradeNo', params.outTradeNo);
+    fd.append('payOrderId', params.payOrderId);
+    fd.append('orderCode', params.orderCode);
+    fd.append('userId', params.userId);
+    return Axios.get(payment + '/payment/refundVideo', {params});
+}
+function countRefund(params) {
+    let fd = new FormData();
+    fd.append('outTradeNo', params.outTradeNo);
+    fd.append('refundCostType', params.refundCostType);
+    fd.append('refundCostValue', params.refundCostValue);
+    fd.append('refundQuantity', params.refundQuantity);
+    return Axios.post(payment + '/payment/countRefund', fd);
+}
 export default {
     selectWithdrawal: selectWithdrawal,
-    disposeWithdrawalApply:disposeWithdrawalApply
+    disposeWithdrawalApply:disposeWithdrawalApply,
+    refundVideo:refundVideo,
+    countRefund: countRefund,
 };

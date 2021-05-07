@@ -120,6 +120,49 @@ function deleteIntegralProduct(params) {
 function selectIntegralRecord(param) {
     return Axios.get(product + '/Integral/selectIntegralRecord', { params: param });
 }
+
+// 查询视频会员商品
+function selectVideoProduct() {
+    return Axios.get(product + '/SecondProduct/selectVideoProduct');
+}
+
+// 添加视频会员商品
+function addVideoProduct(params) {
+    let fd = new FormData();
+    fd.append('checkItemFacePrice', params.checkItemFacePrice);
+    fd.append('file', params.file);
+    fd.append('isPutaway ', params.isPutaway);
+    fd.append('itemId', params.itemId);
+    fd.append('itemPrice', params.itemPrice);
+    fd.append('linePrice', params.linePrice);
+    fd.append('price', params.price);
+    fd.append('productDesc', params.productDesc);
+    fd.append('productName', params.productName);
+    fd.append('quantity', params.quantity);
+    return Axios.post(product + '/SecondProduct/addVideoProduct', fd);
+}
+// 修改视频会员商品
+function updateVideoProduct(params) {
+    let fd = new FormData();
+    fd.append('productId', params.productId);
+    fd.append('checkItemFacePrice', params.checkItemFacePrice);
+    fd.append('file', params.file);
+    fd.append('isPutaway ', params.isPutaway);
+    fd.append('itemId', params.itemId);
+    fd.append('itemPrice', params.itemPrice);
+    fd.append('linePrice', params.linePrice);
+    fd.append('price', params.price);
+    fd.append('productDesc', params.productDesc);
+    fd.append('productName', params.productName);
+    fd.append('quantity', params.quantity);
+    return Axios.post(product + '/SecondProduct/updateVideoProduct', fd);
+}
+// 删除视频会员商品
+function deleteVideoProduct(params) {
+    let fd = new FormData();
+    fd.append('productId', params.productId);
+    return Axios.post(product + '/SecondProduct/deleteVideoProduct', fd);
+}
 export default {
     addCategory: addCategory,
     category: category,
@@ -134,5 +177,9 @@ export default {
     selectIntegralProduct: selectIntegralProduct,
     deleteIntegralProduct: deleteIntegralProduct,
     updateIntegralProduct: updateIntegralProduct,
-    selectIntegralRecord: selectIntegralRecord
+    selectIntegralRecord: selectIntegralRecord,
+    selectVideoProduct: selectVideoProduct,
+    addVideoProduct: addVideoProduct,
+    updateVideoProduct: updateVideoProduct,
+    deleteVideoProduct: deleteVideoProduct,
 };

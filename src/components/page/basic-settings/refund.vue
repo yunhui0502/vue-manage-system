@@ -54,8 +54,8 @@
                     <tinymce @fatherMethod="fatherMethod" style="margin: 10px" ref="blc" :id="'tinymceBzlc'"></tinymce>
                 </div>
             </div>
-            <!-- <el-button @click="send" style="display: block; margin: 0 auto" type="info">确定</el-button> -->
-            <el-button @click="addMessage" style="display: block; margin: 0 auto" type="info">确定</el-button>
+            <el-button @click="send" style="display: block; margin: 0 auto" type="info">确定</el-button>
+            <!-- <el-button @click="addMessage" style="display: block; margin: 0 auto" type="info">确定</el-button> -->
         </el-card>
     </div>
 </template>
@@ -79,7 +79,7 @@ export default {
             dialogImageUrl: '',
             form: {
                 file: '',
-                headline: '',
+                headline: '222',
                 secondDesc: '',
                 img: false
             }

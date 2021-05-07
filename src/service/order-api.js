@@ -13,10 +13,23 @@ async function orderStatistics(handleResult) {
 async function userStatistics(handleResult) {
     order.userStatistics().then(res => handleResult(res));
 }
+async function selectAdmissionOrder(param,handleResult) {
+    order.selectAdmissionOrder(param).then(res => handleResult(res));
+}
+async function selectVideoOrderr(param,handleResult) {
+    order.selectVideoOrderr(param).then(res => handleResult(res));
+}
+async function statisticsOrder(handleResult) {
+    order.statisticsOrder().then(res => handleResult(res));
+}
+
 export default {
     selectOrder: selectOrder,
     backendData:backendData,
     orderStatistics:orderStatistics,
-    userStatistics:userStatistics
+    userStatistics:userStatistics,
+    selectAdmissionOrder: selectAdmissionOrder,
+    selectVideoOrderr: selectVideoOrderr,
+    statisticsOrder: statisticsOrder,
 
 };

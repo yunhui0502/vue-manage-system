@@ -52,6 +52,11 @@ export default {
                     title: '系统首页'
                 },
                 {
+                    icon: 'el-icon-lx-rank',
+                    index: 'tickets',
+                    title: '门票数据统计'
+                },
+                {
                     icon: 'el-icon-lx-settings',
                     index: 'settings',
                     title: '基础设置'
@@ -60,6 +65,16 @@ export default {
                     icon: 'el-icon-lx-location',
                     index: 'sonManage',
                     title: '子站点管理'
+                },
+                {
+                    icon: 'el-icon-lx-news',
+                    index: 'ticketsorder',
+                    title: '门票订单'
+                },
+                {
+                    icon: 'el-icon-lx-notification',
+                    index: 'videoOrder',
+                    title: '视频订单'
                 },
                 {
                     icon: 'el-icon-lx-shop',
@@ -90,7 +105,7 @@ export default {
                     icon: 'el-icon-lx-calendar',
                     index: 'orders',
                     title: '用户订单管理'
-                },
+                }
 
                 // {
                 //     icon: 'el-icon-lx-cascades',
@@ -191,7 +206,7 @@ export default {
     },
     created() {
         // 通过 Event Bus 进行组件间通信，来折叠侧边栏
-        bus.$on('collapse', msg => {
+        bus.$on('collapse', (msg) => {
             this.collapse = msg;
             bus.$emit('collapse-content', msg);
         });

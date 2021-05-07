@@ -7,7 +7,15 @@ async function selectWithdrawal(source,handleResult) {
 async function disposeWithdrawalApply(params,handleResult) {
     product.disposeWithdrawalApply(params).then(res => handleResult(res));
 }
+async function refundVideo(params,handleResult) {
+    product.refundVideo(params).then(res => handleResult(res));
+}
+async function countRefund(param,handleResult) {
+    product.countRefund(param).then(res => handleResult(res));
+}
 export default {
     selectWithdrawal: selectWithdrawal,
-    disposeWithdrawalApply:disposeWithdrawalApply
+    disposeWithdrawalApply:disposeWithdrawalApply,
+    refundVideo: refundVideo,
+    countRefund: countRefund,
 };

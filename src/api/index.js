@@ -6,7 +6,7 @@ import axios from 'axios';
 import router from '@/router';
 // 2. 请求头 token
 // axios.defaults.headers.token = store.getUser().token;
-
+axios.defaults.headers.AccessControlAllowOrigin = '*'
 // 修改配置  加token
 // 请求拦截器（在每一次请求前）
 axios.interceptors.request.use(

@@ -78,15 +78,23 @@ module.exports = {
     open: true, // 配置自动启动浏览器
 
     // 配置多个代理
-    // proxy: {
-    //   '/api': {
-    //     // target: 'http://192.168.1.104:9095/', // 本地模拟数据服务器
-    //     target: 'https://www.tjsichuang.cn:1443', // 远程服务器
-    //     changeOrigin: true,
-    //     pathRewrite: {
-    //       '^/api': '', // 去掉接口地址中的api字符串
-    //     },
-    //   },
-    // },
+    proxy: {
+      '/api': {
+        target: 'https://sopenservice.ctrip.com', // 本地模拟数据服务器
+        // target: 'https://www.tjsichuang.cn:1443', // 远程服务器
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': '', // 去掉接口地址中的api字符串
+        },
+      },
+      '/apl': {
+        target: 'https://OpenServiceAuth.Ctrip.com', // 本地模拟数据服务器
+        // target: 'https://www.tjsichuang.cn:1443', // 远程服务器
+        changeOrigin: true,
+        pathRewrite: {
+          '^/apl': '', // 去掉接口地址中的api字符串
+        },
+      },
+    },
   },
 };

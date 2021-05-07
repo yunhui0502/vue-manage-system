@@ -55,6 +55,21 @@ export default new Router({
                     meta: { title: '用户管理' }
                 },
                 {
+                    path: '/ticketsorder',
+                    component: () => import(/* webpackChunkName: "dashboard" */ '../components/page/tickets-order/order.vue'),
+                    meta: { title: '门票订单' }
+                },
+                {
+                    path: '/videoOrder',
+                    component: () => import(/* webpackChunkName: "dashboard" */ '../components/page/video-order/video-order.vue'),
+                    meta: { title: '视频订单' }
+                },
+                {
+                    path: '/tickets',
+                    component: () => import(/* webpackChunkName: "dashboard" */ '../components/page/tickets-statistics/tickets-statistics.vue'),
+                    meta: { title: '门票数据统计' }
+                },
+                {
                     path: '/dashboard',
                     component: () => import(/* webpackChunkName: "dashboard" */ '../components/page/Dashboard.vue'),
                     meta: { title: '系统首页' }

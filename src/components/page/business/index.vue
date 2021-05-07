@@ -18,12 +18,16 @@
             </div>
 
             <div class="text item">
-                <el-table :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)" stripe style="width: 100%">
-                    <el-table-column prop="nickName" label="商家名称"> </el-table-column>
-                    <el-table-column prop="productName" label="商家商品"> </el-table-column>
-                    <el-table-column prop="price" label="价格"> </el-table-column>
+                <el-table :data="tableData.slice((currentPage - 1) * pagesize, currentPage * pagesize)" stripe style="width: 100%">
+                    <!-- <el-table-column prop="nickName" label="商家名称"> </el-table-column> -->
+                    <el-table-column prop="productName" label="商家名称"> </el-table-column>
+                    <el-table-column prop="price" label="价格">
+                        <template slot-scope="scope">
+                            {{ numFilter(scope.row.price / 100) }}
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="createTime" label="上架时间"> </el-table-column>
-                    <el-table-column prop="sellNumber" label="已售件数"> </el-table-column>
+                    <!-- <el-table-column prop="sellNumber" label="已售件数"> </el-table-column> -->
                     <el-table-column prop="address" label="操作">
                         <template slot-scope="scope">
                             <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
@@ -46,7 +50,72 @@
             </div>
         </el-card>
 
+        <!-- 现在添加视频 -->
         <el-dialog :title="title" :visible.sync="dialogFormVisible">
+            <el-form ref="ruleForm" :model="formData">
+                <el-form-item label="商品名称" prop="productName" :label-width="formLabelWidth">
+                    <el-input v-model="formData.productName" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="商品照片" :label-width="formLabelWidth">
+                    <el-upload
+                        action="https://swcloud.tjsichuang.cn:1444/second/user/File/fileUpLoad"
+                        list-type="picture-card"
+                        name="file"
+                        ref="upload"
+                        :file-list="fileList"
+                        :on-preview="handlePictureCardPreview"
+                        :on-success="handleSuccess"
+                        :on-remove="handleRemove"
+                    >
+                        <i class="el-icon-plus"></i>
+                    </el-upload>
+                    <el-dialog :visible.sync="dialogVisible">
+                        <img width="100%" :src="dialogImageUrl" alt />
+                    </el-dialog>
+                </el-form-item>
+                <!-- <el-form-item label="分类" prop="categoryId" :label-width="formLabelWidth">
+                    <el-select v-model="categoryId" placeholder="请选择活动区域">
+                        <el-option v-for="item in tertiaryClassify" :key="item.id" :label="item.secondName" :value="item.id"></el-option>
+                    </el-select>
+                </el-form-item> -->
+                <el-form-item  prop="itemId" label="商品编号" :label-width="formLabelWidth">
+                    <el-input v-model="formData.itemId" placeholder="充值平台方提供" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item  prop="quantity" label="商品库存" :label-width="formLabelWidth">
+                    <el-input v-model="formData.quantity" placeholder="请输入商品库存" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="商品面值" prop="sellPrice" :label-width="formLabelWidth">
+                    <el-input
+                        v-model="checkItemFacePrice"
+                        placeholder="单位厘:1元=1000厘，用于验证上传面值是否跟系统itemId的面值一致"
+                        autocomplete="off"
+                    ></el-input>
+                </el-form-item>
+                <el-form-item label="成本价格" prop="sellPrice" :label-width="formLabelWidth">
+                    <el-input v-model="itemPrice" placeholder="对于代理方而言，就是成本价格" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="划线价格" prop="sellPrice" :label-width="formLabelWidth">
+                    <el-input v-model="linePrice" placeholder="请输入划线" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="销售价格" prop="sellPrice" :label-width="formLabelWidth">
+                    <el-input v-model="price" placeholder="销售价格" autocomplete="off"></el-input>
+                </el-form-item>
+                <!-- <el-form-item label="商家" prop="storeId" :label-width="formLabelWidth">
+                    <el-select v-model="formData.storeId" placeholder="请选择活动区域">
+                        <el-option v-for="item in options" :key="item.storeId" :label="item.nickName" :value="item.storeId"></el-option>
+                    </el-select>
+                </el-form-item> -->
+            </el-form>
+            <!-- 富文本 -->
+            <tinymce @fatherMethod="fatherMethod" style="margin: 10px" ref="blc" :id="'tinymceBzlc'"></tinymce>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogFormVisible = false">取 消</el-button>
+                <el-button type="primary" @click="addProduct">确 定</el-button>
+            </div>
+        </el-dialog>
+
+        <!-- 原先添加商品 -->
+        <!-- <el-dialog :title="title" :visible.sync="dialogFormVisible">
             <el-form  ref="ruleForm" :model="formData">
                 <el-form-item label="商品名称" prop="productName" :label-width="formLabelWidth">
                     <el-input v-model="formData.productName" autocomplete="off"></el-input>
@@ -84,15 +153,15 @@
                         <el-option v-for="item in options" :key="item.storeId" :label="item.nickName" :value="item.storeId"></el-option>
                     </el-select>
                 </el-form-item>
-            </el-form>
-            <!-- 富文本 -->
-            <tinymce @fatherMethod="fatherMethod" style="margin: 10px" ref="blc" :id="'tinymceBzlc'"></tinymce>
+            </el-form> -->
+        <!-- 富文本 -->
+        <!-- <tinymce @fatherMethod="fatherMethod" style="margin: 10px" ref="blc" :id="'tinymceBzlc'"></tinymce>
 
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogFormVisible = false">取 消</el-button>
                 <el-button type="primary" @click="addProduct">确 定</el-button>
             </div>
-        </el-dialog>
+        </el-dialog> -->
 
         <div v-if="tabindex == 1">
             <order></order>
@@ -139,19 +208,35 @@ export default {
             sellPrice: '',
             categoryId: '',
             fileList: [],
+            // formData: {
+            //     categoryId: 86, //类目
+            //     file: [],
+            //     file1: '',
+            //     goodsResp: '', //库存
+            //     isPutaway: '0', //是否上架
+            //     // linePrice: '200', //划线价格
+            //     productDesc: '', //富文本
+            //     productName: '', //商品名字
+            //     sellPrice: '100', //售卖价格
+            //     showType: 'coupon', //商品类型
+            //     storeType: 'store',
+            //     storeId: '' // 店铺id
+            // },
+            itemPrice: '', // 商品销售价格，单位厘；1元=1000厘（对于代理方而言，就是成本价格）
+            linePrice: '', // 划线价格,单位分
+            price: '', // 销售价格,单位分
+            checkItemFacePrice: '', // 商品面值(单位厘:1元=1000厘，用于验证上传面值是否跟系统itemId的面值一致)
             formData: {
-                categoryId: 86, //类目
-                file: [],
-                file1: '',
-                goodsResp: '', //库存
-                isPutaway: '0', //是否上架
-                // linePrice: '200', //划线价格
-                productDesc: '', //富文本
-                productName: '', //商品名字
-                sellPrice: '100', //售卖价格
-                showType: 'coupon', //商品类型
-                storeType: 'store',
-                storeId: '' // 店铺id
+                checkItemFacePrice: '', // 商品面值(单位厘:1元=1000厘，用于验证上传面值是否跟系统itemId的面值一致)
+                file: '', // 商品展示图
+                quantity: '', // 库存数量
+                isPutaway: '0', // 是否上架
+                itemId: '20096', // 商品编号(充值平台方提供)
+                itemPrice: '', // 商品销售价格，单位厘；1元=1000厘（对于代理方而言，就是成本价格）
+                linePrice: '', // 划线价格,单位分
+                price: '', // 销售价格,单位分
+                productDesc: '', // 商品描述
+                productName: '' // 商品名称
             },
             tabindex: 0,
             dialogImageUrl: '',
@@ -160,7 +245,7 @@ export default {
             tableData: [],
             dialogFormVisible: false,
             currentPage: 1,
-            pagesize:10,
+            pagesize: 10,
             formLabelWidth: '120px',
             title: '添加商品'
         };
@@ -168,14 +253,29 @@ export default {
     created() {
         this.gitClassify();
         this.enterStoreList();
-        this.selectProduct();
+        this.selectVideoProduct();
     },
     methods: {
+        numFilter(value) {
+            // 截取当前数据到小数点后两位
+            let realVal = parseFloat(value).toFixed(2);
+            return realVal;
+        },
+        // 获取列表
+        selectVideoProduct() {
+            api.selectVideoProduct((res) => {
+                this.tableData = res.data.data;
+                // this.tableData.forEach((item) => {
+                //     item.price = parseFloat(item.price / 100).toFixed(2);
+                // });
+                console.log(res);
+            });
+        },
         resetForm(formData) {
-            console.log(this.$refs[formData].resetFields())
+            console.log(this.$refs[formData].resetFields());
             this.$refs[formData].resetFields();
-            this.categoryId = ''
-            this.sellPrice = ''
+            this.categoryId = '';
+            this.sellPrice = '';
             this.$refs.upload.clearFiles();
         },
         add() {
@@ -184,18 +284,18 @@ export default {
             setTimeout(() => {
                 this.$refs.blc.setData('');
             }, 10);
+
             this.formData = {
-                categoryId: '', //类目
-                file: [],
-                goodsResp: '', //库存
-                isPutaway: '0', //是否上架
-                // linePrice: '200', //划线价格
-                productDesc: '', //富文本
-                productName: '', //商品名字
-                sellPrice: '', //售卖价格
-                showType: 'coupon', //商品类型
-                storeType: 'store',
-                storeId: '' // 店铺id
+                checkItemFacePrice: '', // 商品面值(单位厘:1元=1000厘，用于验证上传面值是否跟系统itemId的面值一致)
+                file: '', // 商品展示图
+                quantity: '', // 库存数量
+                isPutaway: '0', // 是否上架
+                itemId: '20096', // 商品编号(充值平台方提供)
+                itemPrice: '', // 商品销售价格，单位厘；1元=1000厘（对于代理方而言，就是成本价格）
+                linePrice: '', // 划线价格,单位分
+                price: '', // 销售价格,单位分
+                productDesc: '', // 商品描述
+                productName: '' // 商品名称
             };
         },
         // 鼠标移入图片
@@ -239,9 +339,13 @@ export default {
             this.dialogFormVisible = true;
             this.fileList = [];
             this.formData = row;
-            this.sellPrice = row.price;
-            this.fileList.push({url:row.file });
-            this.categoryId = row.productCategoryId;
+            // this.sellPrice = row.price;
+            this.itemPrice = row.itemPrice;
+            this.linePrice = row.linePrice;
+            this.price = row.price;
+            this.checkItemFacePrice = row.checkItemFacePrice;
+            this.fileList.push({ url: row.file });
+            // this.categoryId = row.productCategoryId;
             console.log(row);
             setTimeout(() => {
                 this.$refs.blc.setData(row.productDesc);
@@ -261,7 +365,7 @@ export default {
                     let params = {
                         productId: id
                     };
-                    api.deleteProduct(params, (res) => {
+                    api.deleteVideoProduct(params, (res) => {
                         console.log(res);
                         this.$message({
                             message: '删除成功',
@@ -277,52 +381,76 @@ export default {
                     });
                 });
         },
-        // 添加商品 
+        // 添加商品
         addProduct() {
             if (this.title == '添加商品') {
                 console.log('添加商品');
-                if(this.categoryId == ''){
+                if (this.itemPrice == '') {
                     this.$message({
-                        message: '请选择类目',
+                        message: '销售价',
                         type: 'warning'
                     });
-                    return 
+                    return;
                 }
-                if(this.sellPrice == ''){
+                 if (this.linePrice == '') {
+                    this.$message({
+                        message: '请输入划线价格',
+                        type: 'warning'
+                    });
+                    return;
+                }
+                 if (this.price == '') {
                     this.$message({
                         message: '请输入价格',
                         type: 'warning'
                     });
-                    return
+                    return;
                 }
-                 if(this.formData.storeId == ''){
+                if (this.checkItemFacePrice == '') {
                     this.$message({
-                        message: '请选择商家',
+                        message: '请输入商品面值',
                         type: 'warning'
                     });
-                    return
+                    return;
                 }
                 this.formData.productDesc = this.$refs.blc.release();
-                this.formData.sellPrice = this.sellPrice * 10000/100;
-                this.formData.categoryId = this.categoryId;
-                api.addProduct(this.formData, (res) => {
+                this.formData.price = (this.price * 10000) / 100;
+                this.formData.linePrice = (this.linePrice * 10000) / 100;
+                this.formData.itemPrice = this.itemPrice * 1000;
+                this.formData.checkItemFacePrice = this.checkItemFacePrice * 1000;
+                api.addVideoProduct(this.formData, (res) => {
                     console.log(res);
                     this.selectProduct();
                     this.dialogFormVisible = false;
-                    this.resetForm('ruleForm')
+                    this.resetForm('ruleForm');
                 });
+                // this.formData.categoryId = this.categoryId;
+                // api.addProduct(this.formData, (res) => {
+                //     console.log(res);
+                //     this.selectProduct();
+                //     this.dialogFormVisible = false;
+                //     this.resetForm('ruleForm');
+                // });
             } else {
                 console.log('编辑商品');
                 this.formData.productDesc = this.$refs.blc.release();
-                this.formData.sellPrice = this.sellPrice * 10000/100;
-                this.formData.categoryId = this.categoryId;
+                this.formData.price = (this.price * 10000) / 100;
+                this.formData.linePrice = (this.linePrice * 10000) / 100;
+                this.formData.itemPrice = this.itemPrice * 1000;
+                this.formData.checkItemFacePrice = this.checkItemFacePrice * 1000;
                 console.log(this.formData);
-                api.updateProduct(this.formData, (res) => {
+                api.updateVideoProduct(this.formData, (res) => {
                     console.log(res);
                     this.dialogFormVisible = false;
                     this.$refs.upload.clearFiles();
                     this.selectProduct();
                 });
+                // api.updateProduct(this.formData, (res) => {
+                //     console.log(res);
+                //     this.dialogFormVisible = false;
+                //     this.$refs.upload.clearFiles();
+                //     this.selectProduct();
+                // });
             }
         },
         // 获取商家
@@ -332,19 +460,10 @@ export default {
                 console.log(res);
             });
         },
-        // 获取列表
-        selectProduct() {
-            api.selectProduct({ showType: 'coupon' }, (res) => {
-                this.tableData = res.data.data;
-                this.tableData.forEach(item => { 
-                    item.price =  parseFloat(item.price/100).toFixed(2) 
-                })
-                console.log(res);
-            });
-        },
+
         Tab(e) {
             this.tabindex = e;
-            if(e==0) {
+            if (e == 0) {
                 this.gitClassify();
                 this.enterStoreList();
                 this.selectProduct();
@@ -368,7 +487,8 @@ export default {
         },
         handleSuccess(esponse, file, fileList) {
             console.log('esponse', esponse), console.log('file', file), console.log('fileList', fileList);
-            this.formData.file1 = esponse.data;
+            this.formData.file = esponse.data;
+            // this.formData.file1 = esponse.data;
         },
         handlePictureCardPreview(file) {
             this.dialogImageUrl = file.url;
