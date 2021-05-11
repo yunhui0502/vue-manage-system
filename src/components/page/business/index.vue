@@ -1,8 +1,8 @@
 <template>
     <div>
         <div class="head">
-            <span @click="Tab(0)" class="head-item" :class="tabindex == 0 ? 'on' : ''">商家商品</span>
-            <span @click="Tab(4)" class="head-item" :class="tabindex == 4 ? 'on' : ''">商家分类</span>
+            <span @click="Tab(0)" class="head-item" :class="tabindex == 0 ? 'on' : ''">视频商品</span>
+            <span @click="Tab(4)" class="head-item" :class="tabindex == 4 ? 'on' : ''">视频分类</span>
             <span @click="Tab(1)" class="head-item" :class="tabindex == 1 ? 'on' : ''">商家商品订单</span>
             <span @click="Tab(2)" class="head-item" :class="tabindex == 2 ? 'on' : ''">入驻商户</span>
             <span @click="Tab(3)" class="head-item" :class="tabindex == 3 ? 'on' : ''">待审核</span>
@@ -73,11 +73,11 @@
                         <img width="100%" :src="dialogImageUrl" alt />
                     </el-dialog>
                 </el-form-item>
-                <!-- <el-form-item label="分类" prop="categoryId" :label-width="formLabelWidth">
-                    <el-select v-model="categoryId" placeholder="请选择活动区域">
+                <el-form-item label="分类" prop="categoryId" :label-width="formLabelWidth">
+                    <el-select v-model="formData.CategoryId" placeholder="请选择活动区域">
                         <el-option v-for="item in tertiaryClassify" :key="item.id" :label="item.secondName" :value="item.id"></el-option>
                     </el-select>
-                </el-form-item> -->
+                </el-form-item>
                 <el-form-item  prop="itemId" label="商品编号" :label-width="formLabelWidth">
                     <el-input v-model="formData.itemId" placeholder="充值平台方提供" autocomplete="off"></el-input>
                 </el-form-item>
@@ -231,10 +231,11 @@ export default {
                 file: '', // 商品展示图
                 quantity: '', // 库存数量
                 isPutaway: '0', // 是否上架
-                itemId: '20096', // 商品编号(充值平台方提供)
+                itemId: '', // 商品编号(充值平台方提供)
                 itemPrice: '', // 商品销售价格，单位厘；1元=1000厘（对于代理方而言，就是成本价格）
                 linePrice: '', // 划线价格,单位分
                 price: '', // 销售价格,单位分
+                CategoryId: '',
                 productDesc: '', // 商品描述
                 productName: '' // 商品名称
             },
@@ -252,7 +253,7 @@ export default {
     },
     created() {
         this.gitClassify();
-        this.enterStoreList();
+        // this.enterStoreList();
         this.selectVideoProduct();
     },
     methods: {
@@ -294,6 +295,7 @@ export default {
                 itemPrice: '', // 商品销售价格，单位厘；1元=1000厘（对于代理方而言，就是成本价格）
                 linePrice: '', // 划线价格,单位分
                 price: '', // 销售价格,单位分
+                CategoryId:'',
                 productDesc: '', // 商品描述
                 productName: '' // 商品名称
             };
@@ -371,7 +373,7 @@ export default {
                             message: '删除成功',
                             type: 'success'
                         });
-                        this.selectProduct();
+                        this.selectVideoProduct();
                     });
                 })
                 .catch(() => {
@@ -418,19 +420,20 @@ export default {
                 this.formData.linePrice = (this.linePrice * 10000) / 100;
                 this.formData.itemPrice = this.itemPrice * 1000;
                 this.formData.checkItemFacePrice = this.checkItemFacePrice * 1000;
+                console.log(this.formData)
                 api.addVideoProduct(this.formData, (res) => {
                     console.log(res);
-                    this.selectProduct();
+                    this.selectVideoProduct();
                     this.dialogFormVisible = false;
                     this.resetForm('ruleForm');
                 });
-                // this.formData.categoryId = this.categoryId;
-                // api.addProduct(this.formData, (res) => {
-                //     console.log(res);
-                //     this.selectProduct();
-                //     this.dialogFormVisible = false;
-                //     this.resetForm('ruleForm');
-                // });
+                this.formData.categoryId = this.categoryId;
+                api.addProduct(this.formData, (res) => {
+                    console.log(res);
+                    this.selectVideoProduct();
+                    this.dialogFormVisible = false;
+                    this.resetForm('ruleForm');
+                });
             } else {
                 console.log('编辑商品');
                 this.formData.productDesc = this.$refs.blc.release();
@@ -443,7 +446,7 @@ export default {
                     console.log(res);
                     this.dialogFormVisible = false;
                     this.$refs.upload.clearFiles();
-                    this.selectProduct();
+                    this.selectVideoProduct();
                 });
                 // api.updateProduct(this.formData, (res) => {
                 //     console.log(res);
@@ -466,19 +469,19 @@ export default {
             if (e == 0) {
                 this.gitClassify();
                 this.enterStoreList();
-                this.selectProduct();
+                this.selectVideoProduct();
             }
         },
         // 获取三级分类
         gitClassify() {
             let params = {
-                categoryType: 'store',
-                levelId: '2'
+                categoryType: 'video',
+                levelId: '0'
             };
             api.category(params, (res) => {
                 this.tertiaryClassify = res.data.data;
                 // this.formData.categoryId = res.data.data[0].id;
-                console.log('三级分类', res);
+                console.log('yi级分类', res);
             });
         },
         // ----------------------------------------------------------------------

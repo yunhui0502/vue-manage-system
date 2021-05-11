@@ -22,9 +22,9 @@
                     <!-- <el-table-column type="index" label="序号" :index="indexMethod"></el-table-column> -->
                     <el-table-column prop="name" label="分类名称"> </el-table-column>
                     <el-table-column prop="level" label="级别" align="center">
-                        <template slot-scope="scope">{{
-                            scope.row.level === 0 ? '一级类目' : scope.row.level === 1 ? '二级类目' : '三级类目'
-                        }}</template>
+                        <template slot-scope="">
+                            一级类目
+                        </template>
                     </el-table-column>
                     <el-table-column label="图片">
                         <template slot-scope="scope">
@@ -132,7 +132,7 @@ export default {
             controlCatalogue: '0',
             formData: {
                 categoryName: '', //类目名称
-                categoryType: 'store', //分类类型
+                categoryType: 'video', //分类类型
                 fileId: [], //文件id
                 levelId: '0', //级别
                 parentCategoryId: '' //上级类目id
@@ -147,7 +147,7 @@ export default {
         };
     },
     created() {
-        this.categoryList();
+        this.category();
     },
     methods: {
         addClassify () {
@@ -194,7 +194,7 @@ export default {
                             message: '删除成功',
                             type: 'success'
                         });
-                        this.categoryList();
+                        this.category();
                     });
                 })
                 .catch(() => {
@@ -205,11 +205,12 @@ export default {
                 });
         },
         // 获取全部分类
-        categoryList() {
+        category() {
             let params = {
-                categoryType: 'store'
+                categoryType: 'video',
+                levelId: '0',
             };
-            api.categoryList(params, res => {
+            api.category(params, res => {
                 this.tableData = res.data.data;
                 console.log('分类', res);
             });
@@ -244,7 +245,7 @@ export default {
             e--;
             console.log(e);
             let params = {
-                categoryType: 'store',
+                categoryType: 'video',
                 levelId: e
             };
             api.category(params, res => {
