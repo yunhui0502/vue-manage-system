@@ -164,6 +164,12 @@ function deleteVideoProduct(params) {
     fd.append('productId', params.productId);
     return Axios.post(product + '/SecondProduct/deleteVideoProduct', fd);
 }
+// getToken
+function getToken(params) {
+    let fd = new FormData();
+    // fd.append('productId', params.productId);
+    return Axios.post(product + '/ctrip/getToken');
+}
 export default {
     addCategory: addCategory,
     category: category,
@@ -183,4 +189,5 @@ export default {
     addVideoProduct: addVideoProduct,
     updateVideoProduct: updateVideoProduct,
     deleteVideoProduct: deleteVideoProduct,
+    getToken: getToken,
 };

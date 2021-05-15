@@ -52,7 +52,7 @@ function selectVideoOrderr(params) {
     }
 
     fd.append('type', params.type);
-    return Axios.post(order + 'SecondOrder/selectVideoOrderr', fd);
+    return Axios.post(order + '/SecondOrder/selectVideoOrder', fd);
 }
 function statisticsOrder() {
     return Axios.post(order + '/Statistics/statisticsOrder');

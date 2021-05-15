@@ -16,11 +16,45 @@
             <div class="text item">
                 <el-table :data="tableData.slice((currentPage - 1) * pagesize, currentPage * pagesize)" style="width: 100%" stripe>
                     <!-- <el-table-column type="index" label="序号" :index="indexMethod"></el-table-column> -->
-                    <el-table-column prop="orderCode" label="订单号"> </el-table-column>
-                    <el-table-column prop="orderCode" label="订单号"> </el-table-column>
-                    <el-table-column prop="id" label="ID" align="center" show-overflow-tooltip></el-table-column>
-                    <el-table-column prop="modifyTime" label="时间" align="center" show-overflow-tooltip></el-table-column>
+                    <el-table-column prop="orderCode" label="订单号">
+                        <template slot-scope="scope">
+                            {{ scope.row.secondOrderVideo.orderCode }}
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="orderCode" label="充值账号">
+                        <template slot-scope="scope">
+                            {{ scope.row.secondOrderVideo.uid }}
+                        </template>
+                    </el-table-column>
+                    <!-- <el-table-column prop="id" label="ID" align="center" show-overflow-tooltip></el-table-column> -->
+                    <el-table-column prop="modifyTime" label="创建时间" align="center" show-overflow-tooltip>
+                        <template slot-scope="scope">
+                            {{ scope.row.secondOrderVideo.createTime }}
+                        </template>
+                    </el-table-column>
+                    <!-- <el-table-column prop="modifyTime" label="用户ID" align="center" show-overflow-tooltip>
+                        <template slot-scope="scope">
+                            {{ scope.row.secondOrderVideo.userId }}
+                        </template>
+                    </el-table-column> -->
+                    <el-table-column prop="orderStatusUtf" label="交易状态" align="center" show-overflow-tooltip>
+                        <template slot-scope="scope">
+                            {{ scope.row.secondOrderVideo.codeDesc }}
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="orderStatusUtf" label="订单状态" align="center" show-overflow-tooltip></el-table-column>
+                    <el-table-column prop="orderStatusUtf" label="操作" align="center" show-overflow-tooltip>
+                        <template slot-scope="scope">
+                            <el-button
+                                type="text"
+                                v-if="scope.row.secondOrderVideo.orderStatus == 'failed'"
+                                @click="unusual(scope.row)"
+                                class="text-red"
+                                size="small"
+                                >(异常)订单退款</el-button
+                            >
+                        </template>
+                    </el-table-column>
                 </el-table>
                 <div class="block">
                     <el-pagination
@@ -41,6 +75,8 @@
 
 <script>
 import orderApi from '@/service/order-api.js';
+import paymentApi from '@/service/payment-api.js';
+
 import store from '@/store';
 
 // import procss from './procss.vue';
@@ -63,6 +99,31 @@ export default {
         this.selectOrder('all');
     },
     methods: {
+        unusual(item) {
+            //    let item = this.item;
+            console.log(item);
+            this.$confirm(`是否确定退款此退款会直接退回给客户?`, '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            })
+                .then(() => {
+                    let paras = {
+                        payOrderId: item.secondOrderVideo.payOrderId,
+                        orderCode: item.secondOrderVideo.orderCode,
+                        userId: item.secondOrderVideo.userId
+                    };
+                    paymentApi.refundVideo(paras, (res) => {
+                        console.log(res);
+                    });
+                })
+                .catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消'
+                    });
+                });
+        },
         Tab(e) {
             this.tabindex = e;
             if (e == '0') {
@@ -83,21 +144,19 @@ export default {
                 type: 'video' //
             };
             orderApi.selectVideoOrderr(params, (res) => {
+                console.log('获取全部订单', res);
                 this.tableData = res.data.data;
                 this.tableData.forEach((item) => {
-                    console.log('1', item);
+                    // console.log('1', item);
                     // item.orderStatusUtf = item.orderStatus
-                    if (item.orderStatus == 'success') {
-                        item.orderStatusUtf = '待支付';
-                    } else if (item.orderStatus == 'success') {
-                        item.orderStatusUtf = '待发货';
+                    if (item.secondOrderVideo.orderStatus == 'success') {
+                        item.orderStatusUtf = '成功';
+                    } else if (item.secondOrderVideo.orderStatus == 'failed') {
+                        item.orderStatusUtf = '订单异常';
+                    } else if (item.secondOrderVideo.orderStatus == 'payment') {
+                        item.orderStatusUtf = '待付款';
                     }
-                    item.orderProductLists.forEach((ProductItem) => {
-                        //  value =
-                        item.sellPrice = parseFloat(ProductItem.sellPrice / 100).toFixed(2);
-                    });
                 });
-                console.log('获取全部订单', res);
             });
         },
 

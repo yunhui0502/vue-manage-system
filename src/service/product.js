@@ -56,6 +56,9 @@ async function updateVideoProduct(params, handleResult) {
 async function deleteVideoProduct(params, handleResult) {
     product.deleteVideoProduct(params).then(res => handleResult(res));
 }
+async function getToken(params, handleResult) {
+    product.getToken(params).then(res => handleResult(res));
+}
 export default {
     addCategory: addCategory,
     category: category,
@@ -75,4 +78,5 @@ export default {
     addVideoProduct: addVideoProduct,
     updateVideoProduct: updateVideoProduct,
     deleteVideoProduct: deleteVideoProduct,
+    getToken: getToken,
 };

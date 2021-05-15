@@ -80,8 +80,8 @@ module.exports = {
     // 配置多个代理
     proxy: {
       '/api': {
-        target: 'https://sopenservice.ctrip.com', // 本地模拟数据服务器
-        // target: 'https://www.tjsichuang.cn:1443', // 远程服务器
+        // target: 'https://sopenservice.ctrip.com', // 本地模拟数据服务器
+        target: 'http://openservice.open.uat.ctripqa.com', // 远程服务器
         changeOrigin: true,
         pathRewrite: {
           '^/api': '', // 去掉接口地址中的api字符串

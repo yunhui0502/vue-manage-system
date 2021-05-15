@@ -2,11 +2,11 @@
     <div>
         <div class="head">
             <span @click="Tab(0)" class="head-item" :class="tabindex == 0 ? 'on' : ''">全部</span>
-            <span @click="Tab(1)" class="head-item" :class="tabindex == 1 ? 'on' : ''">待发货</span>
-            <span @click="Tab(2)" class="head-item" :class="tabindex == 2 ? 'on' : ''">待收货</span>
-            <span @click="Tab(3)" class="head-item" :class="tabindex == 3 ? 'on' : ''">待评价</span>
+            <!-- <span @click="Tab(1)" class="head-item" :class="tabindex == 1 ? 'on' : ''">待发货</span>
+            <span @click="Tab(2)" class="head-item" :class="tabindex == 2 ? 'on' : ''">待收货</span> -->
             <span @click="Tab(4)" class="head-item" :class="tabindex == 4 ? 'on' : ''">已完成</span>
             <span @click="Tab(5)" class="head-item" :class="tabindex == 5 ? 'on' : ''">退款中</span>
+            <span @click="Tab(3)" class="head-item" :class="tabindex == 3 ? 'on' : ''">异常订单</span>
         </div>
         <el-card class="box-card">
             <div slot="header" class="clearfix">
@@ -16,17 +16,96 @@
                 </el-breadcrumb>
             </div>
 
-            <div class="text item">
+            <div class="text item" v-if="tabindex != 3">
                 <el-table :data="tableData.slice((currentPage - 1) * pagesize, currentPage * pagesize)" style="width: 100%" stripe>
                     <!-- <el-table-column type="index" label="序号" :index="indexMethod"></el-table-column> -->
                     <el-table-column prop="orderCode" label="订单号"> </el-table-column>
-                    <el-table-column prop="id" label="ID" align="center" show-overflow-tooltip></el-table-column>
+                    <el-table-column prop="userId" label="userId" align="center" show-overflow-tooltip></el-table-column>
                     <el-table-column prop="outTradeNo" label="门票订单号" align="center" show-overflow-tooltip></el-table-column>
+
                     <el-table-column prop="modifyTime" label="时间" align="center" show-overflow-tooltip></el-table-column>
                     <el-table-column prop="orderStatusUtf" label="订单状态" align="center" show-overflow-tooltip></el-table-column>
-                    <el-table-column label="操作" align="center" show-overflow-tooltip>
+                    <el-table-column label="操作" align="center">
                         <template slot-scope="scope">
-                            <el-button type="text" @click="ImageURLList(scope.row)" class="text-red" size="small">退款明细</el-button>
+                            <el-button
+                                type="text"
+                                v-if="scope.row.orderStatus == 'controversial'"
+                                @click="ImageURLList(scope.row)"
+                                class="text-red"
+                                size="small"
+                                >携程退款明细</el-button
+                            >
+                            <el-button
+                                type="text"
+                                v-if="scope.row.orderStatus == 'exception'"
+                                @click="unusual(scope.row)"
+                                class="text-red"
+                                size="small"
+                                >异常订单退款</el-button
+                            >
+                            <el-button
+                                type="text"
+                                v-if="scope.row.orderStatus == 'controversial'"
+                                @click="ctripRefund(scope.row)"
+                                class="text-red"
+                                size="small"
+                                >携程申请退款</el-button
+                            >
+                        </template>
+                    </el-table-column>
+                </el-table>
+                <div class="block">
+                    <el-pagination
+                        background
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange"
+                        :current-page.sync="currentPage"
+                        :page-size="pagesize"
+                        layout="prev, pager, next, jumper"
+                        :total="tableData.length"
+                    >
+                    </el-pagination>
+                </div>
+            </div>
+            <div class="text item" v-if="tabindex == 3">
+                <el-table :data="tableData.slice((currentPage - 1) * pagesize, currentPage * pagesize)" style="width: 100%" stripe>
+                    <!-- <el-table-column type="index" label="序号" :index="indexMethod"></el-table-column> -->
+                    <el-table-column prop="orderCode" label="订单号"> </el-table-column>
+                    <el-table-column prop="userId" label="userId" align="center" show-overflow-tooltip></el-table-column>
+
+                    <el-table-column prop="outTradeNo" label="失败原因" align="center" show-overflow-tooltip>
+                        <template slot-scope="scope">
+                            {{ scope.row.codeDesc }}
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="modifyTime" label="时间" align="center" show-overflow-tooltip></el-table-column>
+                    <el-table-column prop="orderStatusUtf" label="订单状态" align="center" show-overflow-tooltip></el-table-column>
+                    <el-table-column label="操作" align="center">
+                        <template slot-scope="scope">
+                            <el-button
+                                type="text"
+                                v-if="scope.row.orderStatus == 'controversial'"
+                                @click="ImageURLList(scope.row)"
+                                class="text-red"
+                                size="small"
+                                >携程退款明细</el-button
+                            >
+                            <el-button
+                                type="text"
+                                v-if="scope.row.orderStatus == 'exception'"
+                                @click="unusual(scope.row)"
+                                class="text-red"
+                                size="small"
+                                >异常订单退款</el-button
+                            >
+                            <el-button
+                                type="text"
+                                v-if="scope.row.orderStatus == 'controversial'"
+                                @click="ctripRefund(scope.row)"
+                                class="text-red"
+                                size="small"
+                                >携程申请退款</el-button
+                            >
                         </template>
                     </el-table-column>
                 </el-table>
@@ -94,6 +173,7 @@
 import orderApi from '@/service/order-api.js';
 import paymentApi from '@/service/payment-api.js';
 import ctripApi from '@/api/ctrip.js';
+import productApi from '@/service/product.js';
 import store from '@/store';
 
 // import procss from './procss.vue';
@@ -124,7 +204,7 @@ export default {
         this.authorize();
     },
     methods: {
-         numFilter(value) {
+        numFilter(value) {
             // 截取当前数据到小数点后两位
             let realVal = parseFloat(value).toFixed(2);
             return realVal;
@@ -161,7 +241,7 @@ export default {
 
             paymentApi.countRefund(paras, (res) => {
                 console.log(res);
-                this.$confirm(`退款金额${this.numFilter(res.data/100)}确定要退款吗?`, '提示', {
+                this.$confirm(`退款金额${this.numFilter(res.data / 100)}确定要退款吗?`, '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
@@ -172,32 +252,112 @@ export default {
                     .catch(() => {
                         this.$message({
                             type: 'info',
-                            message: '已取消删除'
+                            message: '已取消'
                         });
                     });
-            });
+            }); 
         },
         authorize() {
-            ctripApi
-                .authorize({
-                    AID: 1723148,
-                    KEY: '3bdcdea67e244b8790ceb6771c4bee9f',
-                    SID: 4798174
-                })
-                .then((res) => {
+            productApi.getToken({},(res) => {
                     console.log('获取身份', res.data);
-                    localStorage.setItem('tokenData', JSON.stringify(res.data));
+                    let data = {
+                         AID: 162,
+                        Access_Token: res.data.data.token,
+                        SID: 375
+                    } 
+                    localStorage.setItem('tokenData', JSON.stringify(data));
 
                     // localStorage.getItem('tokenData')
+                })
+
+            
+        },
+        ctripRefund(item) {
+            this.authorize();
+            this.$confirm(`确定要申请携程退款吗?`, '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            })
+                .then(() => {
+                    let tokenData = JSON.parse(localStorage.getItem('tokenData'));
+                    let paras = {
+                        // ICODE: 'bcb9a8bed0bb446f8db39c3ea5ef817d', // 正式
+                        ICODE: 'c97d60584a154f8a8e8841f038f721ce', // 测试
+                        SID: 375,
+
+                        DistributionChannelId: '9',
+                        OrderId: item.outTradeNo,
+                        // OrderId: 32094531421,
+                        CancelType: this.CancelType,
+                        Reason: '111',
+                        // OrderVerifys: [{
+                        // 	VerifyKey: 'UID',
+                        // 	VerifyValue: uni.getStorageSync('UID'),
+                        // }],
+                        AllianceID: 162
+                    };
+                    ctripApi.ServiceProxy(paras).then((res) => {
+                        console.log('获取身份', res.data);
+                        if (res.data.ResultStatus.IsSuccess) {
+                            this.$message({
+                                message: '申请成功',
+                                type: 'success'
+                            });
+                        } else {
+                            this.$message.error(res.data.ResultStatus.CustomerErrorMessage);
+                           
+                        }
+                    });
+                })
+                .catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消'
+                    });
+                });
+        },
+        unusual(item) {
+            //    let item = this.item;
+            console.log(item);
+            this.$confirm(`是否确定退款此退款会直接退回给客户?`, '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            })
+                .then(() => {
+                    let paras = {
+                        // outTradeNo: item.outTradeNo,
+                        payOrderId: item.payOrderId,
+                        orderCode: item.orderCode,
+                        userId: item.userId
+
+                        // refundCostType: this.refundCostType,
+                        // refundCostValue: this.refundCostValue,
+                        // refundQuantity: this.refundQuantity,
+                        // refundType: this.refundType
+                    };
+                    paymentApi.refundVideo(paras, (res) => {
+                        console.log(res);
+                    });
+                })
+                .catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消'
+                    });
                 });
         },
         ImageURLList(item) {
+            this.authorize();
+
             this.item = item;
             console.log(item);
             let tokenData = JSON.parse(localStorage.getItem('tokenData'));
             console.log('惨数', tokenData.AID);
             let paras = {
-                ICODE: '7fd4cffe6b964b76944a65b8a4325819',
+                // ICODE: '7fd4cffe6b964b76944a65b8a4325819', // 正式
+                ICODE: 'b324d133a0ca4ec2acb2f499d7a1a2f0', // 测试
 
                 SID: tokenData.SID,
                 DistributionChannelID: '9',
@@ -208,7 +368,7 @@ export default {
 
             ctripApi.ServiceProxy(paras).then((res) => {
                 console.log('2.17门票退订明细', res);
-                
+
                 if (res.data.ErrCode == 232) {
                     this.$message({
                         message: 'Token失效,重新访问',
@@ -217,7 +377,7 @@ export default {
                     this.authorize();
                     return;
                 }
-                 if (res.data.ErrCode == 230) {
+                if (res.data.ErrCode == 230) {
                     this.$message({
                         message: 'Token失效,重新访问',
                         type: 'warning'
@@ -225,7 +385,7 @@ export default {
                     this.authorize();
                     return;
                 }
-                 if (res.data.ErrCode == 231) {
+                if (res.data.ErrCode == 231) {
                     this.$message({
                         message: 'Token失效,重新访问',
                         type: 'warning'
@@ -261,8 +421,8 @@ export default {
                 this.selectOrder('pickUp');
                 this.text = '待收货';
             } else if (e == '3') {
-                this.selectOrder('evaluate');
-                this.text = '待评价';
+                this.selectOrder('exception');
+                this.text = '异常订单';
             } else if (e == '4') {
                 this.selectOrder('complete');
                 this.text = '已完成';
@@ -282,14 +442,14 @@ export default {
             orderApi.selectAdmissionOrder(params, (res) => {
                 this.tableData = res.data.data;
                 this.tableData.forEach((item) => {
-                    console.log('1', item);
+                    // console.log('1', item);
                     // item.orderStatusUtf = item.orderStatus
                     if (item.orderStatus == 'payment') {
                         item.orderStatusUtf = '待支付';
                     } else if (item.orderStatus == 'process') {
                         item.orderStatusUtf = '待发货';
-                    } else if (item.orderStatus == 'pickUp') {
-                        item.orderStatusUtf = '待提货';
+                    } else if (item.orderStatus == 'exception') {
+                        item.orderStatusUtf = '异常订单';
                     } else if (item.orderStatus == 'evaluate') {
                         item.orderStatusUtf = '待评价';
                     } else if (item.orderStatus == 'complete') {
@@ -299,10 +459,6 @@ export default {
                     } else if (item.orderStatus == 'cancel') {
                         item.orderStatusUtf = '取消';
                     }
-                    // item.orderProductLists.forEach((ProductItem) => {
-                    //     //  value =
-                    //     item.sellPrice = parseFloat(ProductItem.sellPrice / 100).toFixed(2);
-                    // });
                 });
                 console.log('获取全部订单', res);
             });
