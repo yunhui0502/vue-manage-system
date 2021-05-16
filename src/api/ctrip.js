@@ -25,7 +25,7 @@ function ServiceProxy(params) {
             'Access-Control-Allow-Origin': '*',
         },
         method: 'post',
-        url: '/api/OpenService/ServiceProxy.ashx?SID='+ 375 + '&token=' + tokenData.Access_Token
+        url:ctrip + '/OpenService/ServiceProxy.ashx?SID='+ 375 + '&token=' + tokenData.Access_Token
         + '&UUID=6dc27948-8ca8-11eb-83fc-0a80ff2603de' + '&Mode=1' + '&Format=JSON' + '&AID=' + 162 +'&ICODE=' + params.ICODE,
         // url: '/api/OpenService/ServiceProxy.ashx?SID='+ tokenData.SID + '&token=' + tokenData.Access_Token
         // + '&UUID=6dc27948-8ca8-11eb-83fc-0a80ff2603de' + '&Mode=1' + '&Format=JSON' + '&AID=' + tokenData.AID +'&ICODE=' + params.ICODE,
