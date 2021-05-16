@@ -57,6 +57,12 @@ function selectVideoOrderr(params) {
 function statisticsOrder() {
     return Axios.post(order + '/Statistics/statisticsOrder');
 }
+// 门票退款明细
+function refundDetail(params) {
+    let fd = new FormData();
+    fd.append('outTradeno', params.outTradeno);
+    return Axios.post(order + '/SecondOrder/refundDetail', fd);
+}
 
 export default {
     selectOrder: selectOrder,
@@ -67,5 +73,6 @@ export default {
     selectAdmissionOrder: selectAdmissionOrder,
     selectVideoOrderr: selectVideoOrderr,
     statisticsOrder: statisticsOrder,
+    refundDetail: refundDetail,
    
 };

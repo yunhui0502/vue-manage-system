@@ -336,18 +336,21 @@ export default {
                     });
                 });
         },
+
         handleClick(row) {
             this.title = '编辑商品';
             this.dialogFormVisible = true;
             this.fileList = [];
             this.formData = row;
+            this.formData.CategoryId = row.categoryId;
+            
+            this.price = row.price / 100;
+            this.linePrice = row.linePrice / 100;
+            this.itemPrice = row.itemPrice / 1000;
+            this.checkItemFacePrice = row.checkItemFacePrice / 1000;
             // this.sellPrice = row.price;
-            this.itemPrice = row.itemPrice;
-            this.linePrice = row.linePrice;
-            this.price = row.price;
-            this.checkItemFacePrice = row.checkItemFacePrice;
+            
             this.fileList.push({ url: row.file });
-            // this.categoryId = row.productCategoryId;
             console.log(row);
             setTimeout(() => {
                 this.$refs.blc.setData(row.productDesc);
@@ -441,6 +444,7 @@ export default {
                 this.formData.linePrice = (this.linePrice * 10000) / 100;
                 this.formData.itemPrice = this.itemPrice * 1000;
                 this.formData.checkItemFacePrice = this.checkItemFacePrice * 1000;
+                this.formData.productId = this.formData.id;
                 console.log(this.formData);
                 api.updateVideoProduct(this.formData, (res) => {
                     console.log(res);

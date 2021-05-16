@@ -158,12 +158,18 @@ function announcement(params) {
     fd.append('message', params.message);
     return Axios.post(user + '/Message/announcement', fd);
 }
-// 添加广告图
+// 添加广告图 
 function advertising(params) {
     let fd = new FormData();
     fd.append('slideshow', params.slideshow);
     fd.append('type', params.type);
     return Axios.post(user + '/BossLogin/advertising', fd);
+}
+function huixuan(params) {
+    let fd = new FormData();
+    fd.append('slideshow', params.slideshow);
+    fd.append('type', params.type);
+    return Axios.post(user + '/BossLogin/huixuan', fd);
 }
 export default {
     enterStoreList: enterStoreList,
@@ -188,5 +194,6 @@ export default {
     selectBoss:selectBoss,
     announcement:announcement,
     AddBasicsimg:AddBasicsimg,
-    advertising:advertising
+    advertising:advertising,
+    huixuan: huixuan,
 };

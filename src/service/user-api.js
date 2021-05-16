@@ -70,6 +70,9 @@ async function advertising(params,handleResult) {
 async function announcement(params,handleResult) {
     product.announcement(params).then(res => handleResult(res));
 }
+async function huixuan(params,handleResult) {
+    product.huixuan(params).then(res => handleResult(res));
+}
 export default {
     enterStoreList: enterStoreList,
     ListSon: ListSon,
@@ -93,5 +96,6 @@ export default {
     selectBoss:selectBoss,
     AddBasicsimg:AddBasicsimg,
     advertising:advertising,
-    announcement:announcement
+    announcement:announcement,
+    huixuan: huixuan,
 };

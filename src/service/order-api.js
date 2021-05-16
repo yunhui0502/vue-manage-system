@@ -22,7 +22,9 @@ async function selectVideoOrderr(param,handleResult) {
 async function statisticsOrder(handleResult) {
     order.statisticsOrder().then(res => handleResult(res));
 }
-
+async function refundDetail(param,handleResult) {
+    order.refundDetail(param).then(res => handleResult(res));
+}
 export default {
     selectOrder: selectOrder,
     backendData:backendData,
@@ -31,5 +33,6 @@ export default {
     selectAdmissionOrder: selectAdmissionOrder,
     selectVideoOrderr: selectVideoOrderr,
     statisticsOrder: statisticsOrder,
+    refundDetail: refundDetail,
 
 };

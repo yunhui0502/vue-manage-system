@@ -156,6 +156,7 @@ function updateVideoProduct(params) {
     fd.append('productDesc', params.productDesc);
     fd.append('productName', params.productName);
     fd.append('quantity', params.quantity);
+    fd.append('CategoryId', params.CategoryId);
     return Axios.post(product + '/SecondProduct/updateVideoProduct', fd);
 }
 // 删除视频会员商品

@@ -43,14 +43,14 @@
                                 size="small"
                                 >异常订单退款</el-button
                             >
-                            <el-button
+                            <!-- <el-button
                                 type="text"
                                 v-if="scope.row.orderStatus == 'controversial'"
                                 @click="ctripRefund(scope.row)"
                                 class="text-red"
                                 size="small"
                                 >携程申请退款</el-button
-                            >
+                            > -->
                         </template>
                     </el-table-column>
                 </el-table>
@@ -98,14 +98,14 @@
                                 size="small"
                                 >异常订单退款</el-button
                             >
-                            <el-button
+                            <!-- <el-button
                                 type="text"
                                 v-if="scope.row.orderStatus == 'controversial'"
                                 @click="ctripRefund(scope.row)"
                                 class="text-red"
                                 size="small"
                                 >携程申请退款</el-button
-                            >
+                            > -->
                         </template>
                     </el-table-column>
                 </el-table>
@@ -255,22 +255,20 @@ export default {
                             message: '已取消'
                         });
                     });
-            }); 
+            });
         },
         authorize() {
-            productApi.getToken({},(res) => {
-                    console.log('获取身份', res.data);
-                    let data = {
-                         AID: 162,
-                        Access_Token: res.data.data.token,
-                        SID: 375
-                    } 
-                    localStorage.setItem('tokenData', JSON.stringify(data));
+            productApi.getToken({}, (res) => {
+                console.log('获取身份', res.data);
+                let data = {
+                    AID: 162,
+                    Access_Token: res.data.data.token,
+                    SID: 375
+                };
+                localStorage.setItem('tokenData', JSON.stringify(data));
 
-                    // localStorage.getItem('tokenData')
-                })
-
-            
+                // localStorage.getItem('tokenData')
+            });
         },
         ctripRefund(item) {
             this.authorize();
@@ -306,7 +304,6 @@ export default {
                             });
                         } else {
                             this.$message.error(res.data.ResultStatus.CustomerErrorMessage);
-                           
                         }
                     });
                 })
@@ -339,6 +336,19 @@ export default {
                     };
                     paymentApi.refundVideo(paras, (res) => {
                         console.log(res);
+
+                        if (res.data.status == 200) {
+                            this.$message({
+                                message: '退款成功',
+                                type: 'success'
+                            });
+                            return;
+                        } else {
+                            this.$message({
+                                message: '失败',
+                                type: 'warning'
+                            });
+                        }
                     });
                 })
                 .catch(() => {
@@ -365,49 +375,71 @@ export default {
                 AllianceID: tokenData.AID,
                 OrderID: item.outTradeNo
             };
+            orderApi.refundDetail({ outTradeno: item.outTradeNo }, (res) => {
+                console.log('门票退订明细', res);
+                // let data = JSON.stringify(JSON.parse(res))
+                let data = JSON.parse(res.data.data)
 
-            ctripApi.ServiceProxy(paras).then((res) => {
-                console.log('2.17门票退订明细', res);
+                console.log('门票退订明细2', data);
 
-                if (res.data.ErrCode == 232) {
+                if ( data.ResultStatus.ErrorMessage == '无退款信息') {
                     this.$message({
-                        message: 'Token失效,重新访问',
-                        type: 'warning'
-                    });
-                    this.authorize();
-                    return;
-                }
-                if (res.data.ErrCode == 230) {
-                    this.$message({
-                        message: 'Token失效,重新访问',
-                        type: 'warning'
-                    });
-                    this.authorize();
-                    return;
-                }
-                if (res.data.ErrCode == 231) {
-                    this.$message({
-                        message: 'Token失效,重新访问',
-                        type: 'warning'
-                    });
-                    this.authorize();
-                    return;
-                }
-                if (res.data.ResultStatus.ErrorMessage == '无退款信息') {
-                    this.$message({
-                        message: res.data.ResultStatus.ErrorMessage,
+                        message: data.ResultStatus.ErrorMessage,
                         type: 'success'
                     });
                     return;
                 }
                 this.dialogVisible = true;
-                this.RefundDetailList = res.data.RefundDetails;
+                this.RefundDetailList = data.RefundDetails;
                 console.log('退订明细', this.RefundDetailList);
 
-                this.refundCostType = res.data.RefundDetails[0].RefundCostType;
-                this.refundCostValue = res.data.RefundDetails[0].RefundCostValue;
-                this.refundQuantity = res.data.RefundDetails[0].RefundQuantity;
+                this.refundCostType = data.RefundDetails[0].RefundCostType;
+                this.refundCostValue = data.RefundDetails[0].RefundCostValue;
+                this.refundQuantity = data.RefundDetails[0].RefundQuantity;
             });
+
+            // ctripApi.ServiceProxy(paras).then((res) => {
+            //     console.log('2.17门票退订明细', res);
+
+            //     if (res.data.ErrCode == 232) {
+            //         this.$message({
+            //             message: 'Token失效,重新访问',
+            //             type: 'warning'
+            //         });
+            //         this.authorize();
+            //         return;
+            //     }
+            //     if (res.data.ErrCode == 230) {
+            //         this.$message({
+            //             message: 'Token失效,重新访问',
+            //             type: 'warning'
+            //         });
+            //         this.authorize();
+            //         return;
+            //     }
+            //     if (res.data.ErrCode == 231) {
+            //         this.$message({
+            //             message: 'Token失效,重新访问',
+            //             type: 'warning'
+            //         });
+            //         this.authorize();
+            //         return;
+            //     }
+            //     if (res.data.ResultStatus.ErrorMessage == '无退款信息') {
+            //         this.$message({
+            //             message: res.data.ResultStatus.ErrorMessage,
+            //             type: 'success'
+            //         });
+            //         return;
+            //     }
+            //     this.dialogVisible = true;
+            //     this.RefundDetailList = res.data.RefundDetails;
+            //     console.log('退订明细', this.RefundDetailList);
+
+            //     this.refundCostType = res.data.RefundDetails[0].RefundCostType;
+            //     this.refundCostValue = res.data.RefundDetails[0].RefundCostValue;
+            //     this.refundQuantity = res.data.RefundDetails[0].RefundQuantity;
+            // });
         },
         Tab(e) {
             this.tabindex = e;

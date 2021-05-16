@@ -15,6 +15,44 @@
             </div>
             <div class="text item">
                 <el-form ref="form" :model="form" label-width="140px">
+                        <el-form-item style="" label="惠选轮播图">
+                        <el-upload
+                            action="https://swcloud.tjsichuang.cn:1444/second/user/File/fileUpLoad"
+                            list-type="picture-card"
+                            name="file"
+                            :on-preview="handlePictureCardPreview"
+                            :on-success="HuiXuanSuccess"
+                            :on-remove="handleRemove"
+                        >
+                            <i class="el-icon-plus"></i>
+                        </el-upload>
+                        <el-dialog :visible.sync="dialogVisible">
+                            <img width="100%" :src="dialogImageUrl" alt />
+                        </el-dialog>
+                        <div class="personal">
+                            <div class="content">
+                                <!-- 1.标题及图像说明 -->
+                                <!-- 2.图像区域 -->
+                                <div class="content-image">
+                                    <div v-for="(item, i) in HuiXuanUrl" :key="i" class="upload-photo">
+                                        <li v-on:mouseover="mouseoverImg()" v-on:mouseout="mouseoutImg()">
+                                            <img ref="img" :src="item.file" />
+                                            <div ref="imgDelete" class="delete-img">
+                                                <i class="el-icon-delete" @click="deleteImg2(item)"></i>
+                                            </div>
+                                        </li>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button style="float: right; margin-right: 30px; margin-top: 30px" @click="HuiXuan" type="primary"
+                            >确定</el-button
+                        >
+                    </el-form-item>
+
+
                     <el-form-item style="" label="首页轮播图">
                         <el-upload
                             action="https://swcloud.tjsichuang.cn:1444/second/user/File/fileUpLoad"
@@ -232,6 +270,7 @@ export default {
             tableDataUrl2: '',
             advertisingUrl: '',
             advertisingUrl2:'',
+            HuiXuanUrl:'',
             tabindex: 0,
             fileList: [],
             dialogImageUrl: '',
@@ -241,6 +280,7 @@ export default {
                 newUserIntegral: '', //新用户认证加的积分
                 service: '', //客服
                 slideshow: [], //轮播图
+     
                 sonWithdrawalCommission: '', //子站点提现手续费率
                 storeWithdrawalCommission: '', //商家提现手续费率
                 userWithdrawalCommission: '', //用户提现手续费率
@@ -248,6 +288,11 @@ export default {
             },
             advertising: {
                 slideshow:'',
+                type:''
+            },
+            // 惠选轮播
+            HuiXuanshow: {
+                slideshow:[],
                 type:''
             }
         };
@@ -257,6 +302,7 @@ export default {
         this.selectBoss();
         this.classifyBoss();
         this.homeBoss();
+        this.gitHuiXuan();
     },
     methods: {
      
@@ -274,10 +320,25 @@ export default {
                 this.advertising.slideshow = ''
             })
         },
+        HuiXuan() {
+          
+             this.HuiXuanshow.type = 'huixuan'
+            //  this.HuiXuanshow.type = 'huixuan'
+            userApi.huixuan(this.HuiXuanshow,(res) => {
+                console.log('huixuan', res);
+                this.HuiXuanshow.slideshow = ''
+            })
+        },
         homeBoss() {
             userApi.select('advertising',(res) => {
                 console.log('首页广告', res.data.data[0].file);
                 this.advertisingUrl = res.data.data[0].file
+            });
+        },
+        gitHuiXuan() {
+             userApi.select('huixuan',(res) => {
+                console.log('惠选轮播图', res.data.data);
+                this.HuiXuanUrl = res.data.data
             });
         },
         
@@ -374,6 +435,10 @@ export default {
         handleSuccess(esponse, file, fileList) {
             console.log('esponse', esponse), console.log('file', file), console.log('fileList', fileList);
             this.form.slideshow.push(esponse.data);
+        },
+        HuiXuanSuccess(esponse, file, fileList) {
+            console.log('esponse', esponse), console.log('file', file), console.log('fileList', fileList);
+            this.HuiXuanshow.slideshow.push(esponse.data);
         },
         HomeAdvertising(esponse, file, fileList) {
             console.log('esponse', esponse), console.log('file', file), console.log('fileList', fileList);
