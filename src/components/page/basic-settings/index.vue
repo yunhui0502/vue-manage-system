@@ -17,6 +17,7 @@
                 <el-form ref="form" :model="form" label-width="140px">
                         <el-form-item style="" label="惠选轮播图">
                         <el-upload
+                            ref='upload'
                             action="https://swcloud.tjsichuang.cn:1444/second/user/File/fileUpLoad"
                             list-type="picture-card"
                             name="file"
@@ -38,7 +39,7 @@
                                         <li v-on:mouseover="mouseoverImg()" v-on:mouseout="mouseoutImg()">
                                             <img ref="img" :src="item.file" />
                                             <div ref="imgDelete" class="delete-img">
-                                                <i class="el-icon-delete" @click="deleteImg2(item)"></i>
+                                                <i class="el-icon-delete" @click="HuiXuandelete(item)"></i>
                                             </div>
                                         </li>
                                     </div>
@@ -327,6 +328,10 @@ export default {
             userApi.huixuan(this.HuiXuanshow,(res) => {
                 console.log('huixuan', res);
                 this.HuiXuanshow.slideshow = ''
+                this. gitHuiXuan()
+                // this.dialogImageUrl = ''
+                this.HuiXuanshow.slideshow = []
+                this.$refs.upload.clearFiles();
             })
         },
         homeBoss() {
@@ -339,6 +344,7 @@ export default {
              userApi.select('huixuan',(res) => {
                 console.log('惠选轮播图', res.data.data);
                 this.HuiXuanUrl = res.data.data
+                
             });
         },
         
@@ -378,12 +384,38 @@ export default {
         mouseoutImg() {
             // this.$refs.imgDelete.style.display = 'none'
         },
+        HuiXuandelete(e){
+            this.$confirm('是否删除该照片?', '删除', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            })
+                .then(() => {
+                    let param = {
+                        file: e.file,
+                        type: e.fileType
+                    };
+                    userApi.deleted(param, (res) => {
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                        this.gitHuiXuan();
+                    });
+                })
+                .catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+        },
         deleteImg2(e) {
             console.log(e);
             this.$confirm('是否删除该照片?', '删除', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
-                type: 'warning'
+                type: 'huixuan'
             })
                 .then(() => {
                     let param = {
@@ -408,7 +440,12 @@ export default {
         AddBasics() {
             userApi.AddBasics(this.form, (res) => {
                 console.log(res);
+                this. select()
+                this.dialogImageUrl = ''
+                this.form.slideshow = []
+                this.$refs.upload.clearFiles();
             });
+            
         },
         AddBasicsimg() {
             userApi.AddBasicsimg(this.form.slideshow, (res) => {
@@ -438,7 +475,7 @@ export default {
         },
         HuiXuanSuccess(esponse, file, fileList) {
             console.log('esponse', esponse), console.log('file', file), console.log('fileList', fileList);
-            this.HuiXuanshow.slideshow.push(esponse.data);
+            this.HuiXuanshow.slideshow = esponse.data;
         },
         HomeAdvertising(esponse, file, fileList) {
             console.log('esponse', esponse), console.log('file', file), console.log('fileList', fileList);
