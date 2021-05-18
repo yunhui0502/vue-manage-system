@@ -329,7 +329,7 @@ export default {
                 console.log('huixuan', res);
                 this.HuiXuanshow.slideshow = ''
                 this. gitHuiXuan()
-                // this.dialogImageUrl = ''
+                // this.dialogImageUrl = '' 
                 this.HuiXuanshow.slideshow = []
                 this.$refs.upload.clearFiles();
             })
