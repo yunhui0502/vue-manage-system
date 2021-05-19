@@ -20,7 +20,7 @@
                     :tree-props="{ children: 'categories', hasChildren: 'hasChildren' }"
                 >
                     <!-- <el-table-column type="index" label="序号" :index="indexMethod"></el-table-column> -->
-                    <el-table-column prop="name" label="分类名称"> </el-table-column>
+                    <el-table-column prop="secondName" label="分类名称"> </el-table-column>
                     <el-table-column prop="level" label="级别" align="center">
                         <template slot-scope="">
                             一级类目
@@ -28,10 +28,10 @@
                     </el-table-column>
                     <el-table-column label="图片">
                         <template slot-scope="scope">
-                            <img class="fileurl" :src="scope.row.fileId" alt="" />
+                            <img class="fileurl" :src="scope.row.file" alt="" />
                         </template>
                     </el-table-column>
-                    <el-table-column prop="date" label="创建时间" align="center" show-overflow-tooltip></el-table-column>
+                    <el-table-column prop="createTime" label="创建时间" align="center" show-overflow-tooltip></el-table-column>
                     <el-table-column fixed="right" width="120" label="操作" align="center">
                         <template slot-scope="scope">
                             <el-button @click="handlexClick(scope.row)" type="text" size="small">编辑</el-button>
@@ -311,8 +311,8 @@ export default {
     }
 }
 .fileurl {
-    width: 35px;
-    height: 35px;
+    width: 45px;
+    height: 45px;
     background: #dcdcdc;
     border-radius: 14px;
 }

@@ -155,7 +155,7 @@
                     退款原因：<span>{{ item.RefundReason }}</span>
                 </div>
                 <div>
-                    退订状态：<span>{{ item.OperateType == 1 ? '退订中' : item.OperateType == 2 ? '退订成功' : '退订失败' }}</span>
+                    退订状态：<span>{{ item.refundStatus == 1 ? '退订中' : item.refundStatus == 2 ? '退订成功' : '退订失败' }}</span>
                 </div>
                 <div>
                     退订失败原因：<span>{{ item.FailReason }}</span>
@@ -365,20 +365,20 @@ export default {
             console.log(item);
             let tokenData = JSON.parse(localStorage.getItem('tokenData'));
             console.log('惨数', tokenData.AID);
-            let paras = {
-                // ICODE: '7fd4cffe6b964b76944a65b8a4325819', // 正式
-                ICODE: 'b324d133a0ca4ec2acb2f499d7a1a2f0', // 测试
+            // let paras = {
+            //     // ICODE: '7fd4cffe6b964b76944a65b8a4325819', // 正式
+            //     ICODE: 'b324d133a0ca4ec2acb2f499d7a1a2f0', // 测试
 
-                SID: tokenData.SID,
-                DistributionChannelID: '9',
+            //     SID: tokenData.SID,
+            //     DistributionChannelID: '9',
 
-                AllianceID: tokenData.AID,
-                OrderID: item.outTradeNo
-            };
+            //     AllianceID: tokenData.AID,
+            //     OrderID: item.outTradeNo
+            // };
             orderApi.refundDetail({ outTradeno: item.outTradeNo }, (res) => {
                 console.log('门票退订明细', res);
                 // let data = JSON.stringify(JSON.parse(res))
-                let data = JSON.parse(res.data.data)
+                let data = res.data.data
 
                 console.log('门票退订明细2', data);
 

@@ -20,7 +20,7 @@
             <div class="text item">
                 <el-table :data="tableData.slice((currentPage - 1) * pagesize, currentPage * pagesize)" stripe style="width: 100%">
                     <!-- <el-table-column prop="nickName" label="商家名称"> </el-table-column> -->
-                    <el-table-column prop="productName" label="商家名称"> </el-table-column>
+                    <el-table-column prop="productName" label="视频名称"> </el-table-column>
                     <el-table-column prop="price" label="价格">
                         <template slot-scope="scope">
                             {{ numFilter(scope.row.price / 100) }}
@@ -87,7 +87,7 @@
                 <el-form-item label="商品面值" prop="sellPrice" :label-width="formLabelWidth">
                     <el-input
                         v-model="checkItemFacePrice"
-                        placeholder="单位厘:1元=1000厘，用于验证上传面值是否跟系统itemId的面值一致"
+                        placeholder="用于验证上传面值是否跟系统itemId的面值一致"
                         autocomplete="off"
                     ></el-input>
                 </el-form-item>
@@ -285,13 +285,13 @@ export default {
             setTimeout(() => {
                 this.$refs.blc.setData('');
             }, 10);
-
+             this.$refs.upload.clearFiles();
             this.formData = {
                 checkItemFacePrice: '', // 商品面值(单位厘:1元=1000厘，用于验证上传面值是否跟系统itemId的面值一致)
                 file: '', // 商品展示图
                 quantity: '', // 库存数量
                 isPutaway: '0', // 是否上架
-                itemId: '20096', // 商品编号(充值平台方提供)
+                itemId: '', // 商品编号(充值平台方提供)
                 itemPrice: '', // 商品销售价格，单位厘；1元=1000厘（对于代理方而言，就是成本价格）
                 linePrice: '', // 划线价格,单位分
                 price: '', // 销售价格,单位分
@@ -299,6 +299,10 @@ export default {
                 productDesc: '', // 商品描述
                 productName: '' // 商品名称
             };
+            this.itemPrice ='' // 商品销售价格，单位厘；1元=1000厘（对于代理方而言，就是成本价格）
+            this.linePrice = '' // 划线价格,单位分
+            this.price = '' // 销售价格,单位分
+            this.checkItemFacePrice ='' // 商品面值(单位厘:1元=1000厘，用于验证上传面值是否跟系统itemId的面值一致)
         },
         // 鼠标移入图片
         mouseoverImg() {
@@ -430,13 +434,13 @@ export default {
                     this.dialogFormVisible = false;
                     this.resetForm('ruleForm');
                 });
-                this.formData.categoryId = this.categoryId;
-                api.addProduct(this.formData, (res) => {
-                    console.log(res);
-                    this.selectVideoProduct();
-                    this.dialogFormVisible = false;
-                    this.resetForm('ruleForm');
-                });
+                // this.formData.categoryId = this.categoryId;
+                // api.addProduct(this.formData, (res) => {
+                //     console.log(res);
+                //     this.selectVideoProduct();
+                //     this.dialogFormVisible = false;
+                //     this.resetForm('ruleForm');
+                // });
             } else {
                 console.log('编辑商品');
                 this.formData.productDesc = this.$refs.blc.release();

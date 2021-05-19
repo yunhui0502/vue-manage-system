@@ -293,7 +293,7 @@ export default {
             },
             // 惠选轮播
             HuiXuanshow: {
-                slideshow:[],
+                slideshow:'',
                 type:''
             }
         };
@@ -322,6 +322,13 @@ export default {
             })
         },
         HuiXuan() {
+            if(this.HuiXuanshow.slideshow ==''){
+                this.$message({
+                    message: '请添加图片',
+                    type: 'warning'
+                });
+                return
+            }
           
              this.HuiXuanshow.type = 'huixuan'
             //  this.HuiXuanshow.type = 'huixuan'
