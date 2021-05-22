@@ -7,6 +7,7 @@
             <span @click="Tab(4)" class="head-item" :class="tabindex == 4 ? 'on' : ''">已完成</span>
             <span @click="Tab(5)" class="head-item" :class="tabindex == 5 ? 'on' : ''">退款中</span>
             <span @click="Tab(3)" class="head-item" :class="tabindex == 3 ? 'on' : ''">异常订单</span>
+            <span @click="Tab(6)" class="head-item" :class="tabindex == 6 ? 'on' : ''">已取消</span>
         </div>
         <el-card class="box-card">
             <div slot="header" class="clearfix">
@@ -25,6 +26,11 @@
 
                     <el-table-column prop="modifyTime" label="时间" align="center" show-overflow-tooltip></el-table-column>
                     <el-table-column prop="orderStatusUtf" label="订单状态" align="center" show-overflow-tooltip></el-table-column>
+                    <el-table-column  label="支付状态" align="center" show-overflow-tooltip>
+                        <template slot-scope="scope">
+                            {{ scope.row.payStatus==0?'未付款':'已付款' }}
+                        </template>
+                    </el-table-column>
                     <el-table-column label="操作" align="center">
                         <template slot-scope="scope">
                             <el-button
@@ -80,6 +86,11 @@
                     </el-table-column>
                     <el-table-column prop="modifyTime" label="时间" align="center" show-overflow-tooltip></el-table-column>
                     <el-table-column prop="orderStatusUtf" label="订单状态" align="center" show-overflow-tooltip></el-table-column>
+                    <el-table-column  label="支付状态" align="center" show-overflow-tooltip>
+                        <template slot-scope="scope">
+                            {{ scope.row.payStatus==0?'未付款':'已付款' }}
+                        </template>
+                    </el-table-column>
                     <el-table-column label="操作" align="center">
                         <template slot-scope="scope">
                             <el-button
@@ -458,8 +469,11 @@ export default {
             } else if (e == '4') {
                 this.selectOrder('complete');
                 this.text = '已完成';
-            } else {
+            } else if (e == '5') {
                 this.selectOrder('controversial');
+                this.text = '退款中';
+            } else if (e == '6') {
+                this.selectOrder('cancel');
                 this.text = '退款中';
             }
         },

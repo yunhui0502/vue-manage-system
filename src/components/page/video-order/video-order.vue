@@ -4,6 +4,7 @@
             <span @click="Tab(0)" class="head-item" :class="tabindex == 0 ? 'on' : ''">全部</span>
             <span @click="Tab(1)" class="head-item" :class="tabindex == 1 ? 'on' : ''">成功</span>
             <span @click="Tab(2)" class="head-item" :class="tabindex == 2 ? 'on' : ''">订单异常</span>
+            <span @click="Tab(3)" class="head-item" :class="tabindex == 3 ? 'on' : ''">已取消</span>
         </div>
         <el-card class="box-card">
             <div slot="header" class="clearfix">
@@ -41,8 +42,13 @@
                         <template slot-scope="scope">
                             {{ scope.row.secondOrderVideo.codeDesc }}
                         </template>
-                    </el-table-column>
+                    </el-table-column>payStatus
                     <el-table-column prop="orderStatusUtf" label="订单状态" align="center" show-overflow-tooltip></el-table-column>
+                    <el-table-column  label="支付状态" align="center" show-overflow-tooltip>
+                        <template slot-scope="scope">
+                            {{ scope.row.secondOrderVideo.payStatus==0?'未付款':'已付款' }}
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="orderStatusUtf" label="操作" align="center" show-overflow-tooltip>
                         <template slot-scope="scope">
                             <el-button
@@ -53,6 +59,14 @@
                                 size="small"
                                 >(异常)订单退款</el-button
                             >
+                            <!-- <el-button
+                                type="text"
+                                v-if="scope.row.secondOrderVideo.orderStatus == 'cancel'"
+                                @click="unusual(scope.row)"
+                                class="text-red"
+                                size="small"
+                                >订单退款</el-button
+                            > -->
                         </template>
                     </el-table-column>
                 </el-table>
@@ -135,6 +149,9 @@ export default {
             } else if (e == '2') {
                 this.selectOrder('failed');
                 this.text = '订单异常';
+            } else if (e == '3') {
+                this.selectOrder('cancel');
+                this.text = '已取消';
             }
         },
         // 获取全部订单
@@ -155,6 +172,8 @@ export default {
                         item.orderStatusUtf = '订单异常';
                     } else if (item.secondOrderVideo.orderStatus == 'payment') {
                         item.orderStatusUtf = '待付款';
+                    }else if (item.secondOrderVideo.orderStatus == 'cancel') {
+                        item.orderStatusUtf = '取消';
                     }
                 });
             });

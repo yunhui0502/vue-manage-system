@@ -7,77 +7,95 @@
                         <h5>门票订单总数</h5>
                         <div class="amount-box">
                             <div class="amount">{{ orderData.AdmissionOrderNum }}</div>
-                            <img src="../../../assets/img/yh.png" alt="" />
+                            <!-- <img src="../../../assets/img/yh.png" alt="" /> -->
                         </div>
                     </div>
                     <div class="userClass">
                         <h5>门票订单总金额</h5>
                         <div class="amount-box">
                             <div class="amount">{{ numFilter(orderData.AdmissionAmounts / 100) }}</div>
-                            <img src="../../../assets/img/yh.png" alt="" />
+                            <!-- <img src="../../../assets/img/yh.png" alt="" /> -->
+                        </div>
+                    </div>
+                     <div class="userClass">
+                        <h5>门票订单实际收入</h5>
+                        <div class="amount-box">
+                            <div class="amount">{{ numFilter(orderData.AdmissionAmountsReality / 100) }}</div>
+                            <!-- <img src="../../../assets/img/yh.png" alt="" /> -->
                         </div>
                     </div>
                     <div class="userClass">
                         <h5>视频订单总数</h5>
                         <div class="amount-box">
                             <div class="amount">{{ orderData.VideoOrderNum }}</div>
-                            <img src="../../../assets/img/yh.png" alt="" />
+                            <!-- <img src="../../../assets/img/yh.png" alt="" /> -->
                         </div>
                     </div>
                     <div class="userClass">
                         <h5>视频订单总金额</h5>
                         <div class="amount-box">
                             <div class="amount">{{ numFilter(orderData.VideoAmounts / 100) }}</div>
-                            <img src="../../../assets/img/yh.png" alt="" />
+                            <!-- <img src="../../../assets/img/yh.png" alt="" /> -->
+                        </div>
+                    </div>
+                     <div class="userClass">
+                        <h5>视频订单实际收入</h5>
+                        <div class="amount-box">
+                            <div class="amount">{{ numFilter(orderData.VideoAmountsReality / 100) }}</div>
+                            <!-- <img src="../../../assets/img/yh.png" alt="" /> -->
                         </div>
                     </div>
                 </div>
                 <!-- 详情统计 -->
                 <div class="details-box">
                     <div class="item">
-                        <h5>用户详情</h5>
-                        <div class="contents">
-                            <div class="head">
-                                <span>分类</span>
-                                <span>数量</span>
-                            </div>
-                            <div class="body">
-                                <span>普通用户</span>
-                                <span class="amount">{{ userData.userGeneral }}</span>
-                            </div>
-                            <div class="body">
-                                <span>认证学生</span>
-                                <span class="amount">{{ userData.userAuthentication }}</span>
-                            </div>
-                            <div class="body">
-                                <span>商家用户</span>
-                                <span class="amount">{{ userData.userStore }}</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="item">
-                        <h5>订单详情</h5>
+                        <h5>门票订单详情</h5>
                         <div class="contents">
                             <div class="head">
                                 <span>状态</span>
                                 <span>数量</span>
                             </div>
                             <div class="body">
-                                <span>待发货</span>
-                                <span class="amount">0</span>
+                                <span>完成</span>
+                                <span class="amount">{{ticketsComplete.length}}</span>
                             </div>
                             <div class="body">
-                                <span>待收货</span>
-                                <span class="amount">0</span>
+                                <span>异常</span>
+                                <span class="amount">{{ticketsException.length}}</span>
                             </div>
                             <div class="body">
-                                <span>待评价</span>
-                                <span class="amount">0</span>
+                                <span>退款</span>
+                                <span class="amount">{{ticketsControversial.length}}</span>
                             </div>
                             <div class="body">
-                                <span>已完成</span>
-                                <span class="amount">0</span>
+                                <span>取消</span>
+                                <span class="amount">{{ticketsCancel.length}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="item">
+                        <h5>视频订单详情</h5>
+                        <div class="contents">
+                            <div class="head">
+                                <span>状态</span>
+                                <span>数量</span>
+                            </div>
+                            <div class="body">
+                                <span>成功</span>
+                                <span class="amount">{{VideoSuccess.length}}</span>
+                            </div>
+                            <div class="body">
+                                <span>异常</span>
+                                <span class="amount">{{VideoFailed.length}}</span>
+                            </div>
+                            <!-- <div class="body">
+                                <span>待付款</span>
+                                <span class="amount">{{VideoPayment.length}}</span>
+                            </div> -->
+                            <div class="body">
+                                <span>取消</span>
+                                <span class="amount">{{VideoCancel.length}}</span>
                             </div>
                         </div>
                     </div>
@@ -102,7 +120,16 @@ export default {
             orderData: '',
             statistics: [],
             userData: '',
-            tableData: []
+            tableData: [],
+            VideoSuccess: [],
+            VideoFailed: [],
+            VideoPayment: [],
+            VideoCancel: [],
+
+            ticketsException:[],
+            ticketsComplete:[],
+            ticketsControversial:[],
+            ticketsCancel:[],
         };
     },
 
@@ -113,6 +140,67 @@ export default {
         // this.sonTransactionAmount();
     },
     methods: {
+                // 获取全部订单
+        selectOrder(e) {
+            let params = {
+                orderStatus: e, //订单状态
+                type: 'admission' //
+                // showType: 'product',//商品展示类型
+            };
+
+            orderApi.selectAdmissionOrder(params, (res) => {
+                this.tableData = res.data.data;
+                this.tableData.forEach((item) => {
+              
+                    if (item.orderStatus == 'exception') {
+                        // item.orderStatusUtf = '异常订单';
+                       this.ticketsException.push(item);
+
+                    } else if (item.orderStatus == 'complete') {
+                        // item.orderStatusUtf = '完成';
+                       this.ticketsComplete.push(item);
+
+                    } else if (item.orderStatus == 'controversial') {
+                        // item.orderStatusUtf = '交易纠纷';
+                        this.ticketsControversial.push(item);
+
+                    } else if (item.orderStatus == 'cancel') {
+                        // item.orderStatusUtf = '取消';
+                        this.ticketsCancel.push(item);
+                    }
+                });
+                console.log('获取全部订单', res);
+            });
+        },
+           // 获取全部订单
+        VideoselectOrder(e) {
+            let params = {
+                orderStatus: 'all', //订单状态
+                type: 'video' //
+            };
+            orderApi.selectVideoOrderr(params, (res) => {
+                console.log('获取全部订单', res);
+                let tableData = res.data.data;
+                tableData.forEach((item) => {
+                    
+                    if (item.secondOrderVideo.orderStatus == 'success') {
+                        // item.orderStatusUtf = '成功';
+                       this.VideoSuccess.push(item);
+                    } else if (item.secondOrderVideo.orderStatus == 'failed') {
+                        // item.orderStatusUtf = '订单异常';
+                       this.VideoFailed.push(item);
+                    } else if (item.secondOrderVideo.orderStatus == 'payment') {
+                        // item.orderStatusUtf = '待付款';
+                       this.VideoPayment.push(item);
+                    }else if (item.secondOrderVideo.orderStatus == 'cancel') {
+                        // item.orderStatusUtf = '取消';
+                       this.VideoCancel.push(item);
+
+                    }
+                });
+            });
+        },
+        
         numFilter(value) {
             // 截取当前数据到小数点后两位
             let realVal = parseFloat(value).toFixed(2);
@@ -189,13 +277,17 @@ export default {
 
 
 <style scoped lang="less">
+img{
+    width: 70px;
+    height: 70px;
+}
 .sumClass {
     display: flex;
     justify-content: space-between;
     // margin-top: 47px;
     .userClass {
-        padding: 16px 30px;
-        width: 18%;
+        padding: 8px 10px;
+        width: 14%;
         background: #ffffff;
         box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.02);
         border: 1px solid #ffffff;
@@ -222,7 +314,7 @@ export default {
         justify-content: space-between;
         margin-top: 16px;
         .item {
-            width: 46%;
+            width: 47%;
             background: #ffffff;
             padding: 19px 14px;
             border-radius: 4px;
