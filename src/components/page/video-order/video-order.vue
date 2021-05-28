@@ -41,12 +41,12 @@
                     <el-table-column prop="orderStatusUtf" label="交易状态" align="center" show-overflow-tooltip>
                         <template slot-scope="scope">
                             {{ scope.row.secondOrderVideo.codeDesc }}
-                        </template>
-                    </el-table-column>payStatus
+                        </template> </el-table-column
+                    >payStatus
                     <el-table-column prop="orderStatusUtf" label="订单状态" align="center" show-overflow-tooltip></el-table-column>
-                    <el-table-column  label="支付状态" align="center" show-overflow-tooltip>
+                    <el-table-column label="支付状态" align="center" show-overflow-tooltip>
                         <template slot-scope="scope">
-                            {{ scope.row.secondOrderVideo.payStatus==0?'未付款':'已付款' }}
+                            {{ scope.row.secondOrderVideo.payStatus == 0 ? '未付款' : '已付款' }}
                         </template>
                     </el-table-column>
                     <el-table-column prop="orderStatusUtf" label="操作" align="center" show-overflow-tooltip>
@@ -129,6 +129,12 @@ export default {
                     };
                     paymentApi.refundVideo(paras, (res) => {
                         console.log(res);
+                        if (res.status == 200) {
+                            this.$message({
+                                message: '退款成功',
+                                type: 'success'
+                            });
+                        }
                     });
                 })
                 .catch(() => {
@@ -172,7 +178,7 @@ export default {
                         item.orderStatusUtf = '订单异常';
                     } else if (item.secondOrderVideo.orderStatus == 'payment') {
                         item.orderStatusUtf = '待付款';
-                    }else if (item.secondOrderVideo.orderStatus == 'cancel') {
+                    } else if (item.secondOrderVideo.orderStatus == 'cancel') {
                         item.orderStatusUtf = '取消';
                     }
                 });
