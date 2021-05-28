@@ -59,14 +59,14 @@
                                 size="small"
                                 >(异常)订单退款</el-button
                             >
-                            <!-- <el-button
+                            <el-button
                                 type="text"
-                                v-if="scope.row.secondOrderVideo.orderStatus == 'cancel'"
+                                v-if="scope.row.secondOrderVideo.payStatus == '1'"
                                 @click="unusual(scope.row)"
                                 class="text-red"
                                 size="small"
                                 >订单退款</el-button
-                            > -->
+                            >
                         </template>
                     </el-table-column>
                 </el-table>
